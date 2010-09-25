@@ -5,6 +5,7 @@
 // 
 
 	var csv = require('csv');
+	
 	csv()
 	.fromPath(__dirname+'/sample.in')
 	.toPath(__dirname+'/sample.out')
