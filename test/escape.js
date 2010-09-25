@@ -4,7 +4,6 @@
 var fs = require('fs'),
 	csv = require('csv');
 
-
 module.exports = {
 	// Note: we only escape quote and escape character
 	'Test default': function(assert){

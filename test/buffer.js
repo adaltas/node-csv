@@ -4,7 +4,6 @@
 var fs = require('fs'),
 	csv = require('csv');
 
-
 module.exports = {
 	'Buffer smaller than in': function(assert){
 		csv()

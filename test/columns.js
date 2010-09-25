@@ -1,0 +1,88 @@
+
+// Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
+
+var fs = require('fs'),
+	csv = require('csv');
+
+module.exports = {
+	'Test columns in true': function(assert){
+		// Note: if true, columns are expected to be in first line
+		csv()
+		.fromPath(__dirname+'/columns/in_true.in',{
+			columns: true
+		})
+		.toPath(__dirname+'/columns/in_true.tmp')
+		.transform(function(data,index){
+			assert.equal(true,data instanceof Object);
+			assert.equal(false,data instanceof Array);
+			if(index===0){
+				assert.strictEqual('20322051544',data.FIELD_1);
+			}else if(index===1){
+				assert.strictEqual('DEF',data.FIELD_4);
+			}
+			return data;
+		})
+		.on('end',function(count){
+			assert.strictEqual(2,count);
+			assert.equal(
+				fs.readFileSync(__dirname+'/columns/in_true.out').toString(),
+				fs.readFileSync(__dirname+'/columns/in_true.tmp').toString()
+			);
+			fs.unlink(__dirname+'/columns/in_true.tmp');
+		});
+	},
+	'Test columns in named': function(assert){
+		// Note: if true, columns are expected to be in first line
+		csv()
+		.fromPath(__dirname+'/columns/in_named.in',{
+			columns: ["FIELD_1","FIELD_2","FIELD_3","FIELD_4","FIELD_5","FIELD_6"]
+		})
+		.toPath(__dirname+'/columns/in_named.tmp')
+		.transform(function(data,index){
+			assert.equal(true,data instanceof Object);
+			assert.equal(false,data instanceof Array);
+			if(index===0){
+				assert.strictEqual('20322051544',data.FIELD_1);
+			}else if(index===1){
+				assert.strictEqual('DEF',data.FIELD_4);
+			}
+			return data;
+		})
+		.on('data',function(data,index){
+			assert.equal(true,data instanceof Object);
+			assert.equal(false,data instanceof Array);
+		})
+		.on('end',function(count){
+			assert.strictEqual(2,count);
+			assert.equal(
+				fs.readFileSync(__dirname+'/columns/in_named.out').toString(),
+				fs.readFileSync(__dirname+'/columns/in_named.tmp').toString()
+			);
+			fs.unlink(__dirname+'/columns/in_named.tmp');
+		});
+	},
+	'Test columns out named': function(assert){
+		// Note: if true, columns are expected to be in first line
+		csv()
+		.fromPath(__dirname+'/columns/out_named.in')
+		.toPath(__dirname+'/columns/out_named.tmp',{
+			columns: ["FIELD_1","FIELD_2"]
+		})
+		.transform(function(data,index){
+			assert.equal(true,data instanceof Array);
+			return {FIELD_2:data[3],FIELD_1:data[4]};
+		})
+		.on('data',function(data,index){
+			assert.equal(true,data instanceof Object);
+			assert.equal(false,data instanceof Array);
+		})
+		.on('end',function(count){
+			assert.strictEqual(2,count);
+			assert.equal(
+				fs.readFileSync(__dirname+'/columns/out_named.out').toString(),
+				fs.readFileSync(__dirname+'/columns/out_named.tmp').toString()
+			);
+			fs.unlink(__dirname+'/columns/out_named.tmp');
+		});
+	},
+}

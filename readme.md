@@ -27,7 +27,6 @@ Using the library is a 4 steps process:
 3.	Transform the data (optional)
 4.  Listen to events (optional)
 
-<pre class="javascript">
 	var csv = require('csv');
 	csv()
 	.fromPath(__dirname+'/sample.in')
@@ -45,16 +44,19 @@ Using the library is a 4 steps process:
 	.on('error',function(error){
 		console.log(error.message);
 	});
-</pre>
 
 Installing
 ----------
 
-Manually
-Simply copy or link the lib/csv.js file into your $HOME/.node_libraries folder or inside declared path folder.
+Via git (or downloaded tarball):
 
-NPM
-Simply install the project with `npm install node-csv` and you'll be ready to go.
+    $ git clone git://github.com/ajaxorg/cloud9.git
+
+Then, simply copy or link the lib/csv.js file into your $HOME/.node_libraries folder or inside a declared path folder.
+
+Via [npm](http://github.com/isaacs/npm):
+
+    $ npm install csv
 
 Creating a source
 -----------------
@@ -69,6 +71,9 @@ Options are:
     
 -   *escape*    
     Set the field delimiter, one character only, default to double quotes.
+    
+-   *columns*    
+    List of fields or true if autodiscovered in the first CSV lien, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns section below.
 
 The following method are available:
 
@@ -87,16 +92,19 @@ Creating a destination
 Options are:
 
 -   *delimiter*    
-    Default to the delimiter read option
+    Default to the delimiter read option.
     
 -   *quote*    
-    Default to the quote read option
+    Default to the quote read option.
     
 -   *escape*    
-    Default to the escape read option
+    Default to the escape read option.
+    
+-   *columns*    
+    List of fields, apply when `transform` return an object, order matters, see the transform and the columns sections below.
     
 -   *encoding*    
-    Default to 'utf8'
+    Default to 'utf8', apply when a writable stream is created.
     
 -   *lineBreaks*    
     String used to delimite record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; default to 'auto' (discovered in source).
@@ -120,6 +128,22 @@ Transforming data
 
 You may provide a callback to the `transform` method. The contract is quite simple, you recieve an array of fields for each record and return the transformed record. The return value may be an array, an associative array, a string or null. If null, the record will simply be skipped.
 
+Unless you specify the `columns` read option, `data` are provided as arrays, otherwise they are objects with keys matching columns names.
+
+When the returned value is an array, the fields are merge in order. When the returned value is an object, it will search for the `columns` property in the write or in the read options and smartly order the values. If no `columns` options are found, it will merge the values in their order of appearance. When the returned value is a string, it directly sent to the destination source and it is your responsibility to delimit, quote, escape or define line breaks.
+
+Exemple returning a string
+	
+	csv()
+	.fromPath('user.csv')
+	.toStream(process.stdout)
+	.transform(function(data,index){
+		return (index>0 ? ',' : '') + data[4] + ":" + data[3];
+	});
+	
+	// Print sth like:
+	// david:32,ewa:30
+
 Events
 ------
 
@@ -136,6 +160,33 @@ By extending the Node `EventEmitter` class, the library provide a few usefull ev
     
 -   *error*
     Thrown whenever an error is captured.
+
+Columns
+-------
+
+Columns names may be provided or discovered in the first line with the read options `columns`. If defined as an array, the order must match the input source. If set to `true`, the fields are expected to be present in the first line of the input source.
+
+You can define a different order and even different columns in the read options and in the write options. If the `columns` is not defined in the write options, it will default to the one present in the read options. 
+
+When working with fields, the `transform` method and the `data` events recieve their `data` parameter as an object instead of an array where the keys are the field names.
+
+	var csv = require('csv');
+	csv()
+	.fromPath(__dirname+'/sample.in')
+	.toPath(__dirname+'/sample.out')
+	.transform(function(data){
+		data.	
+		return data;
+	})
+	.on('data',function(data,index){
+		console.log('#'+index+' '+JSON.stringify(data));
+	})
+	.on('end',function(count){
+		console.log('Number of lines '+count);
+	})
+	.on('error',function(error){
+		console.log(error.message);
+	});
 
 Running the tests
 -----------------
