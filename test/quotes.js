@@ -4,7 +4,6 @@
 var fs = require('fs'),
 	csv = require('csv');
 
-
 module.exports = {
 	'Test regular quotes': function(assert){
 		csv()
