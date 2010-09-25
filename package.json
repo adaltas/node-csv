@@ -1,0 +1,7 @@
+{ "name": "csv"
+, "version": "0.0.1"
+, "description": "CSV parser with simple api, full of options and tested against large datasets."
+, "author": "David Worms <david@adaltas.com>"
+, "main": "./lib/csv"
+, "engines": { "node": ">= 0.1.90" }
+}
