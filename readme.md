@@ -20,22 +20,41 @@ This project provide CSV parsing and has been tested and used on large source fi
 Quick exemple
 -------------
 
-Using the library is a 3 steps process where all steps are optional:
+Using the library is a 4 steps process:
 
 1.	Create a source
-2.	Create a destination
-3.	Transform the data
+2.	Create a destination (optional)
+3.	Transform the data (optional)
+4.  Listen to events (optional)
 
 <pre class="javascript">
-	var csv = require('csv-parser');
+	var csv = require('csv');
 	csv()
-	.fromPath('/tmp/csv.in');
-	.toPath('/tmp/csv.out');
+	.fromPath(__dirname+'/sample.in')
+	.toPath(__dirname+'/sample.out')
 	.transform(function(data){
 		data.unshift(data.pop());
 		return data;
+	})
+	.on('data',function(data,index){
+		console.log('#'+index+' '+JSON.stringify(data));
+	})
+	.on('end',function(count){
+		console.log('Number of lines '+count);
+	})
+	.on('error',function(error){
+		console.log(error.message);
 	});
 </pre>
+
+Installing
+----------
+
+Manually
+Simply copy or link the lib/csv.js file into your $HOME/.node_libraries folder or inside declared path folder.
+
+NPM
+Simply install the project with `npm install node-csv` and you'll be ready to go.
 
 Creating a source
 -----------------
