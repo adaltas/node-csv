@@ -34,7 +34,7 @@ module.exports = {
 			assert.strictEqual(2,count);
 		});
 	},
-	'Test string with destination stream': function(assert){
+	'Test string to stream': function(assert){
 		csv()
 		.from(fs.readFileSync(__dirname+'/fromto/string_to_stream.in').toString())
 		.toPath(__dirname+'/fromto/string_to_stream.tmp')
