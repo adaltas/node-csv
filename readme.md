@@ -10,7 +10,12 @@
 
 This project provide CSV parsing and has been tested and used on large source file (over 2Gb).
 
--   Line breaks discovery: when reading from a file, it is not required to provide line breaks, when writing to a file it will default to the same style. 
+-   Support delimiter, quote and escape characteres
+-   Line breaks discovery: line breaks in source are detected and reported to destination
+-   Data transformation
+-   Asynch and event based
+-   Support for large datasets
+-   Complete test coverage as sample and inspiration
 
 Quick exemple
 -------------
