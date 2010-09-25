@@ -35,15 +35,24 @@ Creating a source
 
 Options are:
 
+-   *delimiter*    
+    Set the field delimiter, one character only, default to comma.
+    
+-   *quote*    
+    Set the field delimiter, one character only, default to double quotes.
+    
+-   *escape*    
+    Set the field delimiter, one character only, default to double quotes.
+
 The following method are available:
 
--   *fromPath*
+-   *fromPath*    
     Take a file path as first argument and optionnaly on object of options as a second arguments.
     
--   *fromStream*
+-   *fromStream*    
     Take a readable stream as first argument and optionnaly on object of options as a second arguments.
     
--   *fromData*
+-   *from*    
     Take a string, a buffer, an array or an object as first argument and optionnaly some options as a second arguments.
 
 Creating a destination
@@ -51,17 +60,33 @@ Creating a destination
 
 Options are:
 
--   *encoding* Default to 'utf8'
--   *lineBreaks* Default to 'auto', special values are 'auto', 'unix', 'mac', 'windows', 'unicode'.
--   *flag* Default to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Apply when using the `toPath` method.
--   *bufferSize* Internal buffer holding data before being flush into a stream. Apply when destination is a stream.
+-   *delimiter*    
+    Default to the delimiter read option
+    
+-   *quote*    
+    Default to the quote read option
+    
+-   *escape*    
+    Default to the escape read option
+    
+-   *encoding*    
+    Default to 'utf8'
+    
+-   *lineBreaks*    
+    String used to delimite record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; default to 'auto' (discovered in source).
+    
+-   *flag*    
+    Default to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Apply when using the `toPath` method.
+    
+-   *bufferSize*    
+    Internal buffer holding data before being flush into a stream. Apply when destination is a stream.
 
 The following method are available:
 
--   *toPath*
+-   *toPath*    
     Take a file path as first argument and optionnaly on object of options as a second arguments.
     
--   *toStream*
+-   *toStream*    
     Take a readable stream as first argument and optionnaly on object of options as a second arguments.
 
 Transforming data
