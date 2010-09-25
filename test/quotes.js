@@ -20,18 +20,18 @@ module.exports = {
 			fs.unlink(__dirname+'/quotes/regular.tmp');
 		});
 	},
-	'Test quotes with separator': function(assert){
+	'Test quotes with delimiter': function(assert){
 		csv()
-		.fromPath(__dirname+'/quotes/separator.in',{
+		.fromPath(__dirname+'/quotes/delimiter.in',{
 		})
-		.toPath(__dirname+'/quotes/separator.tmp',{
+		.toPath(__dirname+'/quotes/delimiter.tmp',{
 		})
 		.on('end',function(){
 			assert.equal(
-				fs.readFileSync(__dirname+'/quotes/separator.out').toString(),
-				fs.readFileSync(__dirname+'/quotes/separator.tmp').toString()
+				fs.readFileSync(__dirname+'/quotes/delimiter.out').toString(),
+				fs.readFileSync(__dirname+'/quotes/delimiter.tmp').toString()
 			);
-			fs.unlink(__dirname+'/quotes/separator.tmp');
+			fs.unlink(__dirname+'/quotes/delimiter.tmp');
 		});
 	},
 	'Test quotes inside field': function(assert){
