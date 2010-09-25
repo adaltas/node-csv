@@ -21,6 +21,7 @@ Using the library is a 3 steps process where all steps are optional:
 2.	Create a destination
 3.	Transform the data
 
+<pre class="javascript">
 	var csv = require('csv-parser');
 	csv()
 	.fromPath('/tmp/csv.in');
@@ -29,6 +30,7 @@ Using the library is a 3 steps process where all steps are optional:
 		data.unshift(data.pop());
 		return data;
 	});
+</pre>
 
 Creating a source
 -----------------
