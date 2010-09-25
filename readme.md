@@ -10,7 +10,7 @@
 
 This project provide CSV parsing and has been tested and used on large source file (over 2Gb).
 
--   Support delimiter, quote and escape characteres
+-   Support delimiter, quote and escape characters
 -   Line breaks discovery: line breaks in source are detected and reported to destination
 -   Data transformation
 -   Asynch and event based
@@ -132,17 +132,20 @@ Unless you specify the `columns` read option, `data` are provided as arrays, oth
 
 When the returned value is an array, the fields are merge in order. When the returned value is an object, it will search for the `columns` property in the write or in the read options and smartly order the values. If no `columns` options are found, it will merge the values in their order of appearance. When the returned value is a string, it directly sent to the destination source and it is your responsibility to delimit, quote, escape or define line breaks.
 
-Exemple returning a string
+Exemple of transform returning a string
+
+	// node sample/transform.js
+	var csv = require('csv');
 	
 	csv()
-	.fromPath('user.csv')
+	.fromPath(__dirname+'/transform.in')
 	.toStream(process.stdout)
 	.transform(function(data,index){
-		return (index>0 ? ',' : '') + data[4] + ":" + data[3];
+		return (index>0 ? ',' : '') + data[0] + ":" + data[2] + ' ' + data[1];
 	});
 	
 	// Print sth like:
-	// david:32,ewa:30
+	// 82:Zbigniew Preisner,94:Serge Gainsbourg
 
 Events
 ------
@@ -170,23 +173,24 @@ You can define a different order and even different columns in the read options 
 
 When working with fields, the `transform` method and the `data` events recieve their `data` parameter as an object instead of an array where the keys are the field names.
 
+	// node sample/column.js
 	var csv = require('csv');
+	
 	csv()
-	.fromPath(__dirname+'/sample.in')
-	.toPath(__dirname+'/sample.out')
+	.fromPath(__dirname+'/columns.in',{
+		columns: true
+	})
+	.toStream(process.stdout,{
+		columns: ['id', 'name']
+	})
 	.transform(function(data){
-		data.	
+		data.name = data.firstname + ' ' + data.lastname
 		return data;
-	})
-	.on('data',function(data,index){
-		console.log('#'+index+' '+JSON.stringify(data));
-	})
-	.on('end',function(count){
-		console.log('Number of lines '+count);
-	})
-	.on('error',function(error){
-		console.log(error.message);
 	});
+	
+	// Print sth like:
+	// 82,Zbigniew Preisner
+	// 94,Serge Gainsbourg
 
 Running the tests
 -----------------
