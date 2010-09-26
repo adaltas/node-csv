@@ -1,7 +1,7 @@
 
 // CSV sample - Copyright David Worms <open@adaltas.com> (MIT Licensed)
 
-	// node sample/transform.js
+	// node samples/transform.js
 	var csv = require('csv');
 	
 	csv()
