@@ -2,6 +2,7 @@
 , "version": "0.0.1"
 , "description": "CSV parser with simple api, full of options and tested against large datasets."
 , "author": "David Worms <david@adaltas.com>"
+, "directories" : { "lib" : "./lib" }
 , "main": "./lib/csv"
 , "engines": { "node": ">= 0.1.90" }
 }
