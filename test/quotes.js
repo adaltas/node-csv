@@ -46,5 +46,42 @@ module.exports = {
 			);
 			fs.unlink(__dirname+'/quotes/in_field.tmp');
 		});
+	},
+	'Test empty value': function(assert){
+		csv()
+		.fromPath(__dirname+'/quotes/empty_value.in',{
+			quote: '"',
+			escape: '"',
+		})
+		.toPath(__dirname+'/quotes/empty_value.tmp')
+		.on('end',function(){
+			assert.equal(
+				fs.readFileSync(__dirname+'/quotes/empty_value.out').toString(),
+				fs.readFileSync(__dirname+'/quotes/empty_value.tmp').toString()
+			);
+			fs.unlink(__dirname+'/quotes/empty_value.tmp');
+		});
+	},
+	'Test quoted quote': function(assert){
+		csv()
+		.fromPath(__dirname+'/quotes/quoted.in',{
+			quote: '"',
+			escape: '"',
+		})
+		.toPath(__dirname+'/quotes/quoted.tmp')
+		.on('data',function(data,index){
+			assert.strictEqual(5,data.length);
+			if(index===0){
+				assert.strictEqual('"',data[1]);
+				assert.strictEqual('"ok"',data[4]);
+			}
+		})
+		.on('end',function(){
+			assert.equal(
+				fs.readFileSync(__dirname+'/quotes/quoted.out').toString(),
+				fs.readFileSync(__dirname+'/quotes/quoted.tmp').toString()
+			);
+			fs.unlink(__dirname+'/quotes/quoted.tmp');
+		});
 	}
 }
