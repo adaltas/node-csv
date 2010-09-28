@@ -8,8 +8,16 @@ module.exports = {
 	// Note: we only escape quote and escape character
 	'Test default': function(assert){
 		csv()
-		.fromPath(__dirname+'/escape/default.in')
+		.fromPath(__dirname+'/escape/default.in',{
+			escape: '"'
+		})
 		.toPath(__dirname+'/escape/default.tmp')
+		.on('data',function(data,index){
+			if(index===0){
+				assert.equal('19"79.0',data[1]);
+				assert.equal('A"B"C',data[3]);
+			}
+		})
 		.on('end',function(){
 			assert.equal(
 				fs.readFileSync(__dirname+'/escape/default.out').toString(),
@@ -20,16 +28,23 @@ module.exports = {
 	},
 	'Test backslash': function(assert){
 		csv()
-		.fromPath(__dirname+'/escape/custom.in',{
+		.fromPath(__dirname+'/escape/backslash.in',{
 			escape: '\\'
 		})
-		.toPath(__dirname+'/escape/custom.tmp')
-		.on('end',function(){
+		.toPath(__dirname+'/escape/backslash.tmp')
+		.on('data',function(data,index){
+			if(index===0){
+				assert.equal('19"79.0',data[1]);
+				assert.equal('A"B"C',data[3]);
+			}
+		})
+		.on('end',function(count){
+			assert.strictEqual(2,count);
 			assert.equal(
-				fs.readFileSync(__dirname+'/escape/custom.out').toString(),
-				fs.readFileSync(__dirname+'/escape/custom.tmp').toString()
+				fs.readFileSync(__dirname+'/escape/backslash.out').toString(),
+				fs.readFileSync(__dirname+'/escape/backslash.tmp').toString()
 			);
-			fs.unlink(__dirname+'/escape/custom.tmp');
+			fs.unlink(__dirname+'/escape/backslash.tmp');
 		});
 	}
 }
