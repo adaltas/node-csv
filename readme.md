@@ -60,9 +60,9 @@ Installing
 
 Via git (or downloaded tarball):
 
-    $ git clone git://github.com/ajaxorg/cloud9.git
+    $ git clone http://github.com/wdavidw/node-csv-parser.git
 
-Then, simply copy or link the lib/csv.js file into your $HOME/.node_libraries folder or inside a declared path folder.
+Then, simply copy or link the ./lib/csv.js file into your $HOME/.node_libraries folder or inside a declared path folder.
 
 Via [npm](http://github.com/isaacs/npm):
 
