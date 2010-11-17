@@ -5,4 +5,8 @@
 , "directories" : { "lib" : "./lib" }
 , "main": "./lib/csv"
 , "engines": { "node": ">= 0.1.90" }
+, "repository": 
+  { "type" : "git"
+  , "url" : "https://github.com/wdavidw/node-csv-parser.git"
+  }
 }
