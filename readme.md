@@ -1,4 +1,3 @@
-
 <pre>
  _   _           _        _____  _______      __ _____  
 | \ | |         | |      / ____|/ ____\ \    / /|  __ \  
@@ -18,7 +17,7 @@ This project provide CSV parsing and has been tested and used on large source fi
 -   Support for large datasets
 -   Complete test coverage as sample and inspiration
 
-Quick exemple
+Quick example
 -------------
 
 Using the library is a 4 steps process:
@@ -28,7 +27,7 @@ Using the library is a 4 steps process:
 3.	Transform the data (optional)
 4.  Listen to events (optional)
 
-Here is a exemple:
+Here is a example:
 
 	// node samples/sample.js
 	var csv = require('csv');
@@ -142,7 +141,7 @@ Unless you specify the `columns` read option, `data` are provided as arrays, oth
 
 When the returned value is an array, the fields are merge in order. When the returned value is an object, it will search for the `columns` property in the write or in the read options and smartly order the values. If no `columns` options are found, it will merge the values in their order of appearance. When the returned value is a string, it directly sent to the destination source and it is your responsibility to delimit, quote, escape or define line breaks.
 
-Exemple of transform returning a string
+Example of transform returning a string
 
 	// node samples/transform.js
 	var csv = require('csv');
