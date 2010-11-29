@@ -2,10 +2,11 @@
 // Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
 
 var fs = require('fs'),
+	assert = require('assert'),
 	csv = require('csv');
 
 module.exports = {
-	'Test regular quotes': function(assert){
+	'Test regular quotes': function(){
 		csv()
 		.fromPath(__dirname+'/quotes/regular.in',{
 		})
@@ -19,7 +20,7 @@ module.exports = {
 			fs.unlink(__dirname+'/quotes/regular.tmp');
 		});
 	},
-	'Test quotes with delimiter': function(assert){
+	'Test quotes with delimiter': function(){
 		csv()
 		.fromPath(__dirname+'/quotes/delimiter.in',{
 		})
@@ -33,7 +34,7 @@ module.exports = {
 			fs.unlink(__dirname+'/quotes/delimiter.tmp');
 		});
 	},
-	'Test quotes inside field': function(assert){
+	'Test quotes inside field': function(){
 		csv()
 		.fromPath(__dirname+'/quotes/in_field.in',{
 		})
@@ -47,7 +48,7 @@ module.exports = {
 			fs.unlink(__dirname+'/quotes/in_field.tmp');
 		});
 	},
-	'Test empty value': function(assert){
+	'Test empty value': function(){
 		csv()
 		.fromPath(__dirname+'/quotes/empty_value.in',{
 			quote: '"',
@@ -62,7 +63,7 @@ module.exports = {
 			fs.unlink(__dirname+'/quotes/empty_value.tmp');
 		});
 	},
-	'Test quoted quote': function(assert){
+	'Test quoted quote': function(){
 		csv()
 		.fromPath(__dirname+'/quotes/quoted.in',{
 			quote: '"',

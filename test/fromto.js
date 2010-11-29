@@ -2,10 +2,11 @@
 // Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
 
 var fs = require('fs'),
+	assert = require('assert'),
 	csv = require('csv');
 
 module.exports = {
-	'Test fs stream': function(assert){
+	'Test fs stream': function(){
 		csv()
 		.fromStream(fs.createReadStream(__dirname+'/fromto/sample.in',{flags:'r'}))
 		.toStream(fs.createWriteStream(__dirname+'/fromto/sample.tmp',{flags:'w'}))
@@ -18,7 +19,7 @@ module.exports = {
 			fs.unlink(__dirname+'/fromto/sample.tmp');
 		});
 	},
-	'Test string without destination': function(assert){
+	'Test string without destination': function(){
 		csv()
 		.from(fs.readFileSync(__dirname+'/fromto/sample.in').toString())
 		.on('data',function(data,index){
@@ -33,7 +34,7 @@ module.exports = {
 			assert.strictEqual(2,count);
 		});
 	},
-	'Test string to stream': function(assert){
+	'Test string to stream': function(){
 		csv()
 		.from(fs.readFileSync(__dirname+'/fromto/string_to_stream.in').toString())
 		.toPath(__dirname+'/fromto/string_to_stream.tmp')
@@ -54,7 +55,7 @@ module.exports = {
 			fs.unlink(__dirname+'/fromto/string_to_stream.tmp');
 		});
 	},
-	'Test array to stream': function(assert){
+	'Test array to stream': function(){
 		// note: destination line breaks is windows styled because we can't guess it
 		var data = [
 			["20322051544","1979.0","8.8017226E7","ABC","45","2000-01-01"],

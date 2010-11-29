@@ -2,10 +2,11 @@
 // Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
 
 var fs = require('fs'),
+	assert = require('assert'),
 	csv = require('csv');
 
 module.exports = {
-	'Test reorder fields': function(assert){
+	'Test reorder fields': function(){
 		var count = 0;
 		csv()
 		.fromPath(__dirname+'/transform/reorder.in')
@@ -25,7 +26,7 @@ module.exports = {
 			fs.unlink(__dirname+'/transform/reorder.tmp');
 		});
 	},
-	'Test empty': function(assert){
+	'Test empty': function(){
 		var count = 0;
 		csv()
 		.fromPath(__dirname+'/transform/empty.in')
@@ -44,7 +45,7 @@ module.exports = {
 			fs.unlink(__dirname+'/transform/empty.tmp');
 		});
 	},
-	'Test return object': function(assert){
+	'Test return object': function(){
 		// we don't define columns
 		// recieve and array and return an object
 		// also see the columns test
@@ -63,7 +64,7 @@ module.exports = {
 			fs.unlink(__dirname+'/transform/object.tmp');
 		});
 	},
-	'Test return string': function(assert){
+	'Test return string': function(){
 		csv()
 		.fromPath(__dirname+'/transform/string.in')
 		.toPath(__dirname+'/transform/string.tmp')
@@ -79,7 +80,7 @@ module.exports = {
 			fs.unlink(__dirname+'/transform/string.tmp');
 		});
 	},
-	'Test types': function(assert){
+	'Test types': function(){
 		// Test date, int and float
 		csv()
 		.fromPath(__dirname+'/transform/types.in')

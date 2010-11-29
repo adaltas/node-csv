@@ -2,11 +2,12 @@
 // Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
 
 var fs = require('fs'),
+	assert = require('assert'),
 	csv = require('csv');
 
 module.exports = {
 	// Note: we only escape quote and escape character
-	'Test default': function(assert){
+	'Test default': function(){
 		csv()
 		.fromPath(__dirname+'/escape/default.in',{
 			escape: '"'
@@ -26,7 +27,7 @@ module.exports = {
 			fs.unlink(__dirname+'/escape/default.tmp');
 		});
 	},
-	'Test backslash': function(assert){
+	'Test backslash': function(){
 		csv()
 		.fromPath(__dirname+'/escape/backslash.in',{
 			escape: '\\'

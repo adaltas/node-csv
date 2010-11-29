@@ -2,10 +2,11 @@
 // Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
 
 var fs = require('fs'),
+	assert = require('assert'),
 	csv = require('csv');
 
 module.exports = {
-	'Test columns in true': function(assert){
+	'Test columns in true': function(){
 		// Note: if true, columns are expected to be in first line
 		csv()
 		.fromPath(__dirname+'/columns/in_true.in',{
@@ -31,7 +32,7 @@ module.exports = {
 			fs.unlink(__dirname+'/columns/in_true.tmp');
 		});
 	},
-	'Test columns in named': function(assert){
+	'Test columns in named': function(){
 		// Note: if true, columns are expected to be in first line
 		csv()
 		.fromPath(__dirname+'/columns/in_named.in',{
@@ -61,7 +62,7 @@ module.exports = {
 			fs.unlink(__dirname+'/columns/in_named.tmp');
 		});
 	},
-	'Test columns out named': function(assert){
+	'Test columns out named': function(){
 		// Note: if true, columns are expected to be in first line
 		csv()
 		.fromPath(__dirname+'/columns/out_named.in')

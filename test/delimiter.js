@@ -2,10 +2,11 @@
 // Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
 
 var fs = require('fs'),
+	assert = require('assert'),
 	csv = require('csv');
 
 module.exports = {
-	'Test empty value': function(assert){
+	'Test empty value': function(){
 		csv()
 		.fromPath(__dirname+'/delimiter/empty_value.in')
 		.toPath(__dirname+'/delimiter/empty_value.tmp')
