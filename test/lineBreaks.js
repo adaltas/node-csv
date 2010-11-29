@@ -2,10 +2,11 @@
 // Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
 
 var fs = require('fs'),
+	assert = require('assert'),
 	csv = require('csv');
 
 module.exports = {
-	'Test line breaks custom': function(assert){
+	'Test line breaks custom': function(){
 		csv()
 		.fromPath(__dirname+'/lineBreaks/lineBreaks.in',{
 		})
@@ -21,7 +22,7 @@ module.exports = {
 			fs.unlink(__dirname+'/lineBreaks/custom.tmp');
 		});
 	},
-	'Test line breaks unix': function(assert){
+	'Test line breaks unix': function(){
 		csv()
 		.fromPath(__dirname+'/lineBreaks/lineBreaks.in',{
 		})
@@ -37,7 +38,7 @@ module.exports = {
 			fs.unlink(__dirname+'/lineBreaks/unix.tmp');
 		});
 	},
-	'Test line breaks unicode': function(assert){
+	'Test line breaks unicode': function(){
 		csv()
 		.fromPath(__dirname+'/lineBreaks/lineBreaks.in',{
 		})
@@ -53,7 +54,7 @@ module.exports = {
 			fs.unlink(__dirname+'/lineBreaks/unicode.tmp');
 		});
 	},
-	'Test line breaks mac': function(assert){
+	'Test line breaks mac': function(){
 		csv()
 		.fromPath(__dirname+'/lineBreaks/lineBreaks.in',{
 		})
@@ -69,7 +70,7 @@ module.exports = {
 			fs.unlink(__dirname+'/lineBreaks/mac.tmp');
 		});
 	},
-	'Test line breaks windows': function(assert){
+	'Test line breaks windows': function(){
 		csv()
 		.fromPath(__dirname+'/lineBreaks/lineBreaks.in',{
 		})
