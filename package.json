@@ -1,10 +1,16 @@
 { "name": "csv"
-, "version": "0.0.3"
+, "version": "0.0.4"
 , "description": "CSV parser with simple api, full of options and tested against large datasets."
 , "author": "David Worms <david@adaltas.com>"
+, "contributors": 
+  [ { "name": "David Worms", "email": "david@adaltas.com" }
+  , { "name": "Will White", "email": "https://github.com/willwhite" }
+  , { "name": "Justin Latimer", "email": "https://github.com/justinlatimer" }
+  ],
 , "directories" : { "lib" : "./lib" }
 , "main": "./lib/csv"
 , "engines": { "node": ">= 0.1.90" }
+, "keywords": ["parser", "csv"]
 , "repository": 
   { "type" : "git"
   , "url" : "https://github.com/wdavidw/node-csv-parser.git"
