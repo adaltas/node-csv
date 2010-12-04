@@ -215,6 +215,12 @@ To develop with the tests watching at your changes
 To instrument the tests
 	expresso -I lib --cov test/*
 
+Contributors
+------------
+
+*	Will White : <https://github.com/willwhite>
+*	Justin Latimer : <https://github.com/justinlatimer>
+
 Related projects
 ----------------
 
