@@ -84,5 +84,64 @@ module.exports = {
 			);
 			fs.unlink(__dirname+'/quotes/quoted.tmp');
 		});
+	},
+	'Test unclosed quote': function(beforeExit){
+	  var n = 0;
+		csv()
+		.fromPath(__dirname+'/quotes/unclosed.in',{
+			quote: '"',
+			escape: '"',
+		})
+		.toPath(__dirname+'/quotes/unclosed.tmp')
+		.on('end',function(){
+			assert.ok(false, 'end was raised');
+		})
+		.on('error',function(){
+			++n;
+		});
+		beforeExit(function() {
+		  assert.equal(1, n, 'error was not raised');
+		  fs.unlink(__dirname+'/quotes/unclosed.tmp');
+		});
+	},
+	'Test invalid quotes': function(beforeExit){
+	  var n = 0;
+		csv()
+		.on('error',function(e){
+		  assert.equal(e.message.split(';')[0], 'Invalid closing quote');
+			++n;
+		})
+		.fromPath(__dirname+'/quotes/invalid.in',{
+			quote: '"',
+			escape: '"',
+		})
+		.toPath(__dirname+'/quotes/invalid.tmp')
+		.on('end',function(){
+			assert.ok(false, 'end was raised');
+		});
+		beforeExit(function() {
+		  assert.equal(1, n, 'error was not raised');
+		  fs.unlink(__dirname+'/quotes/invalid.tmp');
+		});
+	},
+	'Test invalid quotes from string': function(beforeExit){
+	  var n = 0;
+		csv()
+		.on('error',function(e){
+		  assert.equal(e.message.split(';')[0], 'Invalid closing quote');
+			++n;
+		})
+		.from('"",1974,8.8392926E7,""t,""',{
+			quote: '"',
+			escape: '"',
+		})
+		.toPath(__dirname+'/quotes/invalidstring.tmp')
+		.on('end',function(){
+			assert.ok(false, 'end was raised');
+		});
+		beforeExit(function() {
+		  assert.equal(1, n);
+		  fs.unlink(__dirname+'/quotes/invalidstring.tmp');
+		});
 	}
 }
