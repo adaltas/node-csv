@@ -1,13 +1,12 @@
 
 // CSV sample - Copyright David Worms <open@adaltas.com> (MIT Licensed)
-
-	// node samples/sample-stdin.js < samples/sample.in
+// node samples/sample-stdin.js < samples/sample.in
 
 	var csv = require('csv');
 	
-        process.stdin.resume();
+    process.stdin.resume();
 	csv()
-	    .fromStream(process.stdin)
+	.fromStream(process.stdin)
 	.toPath(__dirname+'/sample.out')
 	.transform(function(data){
 		data.unshift(data.pop());
