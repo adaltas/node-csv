@@ -221,6 +221,8 @@ Contributors
 *	David Worms : <https://github.com/wdavidw>
 *	Will White : <https://github.com/willwhite>
 *	Justin Latimer : <https://github.com/justinlatimer>
+*	jonseymour : <https://github.com/jonseymour>
+*	pascalopitz : <https://github.com/pascalopitz>
 
 Related projects
 ----------------
