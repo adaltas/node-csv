@@ -87,7 +87,7 @@ module.exports = {
 		.toPath(__dirname+'/transform/types.tmp')
 		.transform(function(data,index){
 			data[3] = data[3].split('-');
-			return [parseInt(data[0]),parseFloat(data[1]),parseFloat(data[2]),new Date(data[3][0],data[3][1],data[3][2])];
+			return [parseInt(data[0]),parseFloat(data[1]),parseFloat(data[2]),Date.UTC(data[3][0],data[3][1],data[3][2])];
 		})
 		.on('end',function(count){
 			assert.strictEqual(2,count);
