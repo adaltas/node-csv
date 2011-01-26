@@ -85,6 +85,24 @@ module.exports = {
 			fs.unlink(__dirname+'/quotes/quoted.tmp');
 		});
 	},
+	'Test quoted linebreak': function(){
+		csv()
+		.fromPath(__dirname+'/quotes/linebreak.in',{
+			quote: '"',
+			escape: '"',
+		})
+		.toPath(__dirname+'/quotes/linebreak.tmp')
+		.on('data',function(data,index){
+			assert.strictEqual(5,data.length);
+		})
+		.on('end',function(){
+			assert.equal(
+				fs.readFileSync(__dirname+'/quotes/linebreak.out').toString(),
+				fs.readFileSync(__dirname+'/quotes/linebreak.tmp').toString()
+			);
+			fs.unlink(__dirname+'/quotes/linebreak.tmp');
+		});
+	},
 	'Test unclosed quote': function(beforeExit){
 	  var n = 0;
 		csv()
