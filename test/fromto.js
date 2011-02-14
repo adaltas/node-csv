@@ -67,9 +67,9 @@ module.exports = {
 		.on('data',function(data,index){
 			assert.ok(index<2);
 			if(index===0){
-				assert.strictEqual('20322051544',data[0])
+				assert.strictEqual('20322051544',data[0]);
 			}else if(index===1){
-				assert.strictEqual('28392898392',data[0])
+				assert.strictEqual('28392898392',data[0]);
 			}
 		})
 		.on('end',function(count){
@@ -79,6 +79,39 @@ module.exports = {
 				fs.readFileSync(__dirname+'/fromto/array_to_stream.tmp').toString()
 			);
 			fs.unlink(__dirname+'/fromto/array_to_stream.tmp');
+		});
+	},
+	'Test null': function(){
+		// note: destination line breaks is windows styled because we can't guess it
+		var data = [
+			["20322051544",null,"8.8017226E7","ABC","45","2000-01-01"],
+			["28392898392","1974.0","8.8392926E7","DEF","23",null]
+		];
+		csv()
+		.from(data)
+		.transform(function(data){
+			data[0] = null;
+			data[3] = null;
+			return data;
+		})
+		.toPath(__dirname+'/fromto/null.tmp')
+		.on('data',function(data,index){
+			assert.ok(index<2);
+			assert.strictEqual(null,data[0]);
+			assert.strictEqual(null,data[3]);
+			if(index===0){
+				assert.strictEqual(null,data[1]);
+			}else if(index===1){
+				assert.strictEqual(null,data[5]);
+			}
+		})
+		.on('end',function(count){
+			assert.strictEqual(2,count);
+			assert.equal(
+				fs.readFileSync(__dirname+'/fromto/null.out').toString(),
+				fs.readFileSync(__dirname+'/fromto/null.tmp').toString()
+			);
+			fs.unlink(__dirname+'/fromto/null.tmp');
 		});
 	}
 }
