@@ -95,6 +95,9 @@ Options are:
 -   *columns*    
     List of fields or true if autodiscovered in the first CSV lien, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns section below.
 
+-   *skipInitialSpace*
+    If true, ignore whitespace immediately following the delimiter, default to false.
+
 Writing API
 -----------
 
