@@ -30,5 +30,21 @@ module.exports = {
 			);
 			fs.unlink(__dirname+'/delimiter/empty_value.tmp');
 		});
+	},
+        'Test ignoring whitespace immediately following the delimiter': function(){
+		csv()
+		.fromPath(__dirname+'/delimiter/init_whitespace.in', {skipInitialSpace: true})
+		.toPath(__dirname+'/delimiter/init_whitespace.tmp')
+		.transform(function(data,index){
+			return data;
+		})
+		.on('end',function(count){
+			assert.strictEqual(3,count);
+			assert.equal(
+				fs.readFileSync(__dirname+'/delimiter/init_whitespace.out').toString(),
+				fs.readFileSync(__dirname+'/delimiter/init_whitespace.tmp').toString()
+			);
+			fs.unlink(__dirname+'/delimiter/init_whitespace.tmp');
+		});
 	}
 }
