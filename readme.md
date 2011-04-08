@@ -73,13 +73,13 @@ Reading API
 The following method are available:
 
 -   *fromPath*    
-    Take a file path as first argument and optionnaly on object of options as a second arguments.
+    Take a file path as first argument and optionally on object of options as a second arguments.
     
 -   *fromStream*    
-    Take a readable stream as first argument and optionnaly on object of options as a second arguments.
+    Take a readable stream as first argument and optionally on object of options as a second arguments.
     
 -   *from*    
-    Take a string, a buffer, an array or an object as first argument and optionnaly some options as a second arguments.
+    Take a string, a buffer, an array or an object as first argument and optionally some options as a second arguments.
 
 Options are:
 
@@ -93,9 +93,9 @@ Options are:
     Set the field delimiter, one character only, default to double quotes.
     
 -   *columns*    
-    List of fields or true if autodiscovered in the first CSV lien, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns section below.
+    List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns section below.
 
--   *skipInitialSpace*
+-   *skipInitialSpace*    
     If true, ignore whitespace immediately following the delimiter, default to false.
 
 Writing API
@@ -110,10 +110,10 @@ The following method are available:
     Terminate the stream, implementation of the StreamWriter API.
     
 -   *toPath*    
-    Take a file path as first argument and optionnaly on object of options as a second arguments.
+    Take a file path as first argument and optionally on object of options as a second arguments.
     
 -   *toStream*    
-    Take a readable stream as first argument and optionnaly on object of options as a second arguments.
+    Take a readable stream as first argument and optionally on object of options as a second arguments.
 
 Options are:
 
@@ -133,7 +133,7 @@ Options are:
     Default to 'utf8', apply when a writable stream is created.
     
 -   *lineBreaks*    
-    String used to delimite record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; default to 'auto' (discovered in source).
+    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; default to 'auto' (discovered in source).
     
 -   *flag*    
     Default to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Apply when using the `toPath` method.
@@ -147,7 +147,7 @@ Options are:
 Transforming data
 -----------------
 
-You may provide a callback to the `transform` method. The contract is quite simple, you recieve an array of fields for each record and return the transformed record. The return value may be an array, an associative array, a string or null. If null, the record will simply be skipped.
+You may provide a callback to the `transform` method. The contract is quite simple, you receive an array of fields for each record and return the transformed record. The return value may be an array, an associative array, a string or null. If null, the record will simply be skipped.
 
 Unless you specify the `columns` read option, `data` are provided as arrays, otherwise they are objects with keys matching columns names.
 
@@ -171,11 +171,11 @@ Example of transform returning a string
 Events
 ------
 
-By extending the Node `EventEmitter` class, the library provide a few usefull events:
+By extending the Node `EventEmitter` class, the library provide a few useful events:
 
 -	*data* (function(data, index){})
     Thrown when a new row is parsed after the `transform` callback and with the data being the value returned by `transform`. Note however that the event won't be call if transform return `null` since the record is skipped.
-	The callback provide two arguements:
+	The callback provide two arguments:
 	`data` is the CSV line being processed (by default as an array)
 	`index` is the index number of the line starting at zero
     
@@ -192,7 +192,7 @@ Columns names may be provided or discovered in the first line with the read opti
 
 You can define a different order and even different columns in the read options and in the write options. If the `columns` is not defined in the write options, it will default to the one present in the read options. 
 
-When working with fields, the `transform` method and the `data` events recieve their `data` parameter as an object instead of an array where the keys are the field names.
+When working with fields, the `transform` method and the `data` events receive their `data` parameter as an object instead of an array where the keys are the field names.
 
 	// node samples/column.js
 	var csv = require('csv');
