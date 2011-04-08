@@ -67,8 +67,19 @@ Via [npm](http://github.com/isaacs/npm):
 
     $ npm install csv
 
-Creating a source
------------------
+Reading API
+-----------
+
+The following method are available:
+
+-   *fromPath*    
+    Take a file path as first argument and optionnaly on object of options as a second arguments.
+    
+-   *fromStream*    
+    Take a readable stream as first argument and optionnaly on object of options as a second arguments.
+    
+-   *from*    
+    Take a string, a buffer, an array or an object as first argument and optionnaly some options as a second arguments.
 
 Options are:
 
@@ -84,19 +95,22 @@ Options are:
 -   *columns*    
     List of fields or true if autodiscovered in the first CSV lien, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns section below.
 
+Writing API
+-----------
+
 The following method are available:
 
--   *fromPath*    
+-   *write*    
+    Take a string, an array or an object, implementation of the StreamWriter API.
+	
+-   *end*    
+    Terminate the stream, implementation of the StreamWriter API.
+    
+-   *toPath*    
     Take a file path as first argument and optionnaly on object of options as a second arguments.
     
--   *fromStream*    
+-   *toStream*    
     Take a readable stream as first argument and optionnaly on object of options as a second arguments.
-    
--   *from*    
-    Take a string, a buffer, an array or an object as first argument and optionnaly some options as a second arguments.
-
-Creating a destination
-----------------------
 
 Options are:
 
@@ -123,14 +137,6 @@ Options are:
     
 -   *bufferSize*    
     Internal buffer holding data before being flush into a stream. Apply when destination is a stream.
-
-The following method are available:
-
--   *toPath*    
-    Take a file path as first argument and optionnaly on object of options as a second arguments.
-    
--   *toStream*    
-    Take a readable stream as first argument and optionnaly on object of options as a second arguments.
 
 Transforming data
 -----------------
