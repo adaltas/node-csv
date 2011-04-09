@@ -137,6 +137,9 @@ Options are:
     
 -   *bufferSize*    
     Internal buffer holding data before being flush into a stream. Apply when destination is a stream.
+    
+-   *end*    
+    Prevent calling `end` on the destination, so that destination is no longer writable, similar to passing `{end: false}` option in `stream.pipe()`.
 
 Transforming data
 -----------------
