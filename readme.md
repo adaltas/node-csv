@@ -95,11 +95,11 @@ Options are:
 -   *columns*    
     List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns section below.
 
--   *skipInitialSpace*    
-    If true, ignore whitespace immediately following the delimiter, default to false.
+-   *ltrimFields*    
+    If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), default to false.
 
--   *skipTrailingSpace*    
-    If true, ignore whitespace immediately preceding the delimiter, default to false.
+-   *rtrimFields*    
+    If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), default to false.
 
 Writing API
 -----------
