@@ -33,7 +33,7 @@ module.exports = {
 	},
         'Test ignoring whitespace immediately following the delimiter': function(){
 		csv()
-		.fromPath(__dirname+'/delimiter/init_whitespace.in', {skipInitialSpace: true})
+		.fromPath(__dirname+'/delimiter/init_whitespace.in', {ltrimFields: true})
 		.toPath(__dirname+'/delimiter/init_whitespace.tmp')
 		.transform(function(data,index){
 			return data;
@@ -49,7 +49,7 @@ module.exports = {
 	},
         'Test ignoring whitespace immediately preceding the delimiter': function(){
 		csv()
-		.fromPath(__dirname+'/delimiter/trail_whitespace.in', {skipTrailingSpace: true})
+		.fromPath(__dirname+'/delimiter/trail_whitespace.in', {rtrimFields: true})
 		.toPath(__dirname+'/delimiter/trail_whitespace.tmp')
 		.transform(function(data,index){
 			return data;
@@ -65,7 +65,7 @@ module.exports = {
 	},
         'Test ignoring whitespace both immediately preceding and following the delimiter': function(){
 		csv()
-		.fromPath(__dirname+'/delimiter/init_and_trail_whitespace.in', {skipInitialSpace: true,  skipTrailingSpace: true})
+		.fromPath(__dirname+'/delimiter/init_and_trail_whitespace.in', {ltrimFields: true,  rtrimFields: true})
 		.toPath(__dirname+'/delimiter/init_and_trail_whitespace.tmp')
 		.transform(function(data,index){
 			return data;
