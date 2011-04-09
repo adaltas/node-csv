@@ -98,6 +98,9 @@ Options are:
 -   *skipInitialSpace*    
     If true, ignore whitespace immediately following the delimiter, default to false.
 
+-   *skipTrailingSpace*    
+    If true, ignore whitespace immediately preceding the delimiter, default to false.
+
 Writing API
 -----------
 
