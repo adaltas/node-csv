@@ -26,23 +26,41 @@ module.exports = {
 			fs.unlink(__dirname+'/transform/reorder.tmp');
 		});
 	},
-	'Test empty': function(){
+	'Test return undefined - skip all lines': function(){
 		var count = 0;
 		csv()
-		.fromPath(__dirname+'/transform/empty.in')
-		.toPath(__dirname+'/transform/empty.tmp')
+		.fromPath(__dirname+'/transform/undefined.in')
+		.toPath(__dirname+'/transform/undefined.tmp')
 		.transform(function(data,index){
 			assert.strictEqual(count,index);
 			count++;
-			return null;
 		})
 		.on('end',function(){
 			assert.strictEqual(2,count);
 			assert.equal(
-				fs.readFileSync(__dirname+'/transform/empty.out').toString(),
-				fs.readFileSync(__dirname+'/transform/empty.tmp').toString()
+				fs.readFileSync(__dirname+'/transform/undefined.out').toString(),
+				fs.readFileSync(__dirname+'/transform/undefined.tmp').toString()
 			);
-			fs.unlink(__dirname+'/transform/empty.tmp');
+			fs.unlink(__dirname+'/transform/undefined.tmp');
+		});
+	},
+	'Test return null - skip one of two lines': function(){
+		var count = 0;
+		csv()
+		.fromPath(__dirname+'/transform/null.in')
+		.toPath(__dirname+'/transform/null.tmp')
+		.transform(function(data,index){
+			assert.strictEqual(count,index);
+			count++;
+			return index%2 ? data : null;
+		})
+		.on('end',function(){
+			assert.strictEqual(6,count);
+			assert.equal(
+				fs.readFileSync(__dirname+'/transform/null.out').toString(),
+				fs.readFileSync(__dirname+'/transform/null.tmp').toString()
+			);
+			fs.unlink(__dirname+'/transform/null.tmp');
 		});
 	},
 	'Test return object': function(){
