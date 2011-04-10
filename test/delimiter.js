@@ -30,53 +30,5 @@ module.exports = {
 			);
 			fs.unlink(__dirname+'/delimiter/empty_value.tmp');
 		});
-	},
-        'Test ignoring whitespace immediately following the delimiter': function(){
-		csv()
-		.fromPath(__dirname+'/delimiter/init_whitespace.in', {ltrimFields: true})
-		.toPath(__dirname+'/delimiter/init_whitespace.tmp')
-		.transform(function(data,index){
-			return data;
-		})
-		.on('end',function(count){
-			assert.strictEqual(3,count);
-			assert.equal(
-				fs.readFileSync(__dirname+'/delimiter/init_whitespace.out').toString(),
-				fs.readFileSync(__dirname+'/delimiter/init_whitespace.tmp').toString()
-			);
-			fs.unlink(__dirname+'/delimiter/init_whitespace.tmp');
-		});
-	},
-        'Test ignoring whitespace immediately preceding the delimiter': function(){
-		csv()
-		.fromPath(__dirname+'/delimiter/trail_whitespace.in', {rtrimFields: true})
-		.toPath(__dirname+'/delimiter/trail_whitespace.tmp')
-		.transform(function(data,index){
-			return data;
-		})
-		.on('end',function(count){
-			assert.strictEqual(3,count);
-			assert.equal(
-				fs.readFileSync(__dirname+'/delimiter/trail_whitespace.out').toString(),
-				fs.readFileSync(__dirname+'/delimiter/trail_whitespace.tmp').toString()
-			);
-			fs.unlink(__dirname+'/delimiter/trail_whitespace.tmp');
-		});
-	},
-        'Test ignoring whitespace both immediately preceding and following the delimiter': function(){
-		csv()
-		.fromPath(__dirname+'/delimiter/init_and_trail_whitespace.in', {ltrimFields: true,  rtrimFields: true})
-		.toPath(__dirname+'/delimiter/init_and_trail_whitespace.tmp')
-		.transform(function(data,index){
-			return data;
-		})
-		.on('end',function(count){
-			assert.strictEqual(3,count);
-			assert.equal(
-				fs.readFileSync(__dirname+'/delimiter/init_and_trail_whitespace.out').toString(),
-				fs.readFileSync(__dirname+'/delimiter/init_and_trail_whitespace.tmp').toString()
-			);
-			fs.unlink(__dirname+'/delimiter/init_and_trail_whitespace.tmp');
-		});
 	}
 }
