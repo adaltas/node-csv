@@ -241,6 +241,7 @@ Contributors
 *	Justin Latimer : <https://github.com/justinlatimer>
 *	jonseymour : <https://github.com/jonseymour>
 *	pascalopitz : <https://github.com/pascalopitz>
+*	Josh Pschorr : <https://github.com/jpschorr>
 
 Related projects
 ----------------
