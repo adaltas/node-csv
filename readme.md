@@ -141,7 +141,7 @@ Options are:
 -   *lineBreaks*    
     String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; default to 'auto' (discovered in source).
     
--   *flag*    
+-   *flags*    
     Default to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Apply when using the `toPath` method.
     
 -   *bufferSize*    
@@ -157,7 +157,7 @@ You may provide a callback to the `transform` method. The contract is quite simp
 
 Unless you specify the `columns` read option, `data` are provided as arrays, otherwise they are objects with keys matching columns names.
 
-When the returned value is an array, the fields are merge in order. When the returned value is an object, it will search for the `columns` property in the write or in the read options and smartly order the values. If no `columns` options are found, it will merge the values in their order of appearance. When the returned value is a string, it directly sent to the destination source and it is your responsibility to delimit, quote, escape or define line breaks.
+When the returned value is an array, the fields are merge in order. When the returned value is an object, it will search for the `columns` property in the write or in the read options and smartly order the values. If no `columns` options are found, it will merge the values in their order of appearance. When the returned value is a string, it is directly sent to the destination source and it is your responsibility to delimit, quote, escape or define line breaks.
 
 Example of transform returning a string
 
