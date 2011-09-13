@@ -30,5 +30,34 @@ module.exports = {
             );
             fs.unlink(__dirname+'/delimiter/empty_value.tmp');
         });
+    },
+    'Test tabs to comma': function(){
+        csv()
+        .fromPath(__dirname+'/delimiter/tab_to_coma.in',{
+            delimiter: '\t'
+        })
+        .toPath(__dirname+'/delimiter/tab_to_coma.tmp',{
+            delimiter: ','
+        })
+        .transform(function(data,index){
+            assert.strictEqual(5,data.length);
+            if(index===0){
+                assert.strictEqual('',data[1]);
+                assert.strictEqual('',data[4]);
+            }else if(index===1){
+                assert.strictEqual('',data[0]);
+                assert.strictEqual('',data[3]);
+                assert.strictEqual('',data[4]);
+            }
+            return data;
+        })
+        .on('end',function(count){
+            assert.strictEqual(2,count);
+            assert.equal(
+                fs.readFileSync(__dirname+'/delimiter/tab_to_coma.out').toString(),
+                fs.readFileSync(__dirname+'/delimiter/tab_to_coma.tmp').toString()
+            );
+            fs.unlink(__dirname+'/delimiter/tab_to_coma.tmp');
+        });
     }
 }
