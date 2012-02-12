@@ -1,8 +1,8 @@
 
-// CSV sample - Copyright David Worms <open@adaltas.com> (MIT Licensed)
-// node samples/sample-stdin.js < samples/sample.in
+// CSV sample - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+// cat samples/sample.in | node samples/sample-stdin.js
 
-    var csv = require('csv');
+    var csv = require('..');
     
     process.stdin.resume();
     csv()

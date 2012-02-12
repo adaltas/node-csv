@@ -3,7 +3,7 @@
 
 var fs = require('fs'),
     assert = require('assert'),
-    csv = require('csv');
+    csv = require('..');
 
 module.exports = {
     'Test fs stream': function(){

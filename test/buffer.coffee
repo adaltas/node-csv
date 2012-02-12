@@ -1,9 +1,9 @@
 
-# Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
+# Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 
-fs = require('fs')
-assert = require('assert')
-csv = require('csv')
+fs = require 'fs'
+assert = require 'assert'
+csv = require '..'
 
 module.exports =
     'Buffer smaller than in': ->

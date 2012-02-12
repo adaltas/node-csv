@@ -222,16 +222,10 @@ When working with fields, the `transform` method and the `data` events receive t
 Running the tests
 -----------------
 
-Tests are executed with expresso. To install it, simple use `npm install expresso`.
+Tests are executed with expresso. To install it, simple use `npm install -g expresso`.
 
 To run the tests
-	expresso -I lib test/*
-
-To develop with the tests watching at your changes
-	expresso -w -I lib test/*
-
-To instrument the tests
-	expresso -I lib --cov test/*
+	expresso test
 
 Contributors
 ------------
@@ -246,6 +240,6 @@ Contributors
 Related projects
 ----------------
 
-*   Pavel Kolesnikov "ya-csv": http://github.com/wdavidw/ya-csv
-*   Chris Williams "node-csv": http://github.com/voodootikigod/node-csv
+*   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
+*   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
 
