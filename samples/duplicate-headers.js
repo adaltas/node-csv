@@ -10,26 +10,28 @@
 // every other data line in the file.
 //
 
-    var csv = require('csv'),
-        header;
+    var csv = require('..');
+    var header;
+
     process.stdin.resume();
-      csv()
+    
+    csv()
     .fromStream(process.stdin)
     .toStream(process.stdout, {end: false})
     .transform(function(data){
-      if (header) {
-        this.write(header);
-      } else {
-        header=data;
-        return null;
-      }
-      return data;
+        if (header) {
+            this.write(header);
+        } else {
+            header=data;
+            return null;
+        }
+        return data;
     })
     .on('end',function(error){
-      process.stdout.write("\n");
+        process.stdout.write("\n");
     })
     .on('error',function(error){
-      console.log(error.message);
+        console.log(error.message);
     });
 
 //
