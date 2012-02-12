@@ -1,6 +1,6 @@
 {
     "name": "csv",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "description": "CSV parser with simple api, full of options and tested against large datasets.",
     "author": "David Worms <david@adaltas.com>",
     "contributors": [
