@@ -3,7 +3,7 @@
 
 var fs = require('fs'),
     assert = require('assert'),
-    csv = require('csv');
+    csv = require('..');
 
 module.exports = {
     // Note: we only escape quote and escape character

@@ -3,7 +3,7 @@
 
 var fs = require('fs'),
     assert = require('assert'),
-    csv = require('csv');
+    csv = require('..');
 
 module.exports = {
     'Test ignoring whitespace immediately following the delimiter': function(){
@@ -15,10 +15,6 @@ module.exports = {
         })
         .on('end',function(count){
             assert.strictEqual(3,count);
-            // console.log('');
-            // console.log(fs.readFileSync(__dirname+'/trim/ltrim.tmp').toString());
-            // console.log('');
-            // console.log(fs.readFileSync(__dirname+'/trim/ltrim.out').toString());
             assert.equal(
                 fs.readFileSync(__dirname+'/trim/ltrim.out').toString(),
                 fs.readFileSync(__dirname+'/trim/ltrim.tmp').toString()
