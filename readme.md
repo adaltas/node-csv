@@ -95,6 +95,9 @@ Options are:
 -   *columns*    
     List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns section below.
 	
+-   *encoding*    
+    Default to 'utf8', apply when a readable stream is created.
+	
 -   *trim*    
     If true, ignore whitespace immediately around the delimiter, default to false.
 	
