@@ -1,5 +1,5 @@
 
-// Test CSV - Copyright David Worms <open@adaltas.com> (MIT Licensed)
+// Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 
 var fs = require('fs'),
     assert = require('assert'),
