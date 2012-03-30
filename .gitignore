@@ -1,5 +1,6 @@
 .*
 *.tmp
+/node_modules
 lib-cov
 sample/sample.out
 !.gitignore
