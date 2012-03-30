@@ -1,17 +1,31 @@
 {
-    "name": "csv",
-    "version": "0.0.11",
-    "description": "CSV parser with simple api, full of options and tested against large datasets.",
-    "author": "David Worms <david@adaltas.com>",
-    "contributors": [
-        { "name": "David Worms", "email": "david@adaltas.com" },
-        { "name": "Will White", "email": "https://github.com/willwhite" },
-        { "name": "Justin Latimer", "email": "https://github.com/justinlatimer" }
-    ],
-    "engines": { "node": ">= 0.1.90" },
-    "keywords": ["parser", "csv"],
-    "repository": {
-        "type" : "git",
-        "url" : "https://github.com/wdavidw/node-csv-parser.git"
-    }
+  "name": "csv",
+  "version": "0.0.11",
+  "description": "CSV parser with simple api, full of options and tested against large datasets.",
+  "author": "David Worms <david@adaltas.com>",
+  "contributors": [
+    "David Worms <david@adaltas.com>",
+    "Will White <https://github.com/willwhite>",
+    "Justin Latimer <https://github.com/justinlatimer>"
+  ],
+  "engines": {
+    "node": ">= 0.1.90"
+  },
+  "keywords": [
+    "parser",
+    "csv"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wdavidw/node-csv-parser.git"
+  },
+  "devDependencies": {
+    "expresso": "~0.9.2"
+  },
+  "dependencies": {},
+  "optionalDependencies": {},
+  "scripts": {
+    "test": "./node_modules/.bin/expresso ./test"
+  },
+  "homepage": "https://github.com/wdavidw/node-csv-parser"
 }
