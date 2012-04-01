@@ -2,64 +2,59 @@
 # Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 
 fs = require 'fs'
-assert = require 'assert'
+should = require 'should'
 csv = require '..'
 
-module.exports = 
-    'Test line breaks custom': ->
+describe 'lineBreaks', ->
+    it 'Test line breaks custom', ->
         csv()
         .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in" )
         .toPath( "#{__dirname}/lineBreaks/custom.tmp", lineBreaks: '::' )
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/lineBreaks/custom.out").toString(),
-                fs.readFileSync( "#{__dirname}/lineBreaks/custom.tmp").toString()
-            )
+            count.should.eql 2
+            expect = fs.readFileSync( "#{__dirname}/lineBreaks/custom.out").toString()
+            result = fs.readFileSync( "#{__dirname}/lineBreaks/custom.tmp").toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/custom.tmp"
-    'Test line breaks unix': ->
+    it 'Test line breaks unix', ->
         csv()
         .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in" )
         .toPath( "#{__dirname}/lineBreaks/unix.tmp", lineBreaks: "unix")
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/lineBreaks/unix.out" ).toString(),
-                fs.readFileSync( "#{__dirname}/lineBreaks/unix.tmp" ).toString()
-            )
+            count.should.eql 2
+            expect = fs.readFileSync( "#{__dirname}/lineBreaks/unix.out" ).toString()
+            result = fs.readFileSync( "#{__dirname}/lineBreaks/unix.tmp" ).toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/unix.tmp"
-    'Test line breaks unicode': ->
+    it 'Test line breaks unicode', ->
         csv()
         .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in")
         .toPath( "#{__dirname}/lineBreaks/unicode.tmp", lineBreaks: 'unicode')
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/lineBreaks/unicode.out" ).toString(),
-                fs.readFileSync( "#{__dirname}/lineBreaks/unicode.tmp" ).toString()
-            )
+            count.should.eql 2
+            expect = fs.readFileSync( "#{__dirname}/lineBreaks/unicode.out" ).toString()
+            result = fs.readFileSync( "#{__dirname}/lineBreaks/unicode.tmp" ).toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/unicode.tmp"
-    'Test line breaks mac': ->
+    it 'Test line breaks mac', ->
         csv()
         .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in" )
         .toPath( "#{__dirname}/lineBreaks/mac.tmp", lineBreaks: 'mac' )
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/lineBreaks/mac.out" ).toString(),
-                fs.readFileSync( "#{__dirname}/lineBreaks/mac.tmp" ).toString()
-            )
+            count.should.eql 2
+            expect = fs.readFileSync( "#{__dirname}/lineBreaks/mac.out" ).toString()
+            result = fs.readFileSync( "#{__dirname}/lineBreaks/mac.tmp" ).toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/mac.tmp"
-    'Test line breaks windows': ->
+    it 'Test line breaks windows', ->
         csv()
         .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in" )
         .toPath( "#{__dirname}/lineBreaks/windows.tmp", lineBreaks: 'windows' )
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/lineBreaks/windows.out" ).toString(),
-                fs.readFileSync( "#{__dirname}/lineBreaks/windows.tmp" ).toString()
-            );
+            count.should.eql 2
+            expect = fs.readFileSync( "#{__dirname}/lineBreaks/windows.out" ).toString()
+            result = fs.readFileSync( "#{__dirname}/lineBreaks/windows.tmp" ).toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/windows.tmp"
 
 

@@ -2,50 +2,48 @@
 # Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 
 fs = require 'fs'
-assert = require 'assert'
+should = require 'should'
 csv = require '..'
 
-module.exports =
-    'Test fs stream': ->
+describe 'fromto', ->
+    it 'Test fs stream', ->
         csv()
         .fromStream(fs.createReadStream "#{__dirname}/fromto/sample.in", flags: 'r' )
         .toStream(fs.createWriteStream "#{__dirname}/fromto/sample.tmp", flags: 'w' )
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/fromto/sample.out" ).toString(),
-                fs.readFileSync( "#{__dirname}/fromto/sample.tmp" ).toString()
-            )
+            count.should.eql 2
+            expect = fs.readFileSync( "#{__dirname}/fromto/sample.out" ).toString()
+            result = fs.readFileSync( "#{__dirname}/fromto/sample.tmp" ).toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/fromto/sample.tmp"
-    'Test string without destination': ->
+    it 'Test string without destination', ->
         csv()
         .from(fs.readFileSync( "#{__dirname}/fromto/sample.in" ).toString())
         .on 'data', (data, index) ->
-            assert.ok index < 2
+            index.should.be.below 2
             if index is 0
-                assert.strictEqual '20322051544', data[0]
+                data[0].should.eql '20322051544'
             else if index is 1
-                assert.strictEqual '28392898392', data[0]
+                data[0].should.eql '28392898392'
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-    'Test string to stream': ->
+            count.should.eql 2
+    it 'Test string to stream', ->
         csv()
         .from(fs.readFileSync( "#{__dirname}/fromto/string_to_stream.in" ).toString())
         .toPath( "#{__dirname}/fromto/string_to_stream.tmp" )
         .on 'data', (data, index) ->
-            assert.ok index < 2
+            index.should.be.below 2
             if index is 0
-                assert.strictEqual '20322051544', data[0]
+                data[0].should.eql '20322051544'
             else if index is 1
-                assert.strictEqual '28392898392', data[0]
+                data[0].should.eql '28392898392'
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/fromto/string_to_stream.out" ).toString(),
-                fs.readFileSync( "#{__dirname}/fromto/string_to_stream.tmp" ).toString()
-            );
+            count.should.eql 2
+            expect = fs.readFileSync( "#{__dirname}/fromto/string_to_stream.out" ).toString()
+            result = fs.readFileSync( "#{__dirname}/fromto/string_to_stream.tmp" ).toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/fromto/string_to_stream.tmp"
-    'Test array to stream': ->
+    it 'Test array to stream', ->
         # note: destination line breaks is windows styled because we can't guess it
         data = [
             ["20322051544","1979.0","8.8017226E7","ABC","45","2000-01-01"]
@@ -55,19 +53,18 @@ module.exports =
         .from(data)
         .toPath( "#{__dirname}/fromto/array_to_stream.tmp" )
         .on 'data', (data, index) ->
-            assert.ok index < 2
+            index.should.be.below 2
             if index is 0
-                assert.strictEqual '20322051544', data[0]
+                data[0].should.eql '20322051544'
             else if index is 1
-                assert.strictEqual '28392898392', data[0]
+                data[0].should.eql '28392898392'
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/fromto/array_to_stream.out" ).toString(),
-                fs.readFileSync( "#{__dirname}/fromto/array_to_stream.tmp" ).toString()
-            )
+            count.should.eql 2
+            expect = fs.readFileSync( "#{__dirname}/fromto/array_to_stream.out" ).toString()
+            result = fs.readFileSync( "#{__dirname}/fromto/array_to_stream.tmp" ).toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/fromto/array_to_stream.tmp"
-    'Test null': ->
+    it 'Test null', ->
         # note: destination line breaks is windows styled because we can't guess it
         data = [
             ["20322051544",null,"8.8017226E7","ABC","45","2000-01-01"]
@@ -82,19 +79,18 @@ module.exports =
         )
         .toPath( "#{__dirname}/fromto/null.tmp" )
         .on 'data', (data, index) ->
-            assert.ok index < 2
-            assert.strictEqual null, data[0]
-            assert.strictEqual null, data[3]
+            index.should.be.below 2
+            should.not.exist data[0]
+            should.not.exist data[3]
             if index is 0
-                assert.strictEqual null, data[1]
+                should.not.exist data[1]
             else if index is 1
-                assert.strictEqual null, data[5]
+                should.not.exist data[5]
         .on 'end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/fromto/null.out" ).toString(),
-                fs.readFileSync( "#{__dirname}/fromto/null.tmp" ).toString()
-            )
+            count.should.eql 2
+            expect = fs.readFileSync( "#{__dirname}/fromto/null.out" ).toString()
+            result = fs.readFileSync( "#{__dirname}/fromto/null.tmp" ).toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/fromto/null.tmp"
 
 

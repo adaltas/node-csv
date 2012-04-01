@@ -2,41 +2,37 @@
 # Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 
 fs = require 'fs'
-assert = require 'assert'
+should = require 'should'
 csv = require '..'
 
-module.exports =
-    'Buffer smaller than in': ->
+describe 'buffer', ->
+    it 'Buffer smaller than in', ->
         csv()
         .fromPath("#{__dirname}/buffer/smaller.in",
             bufferSize: 1024
         )
         .toPath("#{__dirname}/buffer/smaller.tmp")
-        .transform( (data) ->
-            assert.ok data instanceof Object
+        .transform (data) ->
+            data.should.be.a 'object'
             data
-        )
         .on('end', ->
-            assert.equal(
-                fs.readFileSync("#{__dirname}/buffer/smaller.out").toString(),
-                fs.readFileSync("#{__dirname}/buffer/smaller.tmp").toString()
-            )
+            expect = fs.readFileSync("#{__dirname}/buffer/smaller.out").toString()
+            result = fs.readFileSync("#{__dirname}/buffer/smaller.tmp").toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/buffer/smaller.tmp"
         )
-    'Buffer same as in': ->
+    it 'Buffer same as in', ->
         csv()
         .fromPath("#{__dirname}/buffer/same.in",
             bufferSize: 1024
         )
         .toPath("#{__dirname}/buffer/same.tmp")
-        .transform( (data) ->
-            assert.ok data instanceof Object
+        .transform (data) ->
+            data.should.be.a 'object'
             data
-        )
         .on('end', ->
-            assert.equal(
-                fs.readFileSync("#{__dirname}/buffer/same.out").toString(),
-                fs.readFileSync("#{__dirname}/buffer/same.tmp").toString()
-            )
+            expect = fs.readFileSync("#{__dirname}/buffer/same.out").toString()
+            result = fs.readFileSync("#{__dirname}/buffer/same.tmp").toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/buffer/same.tmp"
         )

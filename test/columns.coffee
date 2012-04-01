@@ -2,82 +2,71 @@
 # Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 
 fs = require 'fs'
-assert = require 'assert'
+should = require 'should'
 csv = require '..'
 
-module.exports =
-    'Test columns in true': ->
+describe 'columns', ->
+    it 'Test columns in true', ->
         # Note: if true, columns are expected to be in first line
         csv()
-        .fromPath("#{__dirname}/columns/in_true.in",
-            columns: true
-        )
-        .toPath("#{__dirname}/columns/in_true.tmp")
+        .fromPath( "#{__dirname}/columns/in_true.in", columns: true )
+        .toPath( "#{__dirname}/columns/in_true.tmp" )
         .transform( (data, index) ->
-            assert.equal true, data instanceof Object
-            assert.equal false, data instanceof Array
+            data.should.be.a 'object'
+            data.should.not.be.an.instanceof Array
             if index is 0
-                assert.strictEqual '20322051544', data.FIELD_1
+                data.FIELD_1.should.eql '20322051544'
             else if index is 1
-                assert.strictEqual 'DEF', data.FIELD_4
+                data.FIELD_4.should.eql 'DEF'
             data
         )
         .on('end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync("#{__dirname}/columns/in_true.out").toString(),
-                fs.readFileSync("#{__dirname}/columns/in_true.tmp").toString()
-            )
+            count.should.eql 2
+            expect = fs.readFileSync("#{__dirname}/columns/in_true.out").toString()
+            result = fs.readFileSync("#{__dirname}/columns/in_true.tmp").toString()
+            result.should.eql expect
             fs.unlink("#{__dirname}/columns/in_true.tmp")
         )
-    'Test columns in named': ->
+    it 'Test columns in named', ->
         # Note: if true, columns are expected to be in first line
         csv()
-        .fromPath("#{__dirname}/columns/in_named.in",{
+        .fromPath("#{__dirname}/columns/in_named.in", {
             columns: ["FIELD_1", "FIELD_2", "FIELD_3", "FIELD_4", "FIELD_5", "FIELD_6"]
         })
         .toPath("#{__dirname}/columns/in_named.tmp")
-        .transform((data, index) ->
-            assert.equal(true, data instanceof Object)
-            assert.equal(false, data instanceof Array)
+        .transform (data, index) ->
+            data.should.be.a 'object'
+            data.should.not.be.an.instanceof Array
             if index is 0
-                assert.strictEqual '20322051544', data.FIELD_1
+                data.FIELD_1.should.eql '20322051544'
             else if index is 1
-                assert.strictEqual 'DEF', data.FIELD_4
+                data.FIELD_4.should.eql 'DEF'
             data
-        )
-        .on('data',(data, index) ->
-            assert.equal(true, data instanceof Object)
-            assert.equal(false, data instanceof Array)
-        )
-        .on('end',(count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync("#{__dirname}/columns/in_named.out").toString(),
-                fs.readFileSync("#{__dirname}/columns/in_named.tmp").toString()
-            )
-            fs.unlink("#{__dirname}/columns/in_named.tmp")
-        )
-    'Test columns out named': ->
+        .on 'data',(data, index) ->
+            data.should.be.a 'object'
+            data.should.not.be.an.instanceof Array
+        .on 'end',(count) ->
+            count.should.eql 2
+            expect = fs.readFileSync("#{__dirname}/columns/in_named.out").toString()
+            result = fs.readFileSync("#{__dirname}/columns/in_named.tmp").toString()
+            result.should.eql expect
+            fs.unlink "#{__dirname}/columns/in_named.tmp"
+    it 'Test columns out named', ->
         # Note: if true, columns are expected to be in first line
         csv()
         .fromPath("#{__dirname}/columns/out_named.in")
         .toPath("#{__dirname}/columns/out_named.tmp",
             columns: ["FIELD_1", "FIELD_2"]
         )
-        .transform( (data, index) ->
-            assert.equal(true, data instanceof Array)
+        .transform (data, index) ->
+            data.should.be.an.instanceof Array
             return {FIELD_2: data[3], FIELD_1: data[4]}
-        )
-        .on('data', (data, index) ->
-            assert.equal true, data instanceof Object
-            assert.equal false, data instanceof Array
-        )
-        .on('end', (count) ->
-            assert.strictEqual 2, count
-            assert.equal(
-                fs.readFileSync("#{__dirname}/columns/out_named.out").toString(),
-                fs.readFileSync("#{__dirname}/columns/out_named.tmp").toString()
-            )
+        .on 'data', (data, index) ->
+            data.should.be.a 'object'
+            data.should.not.be.an.instanceof Array
+        .on 'end', (count) ->
+            count.should.eql 2
+            expect = fs.readFileSync("#{__dirname}/columns/out_named.out").toString()
+            result = fs.readFileSync("#{__dirname}/columns/out_named.tmp").toString()
+            result.should.eql expect
             fs.unlink "#{__dirname}/columns/out_named.tmp"
-        )
