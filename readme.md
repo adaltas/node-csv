@@ -141,6 +141,9 @@ Options are:
 -   *encoding*    
     Default to 'utf8', apply when a writable stream is created.
     
+-   *header*
+    Display the column names on the first line if the columns option is provided.
+
 -   *lineBreaks*    
     String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; default to 'auto' (discovered in source).
     
