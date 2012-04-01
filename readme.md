@@ -197,7 +197,7 @@ By extending the Node `EventEmitter` class, the library provide a few useful eve
 Columns
 -------
 
-Columns names may be provided or discovered in the first line with the read options `columns`. If defined as an array, the order must match the input source. If set to `true`, the fields are expected to be present in the first line of the input source.
+Columns names may be provided or discovered in the first line with the read options `columns`. If defined as an array, the order must match the one of the input source. If set to `true`, the fields are expected to be present in the first line of the input source.
 
 You can define a different order and even different columns in the read options and in the write options. If the `columns` is not defined in the write options, it will default to the one present in the read options. 
 

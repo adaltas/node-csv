@@ -2,63 +2,58 @@
 # Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 
 fs = require 'fs'
-assert = require 'assert'
+should = require 'should'
 csv = require '..'
 
-module.exports = 
-    'Test write array': ->
+describe 'write', ->
+    it 'Test write array', ->
         count = 0;
         test = csv()
         .toPath( "#{__dirname}/write/write_array.tmp" )
         .on 'data', (data, index) ->
-            assert.ok Array.isArray data
-            assert.eql count, index
+            data.should.be.an.instanceof Array
+            count.should.eql index
             count++
         .on 'end', ->
-            assert.eql(1000,count);
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/write/write.out" ).toString(),
-                fs.readFileSync( "#{__dirname}/write/write_array.tmp" ).toString()
-            )
+            count.should.eql 1000
+            expect = fs.readFileSync( "#{__dirname}/write/write.out" ).toString()
+            result = fs.readFileSync( "#{__dirname}/write/write_array.tmp" ).toString()
+            result.should.eql expect
             fs.unlinkSync "#{__dirname}/write/write_array.tmp"
         for i in [0...1000]
             test.write ["Test #{i}", i, '"']
         test.end()
-    'Test write object with column options': ->
+    it 'Test write object with column options', ->
         count = 0
         test = csv()
-        .toPath( "#{__dirname}/write/write_object.tmp",
-            columns: ['name','value','escape']
-        )
+        .toPath( "#{__dirname}/write/write_object.tmp", columns: ['name','value','escape'] )
         .on 'data', (data, index) ->
-            assert.ok typeof data is 'object'
-            assert.ok not Array.isArray data
-            assert.eql count, index
+            data.should.be.a 'object'
+            data.should.not.be.an.instanceof Array
+            count.should.eql index
             count++
         .on 'end', ->
-            assert.eql 1000, count
-            assert.equal(
-                fs.readFileSync( "#{__dirname}/write/write.out").toString(),
-                fs.readFileSync( "#{__dirname}/write/write_object.tmp").toString()
-            )
+            count.should.eql 1000
+            expect = fs.readFileSync( "#{__dirname}/write/write.out").toString()
+            result = fs.readFileSync( "#{__dirname}/write/write_object.tmp").toString()
+            result.should.eql expect
             fs.unlinkSync "#{__dirname}/write/write_object.tmp"
         for i in [0...1000]
-            test.write {name: "Test #{i}", value:i, escape: '"', ovni: 'ET '+i}
+            test.write {name: "Test #{i}", value:i, escape: '"', ovni: "ET #{i}"}
         test.end()
-    'Test write string': ->
+    it 'Test write string', ->
         count = 0
         test = csv()
         .toPath( "#{__dirname}/write/write_string.tmp" )
         .on 'data', (data, index) ->
-            assert.ok Array.isArray data
-            assert.eql count, index
+            data.should.be.an.instanceof Array
+            count.should.eql index
             count++
         .on 'end', ->
-            assert.eql 1000, count
-            assert.equal(
-                fs.readFileSync("#{__dirname}/write/write.out").toString(),
-                fs.readFileSync("#{__dirname}/write/write_string.tmp").toString()
-            );
+            count.should.eql 1000
+            expect = fs.readFileSync("#{__dirname}/write/write.out").toString()
+            result = fs.readFileSync("#{__dirname}/write/write_string.tmp").toString()
+            result.should.eql expect
             fs.unlinkSync "#{__dirname}/write/write_string.tmp"
         buffer = ''
         for i in [0...1000]
@@ -68,25 +63,23 @@ module.exports =
                 buffer = buffer.substr 250
         test.write buffer
         test.end()
-    'Test write string with preserve': ->
+    it 'Test write string with preserve', ->
         count = 0
         test = csv()
         .toPath( "#{__dirname}/write/string_preserve.tmp" )
-        .transform( (data, index) ->
+        .transform (data, index) ->
             if index is 0
                 test.write '--------------------\n', true
             test.write data
             test.write '\n--------------------', true
-            assert.ok Array.isArray data
-            assert.eql count, index
+            data.should.be.an.instanceof Array
+            count.should.eql index
             count++
             null
-        )
         .on 'end', ->
-            assert.equal(
-                fs.readFileSync("#{__dirname}/write/string_preserve.out").toString(),
-                fs.readFileSync("#{__dirname}/write/string_preserve.tmp").toString()
-            );
+            expect = fs.readFileSync("#{__dirname}/write/string_preserve.out").toString()
+            result = fs.readFileSync("#{__dirname}/write/string_preserve.tmp").toString()
+            result.should.eql expect
             fs.unlinkSync "#{__dirname}/write/string_preserve.tmp"
         test.write '# This line should not be parsed', true
         test.write '\n', true
