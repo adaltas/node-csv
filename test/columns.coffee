@@ -90,20 +90,6 @@ describe 'columns', ->
                 result.should.eql expect
                 fs.unlink "#{__dirname}/columns/out_named.tmp"
                 next()
-        it 'should print names if header', (next) ->
-            csv()
-            .fromPath("#{__dirname}/columns/header.in")
-            .toPath("#{__dirname}/columns/header.tmp",
-                header: true
-                columns: ["FIELD_1", "FIELD_2"]
-            )
-            .on 'end', (count) ->
-                count.should.eql 2
-                expect = fs.readFileSync("#{__dirname}/columns/header.out").toString()
-                result = fs.readFileSync("#{__dirname}/columns/header.tmp").toString()
-                result.should.eql expect
-                fs.unlink "#{__dirname}/columns/header.tmp"
-                next()
 
 
 
