@@ -90,7 +90,21 @@ describe 'columns', ->
                 result.should.eql expect
                 fs.unlink "#{__dirname}/columns/out_named.tmp"
                 next()
-
+        it 'should emit new columns in output', (next) ->
+            csv()
+            .fromPath("#{__dirname}/columns/out_new.in", columns: true)
+            .toPath("#{__dirname}/columns/out_new.tmp", newColumns: true, header: true)
+            .transform (data) ->
+                data.should.be.an.a 'object'
+                data.FIELD_7 = 'new_field'
+                data
+            .on 'end', (count) ->
+                count.should.eql 2
+                expect = fs.readFileSync("#{__dirname}/columns/out_new.out").toString()
+                result = fs.readFileSync("#{__dirname}/columns/out_new.tmp").toString()
+                result.should.eql expect
+                fs.unlink "#{__dirname}/columns/out_new.tmp"
+                next()
 
 
 
