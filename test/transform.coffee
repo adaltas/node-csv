@@ -95,7 +95,7 @@ describe 'transform', ->
     it 'should accept a returned array with different types', (next) ->
         # Test date, int and float
         csv()
-        .fromPath(__dirname+'/transform/types.in')
+        .fromPath("#{__dirname}/transform/types.in")
         .toPath("#{__dirname}/transform/types.tmp")
         .transform (data, index) ->
             data[3] = data[3].split('-')
@@ -106,7 +106,6 @@ describe 'transform', ->
             result = fs.readFileSync("#{__dirname}/transform/types.tmp").toString()
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/types.tmp", next
-
     it 'should catch error thrown in transform callback', (next) ->
         count = 0
         error = false
@@ -126,22 +125,6 @@ describe 'transform', ->
             next()
         for i in [0...1000]
             test.write ['Test '+i, i, '"'] unless error
-    # it 'should catch error thrown in transform callback', (next) ->
-    #     console.log 'sart'
-    #     test = csv()
-    #     .toPath( "#{__dirname}/write/write_array.tmp" )
-    #     .transform (data, index) ->
-    #         console.log 'ok'
-    #         # throw new Error 'diable' # if index is 2
-    #         data
-    #     .on 'error', ->
-    #         console.log 'error'
-    #         next()
-    #     .on 'end', ->
-    #         # false.should.be.ok
-    #         next()
-    #     for i in [0...1000]
-    #         test.write ['Test '+i, i, '"']
 
 
 
