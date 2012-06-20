@@ -247,6 +247,7 @@ Contributors
 *	jonseymour : <https://github.com/jonseymour>
 *	pascalopitz : <https://github.com/pascalopitz>
 *	Josh Pschorr : <https://github.com/jpschorr>
+*   Elad Ben-Israel: <https://github.com/eladb>
 
 Related projects
 ----------------

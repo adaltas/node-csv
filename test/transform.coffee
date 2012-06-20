@@ -6,7 +6,7 @@ should = require 'should'
 csv = require '..'
 
 describe 'transform', ->
-    it 'Test reorder fields', ->
+    it 'Test reorder fields', (next) ->
         count = 0
         csv()
         .fromPath("#{__dirname}/transform/reorder.in")
@@ -21,8 +21,8 @@ describe 'transform', ->
             expect = fs.readFileSync("#{__dirname}/transform/reorder.out").toString()
             result = fs.readFileSync("#{__dirname}/transform/reorder.tmp").toString()
             result.should.eql expect
-            fs.unlink "#{__dirname}/transform/reorder.tmp"
-    it 'Test return undefined - skip all lines', ->
+            fs.unlink "#{__dirname}/transform/reorder.tmp", next
+    it 'should skip all lines where transform return undefined', (next) ->
         count = 0
         csv()
         .fromPath("#{__dirname}/transform/undefined.in")
@@ -36,8 +36,8 @@ describe 'transform', ->
             expect = fs.readFileSync("#{__dirname}/transform/undefined.out").toString()
             result = fs.readFileSync("#{__dirname}/transform/undefined.tmp").toString()
             result.should.eql expect
-            fs.unlink "#{__dirname}/transform/undefined.tmp"
-    it 'Test return null - skip one of two lines', ->
+            fs.unlink "#{__dirname}/transform/undefined.tmp", next
+    it 'should skip all lines where transform return null', (next) ->
         count = 0
         csv()
         .fromPath("#{__dirname}/transform/null.in")
@@ -51,8 +51,8 @@ describe 'transform', ->
             expect = fs.readFileSync("#{__dirname}/transform/null.out").toString()
             result = fs.readFileSync("#{__dirname}/transform/null.tmp").toString()
             result.should.eql expect
-            fs.unlink "#{__dirname}/transform/null.tmp"
-    it 'Test return object', ->
+            fs.unlink "#{__dirname}/transform/null.tmp", next
+    it 'Test return object', (next) ->
         # we don't define columns
         # recieve and array and return an object
         # also see the columns test
@@ -66,8 +66,8 @@ describe 'transform', ->
             expect = fs.readFileSync("#{__dirname}/transform/object.out").toString()
             result = fs.readFileSync("#{__dirname}/transform/object.tmp").toString()
             result.should.eql expect
-            fs.unlink("#{__dirname}/transform/object.tmp")
-    it 'Test return string', ->
+            fs.unlink "#{__dirname}/transform/object.tmp", next
+    it 'should accept a returned string', (next) ->
         csv()
         .fromPath("#{__dirname}/transform/string.in")
         .toPath("#{__dirname}/transform/string.tmp")
@@ -78,8 +78,21 @@ describe 'transform', ->
             expect = fs.readFileSync("#{__dirname}/transform/string.out").toString()
             result = fs.readFileSync("#{__dirname}/transform/string.tmp").toString()
             result.should.eql expect
-            fs.unlink("#{__dirname}/transform/string.tmp")
-    it 'Test types', ->
+            fs.unlink "#{__dirname}/transform/string.tmp", next
+    it 'should accept a returned integer', (next) ->
+        result = ''
+        test = csv()
+        .transform (data, index) ->
+            data[1]
+        .on 'data', (data) ->
+            result += data
+        .on 'end', ->
+            result.should.eql '210'
+            next()
+        for i in [2..0]
+            test.write ['Test '+i, i, '"']
+        test.end()
+    it 'should accept a returned array with different types', (next) ->
         # Test date, int and float
         csv()
         .fromPath(__dirname+'/transform/types.in')
@@ -92,7 +105,46 @@ describe 'transform', ->
             expect = fs.readFileSync("#{__dirname}/transform/types.out").toString()
             result = fs.readFileSync("#{__dirname}/transform/types.tmp").toString()
             result.should.eql expect
-            fs.unlink("#{__dirname}/transform/types.tmp")
+            fs.unlink "#{__dirname}/transform/types.tmp", next
+
+    it 'should catch error thrown in transform callback', (next) ->
+        count = 0
+        error = false
+        test = csv()
+        .toPath( "#{__dirname}/write/write_array.tmp" )
+        .transform (data, index) ->
+            throw new Error "Error in data #{index}" if index is 10
+            data
+        .on 'error', (e) ->
+            error = true
+            e.message.should.equal 'Error in data 10'
+            next()
+        .on 'data', (data) ->
+            data[1].should.be.below 10
+        .on 'end', ->
+            false.should.be.ok
+            next()
+        for i in [0...1000]
+            test.write ['Test '+i, i, '"'] unless error
+    # it 'should catch error thrown in transform callback', (next) ->
+    #     console.log 'sart'
+    #     test = csv()
+    #     .toPath( "#{__dirname}/write/write_array.tmp" )
+    #     .transform (data, index) ->
+    #         console.log 'ok'
+    #         # throw new Error 'diable' # if index is 2
+    #         data
+    #     .on 'error', ->
+    #         console.log 'error'
+    #         next()
+    #     .on 'end', ->
+    #         # false.should.be.ok
+    #         next()
+    #     for i in [0...1000]
+    #         test.write ['Test '+i, i, '"']
+
+
+
 
 
 

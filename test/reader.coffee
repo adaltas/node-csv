@@ -10,8 +10,9 @@ describe 'reader', ->
         test = csv()
         .toPath( "#{__dirname}/write/write_array.tmp" )
         .on 'data', (data, index) ->
-            throw new Error 'Error in data' if index % 10 is 0
-        .on 'error', ->
+            throw new Error "Error in data #{index}" if index % 10 is 0
+        .on 'error', (e) ->
+            e.message.should.equal 'Error in data 0'
             next()
         .on 'end', ->
             false.should.be.ok
