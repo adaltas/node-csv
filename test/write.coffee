@@ -6,7 +6,7 @@ should = require 'should'
 csv = require '..'
 
 describe 'write', ->
-    it 'Test write array', ->
+    it 'Test write array', (next) ->
         count = 0;
         test = csv()
         .toPath( "#{__dirname}/write/write_array.tmp" )
@@ -19,11 +19,11 @@ describe 'write', ->
             expect = fs.readFileSync( "#{__dirname}/write/write.out" ).toString()
             result = fs.readFileSync( "#{__dirname}/write/write_array.tmp" ).toString()
             result.should.eql expect
-            fs.unlinkSync "#{__dirname}/write/write_array.tmp"
+            fs.unlink "#{__dirname}/write/write_array.tmp", next
         for i in [0...1000]
             test.write ["Test #{i}", i, '"']
         test.end()
-    it 'Test write object with column options', ->
+    it 'Test write object with column options', (next) ->
         count = 0
         test = csv()
         .toPath( "#{__dirname}/write/write_object.tmp", columns: ['name','value','escape'] )
@@ -37,11 +37,11 @@ describe 'write', ->
             expect = fs.readFileSync( "#{__dirname}/write/write.out").toString()
             result = fs.readFileSync( "#{__dirname}/write/write_object.tmp").toString()
             result.should.eql expect
-            fs.unlinkSync "#{__dirname}/write/write_object.tmp"
+            fs.unlink "#{__dirname}/write/write_object.tmp", next
         for i in [0...1000]
             test.write {name: "Test #{i}", value:i, escape: '"', ovni: "ET #{i}"}
         test.end()
-    it 'Test write string', ->
+    it 'Test write string', (next) ->
         count = 0
         test = csv()
         .toPath( "#{__dirname}/write/write_string.tmp" )
@@ -54,7 +54,7 @@ describe 'write', ->
             expect = fs.readFileSync("#{__dirname}/write/write.out").toString()
             result = fs.readFileSync("#{__dirname}/write/write_string.tmp").toString()
             result.should.eql expect
-            fs.unlinkSync "#{__dirname}/write/write_string.tmp"
+            fs.unlink "#{__dirname}/write/write_string.tmp", next
         buffer = ''
         for i in [0...1000]
             buffer += ''.concat "Test #{i}", ',', i, ',', '""""', "\r"
@@ -63,7 +63,7 @@ describe 'write', ->
                 buffer = buffer.substr 250
         test.write buffer
         test.end()
-    it 'Test write string with preserve', ->
+    it 'Test write string with preserve', (next) ->
         count = 0
         test = csv()
         .toPath( "#{__dirname}/write/string_preserve.tmp" )
@@ -80,7 +80,7 @@ describe 'write', ->
             expect = fs.readFileSync("#{__dirname}/write/string_preserve.out").toString()
             result = fs.readFileSync("#{__dirname}/write/string_preserve.tmp").toString()
             result.should.eql expect
-            fs.unlinkSync "#{__dirname}/write/string_preserve.tmp"
+            fs.unlink "#{__dirname}/write/string_preserve.tmp", next
         test.write '# This line should not be parsed', true
         test.write '\n', true
         buffer = ''
@@ -92,6 +92,19 @@ describe 'write', ->
         test.write buffer
         test.write '\n', true
         test.write '# This one as well', true
+        test.end()
+    it 'should transform data provided by write as an array', (next) ->
+        # Fix bug in which transform callback was called by flush and not write
+        count = 0
+        test = csv()
+        .toPath( "#{__dirname}/write/write_array.tmp" )
+        .transform (data, index) ->
+            count++
+        .on 'end', ->
+            count.should.eql 1000
+            next()
+        for i in [0...1000]
+            test.write ['Test '+i, i, '"']
         test.end()
 
 
