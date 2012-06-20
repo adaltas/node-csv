@@ -156,6 +156,11 @@ Options are:
 -   *end*    
     Prevent calling `end` on the destination, so that destination is no longer writable, similar to passing `{end: false}` option in `stream.pipe()`.
 
+-   *newColumns*
+    If the `columns` option is not specified (which means columns will be taken from the reader
+    options, will automatically append new columns if they are added during `transform()`.
+
+
 Transforming data
 -----------------
 
