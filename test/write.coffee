@@ -102,7 +102,7 @@ describe 'write', ->
             count++
         .on 'end', ->
             count.should.eql 1000
-            next()
+            fs.unlink "#{__dirname}/write/write_array.tmp", next
         for i in [0...1000]
             test.write ['Test '+i, i, '"']
         test.end()
