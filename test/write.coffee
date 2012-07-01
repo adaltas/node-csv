@@ -57,7 +57,7 @@ describe 'write', ->
             fs.unlink "#{__dirname}/write/write_string.tmp", next
         buffer = ''
         for i in [0...1000]
-            buffer += ''.concat "Test #{i}", ',', i, ',', '""""', "\r"
+            buffer += ''.concat "Test #{i}", ',', i, ',', '""""', "\n"
             if buffer.length > 250
                 test.write buffer.substr 0, 250
                 buffer = buffer.substr 250
