@@ -68,7 +68,7 @@ describe 'columns', ->
                 expect = fs.readFileSync("#{__dirname}/columns/out_no_transform.out").toString()
                 result = fs.readFileSync("#{__dirname}/columns/out_no_transform.tmp").toString()
                 result.should.eql expect
-                fs.unlink "#{__dirname}/columns/out_named.tmp"
+                fs.unlink "#{__dirname}/columns/out_no_transform.tmp"
                 next()
         it 'should filter from a transformed object', (next) ->
             # We are no returning an object
