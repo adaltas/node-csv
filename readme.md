@@ -72,13 +72,13 @@ Reading API
 
 The following method are available:
 
--   *fromPath*    
+-   *fromPath(data, options)*    
     Take a file path as first argument and optionally on object of options as a second arguments.
     
--   *fromStream*    
+-   *fromStream(readStream, options)*    
     Take a readable stream as first argument and optionally on object of options as a second arguments.
     
--   *from*    
+-   *from(data, options)*    
     Take a string, a buffer, an array or an object as first argument and optionally some options as a second arguments.
 
 Options are:
@@ -112,16 +112,16 @@ Writing API
 
 The following method are available:
 
--   *write*    
+-   *write(data, preserve)*    
     Take a string, an array or an object, implementation of the StreamWriter API.
 	
--   *end*    
+-   *end()*    
     Terminate the stream, implementation of the StreamWriter API.
     
--   *toPath*    
+-   *toPath(path, options)*    
     Take a file path as first argument and optionally on object of options as a second arguments.
     
--   *toStream*    
+-   *toStream(writeStream, options)*    
     Take a readable stream as first argument and optionally on object of options as a second arguments.
 
 Options are:
@@ -160,11 +160,13 @@ Options are:
     If the `columns` option is not specified (which means columns will be taken from the reader
     options, will automatically append new columns if they are added during `transform()`.
 
-
 Transforming data
 -----------------
 
-You may provide a callback to the `transform` method. The contract is quite simple, you receive an array of fields for each record and return the transformed record. The return value may be an array, an associative array, a string or null. If null, the record will simply be skipped.
+-   *transform(callback)*
+    User provided function call on each line to filter, enriche or modify the dataset. The callback is called asynchronously.
+
+The contract is quite simple, you receive an array of fields for each record and return the transformed record. The return value may be an array, an associative array, a string or null. If null, the record will simply be skipped.
 
 Unless you specify the `columns` read option, `data` are provided as arrays, otherwise they are objects with keys matching columns names.
 
