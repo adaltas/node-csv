@@ -1,5 +1,5 @@
 .*
-*.tmp
+#*.tmp
 /node_modules
 lib-cov
 sample/sample.out
