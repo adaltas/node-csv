@@ -106,6 +106,18 @@ describe 'write', ->
         for i in [0...1000]
             test.write ['Test '+i, i, '"']
         test.end()
+    it 'should emit header even without a source', (next) ->
+        test = csv()
+        .toPath( "#{__dirname}/write/write_sourceless.tmp", 
+            columns: [ 'col1', 'col2' ], 
+            header: true, 
+            lineBreaks: 'unix' )
+        .on 'end', ->
+            expect = fs.readFileSync("#{__dirname}/write/write_sourceless.out").toString()
+            result = fs.readFileSync("#{__dirname}/write/write_sourceless.tmp").toString()
+            result.should.eql expect
+            fs.unlink "#{__dirname}/write/write_sourceless.tmp", next
 
-
-
+        test.write col1: 'foo1', col2: 'goo1'
+        test.write col1: 'foo2', col2: 'goo2'
+        test.end()
