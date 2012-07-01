@@ -145,7 +145,7 @@ Options are:
     Display the column names on the first line if the columns option is provided.
 
 -   *lineBreaks*    
-    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; default to 'auto' (discovered in source).
+    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; default to 'auto' (discovered in source or 'windows' if no source is specified).
     
 -   *flags*    
     Default to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Apply when using the `toPath` method.
