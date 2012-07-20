@@ -8,12 +8,12 @@
 
 </pre>
 
-This project provide CSV parsing and has been tested and used on large source file (over 2Gb).
+This project provides CSV parsing and has been tested and used on a large source file (over 2Gb).
 
 -   Support delimiter, quote and escape characters
 -   Line breaks discovery: line breaks in source are detected and reported to destination
 -   Data transformation
--   Asynch and event based
+-   Async and event based
 -   Support for large datasets
 -   Complete test coverage as sample and inspiration
 
@@ -73,44 +73,44 @@ Reading API
 The following method are available:
 
 -   *fromPath(data, options)*    
-    Take a file path as first argument and optionally on object of options as a second arguments.
+    Take a file path as first argument and optionally on object of options as a second argument.
     
 -   *fromStream(readStream, options)*    
-    Take a readable stream as first argument and optionally on object of options as a second arguments.
+    Take a readable stream as first argument and optionally on object of options as a second argument.
     
 -   *from(data, options)*    
-    Take a string, a buffer, an array or an object as first argument and optionally some options as a second arguments.
+    Take a string, a buffer, an array or an object as first argument and optionally some options as a second argument.
 
 Options are:
 
 -   *delimiter*    
-    Set the field delimiter, one character only, default to comma.
+    Set the field delimiter, one character only, defaults to comma.
     
 -   *quote*    
-    Set the field delimiter, one character only, default to double quotes.
+    Set the field delimiter, one character only, defaults to double quotes.
     
 -   *escape*    
-    Set the field delimiter, one character only, default to double quotes.
+    Set the field delimiter, one character only, defaults to double quotes.
     
 -   *columns*    
-    List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns section below.
+    List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections below.
 	
 -   *encoding*    
-    Default to 'utf8', apply when a readable stream is created.
+    Defaults to 'utf8', applied when a readable stream is created.
 	
 -   *trim*    
-    If true, ignore whitespace immediately around the delimiter, default to false.
+    If true, ignore whitespace immediately around the delimiter, defaults to false.
 	
 -   *ltrim*    
-    If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), default to false.
+    If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
 	
 -   *rtrim*    
-    If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), default to false.
+    If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
 
 Writing API
 -----------
 
-The following method are available:
+The following methods are available:
 
 -   *write(data, preserve)*    
     Take a string, an array or an object, implementation of the StreamWriter API.
@@ -119,42 +119,42 @@ The following method are available:
     Terminate the stream, implementation of the StreamWriter API.
     
 -   *toPath(path, options)*    
-    Take a file path as first argument and optionally on object of options as a second arguments.
+    Take a file path as first argument and optionally on object of options as a second argument.
     
 -   *toStream(writeStream, options)*    
-    Take a readable stream as first argument and optionally on object of options as a second arguments.
+    Take a readable stream as first argument and optionally on object of options as a second argument.
 
 Options are:
 
 -   *delimiter*    
-    Default to the delimiter read option.
+    Defaults to the delimiter read option.
     
 -   *quote*    
-    Default to the quote read option.
+    Defaults to the quote read option.
     
 -   *quoted*    
     Boolean, default to false, quote all the fields even if not required.
     
 -   *escape*    
-    Default to the escape read option.
+    Defaults to the escape read option.
     
 -   *columns*    
-    List of fields, apply when `transform` return an object, order matters, see the transform and the columns sections below.
+    List of fields, applied when `transform` returns an object, order matters, see the transform and the columns sections below.
     
 -   *encoding*    
-    Default to 'utf8', apply when a writable stream is created.
+    Defaults to 'utf8', applied when a writable stream is created.
     
 -   *header*
     Display the column names on the first line if the columns option is provided.
 
 -   *lineBreaks*    
-    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; default to 'auto' (discovered in source or 'unix' if no source is specified).
+    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
     
 -   *flags*    
-    Default to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Apply when using the `toPath` method.
+    Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.
     
 -   *bufferSize*    
-    Internal buffer holding data before being flush into a stream. Apply when destination is a stream.
+    Internal buffer holding data before being flushed into a stream. Applied when destination is a stream.
     
 -   *end*    
     Prevent calling `end` on the destination, so that destination is no longer writable, similar to passing `{end: false}` option in `stream.pipe()`.
@@ -167,13 +167,13 @@ Transforming data
 -----------------
 
 -   *transform(callback)*
-    User provided function call on each line to filter, enriche or modify the dataset. The callback is called asynchronously.
+    User provided function call on each line to filter, enrich or modify the dataset. The callback is called asynchronously.
 
 The contract is quite simple, you receive an array of fields for each record and return the transformed record. The return value may be an array, an associative array, a string or null. If null, the record will simply be skipped.
 
 Unless you specify the `columns` read option, `data` are provided as arrays, otherwise they are objects with keys matching columns names.
 
-When the returned value is an array, the fields are merge in order. When the returned value is an object, it will search for the `columns` property in the write or in the read options and smartly order the values. If no `columns` options are found, it will merge the values in their order of appearance. When the returned value is a string, it is directly sent to the destination source and it is your responsibility to delimit, quote, escape or define line breaks.
+When the returned value is an array, the fields are merged in order. When the returned value is an object, it will search for the `columns` property in the write or in the read options and smartly order the values. If no `columns` options are found, it will merge the values in their order of appearance. When the returned value is a string, it is directly sent to the destination source and it is your responsibility to delimit, quote, escape or define line breaks.
 
 Example of transform returning a string
 
@@ -193,10 +193,10 @@ Example of transform returning a string
 Events
 ------
 
-By extending the Node `EventEmitter` class, the library provide a few useful events:
+By extending the Node `EventEmitter` class, the library provides a few useful events:
 
 -	*data* (function(data, index){})
-    Thrown when a new row is parsed after the `transform` callback and with the data being the value returned by `transform`. Note however that the event won't be call if transform return `null` since the record is skipped.
+    Thrown when a new row is parsed after the `transform` callback and with the data being the value returned by `transform`. Note however that the event won't be called if transform return `null` since the record is skipped.
 	The callback provide two arguments:
 	`data` is the CSV line being processed (by default as an array)
 	`index` is the index number of the line starting at zero
