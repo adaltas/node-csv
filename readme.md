@@ -132,6 +132,9 @@ Options are:
 -   *quote*    
     Default to the quote read option.
     
+-   *quoted*    
+    Boolean, default to false, quote all the fields even if not required.
+    
 -   *escape*    
     Default to the escape read option.
     
