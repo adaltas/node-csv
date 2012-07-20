@@ -15,7 +15,7 @@ describe 'quotes', ->
             result = fs.readFileSync("#{__dirname}/quotes/regular.tmp").toString()
             result.should.eql expect
             fs.unlink "#{__dirname}/quotes/regular.tmp"
-    it 'Test quotes with delimiter',  ->
+    it 'should read quoted values containing delimiters and write around quote only the value containing delimiters',  ->
         csv()
         .fromPath("#{__dirname}/quotes/delimiter.in")
         .toPath("#{__dirname}/quotes/delimiter.tmp")
@@ -44,23 +44,23 @@ describe 'quotes', ->
             result = fs.readFileSync("#{__dirname}/quotes/empty_value.tmp").toString()
             result.should.eql expect
             fs.unlink "#{__dirname}/quotes/empty_value.tmp"
-    it 'Test quoted quote',  ->
+    it 'should read values with quotes, escaped as double quotes, and write empty values as not quoted',  ->
         csv()
-        .fromPath "#{__dirname}/quotes/quoted.in",
+        .fromPath "#{__dirname}/quotes/contains_quotes.in",
             quote: '"',
             escape: '"',
-        .toPath("#{__dirname}/quotes/quoted.tmp")
+        .toPath("#{__dirname}/quotes/contains_quotes.tmp")
         .on 'data', (data,index) ->
             data.length.should.eql 5
             if index is 0
                 data[1].should.eql '"'
                 data[4].should.eql '"ok"'
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/quotes/quoted.out").toString()
-            result = fs.readFileSync("#{__dirname}/quotes/quoted.tmp").toString()
+            expect = fs.readFileSync("#{__dirname}/quotes/contains_quotes.out").toString()
+            result = fs.readFileSync("#{__dirname}/quotes/contains_quotes.tmp").toString()
             result.should.eql expect
-            fs.unlink "#{__dirname}/quotes/quoted.tmp"
-    it 'Test quoted linebreak',  ->
+            fs.unlink "#{__dirname}/quotes/contains_quotes.tmp"
+    it 'should accept line breaks inside quotes',  ->
         csv()
         .fromPath "#{__dirname}/quotes/linebreak.in",
             quote: '"',
@@ -109,3 +109,16 @@ describe 'quotes', ->
             e.message.should.match /Invalid closing quote/
             fs.unlink "#{__dirname}/quotes/invalidstring.tmp"
             next()
+    it 'should quotes all fields', (next) ->
+        csv()
+        .fromPath("#{__dirname}/quotes/quoted.in")
+        .toPath( "#{__dirname}/quotes/quoted.tmp", quoted: true )
+        .on 'end', ->
+            expect = fs.readFileSync("#{__dirname}/quotes/quoted.out").toString()
+            result = fs.readFileSync("#{__dirname}/quotes/quoted.tmp").toString()
+            result.should.eql expect
+            fs.unlink "#{__dirname}/quotes/quoted.tmp"
+            next()
+        .on 'error', (e) ->
+            false.should.be.ok
+
