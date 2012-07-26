@@ -112,14 +112,16 @@ describe 'transform', ->
         test = csv()
         .toPath( "#{__dirname}/write/write_array.tmp" )
         .transform (data, index) ->
-            throw new Error "Error in data #{index}" if index is 10
+            throw new Error "Error at index #{index}" if index % 10 is 9
             data
         .on 'error', (e) ->
             error = true
-            e.message.should.equal 'Error in data 10'
-            next()
+            e.message.should.equal 'Error at index 9'
+            # Test if readstream is destroyed on error
+            # Give it some time in case transform keep being called even after the error
+            setTimeout next, 100
         .on 'data', (data) ->
-            data[1].should.be.below 10
+            data[1].should.be.below 9
         .on 'end', ->
             false.should.be.ok
             next()
