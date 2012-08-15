@@ -4,7 +4,7 @@ should = require 'should'
 csv = require '..'
 
 describe 'reader', ->
-    it 'Test exception in on(data)"', (next) ->
+    it 'should call error event if exception is thrown in data event', (next) ->
         count = 0
         errors = 0
         test = csv()
