@@ -4,6 +4,35 @@ should = require 'should'
 csv = require '..'
 
 describe 'reader', ->
+
+    it 'should call data event when data is provided in from', (next) ->
+        csv().from('"1","2","3","4","5"')
+        .on 'data', (data) ->
+            data.length.should.eql 5
+        .on 'end', ->
+            next()
+
+    it 'should include empty last column', (next) ->
+        csv().from('"1","2","3","4","5",')
+        .on 'data', (data) ->
+            data.length.should.eql 6
+        .on 'end', ->
+            next()
+
+    it 'should include empty last column surrounded by quotes', (next) ->
+        csv().from('"1","2","3","4","5",""')
+        .on 'data', (data) ->
+            data.length.should.eql 6
+        .on 'end', ->
+            next()
+
+    it 'should include empty last column if followed by linebreak', (next) ->
+        csv().from('"1","2","3","4","5",""\n')
+        .on 'data', (data) ->
+            data.length.should.eql 6
+        .on 'end', ->
+            next()
+
     it 'should call error event if exception is thrown in data event', (next) ->
         count = 0
         errors = 0
