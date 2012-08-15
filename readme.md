@@ -1,16 +1,16 @@
 <pre>
- _   _           _        _____  _______      __ _____  
-| \ | |         | |      / ____|/ ____\ \    / /|  __ \  
-|  \| | ___   __| | ___ | |    | (___  \ \  / / | |__) |_ _ _ __ ___  ___ _ __ 
-| . ` |/ _ \ / _` |/ _ \| |     \___ \  \ \/ /  |  ___/ _` | '__/ __|/ _ \ '__|
-| |\  | (_) | (_| |  __/| |____ ____) |  \  /   | |  | (_| | |  \__ \  __/ |  
-|_| \_|\___/ \__,_|\___| \_____|_____/    \/    |_|   \__,_|_|  |___/\___|_|  
+     _   _           _        _____  _______      __
+    | \ | |         | |      / ____|/ ____\ \    / /
+    |  \| | ___   __| | ___ | |    | (___  \ \  / / 
+    | . ` |/ _ \ / _` |/ _ \| |     \___ \  \ \/ /  
+    | |\  | (_) | (_| |  __/| |____ ____) |  \  /   
+    |_| \_|\___/ \__,_|\___| \_____|_____/    \/     New BSD License
 
 </pre>
 
 This project provides CSV parsing and has been tested and used on a large source file (over 2Gb).
 
--   Support delimiter, quote and escape characters
+-   Support delimiters, quotes and escape characters
 -   Line breaks discovery: line breaks in source are detected and reported to destination
 -   Data transformation
 -   Async and event based
@@ -29,43 +29,49 @@ Using the library is a 4 steps process:
 
 Here is a example:
 
-	// node samples/sample.js
-	var csv = require('csv');
-	
-	csv()
-	.fromPath(__dirname+'/sample.in')
-	.toPath(__dirname+'/sample.out')
-	.transform(function(data){
-		data.unshift(data.pop());
-		return data;
-	})
-	.on('data',function(data,index){
-		console.log('#'+index+' '+JSON.stringify(data));
-	})
-	.on('end',function(count){
-		console.log('Number of lines: '+count);
-	})
-	.on('error',function(error){
-		console.log(error.message);
-	});
-	
-	// Print sth like:
-	// #0 ["2000-01-01","20322051544","1979.0","8.8017226E7","ABC","45"]
-	// #1 ["2050-11-27","28392898392","1974.0","8.8392926E7","DEF","23"]
-	// Number of lines: 2
+```javascript
+// node samples/sample.js
+var csv = require('csv');
+
+csv()
+.fromPath(__dirname+'/sample.in')
+.toPath(__dirname+'/sample.out')
+.transform(function(data){
+	data.unshift(data.pop());
+	return data;
+})
+.on('data',function(data,index){
+	console.log('#'+index+' '+JSON.stringify(data));
+})
+.on('end',function(count){
+	console.log('Number of lines: '+count);
+})
+.on('error',function(error){
+	console.log(error.message);
+});
+
+// Print sth like:
+// #0 ["2000-01-01","20322051544","1979.0","8.8017226E7","ABC","45"]
+// #1 ["2050-11-27","28392898392","1974.0","8.8392926E7","DEF","23"]
+// Number of lines: 2
+```
 
 Installing
 ----------
 
 Via git (or downloaded tarball):
 
-    $ git clone http://github.com/wdavidw/node-csv-parser.git
+```bash
+git clone http://github.com/wdavidw/node-csv-parser.git
+```
 
 Then, simply copy or link the ./lib/csv.js file into your $HOME/.node_libraries folder or inside a declared path folder.
 
 Via [npm](http://github.com/isaacs/npm):
 
-    $ npm install csv
+```bash
+npm install csv
+```
 
 Reading API
 -----------
@@ -177,18 +183,20 @@ When the returned value is an array, the fields are merged in order. When the re
 
 Example of transform returning a string
 
-	// node samples/transform.js
-	var csv = require('csv');
-	
-	csv()
-	.fromPath(__dirname+'/transform.in')
-	.toStream(process.stdout)
-	.transform(function(data,index){
-		return (index>0 ? ',' : '') + data[0] + ":" + data[2] + ' ' + data[1];
-	});
-	
-	// Print sth like:
-	// 82:Zbigniew Preisner,94:Serge Gainsbourg
+```javascript
+// node samples/transform.js
+var csv = require('csv');
+
+csv()
+.fromPath(__dirname+'/transform.in')
+.toStream(process.stdout)
+.transform(function(data,index){
+	return (index>0 ? ',' : '') + data[0] + ":" + data[2] + ' ' + data[1];
+});
+
+// Print sth like:
+// 82:Zbigniew Preisner,94:Serge Gainsbourg
+```
 
 Events
 ------
@@ -216,24 +224,26 @@ You can define a different order and even different columns in the read options 
 
 When working with fields, the `transform` method and the `data` events receive their `data` parameter as an object instead of an array where the keys are the field names.
 
-	// node samples/column.js
-	var csv = require('csv');
-	
-	csv()
-	.fromPath(__dirname+'/columns.in',{
-		columns: true
-	})
-	.toStream(process.stdout,{
-		columns: ['id', 'name']
-	})
-	.transform(function(data){
-		data.name = data.firstname + ' ' + data.lastname
-		return data;
-	});
-	
-	// Print sth like:
-	// 82,Zbigniew Preisner
-	// 94,Serge Gainsbourg
+```javascript
+// node samples/column.js
+var csv = require('csv');
+
+csv()
+.fromPath(__dirname+'/columns.in',{
+	columns: true
+})
+.toStream(process.stdout,{
+	columns: ['id', 'name']
+})
+.transform(function(data){
+	data.name = data.firstname + ' ' + data.lastname
+	return data;
+});
+
+// Print sth like:
+// 82,Zbigniew Preisner
+// 94,Serge Gainsbourg
+```
 
 Running the tests
 -----------------
@@ -241,7 +251,9 @@ Running the tests
 Tests are executed with expresso. To install it, simple use `npm install -g expresso`.
 
 To run the tests
-	expresso test
+```bash
+expresso test
+```
 
 Contributors
 ------------
