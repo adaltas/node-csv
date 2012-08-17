@@ -6,5 +6,14 @@ var arr = [
 ];
 
 csv()
-  .from(arr)
-  .toStream(process.stdout, {end: false});  //thows on csv.js line 150
+.from(arr)
+.toStream(process.stdout, {end: false});  //thows on csv.js line 150
+
+/*
+
+`node samples/sample-stdout.js`
+
+1,2,3,4,5
+2,4,6,8,10
+
+*/
