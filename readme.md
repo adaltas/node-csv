@@ -174,6 +174,12 @@ Contributors
 *	pascalopitz : <https://github.com/pascalopitz>
 *	Josh Pschorr : <https://github.com/jpschorr>
 *   Elad Ben-Israel: <https://github.com/eladb>
+*   Philippe Plantier: <https://github.com/phipla>
+*   Tim Oxley: <https://github.com/timoxley>
+*   Damon Oehlman: <https://github.com/DamonOehlman>
+*   Alexandru Topliceanu: <https://github.com/topliceanu>
+*   Visup: <https://github.com/visup>
+*   Edmund von der Burg: <https://github.com/evdb>
 
 Related projects
 ----------------
