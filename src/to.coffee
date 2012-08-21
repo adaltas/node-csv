@@ -1,8 +1,24 @@
 
 fs = require 'fs'
 utils = require './utils'
-    
+
+###
+
+Writing data to a source
+--------------------------
+
+The `to` property provide convenient functions to write some csv output.
+
+###
 module.exports = (csv) ->
+    ###
+
+    `stream(writeStream, [options])`: Write to a stream
+    ---------------------------------------------------
+
+    Take a readable stream as first argument and optionally on object of options as a second argument.
+    
+    ###
     stream: (writeStream, options) ->
         utils.merge csv.writeOptions, options if options
         switch csv.writeOptions.lineBreaks
@@ -24,6 +40,14 @@ module.exports = (csv) ->
         csv.state.buffer = new Buffer csv.writeOptions.bufferSize or csv.from.options().bufferSize
         csv.state.bufferPosition = 0
         csv
+    ###
+
+    `path(path, [options])`: Write to a path
+    ----------------------------------------
+
+    Take a file path as first argument and optionally on object of options as a second argument.
+    
+    ###
     path: (path, options) ->
         # Merge user provided options
         utils.merge csv.writeOptions,options if options
