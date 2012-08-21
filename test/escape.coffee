@@ -1,13 +1,16 @@
 
-# Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+###
+Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+###
 
+require 'coffee-script'
 fs = require 'fs'
 should = require 'should'
-csv = require '..'
+csv = require '../src/csv'
 
 describe 'escape', ->
     # Note: we only escape quote and escape character
-    it 'Test default', ->
+    it 'should honor the default double quote escape charactere', (next) ->
         csv()
         .from.path( "#{__dirname}/escape/default.in" , escape: '"' )
         .to.path( "#{__dirname}/escape/default.tmp" )
@@ -19,8 +22,8 @@ describe 'escape', ->
             result = fs.readFileSync( "#{__dirname}/escape/default.out" ).toString()
             expect = fs.readFileSync( "#{__dirname}/escape/default.tmp" ).toString()
             result.should.eql expect
-            fs.unlink "#{__dirname}/escape/default.tmp"
-    it 'Test backslash', ->
+            fs.unlink "#{__dirname}/escape/default.tmp", next
+    it 'should honor the backslash escape charactere', (next) ->
         csv()
         .from.path( "#{__dirname}/escape/backslash.in" , escape: '\\' )
         .to.path( "#{__dirname}/escape/backslash.tmp" )
@@ -33,4 +36,4 @@ describe 'escape', ->
             expect = fs.readFileSync( "#{__dirname}/escape/backslash.out" ).toString()
             result = fs.readFileSync( "#{__dirname}/escape/backslash.tmp" ).toString()
             result.should.eql expect
-            fs.unlink "#{__dirname}/escape/backslash.tmp" 
+            fs.unlink "#{__dirname}/escape/backslash.tmp", next

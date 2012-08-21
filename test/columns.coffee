@@ -1,9 +1,12 @@
 
-# Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+###
+Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+###
 
+require 'coffee-script'
 fs = require 'fs'
 should = require 'should'
-csv = require '..'
+csv = require '../src/csv'
 
 describe 'columns', ->
     describe 'in read option', ->

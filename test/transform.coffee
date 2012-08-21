@@ -1,9 +1,12 @@
 
-# Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+###
+Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+###
 
+require 'coffee-script'
 fs = require 'fs'
 should = require 'should'
-csv = require '..'
+csv = require '../src/csv'
 
 describe 'transform', ->
     it 'Test reorder fields', (next) ->
@@ -52,7 +55,7 @@ describe 'transform', ->
             result = fs.readFileSync("#{__dirname}/transform/null.tmp").toString()
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/null.tmp", next
-    it 'Test return object', (next) ->
+    it 'should recieve an array and return an object', (next) ->
         # we don't define columns
         # recieve and array and return an object
         # also see the columns test
@@ -68,14 +71,13 @@ describe 'transform', ->
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/object.tmp", next
         .on 'error', (e) ->
-            console.log e
             should.be.ok false
     it 'should accept a returned string', (next) ->
         csv()
         .from.path("#{__dirname}/transform/string.in")
         .to.path("#{__dirname}/transform/string.tmp")
         .transform (data, index) ->
-            ( if index > 0 then ',' else '') + data[4] + ":" + data[3]
+            ( if index > 0 then ',' else '' ) + data[4] + ":" + data[3]
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync("#{__dirname}/transform/string.out").toString()
