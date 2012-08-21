@@ -16,6 +16,7 @@ Module CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 ###
 
 stream = require 'stream'
+options = require './options'
 from = require './from'
 to = require './to'
 
@@ -36,20 +37,6 @@ module.exports = ->
     transforming = false
     
     CSV = () ->
-        # Set options
-        @writeOptions =
-            delimiter: null
-            quote: null
-            quoted: false
-            escape: null
-            columns: null
-            header: false
-            lineBreaks: null
-            flags: 'w'
-            encoding: 'utf8'
-            bufferSize: null
-            newColumns: false
-            end: true # Call `end()` on close
         # A boolean that is true by default, but turns false after an 'error' occurred, 
         # the stream came to an 'end', or destroy() was called. 
         @readable = true
@@ -57,6 +44,7 @@ module.exports = ->
         # or end() / destroy() was called. 
         @writable = true
         @state = state
+        @options = options()
         @from = from this
         @to = to this
         @
@@ -77,8 +65,8 @@ module.exports = ->
         else if Array.isArray(data) and not transforming
             state.line = data
             return transform()
-        if state.count is 0 and csv.writeOptions.header is true
-            write csv.writeOptions.columns or csv.from.options().columns
+        if state.count is 0 and csv.options.to.header is true
+            write csv.options.to.columns or csv.options.from.columns
         write data, preserve
         if not transforming and not preserve
             state.count++
@@ -88,8 +76,8 @@ module.exports = ->
         if state.quoted
             return error new Error 'Quoted field not terminated'
         # dump open record
-        if state.field or state.lastC is @from.options().delimiter or state.lastC is @from.options().quote
-            if csv.from.options().trim or csv.from.options().rtrim
+        if state.field or state.lastC is @options.from.delimiter or state.lastC is @options.from.quote
+            if csv.options.from.trim or csv.options.from.rtrim
                 state.field = state.field.trimRight()
             state.line.push(state.field)
             state.field = ''
@@ -98,7 +86,7 @@ module.exports = ->
         if csv.writeStream
             if state.bufferPosition isnt 0
                 csv.writeStream.write state.buffer.slice(0, state.bufferPosition)
-            if @writeOptions.end
+            if @options.to.end
                 csv.writeStream.end()
             else
                 csv.emit 'end', state.count
@@ -129,23 +117,23 @@ module.exports = ->
         while i < l
             c = chars.charAt(i)
             switch c
-                when csv.from.options().escape, csv.from.options().quote
+                when csv.options.from.escape, csv.options.from.quote
                     break if state.commented
                     isReallyEscaped = false
-                    if c is csv.from.options().escape
+                    if c is csv.options.from.escape
                         # Make sure the escape is really here for escaping:
                         # if escape is same as quote, and escape is first char of a field and it's not quoted, then it is a quote
                         # next char should be an escape or a quote
                         nextChar = chars.charAt(i + 1)
-                        escapeIsQuoted = csv.from.options().escape is csv.from.options().quote
-                        isEscaped = nextChar is csv.from.options().escape
-                        isQuoted = nextChar is csv.from.options().quote
+                        escapeIsQuoted = csv.options.from.escape is csv.options.from.quote
+                        isEscaped = nextChar is csv.options.from.escape
+                        isQuoted = nextChar is csv.options.from.quote
                         if not ( escapeIsQuoted and not state.field and not state.quoted ) and ( isEscaped or isQuoted )
                             i++
                             isReallyEscaped = true
                             c = chars.charAt(i)
                             state.field += c
-                    if not isReallyEscaped and c is csv.from.options().quote
+                    if not isReallyEscaped and c is csv.options.from.quote
                         if state.field and not state.quoted
                             # Treat quote as a regular character
                             state.field += c
@@ -153,17 +141,17 @@ module.exports = ->
                         if state.quoted
                             # Make sure a closing quote is followed by a delimiter
                             nextChar = chars.charAt i + 1
-                            if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt csv.from.options().delimiter
-                                return error new Error 'Invalid closing quote; found "' + nextChar + '" instead of delimiter "' + csv.from.options().delimiter + '"'
+                            if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt csv.options.from.delimiter
+                                return error new Error 'Invalid closing quote; found "' + nextChar + '" instead of delimiter "' + csv.options.from.delimiter + '"'
                             state.quoted = false
                         else if state.field is ''
                             state.quoted = true
-                when csv.from.options().delimiter
+                when csv.options.from.delimiter
                     break if state.commented
                     if state.quoted
                         state.field += c
                     else
-                        if csv.from.options().trim or csv.from.options().rtrim
+                        if csv.options.from.trim or csv.options.from.rtrim
                             state.field = state.field.trimRight()
                         state.line.push state.field
                         state.field = ''
@@ -172,18 +160,18 @@ module.exports = ->
                     if state.quoted
                         state.field += c
                         break
-                    if not csv.from.options().quoted and state.lastC is '\r'
+                    if not csv.options.from.quoted and state.lastC is '\r'
                         break
-                    if csv.writeOptions.lineBreaks is null
+                    if csv.options.to.lineBreaks is null
                         # Auto-discovery of linebreaks
-                        csv.writeOptions.lineBreaks = c + ( if c is '\r' and chars.charAt(i+1) is '\n' then '\n' else '' )
-                    if csv.from.options().trim or csv.from.options().rtrim
+                        csv.options.to.lineBreaks = c + ( if c is '\r' and chars.charAt(i+1) is '\n' then '\n' else '' )
+                    if csv.options.from.trim or csv.options.from.rtrim
                         state.field = state.field.trimRight()
                     state.line.push state.field
                     state.field = ''
                     transform()
                 when ' ', '\t'
-                    if state.quoted or (not csv.from.options().trim and not csv.from.options().ltrim ) or state.field
+                    if state.quoted or (not csv.options.from.trim and not csv.options.from.ltrim ) or state.field
                         state.field += c
                         break
                 else
@@ -198,11 +186,11 @@ module.exports = ->
     ###
     transform = ->
         line = null
-        columns = csv.from.options().columns
+        columns = csv.options.from.columns
         if columns
             # Extract column names from the first line
             if state.count is 0 and columns is true
-                csv.from.options().columns = columns = state.line
+                csv.options.from.columns = columns = state.line
                 state.line = []
                 state.lastC = ''
                 return
@@ -220,15 +208,15 @@ module.exports = ->
             catch e
                 return error e
             isObject = typeof line is 'object' and not Array.isArray line
-            if csv.writeOptions.newColumns and not csv.writeOptions.columns and isObject
+            if csv.options.to.newColumns and not csv.options.to.columns and isObject
                 Object.keys(line)
                 .filter( (column) -> columns.indexOf(column) is -1 )
                 .forEach( (column) -> columns.push(column) )
             transforming = false
         else
             line = state.line
-        if state.count is 0 and csv.writeOptions.header is true
-            write csv.writeOptions.columns or columns
+        if state.count is 0 and csv.options.to.header is true
+            write csv.options.to.columns or columns
         write line
         state.count++
         state.line = []
@@ -249,7 +237,7 @@ module.exports = ->
                 return error e
         if typeof line is 'object'
             unless Array.isArray line
-                columns = csv.writeOptions.columns or csv.from.options().columns
+                columns = csv.options.to.columns or csv.options.from.columns
                 _line = []
                 if columns
                     for i in [0...columns.length]
@@ -260,12 +248,12 @@ module.exports = ->
                         _line.push line[column]
                 line = _line
                 _line = null
-            else if csv.writeOptions.columns
+            else if csv.options.to.columns
                 # We are getting an array but the user want specified output columns. In
                 # this case, we respect the columns indexes
-                line.splice csv.writeOptions.columns.length
+                line.splice csv.options.to.columns.length
             if Array.isArray line
-                newLine = if state.countWriten then csv.writeOptions.lineBreaks or "\n" else ''
+                newLine = if state.countWriten then csv.options.to.lineBreaks or "\n" else ''
                 for i in [0...line.length]
                     field = line[i]
                     if typeof field is 'string'
@@ -280,26 +268,26 @@ module.exports = ->
                         # Cast date to timestamp string
                         field = '' + field.getTime()
                     if field
-                        containsdelimiter = field.indexOf(csv.writeOptions.delimiter or csv.from.options().delimiter) >= 0
-                        containsQuote = field.indexOf(csv.writeOptions.quote or csv.from.options().quote) >= 0
+                        containsdelimiter = field.indexOf(csv.options.to.delimiter or csv.options.from.delimiter) >= 0
+                        containsQuote = field.indexOf(csv.options.to.quote or csv.options.from.quote) >= 0
                         containsLinebreak = field.indexOf("\r") >= 0 or field.indexOf("\n") >= 0
                         if containsQuote
-                            regexp = new RegExp(csv.writeOptions.quote or csv.from.options().quote,'g')
-                            field = field.replace(regexp, (csv.writeOptions.escape or csv.from.options().escape) + (csv.writeOptions.quote or csv.from.options().quote))
-                        if containsQuote or containsdelimiter or containsLinebreak or csv.writeOptions.quoted
-                            field = (csv.writeOptions.quote or csv.from.options().quote) + field + (csv.writeOptions.quote or csv.from.options().quote)
+                            regexp = new RegExp(csv.options.to.quote or csv.options.from.quote,'g')
+                            field = field.replace(regexp, (csv.options.to.escape or csv.options.from.escape) + (csv.options.to.quote or csv.options.from.quote))
+                        if containsQuote or containsdelimiter or containsLinebreak or csv.options.to.quoted
+                            field = (csv.options.to.quote or csv.options.from.quote) + field + (csv.options.to.quote or csv.options.from.quote)
                         newLine += field
                     if i isnt line.length - 1
-                        newLine += csv.writeOptions.delimiter or csv.from.options().delimiter
+                        newLine += csv.options.to.delimiter or csv.options.from.delimiter
                 line = newLine
         else if typeof line is 'number'
             line = ''+line
         if state.buffer
-            if state.bufferPosition + Buffer.byteLength(line, csv.writeOptions.encoding) > csv.from.options().bufferSize
+            if state.bufferPosition + Buffer.byteLength(line, csv.options.to.encoding) > csv.options.from.bufferSize
                 csv.writeStream.write(state.buffer.slice(0, state.bufferPosition))
-                state.buffer = new Buffer(csv.from.options().bufferSize)
+                state.buffer = new Buffer(csv.options.from.bufferSize)
                 state.bufferPosition = 0
-            state.bufferPosition += state.buffer.write(line, state.bufferPosition, csv.writeOptions.encoding)
+            state.bufferPosition += state.buffer.write(line, state.bufferPosition, csv.options.to.encoding)
         state.countWriten++ unless preserve
         true
 
