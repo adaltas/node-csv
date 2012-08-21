@@ -8,6 +8,8 @@
 
 </pre>
 
+Important, this readme cover the future, and not yet release, version 0.2 of the node csv parser. The documentation for the current version 0.1.0 is available [here][0.1].
+
 This project provides CSV parsing and has been tested and used on a large source file (over 2Gb).
 
 -   Support delimiters, quotes and escape characters
@@ -59,18 +61,16 @@ csv()
 Installing
 ----------
 
-Via git (or downloaded tarball):
-
-```bash
-git clone http://github.com/wdavidw/node-csv-parser.git
-```
-
-Then, simply copy or link the ./lib/csv.js file into your $HOME/.node_libraries folder or inside a declared path folder.
-
 Via [npm](http://github.com/isaacs/npm):
 
 ```bash
 npm install csv
+```
+
+Via git (or downloaded tarball):
+
+```bash
+git clone http://github.com/wdavidw/node-csv-parser.git
 ```
 
 Transforming data
@@ -181,3 +181,4 @@ Related projects
 *   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
 *   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
 
+[0.1]: https://github.com/wdavidw/node-csv-parser/tree/v0.1
