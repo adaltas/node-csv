@@ -1,12 +1,15 @@
 
-# Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+###
+Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+###
 
+require 'coffee-script'
 fs = require 'fs'
 should = require 'should'
-csv = require '..'
+csv = require '../src/csv'
 
 describe 'delimiter', ->
-    it 'Test empty value', ->
+    it 'Test empty value', (next) ->
         csv()
         .from.path( "#{__dirname}/delimiter/empty_value.in" )
         .to.path( "#{__dirname}/delimiter/empty_value.tmp" )
@@ -25,8 +28,8 @@ describe 'delimiter', ->
             expect = fs.readFileSync( "#{__dirname}/delimiter/empty_value.out" ).toString()
             result = fs.readFileSync( "#{__dirname}/delimiter/empty_value.tmp" ).toString()
             result.should.eql expect
-            fs.unlink "#{__dirname}/delimiter/empty_value.tmp"
-    it 'Test tabs to comma', ->
+            fs.unlink "#{__dirname}/delimiter/empty_value.tmp", next
+    it 'Test tabs to comma', (next) ->
         csv()
         .from.path( "#{__dirname}/delimiter/tab_to_coma.in", delimiter: '\t' )
         .to.path( "#{__dirname}/delimiter/tab_to_coma.tmp", delimiter: ',' )
@@ -45,5 +48,5 @@ describe 'delimiter', ->
             expect = fs.readFileSync( "#{__dirname}/delimiter/tab_to_coma.out" ).toString()
             result = fs.readFileSync( "#{__dirname}/delimiter/tab_to_coma.tmp" ).toString()
             result.should.eql expect
-            fs.unlink "#{__dirname}/delimiter/tab_to_coma.tmp"
+            fs.unlink "#{__dirname}/delimiter/tab_to_coma.tmp", next
 
