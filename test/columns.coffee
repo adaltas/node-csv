@@ -10,8 +10,8 @@ describe 'columns', ->
         it 'Test columns in true', (next) ->
             # Note: if true, columns are expected to be in first line
             csv()
-            .fromPath( "#{__dirname}/columns/in_true.in", columns: true )
-            .toPath( "#{__dirname}/columns/in_true.tmp" )
+            .from.path( "#{__dirname}/columns/in_true.in", columns: true )
+            .to.path( "#{__dirname}/columns/in_true.tmp" )
             .transform (data, index) ->
                 data.should.be.a 'object'
                 data.should.not.be.an.instanceof Array
@@ -30,10 +30,10 @@ describe 'columns', ->
         it 'Test columns in named', (next) ->
             # Note: if true, columns are expected to be in first line
             csv()
-            .fromPath("#{__dirname}/columns/in_named.in", {
+            .from.path("#{__dirname}/columns/in_named.in", {
                 columns: ["FIELD_1", "FIELD_2", "FIELD_3", "FIELD_4", "FIELD_5", "FIELD_6"]
             })
-            .toPath("#{__dirname}/columns/in_named.tmp")
+            .to.path("#{__dirname}/columns/in_named.tmp")
             .transform (data, index) ->
                 data.should.be.a 'object'
                 data.should.not.be.an.instanceof Array
@@ -57,8 +57,8 @@ describe 'columns', ->
             # Since there is not columns set in input options, we just expect
             # the output stream to contains 2 fields
             csv()
-            .fromPath("#{__dirname}/columns/out_no_transform.in")
-            .toPath("#{__dirname}/columns/out_no_transform.tmp",
+            .from.path("#{__dirname}/columns/out_no_transform.in")
+            .to.path("#{__dirname}/columns/out_no_transform.tmp",
                 columns: ["FIELD_1", "FIELD_2"]
             )
             .on 'data', (data, index) ->
@@ -73,8 +73,8 @@ describe 'columns', ->
         it 'should filter from a transformed object', (next) ->
             # We are no returning an object
             csv()
-            .fromPath("#{__dirname}/columns/out_named.in")
-            .toPath("#{__dirname}/columns/out_named.tmp",
+            .from.path("#{__dirname}/columns/out_named.in")
+            .to.path("#{__dirname}/columns/out_named.tmp",
                 columns: ["FIELD_1", "FIELD_2"]
             )
             .transform (data, index) ->
@@ -92,8 +92,8 @@ describe 'columns', ->
                 next()
         it 'should emit new columns in output', (next) ->
             csv()
-            .fromPath("#{__dirname}/columns/out_new.in", columns: true)
-            .toPath("#{__dirname}/columns/out_new.tmp", newColumns: true, header: true)
+            .from.path("#{__dirname}/columns/out_new.in", columns: true)
+            .to.path("#{__dirname}/columns/out_new.tmp", newColumns: true, header: true)
             .transform (data) ->
                 data.should.be.an.a 'object'
                 data.FIELD_7 = 'new_field'

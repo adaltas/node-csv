@@ -8,8 +8,8 @@ csv = require '..'
 describe 'delimiter', ->
     it 'Test empty value', ->
         csv()
-        .fromPath( "#{__dirname}/delimiter/empty_value.in" )
-        .toPath( "#{__dirname}/delimiter/empty_value.tmp" )
+        .from.path( "#{__dirname}/delimiter/empty_value.in" )
+        .to.path( "#{__dirname}/delimiter/empty_value.tmp" )
         .transform (data, index) ->
             data.length.should.eql 5
             if index is 0
@@ -28,8 +28,8 @@ describe 'delimiter', ->
             fs.unlink "#{__dirname}/delimiter/empty_value.tmp"
     it 'Test tabs to comma', ->
         csv()
-        .fromPath( "#{__dirname}/delimiter/tab_to_coma.in", delimiter: '\t' )
-        .toPath( "#{__dirname}/delimiter/tab_to_coma.tmp", delimiter: ',' )
+        .from.path( "#{__dirname}/delimiter/tab_to_coma.in", delimiter: '\t' )
+        .to.path( "#{__dirname}/delimiter/tab_to_coma.tmp", delimiter: ',' )
         .transform (data,index) ->
             data.length.should.eql 5
             if index is 0

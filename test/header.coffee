@@ -8,8 +8,8 @@ csv = require '..'
 describe 'header', ->
         it 'should print headers with defined write columns', (next) ->
             csv()
-            .fromPath("#{__dirname}/header/defwcols.in")
-            .toPath("#{__dirname}/header/defwcols.tmp",
+            .from.path("#{__dirname}/header/defwcols.in")
+            .to.path("#{__dirname}/header/defwcols.tmp",
                 header: true
                 columns: ["FIELD_1", "FIELD_2"]
             )
@@ -22,10 +22,10 @@ describe 'header', ->
                 next()
         it 'should print headers with true read columns and defined write columns', (next) ->
             csv()
-            .fromPath("#{__dirname}/header/truercols_defwcols.in",
+            .from.path("#{__dirname}/header/truercols_defwcols.in",
                 columns: true
             )
-            .toPath("#{__dirname}/header/truercols_defwcols.tmp",
+            .to.path("#{__dirname}/header/truercols_defwcols.tmp",
                 header: true
                 columns: ["FIELD_1", "FIELD_2"]
             )
