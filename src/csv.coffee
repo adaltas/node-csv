@@ -49,14 +49,18 @@ module.exports = ->
         @to = to this
         @
     CSV.prototype.__proto__ = stream.prototype
-    
-    # Writting API
-    
     ###
-    Write data.
-    Data may be string in which case it could span multiple lines. If data 
+
+    `write(data, [preserve])`: Write data
+    -------------------------------------
+
+    Implementation of the StreamWriter API with a larger signature. Data
+    may be a string, a buffer, an array or an object.
+
+    If data is a string or a buffer, it could span multiple lines. If data 
     is an object or an array, it must represent a single line.
     Preserve is for line which are not considered as CSV data.
+
     ###
     CSV.prototype.write = (data, preserve) ->
         return unless @writable
@@ -70,7 +74,16 @@ module.exports = ->
         write data, preserve
         if not transforming and not preserve
             state.count++
-    
+    ###
+
+    `end()`: Terminate the parsing
+    -------------------------------
+
+    Call this method when no more csv data is to be parsed. It 
+    implement the StreamWriter API by setting the `writable` 
+    property to "false" and emitting the `end` event.
+
+    ###
     CSV.prototype.end = ->
         return unless @writable
         if state.quoted
@@ -94,9 +107,15 @@ module.exports = ->
         else
             csv.emit 'end', state.count
             csv.readable = false
+    ###
+
+    `transform(callback)`: Register the transformer callback
+    --------------------------------------------------------
+
+    User provided function call on each line to filter, enrich or modify 
+    the dataset. The callback is called asynchronously.
     
-    # Transform API
-    
+    ###
     CSV.prototype.transform = (callback) ->
         @transformer = callback
         return @
