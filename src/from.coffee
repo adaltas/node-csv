@@ -11,44 +11,35 @@ The `from` property provide convenient functions to read some csv input.
 
 ###
 module.exports = (csv) ->
-    options =
-        delimiter: ','
-        quote: '"'
-        escape: '"'
-        columns: null
-        flags: 'r'
-        encoding: 'utf8'
-        bufferSize: 8 * 1024 * 1024
-        trim: false
-        ltrim: false
-        rtrim: false
     ###
 
-    `options([options])`: Set or get options
-    ----------------------------------------
+    `from.options([options])`: Set or get options
+    ---------------------------------------------
 
-    Options are:
+    Options are:  
 
-    -   `delimiter`     Set the field delimiter, one character only, defaults to comma.
-    -   `quote`         Set the field delimiter, one character only, defaults to double quotes.
-    -   `escape`        Set the field delimiter, one character only, defaults to double quotes.
-    -   `columns`       List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections below.
-    -   `encoding`      Defaults to 'utf8', applied when a readable stream is created.
-    -   `trim`          If true, ignore whitespace immediately around the delimiter, defaults to false.
-    -   `ltrim`         If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
-    -   `rtrim`         If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
+    *   `delimiter`     Set the field delimiter, one character only, defaults to comma.
+    *   `quote`         Set the field delimiter, one character only, defaults to double quotes.
+    *   `escape`        Set the field delimiter, one character only, defaults to double quotes.
+    *   `columns`       List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections below.
+    *   `flags`         
+    *   `encoding`      Defaults to 'utf8', applied when a readable stream is created.
+    *   `bufferSize`    
+    *   `trim`          If true, ignore whitespace immediately around the delimiter, defaults to false.
+    *   `ltrim`         If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
+    *   `rtrim`         If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
     
     ###
-    options: ->
-        if arguments.length
-            utils.merge options, arguments[0]
+    options: (options) ->
+        if options?
+            utils.merge csv.options.from, options
             csv
         else
-            options
+            csv.options.from
     ###
 
-    `array:(data, [options])`: Read from an array
-    ---------------------------------------------
+    `from.array:(data, [options])`: Read from an array
+    --------------------------------------------------
     
     Take an array as first argument and optionally some options 
     as a second argument. Each element of the array represents 
@@ -65,8 +56,8 @@ module.exports = (csv) ->
         csv
     ###
     
-    `string:(data, [options])`: Read from a string or a buffer
-    ----------------------------------------------------------
+    `from.string:(data, [options])`: Read from a string or a buffer
+    ---------------------------------------------------------------
     
     Take a string as first argument and optionally an object 
     of options as a second argument. The string must be the 
@@ -84,8 +75,8 @@ module.exports = (csv) ->
         csv
     ###
     
-    `path(path, [options])`: Read from a file path
-    ----------------------------------------------
+    `from.path(path, [options])`: Read from a file path
+    ---------------------------------------------------
     
     Take a file path as first argument and optionally an object 
     of options as a second argument.
@@ -98,8 +89,8 @@ module.exports = (csv) ->
         csv.from.stream stream, null
     ###
     
-    `stream(readStream, [options])`: Read from a stream
-    ---------------------------------------------------
+    `from.stream(readStream, [options])`: Read from a stream
+    --------------------------------------------------------
     
     Take a readable stream as first argument and optionally 
     an object of options as a second argument.
