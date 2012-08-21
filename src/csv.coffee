@@ -22,10 +22,6 @@ from = require './from'
 to = require './to'
 
 module.exports = ->
-
-    # Are we currently inside the transform callback? If so,
-    # we shouldn't increment `state.count` which count provided lines
-    transforming = false
     
     CSV = () ->
         # A boolean that is true by default, but turns false after an 'error' occurred, 
@@ -57,13 +53,13 @@ module.exports = ->
         return unless @writable
         if typeof data is 'string' and not preserve
             return parse data
-        else if Array.isArray(data) and not transforming
+        else if Array.isArray(data) and not @state.transforming
             @state.line = data
             return transform()
         if @state.count is 0 and csv.options.to.header is true
             write csv.options.to.columns or csv.options.from.columns
         write data, preserve
-        if not transforming and not preserve
+        if not @state.transforming and not preserve
             @state.count++
     ###
 
@@ -212,7 +208,7 @@ module.exports = ->
             csv.state.line = line
             line = null
         if csv.transformer
-            transforming = true
+            csv.state.transforming = true
             try
                 line = csv.transformer csv.state.line, csv.state.count
             catch e
@@ -222,7 +218,7 @@ module.exports = ->
                 Object.keys(line)
                 .filter( (column) -> columns.indexOf(column) is -1 )
                 .forEach( (column) -> columns.push(column) )
-            transforming = false
+            csv.state.transforming = false
         else
             line = csv.state.line
         if csv.state.count is 0 and csv.options.to.header is true
