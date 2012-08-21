@@ -8,8 +8,8 @@ csv = require '..'
 describe 'quotes', ->
     it 'Test regular quotes',  ->
         csv()
-        .fromPath( "#{__dirname}/quotes/regular.in" )
-        .toPath( "#{__dirname}/quotes/regular.tmp" )
+        .from.path( "#{__dirname}/quotes/regular.in" )
+        .to.path( "#{__dirname}/quotes/regular.tmp" )
         .on 'end', ->
             expect = fs.readFileSync("#{__dirname}/quotes/regular.out").toString()
             result = fs.readFileSync("#{__dirname}/quotes/regular.tmp").toString()
@@ -17,8 +17,8 @@ describe 'quotes', ->
             fs.unlink "#{__dirname}/quotes/regular.tmp"
     it 'should read quoted values containing delimiters and write around quote only the value containing delimiters',  ->
         csv()
-        .fromPath("#{__dirname}/quotes/delimiter.in")
-        .toPath("#{__dirname}/quotes/delimiter.tmp")
+        .from.path("#{__dirname}/quotes/delimiter.in")
+        .to.path("#{__dirname}/quotes/delimiter.tmp")
         .on 'end', ->
             expect = fs.readFileSync("#{__dirname}/quotes/delimiter.out").toString()
             result = fs.readFileSync("#{__dirname}/quotes/delimiter.tmp").toString()
@@ -26,8 +26,8 @@ describe 'quotes', ->
             fs.unlink "#{__dirname}/quotes/delimiter.tmp"
     it 'Test quotes inside field',  ->
         csv()
-        .fromPath( "#{__dirname}/quotes/in_field.in" )
-        .toPath( "#{__dirname}/quotes/in_field.tmp" )
+        .from.path( "#{__dirname}/quotes/in_field.in" )
+        .to.path( "#{__dirname}/quotes/in_field.tmp" )
         .on 'end', ->
             expect = fs.readFileSync("#{__dirname}/quotes/in_field.out").toString()
             result = fs.readFileSync("#{__dirname}/quotes/in_field.tmp").toString()
@@ -35,10 +35,10 @@ describe 'quotes', ->
             fs.unlink "#{__dirname}/quotes/in_field.tmp"
     it 'Test empty value',  ->
         csv()
-        .fromPath "#{__dirname}/quotes/empty_value.in",
+        .from.path "#{__dirname}/quotes/empty_value.in",
             quote: '"'
             escape: '"'
-        .toPath("#{__dirname}/quotes/empty_value.tmp")
+        .to.path("#{__dirname}/quotes/empty_value.tmp")
         .on 'end', ->
             expect = fs.readFileSync("#{__dirname}/quotes/empty_value.out").toString()
             result = fs.readFileSync("#{__dirname}/quotes/empty_value.tmp").toString()
@@ -46,10 +46,10 @@ describe 'quotes', ->
             fs.unlink "#{__dirname}/quotes/empty_value.tmp"
     it 'should read values with quotes, escaped as double quotes, and write empty values as not quoted',  ->
         csv()
-        .fromPath "#{__dirname}/quotes/contains_quotes.in",
+        .from.path "#{__dirname}/quotes/contains_quotes.in",
             quote: '"',
             escape: '"',
-        .toPath("#{__dirname}/quotes/contains_quotes.tmp")
+        .to.path("#{__dirname}/quotes/contains_quotes.tmp")
         .on 'data', (data,index) ->
             data.length.should.eql 5
             if index is 0
@@ -62,10 +62,10 @@ describe 'quotes', ->
             fs.unlink "#{__dirname}/quotes/contains_quotes.tmp"
     it 'should accept line breaks inside quotes',  ->
         csv()
-        .fromPath "#{__dirname}/quotes/linebreak.in",
+        .from.path "#{__dirname}/quotes/linebreak.in",
             quote: '"',
             escape: '"'
-        .toPath("#{__dirname}/quotes/linebreak.tmp")
+        .to.path("#{__dirname}/quotes/linebreak.tmp")
         .on 'data', (data,index) ->
             data.length.should.eql 5
         .on 'end', ->
@@ -75,10 +75,10 @@ describe 'quotes', ->
             fs.unlink "#{__dirname}/quotes/linebreak.tmp"
     it 'Test unclosed quote', (next) ->
         csv()
-        .fromPath "#{__dirname}/quotes/unclosed.in",
+        .from.path "#{__dirname}/quotes/unclosed.in",
             quote: '"'
             escape: '"'
-        .toPath( "#{__dirname}/quotes/unclosed.tmp" )
+        .to.path( "#{__dirname}/quotes/unclosed.tmp" )
         .on 'end', -> 
             false.should.be.ok
         .on 'error', (e) ->
@@ -87,10 +87,10 @@ describe 'quotes', ->
             next()
     it 'Test invalid quotes', (next) ->
         csv()
-        .fromPath "#{__dirname}/quotes/invalid.in",
+        .from.path "#{__dirname}/quotes/invalid.in",
             quote: '"',
             escape: '"'
-        .toPath( "#{__dirname}/quotes/invalid.tmp" )
+        .to.path( "#{__dirname}/quotes/invalid.tmp" )
         .on 'end', ->
             false.should.be.ok
         .on 'error', (e) ->
@@ -99,10 +99,10 @@ describe 'quotes', ->
             next()
     it 'Test invalid quotes from string', (next) ->
         csv()
-        .from '"",1974,8.8392926E7,""t,""',
+        .from.string '"",1974,8.8392926E7,""t,""',
             quote: '"'
             escape: '"'
-        .toPath( "#{__dirname}/quotes/invalidstring.tmp" )
+        .to.path( "#{__dirname}/quotes/invalidstring.tmp" )
         .on 'end', ->
             false.should.be.ok
         .on 'error', (e) ->
@@ -111,8 +111,8 @@ describe 'quotes', ->
             next()
     it 'should quotes all fields', (next) ->
         csv()
-        .fromPath("#{__dirname}/quotes/quoted.in")
-        .toPath( "#{__dirname}/quotes/quoted.tmp", quoted: true )
+        .from.path("#{__dirname}/quotes/quoted.in")
+        .to.path( "#{__dirname}/quotes/quoted.tmp", quoted: true )
         .on 'end', ->
             expect = fs.readFileSync("#{__dirname}/quotes/quoted.out").toString()
             result = fs.readFileSync("#{__dirname}/quotes/quoted.tmp").toString()

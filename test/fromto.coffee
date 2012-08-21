@@ -8,8 +8,8 @@ csv = require '..'
 describe 'fromto', ->
     it 'Test fs stream', (next) ->
         csv()
-        .fromStream(fs.createReadStream "#{__dirname}/fromto/sample.in", flags: 'r' )
-        .toStream(fs.createWriteStream "#{__dirname}/fromto/sample.tmp", flags: 'w' )
+        .from.stream(fs.createReadStream "#{__dirname}/fromto/sample.in", flags: 'r' )
+        .to.stream(fs.createWriteStream "#{__dirname}/fromto/sample.tmp", flags: 'w' )
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync( "#{__dirname}/fromto/sample.out" ).toString()
@@ -18,7 +18,7 @@ describe 'fromto', ->
             fs.unlink "#{__dirname}/fromto/sample.tmp", next
     it 'Test string without destination', (next) ->
         csv()
-        .from(fs.readFileSync( "#{__dirname}/fromto/sample.in" ).toString())
+        .from.string(fs.readFileSync( "#{__dirname}/fromto/sample.in" ).toString())
         .on 'data', (data, index) ->
             index.should.be.below 2
             if index is 0
@@ -30,8 +30,8 @@ describe 'fromto', ->
             next()
     it 'Test string to stream', (next) ->
         csv()
-        .from(fs.readFileSync( "#{__dirname}/fromto/string_to_stream.in" ).toString())
-        .toPath( "#{__dirname}/fromto/string_to_stream.tmp" )
+        .from.string(fs.readFileSync( "#{__dirname}/fromto/string_to_stream.in" ).toString())
+        .to.path( "#{__dirname}/fromto/string_to_stream.tmp" )
         .on 'data', (data, index) ->
             index.should.be.below 2
             if index is 0
@@ -51,8 +51,8 @@ describe 'fromto', ->
             ["28392898392","1974.0","8.8392926E7","DEF","23","2050-11-27"]
         ]
         csv()
-        .from(data)
-        .toPath( "#{__dirname}/fromto/array_to_stream.tmp" )
+        .from.array(data)
+        .to.path( "#{__dirname}/fromto/array_to_stream.tmp" )
         .on 'data', (data, index) ->
             index.should.be.below 2
             if index is 0
@@ -72,13 +72,13 @@ describe 'fromto', ->
             ["28392898392","1974.0","8.8392926E7","DEF","23",null]
         ]
         csv()
-        .from(data)
+        .from.array(data)
         .transform( (data) ->
             data[0] = null
             data[3] = null
             data
         )
-        .toPath( "#{__dirname}/fromto/null.tmp" )
+        .to.path( "#{__dirname}/fromto/null.tmp" )
         .on 'data', (data, index) ->
             index.should.be.below 2
             should.not.exist data[0]

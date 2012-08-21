@@ -9,8 +9,8 @@ describe 'transform', ->
     it 'Test reorder fields', (next) ->
         count = 0
         csv()
-        .fromPath("#{__dirname}/transform/reorder.in")
-        .toPath("#{__dirname}/transform/reorder.tmp")
+        .from.path("#{__dirname}/transform/reorder.in")
+        .to.path("#{__dirname}/transform/reorder.tmp")
         .transform (data, index) ->
             count.should.eql index
             count++
@@ -25,8 +25,8 @@ describe 'transform', ->
     it 'should skip all lines where transform return undefined', (next) ->
         count = 0
         csv()
-        .fromPath("#{__dirname}/transform/undefined.in")
-        .toPath("#{__dirname}/transform/undefined.tmp")
+        .from.path("#{__dirname}/transform/undefined.in")
+        .to.path("#{__dirname}/transform/undefined.tmp")
         .transform (data, index) ->
             count.should.eql index
             count++
@@ -40,8 +40,8 @@ describe 'transform', ->
     it 'should skip all lines where transform return null', (next) ->
         count = 0
         csv()
-        .fromPath("#{__dirname}/transform/null.in")
-        .toPath("#{__dirname}/transform/null.tmp")
+        .from.path("#{__dirname}/transform/null.in")
+        .to.path("#{__dirname}/transform/null.tmp")
         .transform (data, index) ->
             count.should.eql index
             count++
@@ -57,8 +57,8 @@ describe 'transform', ->
         # recieve and array and return an object
         # also see the columns test
         csv()
-        .fromPath("#{__dirname}/transform/object.in")
-        .toPath("#{__dirname}/transform/object.tmp")
+        .from.path("#{__dirname}/transform/object.in")
+        .to.path("#{__dirname}/transform/object.tmp")
         .transform (data, index) ->
             { field_1: data[4], field_2: data[3] }
         .on 'end', (count) ->
@@ -67,10 +67,13 @@ describe 'transform', ->
             result = fs.readFileSync("#{__dirname}/transform/object.tmp").toString()
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/object.tmp", next
+        .on 'error', (e) ->
+            console.log e
+            should.be.ok false
     it 'should accept a returned string', (next) ->
         csv()
-        .fromPath("#{__dirname}/transform/string.in")
-        .toPath("#{__dirname}/transform/string.tmp")
+        .from.path("#{__dirname}/transform/string.in")
+        .to.path("#{__dirname}/transform/string.tmp")
         .transform (data, index) ->
             ( if index > 0 then ',' else '') + data[4] + ":" + data[3]
         .on 'end', (count) ->
@@ -95,8 +98,8 @@ describe 'transform', ->
     it 'should accept a returned array with different types', (next) ->
         # Test date, int and float
         csv()
-        .fromPath("#{__dirname}/transform/types.in")
-        .toPath("#{__dirname}/transform/types.tmp")
+        .from.path("#{__dirname}/transform/types.in")
+        .to.path("#{__dirname}/transform/types.tmp")
         .transform (data, index) ->
             data[3] = data[3].split('-')
             [parseInt(data[0]), parseFloat(data[1]), parseFloat(data[2]) ,Date.UTC(data[3][0], data[3][1], data[3][2]), !!data[4], !!data[5]]
@@ -110,7 +113,7 @@ describe 'transform', ->
         count = 0
         error = false
         test = csv()
-        .toPath( "#{__dirname}/write/write_array.tmp" )
+        .to.path( "#{__dirname}/write/write_array.tmp" )
         .transform (data, index) ->
             throw new Error "Error at index #{index}" if index % 10 is 9
             data

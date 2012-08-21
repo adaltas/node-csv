@@ -11,8 +11,8 @@ csv = require '..'
 describe 'trim', ->
     it 'should ignore the whitespaces immediately following the delimiter', ->
         csv()
-        .fromPath( "#{__dirname}/trim/ltrim.in", ltrim: true )
-        .toPath( "#{__dirname}/trim/ltrim.tmp" )
+        .from.path( "#{__dirname}/trim/ltrim.in", ltrim: true )
+        .to.path( "#{__dirname}/trim/ltrim.tmp" )
         .transform( (data, index) -> data )
         .on 'end', (count) ->
             count.should.eql 3
@@ -22,8 +22,8 @@ describe 'trim', ->
             fs.unlink "#{__dirname}/trim/ltrim.tmp"
     it 'should ignore the whitespaces immediately preceding the delimiter', ->
         csv()
-        .fromPath( "#{__dirname}/trim/rtrim.in", rtrim: true )
-        .toPath( "#{__dirname}/trim/rtrim.tmp" )
+        .from.path( "#{__dirname}/trim/rtrim.in", rtrim: true )
+        .to.path( "#{__dirname}/trim/rtrim.tmp" )
         .transform( (data, index) -> data )
         .on 'end', (count) ->
             count.should.eql 3
@@ -33,8 +33,8 @@ describe 'trim', ->
             fs.unlink "#{__dirname}/trim/rtrim.tmp"
     it 'should ignore the whitespaces immediately preceding and following the delimiter', ->
         csv()
-        .fromPath( "#{__dirname}/trim/trim.in", trim: true )
-        .toPath( "#{__dirname}/trim/trim.tmp" )
+        .from.path( "#{__dirname}/trim/trim.in", trim: true )
+        .to.path( "#{__dirname}/trim/trim.tmp" )
         .transform( (data, index) -> data )
         .on 'end', (count) ->
             count.should.eql 3
@@ -44,8 +44,8 @@ describe 'trim', ->
             fs.unlink "#{__dirname}/trim/trim.tmp"
     it 'should preserve surrounding whitespaces', ->
         csv()
-        .fromPath( "#{__dirname}/trim/notrim.in" )
-        .toPath( "#{__dirname}/trim/notrim.tmp" )
+        .from.path( "#{__dirname}/trim/notrim.in" )
+        .to.path( "#{__dirname}/trim/notrim.tmp" )
         .transform( (data, index) -> data )
         .on 'end', (count) ->
             count.should.eql 3

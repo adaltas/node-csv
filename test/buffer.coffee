@@ -8,10 +8,10 @@ csv = require '..'
 describe 'buffer', ->
     it 'Buffer smaller than in', ->
         csv()
-        .fromPath("#{__dirname}/buffer/smaller.in",
+        .from.path("#{__dirname}/buffer/smaller.in",
             bufferSize: 1024
         )
-        .toPath("#{__dirname}/buffer/smaller.tmp")
+        .to.path("#{__dirname}/buffer/smaller.tmp")
         .transform (data) ->
             data.should.be.a 'object'
             data
@@ -23,10 +23,10 @@ describe 'buffer', ->
         )
     it 'Buffer same as in', ->
         csv()
-        .fromPath("#{__dirname}/buffer/same.in",
+        .from.path("#{__dirname}/buffer/same.in",
             bufferSize: 1024
         )
-        .toPath("#{__dirname}/buffer/same.tmp")
+        .to.path("#{__dirname}/buffer/same.tmp")
         .transform (data) ->
             data.should.be.a 'object'
             data

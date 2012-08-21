@@ -8,8 +8,8 @@ csv = require '..'
 describe 'lineBreaks', ->
     it 'Test line breaks custom', ->
         csv()
-        .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in" )
-        .toPath( "#{__dirname}/lineBreaks/custom.tmp", lineBreaks: '::' )
+        .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
+        .to.path( "#{__dirname}/lineBreaks/custom.tmp", lineBreaks: '::' )
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync( "#{__dirname}/lineBreaks/custom.out").toString()
@@ -18,8 +18,8 @@ describe 'lineBreaks', ->
             fs.unlink "#{__dirname}/lineBreaks/custom.tmp"
     it 'Test line breaks unix', ->
         csv()
-        .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in" )
-        .toPath( "#{__dirname}/lineBreaks/unix.tmp", lineBreaks: "unix")
+        .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
+        .to.path( "#{__dirname}/lineBreaks/unix.tmp", lineBreaks: "unix")
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync( "#{__dirname}/lineBreaks/unix.out" ).toString()
@@ -28,8 +28,8 @@ describe 'lineBreaks', ->
             fs.unlink "#{__dirname}/lineBreaks/unix.tmp"
     it 'Test line breaks unicode', ->
         csv()
-        .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in")
-        .toPath( "#{__dirname}/lineBreaks/unicode.tmp", lineBreaks: 'unicode')
+        .from.path( "#{__dirname}/lineBreaks/lineBreaks.in")
+        .to.path( "#{__dirname}/lineBreaks/unicode.tmp", lineBreaks: 'unicode')
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync( "#{__dirname}/lineBreaks/unicode.out" ).toString()
@@ -38,8 +38,8 @@ describe 'lineBreaks', ->
             fs.unlink "#{__dirname}/lineBreaks/unicode.tmp"
     it 'Test line breaks mac', ->
         csv()
-        .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in" )
-        .toPath( "#{__dirname}/lineBreaks/mac.tmp", lineBreaks: 'mac' )
+        .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
+        .to.path( "#{__dirname}/lineBreaks/mac.tmp", lineBreaks: 'mac' )
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync( "#{__dirname}/lineBreaks/mac.out" ).toString()
@@ -48,8 +48,8 @@ describe 'lineBreaks', ->
             fs.unlink "#{__dirname}/lineBreaks/mac.tmp"
     it 'Test line breaks windows', ->
         csv()
-        .fromPath( "#{__dirname}/lineBreaks/lineBreaks.in" )
-        .toPath( "#{__dirname}/lineBreaks/windows.tmp", lineBreaks: 'windows' )
+        .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
+        .to.path( "#{__dirname}/lineBreaks/windows.tmp", lineBreaks: 'windows' )
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync( "#{__dirname}/lineBreaks/windows.out" ).toString()

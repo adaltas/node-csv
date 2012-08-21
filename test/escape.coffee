@@ -9,8 +9,8 @@ describe 'escape', ->
     # Note: we only escape quote and escape character
     it 'Test default', ->
         csv()
-        .fromPath( "#{__dirname}/escape/default.in" , escape: '"' )
-        .toPath( "#{__dirname}/escape/default.tmp" )
+        .from.path( "#{__dirname}/escape/default.in" , escape: '"' )
+        .to.path( "#{__dirname}/escape/default.tmp" )
         .on 'data', (data, index) ->
             if index is 0
                 data[1].should.eql '19"79.0'
@@ -22,8 +22,8 @@ describe 'escape', ->
             fs.unlink "#{__dirname}/escape/default.tmp"
     it 'Test backslash', ->
         csv()
-        .fromPath( "#{__dirname}/escape/backslash.in" , escape: '\\' )
-        .toPath( "#{__dirname}/escape/backslash.tmp" )
+        .from.path( "#{__dirname}/escape/backslash.in" , escape: '\\' )
+        .to.path( "#{__dirname}/escape/backslash.tmp" )
         .on 'data', (data, index) ->
             if index is 0
                 data[1].should.eql '19"79.0'

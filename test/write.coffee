@@ -9,7 +9,7 @@ describe 'write', ->
     it 'Test write array', (next) ->
         count = 0;
         test = csv()
-        .toPath( "#{__dirname}/write/write_array.tmp" )
+        .to.path( "#{__dirname}/write/write_array.tmp" )
         .on 'data', (data, index) ->
             data.should.be.an.instanceof Array
             count.should.eql index
@@ -26,7 +26,7 @@ describe 'write', ->
     it 'Test write object with column options', (next) ->
         count = 0
         test = csv()
-        .toPath( "#{__dirname}/write/write_object.tmp", columns: ['name','value','escape'] )
+        .to.path( "#{__dirname}/write/write_object.tmp", columns: ['name','value','escape'] )
         .on 'data', (data, index) ->
             data.should.be.a 'object'
             data.should.not.be.an.instanceof Array
@@ -44,7 +44,7 @@ describe 'write', ->
     it 'Test write string', (next) ->
         count = 0
         test = csv()
-        .toPath( "#{__dirname}/write/write_string.tmp" )
+        .to.path( "#{__dirname}/write/write_string.tmp" )
         .on 'data', (data, index) ->
             data.should.be.an.instanceof Array
             count.should.eql index
@@ -66,7 +66,7 @@ describe 'write', ->
     it 'Test write string with preserve', (next) ->
         count = 0
         test = csv()
-        .toPath( "#{__dirname}/write/string_preserve.tmp" )
+        .to.path( "#{__dirname}/write/string_preserve.tmp" )
         .transform (data, index) ->
             if index is 0
                 test.write '--------------------\n', true
@@ -97,7 +97,7 @@ describe 'write', ->
         # Fix bug in which transform callback was called by flush and not write
         count = 0
         test = csv()
-        .toPath( "#{__dirname}/write/write_array.tmp" )
+        .to.path( "#{__dirname}/write/write_array.tmp" )
         .transform (data, index) ->
             count++
         .on 'end', ->
@@ -108,7 +108,7 @@ describe 'write', ->
         test.end()
     it 'should emit header even without a source', (next) ->
         test = csv()
-        .toPath( "#{__dirname}/write/write_sourceless.tmp", 
+        .to.path( "#{__dirname}/write/write_sourceless.tmp", 
             columns: [ 'col1', 'col2' ], 
             header: true, 
             lineBreaks: 'unix' )
