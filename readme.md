@@ -73,107 +73,8 @@ Via [npm](http://github.com/isaacs/npm):
 npm install csv
 ```
 
-Reading API
------------
-
-The following method are available:
-
--   *fromPath(data, options)*    
-    Take a file path as first argument and optionally on object of options as a second argument.
-    
--   *fromStream(readStream, options)*    
-    Take a readable stream as first argument and optionally on object of options as a second argument.
-    
--   *from(data, options)*    
-    Take a string, a buffer, an array or an object as first argument and optionally some options as a second argument.
-
-Options are:
-
--   *delimiter*    
-    Set the field delimiter, one character only, defaults to comma.
-    
--   *quote*    
-    Set the field delimiter, one character only, defaults to double quotes.
-    
--   *escape*    
-    Set the field delimiter, one character only, defaults to double quotes.
-    
--   *columns*    
-    List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections below.
-	
--   *encoding*    
-    Defaults to 'utf8', applied when a readable stream is created.
-	
--   *trim*    
-    If true, ignore whitespace immediately around the delimiter, defaults to false.
-	
--   *ltrim*    
-    If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
-	
--   *rtrim*    
-    If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
-
-Writing API
------------
-
-The following methods are available:
-
--   *write(data, preserve)*    
-    Take a string, an array or an object, implementation of the StreamWriter API.
-	
--   *end()*    
-    Terminate the stream, implementation of the StreamWriter API.
-    
--   *toPath(path, options)*    
-    Take a file path as first argument and optionally on object of options as a second argument.
-    
--   *toStream(writeStream, options)*    
-    Take a readable stream as first argument and optionally on object of options as a second argument.
-
-Options are:
-
--   *delimiter*    
-    Defaults to the delimiter read option.
-    
--   *quote*    
-    Defaults to the quote read option.
-    
--   *quoted*    
-    Boolean, default to false, quote all the fields even if not required.
-    
--   *escape*    
-    Defaults to the escape read option.
-    
--   *columns*    
-    List of fields, applied when `transform` returns an object, order matters, see the transform and the columns sections below.
-    
--   *encoding*    
-    Defaults to 'utf8', applied when a writable stream is created.
-    
--   *header*
-    Display the column names on the first line if the columns option is provided.
-
--   *lineBreaks*    
-    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
-    
--   *flags*    
-    Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.
-    
--   *bufferSize*    
-    Internal buffer holding data before being flushed into a stream. Applied when destination is a stream.
-    
--   *end*    
-    Prevent calling `end` on the destination, so that destination is no longer writable, similar to passing `{end: false}` option in `stream.pipe()`.
-
--   *newColumns*
-    If the `columns` option is not specified (which means columns will be taken from the reader
-    options, will automatically append new columns if they are added during `transform()`.
-
 Transforming data
 -----------------
-
--   *transform(callback)*
-    User provided function call on each line to filter, enrich or modify the dataset. The callback is called asynchronously.
 
 The contract is quite simple, you receive an array of fields for each record and return the transformed record. The return value may be an array, an associative array, a string or null. If null, the record will simply be skipped.
 
@@ -188,9 +89,9 @@ Example of transform returning a string
 var csv = require('csv');
 
 csv()
-.fromPath(__dirname+'/transform.in')
-.toStream(process.stdout)
-.transform(function(data,index){
+.from.path(__dirname+'/transform.in')
+.to.stream(process.stdout)
+.transform(function(data, index){
 	return (index>0 ? ',' : '') + data[0] + ":" + data[2] + ' ' + data[1];
 });
 
@@ -229,10 +130,10 @@ When working with fields, the `transform` method and the `data` events receive t
 var csv = require('csv');
 
 csv()
-.fromPath(__dirname+'/columns.in',{
+.from.path(__dirname+'/columns.in', {
 	columns: true
 })
-.toStream(process.stdout,{
+.to.stream(process.stdout, {
 	columns: ['id', 'name']
 })
 .transform(function(data){
@@ -245,14 +146,22 @@ csv()
 // 94,Serge Gainsbourg
 ```
 
-Running the tests
------------------
+Development
+-----------
 
-Tests are executed with expresso. To install it, simple use `npm install -g expresso`.
+Tests are executed with mocha. To install it, simple run `npm install`, it will install
+mocha and its dependencies in your project "node_modules" directory.
 
-To run the tests
+To run the tests:
 ```bash
-expresso test
+npm test
+```
+
+The tests run against the CoffeeScript source files.
+
+To generate the JavaScript files:
+```bash
+make build
 ```
 
 Contributors
