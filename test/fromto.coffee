@@ -9,6 +9,7 @@ should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'fromto', ->
+    
     it 'Test fs stream', (next) ->
         csv()
         .from.stream(fs.createReadStream "#{__dirname}/fromto/sample.in", flags: 'r' )
@@ -19,6 +20,7 @@ describe 'fromto', ->
             result = fs.readFileSync "#{__dirname}/fromto/sample.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/fromto/sample.tmp", next
+    
     it 'Test string without destination', (next) ->
         csv()
         .from.string(fs.readFileSync( "#{__dirname}/fromto/sample.in" ).toString())
@@ -31,6 +33,7 @@ describe 'fromto', ->
         .on 'end', (count) ->
             count.should.eql 2
             next()
+    
     it 'Test string to stream', (next) ->
         csv()
         .from.string(fs.readFileSync( "#{__dirname}/fromto/string_to_stream.in" ).toString())
@@ -47,6 +50,7 @@ describe 'fromto', ->
             result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/fromto/string_to_stream.tmp", next
+    
     it 'Test array to stream', (next) ->
         # note: destination line breaks is unix styled because we can't guess it
         record = [
@@ -68,6 +72,7 @@ describe 'fromto', ->
             result = fs.readFileSync "#{__dirname}/fromto/array_to_stream.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/fromto/array_to_stream.tmp", next
+    
     it 'should encode null as empty string', (next) ->
         # note: destination line breaks is unix styled because we can't guess it
         record = [

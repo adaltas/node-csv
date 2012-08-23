@@ -9,6 +9,7 @@ should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'escape', ->
+
     # Note: we only escape quote and escape character
     it 'should honor the default double quote escape charactere', (next) ->
         csv()
@@ -23,6 +24,7 @@ describe 'escape', ->
             expect = fs.readFileSync "#{__dirname}/escape/default.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/escape/default.tmp", next
+
     it 'should honor the backslash escape charactere', (next) ->
         csv()
         .from.path("#{__dirname}/escape/backslash.in", escape: '\\')

@@ -9,6 +9,7 @@ should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'delimiter', ->
+    
     it 'Test empty value', (next) ->
         csv()
         .from.path( "#{__dirname}/delimiter/empty_value.in" )
@@ -29,6 +30,7 @@ describe 'delimiter', ->
             result = fs.readFileSync "#{__dirname}/delimiter/empty_value.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/delimiter/empty_value.tmp", next
+    
     it 'Test tabs to comma', (next) ->
         csv()
         .from.path( "#{__dirname}/delimiter/tab_to_coma.in", delimiter: '\t' )

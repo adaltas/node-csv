@@ -9,6 +9,7 @@ should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'lineBreaks', ->
+    
     it 'Test line breaks custom', (next) ->
         csv()
         .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
@@ -19,6 +20,7 @@ describe 'lineBreaks', ->
             result = fs.readFileSync "#{__dirname}/lineBreaks/custom.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/custom.tmp", next
+    
     it 'Test line breaks unix', (next) ->
         csv()
         .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
@@ -29,6 +31,7 @@ describe 'lineBreaks', ->
             result = fs.readFileSync "#{__dirname}/lineBreaks/unix.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/unix.tmp", next
+    
     it 'Test line breaks unicode', (next) ->
         csv()
         .from.path( "#{__dirname}/lineBreaks/lineBreaks.in")
@@ -39,6 +42,7 @@ describe 'lineBreaks', ->
             result = fs.readFileSync "#{__dirname}/lineBreaks/unicode.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/unicode.tmp", next
+    
     it 'Test line breaks mac', (next) ->
         csv()
         .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
@@ -49,6 +53,7 @@ describe 'lineBreaks', ->
             result = fs.readFileSync "#{__dirname}/lineBreaks/mac.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/mac.tmp", next
+    
     it 'Test line breaks windows', (next) ->
         csv()
         .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )

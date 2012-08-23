@@ -9,6 +9,7 @@ should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'buffer', ->
+    
     it 'Buffer smaller than in', (next) ->
         csv()
         .from.path "#{__dirname}/buffer/smaller.in",
@@ -22,6 +23,7 @@ describe 'buffer', ->
             result = fs.readFileSync "#{__dirname}/buffer/smaller.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/buffer/smaller.tmp", next
+    
     it 'Buffer same as in', (next) ->
         csv()
         .from.path "#{__dirname}/buffer/same.in",
