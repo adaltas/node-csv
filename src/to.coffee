@@ -49,7 +49,7 @@ module.exports = (csv) ->
     
     ###
     stream: (writeStream, options) ->
-        this.options options
+        @options options
         switch csv.options.to.lineBreaks
             when 'auto'
                 csv.options.to.lineBreaks = null
@@ -79,7 +79,7 @@ module.exports = (csv) ->
     ###
     path: (path, options) ->
         # Merge user provided options
-        this.options options
+        @options options
         # Clone options
         options = utils.merge {}, csv.options.to
         # Delete end property which otherwise overwrite `WriteStream.end()`

@@ -48,7 +48,7 @@ module.exports = (csv) ->
 
     ###
     array: (data, options) ->
-        this.options options
+        @options options
         process.nextTick ->
             for i in [0...data.length]
                 csv.write data[i]
@@ -65,7 +65,7 @@ module.exports = (csv) ->
     
     ###
     string: (data, options) ->
-        this.options options
+        @options options
         process.nextTick ->
             # A string is handle exactly the same way as a single `write` call 
             # which is then closed. This is because the `write` function may receive
@@ -83,7 +83,7 @@ module.exports = (csv) ->
     
     ###
     path: (path, options) ->
-        this.options options
+        @options options
         stream = fs.createReadStream path, csv.from.options()
         stream.setEncoding csv.from.options().encoding
         csv.from.stream stream, null
@@ -97,7 +97,7 @@ module.exports = (csv) ->
     
     ###
     stream: (readStream, options) ->
-        this.options options
+        @options options
         readStream.on 'data', (data) ->
             csv.write data.toString()
         readStream.on 'error', (e) ->

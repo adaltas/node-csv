@@ -22,8 +22,8 @@ from = require './from'
 to = require './to'
 
 module.exports = ->
-    
-    CSV = () ->
+
+    CSV = ->
         # A boolean that is true by default, but turns false after an 'error' occurred, 
         # the stream came to an 'end', or destroy() was called. 
         @readable = true
@@ -32,8 +32,8 @@ module.exports = ->
         @writable = true
         @state = state()
         @options = options()
-        @from = from this
-        @to = to this
+        @from = from @
+        @to = to @
         @
     CSV.prototype.__proto__ = stream.prototype
     ###
@@ -56,8 +56,8 @@ module.exports = ->
         else if Array.isArray(data) and not @state.transforming
             @state.line = data
             return transform()
-        if @state.count is 0 and csv.options.to.header is true
-            write csv.options.to.columns or csv.options.from.columns
+        if @state.count is 0 and @options.to.header is true
+            write @options.to.columns or @options.from.columns
         write data, preserve
         if not @state.transforming and not preserve
             @state.count++
@@ -77,23 +77,23 @@ module.exports = ->
             return error new Error 'Quoted field not terminated'
         # dump open record
         if @state.field or @state.lastC is @options.from.delimiter or @state.lastC is @options.from.quote
-            if csv.options.from.trim or csv.options.from.rtrim
+            if @options.from.trim or @options.from.rtrim
                 @state.field = @state.field.trimRight()
             @state.line.push @state.field
             @state.field = ''
         if @state.line.length > 0
             transform()
-        if csv.writeStream
+        if @writeStream
             if @state.bufferPosition isnt 0
-                csv.writeStream.write @state.buffer.slice 0, @state.bufferPosition
+                @writeStream.write @state.buffer.slice 0, @state.bufferPosition
             if @options.to.end
-                csv.writeStream.end()
+                @writeStream.end()
             else
-                csv.emit 'end', @state.count
-                csv.readable = false
+                @emit 'end', @state.count
+                @readable = false
         else
-            csv.emit 'end', @state.count
-            csv.readable = false
+            @emit 'end', @state.count
+            @readable = false
     ###
 
     `transform(callback)`: Register the transformer callback
@@ -101,7 +101,7 @@ module.exports = ->
 
     User provided function call on each line to filter, enrich or modify 
     the dataset. The callback is called asynchronously.
-    
+
     ###
     CSV.prototype.transform = (callback) ->
         @transformer = callback
