@@ -242,7 +242,7 @@ module.exports = ->
             return
         if not preserve
             try
-                csv.emit 'data', line, csv.state.count
+                csv.emit 'record', line, csv.state.count
             catch e
                 return error e
         line = stringify line, csv

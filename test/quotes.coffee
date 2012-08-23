@@ -53,11 +53,11 @@ describe 'quotes', ->
             quote: '"',
             escape: '"',
         .to.path("#{__dirname}/quotes/contains_quotes.tmp")
-        .on 'data', (data,index) ->
-            data.length.should.eql 5
+        .on 'record', (record,index) ->
+            record.length.should.eql 5
             if index is 0
-                data[1].should.eql '"'
-                data[4].should.eql '"ok"'
+                record[1].should.eql '"'
+                record[4].should.eql '"ok"'
         .on 'end', ->
             expect = fs.readFileSync "#{__dirname}/quotes/contains_quotes.out"
             result = fs.readFileSync "#{__dirname}/quotes/contains_quotes.tmp"
@@ -69,8 +69,8 @@ describe 'quotes', ->
             quote: '"',
             escape: '"'
         .to.path("#{__dirname}/quotes/linebreak.tmp")
-        .on 'data', (data,index) ->
-            data.length.should.eql 5
+        .on 'record', (record,index) ->
+            record.length.should.eql 5
         .on 'end', ->
             expect = fs.readFileSync "#{__dirname}/quotes/linebreak.out"
             result = fs.readFileSync "#{__dirname}/quotes/linebreak.tmp"

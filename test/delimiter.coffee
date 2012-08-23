@@ -13,16 +13,16 @@ describe 'delimiter', ->
         csv()
         .from.path( "#{__dirname}/delimiter/empty_value.in" )
         .to.path( "#{__dirname}/delimiter/empty_value.tmp" )
-        .transform (data, index) ->
-            data.length.should.eql 5
+        .transform (record, index) ->
+            record.length.should.eql 5
             if index is 0
-                data[1].should.eql ''
-                data[4].should.eql ''
+                record[1].should.eql ''
+                record[4].should.eql ''
             else if index is 1
-                data[0].should.eql ''
-                data[3].should.eql ''
-                data[4].should.eql ''
-            data
+                record[0].should.eql ''
+                record[3].should.eql ''
+                record[4].should.eql ''
+            record
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync "#{__dirname}/delimiter/empty_value.out"
@@ -33,16 +33,16 @@ describe 'delimiter', ->
         csv()
         .from.path( "#{__dirname}/delimiter/tab_to_coma.in", delimiter: '\t' )
         .to.path( "#{__dirname}/delimiter/tab_to_coma.tmp", delimiter: ',' )
-        .transform (data,index) ->
-            data.length.should.eql 5
+        .transform (record, index) ->
+            record.length.should.eql 5
             if index is 0
-                data[1].should.eql ''
-                data[4].should.eql ''
+                record[1].should.eql ''
+                record[4].should.eql ''
             else if index is 1
-                data[0].should.eql ''
-                data[3].should.eql ''
-                data[4].should.eql ''
-            data
+                record[0].should.eql ''
+                record[3].should.eql ''
+                record[4].should.eql ''
+            record
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync "#{__dirname}/delimiter/tab_to_coma.out"

@@ -14,7 +14,7 @@ describe 'trim', ->
         csv()
         .from.path( "#{__dirname}/trim/ltrim.in", ltrim: true )
         .to.path( "#{__dirname}/trim/ltrim.tmp" )
-        .transform( (data, index) -> data )
+        .transform( (record, index) -> record )
         .on 'end', (count) ->
             count.should.eql 3
             expect = fs.readFileSync "#{__dirname}/trim/ltrim.out"
@@ -25,7 +25,7 @@ describe 'trim', ->
         csv()
         .from.path( "#{__dirname}/trim/rtrim.in", rtrim: true )
         .to.path( "#{__dirname}/trim/rtrim.tmp" )
-        .transform( (data, index) -> data )
+        .transform( (record, index) -> record )
         .on 'end', (count) ->
             count.should.eql 3
             expect = fs.readFileSync "#{__dirname}/trim/rtrim.out"
@@ -36,7 +36,7 @@ describe 'trim', ->
         csv()
         .from.path( "#{__dirname}/trim/trim.in", trim: true )
         .to.path( "#{__dirname}/trim/trim.tmp" )
-        .transform( (data, index) -> data )
+        .transform( (record, index) -> record )
         .on 'end', (count) ->
             count.should.eql 3
             expect = fs.readFileSync "#{__dirname}/trim/trim.out"
@@ -47,7 +47,7 @@ describe 'trim', ->
         csv()
         .from.path( "#{__dirname}/trim/notrim.in" )
         .to.path( "#{__dirname}/trim/notrim.tmp" )
-        .transform( (data, index) -> data )
+        .transform( (record, index) -> record )
         .on 'end', (count) ->
             count.should.eql 3
             expect = fs.readFileSync "#{__dirname}/trim/notrim.out"

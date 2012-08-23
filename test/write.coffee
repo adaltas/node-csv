@@ -13,8 +13,8 @@ describe 'write', ->
         count = 0;
         test = csv()
         .to.path( "#{__dirname}/write/write_array.tmp" )
-        .on 'data', (data, index) ->
-            data.should.be.an.instanceof Array
+        .on 'record', (record, index) ->
+            record.should.be.an.instanceof Array
             count.should.eql index
             count++
         .on 'end', ->
@@ -30,9 +30,9 @@ describe 'write', ->
         count = 0
         test = csv()
         .to.path( "#{__dirname}/write/write_object.tmp", columns: ['name','value','escape'] )
-        .on 'data', (data, index) ->
-            data.should.be.a 'object'
-            data.should.not.be.an.instanceof Array
+        .on 'record', (record, index) ->
+            record.should.be.a 'object'
+            record.should.not.be.an.instanceof Array
             count.should.eql index
             count++
         .on 'end', ->
@@ -48,8 +48,8 @@ describe 'write', ->
         count = 0
         test = csv()
         .to.path( "#{__dirname}/write/write_string.tmp" )
-        .on 'data', (data, index) ->
-            data.should.be.an.instanceof Array
+        .on 'record', (record, index) ->
+            record.should.be.an.instanceof Array
             count.should.eql index
             count++
         .on 'end', ->
@@ -70,12 +70,12 @@ describe 'write', ->
         count = 0
         test = csv()
         .to.path( "#{__dirname}/write/string_preserve.tmp" )
-        .transform (data, index) ->
+        .transform (record, index) ->
             if index is 0
                 test.write '--------------------\n', true
-            test.write data
+            test.write record
             test.write '\n--------------------', true
-            data.should.be.an.instanceof Array
+            record.should.be.an.instanceof Array
             count.should.eql index
             count++
             null
@@ -96,12 +96,12 @@ describe 'write', ->
         test.write '\n', true
         test.write '# This one as well', true
         test.end()
-    it 'should transform data provided by write as an array', (next) ->
+    it 'should transform record provided by write as an array', (next) ->
         # Fix bug in which transform callback was called by flush and not write
         count = 0
         test = csv()
         .to.path( "#{__dirname}/write/write_array.tmp" )
-        .transform (data, index) ->
+        .transform (record, index) ->
             count++
         .on 'end', ->
             count.should.eql 1000

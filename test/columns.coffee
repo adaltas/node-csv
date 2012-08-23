@@ -15,14 +15,14 @@ describe 'columns', ->
             csv()
             .from.path( "#{__dirname}/columns/in_true.in", columns: true )
             .to.path( "#{__dirname}/columns/in_true.tmp" )
-            .transform (data, index) ->
-                data.should.be.a 'object'
-                data.should.not.be.an.instanceof Array
+            .transform (record, index) ->
+                record.should.be.a 'object'
+                record.should.not.be.an.instanceof Array
                 if index is 0
-                    data.FIELD_1.should.eql '20322051544'
+                    record.FIELD_1.should.eql '20322051544'
                 else if index is 1
-                    data.FIELD_4.should.eql 'DEF'
-                data
+                    record.FIELD_4.should.eql 'DEF'
+                record
             .on 'end', (count) ->
                 count.should.eql 2
                 expect = fs.readFileSync "#{__dirname}/columns/in_true.out"
@@ -37,17 +37,17 @@ describe 'columns', ->
                 columns: ["FIELD_1", "FIELD_2", "FIELD_3", "FIELD_4", "FIELD_5", "FIELD_6"]
             })
             .to.path("#{__dirname}/columns/in_named.tmp")
-            .transform (data, index) ->
-                data.should.be.a 'object'
-                data.should.not.be.an.instanceof Array
+            .transform (record, index) ->
+                record.should.be.a 'object'
+                record.should.not.be.an.instanceof Array
                 if index is 0
-                    data.FIELD_1.should.eql '20322051544'
+                    record.FIELD_1.should.eql '20322051544'
                 else if index is 1
-                    data.FIELD_4.should.eql 'DEF'
-                data
-            .on 'data', (data, index) ->
-                data.should.be.a 'object'
-                data.should.not.be.an.instanceof Array
+                    record.FIELD_4.should.eql 'DEF'
+                record
+            .on 'record', (record, index) ->
+                record.should.be.a 'object'
+                record.should.not.be.an.instanceof Array
             .on 'end', (count) ->
                 count.should.eql 2
                 expect = fs.readFileSync "#{__dirname}/columns/in_named.out"
@@ -64,8 +64,8 @@ describe 'columns', ->
             .to.path("#{__dirname}/columns/out_no_transform.tmp",
                 columns: ["FIELD_1", "FIELD_2"]
             )
-            .on 'data', (data, index) ->
-                data.should.be.an.instanceof Array
+            .on 'record', (record, index) ->
+                record.should.be.an.instanceof Array
             .on 'end', (count) ->
                 count.should.eql 2
                 expect = fs.readFileSync "#{__dirname}/columns/out_no_transform.out"
@@ -80,12 +80,12 @@ describe 'columns', ->
             .to.path("#{__dirname}/columns/out_named.tmp",
                 columns: ["FIELD_1", "FIELD_2"]
             )
-            .transform (data, index) ->
-                data.should.be.an.instanceof Array
-                {FIELD_2: data[3], zombie: data[1], FIELD_1: data[4]}
-            .on 'data', (data, index) ->
-                data.should.be.a 'object'
-                data.should.not.be.an.instanceof Array
+            .transform (record, index) ->
+                record.should.be.an.instanceof Array
+                {FIELD_2: record[3], zombie: record[1], FIELD_1: record[4]}
+            .on 'record', (record, index) ->
+                record.should.be.a 'object'
+                record.should.not.be.an.instanceof Array
             .on 'end', (count) ->
                 count.should.eql 2
                 expect = fs.readFileSync "#{__dirname}/columns/out_named.out"
@@ -97,10 +97,10 @@ describe 'columns', ->
             csv()
             .from.path("#{__dirname}/columns/out_new.in", columns: true)
             .to.path("#{__dirname}/columns/out_new.tmp", newColumns: true, header: true)
-            .transform (data) ->
-                data.should.be.an.a 'object'
-                data.FIELD_7 = 'new_field'
-                data
+            .transform (record) ->
+                record.should.be.an.a 'object'
+                record.FIELD_7 = 'new_field'
+                record
             .on 'end', (count) ->
                 count.should.eql 2
                 expect = fs.readFileSync "#{__dirname}/columns/out_new.out"
