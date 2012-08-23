@@ -18,8 +18,8 @@ describe 'buffer', ->
             data.should.be.a 'object'
             data
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/buffer/smaller.out").toString()
-            result = fs.readFileSync("#{__dirname}/buffer/smaller.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/buffer/smaller.out"
+            result = fs.readFileSync "#{__dirname}/buffer/smaller.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/buffer/smaller.tmp", next
     it 'Buffer same as in', (next) ->
@@ -31,7 +31,7 @@ describe 'buffer', ->
             data.should.be.a 'object'
             data
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/buffer/same.out").toString()
-            result = fs.readFileSync("#{__dirname}/buffer/same.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/buffer/same.out"
+            result = fs.readFileSync "#{__dirname}/buffer/same.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/buffer/same.tmp", next

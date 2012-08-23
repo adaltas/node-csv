@@ -17,8 +17,8 @@ describe 'trim', ->
         .transform( (data, index) -> data )
         .on 'end', (count) ->
             count.should.eql 3
-            expect = fs.readFileSync( "#{__dirname}/trim/ltrim.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/trim/ltrim.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/trim/ltrim.out"
+            result = fs.readFileSync "#{__dirname}/trim/ltrim.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/trim/ltrim.tmp", next
     it 'should ignore the whitespaces immediately preceding the delimiter', (next) ->
@@ -28,8 +28,8 @@ describe 'trim', ->
         .transform( (data, index) -> data )
         .on 'end', (count) ->
             count.should.eql 3
-            expect = fs.readFileSync( "#{__dirname}/trim/rtrim.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/trim/rtrim.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/trim/rtrim.out"
+            result = fs.readFileSync "#{__dirname}/trim/rtrim.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/trim/rtrim.tmp", next
     it 'should ignore the whitespaces immediately preceding and following the delimiter', (next) ->
@@ -39,8 +39,8 @@ describe 'trim', ->
         .transform( (data, index) -> data )
         .on 'end', (count) ->
             count.should.eql 3
-            expect = fs.readFileSync( "#{__dirname}/trim/trim.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/trim/trim.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/trim/trim.out"
+            result = fs.readFileSync "#{__dirname}/trim/trim.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/trim/trim.tmp", next
     it 'should preserve surrounding whitespaces', (next) ->
@@ -50,8 +50,8 @@ describe 'trim', ->
         .transform( (data, index) -> data )
         .on 'end', (count) ->
             count.should.eql 3
-            expect = fs.readFileSync( "#{__dirname}/trim/notrim.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/trim/notrim.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/trim/notrim.out"
+            result = fs.readFileSync "#{__dirname}/trim/notrim.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/trim/notrim.tmp", next
 

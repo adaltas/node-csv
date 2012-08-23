@@ -25,8 +25,8 @@ describe 'delimiter', ->
             data
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/delimiter/empty_value.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/delimiter/empty_value.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/delimiter/empty_value.out"
+            result = fs.readFileSync "#{__dirname}/delimiter/empty_value.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/delimiter/empty_value.tmp", next
     it 'Test tabs to comma', (next) ->
@@ -45,8 +45,8 @@ describe 'delimiter', ->
             data
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/delimiter/tab_to_coma.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/delimiter/tab_to_coma.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/delimiter/tab_to_coma.out"
+            result = fs.readFileSync "#{__dirname}/delimiter/tab_to_coma.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/delimiter/tab_to_coma.tmp", next
 

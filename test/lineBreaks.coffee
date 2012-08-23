@@ -15,8 +15,8 @@ describe 'lineBreaks', ->
         .to.path( "#{__dirname}/lineBreaks/custom.tmp", lineBreaks: '::' )
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/lineBreaks/custom.out").toString()
-            result = fs.readFileSync( "#{__dirname}/lineBreaks/custom.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/lineBreaks/custom.out"
+            result = fs.readFileSync "#{__dirname}/lineBreaks/custom.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/custom.tmp", next
     it 'Test line breaks unix', (next) ->
@@ -25,8 +25,8 @@ describe 'lineBreaks', ->
         .to.path( "#{__dirname}/lineBreaks/unix.tmp", lineBreaks: "unix")
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/lineBreaks/unix.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/lineBreaks/unix.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/lineBreaks/unix.out"
+            result = fs.readFileSync "#{__dirname}/lineBreaks/unix.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/unix.tmp", next
     it 'Test line breaks unicode', (next) ->
@@ -35,8 +35,8 @@ describe 'lineBreaks', ->
         .to.path( "#{__dirname}/lineBreaks/unicode.tmp", lineBreaks: 'unicode')
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/lineBreaks/unicode.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/lineBreaks/unicode.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/lineBreaks/unicode.out"
+            result = fs.readFileSync "#{__dirname}/lineBreaks/unicode.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/unicode.tmp", next
     it 'Test line breaks mac', (next) ->
@@ -45,8 +45,8 @@ describe 'lineBreaks', ->
         .to.path( "#{__dirname}/lineBreaks/mac.tmp", lineBreaks: 'mac' )
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/lineBreaks/mac.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/lineBreaks/mac.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/lineBreaks/mac.out"
+            result = fs.readFileSync "#{__dirname}/lineBreaks/mac.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/mac.tmp", next
     it 'Test line breaks windows', (next) ->
@@ -55,8 +55,8 @@ describe 'lineBreaks', ->
         .to.path( "#{__dirname}/lineBreaks/windows.tmp", lineBreaks: 'windows' )
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/lineBreaks/windows.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/lineBreaks/windows.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/lineBreaks/windows.out"
+            result = fs.readFileSync "#{__dirname}/lineBreaks/windows.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/lineBreaks/windows.tmp", next
 

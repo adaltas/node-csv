@@ -18,8 +18,8 @@ describe 'header', ->
             )
             .on 'end', (count) ->
                 count.should.eql 2
-                expect = fs.readFileSync("#{__dirname}/header/defwcols.out").toString()
-                result = fs.readFileSync("#{__dirname}/header/defwcols.tmp").toString()
+                expect = fs.readFileSync "#{__dirname}/header/defwcols.out"
+                result = fs.readFileSync "#{__dirname}/header/defwcols.tmp"
                 result.should.eql expect
                 fs.unlink "#{__dirname}/header/defwcols.tmp"
                 next()
@@ -34,8 +34,8 @@ describe 'header', ->
             )
             .on 'end', (count) ->
                 count.should.eql 2
-                expect = fs.readFileSync("#{__dirname}/header/truercols_defwcols.out").toString()
-                result = fs.readFileSync("#{__dirname}/header/truercols_defwcols.tmp").toString()
+                expect = fs.readFileSync "#{__dirname}/header/truercols_defwcols.out"
+                result = fs.readFileSync "#{__dirname}/header/truercols_defwcols.tmp"
                 result.should.eql expect
                 fs.unlink "#{__dirname}/header/truercols_defwcols.tmp"
                 next()
