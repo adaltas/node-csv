@@ -11,6 +11,7 @@ The `from` property provide convenient functions to read some csv input.
 
 ###
 module.exports = (csv) ->
+
     ###
 
     `from.options([options])`: Set or get options
@@ -36,6 +37,7 @@ module.exports = (csv) ->
             csv
         else
             csv.options.from
+    
     ###
 
     `from.array:(data, [options])`: Read from an array
@@ -54,6 +56,7 @@ module.exports = (csv) ->
                 csv.write data[i]
             csv.end()
         csv
+    
     ###
     
     `from.string:(data, [options])`: Read from a string or a buffer
@@ -73,6 +76,7 @@ module.exports = (csv) ->
             csv.write data
             csv.end()
         csv
+    
     ###
     
     `from.path(path, [options])`: Read from a file path
@@ -87,6 +91,7 @@ module.exports = (csv) ->
         stream = fs.createReadStream path, csv.from.options()
         stream.setEncoding csv.from.options().encoding
         csv.from.stream stream, null
+    
     ###
     
     `from.stream(readStream, [options])`: Read from a stream

@@ -1,5 +1,6 @@
 
 module.exports =
+
     # Merge two objects
     merge: (obj1, obj2) ->
         r = obj1 or {}

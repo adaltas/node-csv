@@ -11,6 +11,7 @@ The `to` property provide convenient functions to write some csv output.
 
 ###
 module.exports = (csv) ->
+
     ###
 
     `to.options([options])`: Set or get options
@@ -40,6 +41,7 @@ module.exports = (csv) ->
             csv
         else
             csv.options.to
+    
     ###
 
     `to.stream(writeStream, [options])`: Write to a stream
@@ -69,6 +71,7 @@ module.exports = (csv) ->
         csv.state.buffer = new Buffer csv.options.to.bufferSize or csv.from.options().bufferSize
         csv.state.bufferPosition = 0
         csv
+    
     ###
 
     `to.path(path, [options])`: Write to a path

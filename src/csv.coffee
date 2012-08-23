@@ -36,6 +36,7 @@ module.exports = ->
         @to = to @
         @
     CSV.prototype.__proto__ = stream.prototype
+
     ###
 
     `write(data, [preserve])`: Write data
@@ -61,6 +62,7 @@ module.exports = ->
         write data, preserve
         if not @state.transforming and not preserve
             @state.count++
+
     ###
 
     `end()`: Terminate the parsing
@@ -94,6 +96,7 @@ module.exports = ->
         else
             @emit 'end', @state.count
             @readable = false
+    
     ###
 
     `transform(callback)`: Register the transformer callback
