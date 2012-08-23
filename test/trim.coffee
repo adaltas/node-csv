@@ -7,7 +7,7 @@ Testing the read options `trim`, `ltrim` and `rtrim`.
 require 'coffee-script'
 fs = require 'fs'
 should = require 'should'
-csv = require '../src/csv'
+csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'trim', ->
     it 'should ignore the whitespaces immediately following the delimiter', (next) ->
