@@ -1,5 +1,6 @@
 
 module.exports = ->
+
     ###
     
     `options.from`: Options of the CSV input source
@@ -29,6 +30,7 @@ module.exports = ->
         trim: false
         ltrim: false
         rtrim: false
+    
     ###
     
     `options.to`: Options of the CSV output source
