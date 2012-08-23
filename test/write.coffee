@@ -19,8 +19,8 @@ describe 'write', ->
             count++
         .on 'end', ->
             count.should.eql 1000
-            expect = fs.readFileSync( "#{__dirname}/write/write.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/write/write_array.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/write/write.out"
+            result = fs.readFileSync "#{__dirname}/write/write_array.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/write/write_array.tmp", next
         for i in [0...1000]
@@ -37,8 +37,8 @@ describe 'write', ->
             count++
         .on 'end', ->
             count.should.eql 1000
-            expect = fs.readFileSync( "#{__dirname}/write/write.out").toString()
-            result = fs.readFileSync( "#{__dirname}/write/write_object.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/write/write.out"
+            result = fs.readFileSync "#{__dirname}/write/write_object.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/write/write_object.tmp", next
         for i in [0...1000]
@@ -54,8 +54,8 @@ describe 'write', ->
             count++
         .on 'end', ->
             count.should.eql 1000
-            expect = fs.readFileSync("#{__dirname}/write/write.out").toString()
-            result = fs.readFileSync("#{__dirname}/write/write_string.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/write/write.out"
+            result = fs.readFileSync "#{__dirname}/write/write_string.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/write/write_string.tmp", next
         buffer = ''
@@ -80,8 +80,8 @@ describe 'write', ->
             count++
             null
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/write/string_preserve.out").toString()
-            result = fs.readFileSync("#{__dirname}/write/string_preserve.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/write/string_preserve.out"
+            result = fs.readFileSync "#{__dirname}/write/string_preserve.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/write/string_preserve.tmp", next
         test.write '# This line should not be parsed', true
@@ -116,8 +116,8 @@ describe 'write', ->
             header: true, 
             lineBreaks: 'unix' )
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/write/write_sourceless.out").toString()
-            result = fs.readFileSync("#{__dirname}/write/write_sourceless.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/write/write_sourceless.out"
+            result = fs.readFileSync "#{__dirname}/write/write_sourceless.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/write/write_sourceless.tmp", next
 

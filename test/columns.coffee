@@ -25,8 +25,8 @@ describe 'columns', ->
                 data
             .on 'end', (count) ->
                 count.should.eql 2
-                expect = fs.readFileSync("#{__dirname}/columns/in_true.out").toString()
-                result = fs.readFileSync("#{__dirname}/columns/in_true.tmp").toString()
+                expect = fs.readFileSync "#{__dirname}/columns/in_true.out"
+                result = fs.readFileSync "#{__dirname}/columns/in_true.tmp"
                 result.should.eql expect
                 fs.unlink("#{__dirname}/columns/in_true.tmp")
                 next()
@@ -50,8 +50,8 @@ describe 'columns', ->
                 data.should.not.be.an.instanceof Array
             .on 'end', (count) ->
                 count.should.eql 2
-                expect = fs.readFileSync("#{__dirname}/columns/in_named.out").toString()
-                result = fs.readFileSync("#{__dirname}/columns/in_named.tmp").toString()
+                expect = fs.readFileSync "#{__dirname}/columns/in_named.out"
+                result = fs.readFileSync "#{__dirname}/columns/in_named.tmp"
                 result.should.eql expect
                 fs.unlink "#{__dirname}/columns/in_named.tmp"
                 next()
@@ -68,8 +68,8 @@ describe 'columns', ->
                 data.should.be.an.instanceof Array
             .on 'end', (count) ->
                 count.should.eql 2
-                expect = fs.readFileSync("#{__dirname}/columns/out_no_transform.out").toString()
-                result = fs.readFileSync("#{__dirname}/columns/out_no_transform.tmp").toString()
+                expect = fs.readFileSync "#{__dirname}/columns/out_no_transform.out"
+                result = fs.readFileSync "#{__dirname}/columns/out_no_transform.tmp"
                 result.should.eql expect
                 fs.unlink "#{__dirname}/columns/out_no_transform.tmp"
                 next()
@@ -88,8 +88,8 @@ describe 'columns', ->
                 data.should.not.be.an.instanceof Array
             .on 'end', (count) ->
                 count.should.eql 2
-                expect = fs.readFileSync("#{__dirname}/columns/out_named.out").toString()
-                result = fs.readFileSync("#{__dirname}/columns/out_named.tmp").toString()
+                expect = fs.readFileSync "#{__dirname}/columns/out_named.out"
+                result = fs.readFileSync "#{__dirname}/columns/out_named.tmp"
                 result.should.eql expect
                 fs.unlink "#{__dirname}/columns/out_named.tmp"
                 next()
@@ -103,8 +103,8 @@ describe 'columns', ->
                 data
             .on 'end', (count) ->
                 count.should.eql 2
-                expect = fs.readFileSync("#{__dirname}/columns/out_new.out").toString()
-                result = fs.readFileSync("#{__dirname}/columns/out_new.tmp").toString()
+                expect = fs.readFileSync "#{__dirname}/columns/out_new.out"
+                result = fs.readFileSync "#{__dirname}/columns/out_new.tmp"
                 result.should.eql expect
                 fs.unlink "#{__dirname}/columns/out_new.tmp"
                 next()

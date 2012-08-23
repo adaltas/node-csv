@@ -21,8 +21,8 @@ describe 'transform', ->
             return data
         .on 'end', ->
             count.should.eql 2
-            expect = fs.readFileSync("#{__dirname}/transform/reorder.out").toString()
-            result = fs.readFileSync("#{__dirname}/transform/reorder.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/transform/reorder.out"
+            result = fs.readFileSync "#{__dirname}/transform/reorder.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/reorder.tmp", next
     it 'should skip all lines where transform return undefined', (next) ->
@@ -36,8 +36,8 @@ describe 'transform', ->
             return
         .on 'end', ->
             count.should.eql 2
-            expect = fs.readFileSync("#{__dirname}/transform/undefined.out").toString()
-            result = fs.readFileSync("#{__dirname}/transform/undefined.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/transform/undefined.out"
+            result = fs.readFileSync "#{__dirname}/transform/undefined.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/undefined.tmp", next
     it 'should skip all lines where transform return null', (next) ->
@@ -51,8 +51,8 @@ describe 'transform', ->
             if index % 2 then data else null
         .on 'end', ->
             count.should.eql 6
-            expect = fs.readFileSync("#{__dirname}/transform/null.out").toString()
-            result = fs.readFileSync("#{__dirname}/transform/null.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/transform/null.out"
+            result = fs.readFileSync "#{__dirname}/transform/null.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/null.tmp", next
     it 'should recieve an array and return an object', (next) ->
@@ -66,8 +66,8 @@ describe 'transform', ->
             { field_1: data[4], field_2: data[3] }
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync("#{__dirname}/transform/object.out").toString()
-            result = fs.readFileSync("#{__dirname}/transform/object.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/transform/object.out"
+            result = fs.readFileSync "#{__dirname}/transform/object.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/object.tmp", next
         .on 'error', (e) ->
@@ -80,8 +80,8 @@ describe 'transform', ->
             ( if index > 0 then ',' else '' ) + data[4] + ":" + data[3]
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync("#{__dirname}/transform/string.out").toString()
-            result = fs.readFileSync("#{__dirname}/transform/string.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/transform/string.out"
+            result = fs.readFileSync "#{__dirname}/transform/string.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/string.tmp", next
     it 'should accept a returned integer', (next) ->
@@ -107,8 +107,8 @@ describe 'transform', ->
             [parseInt(data[0]), parseFloat(data[1]), parseFloat(data[2]) ,Date.UTC(data[3][0], data[3][1], data[3][2]), !!data[4], !!data[5]]
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync("#{__dirname}/transform/types.out").toString()
-            result = fs.readFileSync("#{__dirname}/transform/types.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/transform/types.out"
+            result = fs.readFileSync "#{__dirname}/transform/types.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/types.tmp", next
     it 'should catch error thrown in transform callback', (next) ->

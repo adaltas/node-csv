@@ -14,8 +14,8 @@ describe 'quotes', ->
         .from.path( "#{__dirname}/quotes/regular.in" )
         .to.path( "#{__dirname}/quotes/regular.tmp" )
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/quotes/regular.out").toString()
-            result = fs.readFileSync("#{__dirname}/quotes/regular.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/quotes/regular.out"
+            result = fs.readFileSync "#{__dirname}/quotes/regular.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/quotes/regular.tmp", next
     it 'should read quoted values containing delimiters and write around quote only the value containing delimiters', (next) ->
@@ -23,8 +23,8 @@ describe 'quotes', ->
         .from.path("#{__dirname}/quotes/delimiter.in")
         .to.path("#{__dirname}/quotes/delimiter.tmp")
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/quotes/delimiter.out").toString()
-            result = fs.readFileSync("#{__dirname}/quotes/delimiter.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/quotes/delimiter.out"
+            result = fs.readFileSync "#{__dirname}/quotes/delimiter.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/quotes/delimiter.tmp", next
     it 'Test quotes inside field', (next) ->
@@ -32,8 +32,8 @@ describe 'quotes', ->
         .from.path( "#{__dirname}/quotes/in_field.in" )
         .to.path( "#{__dirname}/quotes/in_field.tmp" )
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/quotes/in_field.out").toString()
-            result = fs.readFileSync("#{__dirname}/quotes/in_field.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/quotes/in_field.out"
+            result = fs.readFileSync "#{__dirname}/quotes/in_field.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/quotes/in_field.tmp", next
     it 'Test empty value', (next) ->
@@ -43,8 +43,8 @@ describe 'quotes', ->
             escape: '"'
         .to.path("#{__dirname}/quotes/empty_value.tmp")
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/quotes/empty_value.out").toString()
-            result = fs.readFileSync("#{__dirname}/quotes/empty_value.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/quotes/empty_value.out"
+            result = fs.readFileSync "#{__dirname}/quotes/empty_value.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/quotes/empty_value.tmp", next
     it 'should read values with quotes, escaped as double quotes, and write empty values as not quoted', (next) ->
@@ -59,8 +59,8 @@ describe 'quotes', ->
                 data[1].should.eql '"'
                 data[4].should.eql '"ok"'
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/quotes/contains_quotes.out").toString()
-            result = fs.readFileSync("#{__dirname}/quotes/contains_quotes.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/quotes/contains_quotes.out"
+            result = fs.readFileSync "#{__dirname}/quotes/contains_quotes.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/quotes/contains_quotes.tmp", next
     it 'should accept line breaks inside quotes', (next) ->
@@ -72,8 +72,8 @@ describe 'quotes', ->
         .on 'data', (data,index) ->
             data.length.should.eql 5
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/quotes/linebreak.out").toString()
-            result = fs.readFileSync("#{__dirname}/quotes/linebreak.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/quotes/linebreak.out"
+            result = fs.readFileSync "#{__dirname}/quotes/linebreak.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/quotes/linebreak.tmp", next
     it 'Test unclosed quote', (next) ->
@@ -114,8 +114,8 @@ describe 'quotes', ->
         .from.path("#{__dirname}/quotes/quoted.in")
         .to.path( "#{__dirname}/quotes/quoted.tmp", quoted: true )
         .on 'end', ->
-            expect = fs.readFileSync("#{__dirname}/quotes/quoted.out").toString()
-            result = fs.readFileSync("#{__dirname}/quotes/quoted.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/quotes/quoted.out"
+            result = fs.readFileSync "#{__dirname}/quotes/quoted.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/quotes/quoted.tmp", next
         .on 'error', (e) ->

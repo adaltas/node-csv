@@ -19,8 +19,8 @@ describe 'escape', ->
                 data[1].should.eql '19"79.0'
                 data[3].should.eql 'A"B"C'
         .on 'end', ->
-            result = fs.readFileSync("#{__dirname}/escape/default.out").toString()
-            expect = fs.readFileSync("#{__dirname}/escape/default.tmp").toString()
+            result = fs.readFileSync "#{__dirname}/escape/default.out"
+            expect = fs.readFileSync "#{__dirname}/escape/default.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/escape/default.tmp", next
     it 'should honor the backslash escape charactere', (next) ->
@@ -33,7 +33,7 @@ describe 'escape', ->
                 data[3].should.eql 'A"B"C'
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync("#{__dirname}/escape/backslash.out").toString()
-            result = fs.readFileSync("#{__dirname}/escape/backslash.tmp").toString()
+            expect = fs.readFileSync "#{__dirname}/escape/backslash.out"
+            result = fs.readFileSync "#{__dirname}/escape/backslash.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/escape/backslash.tmp", next

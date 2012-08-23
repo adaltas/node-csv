@@ -15,8 +15,8 @@ describe 'fromto', ->
         .to.stream(fs.createWriteStream "#{__dirname}/fromto/sample.tmp", flags: 'w' )
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/fromto/sample.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/fromto/sample.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/fromto/sample.out"
+            result = fs.readFileSync "#{__dirname}/fromto/sample.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/fromto/sample.tmp", next
     it 'Test string without destination', (next) ->
@@ -43,8 +43,8 @@ describe 'fromto', ->
                 data[0].should.eql '28392898392'
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/fromto/string_to_stream.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/fromto/string_to_stream.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/fromto/string_to_stream.out"
+            result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/fromto/string_to_stream.tmp", next
     it 'Test array to stream', (next) ->
@@ -64,8 +64,8 @@ describe 'fromto', ->
                 data[0].should.eql '28392898392'
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/fromto/array_to_stream.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/fromto/array_to_stream.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/fromto/array_to_stream.out"
+            result = fs.readFileSync "#{__dirname}/fromto/array_to_stream.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/fromto/array_to_stream.tmp", next
     it 'should encode null as empty string', (next) ->
@@ -92,8 +92,8 @@ describe 'fromto', ->
                 should.not.exist data[5]
         .on 'end', (count) ->
             count.should.eql 2
-            expect = fs.readFileSync( "#{__dirname}/fromto/null.out" ).toString()
-            result = fs.readFileSync( "#{__dirname}/fromto/null.tmp" ).toString()
+            expect = fs.readFileSync "#{__dirname}/fromto/null.out"
+            result = fs.readFileSync "#{__dirname}/fromto/null.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/fromto/null.tmp", next
 
