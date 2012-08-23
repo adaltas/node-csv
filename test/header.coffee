@@ -6,7 +6,7 @@ Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 require 'coffee-script'
 fs = require 'fs'
 should = require 'should'
-csv = require '../src/csv'
+csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'header', ->
         it 'should print headers with defined write columns', (next) ->
