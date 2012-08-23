@@ -38,6 +38,10 @@ module.exports = (csv) ->
     options: (options) ->
         if options?
             utils.merge csv.options.to, options
+            # csv.options.to.columns ?= csv.options.from.columns
+            # csv.options.to.delimiter ?= csv.options.from.delimiter
+            # csv.options.to.quote ?= csv.options.from.quote
+            # csv.options.to.escape ?= csv.options.from.escape
             csv
         else
             csv.options.to
@@ -67,6 +71,7 @@ module.exports = (csv) ->
             csv.emit 'end', csv.state.count
             csv.readable = false
             csv.writable = false
+        # csv.pipe writeStream
         csv.writeStream = writeStream
         csv.state.buffer = new Buffer csv.options.to.bufferSize or csv.from.options().bufferSize
         csv.state.bufferPosition = 0

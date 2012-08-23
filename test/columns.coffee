@@ -45,10 +45,10 @@ describe 'columns', ->
                 else if index is 1
                     data.FIELD_4.should.eql 'DEF'
                 data
-            .on 'data',(data, index) ->
+            .on 'data', (data, index) ->
                 data.should.be.a 'object'
                 data.should.not.be.an.instanceof Array
-            .on 'end',(count) ->
+            .on 'end', (count) ->
                 count.should.eql 2
                 expect = fs.readFileSync("#{__dirname}/columns/in_named.out").toString()
                 result = fs.readFileSync("#{__dirname}/columns/in_named.tmp").toString()

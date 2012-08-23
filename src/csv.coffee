@@ -20,6 +20,7 @@ state = require './state'
 options = require './options'
 from = require './from'
 to = require './to'
+stringify = require './stringify'
 
 module.exports = ->
 
@@ -244,56 +245,11 @@ module.exports = ->
                 csv.emit 'data', line, csv.state.count
             catch e
                 return error e
-        if typeof line is 'object'
-            unless Array.isArray line
-                columns = csv.options.to.columns or csv.options.from.columns
-                _line = []
-                if columns
-                    for i in [0...columns.length]
-                        column = columns[i]
-                        _line[i] = if (typeof line[column] is 'undefined' or line[column] is null) then '' else line[column]
-                else
-                    for column of line
-                        _line.push line[column]
-                line = _line
-                _line = null
-            else if csv.options.to.columns
-                # We are getting an array but the user want specified output columns. In
-                # this case, we respect the columns indexes
-                line.splice csv.options.to.columns.length
-            if Array.isArray line
-                newLine = if csv.state.countWriten then csv.options.to.lineBreaks or "\n" else ''
-                for i in [0...line.length]
-                    field = line[i]
-                    if typeof field is 'string'
-                        # fine 99% of the cases, keep going
-                    else if typeof field is 'number'
-                        # Cast number to string
-                        field = '' + field
-                    else if typeof field is 'boolean'
-                        # Cast boolean to string
-                        field = if field then '1' else ''
-                    else if field instanceof Date
-                        # Cast date to timestamp string
-                        field = '' + field.getTime()
-                    if field
-                        containsdelimiter = field.indexOf(csv.options.to.delimiter or csv.options.from.delimiter) >= 0
-                        containsQuote = field.indexOf(csv.options.to.quote or csv.options.from.quote) >= 0
-                        containsLinebreak = field.indexOf("\r") >= 0 or field.indexOf("\n") >= 0
-                        if containsQuote
-                            regexp = new RegExp(csv.options.to.quote or csv.options.from.quote,'g')
-                            field = field.replace(regexp, (csv.options.to.escape or csv.options.from.escape) + (csv.options.to.quote or csv.options.from.quote))
-                        if containsQuote or containsdelimiter or containsLinebreak or csv.options.to.quoted
-                            field = (csv.options.to.quote or csv.options.from.quote) + field + (csv.options.to.quote or csv.options.from.quote)
-                        newLine += field
-                    if i isnt line.length - 1
-                        newLine += csv.options.to.delimiter or csv.options.from.delimiter
-                line = newLine
-        else if typeof line is 'number'
-            line = ''+line
+        line = stringify line, csv
         if csv.state.buffer
             if csv.state.bufferPosition + Buffer.byteLength(line, csv.options.to.encoding) > csv.options.from.bufferSize
                 csv.writeStream.write(csv.state.buffer.slice(0, csv.state.bufferPosition))
+                # csv.emit 'data', csv.state.buffer.slice(0, csv.state.bufferPosition)
                 csv.state.buffer = new Buffer(csv.options.from.bufferSize)
                 csv.state.bufferPosition = 0
             csv.state.bufferPosition += csv.state.buffer.write(line, csv.state.bufferPosition, csv.options.to.encoding)
