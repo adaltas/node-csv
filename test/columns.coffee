@@ -9,7 +9,9 @@ should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'columns', ->
+    
     describe 'in read option', ->
+    
         it 'Test columns in true', (next) ->
             # Note: if true, columns are expected to be in first line
             csv()
@@ -30,6 +32,7 @@ describe 'columns', ->
                 result.should.eql expect
                 fs.unlink("#{__dirname}/columns/in_true.tmp")
                 next()
+    
         it 'Test columns in named', (next) ->
             # Note: if true, columns are expected to be in first line
             csv()
@@ -55,7 +58,9 @@ describe 'columns', ->
                 result.should.eql expect
                 fs.unlink "#{__dirname}/columns/in_named.tmp"
                 next()
+    
     describe 'in write option', ->
+    
         it 'should be the same length', (next) ->
             # Since there is not columns set in input options, we just expect
             # the output stream to contains 2 fields
@@ -73,6 +78,7 @@ describe 'columns', ->
                 result.should.eql expect
                 fs.unlink "#{__dirname}/columns/out_no_transform.tmp"
                 next()
+    
         it 'should filter from a transformed object', (next) ->
             # We are no returning an object
             csv()
@@ -93,6 +99,7 @@ describe 'columns', ->
                 result.should.eql expect
                 fs.unlink "#{__dirname}/columns/out_named.tmp"
                 next()
+     
         it 'should emit new columns in output', (next) ->
             csv()
             .from.path("#{__dirname}/columns/out_new.in", columns: true)

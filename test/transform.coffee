@@ -9,6 +9,7 @@ should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'transform', ->
+    
     it 'Test reorder fields', (next) ->
         count = 0
         csv()
@@ -25,6 +26,7 @@ describe 'transform', ->
             result = fs.readFileSync "#{__dirname}/transform/reorder.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/reorder.tmp", next
+    
     it 'should skip all lines where transform return undefined', (next) ->
         count = 0
         csv()
@@ -40,6 +42,7 @@ describe 'transform', ->
             result = fs.readFileSync "#{__dirname}/transform/undefined.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/undefined.tmp", next
+    
     it 'should skip all lines where transform return null', (next) ->
         count = 0
         csv()
@@ -55,6 +58,7 @@ describe 'transform', ->
             result = fs.readFileSync "#{__dirname}/transform/null.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/null.tmp", next
+    
     it 'should recieve an array and return an object', (next) ->
         # we don't define columns
         # recieve and array and return an object
@@ -72,6 +76,7 @@ describe 'transform', ->
             fs.unlink "#{__dirname}/transform/object.tmp", next
         .on 'error', (e) ->
             should.be.ok false
+    
     it 'should accept a returned string', (next) ->
         csv()
         .from.path("#{__dirname}/transform/string.in")
@@ -84,6 +89,7 @@ describe 'transform', ->
             result = fs.readFileSync "#{__dirname}/transform/string.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/string.tmp", next
+    
     it 'should accept a returned integer', (next) ->
         result = ''
         test = csv()
@@ -97,6 +103,7 @@ describe 'transform', ->
         for i in [2..0]
             test.write ['Test '+i, i, '"']
         test.end()
+    
     it 'should accept a returned array with different types', (next) ->
         # Test date, int and float
         csv()
@@ -111,6 +118,7 @@ describe 'transform', ->
             result = fs.readFileSync "#{__dirname}/transform/types.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/transform/types.tmp", next
+    
     it 'should catch error thrown in transform callback', (next) ->
         count = 0
         error = false

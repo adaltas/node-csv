@@ -9,6 +9,7 @@ should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
 describe 'write', ->
+    
     it 'Test write array', (next) ->
         count = 0;
         test = csv()
@@ -26,6 +27,7 @@ describe 'write', ->
         for i in [0...1000]
             test.write ["Test #{i}", i, '"']
         test.end()
+    
     it 'Test write object with column options', (next) ->
         count = 0
         test = csv()
@@ -44,6 +46,7 @@ describe 'write', ->
         for i in [0...1000]
             test.write {name: "Test #{i}", value:i, escape: '"', ovni: "ET #{i}"}
         test.end()
+    
     it 'Test write string', (next) ->
         count = 0
         test = csv()
@@ -66,6 +69,7 @@ describe 'write', ->
                 buffer = buffer.substr 250
         test.write buffer
         test.end()
+    
     it 'Test write string with preserve', (next) ->
         count = 0
         test = csv()
@@ -96,6 +100,7 @@ describe 'write', ->
         test.write '\n', true
         test.write '# This one as well', true
         test.end()
+    
     it 'should transform record provided by write as an array', (next) ->
         # Fix bug in which transform callback was called by flush and not write
         count = 0
@@ -109,6 +114,7 @@ describe 'write', ->
         for i in [0...1000]
             test.write ['Test '+i, i, '"']
         test.end()
+    
     it 'should emit header even without a source', (next) ->
         test = csv()
         .to.path( "#{__dirname}/write/write_sourceless.tmp", 
@@ -120,7 +126,10 @@ describe 'write', ->
             result = fs.readFileSync "#{__dirname}/write/write_sourceless.tmp"
             result.should.eql expect
             fs.unlink "#{__dirname}/write/write_sourceless.tmp", next
-
         test.write col1: 'foo1', col2: 'goo1'
         test.write col1: 'foo2', col2: 'goo2'
         test.end()
+
+
+
+
