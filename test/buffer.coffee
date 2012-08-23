@@ -14,9 +14,9 @@ describe 'buffer', ->
         .from.path "#{__dirname}/buffer/smaller.in",
             bufferSize: 1024
         .to.path("#{__dirname}/buffer/smaller.tmp")
-        .transform (data) ->
-            data.should.be.a 'object'
-            data
+        .transform (record) ->
+            record.should.be.a 'object'
+            record
         .on 'end', ->
             expect = fs.readFileSync "#{__dirname}/buffer/smaller.out"
             result = fs.readFileSync "#{__dirname}/buffer/smaller.tmp"
@@ -27,9 +27,9 @@ describe 'buffer', ->
         .from.path "#{__dirname}/buffer/same.in",
             bufferSize: 1024
         .to.path("#{__dirname}/buffer/same.tmp")
-        .transform (data) ->
-            data.should.be.a 'object'
-            data
+        .transform (record) ->
+            record.should.be.a 'object'
+            record
         .on 'end', ->
             expect = fs.readFileSync "#{__dirname}/buffer/same.out"
             result = fs.readFileSync "#{__dirname}/buffer/same.tmp"

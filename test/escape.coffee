@@ -14,10 +14,10 @@ describe 'escape', ->
         csv()
         .from.path("#{__dirname}/escape/default.in", escape: '"')
         .to.path("#{__dirname}/escape/default.tmp")
-        .on 'data', (data, index) ->
+        .on 'record', (record, index) ->
             if index is 0
-                data[1].should.eql '19"79.0'
-                data[3].should.eql 'A"B"C'
+                record[1].should.eql '19"79.0'
+                record[3].should.eql 'A"B"C'
         .on 'end', ->
             result = fs.readFileSync "#{__dirname}/escape/default.out"
             expect = fs.readFileSync "#{__dirname}/escape/default.tmp"
@@ -27,10 +27,10 @@ describe 'escape', ->
         csv()
         .from.path("#{__dirname}/escape/backslash.in", escape: '\\')
         .to.path("#{__dirname}/escape/backslash.tmp")
-        .on 'data', (data, index) ->
+        .on 'record', (record, index) ->
             if index is 0
-                data[1].should.eql '19"79.0'
-                data[3].should.eql 'A"B"C'
+                record[1].should.eql '19"79.0'
+                record[3].should.eql 'A"B"C'
         .on 'end', (count) ->
             count.should.eql 2
             expect = fs.readFileSync "#{__dirname}/escape/backslash.out"
