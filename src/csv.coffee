@@ -54,9 +54,11 @@ module.exports = ->
   ###
   CSV.prototype.write = (data, preserve) ->
     return unless @writable
+    # Parse data if it is a string
     if typeof data is 'string' and not preserve
       return parse data
-    else if Array.isArray(data) and not @state.transforming
+    # Data is ready if it is an array
+    if Array.isArray(data) and not @state.transforming
       @state.line = data
       return transform()
     if @state.count is 0 and @options.to.header is true
@@ -153,7 +155,7 @@ module.exports = ->
               # Make sure a closing quote is followed by a delimiter
               nextChar = chars.charAt i + 1
               if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt csv.options.from.delimiter
-                return error new Error 'Invalid closing quote; found "' + nextChar + '" instead of delimiter "' + csv.options.from.delimiter + '"'
+                return error new Error 'Invalid closing quote; found ' + JSON.stringify(nextChar) + ' instead of delimiter ' + JSON.stringify(csv.options.from.delimiter)
               csv.state.quoted = false
             else if csv.state.field is ''
               csv.state.quoted = true

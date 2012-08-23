@@ -98,13 +98,14 @@ describe 'quotes', ->
   it 'Test invalid quotes', (next) ->
     csv()
     .from.path "#{__dirname}/quotes/invalid.in",
-      quote: '"',
+      quote: '"'
       escape: '"'
+      delimiter: "\t"
     .to.path( "#{__dirname}/quotes/invalid.tmp" )
     .on 'end', ->
       false.should.be.ok
     .on 'error', (e) ->
-      e.message.should.match /Invalid closing quote/
+      e.message.should.eql 'Invalid closing quote; found " " instead of delimiter "\\t"'
       fs.unlink "#{__dirname}/quotes/invalid.tmp", next
   
   it 'Test invalid quotes from string', (next) ->
