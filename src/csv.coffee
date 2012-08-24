@@ -22,6 +22,7 @@ options = require './options'
 from = require './from'
 to = require './to'
 stringify = require './stringify'
+Parser = require './Parser'
 
 module.exports = ->
 
@@ -36,6 +37,11 @@ module.exports = ->
     @options = options()
     @from = from @
     @to = to @
+    @parser = Parser @
+    @parser.on 'row', (row) ->
+      transform()
+    @parser.on 'error', (e) ->
+      error e
     @
   CSV.prototype.__proto__ = stream.prototype
 
@@ -56,7 +62,7 @@ module.exports = ->
     return unless @writable
     # Parse data if it is a string
     if typeof data is 'string' and not preserve
-      return parse data
+      return @parser.parse data
     # Data is ready if it is an array
     if Array.isArray(data) and not @state.transforming
       @state.line = data
@@ -117,81 +123,6 @@ module.exports = ->
   csv = new CSV()
   
   # Private API
-  
-  ###
-  Parse a string which may hold multiple lines.
-  Private state object is enriched on each character until 
-  transform is called on a new line
-  ###
-  parse = (chars) ->
-    chars = '' + chars
-    l = chars.length
-    i = 0
-    while i < l
-      c = chars.charAt(i)
-      switch c
-        when csv.options.from.escape, csv.options.from.quote
-          break if csv.state.commented
-          isReallyEscaped = false
-          if c is csv.options.from.escape
-            # Make sure the escape is really here for escaping:
-            # if escape is same as quote, and escape is first char of a field and it's not quoted, then it is a quote
-            # next char should be an escape or a quote
-            nextChar = chars.charAt(i + 1)
-            escapeIsQuoted = csv.options.from.escape is csv.options.from.quote
-            isEscaped = nextChar is csv.options.from.escape
-            isQuoted = nextChar is csv.options.from.quote
-            if not ( escapeIsQuoted and not csv.state.field and not csv.state.quoted ) and ( isEscaped or isQuoted )
-              i++
-              isReallyEscaped = true
-              c = chars.charAt(i)
-              csv.state.field += c
-          if not isReallyEscaped and c is csv.options.from.quote
-            if csv.state.field and not csv.state.quoted
-              # Treat quote as a regular character
-              csv.state.field += c
-              break
-            if csv.state.quoted
-              # Make sure a closing quote is followed by a delimiter
-              nextChar = chars.charAt i + 1
-              if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt csv.options.from.delimiter
-                return error new Error 'Invalid closing quote; found ' + JSON.stringify(nextChar) + ' instead of delimiter ' + JSON.stringify(csv.options.from.delimiter)
-              csv.state.quoted = false
-            else if csv.state.field is ''
-              csv.state.quoted = true
-        when csv.options.from.delimiter
-          break if csv.state.commented
-          if csv.state.quoted
-            csv.state.field += c
-          else
-            if csv.options.from.trim or csv.options.from.rtrim
-              csv.state.field = csv.state.field.trimRight()
-            csv.state.line.push csv.state.field
-            csv.state.field = ''
-          break
-        when '\n', '\r'
-          if csv.state.quoted
-            csv.state.field += c
-            break
-          if not csv.options.from.quoted and csv.state.lastC is '\r'
-            break
-          if csv.options.to.lineBreaks is null
-            # Auto-discovery of linebreaks
-            csv.options.to.lineBreaks = c + ( if c is '\r' and chars.charAt(i+1) is '\n' then '\n' else '' )
-          if csv.options.from.trim or csv.options.from.rtrim
-            csv.state.field = csv.state.field.trimRight()
-          csv.state.line.push csv.state.field
-          csv.state.field = ''
-          transform()
-        when ' ', '\t'
-          if csv.state.quoted or (not csv.options.from.trim and not csv.options.from.ltrim ) or csv.state.field
-            csv.state.field += c
-            break
-        else
-          break if csv.state.commented
-          csv.state.field += c
-      csv.state.lastC = c
-      i++
   
   ###
   Called by the `parse` function on each line. It is responsible for 
