@@ -39,7 +39,20 @@ module.exports = ->
     @to = to @
     @parser = Parser @
     @parser.on 'row', (row) ->
-      transform()
+      transform row
+    @parser.on 'end', (->
+      if @writeStream
+        if @state.bufferPosition isnt 0
+          @writeStream.write @state.buffer.slice 0, @state.bufferPosition
+        if @options.to.end
+          @writeStream.end()
+        else
+          @emit 'end', @state.count
+          @readable = false
+      else
+        @emit 'end', @state.count
+        @readable = false
+    ).bind @
     @parser.on 'error', (e) ->
       error e
     @
@@ -65,8 +78,9 @@ module.exports = ->
       return @parser.parse data
     # Data is ready if it is an array
     if Array.isArray(data) and not @state.transforming
-      @state.line = data
-      return transform()
+      return transform data
+    # console.log 'ok', typeof data
+    # Write columns
     if @state.count is 0 and @options.to.header is true
       write @options.to.columns or @options.from.columns
     write data, preserve
@@ -85,27 +99,7 @@ module.exports = ->
   ###
   CSV.prototype.end = ->
     return unless @writable
-    if @state.quoted
-      return error new Error 'Quoted field not terminated'
-    # dump open record
-    if @state.field or @state.lastC is @options.from.delimiter or @state.lastC is @options.from.quote
-      if @options.from.trim or @options.from.rtrim
-        @state.field = @state.field.trimRight()
-      @state.line.push @state.field
-      @state.field = ''
-    if @state.line.length > 0
-      transform()
-    if @writeStream
-      if @state.bufferPosition isnt 0
-        @writeStream.write @state.buffer.slice 0, @state.bufferPosition
-      if @options.to.end
-        @writeStream.end()
-      else
-        @emit 'end', @state.count
-        @readable = false
-    else
-      @emit 'end', @state.count
-      @readable = false
+    @parser.end()
   
   ###
 
@@ -118,7 +112,7 @@ module.exports = ->
   ###
   CSV.prototype.transform = (callback) ->
     @transformer = callback
-    return @
+    @
   
   csv = new CSV()
   
@@ -128,43 +122,32 @@ module.exports = ->
   Called by the `parse` function on each line. It is responsible for 
   transforming the data and finally calling `write`.
   ###
-  transform = ->
-    line = null
+  transform = (line) ->
     columns = csv.options.from.columns
     if columns
       # Extract column names from the first line
       if csv.state.count is 0 and columns is true
-        csv.options.from.columns = columns = csv.state.line
-        csv.state.line = []
-        csv.state.lastC = ''
+        csv.options.from.columns = columns = line
         return
       # Line stored as an object in which keys are column names
-      line = {}
-      for i in [0...columns.length]
-        column = columns[i]
-        line[column] = csv.state.line[i] or null
-      csv.state.line = line
-      line = null
+      lineAsObject = {}
+      for column, i in columns
+        lineAsObject[column] = line[i] or null
+      line = lineAsObject
     if csv.transformer
       csv.state.transforming = true
-      try
-        line = csv.transformer csv.state.line, csv.state.count
-      catch e
-        return error e
+      try line = csv.transformer line, csv.state.count
+      catch e then return error e
       isObject = typeof line is 'object' and not Array.isArray line
       if csv.options.to.newColumns and not csv.options.to.columns and isObject
         Object.keys(line)
         .filter( (column) -> columns.indexOf(column) is -1 )
         .forEach( (column) -> columns.push(column) )
       csv.state.transforming = false
-    else
-      line = csv.state.line
     if csv.state.count is 0 and csv.options.to.header is true
       write csv.options.to.columns or columns
     write line
     csv.state.count++
-    csv.state.line = []
-    csv.state.lastC = ''
   
   ###
   Write a line to the written stream.
@@ -172,18 +155,16 @@ module.exports = ->
   Preserve is for line which are not considered as CSV data
   ###
   write = (line, preserve) ->
-    if typeof line is 'undefined' or line is null
-      return
+    return if typeof line is 'undefined' or line is null
+    # Emit the record
     if not preserve
-      try
-        csv.emit 'record', line, csv.state.count
-      catch e
-        return error e
-    line = stringify line, csv
+      try csv.emit 'record', line, csv.state.count
+      catch e then return error e
+      # Convert the record into a string
+      line = stringify line, csv
     if csv.state.buffer
       if csv.state.bufferPosition + Buffer.byteLength(line, csv.options.to.encoding) > csv.options.from.bufferSize
         csv.writeStream.write(csv.state.buffer.slice(0, csv.state.bufferPosition))
-        # csv.emit 'data', csv.state.buffer.slice(0, csv.state.bufferPosition)
         csv.state.buffer = new Buffer(csv.options.from.bufferSize)
         csv.state.bufferPosition = 0
       csv.state.bufferPosition += csv.state.buffer.write(line, csv.state.bufferPosition, csv.options.to.encoding)

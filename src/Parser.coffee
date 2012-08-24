@@ -12,12 +12,13 @@ Private state object is enriched on each character until
 transform is called on a new line.
 
 ###
-
 Parser = (csv) ->
   @writable = true
   @csv = csv
   @options = csv.options.from
   @state = csv.state
+  @quoted = false
+  @commented = false
   @
 
 # Parser.prototype.__proto__ = stream.prototype
@@ -33,7 +34,7 @@ Parser.prototype.parse =  (chars) ->
     c = chars.charAt(i)
     switch c
       when @options.escape, @options.quote
-        break if @state.commented
+        break if @commented
         isReallyEscaped = false
         if c is @options.escape
           # Make sure the escape is really here for escaping:
@@ -43,27 +44,27 @@ Parser.prototype.parse =  (chars) ->
           escapeIsQuoted = @options.escape is @options.quote
           isEscaped = nextChar is @options.escape
           isQuoted = nextChar is @options.quote
-          if not ( escapeIsQuoted and not @state.field and not @state.quoted ) and ( isEscaped or isQuoted )
+          if not ( escapeIsQuoted and not @state.field and not @quoted ) and ( isEscaped or isQuoted )
             i++
             isReallyEscaped = true
             c = chars.charAt(i)
             @state.field += c
         if not isReallyEscaped and c is @options.quote
-          if @state.field and not @state.quoted
+          if @state.field and not @quoted
             # Treat quote as a regular character
             @state.field += c
             break
-          if @state.quoted
+          if @quoted
             # Make sure a closing quote is followed by a delimiter
             nextChar = chars.charAt i + 1
             if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt @options.delimiter
               return @error new Error 'Invalid closing quote; found ' + JSON.stringify(nextChar) + ' instead of delimiter ' + JSON.stringify(@options.delimiter)
-            @state.quoted = false
+            @quoted = false
           else if @state.field is ''
-            @state.quoted = true
+            @quoted = true
       when @options.delimiter
-        break if @state.commented
-        if @state.quoted
+        break if @commented
+        if @quoted
           @state.field += c
         else
           if @options.trim or @options.rtrim
@@ -72,7 +73,7 @@ Parser.prototype.parse =  (chars) ->
           @state.field = ''
         break
       when '\n', '\r'
-        if @state.quoted
+        if @quoted
           @state.field += c
           break
         if not @options.quoted and @state.lastC is '\r'
@@ -85,15 +86,30 @@ Parser.prototype.parse =  (chars) ->
         @state.line.push @state.field
         @state.field = ''
         @emit 'row', @state.line
+        # Some cleanup for the next row
+        @state.line = []
       when ' ', '\t'
-        if @state.quoted or (not @options.trim and not @options.ltrim ) or @state.field
+        if @quoted or (not @options.trim and not @options.ltrim ) or @state.field
           @state.field += c
           break
       else
-        break if @state.commented
+        break if @commented
         @state.field += c
     @state.lastC = c
     i++
+
+Parser.prototype.end = ->
+    if @quoted
+      return @error new Error 'Quoted field not terminated'
+    # dump open record
+    if @state.field or @state.lastC is @options.delimiter or @state.lastC is @options.quote
+      if @options.trim or @options.rtrim
+        @state.field = @state.field.trimRight()
+      @state.line.push @state.field
+      @state.field = ''
+    if @state.line.length > 0
+      @emit 'row', @state.line
+    @emit 'end', null
 
 Parser.prototype.error = (e) ->
   @writable = false
