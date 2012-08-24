@@ -1,12 +1,10 @@
 
 module.exports = ->
   count: 0
-  countWriten: 0
   field: ''
   line: []
   lastC: ''
-  quoted: false
-  commented: false
+  countWriten: 0
   buffer: null
   bufferPosition: 0
   # Are we currently inside the transform callback? If so,
