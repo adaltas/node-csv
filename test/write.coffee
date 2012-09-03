@@ -18,7 +18,7 @@ describe 'write', ->
       record.should.be.an.instanceof Array
       count.should.eql index
       count++
-    .on 'end', ->
+    .on 'close', ->
       count.should.eql 1000
       expect = fs.readFileSync "#{__dirname}/write/write.out"
       result = fs.readFileSync "#{__dirname}/write/write_array.tmp"
@@ -37,7 +37,7 @@ describe 'write', ->
       record.should.not.be.an.instanceof Array
       count.should.eql index
       count++
-    .on 'end', ->
+    .on 'close', ->
       count.should.eql 1000
       expect = fs.readFileSync "#{__dirname}/write/write.out"
       result = fs.readFileSync "#{__dirname}/write/write_object.tmp"
@@ -55,7 +55,7 @@ describe 'write', ->
       record.should.be.an.instanceof Array
       count.should.eql index
       count++
-    .on 'end', ->
+    .on 'close', ->
       count.should.eql 1000
       expect = fs.readFileSync "#{__dirname}/write/write.out"
       result = fs.readFileSync "#{__dirname}/write/write_string.tmp"
@@ -83,7 +83,7 @@ describe 'write', ->
       count.should.eql index
       count++
       null
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/write/string_preserve.out"
       result = fs.readFileSync "#{__dirname}/write/string_preserve.tmp"
       result.should.eql expect
@@ -108,7 +108,7 @@ describe 'write', ->
     .to.path( "#{__dirname}/write/write_array.tmp" )
     .transform (record, index) ->
       count++
-    .on 'end', ->
+    .on 'close', ->
       count.should.eql 1000
       fs.unlink "#{__dirname}/write/write_array.tmp", next
     for i in [0...1000]
@@ -117,11 +117,12 @@ describe 'write', ->
   
   it 'should emit header even without a source', (next) ->
     test = csv()
-    .to.path( "#{__dirname}/write/write_sourceless.tmp", 
+    .to.path "#{__dirname}/write/write_sourceless.tmp", 
       columns: [ 'col1', 'col2' ], 
       header: true, 
-      lineBreaks: 'unix' )
-    .on 'end', ->
+      lineBreaks: 'unix'
+    .on 'close', (count) ->
+      count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/write/write_sourceless.out"
       result = fs.readFileSync "#{__dirname}/write/write_sourceless.tmp"
       result.should.eql expect

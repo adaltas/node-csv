@@ -20,7 +20,7 @@ describe 'transform', ->
       count++
       record.unshift record.pop()
       return record
-    .on 'end', ->
+    .on 'close', ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/transform/reorder.out"
       result = fs.readFileSync "#{__dirname}/transform/reorder.tmp"
@@ -36,7 +36,7 @@ describe 'transform', ->
       count.should.eql index
       count++
       return
-    .on 'end', ->
+    .on 'close', ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/transform/undefined.out"
       result = fs.readFileSync "#{__dirname}/transform/undefined.tmp"
@@ -52,7 +52,7 @@ describe 'transform', ->
       count.should.eql index
       count++
       if index % 2 then record else null
-    .on 'end', ->
+    .on 'close', ->
       count.should.eql 6
       expect = fs.readFileSync "#{__dirname}/transform/null.out"
       result = fs.readFileSync "#{__dirname}/transform/null.tmp"
@@ -68,7 +68,7 @@ describe 'transform', ->
     .to.path("#{__dirname}/transform/object.tmp")
     .transform (record, index) ->
       { field_1: record[4], field_2: record[3] }
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/transform/object.out"
       result = fs.readFileSync "#{__dirname}/transform/object.tmp"
@@ -83,7 +83,7 @@ describe 'transform', ->
     .to.path("#{__dirname}/transform/string.tmp")
     .transform (record, index) ->
       ( if index > 0 then ',' else '' ) + record[4] + ":" + record[3]
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/transform/string.out"
       result = fs.readFileSync "#{__dirname}/transform/string.tmp"
@@ -112,7 +112,7 @@ describe 'transform', ->
     .transform (record, index) ->
       record[3] = record[3].split('-')
       [parseInt(record[0]), parseFloat(record[1]), parseFloat(record[2]) ,Date.UTC(record[3][0], record[3][1], record[3][2]), !!record[4], !!record[5]]
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/transform/types.out"
       result = fs.readFileSync "#{__dirname}/transform/types.tmp"
@@ -135,7 +135,7 @@ describe 'transform', ->
       setTimeout next, 100
     .on 'record', (record) ->
       record[1].should.be.below 9
-    .on 'end', ->
+    .on 'close', ->
       false.should.be.ok
       next()
     for i in [0...1000]

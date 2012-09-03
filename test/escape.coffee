@@ -19,7 +19,7 @@ describe 'escape', ->
       if index is 0
         record[1].should.eql '19"79.0'
         record[3].should.eql 'A"B"C'
-    .on 'end', ->
+    .on 'close', ->
       result = fs.readFileSync "#{__dirname}/escape/default.out"
       expect = fs.readFileSync "#{__dirname}/escape/default.tmp"
       result.should.eql expect
@@ -33,7 +33,7 @@ describe 'escape', ->
       if index is 0
         record[1].should.eql '19"79.0'
         record[3].should.eql 'A"B"C'
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/escape/backslash.out"
       result = fs.readFileSync "#{__dirname}/escape/backslash.tmp"

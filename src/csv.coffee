@@ -21,7 +21,7 @@ state = require './state'
 options = require './options'
 from = require './from'
 to = require './to'
-stringify = require './stringify'
+Stringifier = require './Stringifier'
 Parser = require './Parser'
 
 module.exports = ->
@@ -41,20 +41,12 @@ module.exports = ->
     @parser.on 'row', (row) ->
       transform row
     @parser.on 'end', (->
-      if @writeStream
-        if @state.bufferPosition isnt 0
-          @writeStream.write @state.buffer.slice 0, @state.bufferPosition
-        if @options.to.end
-          @writeStream.end()
-        else
-          @emit 'end', @state.count
-          @readable = false
-      else
-        @emit 'end', @state.count
-        @readable = false
+      @emit 'end', @state.count
+      @readable = false
     ).bind @
     @parser.on 'error', (e) ->
       error e
+    @stringifier = new Stringifier @
     @
   CSV.prototype.__proto__ = stream.prototype
 
@@ -157,17 +149,13 @@ module.exports = ->
   write = (line, preserve) ->
     return if typeof line is 'undefined' or line is null
     # Emit the record
-    if not preserve
+    unless preserve
       try csv.emit 'record', line, csv.state.count
       catch e then return error e
       # Convert the record into a string
-      line = stringify line, csv
-    if csv.state.buffer
-      if csv.state.bufferPosition + Buffer.byteLength(line, csv.options.to.encoding) > csv.options.from.bufferSize
-        csv.writeStream.write(csv.state.buffer.slice(0, csv.state.bufferPosition))
-        csv.state.buffer = new Buffer(csv.options.from.bufferSize)
-        csv.state.bufferPosition = 0
-      csv.state.bufferPosition += csv.state.buffer.write(line, csv.state.bufferPosition, csv.options.to.encoding)
+      line = csv.stringifier.stringify line
+    # Emit the csv
+    csv.emit 'data', line
     csv.state.countWriten++ unless preserve
     true
 

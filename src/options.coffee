@@ -13,7 +13,6 @@ module.exports = ->
   *   `columns`     null
   *   `flags`       r
   *   `encoding`    utf8
-  *   `bufferSize`  8 * 1024 * 1024
   *   `trim`        false
   *   `ltrim`       false
   *   `rtrim`       false
@@ -26,7 +25,6 @@ module.exports = ->
     columns: null
     flags: 'r'
     encoding: 'utf8'
-    bufferSize: 8388608
     trim: false
     ltrim: false
     rtrim: false
@@ -48,7 +46,6 @@ module.exports = ->
   *   `lineBreaks`  
   *   `flags`     
   *   `encoding`    
-  *   `bufferSize`  
   *   `newColumns`  
   *   `end`         Call `end()` on close
 
@@ -63,7 +60,6 @@ module.exports = ->
     lineBreaks: null
     flags: 'w'
     encoding: 'utf8'
-    bufferSize: null
     newColumns: false
     end: true
 

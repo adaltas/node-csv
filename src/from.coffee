@@ -25,7 +25,6 @@ module.exports = (csv) ->
   *   `columns`     List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections below.
   *   `flags`     
   *   `encoding`    Defaults to 'utf8', applied when a readable stream is created.
-  *   `bufferSize`  
   *   `trim`        If true, ignore whitespace immediately around the delimiter, defaults to false.
   *   `ltrim`       If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
   *   `rtrim`       If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.

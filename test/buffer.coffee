@@ -18,7 +18,7 @@ describe 'buffer', ->
     .transform (record) ->
       record.should.be.a 'object'
       record
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/buffer/smaller.out"
       result = fs.readFileSync "#{__dirname}/buffer/smaller.tmp"
       result.should.eql expect
@@ -32,7 +32,7 @@ describe 'buffer', ->
     .transform (record) ->
       record.should.be.a 'object'
       record
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/buffer/same.out"
       result = fs.readFileSync "#{__dirname}/buffer/same.tmp"
       result.should.eql expect

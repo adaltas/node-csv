@@ -24,7 +24,7 @@ describe 'delimiter', ->
         record[3].should.eql ''
         record[4].should.eql ''
       record
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/delimiter/empty_value.out"
       result = fs.readFileSync "#{__dirname}/delimiter/empty_value.tmp"
@@ -45,7 +45,7 @@ describe 'delimiter', ->
         record[3].should.eql ''
         record[4].should.eql ''
       record
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/delimiter/tab_to_coma.out"
       result = fs.readFileSync "#{__dirname}/delimiter/tab_to_coma.tmp"

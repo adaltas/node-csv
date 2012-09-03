@@ -14,7 +14,7 @@ describe 'quotes', ->
     csv()
     .from.path( "#{__dirname}/quotes/regular.in" )
     .to.path( "#{__dirname}/quotes/regular.tmp" )
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/quotes/regular.out"
       result = fs.readFileSync "#{__dirname}/quotes/regular.tmp"
       result.should.eql expect
@@ -24,7 +24,7 @@ describe 'quotes', ->
     csv()
     .from.path("#{__dirname}/quotes/delimiter.in")
     .to.path("#{__dirname}/quotes/delimiter.tmp")
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/quotes/delimiter.out"
       result = fs.readFileSync "#{__dirname}/quotes/delimiter.tmp"
       result.should.eql expect
@@ -34,7 +34,7 @@ describe 'quotes', ->
     csv()
     .from.path( "#{__dirname}/quotes/in_field.in" )
     .to.path( "#{__dirname}/quotes/in_field.tmp" )
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/quotes/in_field.out"
       result = fs.readFileSync "#{__dirname}/quotes/in_field.tmp"
       result.should.eql expect
@@ -46,7 +46,7 @@ describe 'quotes', ->
       quote: '"'
       escape: '"'
     .to.path("#{__dirname}/quotes/empty_value.tmp")
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/quotes/empty_value.out"
       result = fs.readFileSync "#{__dirname}/quotes/empty_value.tmp"
       result.should.eql expect
@@ -63,7 +63,7 @@ describe 'quotes', ->
       if index is 0
         record[1].should.eql '"'
         record[4].should.eql '"ok"'
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/quotes/contains_quotes.out"
       result = fs.readFileSync "#{__dirname}/quotes/contains_quotes.tmp"
       result.should.eql expect
@@ -77,7 +77,7 @@ describe 'quotes', ->
     .to.path("#{__dirname}/quotes/linebreak.tmp")
     .on 'record', (record,index) ->
       record.length.should.eql 5
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/quotes/linebreak.out"
       result = fs.readFileSync "#{__dirname}/quotes/linebreak.tmp"
       result.should.eql expect
@@ -89,7 +89,7 @@ describe 'quotes', ->
       quote: '"'
       escape: '"'
     .to.path( "#{__dirname}/quotes/unclosed.tmp" )
-    .on 'end', -> 
+    .on 'close', -> 
       false.should.be.ok
     .on 'error', (e) ->
       e.message.should.eql 'Quoted field not terminated'
@@ -102,7 +102,7 @@ describe 'quotes', ->
       escape: '"'
       delimiter: "\t"
     .to.path( "#{__dirname}/quotes/invalid.tmp" )
-    .on 'end', ->
+    .on 'close', ->
       false.should.be.ok
     .on 'error', (e) ->
       e.message.should.eql 'Invalid closing quote; found " " instead of delimiter "\\t"'
@@ -114,7 +114,7 @@ describe 'quotes', ->
       quote: '"'
       escape: '"'
     .to.path( "#{__dirname}/quotes/invalidstring.tmp" )
-    .on 'end', ->
+    .on 'close', ->
       false.should.be.ok
     .on 'error', (e) ->
       e.message.should.match /Invalid closing quote/
@@ -124,7 +124,7 @@ describe 'quotes', ->
     csv()
     .from.path("#{__dirname}/quotes/quoted.in")
     .to.path( "#{__dirname}/quotes/quoted.tmp", quoted: true )
-    .on 'end', ->
+    .on 'close', ->
       expect = fs.readFileSync "#{__dirname}/quotes/quoted.out"
       result = fs.readFileSync "#{__dirname}/quotes/quoted.tmp"
       result.should.eql expect
