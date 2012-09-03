@@ -105,7 +105,7 @@ module.exports = (csv) ->
     readStream.on 'data', (data) ->
       csv.write data.toString()
     readStream.on 'error', (e) ->
-      error e
+      csv.error e
     readStream.on 'end', ->
       csv.end()
     csv.readStream = readStream
