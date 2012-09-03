@@ -104,17 +104,17 @@ Events
 
 By extending the Node `EventEmitter` class, the library provides a few useful events:
 
--	*data* (function(data, index){})
+*	  *data* (function(data, index){})
     Thrown when a new row is parsed after the `transform` callback and with the data being the value returned by `transform`. Note however that the event won't be called if transform return `null` since the record is skipped.
-	The callback provide two arguments:
-	`data` is the CSV line being processed (by default as an array)
-	`index` is the index number of the line starting at zero
-    
--   *end*
-    In case your redirecting the output to a file using the `toPath` method, the event will be called once the writing process is complete and the file closed.
-    
--   *error*
-    Thrown whenever an error is captured.
+	  The callback provide two arguments:
+	  `data` is the CSV line being processed (by default as an array)
+	  `index` is the index number of the line starting at zero
+*   *end*
+    Emitted when the CSV content has been parsed.
+*   *close*
+    Emitted when the underlying resource has been closed. For example, when writting to a file with `csv().to.path()`, the event will be called once the writing process is complete and the file closed.
+*   *error*
+    Thrown whenever an error occured.
 
 Columns
 -------

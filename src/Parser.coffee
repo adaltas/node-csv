@@ -11,6 +11,13 @@ Parse a string which may hold multiple lines.
 Private state object is enriched on each character until 
 transform is called on a new line.
 
+Internally, the code doesn't need to be async
+
+Events
+*   row
+*   end
+*   error
+
 ###
 Parser = (csv) ->
   @writable = true

@@ -14,7 +14,7 @@ describe 'fromto', ->
     csv()
     .from.stream(fs.createReadStream "#{__dirname}/fromto/sample.in", flags: 'r' )
     .to.stream(fs.createWriteStream "#{__dirname}/fromto/sample.tmp", flags: 'w' )
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/fromto/sample.out"
       result = fs.readFileSync "#{__dirname}/fromto/sample.tmp"
@@ -44,7 +44,7 @@ describe 'fromto', ->
         record[0].should.eql '20322051544'
       else if index is 1
         record[0].should.eql '28392898392'
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/fromto/string_to_stream.out"
       result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
@@ -66,7 +66,7 @@ describe 'fromto', ->
         record[0].should.eql '20322051544'
       else if index is 1
         record[0].should.eql '28392898392'
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/fromto/array_to_stream.out"
       result = fs.readFileSync "#{__dirname}/fromto/array_to_stream.tmp"
@@ -95,7 +95,7 @@ describe 'fromto', ->
         should.not.exist record[1]
       else if index is 1
         should.not.exist record[5]
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/fromto/null.out"
       result = fs.readFileSync "#{__dirname}/fromto/null.tmp"

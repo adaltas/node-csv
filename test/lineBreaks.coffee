@@ -14,7 +14,7 @@ describe 'lineBreaks', ->
     csv()
     .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
     .to.path( "#{__dirname}/lineBreaks/custom.tmp", lineBreaks: '::' )
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/lineBreaks/custom.out"
       result = fs.readFileSync "#{__dirname}/lineBreaks/custom.tmp"
@@ -25,7 +25,7 @@ describe 'lineBreaks', ->
     csv()
     .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
     .to.path( "#{__dirname}/lineBreaks/unix.tmp", lineBreaks: "unix")
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/lineBreaks/unix.out"
       result = fs.readFileSync "#{__dirname}/lineBreaks/unix.tmp"
@@ -36,7 +36,7 @@ describe 'lineBreaks', ->
     csv()
     .from.path( "#{__dirname}/lineBreaks/lineBreaks.in")
     .to.path( "#{__dirname}/lineBreaks/unicode.tmp", lineBreaks: 'unicode')
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/lineBreaks/unicode.out"
       result = fs.readFileSync "#{__dirname}/lineBreaks/unicode.tmp"
@@ -47,7 +47,7 @@ describe 'lineBreaks', ->
     csv()
     .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
     .to.path( "#{__dirname}/lineBreaks/mac.tmp", lineBreaks: 'mac' )
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/lineBreaks/mac.out"
       result = fs.readFileSync "#{__dirname}/lineBreaks/mac.tmp"
@@ -58,7 +58,7 @@ describe 'lineBreaks', ->
     csv()
     .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
     .to.path( "#{__dirname}/lineBreaks/windows.tmp", lineBreaks: 'windows' )
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/lineBreaks/windows.out"
       result = fs.readFileSync "#{__dirname}/lineBreaks/windows.tmp"

@@ -6,14 +6,14 @@ var csv = require('..');
 process.stdin.resume();
 
 csv()
-.fromStream(process.stdin)
-.toPath(__dirname+'/sample.out')
+.from.stream(process.stdin)
+.to.path(__dirname+'/sample.out')
 .transform(function(data){
     data.unshift(data.pop());
     return data;
 })
-.on('data',function(data,index){
-    console.log('#'+index+' '+JSON.stringify(data));
+.on('record',function(record, index){
+    console.log('#'+index+' '+JSON.stringify(record));
 })
 .on('end',function(count){
     console.log('Number of lines: '+count);

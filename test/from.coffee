@@ -8,7 +8,7 @@ fs = require 'fs'
 should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
-describe 'reader', ->
+describe 'from', ->
 
   describe 'string', ->
 

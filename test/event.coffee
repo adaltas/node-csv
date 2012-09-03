@@ -22,7 +22,7 @@ describe 'event', ->
       .on 'error', (e) ->
         e.message.should.equal 'Error in record 0'
         next()
-      .on 'end', ->
+      .on 'close', ->
         false.should.be.ok
       for i in [0...1000]
         test.write ['Test '+i, i, '"'] if test.writable

@@ -25,7 +25,7 @@ describe 'columns', ->
         else if index is 1
           record.FIELD_4.should.eql 'DEF'
         record
-      .on 'end', (count) ->
+      .on 'close', (count) ->
         count.should.eql 2
         expect = fs.readFileSync "#{__dirname}/columns/in_true.out"
         result = fs.readFileSync "#{__dirname}/columns/in_true.tmp"
@@ -51,7 +51,7 @@ describe 'columns', ->
       .on 'record', (record, index) ->
         record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
-      .on 'end', (count) ->
+      .on 'close', (count) ->
         count.should.eql 2
         expect = fs.readFileSync "#{__dirname}/columns/in_named.out"
         result = fs.readFileSync "#{__dirname}/columns/in_named.tmp"
@@ -71,7 +71,7 @@ describe 'columns', ->
       )
       .on 'record', (record, index) ->
         record.should.be.an.instanceof Array
-      .on 'end', (count) ->
+      .on 'close', (count) ->
         count.should.eql 2
         expect = fs.readFileSync "#{__dirname}/columns/out_no_transform.out"
         result = fs.readFileSync "#{__dirname}/columns/out_no_transform.tmp"
@@ -92,7 +92,7 @@ describe 'columns', ->
       .on 'record', (record, index) ->
         record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
-      .on 'end', (count) ->
+      .on 'close', (count) ->
         count.should.eql 2
         expect = fs.readFileSync "#{__dirname}/columns/out_named.out"
         result = fs.readFileSync "#{__dirname}/columns/out_named.tmp"
@@ -108,7 +108,7 @@ describe 'columns', ->
         record.should.be.an.a 'object'
         record.FIELD_7 = 'new_field'
         record
-      .on 'end', (count) ->
+      .on 'close', (count) ->
         count.should.eql 2
         expect = fs.readFileSync "#{__dirname}/columns/out_new.out"
         result = fs.readFileSync "#{__dirname}/columns/out_new.tmp"

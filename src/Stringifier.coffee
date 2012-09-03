@@ -1,9 +1,13 @@
 
-module.exports = (line, csv) ->
-  columns = csv.options.to.columns or csv.options.from.columns
-  delimiter = csv.options.to.delimiter or csv.options.from.delimiter
-  quote = csv.options.to.quote or csv.options.from.quote
-  escape = csv.options.to.escape or csv.options.from.escape
+Stringifier = (csv) ->
+  @csv = csv
+  @
+
+Stringifier.prototype.stringify = (line) ->
+  columns = @csv.options.to.columns or @csv.options.from.columns
+  delimiter = @csv.options.to.delimiter or @csv.options.from.delimiter
+  quote = @csv.options.to.quote or @csv.options.from.quote
+  escape = @csv.options.to.escape or @csv.options.from.escape
   if typeof line is 'object'
     unless Array.isArray line
       _line = []
@@ -16,12 +20,12 @@ module.exports = (line, csv) ->
           _line.push line[column]
       line = _line
       _line = null
-    else if csv.options.to.columns
+    else if @csv.options.to.columns
       # We are getting an array but the user want specified output columns. In
       # this case, we respect the columns indexes
-      line.splice csv.options.to.columns.length
+      line.splice @csv.options.to.columns.length
     if Array.isArray line
-      newLine = if csv.state.countWriten then csv.options.to.lineBreaks or "\n" else ''
+      newLine = if @csv.state.countWriten then @csv.options.to.lineBreaks or "\n" else ''
       for i in [0...line.length]
         field = line[i]
         if typeof field is 'string'
@@ -42,7 +46,7 @@ module.exports = (line, csv) ->
           if containsQuote
             regexp = new RegExp(quote,'g')
             field = field.replace(regexp, escape + quote)
-          if containsQuote or containsdelimiter or containsLinebreak or csv.options.to.quoted
+          if containsQuote or containsdelimiter or containsLinebreak or @csv.options.to.quoted
             field = quote + field + quote
           newLine += field
         if i isnt line.length - 1
@@ -51,3 +55,6 @@ module.exports = (line, csv) ->
   else if typeof line is 'number'
     line = ''+line
   line
+
+
+module.exports = (csv) -> new Stringifier csv

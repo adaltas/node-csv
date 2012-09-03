@@ -17,7 +17,7 @@ describe 'header', ->
       header: true
       columns: ["FIELD_1", "FIELD_2"]
     )
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/header/defwcols.out"
       result = fs.readFileSync "#{__dirname}/header/defwcols.tmp"
@@ -34,7 +34,7 @@ describe 'header', ->
       header: true
       columns: ["FIELD_1", "FIELD_2"]
     )
-    .on 'end', (count) ->
+    .on 'close', (count) ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/header/truercols_defwcols.out"
       result = fs.readFileSync "#{__dirname}/header/truercols_defwcols.tmp"
