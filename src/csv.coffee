@@ -23,149 +23,107 @@ from = require './from'
 to = require './to'
 Stringifier = require './Stringifier'
 Parser = require './Parser'
+Transformer = require './Transformer'
 
-module.exports = ->
+CSV = ->
+  # A boolean that is true by default, but turns false after an 'error' occurred, 
+  # the stream came to an 'end', or destroy() was called. 
+  @readable = true
+  # A boolean that is true by default, but turns false after an 'error' occurred 
+  # or end() / destroy() was called. 
+  @writable = true
+  @state = state()
+  @options = options()
+  @from = from @
+  @to = to @
+  @parser = Parser @
+  @parser.on 'row', ( (row) ->
+    @transformer.transform row
+  ).bind @
+  @parser.on 'end', ( ->
+    @emit 'end', @state.count
+    @readable = false
+  ).bind @
+  @parser.on 'error', ( (e) ->
+    @error e
+  ).bind @
+  @stringifier = new Stringifier @
+  @transformer = new Transformer @
+  @
+CSV.prototype.__proto__ = stream.prototype
 
-  CSV = ->
-    # A boolean that is true by default, but turns false after an 'error' occurred, 
-    # the stream came to an 'end', or destroy() was called. 
-    @readable = true
-    # A boolean that is true by default, but turns false after an 'error' occurred 
-    # or end() / destroy() was called. 
-    @writable = true
-    @state = state()
-    @options = options()
-    @from = from @
-    @to = to @
-    @parser = Parser @
-    @parser.on 'row', (row) ->
-      transform row
-    @parser.on 'end', (->
-      @emit 'end', @state.count
-      @readable = false
-    ).bind @
-    @parser.on 'error', (e) ->
-      error e
-    @stringifier = new Stringifier @
-    @
-  CSV.prototype.__proto__ = stream.prototype
+###
 
-  ###
+`write(data, [preserve])`: Write data
+-------------------------------------
 
-  `write(data, [preserve])`: Write data
-  -------------------------------------
+Implementation of the StreamWriter API with a larger signature. Data
+may be a string, a buffer, an array or an object.
 
-  Implementation of the StreamWriter API with a larger signature. Data
-  may be a string, a buffer, an array or an object.
+If data is a string or a buffer, it could span multiple lines. If data 
+is an object or an array, it must represent a single line.
+Preserve is for line which are not considered as CSV data.
 
-  If data is a string or a buffer, it could span multiple lines. If data 
-  is an object or an array, it must represent a single line.
-  Preserve is for line which are not considered as CSV data.
+###
+CSV.prototype.write = (data, preserve) ->
+  return unless @writable
+  # Parse data if it is a string
+  if typeof data is 'string' and not preserve
+    return @parser.parse data
+  # Data is ready if it is an array
+  if Array.isArray(data) and not @state.transforming
+    return @transformer.transform data
+  # console.log 'ok', typeof data
+  # Write columns
+  if @state.count is 0 and @options.to.header is true
+    @stringifier.write @options.to.columns or @options.from.columns
+  @stringifier.write data, preserve
+  if not @state.transforming and not preserve
+    @state.count++
 
-  ###
-  CSV.prototype.write = (data, preserve) ->
-    return unless @writable
-    # Parse data if it is a string
-    if typeof data is 'string' and not preserve
-      return @parser.parse data
-    # Data is ready if it is an array
-    if Array.isArray(data) and not @state.transforming
-      return transform data
-    # console.log 'ok', typeof data
-    # Write columns
-    if @state.count is 0 and @options.to.header is true
-      write @options.to.columns or @options.from.columns
-    write data, preserve
-    if not @state.transforming and not preserve
-      @state.count++
+###
 
-  ###
+`end()`: Terminate the parsing
+-------------------------------
 
-  `end()`: Terminate the parsing
-  -------------------------------
+Call this method when no more csv data is to be parsed. It 
+implement the StreamWriter API by setting the `writable` 
+property to "false" and emitting the `end` event.
 
-  Call this method when no more csv data is to be parsed. It 
-  implement the StreamWriter API by setting the `writable` 
-  property to "false" and emitting the `end` event.
+###
+CSV.prototype.end = ->
+  return unless @writable
+  @parser.end()
 
-  ###
-  CSV.prototype.end = ->
-    return unless @writable
-    @parser.end()
-  
-  ###
+###
 
-  `transform(callback)`: Register the transformer callback
-  --------------------------------------------------------
+`transform(callback)`: Register the transformer callback
+--------------------------------------------------------
 
-  User provided function call on each line to filter, enrich or modify 
-  the dataset. The callback is called asynchronously.
+User provided function call on each line to filter, enrich or modify 
+the dataset. The callback is called asynchronously.
 
-  ###
-  CSV.prototype.transform = (callback) ->
-    @transformer = callback
-    @
-  
-  csv = new CSV()
-  
-  # Private API
-  
-  ###
-  Called by the `parse` function on each line. It is responsible for 
-  transforming the data and finally calling `write`.
-  ###
-  transform = (line) ->
-    columns = csv.options.from.columns
-    if columns
-      # Extract column names from the first line
-      if csv.state.count is 0 and columns is true
-        csv.options.from.columns = columns = line
-        return
-      # Line stored as an object in which keys are column names
-      lineAsObject = {}
-      for column, i in columns
-        lineAsObject[column] = line[i] or null
-      line = lineAsObject
-    if csv.transformer
-      csv.state.transforming = true
-      try line = csv.transformer line, csv.state.count
-      catch e then return error e
-      isObject = typeof line is 'object' and not Array.isArray line
-      if csv.options.to.newColumns and not csv.options.to.columns and isObject
-        Object.keys(line)
-        .filter( (column) -> columns.indexOf(column) is -1 )
-        .forEach( (column) -> columns.push(column) )
-      csv.state.transforming = false
-    if csv.state.count is 0 and csv.options.to.header is true
-      write csv.options.to.columns or columns
-    write line
-    csv.state.count++
-  
-  ###
-  Write a line to the written stream.
-  Line may be an object, an array or a string
-  Preserve is for line which are not considered as CSV data
-  ###
-  write = (line, preserve) ->
-    return if typeof line is 'undefined' or line is null
-    # Emit the record
-    unless preserve
-      try csv.emit 'record', line, csv.state.count
-      catch e then return error e
-      # Convert the record into a string
-      line = csv.stringifier.stringify line
-    # Emit the csv
-    csv.emit 'data', line
-    csv.state.countWriten++ unless preserve
-    true
+###
+CSV.prototype.transform = (callback) ->
+  @transformer.callback = callback
+  @
 
-  error = (e) ->
-    csv.readable = false
-    csv.writable = false
-    csv.emit 'error', e
+###
+
+`error(error)`: Handle error
+----------------------------
+
+Unified mechanism to handle error, will emit the error and mark the 
+stream as non readable and non writable.
+
+###
+CSV.prototype.error = (e) ->
+    @readable = false
+    @writable = false
+    @emit 'error', e
     # Destroy the input stream
-    csv.readStream.destroy() if csv.readStream
-    e
-  
-  csv
+    @readStream.destroy() if @readStream
+    @
+
+module.exports = -> new CSV
 

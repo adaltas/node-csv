@@ -2,6 +2,24 @@
 Stringifier = (csv) ->
   @csv = csv
   @
+  
+###
+Write a line to the written stream.
+Line may be an object, an array or a string
+Preserve is for line which are not considered as CSV data
+###
+Stringifier.prototype.write = (line, preserve) ->
+  return if typeof line is 'undefined' or line is null
+  # Emit the record
+  unless preserve
+    try @csv.emit 'record', line, @csv.state.count
+    catch e then return @csv.error e
+    # Convert the record into a string
+    line = @csv.stringifier.stringify line
+  # Emit the csv
+  @csv.emit 'data', line
+  @csv.state.countWriten++ unless preserve
+  true
 
 Stringifier.prototype.stringify = (line) ->
   columns = @csv.options.to.columns or @csv.options.from.columns
