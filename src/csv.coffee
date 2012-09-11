@@ -52,6 +52,13 @@ CSV = ->
   @
 CSV.prototype.__proto__ = stream.prototype
 
+CSV.prototype.pause = ->
+  @paused = true
+
+CSV.prototype.resume = ->
+  @paused = false
+  @emit 'drain'
+
 ###
 
 `write(data, [preserve])`: Write data
@@ -66,20 +73,21 @@ Preserve is for line which are not considered as CSV data.
 
 ###
 CSV.prototype.write = (data, preserve) ->
-  return unless @writable
+  return false unless @writable
   # Parse data if it is a string
   if typeof data is 'string' and not preserve
-    return @parser.parse data
+    @parser.parse data
   # Data is ready if it is an array
-  if Array.isArray(data) and not @state.transforming
-    return @transformer.transform data
-  # console.log 'ok', typeof data
+  else if Array.isArray(data) and not @state.transforming
+    @transformer.transform data
   # Write columns
-  if @state.count is 0 and @options.to.header is true
-    @stringifier.write @options.to.columns or @options.from.columns
-  @stringifier.write data, preserve
-  if not @state.transforming and not preserve
-    @state.count++
+  else
+    if @state.count is 0 and @options.to.header is true
+      @stringifier.write @options.to.columns or @options.from.columns
+    @stringifier.write data, preserve
+    if not @state.transforming and not preserve
+      @state.count++
+  return not @paused
 
 ###
 

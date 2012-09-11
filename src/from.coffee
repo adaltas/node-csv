@@ -93,22 +93,22 @@ module.exports = (csv) ->
   
   ###
   
-  `from.stream(readStream, [options])`: Read from a stream
+  `from.stream(stream, [options])`: Read from a stream
   --------------------------------------------------------
   
   Take a readable stream as first argument and optionally 
   an object of options as a second argument.
   
   ###
-  stream: (readStream, options) ->
+  stream: (stream, options) ->
     @options options
-    readStream.on 'data', (data) ->
+    stream.on 'data', (data) ->
       csv.write data.toString()
-    readStream.on 'error', (e) ->
+    stream.on 'error', (e) ->
       csv.error e
-    readStream.on 'end', ->
+    stream.on 'end', ->
       csv.end()
-    csv.readStream = readStream
+    csv.readStream = stream
     csv
 
 
