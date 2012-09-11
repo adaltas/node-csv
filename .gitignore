@@ -3,5 +3,5 @@
 /node_modules
 lib-cov
 samples/sample.out
-samples/large.out
+samples/perf.out
 !.gitignore
