@@ -43,3 +43,20 @@ describe 'from', ->
         record.length.should.eql 6
       .on 'end', ->
         next()
+  
+  it 'Test string without destination', (next) ->
+    string = """
+    20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+    28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+    """
+    csv()
+    .from.string(string)
+    .on 'record', (record, index) ->
+      index.should.be.below 2
+      if index is 0
+        record[0].should.eql '20322051544'
+      else if index is 1
+        record[0].should.eql '28392898392'
+    .on 'end', (count) ->
+      count.should.eql 2
+      next()
