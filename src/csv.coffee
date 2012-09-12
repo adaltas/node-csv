@@ -1,6 +1,5 @@
 
 ###
-Module CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 
 |-----------|      |---------|---------|       |---------|
 |           |      |         |         |       |         |
@@ -21,7 +20,7 @@ state = require './state'
 options = require './options'
 from = require './from'
 to = require './to'
-Stringifier = require './Stringifier'
+stringifier = require './stringifier'
 Parser = require './Parser'
 transformer = require './transformer'
 
@@ -47,7 +46,7 @@ CSV = ->
   @parser.on 'error', ( (e) ->
     @error e
   ).bind @
-  @stringifier = new Stringifier @
+  @stringifier = stringifier @
   @transformer = transformer @
   @
 CSV.prototype.__proto__ = stream.prototype
