@@ -1,5 +1,6 @@
 
 Stream = require 'stream'
+util = require 'util'
 
 ###
 
@@ -14,34 +15,40 @@ Options may include
 
 ###
 
-module.exports = (options = {}) ->
-  options.duration ?= 4 * 60 * 1000
-  options.nb_columns = 8
-  options.max_word_length ?= 16
-  start = Date.now()
-  end = start + options.duration
-  reader = new Stream
-  reader.readable = true
-  reader.resume = ->
-    reader.paused = false
-    # Already started
-    while not reader.paused and reader.readable
-      return reader.destroy() if Date.now() > end
-      # Line
-      line = []
-      for nb_words in [0...options.nb_columns]
-        # Column
-        column = []
-        for nb_chars in [0 ... Math.ceil Math.random() * options.max_word_length]
-          char = Math.floor Math.random() * 32
-          column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
-        line.push column.join ''
-      reader.emit 'data', "#{line.join ','}\n"
-  reader.pause = ->
-    reader.paused = true
-  reader.destroy = ->
-    reader.readable = false
-    reader.emit 'end'
-    reader.emit 'close'
-  process.nextTick reader.resume if options.start
-  reader
+Generator = (@options = {}) ->
+  @options.duration ?= 4 * 60 * 1000
+  @options.nb_columns = 8
+  @options.max_word_length ?= 16
+  @start = Date.now()
+  @end = @start + @options.duration
+  @readable = true
+  process.nextTick @resume.bind @ if @options.start
+  @
+util.inherits Generator, Stream
+
+Generator.prototype.resume = ->
+  @paused = false
+  # Already started
+  while not @paused and @readable
+    return @destroy() if Date.now() > @end
+    # Line
+    line = []
+    for nb_words in [0...@options.nb_columns]
+      # Column
+      column = []
+      for nb_chars in [0 ... Math.ceil Math.random() * @options.max_word_length]
+        char = Math.floor Math.random() * 32
+        column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
+      line.push column.join ''
+    @emit 'data', "#{line.join ','}\n"
+
+Generator.prototype.pause = ->
+  @paused = true
+
+Generator.prototype.destroy = ->
+  @readable = false
+  @emit 'end'
+  @emit 'close'
+
+module.exports = (options) -> new Generator options
+module.exports.Generator = Generator
