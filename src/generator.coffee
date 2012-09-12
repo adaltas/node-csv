@@ -7,11 +7,24 @@ util = require 'util'
 `generator([options])`: Generate random CSV data
 ------------------------------------------------
 
+This function is provided for conveniency in case you need to generate random CSV data.
+
+Note, it is quite simple at the moment, more functionnalities could come later. The code 
+originates from "./samples/perf.coffee" and was later extracted in case other need its 
+functionnalities.
+
 Options may include
+
 *   duration          Period to run in milliseconds, default to 4 minutes.
 *   nb_columns        Number of fields per record
 *   max_word_length   Maximum number of characters per word
-*   start             Start the generation right away, otherwise call resume
+*   start             Start the generation on next tick, otherwise you must call resume
+
+Starting a generation
+
+  csv = require 'csv'
+  generator = csv.generator
+  generator(start: true).pipe csv().to.path "#{__dirname}/perf.out"
 
 ###
 
