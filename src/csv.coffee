@@ -23,7 +23,7 @@ from = require './from'
 to = require './to'
 Stringifier = require './Stringifier'
 Parser = require './Parser'
-Transformer = require './Transformer'
+transformer = require './transformer'
 
 CSV = ->
   # A boolean that is true by default, but turns false after an 'error' occurred, 
@@ -48,7 +48,7 @@ CSV = ->
     @error e
   ).bind @
   @stringifier = new Stringifier @
-  @transformer = new Transformer @
+  @transformer = transformer @
   @
 CSV.prototype.__proto__ = stream.prototype
 
