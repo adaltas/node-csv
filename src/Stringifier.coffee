@@ -76,3 +76,4 @@ Stringifier.prototype.stringify = (line) ->
 
 
 module.exports = (csv) -> new Stringifier csv
+module.exports.Stringifier = Stringifier

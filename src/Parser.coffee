@@ -123,5 +123,6 @@ Parser.prototype.error = (e) ->
   @emit 'error', e
 
 module.exports = (csv) -> new Parser csv
+module.exports.Parser = Parser
 
 
