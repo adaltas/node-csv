@@ -10,6 +10,40 @@ csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/
 
 describe 'from', ->
 
+  describe 'auto', ->
+
+    it 'should parse a string', (next) ->
+      csv()
+      .from('"1","2","3","4","5"')
+      .on 'record', (record) ->
+        record.length.should.eql 5
+      .on 'end', ->
+        next()
+
+    it 'should parse an array', (next) ->
+      csv()
+      .from(['"1","2","3","4","5"',['1','2','3','4','5']])
+      .on 'record', (record) ->
+        record.length.should.eql 5
+      .on 'end', ->
+        next()
+
+    it 'should parse a file', (next) ->
+      csv()
+      .from("#{__dirname}/from/file.csv")
+      .on 'record', (record) ->
+        record.length.should.eql 5
+      .on 'end', ->
+        next()
+
+    it 'should parse a stream', (next) ->
+      csv()
+      .from(fs.createReadStream "#{__dirname}/from/file.csv")
+      .on 'record', (record) ->
+        record.length.should.eql 5
+      .on 'end', ->
+        next()
+
   describe 'string', ->
 
     it 'should call record event when record is provided in from', (next) ->
