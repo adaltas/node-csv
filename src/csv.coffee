@@ -21,7 +21,7 @@ options = require './options'
 from = require './from'
 to = require './to'
 stringifier = require './stringifier'
-Parser = require './Parser'
+parser = require './parser'
 transformer = require './transformer'
 
 CSV = ->
@@ -35,7 +35,7 @@ CSV = ->
   @options = options()
   @from = from @
   @to = to @
-  @parser = Parser @
+  @parser = parser @
   @parser.on 'row', ( (row) ->
     @transformer.transform row
   ).bind @

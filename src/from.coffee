@@ -1,36 +1,78 @@
 
 fs = require 'fs'
 utils = require './utils'
+Stream = require 'stream'
 
 ###
 
 Reading data from a source
 --------------------------
 
-The `from` property provide convenient functions to read some csv input.
+The `csv().from` property provide convenient functions to read 
+to a csv input like a string, a file, a buffer or a readable stream.
 
 ###
 module.exports = (csv) ->
+  
+  ###
+
+  `from(mixed)`: Read from any sort of source
+  -------------------------------------------
+
+  Try to discover the source to parse. If it is a string, then if check 
+  if it match an existing file path and read the file content, otherwise, it
+  treat the string as csv data. If it is an instance of stream, it consider the
+  object to be an input stream. If is an array, then for each line should correspond a record.
+
+  Here's some examples on how to use this function
+
+      csv()
+      .from('"1","2","3","4","5"')
+      .on 'end', console.log 'done'
+
+      csv()
+      .from('./path/to/file.csv')
+      .on 'end', console.log 'done'
+
+      csv()
+      .from(fs.createReadStream './path/to/file.csv')
+      .on 'end', console.log 'done'
+
+      csv()
+      .from(['"1","2","3","4","5"',['1','2','3','4','5']])
+      .on 'end', console.log 'done'
+
+  ###
+  from = (mixed) ->
+    error = false
+    switch typeof mixed
+      when 'string'
+        fs.exists mixed, (exists) ->
+          if exists
+          then from.path mixed
+          else from.string mixed
+      when 'object'
+        if Array.isArray mixed
+        then from.array mixed
+        else
+          if mixed instanceof Stream
+          then from.stream mixed
+          else error = true
+      else
+        error = true
+    csv.error new Error "Invalid mixed argument in from" if error
+    csv
 
   ###
 
   `from.options([options])`: Set or get options
   ---------------------------------------------
 
-  Options are:  
+  Update and retrieve options relative to the readable stream. 
+  Return the options as an object if no argument is provided.
 
-  *   `delimiter`   Set the field delimiter, one character only, defaults to comma.
-  *   `quote`       Set the field delimiter, one character only, defaults to double quotes.
-  *   `escape`      Set the field delimiter, one character only, defaults to double quotes.
-  *   `columns`     List of fields or true if autodiscovered in the first CSV line, impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections below.
-  *   `flags`     
-  *   `encoding`    Defaults to 'utf8', applied when a readable stream is created.
-  *   `trim`        If true, ignore whitespace immediately around the delimiter, defaults to false.
-  *   `ltrim`       If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
-  *   `rtrim`       If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
-  
   ###
-  options: (options) ->
+  from.options = (options) ->
     if options?
       utils.merge csv.options.from, options
       csv
@@ -48,7 +90,7 @@ module.exports = (csv) ->
   array or an object.
 
   ###
-  array: (data, options) ->
+  from.array = (data, options) ->
     @options options
     process.nextTick ->
       for i in [0...data.length]
@@ -63,10 +105,11 @@ module.exports = (csv) ->
   
   Take a string as first argument and optionally an object 
   of options as a second argument. The string must be the 
-  complete csv data and may contains more than one line.
+  complete csv data, look at the streaming alternative if your 
+  CSV is large.
   
   ###
-  string: (data, options) ->
+  from.string = (data, options) ->
     @options options
     process.nextTick ->
       # A string is handle exactly the same way as a single `write` call 
@@ -85,7 +128,7 @@ module.exports = (csv) ->
   of options as a second argument.
   
   ###
-  path: (path, options) ->
+  from.path = (path, options) ->
     @options options
     stream = fs.createReadStream path, csv.from.options()
     stream.setEncoding csv.from.options().encoding
@@ -100,7 +143,7 @@ module.exports = (csv) ->
   an object of options as a second argument.
   
   ###
-  stream: (stream, options) ->
+  from.stream = (stream, options) ->
     @options options
     stream.on 'data', (data) ->
       csv.write data.toString()
@@ -110,5 +153,7 @@ module.exports = (csv) ->
       csv.end()
     csv.readStream = stream
     csv
+
+  from
 
 

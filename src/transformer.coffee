@@ -35,5 +35,5 @@ Transformer.prototype.transform = (line) ->
   @csv.stringifier.write line
   @csv.state.count++
 
-module.exports = (csv) -> new Transformer @
+module.exports = (csv) -> new Transformer csv
 module.exports.Transformer = Transformer
