@@ -151,10 +151,10 @@ transformer = require './transformer'
 
 CSV = ->
   # A boolean that is true by default, but turns false after an 'error' occurred, 
-  # the stream came to an 'end', or destroy() was called. 
+  # the stream came to an 'end' or the destroy function is called. 
   @readable = true
   # A boolean that is true by default, but turns false after an 'error' occurred 
-  # or end() / destroy() was called. 
+  # or after the end and destroy functions are called. 
   @writable = true
   @state = state()
   @options = options()
@@ -176,19 +176,37 @@ CSV = ->
   @
 CSV.prototype.__proto__ = stream.prototype
 
+###
+
+`pause()`
+---------
+
+Implementation of the Readable Stream API, requesting that no further data 
+be sent until resume() is called.
+
+###
 CSV.prototype.pause = ->
   @paused = true
 
+###
+
+`resume()`
+----------
+
+Implementation of the Readable Stream API, resuming the incoming 'data' 
+events after a pause()
+
+###
 CSV.prototype.resume = ->
   @paused = false
   @emit 'drain'
 
 ###
 
-`write(data, [preserve])`: Write data
--------------------------------------
+`write(data, [preserve])`
+-------------------------
 
-Implementation of the StreamWriter API with a larger signature. Data
+Implementation of the Writable Stream API with a larger signature. Data
 may be a string, a buffer, an array or an object.
 
 If data is a string or a buffer, it could span multiple lines. If data 
@@ -215,11 +233,11 @@ CSV.prototype.write = (data, preserve) ->
 
 ###
 
-`end()`: Terminate the parsing
--------------------------------
+`end()`
+-------
 
-Call this method when no more csv data is to be parsed. It 
-implement the StreamWriter API by setting the `writable` 
+Terminate the parsing. Call this method when no more csv data is 
+to be parsed. It implement the StreamWriter API by setting the `writable` 
 property to "false" and emitting the `end` event.
 
 ###
@@ -229,11 +247,12 @@ CSV.prototype.end = ->
 
 ###
 
-`transform(callback)`: Register the transformer callback
---------------------------------------------------------
+`transform(callback)`
+---------------------
 
-User provided function call on each line to filter, enrich or modify 
-the dataset. The callback is called asynchronously.
+Register the transformer callback. The callback is a user provided 
+function call on each line to filter, enrich or modify the 
+dataset. More information in the "transforming data" section.
 
 ###
 CSV.prototype.transform = (callback) ->
@@ -242,10 +261,10 @@ CSV.prototype.transform = (callback) ->
 
 ###
 
-`error(error)`: Handle error
-----------------------------
+`error(error)`
+--------------
 
-Unified mechanism to handle error, will emit the error and mark the 
+Unified mechanism to handle error, emit the error and mark the 
 stream as non readable and non writable.
 
 ###

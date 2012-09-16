@@ -11,8 +11,6 @@ Parse a string which may hold multiple lines.
 Private state object is enriched on each character until 
 transform is called on a new line.
 
-Internally, the code doesn't need to be async
-
 Events
 *   row
 *   end
@@ -28,7 +26,6 @@ Parser = (csv) ->
   @commented = false
   @
 
-# Parser.prototype.__proto__ = stream.prototype
 Parser.prototype.__proto__ = EventEmitter.prototype
 
 Parser.prototype.parse =  (chars) ->

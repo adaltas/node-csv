@@ -4,9 +4,7 @@ module.exports = ->
   ###
   
   `options.from`: Options of the CSV input source
-  -----------------------------------------------
-
-  Options are:  
+  ----------------------------------------------- 
 
   *   `delimiter`   Set the field delimiter, one character only, defaults to comma.
   *   `quote`       Set the field delimiter, one character only, defaults to double quotes.

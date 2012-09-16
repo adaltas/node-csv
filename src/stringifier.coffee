@@ -4,9 +4,8 @@ Stringifier = (csv) ->
   @
   
 ###
-Write a line to the written stream.
-Line may be an object, an array or a string
-Preserve is for line which are not considered as CSV data
+Write a line to the written stream. Line may be an object, an array or a string
+The `preserve` argument is for line which are not considered as CSV data
 ###
 Stringifier.prototype.write = (line, preserve) ->
   return if typeof line is 'undefined' or line is null
