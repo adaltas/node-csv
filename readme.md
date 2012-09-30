@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/wdavidw/node-csv-parser.png)](http://travis-ci.org/wdavidw/node-csv-parser)
 <pre>
      _   _           _        _____  _______      __
     | \ | |         | |      / ____|/ ____\ \    / /
