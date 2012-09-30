@@ -15,7 +15,7 @@ on a large input file (over 2Gb).
 *   Support for large datasets
 *   Complete test coverage as sample and inspiration
 
-Important, this readme cover the current version of the node 
+Important, this documentation cover the current version of the node 
 csv parser. The documentation for the current version 0.1.0 is 
 available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
 
@@ -91,8 +91,6 @@ Events
 By extending the Node `EventEmitter` class, the library provides 
 a few useful events:
 
-*   *row*
-    Emitted by the parser on each line with the line content as an array of fields.
 *   *record*
     Emitted by the stringifier when a new row is parsed and transformed. The data is 
     the value returned by the user `transform` callback if any. Note however that the event won't 

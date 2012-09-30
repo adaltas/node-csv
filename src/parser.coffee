@@ -7,6 +7,13 @@ stream = require 'stream'
 Parsing
 =======
 
+The library extend the EventEmitter and emit the following events:
+
+*   *row*
+    Emitted by the parser on each line with the line content as an array of fields.
+*   *end*
+*   *error*
+
 ###
 Parser = (csv) ->
   @writable = true
@@ -27,11 +34,6 @@ Parser.prototype.__proto__ = EventEmitter.prototype
 Parse a string which may hold multiple lines.
 Private state object is enriched on each character until 
 transform is called on a new line.
-
-Events
-*   row
-*   end
-*   error
 
 ###
 Parser.prototype.parse =  (chars) ->
