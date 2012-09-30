@@ -1,0 +1,54 @@
+
+###
+Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
+###
+
+require 'coffee-script'
+fs = require 'fs'
+should = require 'should'
+csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
+
+describe 'to', ->
+
+  describe 'auto', ->
+
+    it 'should write to a path', (next) ->
+      data = """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      csv()
+      .from.string(data)
+      .to( '/tmp/csv.tmp' )
+      .on 'close', (count) ->
+        # count.should.eql 2
+        # expect = fs.readFileSync "#{__dirname}/fromto/string_to_stream.out"
+        # result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
+        # result.should.eql expect
+        console.log 'todo'
+        fs.unlink '/tmp/csv.tmp', next
+
+  describe 'path', ->
+  
+    it 'Test string to stream', (next) ->
+      data = """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      csv()
+      .from.string(data)
+      .to.path( "#{__dirname}/fromto/string_to_stream.tmp" )
+      .on 'record', (record, index) ->
+        index.should.be.below 2
+        if index is 0
+          record[0].should.eql '20322051544'
+        else if index is 1
+          record[0].should.eql '28392898392'
+      .on 'close', (count) ->
+        count.should.eql 2
+        expect = fs.readFileSync "#{__dirname}/fromto/string_to_stream.out"
+        result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
+        result.should.eql expect
+        fs.unlink "#{__dirname}/fromto/string_to_stream.tmp", next
+
+
