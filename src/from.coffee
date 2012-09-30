@@ -6,7 +6,7 @@ Stream = require 'stream'
 ###
 
 Reading data from a source
---------------------------
+==========================
 
 The `csv().from` property provide functions to read to a csv input 
 like a string, a file, a buffer or a readable stream. You may call
@@ -33,19 +33,19 @@ module.exports = (csv) ->
 
       csv()
       .from('"1","2","3","4","5"')
-      .on 'end', console.log 'done'
+      .on('end', function(){ console.log('done') })
 
       csv()
       .from('./path/to/file.csv')
-      .on 'end', console.log 'done'
+      .on('end', function(){ console.log('done') })
 
       csv()
-      .from(fs.createReadStream './path/to/file.csv')
-      .on 'end', console.log 'done'
+      .from(fs.createReadStream('./path/to/file.csv'))
+      .on('end', function(){ console.log('done') })
 
       csv()
       .from(['"1","2","3","4","5"',['1','2','3','4','5']])
-      .on 'end', console.log 'done'
+      .on('end', function(){ console.log('done') })
 
   ###
   from = (mixed) ->
@@ -73,9 +73,19 @@ module.exports = (csv) ->
   `from.options([options])`
   -------------------------
 
-  Update and retrieve options relative to the readable stream. 
-  Return the options as an object if no argument is provided.
+  Update and retrieve options relative to the input source. Return 
+  the options as an object if no argument is provided.
 
+  *   `delimiter`   Set the field delimiter, one character only, defaults to comma.
+  *   `quote`       Set the field delimiter, one character only, defaults to double quotes.
+  *   `escape`      Set the field delimiter, one character only, defaults to double quotes.
+  *   `columns`     List of fields or true if autodiscovered in the first CSV line, default to null. Impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections for more details.
+  *   `flags`       Used to read a file stream, default to the r charactere.
+  *   `encoding`    Encoding of the read stream, defaults to 'utf8', applied when a readable stream is created.
+  *   `trim`        If true, ignore whitespace immediately around the delimiter, defaults to false.
+  *   `ltrim`       If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
+  *   `rtrim`       If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
+  
   ###
   from.options = (options) ->
     if options?
