@@ -21,27 +21,6 @@ describe 'fromto', ->
       result.should.eql expect
       fs.unlink "#{__dirname}/fromto/sample.tmp", next
   
-  it 'Test string to stream', (next) ->
-    string = """
-    20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
-    28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
-    """
-    csv()
-    .from.string(string)
-    .to.path( "#{__dirname}/fromto/string_to_stream.tmp" )
-    .on 'record', (record, index) ->
-      index.should.be.below 2
-      if index is 0
-        record[0].should.eql '20322051544'
-      else if index is 1
-        record[0].should.eql '28392898392'
-    .on 'close', (count) ->
-      count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/fromto/string_to_stream.out"
-      result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/fromto/string_to_stream.tmp", next
-  
   it 'Test array to stream', (next) ->
     # note: destination line breaks is unix styled because we can't guess it
     record = [
