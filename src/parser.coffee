@@ -4,17 +4,8 @@ stream = require 'stream'
 
 ###
 
-`parse(chars)`
---------------
-
-Parse a string which may hold multiple lines.
-Private state object is enriched on each character until 
-transform is called on a new line.
-
-Events
-*   row
-*   end
-*   error
+Parsing
+=======
 
 ###
 Parser = (csv) ->
@@ -28,6 +19,21 @@ Parser = (csv) ->
 
 Parser.prototype.__proto__ = EventEmitter.prototype
 
+###
+
+`parse(chars)`
+--------------
+
+Parse a string which may hold multiple lines.
+Private state object is enriched on each character until 
+transform is called on a new line.
+
+Events
+*   row
+*   end
+*   error
+
+###
 Parser.prototype.parse =  (chars) ->
   return @error new Error 'Parser is not writable' unless @writable
   csv = @csv

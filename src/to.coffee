@@ -4,8 +4,8 @@ utils = require './utils'
 
 ###
 
-Writing data to a source
---------------------------
+Writing data to a destination
+=============================
 
 The `csv().to` property provide convenient functions to write 
 to a csv output like a stream or a file. You may call
@@ -23,8 +23,19 @@ module.exports = (csv) ->
   `to.options([options])`
   -----------------------
 
-  Update and retrieve options relative to the writable stream. 
-  Return the options as an object if no argument is provided.
+  Update and retrieve options relative to the output. Return the options 
+  as an object if no argument is provided.
+
+  *   `delimiter`   Set the field delimiter, one character only, defaults to `options.from.delimiter` which is a comma.
+  *   `quote`       Defaults to the quote read option.
+  *   `quoted`      Boolean, default to false, quote all the fields even if not required.
+  *   `escape`      Defaults to the escape read option.
+  *   `columns`     List of fields, applied when `transform` returns an object, order matters, see the transform and the columns sections below.
+  *   `header`      Display the column names on the first line if the columns option is provided.
+  *   `lineBreaks`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
+  *   `flags`       Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.
+  *   `newColumns`  If the `columns` option is not specified (which means columns will be taken from the reader options, will automatically append new columns if they are added during `transform()`.
+  *   `end`         Prevent calling `end` on the destination, so that destination is no longer writable, similar to passing `{end: false}` option in `stream.pipe()`.
 
   ###
   options: (options) ->

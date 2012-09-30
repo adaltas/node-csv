@@ -5,7 +5,7 @@ util = require 'util'
 ###
 
 `generator([options])`: Generate random CSV data
-------------------------------------------------
+================================================
 
 This function is provided for conveniency in case you need to generate random CSV data.
 

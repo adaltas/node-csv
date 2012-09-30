@@ -1,4 +1,10 @@
 
+###
+
+Stringifier
+===========
+
+###
 Stringifier = (csv) ->
   @csv = csv
   @

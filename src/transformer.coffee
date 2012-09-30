@@ -1,7 +1,7 @@
 
 ###
 Transforming data
------------------
+=================
 
 The contract is quite simple, you receive an array of fields for 
 each record and return the transformed record. The return value 
