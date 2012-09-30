@@ -8,6 +8,24 @@
 
 </pre>
 
+
+Important
+---------
+
+This readme cover the current unreleased version of the node 
+csv parser. Its documentation is not yet published but will be generated 
+from the source code and is almost complete.
+
+The documentation for the current version 0.1.0 is 
+available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
+
+Migration
+---------
+
+The functions 'from*' and 'to*' are now rewritten as 'from.*' and 'to.*'. The 'data'
+event is now the 'record' event. The 'data' now recieved a stringified version of 
+the 'record' event.
+
 Development
 -----------
 
