@@ -109,17 +109,17 @@ Parser.prototype.parse =  (chars) ->
     i++
 
 Parser.prototype.end = ->
-    if @quoted
-      return @error new Error 'Quoted field not terminated'
-    # dump open record
-    if @state.field or @state.lastC is @options.delimiter or @state.lastC is @options.quote
-      if @options.trim or @options.rtrim
-        @state.field = @state.field.trimRight()
-      @state.line.push @state.field
-      @state.field = ''
-    if @state.line.length > 0
-      @emit 'row', @state.line
-    @emit 'end', null
+  if @quoted
+    return @error new Error 'Quoted field not terminated'
+  # dump open record
+  if @state.field or @state.lastC is @options.delimiter or @state.lastC is @options.quote
+    if @options.trim or @options.rtrim
+      @state.field = @state.field.trimRight()
+    @state.line.push @state.field
+    @state.field = ''
+  if @state.line.length > 0
+    @emit 'row', @state.line
+  @emit 'end', null
 
 Parser.prototype.error = (e) ->
   @writable = false
