@@ -31,4 +31,3 @@ switch process.argv[2]
     fn.apply @, arguments
 )(w.write)
 
-
