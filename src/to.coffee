@@ -1,5 +1,6 @@
 
 fs = require 'fs'
+Stream = require 'stream'
 utils = require './utils'
 
 ###
@@ -17,6 +18,48 @@ to identical way to read to a file:
 
 ###
 module.exports = (csv) ->
+
+  ###
+
+  `to(mixed)`
+  -----------
+
+  Write from any sort of destination. A convenient function to discover the 
+  destination. If is an function, then the csv will be provided as the first 
+  argument of the callback. If it is a string, then it is expected to be a 
+  file path. If it is an instance of stream, it consider the object to be an  
+  output stream. 
+
+  Here's some examples on how to use this function
+
+      csv()
+      .from('"1","2","3","4","5"')
+      .to(function(data){ console.log(data) })
+
+      csv()
+      .from('"1","2","3","4","5"')
+      .to('./path/to/file.csv')
+
+      csv()
+      .from('"1","2","3","4","5"')
+      .to(fs.createWriteStream('./path/to/file.csv'))
+
+  ###
+  to = (mixed) ->
+    error = false
+    switch typeof mixed
+      when 'string'
+        to.path mixed
+      when 'object'
+        if mixed instanceof Stream
+        then to.stream mixed
+        else error = true
+      when 'function'
+        to.string mixed
+      else
+        error = true
+    csv.error new Error "Invalid mixed argument in from" if error
+    csv
 
   ###
 
@@ -38,13 +81,25 @@ module.exports = (csv) ->
   *   `end`         Prevent calling `end` on the destination, so that destination is no longer writable, similar to passing `{end: false}` option in `stream.pipe()`.
 
   ###
-  options: (options) ->
+  to.options = (options) ->
     if options?
       utils.merge csv.options.to, options
       csv
     else
       csv.options.to
   
+  to.string = (callback, options) ->
+    data = ''
+    stream = new Stream
+    stream.writable = true
+    stream.write = (d) ->
+        data += d
+        true
+    stream.end = ->
+        callback data
+    csv.pipe stream
+    csv
+
   ###
 
   `to.stream(stream, [options])`
@@ -54,7 +109,7 @@ module.exports = (csv) ->
   optionally an object of options as a second argument.
   
   ###
-  stream: (stream, options) ->
+  to.stream = (stream, options) ->
     @options options
     switch csv.options.to.lineBreaks
       when 'auto'
@@ -85,7 +140,7 @@ module.exports = (csv) ->
   but before the file is written.
   
   ###
-  path: (path, options) ->
+  to.path = (path, options) ->
     # Merge user provided options
     @options options
     # Clone options
@@ -96,5 +151,7 @@ module.exports = (csv) ->
     stream = fs.createWriteStream path, options
     csv.to.stream stream, null
     csv
+
+  to
 
 

@@ -27,6 +27,28 @@ describe 'to', ->
         # result.should.eql expect
         console.log 'todo'
         fs.unlink '/tmp/csv.tmp', next
+    it 'should write to a string', (next) ->
+      data = """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      csv()
+      .from.string(data)
+      .to (output) ->
+        output.should.eql data
+        next()
+
+  describe 'string', ->
+    it 'should write to a string', (next) ->
+      data = """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      csv()
+      .from.string(data)
+      .to.string (output) ->
+        output.should.eql data
+        next()
 
   describe 'path', ->
   
