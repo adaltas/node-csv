@@ -88,7 +88,22 @@ module.exports = (csv) ->
     else
       csv.options.to
   
+  ###
+
+  `to.string(callback, [options])`
+  ------------------------------
+
+  Provide the output string to a callback.
+
+      csv()
+      .from(input)
+      .to(function(ouput){
+        console.log(ouput);
+      }, options)
+  
+  ###
   to.string = (callback, options) ->
+    @options options
     data = ''
     stream = new Stream
     stream.writable = true
@@ -105,7 +120,7 @@ module.exports = (csv) ->
   `to.stream(stream, [options])`
   ------------------------------
 
-  Write to a stream. Make a writable stream as first argument and  
+  Write to a stream. Take a writable stream as first argument and  
   optionally an object of options as a second argument.
   
   ###
