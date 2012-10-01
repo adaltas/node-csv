@@ -43,7 +43,7 @@ Parser.prototype.parse =  (chars) ->
   l = chars.length
   i = 0
   while i < l
-    c = chars.charAt(i)
+    c = chars.charAt i
     switch c
       when @options.escape, @options.quote
         break if @commented
@@ -52,14 +52,14 @@ Parser.prototype.parse =  (chars) ->
           # Make sure the escape is really here for escaping:
           # if escape is same as quote, and escape is first char of a field and it's not quoted, then it is a quote
           # next char should be an escape or a quote
-          nextChar = chars.charAt(i + 1)
-          escapeIsQuoted = @options.escape is @options.quote
-          isEscaped = nextChar is @options.escape
-          isQuoted = nextChar is @options.quote
-          if not ( escapeIsQuoted and not @state.field and not @quoted ) and ( isEscaped or isQuoted )
+          nextChar = chars.charAt i + 1
+          escapeIsQuote = @options.escape is @options.quote
+          isEscape = nextChar is @options.escape
+          isQuote = nextChar is @options.quote
+          if not ( escapeIsQuote and not @state.field and not @quoted ) and ( isEscape or isQuote )
             i++
             isReallyEscaped = true
-            c = chars.charAt(i)
+            c = chars.charAt i
             @state.field += c
         if not isReallyEscaped and c is @options.quote
           if @state.field and not @quoted
