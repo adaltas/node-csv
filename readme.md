@@ -8,13 +8,13 @@
 
 </pre>
 
+[Documentation is for the parser is available here](http://localhost:4000/projects/node-csv/).
 
 Important
 ---------
 
-This readme cover the current unreleased version of the node 
-csv parser. Its documentation is not yet published but will be generated 
-from the source code and is almost complete.
+This readme cover the current version 0.2.x of the node 
+csv parser.
 
 The documentation for the current version 0.1.0 is 
 available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
