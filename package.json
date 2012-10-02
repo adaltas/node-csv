@@ -22,7 +22,10 @@
   "devDependencies": {
     "coffee-script": "latest",
     "mocha": "latest",
-    "should": "latest"
+    "should": "latest",
+    "each": "latest",
+    "mecano": "latest",
+    "glob": "latest"
   },
   "dependencies": {},
   "optionalDependencies": {},
