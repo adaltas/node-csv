@@ -96,7 +96,7 @@ module.exports = (csv) ->
   
   ###
 
-  `from.array:(data, [options])`
+  `from.array(data, [options])`
   ------------------------------
   
   Read from an array. Take an array as first argument and optionally 
@@ -115,7 +115,7 @@ module.exports = (csv) ->
   
   ###
   
-  `from.string:(data, [options])`
+  `from.string(data, [options])`
   -------------------------------
   
   Read from a string or a buffer. Take a string as first argument and 
