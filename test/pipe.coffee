@@ -12,7 +12,7 @@ generator = if process.env.CSV_COV then require '../lib-cov/generator' else requ
 describe 'pipe', ->
   
   it 'should pipe to a file writable stream', (next) ->
-    path = "#{__dirname}/pipe/large.out"
+    path = "/tmp/large.out"
     w = generator(start: true, duration: 1000).pipe csv().to.path path
     w.on 'close', ->
       fs.unlink path, next
