@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parser.png)](http://travis-ci.org/wdavidw/node-csv-parser)
+
 <pre>
      _   _           _        _____  _______      __
     | \ | |         | |      / ____|/ ____\ \    / /
@@ -86,6 +88,8 @@ To generate the JavaScript files:
 make build
 ```
 
+The test suite is run online with [Travis][travis] against Node.js version 0.6, 0.7, 0.8 and 0.9.
+
 Contributors
 ------------
 
@@ -108,4 +112,6 @@ Related projects
 
 *   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
 *   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
+
+[travis]: https://travis-ci.org/#!/wdavidw/node-csv-parser
 
