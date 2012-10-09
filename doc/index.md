@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2012-10-09T16:08:40.531Z
+date: 2012-10-09T16:24:28.045Z
 comments: false
 sharing: false
 footer: false
@@ -30,7 +30,23 @@ available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
 Quick example
 -------------
 
-The following example illustrate 4 usages of the library:
+```javascript
+
+// node samples/string.js
+var csv = require('csv');
+csv()
+.from( '"1","2","3","4"\n"a","b","c","d"' )
+.to( console.log )
+// Output:
+// 1,2,3,4
+// a,b,c,d
+
+```
+
+Advanced example
+----------------
+
+The following example illustrates 4 usages of the library:
 1.  Plug a readable stream by defining a file path
 2.  Direct output to a file path
 3.  Transform the data (optional)
@@ -40,7 +56,6 @@ The following example illustrate 4 usages of the library:
 
 // node samples/sample.js
 var csv = require('csv');
-
 csv()
 .from.stream(fs.createReadStream(__dirname+'/sample.in')
 .to.path(__dirname+'/sample.out')
@@ -57,8 +72,7 @@ csv()
 .on('error', function(error){
   console.log(error.message);
 });
-
-// Print sth like:
+// Output:
 // #0 ["2000-01-01","20322051544","1979.0","8.8017226E7","ABC","45"]
 // #1 ["2050-11-27","28392898392","1974.0","8.8392926E7","DEF","23"]
 // Number of lines: 2

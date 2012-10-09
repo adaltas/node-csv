@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Reading data from a source"
-date: 2012-10-09T16:08:40.532Z
+date: 2012-10-09T16:24:28.046Z
 comments: false
 sharing: false
 footer: false
