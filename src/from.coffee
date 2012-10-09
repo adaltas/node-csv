@@ -1,5 +1,7 @@
 
 fs = require 'fs'
+path = require 'path'
+fs.exists ?= path.exists
 utils = require './utils'
 Stream = require 'stream'
 
