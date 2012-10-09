@@ -19,6 +19,48 @@ csv parser.
 The documentation for the current version 0.1.0 is 
 available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
 
+Quick example
+-------------
+
+```javascript
+// node samples/string.js
+var csv = require('csv');
+csv()
+.from( '"1","2","3","4"\n"a","b","c","d"' )
+.to( console.log )
+// Output:
+// 1,2,3,4
+// a,b,c,d
+```
+
+Advanced example
+----------------
+    
+```javascript
+// node samples/sample.js
+var csv = require('csv');
+csv()
+.from.stream(fs.createReadStream(__dirname+'/sample.in')
+.to.path(__dirname+'/sample.out')
+.transform( function(data){
+  data.unshift(data.pop());
+  return data;
+})
+.on('record', function(data,index){
+  console.log('#'+index+' '+JSON.stringify(data));
+})
+.on('end', function(count){
+  console.log('Number of lines: '+count);
+})
+.on('error', function(error){
+  console.log(error.message);
+});
+// Output:
+// #0 ["2000-01-01","20322051544","1979.0","8.8017226E7","ABC","45"]
+// #1 ["2050-11-27","28392898392","1974.0","8.8392926E7","DEF","23"]
+// Number of lines: 2
+```
+
 Migration
 ---------
 
