@@ -7,7 +7,7 @@ stream = require 'stream'
 Parsing
 =======
 
-The library extend the EventEmitter and emit the following events:
+The library extend the [EventEmitter][event] and emit the following events:
 
 *   *row*   
   Emitted by the parser on each line with the line content as an array of fields.
@@ -132,4 +132,7 @@ Parser.prototype.error = (e) ->
 module.exports = (csv) -> new Parser csv
 module.exports.Parser = Parser
 
+###
+[event]: http://nodejs.org/api/events.html
+###
 
