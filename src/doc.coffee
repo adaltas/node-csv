@@ -39,7 +39,7 @@ convert_anchor = (text) ->
   re_anchor = /`([\w.]+)\(/g
   text.replace re_anchor, (str, code) ->
     # At least in FF, <a href="" /> doesn't close the tag
-    "<a name=\"#{code}\"></a>`#{code}("
+    "<a name=\"#{code}\"></a>\n`#{code}("
 
 convert_code = (text) ->
   re_code = /\n(\s{4}\s*?\S[\s\S]*?)\n(?!\s)/g
@@ -75,7 +75,7 @@ each( docs )
     sharing: false
     footer: false
     navigation: csv
-    github: https://github.com/wdavidw/node-csv
+    github: https://github.com/wdavidw/node-csv-parser
     ---
     #{content}
     """

@@ -2,12 +2,12 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2012-10-02T15:35:24.008Z
+date: 2012-10-09T16:08:40.531Z
 comments: false
 sharing: false
 footer: false
 navigation: csv
-github: https://github.com/wdavidw/node-csv
+github: https://github.com/wdavidw/node-csv-parser
 ---
 
 
@@ -17,10 +17,11 @@ on a large input file (over 2Gb).
 *   Follow the NodeJs streaming API
 *   Async and event based
 *   Support delimiters, quotes and escape characters
-*   Line breaks discovery: line breaks in source are detected and reported to destination
+*   Line breaks discovery: detected in source and reported to destination
 *   Data transformation
 *   Support for large datasets
 *   Complete test coverage as sample and inspiration
+*   no external dependencies
 
 Important, this documentation cover the current version of the node 
 csv parser. The documentation for the current version 0.1.0 is 
@@ -67,7 +68,11 @@ csv()
 Pipe example
 ------------
 
-The module follow a Stream architecture
+The module follow a Stream architecture. At it's core, the parser and 
+the stringifier utilities provide a [Stream Writer][writable_stream] 
+and a [Stream Reader][readable_stream] implementation available in the CSV API.
+
+```javascript
 
 |-----------|      |---------|---------|       |---------|
 |           |      |         |         |       |         |
@@ -79,9 +84,17 @@ The module follow a Stream architecture
 |           |      |         |         |       |         |
 |-----------|      |---------|---------|       |---------|
 
-  in = fs.createReadStream('./in')
-  out = fs.createWriteStream('./out')
-  in.pipe(csv()).pipe(out)
+```
+
+Here's a quick example:
+
+```javascript
+
+in = fs.createReadStream('./in')
+out = fs.createWriteStream('./out')
+in.pipe(csv()).pipe(out)
+
+```
 
 Installing
 ----------
@@ -99,44 +112,25 @@ git clone http://github.com/wdavidw/node-csv-parser.git
 Events
 ------
 
-By extending the Node `EventEmitter` class, the library provides 
-a few useful events:
+The library extends Node [EventEmitter][event] class and emit all
+the events of the Writable and Readable [Stream API][stream]. Additionally, the useful "records" event 
+is emitted.
 
-*   *record*
-
-```javascript
-Emitted by the stringifier when a new row is parsed and transformed. The data is 
-the value returned by the user `transform` callback if any. Note however that the event won't 
-be called if transform return `null` since the record is skipped.
-The callback provides two arguments. `data` is the CSV line being processed (an array or an object)
-and `index` is the index number of the line starting at zero
-```
-
-*   *data*
-
-```javascript
-Emitted by the stringifier on each line once the data has been transformed and stringified.
-```
-
-*   *drain*
-*   *end*
-
-```javascript
-Emitted when the CSV content has been parsed.
-```
-
-*   *close*
-
-```javascript
-Emitted when the underlying resource has been closed. For example, when writting to a file with `csv().to.path()`, the event will be called once the writing process is complete and the file closed.
-```
-
-*   *error*
-
-```javascript
-Thrown whenever an error occured.
-
-```
+*   *record*   
+  Emitted by the stringifier when a new row is parsed and transformed. The data is 
+  the value returned by the user `transform` callback if any. Note however that the event won't 
+  be called if transform return `null` since the record is skipped.
+  The callback provides two arguments. `data` is the CSV line being processed (an array or an object)
+  and `index` is the index number of the line starting at zero
+*   *data*   
+  Emitted by the stringifier on each line once the data has been transformed and stringified.
+*   *drain*   
+*   *end*   
+  Emitted when the CSV content has been parsed.
+*   *close*   
+  Emitted when the underlying resource has been closed. For example, when writting to a file with `csv().to.path()`, the event will be called once the writing process is complete and the file closed.
+*   *error*   
+  Thrown whenever an error occured.
 
 Columns
 -------
@@ -177,21 +171,24 @@ csv()
 ```
 
 
-<a name="pause"></a>`pause()`
+<a name="pause"></a>
+`pause()`
 ---------
 
 Implementation of the Readable Stream API, requesting that no further data 
 be sent until resume() is called.
 
 
-<a name="resume"></a>`resume()`
+<a name="resume"></a>
+`resume()`
 ----------
 
 Implementation of the Readable Stream API, resuming the incoming 'data' 
-events after a pause()
+events after a pause().
 
 
-<a name="write"></a>`write(data, [preserve])`
+<a name="write"></a>
+`write(data, [preserve])`
 -------------------------
 
 Implementation of the Writable Stream API with a larger signature. Data
@@ -202,7 +199,8 @@ is an object or an array, it must represent a single line.
 Preserve is for line which are not considered as CSV data.
 
 
-<a name="end"></a>`end()`
+<a name="end"></a>
+`end()`
 -------
 
 Terminate the parsing. Call this method when no more csv data is 
@@ -210,7 +208,8 @@ to be parsed. It implement the StreamWriter API by setting the `writable`
 property to "false" and emitting the `end` event.
 
 
-<a name="transform"></a>`transform(callback)`
+<a name="transform"></a>
+`transform(callback)`
 ---------------------
 
 Register the transformer callback. The callback is a user provided 
@@ -218,9 +217,14 @@ function call on each line to filter, enrich or modify the
 dataset. More information in the "transforming data" section.
 
 
-<a name="error"></a>`error(error)`
+<a name="error"></a>
+`error(error)`
 --------------
 
 Unified mechanism to handle error, emit the error and mark the 
 stream as non readable and non writable.
 
+[event]: http://nodejs.org/api/events.html
+[stream]: http://nodejs.org/api/stream.html
+[writable_stream]: http://nodejs.org/api/stream.html#stream_writable_stream
+[readable_stream]: http://nodejs.org/api/stream.html#stream_readable_stream

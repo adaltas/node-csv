@@ -9,10 +9,12 @@ Parsing
 
 The library extend the EventEmitter and emit the following events:
 
-*   *row*
-    Emitted by the parser on each line with the line content as an array of fields.
-*   *end*
-*   *error*
+*   *row*   
+  Emitted by the parser on each line with the line content as an array of fields.
+*   *end*   
+  Emitted when no more data will be parsed.
+*   *error*   
+  Emitted when an error occured.
 
 ###
 Parser = (csv) ->

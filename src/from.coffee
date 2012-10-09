@@ -8,10 +8,12 @@ Stream = require 'stream'
 Reading data from a source
 ==========================
 
-The `csv().from` property provide functions to read to a csv input 
-like a string, a file, a buffer or a readable stream. You may call
-the `from` function or one of its sub function. For example, here is
-to identical way to read from a file:
+The `csv().from` property provides functions to read from an external 
+source and write to a CSV instance. The source may be a string, a file, 
+a buffer or a readable stream.   
+
+You may call the `from` function or one of its sub function. For example, 
+here are two identical ways to read from a file:
 
     csv.from('/tmp/data.csv').on('data', console.log);
     csv.from.path('/tmp/data.csv').on('data', console.log);
@@ -24,15 +26,17 @@ module.exports = (csv) ->
   `from(mixed)`
   -------------
 
-  Read from any sort of source. A convenient function to discover the source to parse. If it is a string, then if check 
-  if it match an existing file path and read the file content, otherwise, it
-  treat the string as csv data. If it is an instance of stream, it consider the
+  Read from any sort of source. It should be considered as a convenient function which 
+  will discover the nature of the data source to parse.   
+
+  If it is a string, then if check if it match an existing file path and read the file content, 
+  otherwise, it treat the string as csv data. If it is an instance of stream, it consider the
   object to be an input stream. If is an array, then for each line should correspond a record.
 
-  Here's some examples on how to use this function
+  Here's some examples on how to use this function:
 
       csv()
-      .from('"1","2","3","4","5"')
+      .from('"1","2","3","4"\n"a","b","c","d"')
       .on('end', function(){ console.log('done') })
 
       csv()
@@ -100,8 +104,8 @@ module.exports = (csv) ->
   ------------------------------
   
   Read from an array. Take an array as first argument and optionally 
-  some options as a second argument. Each element of the array  
-  represents a csv record. Those elements may be a string, a buffer, an
+  some options as a second argument. Each element of the array 
+  represents a csv record. Those elements may be a string, a buffer, an 
   array or an object.
 
   ###
@@ -122,6 +126,10 @@ module.exports = (csv) ->
   optionally an object of options as a second argument. The string 
   must be the complete csv data, look at the streaming alternative if your 
   CSV is large.
+
+      csv()
+      .from( '"1","2","3","4"\n"a","b","c","d"' )
+      .to( function(data){} )
   
   ###
   from.string = (data, options) ->

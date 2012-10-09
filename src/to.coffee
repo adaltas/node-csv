@@ -8,10 +8,12 @@ utils = require './utils'
 Writing data to a destination
 =============================
 
-The `csv().to` property provide convenient functions to write 
-to a csv output like a stream or a file. You may call
-the `to` function or one of its sub function. For example, here is
-to identical way to read to a file:
+The `csv().to` property provides functions to read from a CSV instance and
+to write to an external destination. The destination may be a stream, a file
+or a callback. 
+
+You may call the `to` function or one of its sub function. For example, 
+here are two identical ways to write to a file:
 
     csv.from(data).to('/tmp/data.csv');
     csv.from(data).to.path('/tmp/data.csv');
@@ -24,13 +26,15 @@ module.exports = (csv) ->
   `to(mixed)`
   -----------
 
-  Write from any sort of destination. A convenient function to discover the 
-  destination. If is an function, then the csv will be provided as the first 
-  argument of the callback. If it is a string, then it is expected to be a 
+  Write from any sort of destination. It should be considered as a convenient function 
+  which will discover the nature of the destination where to write the CSV data.   
+
+  If is an function, then the csv will be provided as the first argument 
+  of the callback. If it is a string, then it is expected to be a 
   file path. If it is an instance of stream, it consider the object to be an  
   output stream. 
 
-  Here's some examples on how to use this function
+  Here's some examples on how to use this function:
 
       csv()
       .from('"1","2","3","4","5"')
@@ -96,10 +100,8 @@ module.exports = (csv) ->
   Provide the output string to a callback.
 
       csv()
-      .from(input)
-      .to(function(ouput){
-        console.log(ouput);
-      }, options)
+      .from( '"1","2","3","4"\n"a","b","c","d"' )
+      .to( function(data){} )
   
   ###
   to.string = (callback, options) ->

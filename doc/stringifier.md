@@ -2,12 +2,12 @@
 language: en
 layout: page
 title: "Stringifier"
-date: 2012-10-02T15:35:24.009Z
+date: 2012-10-09T16:08:40.532Z
 comments: false
 sharing: false
 footer: false
 navigation: csv
-github: https://github.com/wdavidw/node-csv
+github: https://github.com/wdavidw/node-csv-parser
 ---
 
 
