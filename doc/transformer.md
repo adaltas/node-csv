@@ -2,12 +2,12 @@
 language: en
 layout: page
 title: "Transforming data"
-date: 2012-10-02T15:35:24.009Z
+date: 2012-10-09T16:08:40.532Z
 comments: false
 sharing: false
 footer: false
 navigation: csv
-github: https://github.com/wdavidw/node-csv
+github: https://github.com/wdavidw/node-csv-parser
 ---
 
 
@@ -29,25 +29,26 @@ returned value is a string, it is directly sent to the destination
 source and it is your responsibility to delimit, quote, escape 
 or define line breaks.
 
-Example of transform returning a string
+Example of transform returning a string:
 
 ```javascript
-// node samples/transform.js
-var csv = require('csv');
 
 csv()
-.from.path(__dirname+'/transform.in')
-.to.stream(process.stdout)
-.transform(function(data, index){
-  return (index>0 ? ',' : '') + data[0] + ":" + data[2] + ' ' + data[1];
+.from('82,Preisner,Zbigniew\n94,Gainsbourg,Serge')
+.to(console.log)
+.transform(function(data,index){
+    return (index>0 ? ',' : '') + data[0] + ":" + data[2] + ' ' + data[1];
 });
 
-// Print sth like:
+// Executing `node samples/transform.js`, print:
 // 82:Zbigniew Preisner,94:Serge Gainsbourg
 ```
-<a name="transform"></a>`transform(line)`
+
+
+<a name="transformer"></a>
+`transformer(csv).transform(line)`
 -----------------
 
-Call a callback to transform a line. Used by the `parse` function on each 
+Internal function. Call a callback to transform a line. Called from the `parse` function on each 
 line. It is responsible for transforming the data and finally calling `write`.
 
