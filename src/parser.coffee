@@ -18,7 +18,6 @@ The library extend the [EventEmitter][event] and emit the following events:
 
 ###
 Parser = (csv) ->
-  @writable = true
   @csv = csv
   @options = csv.options.from
   @state = csv.state
@@ -39,7 +38,6 @@ transform is called on a new line.
 
 ###
 Parser.prototype.parse =  (chars) ->
-  return @error new Error 'Parser is not writable' unless @writable
   csv = @csv
   chars = '' + chars
   l = chars.length
@@ -126,7 +124,6 @@ Parser.prototype.end = ->
   @emit 'end', null
 
 Parser.prototype.error = (e) ->
-  @writable = false
   @emit 'error', e
 
 module.exports = (csv) -> new Parser csv
