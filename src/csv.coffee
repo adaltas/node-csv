@@ -206,7 +206,10 @@ be sent until resume() is called.
 
 ###
 CSV.prototype.pause = ->
-  @paused = true
+  if @readStream?
+    @readStream.pause()
+  else
+    @paused = true
 
 ###
 
@@ -214,12 +217,15 @@ CSV.prototype.pause = ->
 ----------
 
 Implementation of the Readable Stream API, resuming the incoming 'data' 
-events after a pause().
+events after a pause()
 
 ###
 CSV.prototype.resume = ->
-  @paused = false
-  @emit 'drain'
+  if @readStream?
+    @readStream.resume()
+  else
+    @paused = false
+    @emit 'drain'
 
 ###
 
