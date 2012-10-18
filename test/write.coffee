@@ -125,7 +125,7 @@ describe 'write', ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/write/write_sourceless.out"
       result = fs.readFileSync "#{__dirname}/write/write_sourceless.tmp"
-      result.should.eql expect
+      result.toString().should.eql expect.toString()
       fs.unlink "#{__dirname}/write/write_sourceless.tmp", next
     test.write col1: 'foo1', col2: 'goo1'
     test.write col1: 'foo2', col2: 'goo2'

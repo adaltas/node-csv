@@ -7,4 +7,4 @@ module.exports = ->
   countWriten: 0
   # Are we currently inside the transform callback? If so,
   # we shouldn't increment `state.count` which count provided lines
-  transforming: false
+  transforming: 0

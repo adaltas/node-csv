@@ -185,14 +185,16 @@ CSV = ->
     @transformer.transform row
   ).bind @
   @parser.on 'end', ( ->
-    @emit 'end', @state.count
-    @readable = false
+    @transformer.end()
   ).bind @
   @parser.on 'error', ( (e) ->
     @error e
   ).bind @
   @stringifier = stringifier @
   @transformer = transformer @
+  @transformer.on 'end', ( ->
+    @emit 'end', @state.count
+  ).bind @
   @
 CSV.prototype.__proto__ = stream.prototype
 
@@ -236,19 +238,19 @@ Preserve is for line which are not considered as CSV data.
 ###
 CSV.prototype.write = (data, preserve) ->
   return false unless @writable
-  # Parse data if it is a string
+  # Data is a string, we parse it
   if typeof data is 'string' and not preserve
     @parser.parse data
-  # Data is ready if it is an array
+  # Data is an array, we transform it
   else if Array.isArray(data) and not @state.transforming
+    csv = @
     @transformer.transform data
-  # Write columns
+  # Data is an object, we transform it or stringify it
   else
-    if @state.count is 0 and @options.to.header is true
-      @stringifier.write @options.to.columns or @options.from.columns
-    @stringifier.write data, preserve
-    if not @state.transforming and not preserve
-      @state.count++
+    if preserve or @state.transforming
+      @stringifier.write data, preserve
+    else
+      @transformer.transform data
   return not @paused
 
 ###
@@ -263,6 +265,8 @@ property to "false" and emitting the `end` event.
 ###
 CSV.prototype.end = ->
   return unless @writable
+  @readable = false
+  @writable = false
   @parser.end()
 
 ###
