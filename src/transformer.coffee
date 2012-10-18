@@ -8,10 +8,14 @@ Transforming data
 Transformation may occur synchronously or asynchronously dependending
 on the provided transform callback and its declared arguments length.
 
-Callback are called for each line and its arguments are :
-*   data      CSV record
-*   index     Incremented counter
-*   callback  Callback function to be called in asynchronous mode
+Callback are called for each line and its arguments are :    
+
+*   *data*   
+  CSV record
+*   *index*   
+  Incremented counter
+*   *callback*   
+  Callback function to be called in asynchronous mode
 
 Unless you specify the `columns` read option, `data` are provided 
 as arrays, otherwise they are objects with keys matching columns 

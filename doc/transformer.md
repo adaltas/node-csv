@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Transforming data"
-date: 2012-10-18T13:01:04.697Z
+date: 2012-10-18T13:11:44.066Z
 comments: false
 sharing: false
 footer: false
@@ -14,10 +14,14 @@ github: https://github.com/wdavidw/node-csv-parser
 Transformation may occur synchronously or asynchronously dependending
 on the provided transform callback and its declared arguments length.
 
-Callback are called for each line and its arguments are :
-*   data      CSV record
-*   index     Incremented counter
-*   callback  Callback function to be called in asynchronous mode
+Callback are called for each line and its arguments are :    
+
+*   *data*   
+  CSV record
+*   *index*   
+  Incremented counter
+*   *callback*   
+  Callback function to be called in asynchronous mode
 
 Unless you specify the `columns` read option, `data` are provided 
 as arrays, otherwise they are objects with keys matching columns 
@@ -86,50 +90,4 @@ csv()
 // Executing `node samples/transform.js`, print:
 // 82:Zbigniew Preisner,94:Serge Gainsbourg
 ```
-
-Transformer.prototype.transform = (line) ->
-  csv = @csv
-  columns = csv.options.from.columns
-  if columns
-
-```javascript
-# Extract column names from the first line
-if csv.state.count is 0 and columns is true
-  csv.options.from.columns = columns = line
-  return
-# Line stored as an object in which keys are column names
-lineAsObject = {}
-for column, i in columns
-  lineAsObject[column] = line[i] or null
-line = lineAsObject
-nish = ( (line) ->
-if csv.state.count is 1 and csv.options.to.header is true
-  csv.stringifier.write csv.options.to.columns or columns
-csv.stringifier.write line
-# csv.state.count++
-@emit 'end', csv.state.count if csv.state.transforming is 0 and @closed is true
-bind @
-v.state.count++
- @callback
-sync = @callback.length isnt 3
-csv.state.transforming++
-done = (err, line) ->
-  return csv.error err if err
-  isObject = typeof line is 'object' and not Array.isArray line
-  if csv.options.to.newColumns and not csv.options.to.columns and isObject
-    Object.keys(line)
-    .filter( (column) -> columns.indexOf(column) is -1 )
-    .forEach( (column) -> columns.push(column) )
-  csv.state.transforming--
-  finish line
-if sync
-  try done null, @callback line, csv.state.count - 1
-  catch err then return done err
-else
-  try @callback line, csv.state.count - 1, (err, line) ->
-    done err, line
-se
-finish line
-```
-
 

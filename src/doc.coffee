@@ -56,11 +56,10 @@ each( docs )
   destination = "#{__dirname}/../doc/#{if file is 'csv' then 'index' else file}.md"
   fs.readFile source, 'ascii', (err, text) ->
     return console.error err if err
-    re = /###\n([\s\S]*?)\n( *)###/g
+    re = /###(.*)\n([\s\S]*?)\n( *)###/g
     re_title = /([\s\S]+)\n={2}=+([\s\S]*)/g
     match = re.exec text
-    # docs += match[1]
-    match = re_title.exec match[1]
+    match = re_title.exec match[2]
     title = match[1].trim()
     content = match[2]
     content = unindent content
@@ -80,8 +79,9 @@ each( docs )
     #{content}
     """
     while match = re.exec text
-      match[1] = unindent match[1]
-      docs += convert_code convert_anchor match[1]
+      continue if match[1]
+      match[2] = unindent match[2]
+      docs += convert_code convert_anchor match[2]
       docs += '\n'
     fs.writeFile destination, docs, next
 .on 'both', (err) ->
