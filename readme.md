@@ -106,6 +106,7 @@ Contributors
 *   Alexandru Topliceanu: <https://github.com/topliceanu>
 *   Visup: <https://github.com/visup>
 *   Edmund von der Burg: <https://github.com/evdb>
+*   Douglas Christopher Wilson: <https://github.com/dougwilson>
 
 Related projects
 ----------------
