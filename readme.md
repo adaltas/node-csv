@@ -42,7 +42,7 @@ Advanced example
 // node samples/sample.js
 var csv = require('csv');
 csv()
-.from.stream(fs.createReadStream(__dirname+'/sample.in')
+.from.stream(fs.createReadStream(__dirname+'/sample.in'))
 .to.path(__dirname+'/sample.out')
 .transform( function(data){
   data.unshift(data.pop());
