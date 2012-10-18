@@ -171,11 +171,16 @@ module.exports = (csv) ->
   from.stream = (stream, options) ->
     @options options
     stream.on 'data', (data) ->
-      csv.write data.toString()
+      if csv.writable
+        if false is csv.write data.toString()
+          stream.pause()
     stream.on 'error', (e) ->
       csv.error e
     stream.on 'end', ->
       csv.end()
+    csv.on 'drain', ->
+      if stream.readable
+        stream.resume()
     csv.readStream = stream
     csv
 
