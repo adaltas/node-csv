@@ -7,6 +7,7 @@ require 'coffee-script'
 fs = require 'fs'
 should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
+generator = if process.env.CSV_COV then require '../lib-cov/generator' else require '../src/generator'
 
 describe 'from', ->
 
@@ -42,6 +43,26 @@ describe 'from', ->
       .on 'record', (record) ->
         record.length.should.eql 5
       .on 'end', ->
+        next()
+
+  describe 'stream', ->
+
+    it 'should be able to pause', (next) ->
+      paused = false
+      csv()
+      .from.stream(generator(start: true, duration: 500))
+      .on 'record', (record, index) ->
+        paused.should.be.false
+        if index is 5
+          @pause()
+          @paused.should.be.true
+          paused = true
+          resume = () =>
+            paused = false
+            @resume()
+          setTimeout resume, 100
+      .on 'end', ->
+        paused.should.be.false
         next()
 
   describe 'string', ->

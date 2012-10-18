@@ -170,6 +170,7 @@ parser = require './parser'
 transformer = require './transformer'
 
 CSV = ->
+  @paused = false
   # A boolean that is true by default, but turns false after an 'error' occurred, 
   # the stream came to an 'end' or the destroy function is called. 
   @readable = true
