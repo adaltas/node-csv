@@ -10,7 +10,7 @@ csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/
 
 describe 'transform', ->
   
-  it 'Test reorder fields', (next) ->
+  it 'should be able to reorder fields', (next) ->
     count = 0
     csv()
     .from.path("#{__dirname}/transform/reorder.in")
@@ -19,11 +19,11 @@ describe 'transform', ->
       count.should.eql index
       count++
       record.unshift record.pop()
-      return record
+      record
     .on 'close', ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/transform/reorder.out"
-      result = fs.readFileSync "#{__dirname}/transform/reorder.tmp"
+      expect = fs.readFileSync("#{__dirname}/transform/reorder.out").toString()
+      result = fs.readFileSync("#{__dirname}/transform/reorder.tmp").toString()
       result.should.eql expect
       fs.unlink "#{__dirname}/transform/reorder.tmp", next
   
@@ -35,7 +35,7 @@ describe 'transform', ->
     .transform (record, index) ->
       count.should.eql index
       count++
-      return
+      null
     .on 'close', ->
       count.should.eql 2
       expect = fs.readFileSync "#{__dirname}/transform/undefined.out"
@@ -141,6 +141,37 @@ describe 'transform', ->
     for i in [0...1000]
       test.write ['Test '+i, i, '"'] unless error
 
+  describe 'async', ->
+
+    it 'should output the record if passed in the callback as an arraw', (next) ->
+      csv()
+      .from('a1,b1\na2,b2')
+      .to( (data) ->
+        data.should.eql 'b1,a1\nb2,a2'
+        next() )
+      .transform (record, index, callback) ->
+        process.nextTick ->
+          callback null, record.reverse()
+
+    it 'should output the record if passed in the callback as an object', (next) ->
+      csv()
+      .from('a1,b1\na2,b2')
+      .to( (data) ->
+        data.should.eql 'b1,a1\nb2,a2'
+        next() )
+      .transform (record, index, callback) ->
+        process.nextTick ->
+          callback null, a: record[1], b: record[0]
+
+    it 'should skip the record if callback called without a record', (next) ->
+      csv()
+      .from('a1,b1\na2,b2\na3,b3\na4,b4')
+      .to( (data) ->
+        data.should.eql 'a1,b1\na3,b3'
+        next() )
+      .transform (record, index, callback) ->
+        process.nextTick ->
+          callback null, if index % 2 is 0 then record else null
 
 
 

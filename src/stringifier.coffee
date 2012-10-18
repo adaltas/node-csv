@@ -19,7 +19,7 @@ Stringifier.prototype.write = (line, preserve) ->
   return if typeof line is 'undefined' or line is null
   # Emit the record
   unless preserve
-    try @csv.emit 'record', line, @csv.state.count
+    try @csv.emit 'record', line, @csv.state.count - 1
     catch e then return @csv.error e
     # Convert the record into a string
     line = @csv.stringifier.stringify line
