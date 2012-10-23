@@ -115,3 +115,74 @@ describe 'from', ->
     .on 'end', (count) ->
       count.should.eql 2
       next()
+
+  describe 'array', ->
+
+    it 'should emit all records as objects', (next) ->
+      transformCount = onRecordCount = 0
+      data = [
+        {field1: 'val11', field2: 'val12', field3: 'val13'}
+        {field1: 'val21', field2: 'val22', field3: 'val23'}
+      ]
+      csv()
+      .from.array(data)
+      .transform (record, index) ->
+        transformCount++
+        record.should.eql data[index]
+        record
+      .on 'record', (record, index) ->
+        onRecordCount++
+        record.should.eql data[index]
+      .to (data) ->
+        data.should.eql 'val11,val12,val13\nval21,val22,val23'
+        transformCount.should.equal 2
+        onRecordCount.should.equal 2
+        next()
+
+    it 'should handle column option set to true', (next) ->
+      console.log 'todo'
+      return next()
+      transformCount = onRecordCount = 0
+      data = [
+        {field1: 'val11', field2: 'val12', field3: 'val13'}
+        {field1: 'val21', field2: 'val22', field3: 'val23'}
+      ]
+      csv()
+      .from.array(data, columns: true)
+      .transform (record, index) ->
+        transformCount++
+        record.should.eql data[index]
+        record
+      .on 'record', (record, index) ->
+        onRecordCount++
+        record.should.eql data[index]
+      .to (data) ->
+        data.should.eql 'val11,val12,val13\nval21,val22,val23'
+        transformCount.should.equal 2
+        onRecordCount.should.equal 2
+        next()
+
+    it 'should filter by columns', (next) ->
+      transformCount = onRecordCount = 0
+      data = [
+        {field1: 'val11', field2: 'val12', field3: 'val13'}
+        {field1: 'val21', field2: 'val22', field3: 'val23'}
+      ]
+      csv()
+      .from.array(data, columns: ['field1', 'field3'])
+      .transform (record, index) ->
+        transformCount++
+        record.should.eql {field1: data[index].field1, field3: data[index].field3}
+        record
+      .on 'record', (record, index) ->
+        onRecordCount++
+        record.should.eql {field1: data[index].field1, field3: data[index].field3}
+      .to (data) ->
+        data.should.eql 'val11,val13\nval21,val23'
+        transformCount.should.equal 2
+        onRecordCount.should.equal 2
+        next()
+
+
+
+

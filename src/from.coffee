@@ -114,8 +114,8 @@ module.exports = (csv) ->
   from.array = (data, options) ->
     @options options
     process.nextTick ->
-      for i in [0...data.length]
-        csv.write data[i]
+      for record in data
+        csv.write record
       csv.end()
     csv
   
