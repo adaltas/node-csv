@@ -95,7 +95,7 @@ Transformer.prototype.transform = (line) ->
   if columns
     # Extract column names from the first line
     if csv.state.count is 0 and columns is true
-      csv.options.from.columns = columns = line
+      csv.options.from.columns = line
       return
     # Line stored as an object, keys are column names
     if Array.isArray line
@@ -104,13 +104,11 @@ Transformer.prototype.transform = (line) ->
         lineAsObject[column] = line[i] or null
       line = lineAsObject
     # Line was provided as an object, we create a new one with only the defined columns
-    else if typeof line is 'object'
+    else
       lineAsObject = {}
       for column, i in columns
         lineAsObject[column] = line[column] or null
       line = lineAsObject
-
-
   finish = ( (line) ->
     if csv.state.count is 1 and csv.options.to.header is true
       csv.stringifier.write csv.options.to.columns or columns
