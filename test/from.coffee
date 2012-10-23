@@ -140,10 +140,11 @@ describe 'from', ->
         next()
 
     it 'should handle column option set to true', (next) ->
-      console.log 'todo'
-      return next()
+      # console.log 'todo'
+      # return next()
       transformCount = onRecordCount = 0
       data = [
+        ['field1', 'field3']
         {field1: 'val11', field2: 'val12', field3: 'val13'}
         {field1: 'val21', field2: 'val22', field3: 'val23'}
       ]
@@ -151,13 +152,13 @@ describe 'from', ->
       .from.array(data, columns: true)
       .transform (record, index) ->
         transformCount++
-        record.should.eql data[index]
+        record.should.eql {field1: data[index+1].field1, field3: data[index+1].field3}
         record
       .on 'record', (record, index) ->
         onRecordCount++
-        record.should.eql data[index]
+        record.should.eql {field1: data[index+1].field1, field3: data[index+1].field3}
       .to (data) ->
-        data.should.eql 'val11,val12,val13\nval21,val22,val23'
+        data.should.eql 'val11,val13\nval21,val23'
         transformCount.should.equal 2
         onRecordCount.should.equal 2
         next()
