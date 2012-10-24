@@ -93,6 +93,8 @@ Transformer.prototype.transform = (line) ->
   csv = @csv
   columns = csv.options.from.columns
   if columns
+    if typeof columns is 'object' and columns isnt null and not Array.isArray columns
+      columns = Object.keys columns
     # Extract column names from the first line
     if csv.state.count is 0 and columns is true
       csv.options.from.columns = line
@@ -111,9 +113,10 @@ Transformer.prototype.transform = (line) ->
       line = lineAsObject
   finish = ( (line) ->
     if csv.state.count is 1 and csv.options.to.header is true
-      csv.stringifier.write csv.options.to.columns or columns
+      columns = csv.options.to.columns or csv.options.from.columns
+      if typeof columns is 'object' then columns = for k, v of columns then v
+      csv.stringifier.write columns
     csv.stringifier.write line
-    # csv.state.count++
     @emit 'end', csv.state.count if csv.state.transforming is 0 and @closed is true
   ).bind @
   csv.state.count++

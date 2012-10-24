@@ -30,6 +30,7 @@ Stringifier.prototype.write = (line, preserve) ->
 
 Stringifier.prototype.stringify = (line) ->
   columns = @csv.options.to.columns or @csv.options.from.columns
+  columns = Object.keys columns if typeof columns is 'object' and columns isnt null and not Array.isArray columns
   delimiter = @csv.options.to.delimiter or @csv.options.from.delimiter
   quote = @csv.options.to.quote or @csv.options.from.quote
   escape = @csv.options.to.escape or @csv.options.from.escape
