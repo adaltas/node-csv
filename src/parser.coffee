@@ -23,6 +23,7 @@ Parser = (csv) ->
   @state = csv.state
   @quoted = false
   @commented = false
+  @lines = 0
   @
 
 Parser.prototype.__proto__ = EventEmitter.prototype
@@ -70,7 +71,7 @@ Parser.prototype.parse =  (chars) ->
             # Make sure a closing quote is followed by a delimiter
             nextChar = chars.charAt i + 1
             if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt @options.delimiter
-              return @error new Error 'Invalid closing quote; found ' + JSON.stringify(nextChar) + ' instead of delimiter ' + JSON.stringify(@options.delimiter)
+              return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
             @quoted = false
           else if @state.field is ''
             @quoted = true
@@ -90,6 +91,7 @@ Parser.prototype.parse =  (chars) ->
           break
         if not @options.quoted and @state.lastC is '\r'
           break
+        @lines++
         if csv.options.to.lineBreaks is null
           # Auto-discovery of linebreaks
           csv.options.to.lineBreaks = c + ( if c is '\r' and chars.charAt(i+1) is '\n' then '\n' else '' )
@@ -112,7 +114,7 @@ Parser.prototype.parse =  (chars) ->
 
 Parser.prototype.end = ->
   if @quoted
-    return @error new Error 'Quoted field not terminated'
+    return @error new Error "Quoted field not terminated at line #{@lines+1}"
   # dump open record
   if @state.field or @state.lastC is @options.delimiter or @state.lastC is @options.quote
     if @options.trim or @options.rtrim
