@@ -4,8 +4,8 @@
 var csv = require('..');
 
 csv()
-.fromPath(__dirname+'/sample.in')
-.toPath(__dirname+'/sample.out')
+.from.path(__dirname+'/sample.in')
+.to.path(__dirname+'/sample.out')
 .transform(function(data){
     data.unshift(data.pop());
     return data;
