@@ -66,16 +66,16 @@ describe 'columns', ->
         {field1: 'val21', field2: 'val22', field3: 'val23'}
       ]
       csv()
-      .from(data, {columns: {field1: 'column1', field3: 'column3'}})
+      .from(data, columns: {field1: 'column1', field3: 'column3'})
       .transform (record, index) ->
         transformCount++
         record.should.eql {field1: data[index].field1, field3: data[index].field3}
         record
-      .to( (data) ->
+      .to (data) ->
         data.should.eql 'column1,column3\nval11,val13\nval21,val23'
         transformCount.should.eql 2
         next()
-      , header: true)
+      , header: true
 
   describe 'in write option', ->
   
@@ -133,6 +133,24 @@ describe 'columns', ->
         result.should.eql expect
         fs.unlink "#{__dirname}/columns/out_new.tmp"
         next()
+
+    it 'should map the column property name to display name', (next) ->
+      transformCount = 0
+      data = [
+        {field1: 'val11', field2: 'val12', field3: 'val13'}
+        {field1: 'val21', field2: 'val22', field3: 'val23'}
+      ]
+      csv()
+      .from(data)
+      .transform (record, index) ->
+        transformCount++
+        record.should.eql data[index]
+        record
+      .to( (data) ->
+        data.should.eql 'column1,column3\nval11,val13\nval21,val23'
+        transformCount.should.eql 2
+        next()
+      , header: true, columns: {field1: 'column1', field3: 'column3'})
 
 
 

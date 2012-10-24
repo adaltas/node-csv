@@ -46,10 +46,10 @@ Stringifier.prototype.stringify = (line) ->
           _line.push line[column]
       line = _line
       _line = null
-    else if @csv.options.to.columns
+    else if columns # Note, we used to have @csv.options.to.columns
       # We are getting an array but the user want specified output columns. In
       # this case, we respect the columns indexes
-      line.splice @csv.options.to.columns.length
+      line.splice columns.length
     if Array.isArray line
       newLine = if @csv.state.countWriten then @csv.options.to.lineBreaks or "\n" else ''
       for i in [0...line.length]
