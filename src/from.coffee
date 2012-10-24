@@ -54,20 +54,20 @@ module.exports = (csv) ->
       .on('end', function(){ console.log('done') })
 
   ###
-  from = (mixed) ->
+  from = (mixed, options) ->
     error = false
     switch typeof mixed
       when 'string'
         fs.exists mixed, (exists) ->
           if exists
-          then from.path mixed
-          else from.string mixed
+          then from.path mixed, options
+          else from.string mixed, options
       when 'object'
         if Array.isArray mixed
-        then from.array mixed
+        then from.array mixed, options
         else
           if mixed instanceof Stream
-          then from.stream mixed
+          then from.stream mixed, options
           else error = true
       else
         error = true

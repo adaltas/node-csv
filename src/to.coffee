@@ -49,17 +49,17 @@ module.exports = (csv) ->
       .to(fs.createWriteStream('./path/to/file.csv'))
 
   ###
-  to = (mixed) ->
+  to = (mixed, options) ->
     error = false
     switch typeof mixed
       when 'string'
-        to.path mixed
+        to.path mixed, options
       when 'object'
         if mixed instanceof Stream
-        then to.stream mixed
+        then to.stream mixed, options
         else error = true
       when 'function'
-        to.string mixed
+        to.string mixed, options
       else
         error = true
     csv.error new Error "Invalid mixed argument in from" if error
