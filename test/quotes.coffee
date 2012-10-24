@@ -92,7 +92,7 @@ describe 'quotes', ->
     .on 'close', -> 
       false.should.be.ok
     .on 'error', (e) ->
-      e.message.should.eql 'Quoted field not terminated'
+      e.message.should.eql 'Quoted field not terminated at line 1'
       fs.unlink "#{__dirname}/quotes/unclosed.tmp", next
   
   it 'Test invalid quotes', (next) ->
@@ -105,7 +105,7 @@ describe 'quotes', ->
     .on 'close', ->
       false.should.be.ok
     .on 'error', (e) ->
-      e.message.should.eql 'Invalid closing quote; found " " instead of delimiter "\\t"'
+      e.message.should.eql 'Invalid closing quote at line 1; found " " instead of delimiter "\\t"'
       fs.unlink "#{__dirname}/quotes/invalid.tmp", next
   
   it 'Test invalid quotes from string', (next) ->
