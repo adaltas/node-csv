@@ -45,6 +45,17 @@ describe 'from', ->
       .on 'end', ->
         next()
 
+  describe 'path', ->
+
+    it 'should strip UTF-8 BOM', (next) ->
+      csv()
+      .from.path("#{__dirname}/from/file_bom.csv")
+      .on 'record', (record) ->
+        record.length.should.eql 5
+        record.should.eql ['1','2','3','4','5']
+      .on 'end', ->
+        next()
+
   describe 'stream', ->
 
     it 'should be able to pause', (next) ->
