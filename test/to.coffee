@@ -18,15 +18,14 @@ describe 'to', ->
       28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
       """
       csv()
-      .from.string(data)
-      .to( '/tmp/csv.tmp' )
+      .from(data)
+      .to( "#{__dirname}/fromto/string_to_stream.tmp" )
       .on 'close', (count) ->
-        # count.should.eql 2
-        # expect = fs.readFileSync "#{__dirname}/fromto/string_to_stream.out"
-        # result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
-        # result.should.eql expect
-        console.log 'todo'
-        fs.unlink '/tmp/csv.tmp', next
+        count.should.eql 2
+        expect = fs.readFileSync "#{__dirname}/fromto/string_to_stream.out"
+        result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
+        result.should.eql expect
+        fs.unlink "#{__dirname}/fromto/string_to_stream.tmp", next
     it 'should write to a string', (next) ->
       data = """
       20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
