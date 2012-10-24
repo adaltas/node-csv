@@ -172,6 +172,14 @@ describe 'columns', ->
         next()
       , columns: {field1: 'column1', field3: 'column3'}, header: true
 
+    it 'should reorder if from and to columns are arrays', (next) ->
+      csv()
+      .from('val1,val2,val3', columns: ['a','b','c'])
+      .to (data) ->
+        data.should.eql 'val3,val2,val1'
+        next()
+      , columns: ['c','b','a']
+
 
 
 
