@@ -152,6 +152,19 @@ describe 'columns', ->
         next()
       , header: true, columns: {field1: 'column1', field3: 'column3'})
 
+  describe 'with both options', ->
+
+    it 'should accept from columns as true ans to columns as array', (next) ->
+      data = 'field1,field2,field3\nval1,val2,val3'
+      csv()
+      .from(data, columns: true)
+      .to (data) ->
+        data.should.eql 'val1,val3'
+        next()
+      , columns: ['field1', 'field3']
+
+
+
 
 
 
