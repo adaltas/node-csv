@@ -10,13 +10,13 @@ csv()
     data.unshift(data.pop());
     return data;
 })
-.on('data',function(data,index){
+.on('record', function(data, index){
     console.log('#'+index+' '+JSON.stringify(data));
 })
-.on('end',function(count){
+.on('end', function(count){
     console.log('Number of lines: '+count);
 })
-.on('error',function(error){
+.on('error', function(error){
     console.log(error.message);
 });
 
