@@ -101,7 +101,11 @@ module.exports = (csv) ->
 
       csv()
       .from( '"1","2","3","4"\n"a","b","c","d"' )
-      .to( function(data){} )
+      .to( function(data, count){} )
+
+  Callback is called with 2 arguments:
+  *   data      Stringify CSV string
+  *   count     Number of stringified records
   
   ###
   to.string = (callback, options) ->
@@ -113,7 +117,7 @@ module.exports = (csv) ->
         data += d
         true
     stream.end = ->
-        callback data
+        callback data, csv.state.countWriten
     csv.pipe stream
     csv
 

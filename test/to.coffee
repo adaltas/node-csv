@@ -46,8 +46,9 @@ describe 'to', ->
       """
       csv()
       .from.string(data)
-      .to.string (output) ->
+      .to.string (output, count) ->
         output.should.eql data
+        count.should.eql 2
         next()
 
   describe 'path', ->
