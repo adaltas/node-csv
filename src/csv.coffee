@@ -126,10 +126,15 @@ is emitted.
 Columns
 -------
 
-Columns names may be provided or discovered in the first line with 
-the read options `columns`. If defined as an array, the order must 
-match the one of the input source. If set to `true`, the fields are 
-expected to be present in the first line of the input source.
+Columns are defined in the `csv.options.from` and `csv.options.to`.
+Columns names may be provided or discovered in the first line with the 
+read options `columns`. Most user will defined columns as an
+array of property names. If defined as an array, the order must match 
+the one of the input source. If set to `true`, the fields are 
+expected to be present in the first line of the input source. For greater 
+flexibility in parallel with the `csv.options.to.header` option,
+it is possible to defined the "columns" options as an object where keys 
+are the property names and values are the display name.
 
 You can define a different order and even different columns in the 
 read options and in the write options. If the `columns` is not defined 
@@ -157,6 +162,34 @@ array where the keys are the field names.
     // Print sth like:
     // 82,Zbigniew Preisner
     // 94,Serge Gainsbourg
+
+Columns as a true:
+
+    var data = 'field1,field2\nval1,val2';
+    csv()
+    .from(data, {columns: true})
+    .to(function(data){
+      data.should.eql('val1,val3');
+    });
+
+Columns as an array:
+
+    var data = 'field1,field2,field3\nval1,val2,val3';
+    csv()
+    .from(data, {columns: true})
+    .to(function(data){
+      data.should.eql('val1,val3');
+    }, {columns: ['field1', 'field3']});
+
+Columns as an object with header option:
+
+    var data = 'field1,field2,field3\nval1,val2,val3';
+    csv()
+    .from(data, {columns: true})
+    .to(function(data){
+      data.should.eql('column1,column3\nval1,val3');
+    }, {columns: {field1: 'column1', field3: 'column3'}, header: true});
+    
 
 ###
 
