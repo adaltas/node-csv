@@ -16,8 +16,8 @@ var header;
 process.stdin.resume();
 
 csv()
-.fromStream(process.stdin)
-.toStream(process.stdout, {end: false})
+.from.stream(process.stdin)
+.to.stream(process.stdout, {end: false})
 .transform(function(data){
     if (header) {
         this.write(header);
