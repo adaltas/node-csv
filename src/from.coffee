@@ -170,10 +170,14 @@ module.exports = (csv) ->
   ###
   from.stream = (stream, options) ->
     @options options
+    first = true
     stream.on 'data', (data) ->
       if csv.writable
-        if false is csv.write data.toString()
+        strip = first and typeof data is 'string' and stream.encoding is 'utf8' and 0xFEFF is data.charCodeAt 0
+        string = if strip then data.substring 1 else data.toString()
+        if false is csv.write string
           stream.pause()
+      first = false
     stream.on 'error', (e) ->
       csv.error e
     stream.on 'end', ->
