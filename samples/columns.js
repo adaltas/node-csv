@@ -5,10 +5,10 @@
 var csv = require('..');
 
 csv()
-.fromPath(__dirname+'/columns.in', {
+.from.path(__dirname+'/columns.in', {
     columns: true
 })
-.toStream(process.stdout, {
+.to.stream(process.stdout, {
     columns: ['id', 'name'],
     end: false
 })
