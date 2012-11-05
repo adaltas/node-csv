@@ -93,12 +93,12 @@ The test suite is run online with [Travis][travis] against Node.js version 0.6, 
 Contributors
 ------------
 
-*	  David Worms : <https://github.com/wdavidw>
-*	  Will White : <https://github.com/willwhite>
-*	  Justin Latimer : <https://github.com/justinlatimer>
-*	  jonseymour : <https://github.com/jonseymour>
-*	  pascalopitz : <https://github.com/pascalopitz>
-*	  Josh Pschorr : <https://github.com/jpschorr>
+*	  David Worms: <https://github.com/wdavidw>
+*	  Will White: <https://github.com/willwhite>
+*	  Justin Latimer: <https://github.com/justinlatimer>
+*	  jonseymour: <https://github.com/jonseymour>
+*	  pascalopitz: <https://github.com/pascalopitz>
+*	  Josh Pschorr: <https://github.com/jpschorr>
 *   Elad Ben-Israel: <https://github.com/eladb>
 *   Philippe Plantier: <https://github.com/phipla>
 *   Tim Oxley: <https://github.com/timoxley>
