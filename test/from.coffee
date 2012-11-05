@@ -47,6 +47,15 @@ describe 'from', ->
 
   describe 'path', ->
 
+    it 'should read a file', (next) ->
+      csv()
+      .from.path("#{__dirname}/from/file.csv")
+      .on 'record', (record) ->
+        record.length.should.eql 5
+        record.should.eql ['1','2','3','4','5']
+      .on 'end', ->
+        next()
+
     it 'should strip UTF-8 BOM', (next) ->
       csv()
       .from.path("#{__dirname}/from/file_bom.csv")
@@ -151,8 +160,6 @@ describe 'from', ->
         next()
 
     it 'should handle column option set to true', (next) ->
-      # console.log 'todo'
-      # return next()
       transformCount = onRecordCount = 0
       data = [
         ['field1', 'field3']

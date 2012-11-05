@@ -1,5 +1,4 @@
 
-stream = require 'stream'
 {EventEmitter} = require 'events'
 
 ###
@@ -25,7 +24,6 @@ Parser = (csv) ->
   @commented = false
   @lines = 0
   @
-
 Parser.prototype.__proto__ = EventEmitter.prototype
 
 ###
@@ -43,6 +41,8 @@ Parser.prototype.parse =  (chars) ->
   chars = '' + chars
   l = chars.length
   i = 0
+  # Strip UTF-8 BOM
+  i++ if @lines is 0 and csv.options.from.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
   while i < l
     c = chars.charAt i
     switch c

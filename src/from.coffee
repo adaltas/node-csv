@@ -92,6 +92,9 @@ module.exports = (csv) ->
   *   `ltrim`       If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
   *   `rtrim`       If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
   
+  Additionnaly, in case you are working with stream, you can pass all 
+  the options accepted by the `stream.pipe` function.
+
   ###
   from.options = (options) ->
     if options?
@@ -156,8 +159,7 @@ module.exports = (csv) ->
   from.path = (path, options) ->
     @options options
     stream = fs.createReadStream path, csv.from.options()
-    stream.setEncoding csv.from.options().encoding
-    csv.from.stream stream, null
+    csv.from.stream stream
   
   ###
   
@@ -169,23 +171,9 @@ module.exports = (csv) ->
   
   ###
   from.stream = (stream, options) ->
-    @options options
-    first = true
-    stream.on 'data', (data) ->
-      if csv.writable
-        strip = first and typeof data is 'string' and stream.encoding is 'utf8' and 0xFEFF is data.charCodeAt 0
-        string = if strip then data.substring 1 else data.toString()
-        if false is csv.write string
-          stream.pause()
-      first = false
-    stream.on 'error', (e) ->
-      csv.error e
-    stream.on 'end', ->
-      csv.end()
-    csv.on 'drain', ->
-      if stream.readable
-        stream.resume()
-    csv.readStream = stream
+    @options options if options
+    stream.setEncoding csv.from.options().encoding
+    stream.pipe csv, csv.from.options()
     csv
 
   from
