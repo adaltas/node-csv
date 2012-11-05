@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Writing data to a destination"
-date: 2012-10-09T16:24:28.046Z
+date: 2012-11-05T20:57:04.724Z
 comments: false
 sharing: false
 footer: false
@@ -87,9 +87,13 @@ Provide the output string to a callback.
 
 csv()
 .from( '"1","2","3","4"\n"a","b","c","d"' )
-.to( function(data){} )
+.to( function(data, count){} )
+
 ```
 
+Callback is called with 2 arguments:
+*   data      Stringify CSV string
+*   count     Number of stringified records
 
 
 <a name="to.stream"></a>

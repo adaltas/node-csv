@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Reading data from a source"
-date: 2012-10-09T16:24:28.046Z
+date: 2012-11-05T20:57:04.723Z
 comments: false
 sharing: false
 footer: false
@@ -75,6 +75,9 @@ the options as an object if no argument is provided.
 *   `trim`        If true, ignore whitespace immediately around the delimiter, defaults to false.
 *   `ltrim`       If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
 *   `rtrim`       If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
+
+Additionnaly, in case you are working with stream, you can pass all 
+the options accepted by the `stream.pipe` function.
 
 
 <a name="from.array"></a>
