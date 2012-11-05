@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2012-10-09T16:24:28.045Z
+date: 2012-11-05T20:57:04.723Z
 comments: false
 sharing: false
 footer: false
@@ -145,45 +145,7 @@ is emitted.
   Emitted when the underlying resource has been closed. For example, when writting to a file with `csv().to.path()`, the event will be called once the writing process is complete and the file closed.
 *   *error*   
   Thrown whenever an error occured.
-
-Columns
--------
-
-Columns names may be provided or discovered in the first line with 
-the read options `columns`. If defined as an array, the order must 
-match the one of the input source. If set to `true`, the fields are 
-expected to be present in the first line of the input source.
-
-You can define a different order and even different columns in the 
-read options and in the write options. If the `columns` is not defined 
-in the write options, it will default to the one present in the read options. 
-
-When working with fields, the `transform` method and the `data` 
-events receive their `data` parameter as an object instead of an 
-array where the keys are the field names.
-
-```javascript
-
-// node samples/column.js
-var csv = require('csv');
-
-csv()
-.from.path(__dirname+'/columns.in', {
-  columns: true
-})
-.to.stream(process.stdout, {
-  columns: ['id', 'name']
-})
-.transform(function(data){
-  data.name = data.firstname + ' ' + data.lastname
-  return data;
-});
-
-// Print sth like:
-// 82,Zbigniew Preisner
-// 94,Serge Gainsbourg
-```
-
+    
 
 <a name="pause"></a>
 `pause()`
