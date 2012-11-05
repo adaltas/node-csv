@@ -2,13 +2,19 @@
 language: en
 layout: page
 title: "Changes in latest versions"
-date: 2012-10-09T16:24:28.045Z
+date: 2012-10-24T16:24:28.045Z
 comments: false
 sharing: false
 footer: false
 navigation: csv
 github: https://github.com/wdavidw/node-csv-parser
 ---
+
+version 0.2.2
+-------------
+
+*   Function `from.stream` now use a "pipe" implementation
+*   Add `setEncoding` to the generator to respect the readable stream API
 
 version 0.2.1
 -------------

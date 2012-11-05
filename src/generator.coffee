@@ -27,7 +27,6 @@ Starting a generation
   generator(start: true).pipe csv().to.path "#{__dirname}/perf.out"
 
 ###
-
 Generator = (@options = {}) ->
   @options.duration ?= 4 * 60 * 1000
   @options.nb_columns = 8
@@ -37,7 +36,7 @@ Generator = (@options = {}) ->
   @readable = true
   process.nextTick @resume.bind @ if @options.start
   @
-util.inherits Generator, Stream
+Generator.prototype.__proto__ = Stream.prototype
 
 Generator.prototype.resume = ->
   @paused = false
@@ -53,7 +52,7 @@ Generator.prototype.resume = ->
         char = Math.floor Math.random() * 32
         column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
       line.push column.join ''
-    @emit 'data', "#{line.join ','}\n"
+    @emit 'data', new Buffer "#{line.join ','}\n", @options.encoding
 
 Generator.prototype.pause = ->
   @paused = true
@@ -62,6 +61,17 @@ Generator.prototype.destroy = ->
   @readable = false
   @emit 'end'
   @emit 'close'
+
+###
+`setEncoding([encoding])`
+
+Makes the 'data' event emit a string instead of a Buffer. 
+encoding can be 'utf8', 'utf16le' ('ucs2'), 'ascii', or 
+'hex'. Defaults to 'utf8'.
+
+###
+Generator.prototype.setEncoding = (encoding) ->
+  @options.encoding = encoding
 
 module.exports = (options) -> new Generator options
 module.exports.Generator = Generator
