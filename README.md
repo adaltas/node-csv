@@ -10,7 +10,7 @@
 
 </pre>
 
-[Documentation is for the parser is available here](http://www.adaltas.com/projects/node-csv/).
+[Documentation for the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
 Important
 ---------
