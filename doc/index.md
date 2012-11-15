@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2012-11-05T20:57:04.723Z
+date: 2012-11-15T22:02:49.034Z
 comments: false
 sharing: false
 footer: false
@@ -26,6 +26,13 @@ on a large input file (over 2Gb).
 Important, this documentation cover the current version of the node 
 csv parser. The documentation for the current version 0.1.0 is 
 available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
+
+Installation
+------------
+
+```bash
+npm install csv
+```
 
 Quick example
 -------------
