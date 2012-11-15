@@ -21,6 +21,8 @@ csv parser.
 The documentation for the current version 0.1.0 is 
 available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
 
+Install command is `npm install csv`.
+
 Quick example
 -------------
 
