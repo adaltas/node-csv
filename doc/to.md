@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Writing data to a destination"
-date: 2012-11-05T20:57:04.724Z
+date: 2012-11-16T16:44:20.771Z
 comments: false
 sharing: false
 footer: false
@@ -73,8 +73,11 @@ as an object if no argument is provided.
 *   `flags`       Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.
 *   `newColumns`  If the `columns` option is not specified (which means columns will be taken from the reader options, will automatically append new columns if they are added during <a name="transform"></a>
 `transform()`.
-*   `end`         Prevent calling `end` on the destination, so that destination is no longer writable, similar to passing `{end: false}` option in <a name="stream.pipe"></a>
-`stream.pipe()`.
+*   `end`         Prevent calling `end` on the destination, so that destination is no longer writable.
+
+The end options is similar to passing `{end: false}` option in <a name="stream.pipe"></a>
+`stream.pipe()`. According to the Node.js documentation:
+> By default end() is called on the destination when the source stream emits end, so that destination is no longer writable. Pass { end: false } as options to keep the destination stream open. 
 
 
 <a name="to.string"></a>
