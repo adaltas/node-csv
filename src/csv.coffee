@@ -7,7 +7,7 @@ Node CSV
 This project provides CSV parsing and has been tested and used 
 on a large input file (over 2Gb).
 
-*   Follow the NodeJs streaming API
+*   Follow the Node.js streaming API
 *   Async and event based
 *   Support delimiters, quotes and escape characters
 *   Line breaks discovery: detected in source and reported to destination
@@ -19,6 +19,13 @@ on a large input file (over 2Gb).
 Important, this documentation cover the current version of the node 
 csv parser. The documentation for the current version 0.1.0 is 
 available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
+
+Installation
+------------
+
+```bash
+npm install csv
+```
 
 Quick example
 -------------
