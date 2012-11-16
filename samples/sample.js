@@ -1,6 +1,4 @@
 
-// CSV sample - Copyright David Worms <open@adaltas.com> (BSD Licensed)
-
 var csv = require('..');
 
 csv()

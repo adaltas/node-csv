@@ -1,6 +1,3 @@
-// CSV sample - Copyright jon seymour jon.seymour@gmail.com
-// node samples/duplicate-headers.js < samples/duplicate-headers.in
-
 //
 // This sample shows how the write function can be used
 // to write a new record into the output stream.

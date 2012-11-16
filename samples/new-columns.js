@@ -1,7 +1,4 @@
 
-// CSV sample - Copyright David Worms <open@adaltas.com> (BSD Licensed)
-
-// node samples/column.js
 var csv = require('..');
 
 csv()
