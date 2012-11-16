@@ -82,7 +82,10 @@ module.exports = (csv) ->
   *   `lineBreaks`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
   *   `flags`       Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.
   *   `newColumns`  If the `columns` option is not specified (which means columns will be taken from the reader options, will automatically append new columns if they are added during `transform()`.
-  *   `end`         Prevent calling `end` on the destination, so that destination is no longer writable, similar to passing `{end: false}` option in `stream.pipe()`.
+  *   `end`         Prevent calling `end` on the destination, so that destination is no longer writable.
+
+  The end options is similar to passing `{end: false}` option in `stream.pipe()`. According to the Node.js documentation:
+  > By default end() is called on the destination when the source stream emits end, so that destination is no longer writable. Pass { end: false } as options to keep the destination stream open. 
 
   ###
   to.options = (options) ->
