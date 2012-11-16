@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2012-11-15T22:02:49.034Z
+date: 2012-11-16T16:02:50.333Z
 comments: false
 sharing: false
 footer: false
@@ -14,7 +14,7 @@ github: https://github.com/wdavidw/node-csv-parser
 This project provides CSV parsing and has been tested and used 
 on a large input file (over 2Gb).
 
-*   Follow the NodeJs streaming API
+*   Follow the Node.js streaming API
 *   Async and event based
 *   Support delimiters, quotes and escape characters
 *   Line breaks discovery: detected in source and reported to destination
