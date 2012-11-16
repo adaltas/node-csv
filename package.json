@@ -2,6 +2,7 @@
   "name": "csv",
   "version": "0.2.2",
   "description": "CSV parser with simple api, full of options and tested against large datasets.",
+  "homepage": "http://www.adaltas.com/projects/node-csv/",
   "author": "David Worms <david@adaltas.com>",
   "contributors": [
     "David Worms <david@adaltas.com>",
@@ -42,6 +43,5 @@
   "optionalDependencies": {},
   "scripts": {
     "test": "make test"
-  },
-  "homepage": "https://github.com/wdavidw/node-csv-parser"
+  }
 }
