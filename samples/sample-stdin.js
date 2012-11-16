@@ -13,7 +13,7 @@ csv()
 .on('record',function(record, index){
     console.log('#'+index+' '+JSON.stringify(record));
 })
-.on('end',function(count){
+.on('close',function(count){
     console.log('Number of lines: '+count);
 })
 .on('error',function(error){

@@ -6,12 +6,14 @@ csv()
     columns: true
 })
 .to.stream(process.stdout, {
-    newColumns: true,
-    end: false
+    newColumns: true
 })
 .transform(function(data){
     data.name = data.firstname + ' ' + data.lastname
     return data;
+})
+.on('end', function(){
+  process.stdout.write('\n');
 });
 
 /*
