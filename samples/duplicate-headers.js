@@ -36,7 +36,7 @@ csv()
 
 /*
 
-`node samples/duplicate-header.js`
+`node samples/duplicate-headers.js < samples/duplicate-headers.in`
 
 ts,year,ms,chars,age,date
 20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
