@@ -1,4 +1,5 @@
 #!/usr/bin/env coffee
+
 fs = require 'fs'
 csv = require '..'
 generator = csv.generator
