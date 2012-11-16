@@ -5,6 +5,7 @@ Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 
 require 'coffee-script'
 fs = require 'fs'
+stream = require 'stream'
 should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
 
@@ -72,5 +73,35 @@ describe 'to', ->
         result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
         result.should.eql expect
         fs.unlink "#{__dirname}/fromto/string_to_stream.tmp", next
+
+  describe 'end', ->
+
+    it 'should call the end function', (next) ->
+      out = ->
+        @writable = true
+        @
+      out.prototype.__proto__ = stream.prototype
+      out.prototype.write = (data) -> true
+      out.prototype.end = next
+      out = new out
+      csv()
+      .from.array(['a','b'])
+      .to.stream( out )
+
+    it 'should not call the end function if end is false', (next) ->
+      out = ->
+        @writable = true
+        @
+      out.prototype.__proto__ = stream.prototype
+      out.prototype.write = (data) -> true
+      out.prototype.end = ->
+        true.should.not.be.ok
+      out = new out
+      csv()
+      .from.array(['a','b'])
+      .to.stream( out, end: false )
+      .on 'end', ->
+        setTimeout next, 200
+
 
 

@@ -143,7 +143,7 @@ module.exports = (csv) ->
         csv.options.to.lineBreaks = "\r\n"
       when 'unicode'
         csv.options.to.lineBreaks = "\u2028"
-    csv.pipe stream
+    csv.pipe stream, csv.options.to
     stream.on 'error', (e) ->
       csv.error e
     stream.on 'close', ->
