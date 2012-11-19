@@ -143,6 +143,7 @@ parser = require './parser'
 transformer = require './transformer'
 
 CSV = ->
+  self = @
   @paused = false
   # A boolean that is true by default, but turns false after an 'error' occurred, 
   # the stream came to an 'end' or the destroy function is called. 
@@ -155,20 +156,16 @@ CSV = ->
   @from = from @
   @to = to @
   @parser = parser @
-  @parser.on 'row', ( (row) ->
-    @transformer.transform row
-  ).bind @
-  @parser.on 'end', ( ->
-    @transformer.end()
-  ).bind @
-  @parser.on 'error', ( (e) ->
-    @error e
-  ).bind @
+  @parser.on 'row', (row) ->
+    self.transformer.transform row
+  @parser.on 'end', ->
+    self.transformer.end()
+  @parser.on 'error', (e) ->
+    self.error e
   @stringifier = stringifier @
   @transformer = transformer @
-  @transformer.on 'end', ( ->
-    @emit 'end', @state.count
-  ).bind @
+  @transformer.on 'end', ->
+    self.emit 'end', self.state.count
   @
 CSV.prototype.__proto__ = stream.prototype
 
