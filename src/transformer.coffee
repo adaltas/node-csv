@@ -90,6 +90,7 @@ line. It is responsible for transforming the data and finally calling `write`.
 
 ###
 Transformer.prototype.transform = (line) ->
+  self = @
   csv = @csv
   columns = csv.options.from.columns
   if columns
@@ -111,14 +112,13 @@ Transformer.prototype.transform = (line) ->
       for column, i in columns
         lineAsObject[column] = line[column] or null
       line = lineAsObject
-  finish = ( (line) ->
+  finish = (line) ->
     if csv.state.count is 1 and csv.options.to.header is true
       columns = csv.options.to.columns or csv.options.from.columns
       if typeof columns is 'object' then columns = for k, v of columns then v
       csv.stringifier.write columns
     csv.stringifier.write line
-    @emit 'end', csv.state.count if csv.state.transforming is 0 and @closed is true
-  ).bind @
+    self.emit 'end', csv.state.count if csv.state.transforming is 0 and self.closed is true
   csv.state.count++
   if @callback
     sync = @callback.length isnt 3
