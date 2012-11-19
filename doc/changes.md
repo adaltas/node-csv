@@ -10,6 +10,18 @@ navigation: csv
 github: https://github.com/wdavidw/node-csv-parser
 ---
 
+version 0.2.4
+-------------
+
+*   Speed improvement to transformation
+
+version 0.2.3
+-------------
+
+*   Fix stdout samples
+*   Install instruction
+*   Honor the pipe `end` option
+
 version 0.2.2
 -------------
 
