@@ -100,5 +100,5 @@ each( docs )
       , next
     .on 'both', (err) ->
       return console.error err if err
-      console.log 'Documentation published'
+      console.log "Documentation published: #{destination}"
 
