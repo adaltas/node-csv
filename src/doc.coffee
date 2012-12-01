@@ -51,7 +51,7 @@ docs = ['csv', 'from', 'to', 'transformer', 'parser', 'stringifier']
 
 each( docs )
 .parallel( true )
-.on 'item', (next, file) ->
+.on 'item', (file, next) ->
   source = "#{__dirname}/#{file}.coffee"
   destination = "#{__dirname}/../doc/#{if file is 'csv' then 'index' else file}.md"
   fs.readFile source, 'ascii', (err, text) ->
@@ -88,11 +88,10 @@ each( docs )
   return console.error err if err
   console.log 'Documentation generated'
   destination = process.argv[2]
-  console.log destination
   return unless destination
   glob "#{__dirname}/../doc/*.md", (err, docs) ->
     each( docs )
-    .on 'item', (next, file) ->
+    .on 'item', (file, next) ->
       mecano.copy
         source: file
         destination: destination
