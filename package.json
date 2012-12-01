@@ -24,6 +24,7 @@
     "node": ">= 0.1.90"
   },
   "keywords": [
+    "node",
     "parser",
     "csv"
   ],
