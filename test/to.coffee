@@ -74,6 +74,22 @@ describe 'to', ->
         result.should.eql expect
         fs.unlink "#{__dirname}/fromto/string_to_stream.tmp", next
 
+  describe 'array', ->
+  
+    it 'should output an array', (next) ->
+      data = """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      csv()
+      .from.string(data)
+      .to.array (data) ->
+        data.should.eql [
+          ['20322051544','1979.0','8.8017226E7','ABC','45','2000-01-01']
+          ['28392898392','1974.0','8.8392926E7','DEF','23','2050-11-27']
+        ]
+        next()
+
   describe 'end', ->
 
     it 'should call the end function', (next) ->
