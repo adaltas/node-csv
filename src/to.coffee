@@ -103,8 +103,8 @@ module.exports = (csv) ->
   Provide the output string to a callback.
 
       csv()
-      .from( '"1","2","3","4"\n"a","b","c","d"' )
-      .to( function(data, count){} )
+      .from( '"1","2","3"\n"a","b","c"' )
+      .to.string( function(data, count){} )
 
   Callback is called with 2 arguments:
   *   data      Stringify CSV string
@@ -174,6 +174,31 @@ module.exports = (csv) ->
     # Create the write stream
     stream = fs.createWriteStream path, options
     csv.to.stream stream, null
+    csv
+  
+  ###
+
+  `to.array(path, [options])`
+  --------------------------
+
+  Provide the output string to a callback.
+
+      csv()
+      .from( '"1","2","3"\n"a","b","c"' )
+      .to.array( function(data, count){} )
+
+  Callback is called with 2 arguments:
+  *   data      Stringify CSV string
+  *   count     Number of stringified records
+  
+  ###
+  to.array = (callback, options) ->
+    @options options
+    records = []
+    csv.on 'record', (record) ->
+      records.push record
+    csv.on 'end', ->
+      callback records, csv.state.countWriten
     csv
 
   to
