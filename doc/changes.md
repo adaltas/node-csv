@@ -10,6 +10,20 @@ navigation: csv
 github: https://github.com/wdavidw/node-csv-parser
 ---
 
+version 0.2.6
+-------------
+
+*   Add function `to.prototype.array`
+*   TSV sample
+*   Test 0, null and undefined values in `from.prototype.array`
+
+version 0.2.5
+-------------
+
+*   Print doc generation path
+*   Update doc generation with latest each dependency
+*   Remove buffer related test
+
 version 0.2.4
 -------------
 
