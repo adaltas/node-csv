@@ -202,6 +202,13 @@ describe 'from', ->
         onRecordCount.should.equal 2
         next()
 
+    it 'should preserve 0 values', (next) ->
+      data = [[250, 0], [251, 17], [252, 0]]
+      csv()
+      .from.array(data, columns: ['id', 'counter'])
+      .to.string (data) ->
+        console.log data.should.eql '250,0\n251,17\n252,0'
+
 
 
 
