@@ -165,6 +165,10 @@ CSV = ->
   @stringifier = stringifier @
   @transformer = transformer @
   @transformer.on 'end', ->
+    eof = self.options.to.eof
+    if eof
+      eof = '\n' if eof is true
+      self.stringifier.write eof 
     self.emit 'end', self.state.count
   @
 CSV.prototype.__proto__ = stream.prototype
