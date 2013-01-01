@@ -104,13 +104,13 @@ Transformer.prototype.transform = (line) ->
     if Array.isArray line
       lineAsObject = {}
       for column, i in columns
-        lineAsObject[column] = line[i] or null
+        lineAsObject[column] = if line[i]? then line[i] else null
       line = lineAsObject
     # Line was provided as an object, we create a new one with only the defined columns
     else
       lineAsObject = {}
       for column, i in columns
-        lineAsObject[column] = line[column] or null
+        lineAsObject[column] = if line[column]? then line[column] else null
       line = lineAsObject
   finish = (line) ->
     if csv.state.count is 1 and csv.options.to.header is true
