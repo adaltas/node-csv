@@ -33,4 +33,5 @@ module.exports = ->
     encoding: 'utf8'
     newColumns: false
     end: true
+    eof: false
 
