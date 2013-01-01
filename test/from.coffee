@@ -207,7 +207,24 @@ describe 'from', ->
       csv()
       .from.array(data, columns: ['id', 'counter'])
       .to.string (data) ->
-        console.log data.should.eql '250,0\n251,17\n252,0'
+        data.should.eql '250,0\n251,17\n252,0'
+        next()
+
+    it 'should handle null values', (next) ->
+      data = [[250, null], [251, 17], [252, null]]
+      csv()
+      .from.array(data, columns: ['id', 'counter'])
+      .to.string (data) ->
+        data.should.eql '250,\n251,17\n252,'
+        next()
+
+    it 'should handle undefined values', (next) ->
+      data = [[250, undefined], [251, 17], [252, undefined]]
+      csv()
+      .from.array(data, columns: ['id', 'counter'])
+      .to.string (data) ->
+        data.should.eql '250,\n251,17\n252,'
+        next()
 
 
 
