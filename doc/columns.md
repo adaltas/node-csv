@@ -25,7 +25,7 @@ read options and in the write options. If the `columns` is not defined
 in the write options, it will default to the one present in the read options. 
 
 When working with fields, the `transform` method and the `data` 
-events receive their `data` parameter as an object instead of an 
+events receive the `row` parameter as an object instead of an 
 array where the keys are the field names.
 
 ```javascript
@@ -39,9 +39,9 @@ csv()
 .to.stream(process.stdout, {
   columns: ['id', 'name']
 })
-.transform(function(data){
-  data.name = data.firstname + ' ' + data.lastname
-  return data;
+.transform(function(row){
+  row.name = row.firstname + ' ' + row.lastname
+  return row;
 });
 
 // Print sth like:

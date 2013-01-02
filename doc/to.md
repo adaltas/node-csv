@@ -95,7 +95,7 @@ csv()
 ```
 
 Callback is called with 2 arguments:
-*   data      Stringify CSV string
+*   data      Stringified CSV string
 *   count     Number of stringified records
 
 
