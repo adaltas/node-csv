@@ -127,7 +127,7 @@ describe 'columns', ->
         record.FIELD_7 = 'new_field'
         record
       .on 'close', (count) ->
-        count.should.eql 2
+        count.should.eql 3
         expect = fs.readFileSync "#{__dirname}/columns/out_new.out"
         result = fs.readFileSync "#{__dirname}/columns/out_new.tmp"
         result.should.eql expect

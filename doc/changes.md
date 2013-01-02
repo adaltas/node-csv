@@ -13,6 +13,7 @@ github: https://github.com/wdavidw/node-csv-parser
 version 0.2.6
 -------------
 
+*   Print headers if no records
 *   Add function `to.prototype.array`
 *   TSV sample
 *   Test 0, null and undefined values in `from.prototype.array`
