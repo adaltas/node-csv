@@ -42,6 +42,16 @@ describe 'header', ->
       fs.unlink "#{__dirname}/header/truercols_defwcols.tmp"
       next()
 
+  it 'should print headers if no records to parse', (next) ->
+    csv()
+    .from.array([])
+    .to.string((data) ->
+      data.should.eql 'some,headers'
+    , header: true, columns: ['some', 'headers'])
+    .on 'end', (count) ->
+      count.should.eql 0
+      next()
+
 
 
 
