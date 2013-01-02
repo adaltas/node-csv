@@ -159,12 +159,15 @@ CSV = ->
   @parser.on 'row', (row) ->
     self.transformer.transform row
   @parser.on 'end', ->
+    # Print headers if no records
+    self.transformer.headers() if self.state.count is 0
     self.transformer.end()
   @parser.on 'error', (e) ->
     self.error e
   @stringifier = stringifier @
   @transformer = transformer @
   @transformer.on 'end', ->
+    # End Of File option
     eof = self.options.to.eof
     if eof
       eof = '\n' if eof is true
