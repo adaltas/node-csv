@@ -7,7 +7,7 @@ require 'coffee-script'
 fs = require 'fs'
 stream = require 'stream'
 should = require 'should'
-csv = if process.env.CSV_COV then require '../lib-cov/csv' else require '../src/csv'
+csv = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'to', ->
 
