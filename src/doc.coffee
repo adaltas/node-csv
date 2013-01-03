@@ -2,7 +2,6 @@
 fs = require 'fs'
 mecano = require 'mecano'
 each = require 'each'
-glob = require 'glob'
 
 date = -> d = (new Date).toISOString()
 
