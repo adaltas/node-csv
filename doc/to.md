@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Writing data to a destination"
-date: 2012-11-16T16:44:20.771Z
+date: 2013-01-03T15:13:16.628Z
 comments: false
 sharing: false
 footer: false
@@ -74,6 +74,7 @@ as an object if no argument is provided.
 *   `newColumns`  If the `columns` option is not specified (which means columns will be taken from the reader options, will automatically append new columns if they are added during <a name="transform"></a>
 `transform()`.
 *   `end`         Prevent calling `end` on the destination, so that destination is no longer writable.
+*   `eof`         Add a linebreak on the last line, default to false, expect a charactere or use '\n' if value is set to "true"
 
 The end options is similar to passing `{end: false}` option in <a name="stream.pipe"></a>
 `stream.pipe()`. According to the Node.js documentation:
@@ -89,8 +90,8 @@ Provide the output string to a callback.
 ```javascript
 
 csv()
-.from( '"1","2","3","4"\n"a","b","c","d"' )
-.to( function(data, count){} )
+.from( '"1","2","3"\n"a","b","c"' )
+.to.string( function(data, count){} )
 
 ```
 
@@ -115,4 +116,23 @@ Write to a path. Take a file path as first argument and optionally an object of
 options as a second argument. The `close` event is sent after the file is written. 
 Relying on the `end` event is incorrect because it is sent when parsing is done 
 but before the file is written.
+
+
+<a name="to.array"></a>
+`to.array(path, [options])`
+--------------------------
+
+Provide the output string to a callback.
+
+```javascript
+
+csv()
+.from( '"1","2","3"\n"a","b","c"' )
+.to.array( function(data, count){} )
+
+```
+
+Callback is called with 2 arguments:
+*   data      Stringify CSV string
+*   count     Number of stringified records
 
