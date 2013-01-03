@@ -46,13 +46,13 @@ convert_code = (text) ->
     code = code.split('\n').map((line)->line.substr(4)).join('\n')
     "\n\n```javascript\n#{code}\n```\n\n"
 
-docs = ['csv', 'from', 'to', 'transformer', 'parser', 'stringifier']
+docs = ['index', 'from', 'to', 'transformer', 'parser', 'stringifier']
 
 each( docs )
 .parallel( true )
 .on 'item', (file, next) ->
   source = "#{__dirname}/#{file}.coffee"
-  destination = "#{__dirname}/../doc/#{if file is 'csv' then 'index' else file}.md"
+  destination = "#{__dirname}/../doc/#{file}.md"
   fs.readFile source, 'ascii', (err, text) ->
     return console.error err if err
     re = /###(.*)\n([\s\S]*?)\n( *)###/g
