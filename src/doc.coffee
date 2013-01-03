@@ -89,15 +89,15 @@ each( docs )
   console.log 'Documentation generated'
   destination = process.argv[2]
   return unless destination
-  glob "#{__dirname}/../doc/*.md", (err, docs) ->
-    each( docs )
-    .on 'item', (file, next) ->
-      mecano.copy
-        source: file
-        destination: destination
-        force: true
-      , next
-    .on 'both', (err) ->
-      return console.error err if err
-      console.log "Documentation published: #{destination}"
+  each()
+  .files("#{__dirname}/../doc/*.md")
+  .on 'item', (file, next) ->
+    mecano.copy
+      source: file
+      destination: destination
+      force: true
+    , next
+  .on 'both', (err) ->
+    return console.error err if err
+    console.log "Documentation published: #{destination}"
 
