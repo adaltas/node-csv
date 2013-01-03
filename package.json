@@ -37,8 +37,7 @@
     "mocha": "latest",
     "should": "latest",
     "each": "latest",
-    "mecano": "latest",
-    "glob": "latest"
+    "mecano": "latest"
   },
   "dependencies": {},
   "optionalDependencies": {},
