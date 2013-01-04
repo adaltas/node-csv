@@ -5,7 +5,7 @@ Node CSV
 ========
 
 This project provides CSV parsing and has been tested and used 
-on a large input file (over 2Gb).
+on large input files.
 
 *   Follow the Node.js streaming API
 *   Async and event based
