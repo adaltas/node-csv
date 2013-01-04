@@ -3,6 +3,7 @@
   "version": "0.2.6",
   "description": "CSV parser with simple api, full of options and tested against large datasets.",
   "homepage": "http://www.adaltas.com/projects/node-csv/",
+  "bugs": "https://github.com/wdavidw/node-csv-parser/issues",
   "author": "David Worms <david@adaltas.com>",
   "contributors": [
     "David Worms <david@adaltas.com>",
@@ -37,8 +38,7 @@
     "mocha": "latest",
     "should": "latest",
     "each": "latest",
-    "mecano": "latest",
-    "glob": "latest"
+    "mecano": "latest"
   },
   "dependencies": {},
   "optionalDependencies": {},

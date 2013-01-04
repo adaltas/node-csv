@@ -2,7 +2,6 @@
 fs = require 'fs'
 mecano = require 'mecano'
 each = require 'each'
-glob = require 'glob'
 
 date = -> d = (new Date).toISOString()
 
@@ -47,13 +46,13 @@ convert_code = (text) ->
     code = code.split('\n').map((line)->line.substr(4)).join('\n')
     "\n\n```javascript\n#{code}\n```\n\n"
 
-docs = ['csv', 'from', 'to', 'transformer', 'parser', 'stringifier']
+docs = ['index', 'from', 'to', 'transformer', 'parser', 'stringifier']
 
 each( docs )
 .parallel( true )
 .on 'item', (file, next) ->
   source = "#{__dirname}/#{file}.coffee"
-  destination = "#{__dirname}/../doc/#{if file is 'csv' then 'index' else file}.md"
+  destination = "#{__dirname}/../doc/#{file}.md"
   fs.readFile source, 'ascii', (err, text) ->
     return console.error err if err
     re = /###(.*)\n([\s\S]*?)\n( *)###/g
@@ -89,15 +88,15 @@ each( docs )
   console.log 'Documentation generated'
   destination = process.argv[2]
   return unless destination
-  glob "#{__dirname}/../doc/*.md", (err, docs) ->
-    each( docs )
-    .on 'item', (file, next) ->
-      mecano.copy
-        source: file
-        destination: destination
-        force: true
-      , next
-    .on 'both', (err) ->
-      return console.error err if err
-      console.log "Documentation published: #{destination}"
+  each()
+  .files("#{__dirname}/../doc/*.md")
+  .on 'item', (file, next) ->
+    mecano.copy
+      source: file
+      destination: destination
+      force: true
+    , next
+  .on 'both', (err) ->
+    return console.error err if err
+    console.log "Documentation published: #{destination}"
 

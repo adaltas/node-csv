@@ -10,21 +10,18 @@
 
 </pre>
 
+This project provides CSV parsing and has been tested and used 
+on large input files. It provide every option you could expect from an
+advanced CSV parser and stringifier.
+
 [Documentation for the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
-Important
----------
+Usage
+-----
 
-This readme cover the current version 0.2.x of the node 
-csv parser.
+Installation command is `npm install csv`.
 
-The documentation for the current version 0.1.0 is 
-available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
-
-Install command is `npm install csv`.
-
-Quick example
--------------
+### Quick example
 
 ```javascript
 // node samples/string.js
@@ -37,8 +34,7 @@ csv()
 // a,b,c,d
 ```
 
-Advanced example
-----------------
+### Advanced example
     
 ```javascript
 // node samples/sample.js
@@ -67,6 +63,10 @@ csv()
 
 Migration
 ---------
+
+This readme cover the current version 0.2.x of the node 
+csv parser. The documentation for the current version 0.1.0 is 
+available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
 
 The functions 'from*' and 'to*' are now rewritten as 'from.*' and 'to.*'. The 'data'
 event is now the 'record' event. The 'data' event now receives a stringified version of 
