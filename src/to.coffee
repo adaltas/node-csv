@@ -108,7 +108,7 @@ module.exports = (csv) ->
       .to.string( function(data, count){} )
 
   Callback is called with 2 arguments:
-  *   data      Stringify CSV string
+  *   data      Entire CSV as a string
   *   count     Number of stringified records
   
   ###
@@ -189,7 +189,7 @@ module.exports = (csv) ->
       .to.array( function(data, count){} )
 
   Callback is called with 2 arguments:
-  *   data      Stringify CSV string
+  *   data      Entire CSV as an array of records
   *   count     Number of stringified records
   
   ###
