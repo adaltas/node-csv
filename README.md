@@ -42,12 +42,12 @@ var csv = require('csv');
 csv()
 .from.stream(fs.createReadStream(__dirname+'/sample.in'))
 .to.path(__dirname+'/sample.out')
-.transform( function(data){
-  data.unshift(data.pop());
-  return data;
+.transform( function(row){
+  row.unshift(row.pop());
+  return row;
 })
-.on('record', function(data,index){
-  console.log('#'+index+' '+JSON.stringify(data));
+.on('record', function(row,index){
+  console.log('#'+index+' '+JSON.stringify(row));
 })
 .on('end', function(count){
   console.log('Number of lines: '+count);
@@ -69,7 +69,7 @@ csv parser. The documentation for the current version 0.1.0 is
 available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
 
 The functions 'from*' and 'to*' are now rewritten as 'from.*' and 'to.*'. The 'data'
-event is now the 'record' event. The 'data' now recieved a stringified version of 
+event is now the 'record' event. The 'data' now receives a stringified version of 
 the 'record' event.
 
 Development

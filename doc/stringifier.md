@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Stringifier"
-date: 2012-11-19T14:18:05.878Z
+date: 2013-01-05T06:10:44.661Z
 comments: false
 sharing: false
 footer: false
