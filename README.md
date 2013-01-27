@@ -109,6 +109,7 @@ Contributors
 *   Visup: <https://github.com/visup>
 *   Edmund von der Burg: <https://github.com/evdb>
 *   Douglas Christopher Wilson: <https://github.com/dougwilson>
+*   Chris Khoo: <https://github.com/khoomeister>
 
 Related projects
 ----------------
