@@ -45,7 +45,7 @@ Advanced example
 The following example illustrates 4 usages of the library:
 1.  Plug a readable stream by defining a file path
 2.  Direct output to a file path
-3.  Transform the data (optional)
+3.  Transform each row (optional)
 4.  Listen to events (optional)
     
     // node samples/sample.js
@@ -53,12 +53,12 @@ The following example illustrates 4 usages of the library:
     csv()
     .from.stream(fs.createReadStream(__dirname+'/sample.in')
     .to.path(__dirname+'/sample.out')
-    .transform( function(data){
-      data.unshift(data.pop());
-      return data;
+    .transform( function(row){
+      row.unshift(row.pop());
+      return row;
     })
-    .on('record', function(data,index){
-      console.log('#'+index+' '+JSON.stringify(data));
+    .on('record', function(row,index){
+      console.log('#'+index+' '+JSON.stringify(row));
     })
     .on('end', function(count){
       console.log('Number of lines: '+count);
@@ -118,7 +118,7 @@ is emitted.
   Emitted by the stringifier when a new row is parsed and transformed. The data is 
   the value returned by the user `transform` callback if any. Note however that the event won't 
   be called if transform return `null` since the record is skipped.
-  The callback provides two arguments. `data` is the CSV line being processed (an array or an object)
+  The callback provides two arguments. `row` is the CSV line being processed (an array or an object)
   and `index` is the index number of the line starting at zero
 *   *data*   
   Emitted by the stringifier on each line once the data has been transformed and stringified.

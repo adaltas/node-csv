@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Writing data to a destination"
-date: 2013-01-03T15:13:16.628Z
+date: 2013-01-05T06:10:44.660Z
 comments: false
 sharing: false
 footer: false
@@ -96,7 +96,7 @@ csv()
 ```
 
 Callback is called with 2 arguments:
-*   data      Stringify CSV string
+*   data      Entire CSV as a string
 *   count     Number of stringified records
 
 
