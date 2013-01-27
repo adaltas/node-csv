@@ -20,7 +20,7 @@ Parser = (csv) ->
   @csv = csv
   @options = csv.options.from
   @state = csv.state
-  @quoted = false
+  @quoting = false
   @commented = false
   @lines = 0
   @
@@ -51,33 +51,34 @@ Parser.prototype.parse =  (chars) ->
         isReallyEscaped = false
         if c is @options.escape
           # Make sure the escape is really here for escaping:
-          # if escape is same as quote, and escape is first char of a field and it's not quoted, then it is a quote
-          # next char should be an escape or a quote
+          # If escape is same as quote, and escape is first char of a field 
+          # and it's not quoted, then it is a quote
+          # Next char should be an escape or a quote
           nextChar = chars.charAt i + 1
           escapeIsQuote = @options.escape is @options.quote
           isEscape = nextChar is @options.escape
           isQuote = nextChar is @options.quote
-          if not ( escapeIsQuote and not @state.field and not @quoted ) and ( isEscape or isQuote )
+          if not ( escapeIsQuote and not @state.field and not @quoting ) and ( isEscape or isQuote )
             i++
             isReallyEscaped = true
             c = chars.charAt i
             @state.field += c
         if not isReallyEscaped and c is @options.quote
-          if @state.field and not @quoted
+          if @state.field and not @quoting
             # Treat quote as a regular character
             @state.field += c
             break
-          if @quoted
+          if @quoting
             # Make sure a closing quote is followed by a delimiter
             nextChar = chars.charAt i + 1
             if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt @options.delimiter
               return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
-            @quoted = false
+            @quoting = false
           else if @state.field is ''
-            @quoted = true
+            @quoting = true
       when @options.delimiter
         break if @commented
-        if @quoted
+        if @quoting
           @state.field += c
         else
           if @options.trim or @options.rtrim
@@ -86,7 +87,7 @@ Parser.prototype.parse =  (chars) ->
           @state.field = ''
         break
       when '\n', '\r'
-        if @quoted
+        if @quoting
           @state.field += c
           break
         if not @options.quoted and @state.lastC is '\r'
@@ -103,9 +104,9 @@ Parser.prototype.parse =  (chars) ->
         # Some cleanup for the next row
         @state.line = []
       when ' ', '\t'
-        if @quoted or (not @options.trim and not @options.ltrim ) or @state.field
+        # Discard space unless we are quoting, in a field
+        if @quoting or (not @options.trim and not @options.ltrim )
           @state.field += c
-          break
       else
         break if @commented
         @state.field += c
@@ -113,7 +114,7 @@ Parser.prototype.parse =  (chars) ->
     i++
 
 Parser.prototype.end = ->
-  if @quoted
+  if @quoting
     return @error new Error "Quoted field not terminated at line #{@lines+1}"
   # dump open record
   if @state.field or @state.lastC is @options.delimiter or @state.lastC is @options.quote
