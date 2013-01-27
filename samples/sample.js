@@ -5,17 +5,17 @@ csv()
 .from.path(__dirname+'/sample.in')
 .to.path(__dirname+'/sample.out')
 .transform(function(data){
-    data.unshift(data.pop());
-    return data;
+  data.unshift(data.pop());
+  return data;
 })
 .on('record', function(data, index){
-    console.log('#'+index+' '+JSON.stringify(data));
+  console.log('#'+index+' '+JSON.stringify(data));
 })
 .on('end', function(count){
-    console.log('Number of lines: '+count);
+  console.log('Number of lines: '+count);
 })
 .on('error', function(error){
-    console.log(error.message);
+  console.log(error.message);
 });
 
 /*

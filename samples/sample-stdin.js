@@ -7,17 +7,17 @@ csv()
 .from.stream(process.stdin)
 .to.path(__dirname+'/sample.out')
 .transform(function(data){
-    data.unshift(data.pop());
-    return data;
+  data.unshift(data.pop());
+  return data;
 })
 .on('record',function(record, index){
-    console.log('#'+index+' '+JSON.stringify(record));
+  console.log('#'+index+' '+JSON.stringify(record));
 })
 .on('close',function(count){
-    console.log('Number of lines: '+count);
+  console.log('Number of lines: '+count);
 })
 .on('error',function(error){
-    console.log(error.message);
+  console.log(error.message);
 });
 
 /*
