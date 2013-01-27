@@ -5,7 +5,7 @@ csv()
 .from('82,Preisner,Zbigniew\n94,Gainsbourg,Serge')
 .to(console.log)
 .transform(function(data,index){
-    return (index>0 ? ',' : '') + data[0] + ":" + data[2] + ' ' + data[1];
+  return (index>0 ? ',' : '') + data[0] + ":" + data[2] + ' ' + data[1];
 });
 
 /*

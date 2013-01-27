@@ -3,14 +3,14 @@ var csv = require('..');
 
 csv()
 .from.path(__dirname+'/columns.in',{
-    columns: true
+  columns: true
 })
 .to.stream(process.stdout, {
-    newColumns: true
+  newColumns: true
 })
 .transform(function(data){
-    data.name = data.firstname + ' ' + data.lastname
-    return data;
+  data.name = data.firstname + ' ' + data.lastname
+  return data;
 })
 .on('end', function(){
   process.stdout.write('\n');

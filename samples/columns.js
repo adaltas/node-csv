@@ -3,15 +3,15 @@ var csv = require('..');
 
 csv()
 .from.path(__dirname+'/columns.in', {
-    columns: true
+  columns: true
 })
 .to.stream(process.stdout, {
-    columns: ['id', 'name'],
-    end: false
+  columns: ['id', 'name'],
+  end: false
 })
 .transform(function(data){
-    data.name = data.firstname + ' ' + data.lastname
-    return data;
+  data.name = data.firstname + ' ' + data.lastname
+  return data;
 });
 
 /*
