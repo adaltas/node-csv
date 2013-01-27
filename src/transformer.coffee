@@ -5,24 +5,24 @@ stream = require 'stream'
 Transforming data
 =================
 
-Transformation may occur synchronously or asynchronously dependending
+Transformations may occur synchronously or asynchronously depending
 on the provided transform callback and its declared arguments length.
 
 Callback are called for each line and its arguments are :    
 
-*   *data*   
+*   *row*   
   CSV record
 *   *index*   
   Incremented counter
 *   *callback*   
   Callback function to be called in asynchronous mode
 
-Unless you specify the `columns` read option, `data` are provided 
-as arrays, otherwise they are objects with keys matching columns 
-names.
+Unless you specify the `columns` read option, the `row` argument will be 
+provided as an array, otherwise it will be provided as an object with keys 
+matching columns names.
 
-In synchronous mode, the contract is quite simple, you receive an array 
-of fields for each record and return the transformed record.
+In synchronous mode, the contract is quite simple, you will receive an array 
+of fields for each record and the transformed array should be returned.
 
 In asynchronous mode, it is your responsibility to call the callback 
 provided as the third argument. It must be called with two arguments,
@@ -44,8 +44,8 @@ Transform callback run synchronously:
     csv()
     .from('82,Preisner,Zbigniew\n94,Gainsbourg,Serge')
     .to(console.log)
-    .transform(function(data, index){
-        return data.reverse()
+    .transform(function(row, index){
+        return row.reverse()
     });
     // Executing `node samples/transform.js`, print:
     // 94,Gainsbourg,Serge\n82,Preisner,Zbigniew
@@ -55,9 +55,9 @@ Transform callback run asynchronously:
     csv()
     .from('82,Preisner,Zbigniew\n94,Gainsbourg,Serge')
     .to(console.log)
-    .transform(function(data, index, callback){
+    .transform(function(row, index, callback){
         process.nextTick(function(){
-            callback(null, data.reverse());
+            callback(null, row.reverse());
         });
     });
     // Executing `node samples/transform.js`, print:
@@ -68,8 +68,8 @@ Transform callback returning a string:
     csv()
     .from('82,Preisner,Zbigniew\n94,Gainsbourg,Serge')
     .to(console.log)
-    .transform(function(data, index){
-        return (index>0 ? ',' : '') + data[0] + ":" + data[2] + ' ' + data[1];
+    .transform(function(row, index){
+        return (index>0 ? ',' : '') + row[0] + ":" + row[2] + ' ' + row[1];
     });
     // Executing `node samples/transform.js`, print:
     // 82:Zbigniew Preisner,94:Serge Gainsbourg
