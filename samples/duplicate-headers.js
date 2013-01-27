@@ -12,12 +12,12 @@ var header;
 
 process.stdin.resume();
 
-csv()
+parser = csv()
 .from.stream(process.stdin)
 .to.stream(process.stdout, {end: false})
 .transform(function(data){
   if (header) {
-    this.write(header);
+    parser.write(header);
   } else {
     header=data;
     return null;
