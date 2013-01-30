@@ -92,6 +92,17 @@ module.exports = (csv) ->
   to.options = (options) ->
     if options?
       utils.merge csv.options.to, options
+      switch csv.options.to.lineBreaks
+        when 'auto'
+          csv.options.to.lineBreaks = null
+        when 'unix'
+          csv.options.to.lineBreaks = "\n"
+        when 'mac'
+          csv.options.to.lineBreaks = "\r"
+        when 'windows'
+          csv.options.to.lineBreaks = "\r\n"
+        when 'unicode'
+          csv.options.to.lineBreaks = "\u2028"
       csv
     else
       csv.options.to
@@ -136,17 +147,6 @@ module.exports = (csv) ->
   ###
   to.stream = (stream, options) ->
     @options options
-    switch csv.options.to.lineBreaks
-      when 'auto'
-        csv.options.to.lineBreaks = null
-      when 'unix'
-        csv.options.to.lineBreaks = "\n"
-      when 'mac'
-        csv.options.to.lineBreaks = "\r"
-      when 'windows'
-        csv.options.to.lineBreaks = "\r\n"
-      when 'unicode'
-        csv.options.to.lineBreaks = "\u2028"
     csv.pipe stream, csv.options.to
     stream.on 'error', (e) ->
       csv.error e
