@@ -29,6 +29,7 @@ Stringifier.prototype.write = (line, preserve) ->
     # Convert the record into a string
     line = @csv.stringifier.stringify line
   # Emit the csv
+  line = "#{line}" if typeof line is 'number'
   @csv.emit 'data', line
   @csv.state.countWriten++ unless preserve
   true

@@ -90,6 +90,17 @@ describe 'transform', ->
       result.should.eql expect
       fs.unlink "#{__dirname}/transform/string.tmp", next
   
+  it 'should accept a returned number', (next) ->
+    csv()
+    .from.string('a\nb\nc')
+    .transform (record, index) ->
+      index + 1
+    .on 'close', (count) ->
+      count.should.eql 2
+    .to.string (data) ->
+      data.should.eql '123'
+      next()
+  
   it 'should accept a returned integer', (next) ->
     result = ''
     test = csv()
