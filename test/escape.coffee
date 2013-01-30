@@ -13,29 +13,34 @@ describe 'escape', ->
   # Note: we only escape quote and escape character
   it 'should honor the default double quote escape charactere', (next) ->
     csv()
-    .from.path("#{__dirname}/escape/default.in", escape: '"')
-    .to.path("#{__dirname}/escape/default.tmp")
+    .from.string("""
+      20322051544,"19""79.0",8.8017226E7,"A""B""C",45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """, escape: '"')
     .on 'record', (record, index) ->
       if index is 0
         record[1].should.eql '19"79.0'
         record[3].should.eql 'A"B"C'
-    .on 'close', ->
-      result = fs.readFileSync "#{__dirname}/escape/default.out"
-      expect = fs.readFileSync "#{__dirname}/escape/default.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/escape/default.tmp", next
+    .to.string (result) ->
+      result.should.eql """
+      20322051544,"19""79.0",8.8017226E7,"A""B""C",45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      next()
 
   it 'should honor the backslash escape charactere', (next) ->
     csv()
-    .from.path("#{__dirname}/escape/backslash.in", escape: '\\')
-    .to.path("#{__dirname}/escape/backslash.tmp")
+    .from.string("""
+      20322051544,"19\\"79.0",8.8017226E7,"A\\"B\\"C",45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """, escape: '\\')
     .on 'record', (record, index) ->
       if index is 0
         record[1].should.eql '19"79.0'
         record[3].should.eql 'A"B"C'
-    .on 'close', (count) ->
-      count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/escape/backslash.out"
-      result = fs.readFileSync "#{__dirname}/escape/backslash.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/escape/backslash.tmp", next
+    .to.string (result) ->
+      result.should.eql """
+      20322051544,"19\\"79.0",8.8017226E7,"A\\"B\\"C",45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      next()

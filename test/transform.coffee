@@ -13,82 +13,101 @@ describe 'transform', ->
   it 'should be able to reorder fields', (next) ->
     count = 0
     csv()
-    .from.path("#{__dirname}/transform/reorder.in")
-    .to.path("#{__dirname}/transform/reorder.tmp")
+    .from.string("""
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """)
     .transform (record, index) ->
       count.should.eql index
       count++
       record.unshift record.pop()
       record
-    .on 'close', ->
+    .on 'end', ->
       count.should.eql 2
-      expect = fs.readFileSync("#{__dirname}/transform/reorder.out").toString()
-      result = fs.readFileSync("#{__dirname}/transform/reorder.tmp").toString()
-      result.should.eql expect
-      fs.unlink "#{__dirname}/transform/reorder.tmp", next
+    .to.string (result) ->
+      result.should.eql """
+      2000-01-01,20322051544,1979.0,8.8017226E7,ABC,45
+      2050-11-27,28392898392,1974.0,8.8392926E7,DEF,23
+      """
+      next()
   
   it 'should skip all lines where transform return undefined', (next) ->
     count = 0
     csv()
-    .from.path("#{__dirname}/transform/undefined.in")
-    .to.path("#{__dirname}/transform/undefined.tmp")
+    .from.string("""
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """)
     .transform (record, index) ->
       count.should.eql index
       count++
       null
     .on 'close', ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/transform/undefined.out"
-      result = fs.readFileSync "#{__dirname}/transform/undefined.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/transform/undefined.tmp", next
+    .to.string (result) ->
+      result.should.eql ''
+      next()
   
   it 'should skip all lines where transform return null', (next) ->
     count = 0
     csv()
-    .from.path("#{__dirname}/transform/null.in")
-    .to.path("#{__dirname}/transform/null.tmp")
+    .from.string("""
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      82378392929,1972.0,8.8392926E7,FJI,23,2012-04-30
+      47191084482,1978.0,8.8392926E7,2FF,23,2064-02-15
+      28718040423,1973.0,8.8392926E7,FRE,23,1970-09-02
+      24792823783,1971.0,8.8392926E7,POF,23,1978-06-09
+      """)
     .transform (record, index) ->
       count.should.eql index
       count++
       if index % 2 then record else null
     .on 'close', ->
       count.should.eql 6
-      expect = fs.readFileSync "#{__dirname}/transform/null.out"
-      result = fs.readFileSync "#{__dirname}/transform/null.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/transform/null.tmp", next
+    .to.string (result) ->
+      result.should.eql """
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      47191084482,1978.0,8.8392926E7,2FF,23,2064-02-15
+      24792823783,1971.0,8.8392926E7,POF,23,1978-06-09
+      """
+      next()
   
   it 'should recieve an array and return an object', (next) ->
     # we don't define columns
     # recieve and array and return an object
     # also see the columns test
     csv()
-    .from.path("#{__dirname}/transform/object.in")
-    .to.path("#{__dirname}/transform/object.tmp")
+    .from.string("""
+      20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+      """)
     .transform (record, index) ->
       { field_1: record[4], field_2: record[3] }
     .on 'close', (count) ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/transform/object.out"
-      result = fs.readFileSync "#{__dirname}/transform/object.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/transform/object.tmp", next
     .on 'error', (e) ->
       should.be.ok false
+    .to.string (result) ->
+      result.should.eql """
+      45,ABC
+      23,DEF
+      """
+      next()
   
   it 'should accept a returned string', (next) ->
     csv()
-    .from.path("#{__dirname}/transform/string.in")
-    .to.path("#{__dirname}/transform/string.tmp")
+    .from.string("""
+      20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+      """)
     .transform (record, index) ->
       ( if index > 0 then ',' else '' ) + record[4] + ":" + record[3]
     .on 'close', (count) ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/transform/string.out"
-      result = fs.readFileSync "#{__dirname}/transform/string.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/transform/string.tmp", next
+    .to.string (result) ->
+      result.should.eql '45:ABC,23:DEF'
+      next()
   
   it 'should accept a returned number', (next) ->
     csv()
@@ -118,23 +137,26 @@ describe 'transform', ->
   it 'should accept a returned array with different types', (next) ->
     # Test date, int and float
     csv()
-    .from.path("#{__dirname}/transform/types.in")
-    .to.path("#{__dirname}/transform/types.tmp")
+    .from.string("""
+      20322051544,8.8017226E7,4.5,1978-10-09,,1
+      28392898392,8.8392926E7,8.3,2000-01-01,1,
+      """)
     .transform (record, index) ->
       record[3] = record[3].split('-')
       [parseInt(record[0]), parseFloat(record[1]), parseFloat(record[2]) ,Date.UTC(record[3][0], record[3][1], record[3][2]), !!record[4], !!record[5]]
-    .on 'close', (count) ->
+    .on 'end', (count) ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/transform/types.out"
-      result = fs.readFileSync "#{__dirname}/transform/types.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/transform/types.tmp", next
+    .to.string (result) ->
+      result.should.eql """
+      20322051544,88017226,4.5,279417600000,,1
+      28392898392,88392926,8.3,949363200000,1,
+      """
+      next()
   
   it 'should catch error thrown in transform callback', (next) ->
     count = 0
     error = false
     test = csv()
-    .to.path( "#{__dirname}/write/write_array.tmp" )
     .transform (record, index) ->
       throw new Error "Error at index #{index}" if index % 10 is 9
       record
@@ -146,9 +168,10 @@ describe 'transform', ->
       setTimeout next, 100
     .on 'record', (record) ->
       record[1].should.be.below 9
-    .on 'close', ->
+    .on 'end', ->
       false.should.be.ok
-      next()
+    .to.string (result) ->
+      false.should.be.ok
     for i in [0...1000]
       test.write ['Test '+i, i, '"'] unless error
 

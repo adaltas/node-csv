@@ -13,56 +13,84 @@ describe 'write', ->
   it 'Test write array', (next) ->
     count = 0;
     test = csv()
-    .to.path( "#{__dirname}/write/write_array.tmp" )
     .on 'record', (record, index) ->
       record.should.be.an.instanceof Array
       count.should.eql index
       count++
-    .on 'close', ->
-      count.should.eql 1000
-      expect = fs.readFileSync "#{__dirname}/write/write.out"
-      result = fs.readFileSync "#{__dirname}/write/write_array.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/write/write_array.tmp", next
-    for i in [0...1000]
+    .on 'end', ->
+      count.should.eql 10
+    .to.string (result) ->
+      result.should.eql """
+      Test 0,0,\"\"\"\"
+      Test 1,1,\"\"\"\"
+      Test 2,2,\"\"\"\"
+      Test 3,3,\"\"\"\"
+      Test 4,4,\"\"\"\"
+      Test 5,5,\"\"\"\"
+      Test 6,6,\"\"\"\"
+      Test 7,7,\"\"\"\"
+      Test 8,8,\"\"\"\"
+      Test 9,9,\"\"\"\"
+      """
+      next()
+    for i in [0...10]
       test.write ["Test #{i}", i, '"']
     test.end()
   
   it 'Test write object with column options', (next) ->
     count = 0
     test = csv()
-    .to.path( "#{__dirname}/write/write_object.tmp", columns: ['name','value','escape'] )
     .on 'record', (record, index) ->
       record.should.be.a 'object'
       record.should.not.be.an.instanceof Array
       count.should.eql index
       count++
-    .on 'close', ->
-      count.should.eql 1000
-      expect = fs.readFileSync "#{__dirname}/write/write.out"
-      result = fs.readFileSync "#{__dirname}/write/write_object.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/write/write_object.tmp", next
-    for i in [0...1000]
+    .on 'end', ->
+      count.should.eql 10
+    .to.string( (result) ->
+      result.should.eql """
+      Test 0,0,\"\"\"\"
+      Test 1,1,\"\"\"\"
+      Test 2,2,\"\"\"\"
+      Test 3,3,\"\"\"\"
+      Test 4,4,\"\"\"\"
+      Test 5,5,\"\"\"\"
+      Test 6,6,\"\"\"\"
+      Test 7,7,\"\"\"\"
+      Test 8,8,\"\"\"\"
+      Test 9,9,\"\"\"\"
+      """
+      next()
+    , columns: ['name','value','escape'])
+    for i in [0...10]
       test.write {name: "Test #{i}", value:i, escape: '"', ovni: "ET #{i}"}
     test.end()
   
   it 'Test write string', (next) ->
     count = 0
     test = csv()
-    .to.path( "#{__dirname}/write/write_string.tmp" )
     .on 'record', (record, index) ->
       record.should.be.an.instanceof Array
       count.should.eql index
       count++
-    .on 'close', ->
-      count.should.eql 1000
-      expect = fs.readFileSync "#{__dirname}/write/write.out"
-      result = fs.readFileSync "#{__dirname}/write/write_string.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/write/write_string.tmp", next
+    .on 'end', ->
+      count.should.eql 10
+    .to.string (result) ->
+      result.should.eql """
+      Test 0,0,\"\"\"\"
+      Test 1,1,\"\"\"\"
+      Test 2,2,\"\"\"\"
+      Test 3,3,\"\"\"\"
+      Test 4,4,\"\"\"\"
+      Test 5,5,\"\"\"\"
+      Test 6,6,\"\"\"\"
+      Test 7,7,\"\"\"\"
+      Test 8,8,\"\"\"\"
+      Test 9,9,\"\"\"\"
+      """
+      next()
     buffer = ''
-    for i in [0...1000]
+    for i in [0...10]
       buffer += ''.concat "Test #{i}", ',', i, ',', '""""', "\n"
       if buffer.length > 250
         test.write buffer.substr 0, 250
@@ -73,7 +101,6 @@ describe 'write', ->
   it 'Test write string with preserve', (next) ->
     count = 0
     test = csv()
-    .to.path( "#{__dirname}/write/string_preserve.tmp" )
     .transform (record, index) ->
       if index is 0
         test.write '--------------------\n', true
@@ -83,11 +110,17 @@ describe 'write', ->
       count.should.eql index
       count++
       null
-    .on 'close', ->
-      expect = fs.readFileSync "#{__dirname}/write/string_preserve.out"
-      result = fs.readFileSync "#{__dirname}/write/string_preserve.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/write/string_preserve.tmp", next
+    .to.string (result) ->
+      result.should.eql """
+      # This line should not be parsed
+      --------------------
+      Test 0,0,\"\"\"\"
+      --------------------
+      Test 1,1,\"\"\"\"
+      --------------------
+      # This one as well
+      """
+      next()
     test.write '# This line should not be parsed', true
     test.write '\n', true
     buffer = ''
@@ -105,28 +138,28 @@ describe 'write', ->
     # Fix bug in which transform callback was called by flush and not write
     count = 0
     test = csv()
-    .to.path( "#{__dirname}/write/write_array.tmp" )
+    .to.path( '/dev/null' )
     .transform (record, index) ->
       count++
     .on 'close', ->
       count.should.eql 1000
-      fs.unlink "#{__dirname}/write/write_array.tmp", next
+      next()
     for i in [0...1000]
       test.write ['Test '+i, i, '"']
     test.end()
   
   it 'should emit header even without a source', (next) ->
     test = csv()
-    .to.path "#{__dirname}/write/write_sourceless.tmp", 
-      columns: [ 'col1', 'col2' ], 
-      header: true, 
-      lineBreaks: 'unix'
-    .on 'close', (count) ->
+    .on 'end', (count) ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/write/write_sourceless.out"
-      result = fs.readFileSync "#{__dirname}/write/write_sourceless.tmp"
-      result.toString().should.eql expect.toString()
-      fs.unlink "#{__dirname}/write/write_sourceless.tmp", next
+    .to.string( (result) ->
+      result.should.eql """
+      col1,col2
+      foo1,goo1
+      foo2,goo2
+      """
+      next()
+    , columns: [ 'col1', 'col2' ], header: true, lineBreaks: 'unix')
     test.write col1: 'foo1', col2: 'goo1'
     test.write col1: 'foo2', col2: 'goo2'
     test.end()
