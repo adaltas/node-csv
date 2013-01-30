@@ -15,8 +15,11 @@ describe 'columns', ->
     it 'Test columns in true', (next) ->
       # Note: if true, columns are expected to be in first line
       csv()
-      .from.path( "#{__dirname}/columns/in_true.in", columns: true )
-      .to.path( "#{__dirname}/columns/in_true.tmp" )
+      .from.string( """
+        FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6
+        20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+        28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+        """, columns: true )
       .transform (record, index) ->
         record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
@@ -25,21 +28,22 @@ describe 'columns', ->
         else if index is 1
           record.FIELD_4.should.eql 'DEF'
         record
-      .on 'close', (count) ->
-        count.should.eql 2
-        expect = fs.readFileSync "#{__dirname}/columns/in_true.out"
-        result = fs.readFileSync "#{__dirname}/columns/in_true.tmp"
-        result.should.eql expect
-        fs.unlink("#{__dirname}/columns/in_true.tmp")
+      .to.string (result) ->
+        result.should.eql """
+        20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+        28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+        """
         next()
   
     it 'Test columns in named', (next) ->
       # Note: if true, columns are expected to be in first line
       csv()
-      .from.path("#{__dirname}/columns/in_named.in", {
+      .from.string("""
+        20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+        28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+        """, {
         columns: ["FIELD_1", "FIELD_2", "FIELD_3", "FIELD_4", "FIELD_5", "FIELD_6"]
       })
-      .to.path("#{__dirname}/columns/in_named.tmp")
       .transform (record, index) ->
         record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
@@ -51,12 +55,11 @@ describe 'columns', ->
       .on 'record', (record, index) ->
         record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
-      .on 'close', (count) ->
-        count.should.eql 2
-        expect = fs.readFileSync "#{__dirname}/columns/in_named.out"
-        result = fs.readFileSync "#{__dirname}/columns/in_named.tmp"
-        result.should.eql expect
-        fs.unlink "#{__dirname}/columns/in_named.tmp"
+      .to.string (result) ->
+        result.should.eql """
+        20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+        28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+        """
         next()
 
     it 'should map the column property name to display name', (next) ->
@@ -83,19 +86,19 @@ describe 'columns', ->
       # Since there is not columns set in input options, we just expect
       # the output stream to contains 2 fields
       csv()
-      .from.path("#{__dirname}/columns/out_no_transform.in")
-      .to.path("#{__dirname}/columns/out_no_transform.tmp",
-        columns: ["FIELD_1", "FIELD_2"]
-      )
+      .from.string("""
+        20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+        28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+        """)
       .on 'record', (record, index) ->
         record.should.be.an.instanceof Array
-      .on 'close', (count) ->
-        count.should.eql 2
-        expect = fs.readFileSync "#{__dirname}/columns/out_no_transform.out"
-        result = fs.readFileSync "#{__dirname}/columns/out_no_transform.tmp"
-        result.should.eql expect
-        fs.unlink "#{__dirname}/columns/out_no_transform.tmp"
+      .to.string( (result) ->
+        result.should.eql """
+        20322051544,1979
+        28392898392,1974
+        """
         next()
+      , columns: ["FIELD_1", "FIELD_2"])
   
     it 'should filter from a transformed object', (next) ->
       # We are no returning an object
