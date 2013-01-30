@@ -103,39 +103,49 @@ describe 'columns', ->
     it 'should filter from a transformed object', (next) ->
       # We are no returning an object
       csv()
-      .from.path("#{__dirname}/columns/out_named.in")
-      .to.path("#{__dirname}/columns/out_named.tmp",
-        columns: ["FIELD_1", "FIELD_2"]
-      )
+      .from.string("""
+        20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+        28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+        """)
       .transform (record, index) ->
         record.should.be.an.instanceof Array
         {FIELD_2: record[3], zombie: record[1], FIELD_1: record[4]}
       .on 'record', (record, index) ->
         record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
-      .on 'close', (count) ->
+      .on 'end', (count) ->
         count.should.eql 2
-        expect = fs.readFileSync "#{__dirname}/columns/out_named.out"
-        result = fs.readFileSync "#{__dirname}/columns/out_named.tmp"
-        result.should.eql expect
-        fs.unlink "#{__dirname}/columns/out_named.tmp"
+      .to.string( (result) ->
+        result.should.eql """
+        45,ABC
+        23,DEF
+        """
         next()
+      , columns: ["FIELD_1", "FIELD_2"])
    
     it 'should emit new columns in output', (next) ->
       csv()
-      .from.path("#{__dirname}/columns/out_new.in", columns: true)
-      .to.path("#{__dirname}/columns/out_new.tmp", newColumns: true, header: true)
+      .from.string("""
+        FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6
+        20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+        28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+        83929843999,1944,8.8349294E2,HIJ,17,2060-08-28
+        """, columns: true)
       .transform (record) ->
         record.should.be.an.a 'object'
         record.FIELD_7 = 'new_field'
         record
-      .on 'close', (count) ->
+      .on 'end', (count) ->
         count.should.eql 3
-        expect = fs.readFileSync "#{__dirname}/columns/out_new.out"
-        result = fs.readFileSync "#{__dirname}/columns/out_new.tmp"
-        result.should.eql expect
-        fs.unlink "#{__dirname}/columns/out_new.tmp"
+      .to.string( (result) ->
+        result.should.eql """
+        FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6,FIELD_7
+        20322051544,1979,8.8017226E7,ABC,45,2000-01-01,new_field
+        28392898392,1974,8.8392926E7,DEF,23,2050-11-27,new_field
+        83929843999,1944,8.8349294E2,HIJ,17,2060-08-28,new_field
+        """
         next()
+      , newColumns: true, header: true)
 
     it 'should map the column property name to display name', (next) ->
       transformCount = 0

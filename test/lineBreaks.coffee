@@ -12,57 +12,69 @@ describe 'lineBreaks', ->
   
   it 'Test line breaks custom', (next) ->
     csv()
-    .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
-    .to.path( "#{__dirname}/lineBreaks/custom.tmp", lineBreaks: '::' )
-    .on 'close', (count) ->
+    .from.string( """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """ )
+    .on 'end', (count) ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/lineBreaks/custom.out"
-      result = fs.readFileSync "#{__dirname}/lineBreaks/custom.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/lineBreaks/custom.tmp", next
+    .to.string( (result) ->
+      result.should.eql """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01::28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      next()
+    , lineBreaks: '::' )
   
   it 'Test line breaks unix', (next) ->
     csv()
-    .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
-    .to.path( "#{__dirname}/lineBreaks/unix.tmp", lineBreaks: "unix")
-    .on 'close', (count) ->
-      count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/lineBreaks/unix.out"
-      result = fs.readFileSync "#{__dirname}/lineBreaks/unix.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/lineBreaks/unix.tmp", next
+    .from.string( """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """ )
+    .to.string( (result) ->
+      result.should.eql """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01\n28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      next()
+    , lineBreaks: 'unix')
   
   it 'Test line breaks unicode', (next) ->
     csv()
-    .from.path( "#{__dirname}/lineBreaks/lineBreaks.in")
-    .to.path( "#{__dirname}/lineBreaks/unicode.tmp", lineBreaks: 'unicode')
-    .on 'close', (count) ->
-      count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/lineBreaks/unicode.out"
-      result = fs.readFileSync "#{__dirname}/lineBreaks/unicode.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/lineBreaks/unicode.tmp", next
+    .from.string( """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """ )
+    .to.string( (result) ->
+      result.should.eql """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01\u202828392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      next()
+    , lineBreaks: 'unicode')
   
   it 'Test line breaks mac', (next) ->
     csv()
-    .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
-    .to.path( "#{__dirname}/lineBreaks/mac.tmp", lineBreaks: 'mac' )
-    .on 'close', (count) ->
-      count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/lineBreaks/mac.out"
-      result = fs.readFileSync "#{__dirname}/lineBreaks/mac.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/lineBreaks/mac.tmp", next
+    .from.string( """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """ )
+    .to.string( (result) ->
+      result.should.eql """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01\r28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      next()
+    , lineBreaks: 'mac')
   
   it 'Test line breaks windows', (next) ->
     csv()
-    .from.path( "#{__dirname}/lineBreaks/lineBreaks.in" )
-    .to.path( "#{__dirname}/lineBreaks/windows.tmp", lineBreaks: 'windows' )
-    .on 'close', (count) ->
-      count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/lineBreaks/windows.out"
-      result = fs.readFileSync "#{__dirname}/lineBreaks/windows.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/lineBreaks/windows.tmp", next
+    .from.string( """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """ )
+    .to.string( (result) ->
+      result.should.eql """
+      20322051544,1979.0,8.8017226E7,ABC,45,2000-01-01\r\n28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      next()
+    , lineBreaks: 'windows')
 
 

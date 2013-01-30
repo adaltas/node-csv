@@ -12,8 +12,10 @@ describe 'delimiter', ->
   
   it 'Test empty value', (next) ->
     csv()
-    .from.path( "#{__dirname}/delimiter/empty_value.in" )
-    .to.path( "#{__dirname}/delimiter/empty_value.tmp" )
+    .from.string( """
+      20322051544,,8.8017226E7,45,
+      ,1974,8.8392926E7,,
+      """ )
     .transform (record, index) ->
       record.length.should.eql 5
       if index is 0
@@ -24,17 +26,21 @@ describe 'delimiter', ->
         record[3].should.eql ''
         record[4].should.eql ''
       record
-    .on 'close', (count) ->
+    .on 'end', (count) ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/delimiter/empty_value.out"
-      result = fs.readFileSync "#{__dirname}/delimiter/empty_value.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/delimiter/empty_value.tmp", next
+    .to.string (result) ->
+      result.should.eql """
+      20322051544,,8.8017226E7,45,
+      ,1974,8.8392926E7,,
+      """
+      next()
   
   it 'Test tabs to comma', (next) ->
     csv()
-    .from.path( "#{__dirname}/delimiter/tab_to_coma.in", delimiter: '\t' )
-    .to.path( "#{__dirname}/delimiter/tab_to_coma.tmp", delimiter: ',' )
+    .from.string( """
+      20322051544\t\t8.8017226E7\t45\t
+      \t1974\t8.8392926E7\t\t
+      """, delimiter: '\t' )
     .transform (record, index) ->
       record.length.should.eql 5
       if index is 0
@@ -45,10 +51,13 @@ describe 'delimiter', ->
         record[3].should.eql ''
         record[4].should.eql ''
       record
-    .on 'close', (count) ->
+    .on 'end', (count) ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/delimiter/tab_to_coma.out"
-      result = fs.readFileSync "#{__dirname}/delimiter/tab_to_coma.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/delimiter/tab_to_coma.tmp", next
+    .to.string( (result) ->
+      result.should.eql """
+      20322051544,,8.8017226E7,45,
+      ,1974,8.8392926E7,,
+      """
+      next()
+    , delimiter: ',' )
 

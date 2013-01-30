@@ -12,35 +12,36 @@ describe 'header', ->
   
   it 'should print headers with defined write columns', (next) ->
     csv()
-    .from.path("#{__dirname}/header/defwcols.in")
-    .to.path("#{__dirname}/header/defwcols.tmp",
-      header: true
-      columns: ["FIELD_1", "FIELD_2"]
-    )
-    .on 'close', (count) ->
+    .from.string("""
+      20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+      """)
+    .on 'end', (count) ->
       count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/header/defwcols.out"
-      result = fs.readFileSync "#{__dirname}/header/defwcols.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/header/defwcols.tmp"
+    .to.string( (result) ->
+      result.should.eql """
+      FIELD_1,FIELD_2
+      20322051544,1979
+      28392898392,1974
+      """
       next()
+    , header: true, columns: ["FIELD_1", "FIELD_2"] )
   
   it 'should print headers with true read columns and defined write columns', (next) ->
     csv()
-    .from.path("#{__dirname}/header/truercols_defwcols.in",
-      columns: true
-    )
-    .to.path("#{__dirname}/header/truercols_defwcols.tmp",
-      header: true
-      columns: ["FIELD_1", "FIELD_2"]
-    )
-    .on 'close', (count) ->
-      count.should.eql 2
-      expect = fs.readFileSync "#{__dirname}/header/truercols_defwcols.out"
-      result = fs.readFileSync "#{__dirname}/header/truercols_defwcols.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/header/truercols_defwcols.tmp"
+    .from.string("""
+      FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6
+      20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+      """, columns: true)
+    .to.string( (result) ->
+      result.should.eql """
+      FIELD_1,FIELD_2
+      20322051544,1979
+      28392898392,1974
+      """
       next()
+    , header: true, columns: ["FIELD_1", "FIELD_2"] )
 
   it 'should print headers if no records to parse', (next) ->
     csv()
