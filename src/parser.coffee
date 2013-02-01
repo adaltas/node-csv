@@ -21,7 +21,6 @@ Parser = (csv) ->
   @options = csv.options.from
   @state = csv.state
   @quoting = false
-  @commented = false
   @lines = 0
   @
 Parser.prototype.__proto__ = EventEmitter.prototype
@@ -47,7 +46,6 @@ Parser.prototype.parse =  (chars) ->
     c = chars.charAt i
     switch c
       when @options.escape, @options.quote
-        break if @commented
         isReallyEscaped = false
         if c is @options.escape
           # Make sure the escape is really here for escaping:
@@ -77,7 +75,6 @@ Parser.prototype.parse =  (chars) ->
           else if @state.field is ''
             @quoting = true
       when @options.delimiter
-        break if @commented
         if @quoting
           @state.field += c
         else
@@ -108,7 +105,6 @@ Parser.prototype.parse =  (chars) ->
         if @quoting or (not @options.trim and not @options.ltrim )
           @state.field += c
       else
-        break if @commented
         @state.field += c
     @state.lastC = c
     i++
