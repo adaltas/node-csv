@@ -62,17 +62,17 @@ Parser.prototype.parse =  (chars) ->
             c = chars.charAt i
             @state.field += c
         if not isReallyEscaped and c is @options.quote
-          if @state.field and not @quoting
-            # Treat quote as a regular character
-            @state.field += c
-            break
           if @quoting
             # Make sure a closing quote is followed by a delimiter
             nextChar = chars.charAt i + 1
             if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt @options.delimiter
               return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
             @quoting = false
-          else if @state.field is ''
+          else if @state.field
+            # Treat quote as a regular character
+            @state.field += c
+            break
+          else
             @quoting = true
       when @options.delimiter
         if @quoting
