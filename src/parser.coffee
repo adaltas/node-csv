@@ -44,68 +44,59 @@ Parser.prototype.parse =  (chars) ->
   i++ if @lines is 0 and csv.options.from.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
   while i < l
     c = chars.charAt i
-    switch c
-      when @options.escape, @options.quote
-        isReallyEscaped = false
-        if c is @options.escape
-          # Make sure the escape is really here for escaping:
-          # If escape is same as quote, and escape is first char of a field 
-          # and it's not quoted, then it is a quote
-          # Next char should be an escape or a quote
-          nextChar = chars.charAt i + 1
-          escapeIsQuote = @options.escape is @options.quote
-          isEscape = nextChar is @options.escape
-          isQuote = nextChar is @options.quote
-          if not ( escapeIsQuote and not @state.field and not @quoting ) and ( isEscape or isQuote )
-            i++
-            isReallyEscaped = true
-            c = chars.charAt i
-            @state.field += c
-        if not isReallyEscaped and c is @options.quote
-          if @quoting
-            # Make sure a closing quote is followed by a delimiter
-            nextChar = chars.charAt i + 1
-            if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt @options.delimiter
-              return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
-            @quoting = false
-          else if @state.field
-            # Treat quote as a regular character
-            @state.field += c
-            break
-          else
-            @quoting = true
-      when @options.delimiter
+    if c is @options.escape or c is @options.quote
+      isReallyEscaped = false
+      if c is @options.escape
+        # Make sure the escape is really here for escaping:
+        # If escape is same as quote, and escape is first char of a field 
+        # and it's not quoted, then it is a quote
+        # Next char should be an escape or a quote
+        nextChar = chars.charAt i + 1
+        escapeIsQuote = @options.escape is @options.quote
+        isEscape = nextChar is @options.escape
+        isQuote = nextChar is @options.quote
+        if not ( escapeIsQuote and not @state.field and not @quoting ) and ( isEscape or isQuote )
+          i++
+          isReallyEscaped = true
+          c = chars.charAt i
+          @state.field += c
+      if not isReallyEscaped and c is @options.quote
         if @quoting
+          # Make sure a closing quote is followed by a delimiter
+          nextChar = chars.charAt i + 1
+          if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt @options.delimiter
+            return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+          @quoting = false
+        else if @state.field
+          # Treat quote as a regular character
           @state.field += c
         else
-          if @options.trim or @options.rtrim
-            @state.field = @state.field.trimRight()
-          @state.line.push @state.field
-          @state.field = ''
-        break
-      when '\n', '\r'
-        if @quoting
-          @state.field += c
-          break
-        if not @options.quoted and @state.lastC is '\r'
-          break
-        @lines++
-        if csv.options.to.lineBreaks is null
-          # Auto-discovery of linebreaks
-          csv.options.to.lineBreaks = c + ( if c is '\r' and chars.charAt(i+1) is '\n' then '\n' else '' )
-        if @options.trim or @options.rtrim
-          @state.field = @state.field.trimRight()
-        @state.line.push @state.field
-        @state.field = ''
-        @emit 'row', @state.line
-        # Some cleanup for the next row
-        @state.line = []
-      when ' ', '\t'
-        # Discard space unless we are quoting, in a field
-        if @quoting or (not @options.trim and not @options.ltrim )
-          @state.field += c
-      else
+          @quoting = true
+    else if @quoting
+      @state.field += c
+    else if c is @options.delimiter
+      if @options.trim or @options.rtrim
+        @state.field = @state.field.trimRight()
+      @state.line.push @state.field
+      @state.field = ''
+    else if c is '\n' or c is '\r'
+      @lines++
+      if csv.options.to.lineBreaks is null
+        # Auto-discovery of linebreaks
+        csv.options.to.lineBreaks = c + ( if c is '\r' and chars.charAt(i+1) is '\n' then '\n' else '' )
+      if @options.trim or @options.rtrim
+        @state.field = @state.field.trimRight()
+      @state.line.push @state.field
+      @state.field = ''
+      @emit 'row', @state.line
+      # Some cleanup for the next row
+      @state.line = []
+    else if c is ' ' or c is '\t'
+      # Discard space unless we are quoting, in a field
+      if not @options.trim and not @options.ltrim
         @state.field += c
+    else
+      @state.field += c
     @state.lastC = c
     i++
 
