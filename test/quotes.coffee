@@ -12,123 +12,148 @@ describe 'quotes', ->
   
   it 'Test regular quotes',  (next) ->
     csv()
-    .from.path( "#{__dirname}/quotes/regular.in" )
-    .to.path( "#{__dirname}/quotes/regular.tmp" )
-    .on 'close', ->
-      expect = fs.readFileSync "#{__dirname}/quotes/regular.out"
-      result = fs.readFileSync "#{__dirname}/quotes/regular.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/quotes/regular.tmp", next
+    .from.string("""
+      20322051544,"1979.0",8.8017226E7,"ABC,45","2000-01-01"
+      28392898392,1974.0,"8.8392926E7",DEF,23,2050-11-27
+      """)
+    .to.string (data) ->
+      data.should.eql """
+      20322051544,1979.0,8.8017226E7,"ABC,45",2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      """
+      next()
   
   it 'should read quoted values containing delimiters and write around quote only the value containing delimiters', (next) ->
     csv()
-    .from.path("#{__dirname}/quotes/delimiter.in")
-    .to.path("#{__dirname}/quotes/delimiter.tmp")
-    .on 'close', ->
-      expect = fs.readFileSync "#{__dirname}/quotes/delimiter.out"
-      result = fs.readFileSync "#{__dirname}/quotes/delimiter.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/quotes/delimiter.tmp", next
+    .from.string("""
+      20322051544,",1979.0,8.8017226E7,ABC,45,2000-01-01"
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      "28392898392,1974.0","8.8392926E7","DEF,23,2050-11-27"
+      """)
+    .to.string (data) ->
+      data.should.eql """
+      20322051544,",1979.0,8.8017226E7,ABC,45,2000-01-01"
+      28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
+      "28392898392,1974.0",8.8392926E7,"DEF,23,2050-11-27"
+      """
+      next()
   
   it 'Test quotes inside field', (next) ->
     csv()
-    .from.path( "#{__dirname}/quotes/in_field.in" )
-    .to.path( "#{__dirname}/quotes/in_field.tmp" )
-    .on 'close', ->
-      expect = fs.readFileSync "#{__dirname}/quotes/in_field.out"
-      result = fs.readFileSync "#{__dirname}/quotes/in_field.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/quotes/in_field.tmp", next
+    .from.string("""
+      20322051544,"1979.0",8.801"7226E7,ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,2"3,2050-11-27
+      """)
+    .to.string (data) ->
+      data.should.eql """
+      20322051544,1979.0,"8.801""7226E7",ABC,45,2000-01-01
+      28392898392,1974.0,8.8392926E7,DEF,"2""3",2050-11-27
+      """
+      next()
   
   it 'Test empty value', (next) ->
     csv()
-    .from.path "#{__dirname}/quotes/empty_value.in",
-      quote: '"'
-      escape: '"'
-    .to.path("#{__dirname}/quotes/empty_value.tmp")
-    .on 'close', ->
-      expect = fs.readFileSync "#{__dirname}/quotes/empty_value.out"
-      result = fs.readFileSync "#{__dirname}/quotes/empty_value.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/quotes/empty_value.tmp", next
+    .from.string("""
+      20322051544,"",8.8017226E7,45,""
+      "",1974,8.8392926E7,"",""
+      """, quote: '"', escape: '"')
+    .to.string (data) ->
+      data.should.eql """
+      20322051544,,8.8017226E7,45,
+      ,1974,8.8392926E7,,
+      """
+      next()
   
   it 'should read values with quotes, escaped as double quotes, and write empty values as not quoted', (next) ->
     csv()
-    .from.path "#{__dirname}/quotes/contains_quotes.in",
-      quote: '"',
-      escape: '"',
-    .to.path("#{__dirname}/quotes/contains_quotes.tmp")
+    .from.string("""
+      20322051544,\"\"\"\",8.8017226E7,45,\"\"\"ok\"\"\"
+      "",1974,8.8392926E7,"",""
+      """, quote: '"', escape: '"')
     .on 'record', (record,index) ->
       record.length.should.eql 5
       if index is 0
         record[1].should.eql '"'
         record[4].should.eql '"ok"'
-    .on 'close', ->
-      expect = fs.readFileSync "#{__dirname}/quotes/contains_quotes.out"
-      result = fs.readFileSync "#{__dirname}/quotes/contains_quotes.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/quotes/contains_quotes.tmp", next
+    .to.string (data) ->
+      data.should.eql """
+      20322051544,\"\"\"\",8.8017226E7,45,\"\"\"ok\"\"\"
+      ,1974,8.8392926E7,,
+      """
+      next()
   
   it 'should accept line breaks inside quotes', (next) ->
     csv()
-    .from.path "#{__dirname}/quotes/linebreak.in",
-      quote: '"',
-      escape: '"'
-    .to.path("#{__dirname}/quotes/linebreak.tmp")
+    .from.string("""
+      20322051544,"
+      ",8.8017226E7,45,"
+      ok
+      "
+      "
+      ",1974,8.8392926E7,"","
+      "
+      """, quote: '"', escape: '"')
     .on 'record', (record,index) ->
       record.length.should.eql 5
-    .on 'close', ->
-      expect = fs.readFileSync "#{__dirname}/quotes/linebreak.out"
-      result = fs.readFileSync "#{__dirname}/quotes/linebreak.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/quotes/linebreak.tmp", next
+    .to.string (data) ->
+      data.should.eql """
+      20322051544,"
+      ",8.8017226E7,45,"
+      ok
+      "
+      "
+      ",1974,8.8392926E7,,"
+      "
+      """
+      next()
   
   it 'Test unclosed quote', (next) ->
     csv()
-    .from.path "#{__dirname}/quotes/unclosed.in",
-      quote: '"'
-      escape: '"'
-    .to.path( "#{__dirname}/quotes/unclosed.tmp" )
+    .from.string("""
+      "",1974,8.8392926E7,"","
+      """, quote: '"', escape: '"')
     .on 'close', -> 
       false.should.be.ok
     .on 'error', (e) ->
       e.message.should.eql 'Quoted field not terminated at line 1'
-      fs.unlink "#{__dirname}/quotes/unclosed.tmp", next
+      next()
   
   it 'Test invalid quotes', (next) ->
     csv()
-    .from.path "#{__dirname}/quotes/invalid.in",
-      quote: '"'
-      escape: '"'
-      delimiter: "\t"
-    .to.path( "#{__dirname}/quotes/invalid.tmp" )
+    .from.string("""
+      ""  1974    8.8392926E7 ""t ""
+      ""  1974    8.8392926E7 ""  ""
+      """, quote: '"', escape: '"', delimiter: "\t")
     .on 'close', ->
       false.should.be.ok
     .on 'error', (e) ->
       e.message.should.eql 'Invalid closing quote at line 1; found " " instead of delimiter "\\t"'
-      fs.unlink "#{__dirname}/quotes/invalid.tmp", next
+      next()
   
   it 'Test invalid quotes from string', (next) ->
     csv()
     .from.string '"",1974,8.8392926E7,""t,""',
       quote: '"'
       escape: '"'
-    .to.path( "#{__dirname}/quotes/invalidstring.tmp" )
     .on 'close', ->
       false.should.be.ok
     .on 'error', (e) ->
       e.message.should.match /Invalid closing quote/
-      fs.unlink "#{__dirname}/quotes/invalidstring.tmp", next
+      next()
   
   it 'should quotes all fields', (next) ->
     csv()
-    .from.path("#{__dirname}/quotes/quoted.in")
-    .to.path( "#{__dirname}/quotes/quoted.tmp", quoted: true )
-    .on 'close', ->
-      expect = fs.readFileSync "#{__dirname}/quotes/quoted.out"
-      result = fs.readFileSync "#{__dirname}/quotes/quoted.tmp"
-      result.should.eql expect
-      fs.unlink "#{__dirname}/quotes/quoted.tmp", next
+    .from.string("""
+      20322051544,"1979.0",8.801"7226E7,ABC
+      "283928""98392",1974.0,8.8392926E7,DEF
+      """)
     .on 'error', (e) ->
       false.should.be.ok
+    .to.string( (data) ->
+      data.should.eql """
+      "20322051544","1979.0","8.801""7226E7","ABC"
+      "283928""98392","1974.0","8.8392926E7","DEF"
+      """
+      next()
+    , quoted: true )
 
