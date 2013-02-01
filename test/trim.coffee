@@ -28,6 +28,24 @@ describe 'ltrim', ->
       28392898392,	    1974,8.8392926E7,DEF,23,2050-11-27
       """
       next()
+  
+  it 'should work on last field', (next) ->
+    csv()
+    .from.string("""
+      FIELD_1, FIELD_2
+      20322051544, a
+      28392898392, " "
+      """, ltrim: true )
+    .transform( (record, index) -> record )
+    .on 'close', (count) ->
+      count.should.eql 3
+    .to.string (data) ->
+      data.should.eql """
+      FIELD_1,FIELD_2
+      20322051544,a
+      28392898392, 
+      """
+      next()
 
 describe 'rtrim', ->
   
