@@ -216,8 +216,8 @@ Preserve is for line which are not considered as CSV data.
 ###
 CSV.prototype.write = (data, preserve) ->
   return false unless @writable
-  # Data is a string, we parse it
   data = data.toString() if data instanceof Buffer
+  # Data is a string, we parse it
   if typeof data is 'string' and not preserve
     @parser.parse data
   # Data is an array, we transform it
