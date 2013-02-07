@@ -44,6 +44,12 @@ Parser.prototype.parse =  (chars) ->
   i++ if @lines is 0 and csv.options.from.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
   while i < l
     c = chars.charAt i
+    nextChar = chars.charAt i + 1
+    # Auto discovery of rowDelimiter, unix, mac and windows supported
+    if not @options.rowDelimiter? and ( nextChar is '\n' or nextChar is '\r' )
+      @options.rowDelimiter = nextChar
+      @options.rowDelimiter += '\n' if nextChar is '\r' and chars.charAt(i+2) is '\n'
+    # Parse that damn char
     if c is @options.escape or c is @options.quote
       isReallyEscaped = false
       if c is @options.escape
@@ -51,7 +57,7 @@ Parser.prototype.parse =  (chars) ->
         # If escape is same as quote, and escape is first char of a field 
         # and it's not quoted, then it is a quote
         # Next char should be an escape or a quote
-        nextChar = chars.charAt i + 1
+        # nextChar = chars.charAt i + 1
         escapeIsQuote = @options.escape is @options.quote
         isEscape = nextChar is @options.escape
         isQuote = nextChar is @options.quote
@@ -63,8 +69,11 @@ Parser.prototype.parse =  (chars) ->
       if not isReallyEscaped and c is @options.quote
         if @quoting
           # Make sure a closing quote is followed by a delimiter
-          nextChar = chars.charAt i + 1
-          if nextChar and nextChar isnt '\r' and nextChar isnt '\n' and nextChar isnt @options.delimiter
+          # If we have a next character and 
+          # it isnt a rowDelimiter and 
+          # it isnt an column delimiter
+          areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
+          if nextChar and not areNextCharsRowDelimiters and nextChar isnt @options.delimiter
             return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
           @quoting = false
         else if @state.field
@@ -79,11 +88,8 @@ Parser.prototype.parse =  (chars) ->
         @state.field = @state.field.trimRight()
       @state.line.push @state.field
       @state.field = ''
-    else if c is '\n' or c is '\r'
+    else if @options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter
       @lines++
-      if csv.options.to.lineBreaks is null
-        # Auto-discovery of linebreaks
-        csv.options.to.lineBreaks = c + ( if c is '\r' and chars.charAt(i+1) is '\n' then '\n' else '' )
       if @options.trim or @options.rtrim
         @state.field = @state.field.trimRight()
       @state.line.push @state.field
@@ -91,6 +97,9 @@ Parser.prototype.parse =  (chars) ->
       @emit 'row', @state.line
       # Some cleanup for the next row
       @state.line = []
+      @state.lastC = c
+      i += @options.rowDelimiter.length
+      continue
     else if c is ' ' or c is '\t'
       # Discard space unless we are quoting, in a field
       if not @options.trim and not @options.ltrim

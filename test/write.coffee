@@ -159,7 +159,7 @@ describe 'write', ->
       foo2,goo2
       """
       next()
-    , columns: [ 'col1', 'col2' ], header: true, lineBreaks: 'unix')
+    , columns: [ 'col1', 'col2' ], header: true, rowDelimiter: 'unix')
     test.write col1: 'foo1', col2: 'goo1'
     test.write col1: 'foo2', col2: 'goo2'
     test.end()

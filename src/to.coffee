@@ -92,17 +92,21 @@ module.exports = (csv) ->
   to.options = (options) ->
     if options?
       utils.merge csv.options.to, options
-      switch csv.options.to.lineBreaks
+      if csv.options.to.lineBreaks
+        console.log 'To options linebreaks is replaced by rowDelimiter'
+        unless csv.options.to.rowDelimiter
+          csv.options.to.rowDelimiter = csv.options.to.lineBreaks
+      switch csv.options.to.rowDelimiter
         when 'auto'
-          csv.options.to.lineBreaks = null
+          csv.options.to.rowDelimiter = null
         when 'unix'
-          csv.options.to.lineBreaks = "\n"
+          csv.options.to.rowDelimiter = "\n"
         when 'mac'
-          csv.options.to.lineBreaks = "\r"
+          csv.options.to.rowDelimiter = "\r"
         when 'windows'
-          csv.options.to.lineBreaks = "\r\n"
+          csv.options.to.rowDelimiter = "\r\n"
         when 'unicode'
-          csv.options.to.lineBreaks = "\u2028"
+          csv.options.to.rowDelimiter = "\u2028"
       csv
     else
       csv.options.to
