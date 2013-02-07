@@ -43,30 +43,31 @@ Parser.prototype.parse =  (chars) ->
   # Strip UTF-8 BOM
   i++ if @lines is 0 and csv.options.from.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
   while i < l
-    c = chars.charAt i
+    char = chars.charAt i
+    char = if nextChar then nextChar else chars.charAt i
     nextChar = chars.charAt i + 1
     # Auto discovery of rowDelimiter, unix, mac and windows supported
     if not @options.rowDelimiter? and ( nextChar is '\n' or nextChar is '\r' )
       @options.rowDelimiter = nextChar
       @options.rowDelimiter += '\n' if nextChar is '\r' and chars.charAt(i+2) is '\n'
     # Parse that damn char
-    if c is @options.escape or c is @options.quote
+    if char is @options.escape or char is @options.quote
       isReallyEscaped = false
-      if c is @options.escape
+      if char is @options.escape
         # Make sure the escape is really here for escaping:
         # If escape is same as quote, and escape is first char of a field 
         # and it's not quoted, then it is a quote
         # Next char should be an escape or a quote
-        # nextChar = chars.charAt i + 1
         escapeIsQuote = @options.escape is @options.quote
         isEscape = nextChar is @options.escape
         isQuote = nextChar is @options.quote
         if not ( escapeIsQuote and not @state.field and not @quoting ) and ( isEscape or isQuote )
           i++
           isReallyEscaped = true
-          c = chars.charAt i
-          @state.field += c
-      if not isReallyEscaped and c is @options.quote
+          char = nextChar
+          nextChar = chars.charAt i + 1
+          @state.field += char
+      if not isReallyEscaped and char is @options.quote
         if @quoting
           # Make sure a closing quote is followed by a delimiter
           # If we have a next character and 
@@ -78,12 +79,12 @@ Parser.prototype.parse =  (chars) ->
           @quoting = false
         else if @state.field
           # Treat quote as a regular character
-          @state.field += c
+          @state.field += char
         else
           @quoting = true
     else if @quoting
-      @state.field += c
-    else if c is @options.delimiter
+      @state.field += char
+    else if char is @options.delimiter
       if @options.trim or @options.rtrim
         @state.field = @state.field.trimRight()
       @state.line.push @state.field
@@ -97,16 +98,17 @@ Parser.prototype.parse =  (chars) ->
       @emit 'row', @state.line
       # Some cleanup for the next row
       @state.line = []
-      @state.lastC = c
+      @state.lastC = char
       i += @options.rowDelimiter.length
+      nextChar = chars.charAt i
       continue
-    else if c is ' ' or c is '\t'
+    else if char is ' ' or char is '\t'
       # Discard space unless we are quoting, in a field
       if not @options.trim and not @options.ltrim
-        @state.field += c
+        @state.field += char
     else
-      @state.field += c
-    @state.lastC = c
+      @state.field += char
+    @state.lastC = char
     i++
 
 Parser.prototype.end = ->

@@ -41,6 +41,22 @@ describe 'rowDelimiter', ->
         """
         next()
 
+    # it.only 'should handle chuncks', (next) ->
+    #   test = csv()
+    #   .on 'end', (count) ->
+    #     count.should.eql 3
+    #   .to.string (result) ->
+    #     console.log result
+    #     result.should.eql """
+    #     ABC,45
+    #     DEF,23
+    #     GHI,94
+    #     """
+    #     next()
+    #   test.write '"ABC","45"'
+    #   test.write '::"DEF","23"::"GHI","94"'
+    #   test.end()
+
   describe 'to', ->
 
     it 'Test line breaks custom', (next) ->
