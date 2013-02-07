@@ -23,6 +23,7 @@ Parser = (csv) ->
   # Counter
   @lines = 0
   # Internal usage, state related
+  @buf = ''
   @quoting = false
   @field = ''
   @lastC = ''
@@ -41,20 +42,23 @@ Private state object is enriched on each character until
 transform is called on a new line.
 
 ###
-Parser.prototype.parse =  (chars) ->
+Parser.prototype.parse =  (chars, end) ->
   csv = @csv
-  chars = '' + chars
+  chars = @buf + chars
   l = chars.length
+  delimLength = if @options.rowDelimiter then @options.rowDelimiter.length else 0
   i = 0
   # Strip UTF-8 BOM
   i++ if @lines is 0 and csv.options.from.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
   while i < l
+    break if i+delimLength >= l and not end
     char = if @nextChar then @nextChar else chars.charAt i
     @nextChar = chars.charAt i + 1
     # Auto discovery of rowDelimiter, unix, mac and windows supported
     if not @options.rowDelimiter? and ( @nextChar is '\n' or @nextChar is '\r' )
       @options.rowDelimiter = @nextChar
       @options.rowDelimiter += '\n' if @nextChar is '\r' and chars.charAt(i+2) is '\n'
+      delimLength = @options.rowDelimiter.length
     # Parse that damn char
     if char is @options.escape or char is @options.quote
       isReallyEscaped = false
@@ -115,8 +119,15 @@ Parser.prototype.parse =  (chars) ->
       @field += char
     @lastC = char
     i++
+  @buf = ''
+  while i < l
+    @nextChar = chars.charAt i
+    @nextChar = null
+    @buf += chars.charAt i
+    i++
 
 Parser.prototype.end = ->
+  @parse '', true
   if @quoting
     return @error new Error "Quoted field not terminated at line #{@lines+1}"
   # dump open record
