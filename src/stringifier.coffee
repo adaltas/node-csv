@@ -65,7 +65,7 @@ Stringifier.prototype.stringify = (line) ->
     # this case, we respect the columns indexes
     line.splice columns.length
   if Array.isArray line
-    newLine = if @csv.state.countWriten then @csv.options.to.lineBreaks or "\n" else ''
+    newLine = if @csv.state.countWriten then @csv.options.to.rowDelimiter or "\n" else ''
     for i in [0...line.length]
       field = line[i]
       if typeof field is 'string'
