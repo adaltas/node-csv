@@ -51,7 +51,10 @@ Parser.prototype.parse =  (chars, end) ->
   # Strip UTF-8 BOM
   i++ if @lines is 0 and csv.options.from.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
   while i < l
-    break if i+delimLength >= l and not end
+    # we stop if
+    # - this isnt the last line
+    # - the last chars aren't the delimiters
+    break if (i+delimLength >= l and chars.substr(i, @options.rowDelimiter.length) isnt @options.rowDelimiter) and not end
     char = if @nextChar then @nextChar else chars.charAt i
     @nextChar = chars.charAt i + 1
     # Auto discovery of rowDelimiter, unix, mac and windows supported
@@ -119,6 +122,8 @@ Parser.prototype.parse =  (chars, end) ->
       @field += char
     @lastC = char
     i++
+  # Ok, maybe we still have some char that are left, 
+  # we stored them for next call
   @buf = ''
   while i < l
     @nextChar = chars.charAt i
