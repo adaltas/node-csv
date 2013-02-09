@@ -219,7 +219,7 @@ CSV.prototype.write = (data, preserve) ->
   data = data.toString() if data instanceof Buffer
   # Data is a string, we parse it
   if typeof data is 'string' and not preserve
-    @parser.parse data
+    @parser.write data
   # Data is an array, we transform it
   else if Array.isArray(data) and not @state.transforming
     csv = @
