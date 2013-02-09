@@ -34,7 +34,7 @@ Parser.prototype.__proto__ = EventEmitter.prototype
 
 ###
 
-`parse(chars)`
+`write(chars)`
 --------------
 
 Parse a string which may hold multiple lines.
@@ -42,7 +42,7 @@ Private state object is enriched on each character until
 transform is called on a new line.
 
 ###
-Parser.prototype.parse =  (chars, end) ->
+Parser.prototype.write =  (chars, end) ->
   csv = @csv
   chars = @buf + chars
   l = chars.length
@@ -132,7 +132,7 @@ Parser.prototype.parse =  (chars, end) ->
     i++
 
 Parser.prototype.end = ->
-  @parse '', true
+  @write '', true
   if @quoting
     return @error new Error "Quoted field not terminated at line #{@lines+1}"
   # dump open record
