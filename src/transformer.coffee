@@ -81,11 +81,10 @@ Transformer = (csv) ->
 Transformer.prototype.__proto__ = stream.prototype
 ### no doc
 
-`transformer(csv).headers()`
+`headers()`
 ----------------------------
 
-Call a callback to transform a line. Called from the `parse` function on each 
-line. It is responsible for transforming the data and finally calling `write`.
+Print headers.
 
 ###
 Transformer.prototype.headers = ->
@@ -96,14 +95,14 @@ Transformer.prototype.headers = ->
 
 ### no doc
 
-`transformer(csv).transform(line)`
+`write(line)`
 ----------------------------------
 
-Call a callback to transform a line. Called from the `parse` function on each 
-line. It is responsible for transforming the data and finally calling `write`.
+Call a callback to transform a line. Called for each line after being parsed. 
+It is responsible for transforming the data and finally calling `write`.
 
 ###
-Transformer.prototype.transform = (line) ->
+Transformer.prototype.write = (line) ->
   self = @
   csv = @csv
   # Sanitize columns option into state and cache the result
@@ -158,7 +157,7 @@ Transformer.prototype.transform = (line) ->
     finish line
 
 ### no doc
-`transformer(csv).end()`
+`end()`
 ------------------------
 
 A transformer instance extends the EventEmitter and 

@@ -157,7 +157,7 @@ CSV = ->
   @to = to @
   @parser = parser @
   @parser.on 'row', (row) ->
-    self.transformer.transform row
+    self.transformer.write row
   @parser.on 'end', ->
     # Print headers if no records
     self.transformer.headers() if self.state.count is 0
@@ -223,13 +223,13 @@ CSV.prototype.write = (data, preserve) ->
   # Data is an array, we transform it
   else if Array.isArray(data) and not @state.transforming
     csv = @
-    @transformer.transform data
+    @transformer.write data
   # Data is an object, we transform it or stringify it
   else
     if preserve or @state.transforming
       @stringifier.write data, preserve
     else
-      @transformer.transform data
+      @transformer.write data
   return not @paused
 
 ###
