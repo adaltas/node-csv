@@ -182,9 +182,9 @@ describe 'transform', ->
     it 'should output the record if passed in the callback as an arraw', (next) ->
       csv()
       .from('a1,b1\na2,b2')
-      .to( (data) ->
+      .to (data) ->
         data.should.eql 'b1,a1\nb2,a2'
-        next() )
+        next()
       .transform (record, index, callback) ->
         process.nextTick ->
           callback null, record.reverse()
@@ -192,9 +192,9 @@ describe 'transform', ->
     it 'should output the record if passed in the callback as an object', (next) ->
       csv()
       .from('a1,b1\na2,b2')
-      .to( (data) ->
+      .to (data) ->
         data.should.eql 'b1,a1\nb2,a2'
-        next() )
+        next()
       .transform (record, index, callback) ->
         process.nextTick ->
           callback null, a: record[1], b: record[0]
@@ -202,9 +202,9 @@ describe 'transform', ->
     it 'should skip the record if callback called without a record', (next) ->
       csv()
       .from('a1,b1\na2,b2\na3,b3\na4,b4')
-      .to( (data) ->
+      .to (data) ->
         data.should.eql 'a1,b1\na3,b3'
-        next() )
+        next()
       .transform (record, index, callback) ->
         process.nextTick ->
           callback null, if index % 2 is 0 then record else null
