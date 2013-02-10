@@ -151,8 +151,7 @@ Transformer.prototype.write = (line) ->
       try done null, @callback line, csv.state.count - 1
       catch err then return done err
     else
-      @callback line, csv.state.count - 1, (err, line) ->
-        done err, line
+      @callback line, csv.state.count - 1, done
   else
     finish line
 
