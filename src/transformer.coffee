@@ -135,25 +135,25 @@ Transformer.prototype.write = (line) ->
     csv.stringifier.write line
     self.emit 'end', csv.state.count if csv.state.transforming is 0 and self.closed is true
   csv.state.count++
-  if @callback
-    sync = @callback.length isnt 3
-    csv.state.transforming++
-    done = (err, line) ->
-      return csv.error err if err
-      isObject = typeof line is 'object' and not Array.isArray line
-      if isObject and csv.options.to.newColumns and not csv.options.to.columns
-        Object.keys(line)
-        .filter( (column) -> csv.state.columns.indexOf(column) is -1 )
-        .forEach( (column) -> csv.state.columns.push(column) )
-      csv.state.transforming--
-      finish line
-    if sync
-      try done null, @callback line, csv.state.count - 1
-      catch err then return done err
-    else
-      @callback line, csv.state.count - 1, done
-  else
+  return finish line unless @callback
+  sync = @callback.length isnt 3
+  csv.state.transforming++
+  done = (err, line) ->
+    return csv.error err if err
+    isObject = typeof line is 'object' and not Array.isArray line
+    if isObject and csv.options.to.newColumns and not csv.options.to.columns
+      Object.keys(line)
+      .filter( (column) -> csv.state.columns.indexOf(column) is -1 )
+      .forEach( (column) -> csv.state.columns.push(column) )
+    csv.state.transforming--
     finish line
+  if sync
+    try
+      done null, @callback line, csv.state.count - 1
+    catch err
+      return done err
+  else
+    @callback line, csv.state.count - 1, done
 
 ### no doc
 `end()`
