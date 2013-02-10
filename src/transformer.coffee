@@ -106,7 +106,7 @@ Transformer.prototype.write = (line) ->
   self = @
   csv = @csv
   # Sanitize columns option into state and cache the result
-  if not csv.state.columns?
+  if not @columns?
     columns = csv.options.from.columns
     if typeof columns is 'object' and columns isnt null and not Array.isArray columns
       columns = Object.keys columns
@@ -114,8 +114,8 @@ Transformer.prototype.write = (line) ->
     if csv.state.count is 0 and columns is true
       columns = csv.options.from.columns = line
       return
-    csv.state.columns = if columns? then columns else false
-  else columns = csv.state.columns
+    @columns = if columns? then columns else false
+  else columns = @columns
   # Convert line to an object
   if columns
     # Line provided as an array and stored as an object, keys are column names
@@ -138,13 +138,14 @@ Transformer.prototype.write = (line) ->
   return finish line unless @callback
   sync = @callback.length isnt 3
   csv.state.transforming++
+  self = @
   done = (err, line) ->
     return csv.error err if err
     isObject = typeof line is 'object' and not Array.isArray line
     if isObject and csv.options.to.newColumns and not csv.options.to.columns
       Object.keys(line)
-      .filter( (column) -> csv.state.columns.indexOf(column) is -1 )
-      .forEach( (column) -> csv.state.columns.push(column) )
+      .filter( (column) -> self.columns.indexOf(column) is -1 )
+      .forEach( (column) -> self.columns.push(column) )
     csv.state.transforming--
     finish line
   if sync
