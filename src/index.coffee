@@ -78,15 +78,15 @@ The module follow a Stream architecture. At it's core, the parser and
 the stringifier utilities provide a [Stream Writer][writable_stream] 
 and a [Stream Reader][readable_stream] implementation available in the CSV API.
 
-    |-----------|      |---------|---------|       |---------|
-    |           |      |         |         |       |         |
-    |           |      |        CSV        |       |         |
-    |           |      |         |         |       |         |
-    |  Stream   |      |  Writer |  Reader |       |  Stream |
-    |  Reader   |.pipe(|   API   |   API   |).pipe(|  Writer |)
-    |           |      |         |         |       |         |
-    |           |      |         |         |       |         |
-    |-----------|      |---------|---------|       |---------|
+    +--------+      +----------+----------+       +--------+
+    |        |      |          |          |       |        |
+    |        |      |         CSV         |       |        |
+    |        |      |          |          |       |        |
+    | Stream |      |  Writer  |  Reader  |       | Stream |
+    | Reader |.pipe(|   API    |   API    |).pipe(| Writer |)
+    |        |      |          |          |       |        |
+    |        |      |          |          |       |        |
+    +--------+      +----------+----------+       +--------+
 
 Here's a quick example:
 
@@ -129,6 +129,28 @@ is emitted.
   Emitted when the underlying resource has been closed. For example, when writting to a file with `csv().to.path()`, the event will be called once the writing process is complete and the file closed.
 *   *error*   
   Thrown whenever an error occured.
+
+Architecture
+------------
+
+The code is organised mainly around 5 main components. 
+The "from" properties provide convenient functions 
+to write CSV text or to plug a Stream Reader. The "parser" 
+takes this CSV content and transform it into an array or 
+an object for each lines. The "transformer" provide the ability 
+to work on each line in a synchronous or asynchronous mode. 
+The "stringifier" take an array or an object and serialize into
+a CSV text. Finally, the "to" properties provides convenient 
+function to retrieve the text or to write to plug a Stream Writer.
+
+    +-------+--------+--------------+--------------+-----+
+    |       |        |              |              |     |
+    | from -> parser -> transformer -> stringifier -> to |
+    |       |        |              |              |     |
+    +-------+--------+--------------+--------------+-----+
+
+Note, even so the "parser", "transformer" and "singifier" are available
+as properties, you won't have to interact with those.
     
 
 ###
