@@ -77,6 +77,9 @@ Transform callback returning a string:
 ###
 Transformer = (csv) ->
   @csv = csv
+  @running = 0
+  @options = parallel: 100
+  @todo = []
   @
 Transformer.prototype.__proto__ = stream.prototype
 ### no doc
@@ -131,8 +134,14 @@ Transformer.prototype.write = (line) ->
         lineAsObject[column] = if line[column]? then line[column] else null
       line = lineAsObject
   finish = (line) ->
+    # Print header on first line to we need to
     self.headers() if csv.state.count is 1 and csv.options.to.header is true
+    # Stringify the transformed line
     csv.stringifier.write line
+    # Pick line if any
+    line = self.todo.shift()
+    return run line if line
+    # Emit end event if we are closed and we have no more transformation going on
     self.emit 'end', csv.state.count if csv.state.transforming is 0 and self.closed is true
   csv.state.count++
   return finish line unless @callback
@@ -140,6 +149,7 @@ Transformer.prototype.write = (line) ->
   csv.state.transforming++
   self = @
   done = (err, line) ->
+    self.running--
     return csv.error err if err
     isObject = typeof line is 'object' and not Array.isArray line
     if isObject and csv.options.to.newColumns and not csv.options.to.columns
@@ -148,13 +158,21 @@ Transformer.prototype.write = (line) ->
       .forEach( (column) -> self.columns.push(column) )
     csv.state.transforming--
     finish line
-  if sync
+  run = (line) ->
+    # console.log 'run', self.todo.length
+    self.running++
     try
-      done null, @callback line, csv.state.count - 1
+      if sync then done null, self. callback line, csv.state.count - 1
+      else self.callback line, csv.state.count - 1, done
     catch err
-      return done err
-  else
-    @callback line, csv.state.count - 1, done
+      done err
+  # Apply back pressure
+  if @running is @options.parallel
+    @todo.push line
+    return false
+  # Work on current line
+  run line
+  true
 
 ### no doc
 `end()`

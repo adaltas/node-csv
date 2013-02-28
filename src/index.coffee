@@ -163,6 +163,7 @@ to = require './to'
 stringifier = require './stringifier'
 parser = require './parser'
 transformer = require './transformer'
+utils = require './utils'
 
 CSV = ->
   self = @
@@ -193,8 +194,9 @@ CSV = ->
     eof = self.options.to.eof
     if eof
       eof = '\n' if eof is true
-      self.stringifier.write eof 
+      self.stringifier.write eof
     self.emit 'end', self.state.count
+    # self.emit 'close', self.state.count
   @
 CSV.prototype.__proto__ = stream.prototype
 
@@ -272,7 +274,7 @@ CSV.prototype.end = ->
 
 ###
 
-`transform(callback)`
+`transform(callback, [options])`
 ---------------------
 
 Register the transformer callback. The callback is a user provided 
@@ -280,8 +282,9 @@ function call on each line to filter, enrich or modify the
 dataset. More information in the "transforming data" section.
 
 ###
-CSV.prototype.transform = (callback) ->
+CSV.prototype.transform = (callback, options) ->
   @transformer.callback = callback
+  utils.merge @transformer.options, options if options
   @
 
 ###
