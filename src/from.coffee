@@ -173,7 +173,7 @@ module.exports = (csv) ->
   ###
   from.stream = (stream, options) ->
     @options options if options
-    stream.setEncoding csv.from.options().encoding
+    stream.setEncoding csv.from.options().encoding if stream.setEncoding
     stream.pipe csv, csv.from.options()
     csv
 

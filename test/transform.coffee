@@ -209,6 +209,22 @@ describe 'transform', ->
         process.nextTick ->
           callback null, if index % 2 is 0 then record else null
 
+    it 'should run 20 transforms in parallel by default', (next) ->
+      count = 0
+      test = csv()
+      .to (data) ->
+        next()
+      .transform (record, index, callback) ->
+        count++
+        process.nextTick ->
+          (count <= 20).should.be.ok
+          count--
+          callback null, record
+      , parallel: 20
+      for i in [0...100]
+        test.write 'Goldorak go\n'
+      test.end()
+
 
 
 
