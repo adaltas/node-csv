@@ -3,7 +3,6 @@
 Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 ###
 
-require 'coffee-script'
 fs = require 'fs'
 stream = require 'stream'
 should = require 'should'
