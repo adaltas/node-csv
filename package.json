@@ -38,7 +38,8 @@
     "mocha": "latest",
     "should": "latest",
     "each": "latest",
-    "mecano": "latest"
+    "mecano": "latest",
+    "iconv": "latest"
   },
   "dependencies": {},
   "optionalDependencies": {},

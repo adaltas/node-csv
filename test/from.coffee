@@ -6,6 +6,7 @@ Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 require 'coffee-script'
 fs = require 'fs'
 should = require 'should'
+Iconv = require('iconv').Iconv
 csv = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 generator = if process.env.CSV_COV then require '../lib-cov/generator' else require '../src/generator'
 
@@ -64,6 +65,25 @@ describe 'from', ->
         record.should.eql ['1','2','3','4','5']
       .on 'end', ->
         next()
+
+    it 'should deal with source encoding', (next) ->
+      iconv = new Iconv 'latin1', 'utf-8'
+      iconv.end = ->
+        iconv.write({});
+        iconv.emit 'end'
+      parser = csv().transform (data, index) ->
+        data[0].should.eql 'çà va' if index is 1
+        data
+      fs
+      .createReadStream("#{__dirname}/fromto/encoding_latin1.csv")
+      .pipe(iconv)
+      .pipe(parser)
+      .pipe(fs.createWriteStream("#{__dirname}/fromto/encoding_utf8.tmp"))
+      .on 'close', ->
+        expect = fs.readFileSync "#{__dirname}/fromto/encoding_utf8.csv"
+        result = fs.readFileSync "#{__dirname}/fromto/encoding_utf8.tmp"
+        result.should.eql expect
+        fs.unlink "#{__dirname}/fromto/encoding_utf8.tmp", next
 
   describe 'stream', ->
 
