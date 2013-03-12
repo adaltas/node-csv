@@ -4,7 +4,6 @@ Node CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 Testing the read options `trim`, `ltrim` and `rtrim`.
 ###
 
-require 'coffee-script'
 fs = require 'fs'
 should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov' else require '../src'
