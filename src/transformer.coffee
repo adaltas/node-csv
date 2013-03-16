@@ -135,7 +135,7 @@ Transformer.prototype.write = (line) ->
       line = lineAsObject
   finish = (line) ->
     # Print header on first line to we need to
-    self.headers() if csv.state.count is 1 and csv.options.to.header is true
+    self.headers() if csv.options.to.header is true and (csv.state.count - self.running) is 1
     # Stringify the transformed line
     csv.stringifier.write line
     # Pick line if any
@@ -159,10 +159,10 @@ Transformer.prototype.write = (line) ->
     csv.state.transforming--
     finish line
   run = (line) ->
-    # console.log 'run', self.todo.length
     self.running++
     try
-      if sync then done null, self. callback line, csv.state.count - 1
+      if sync
+      then done null, self. callback line, csv.state.count - 1
       else self.callback line, csv.state.count - 1, done
     catch err
       done err

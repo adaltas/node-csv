@@ -176,6 +176,21 @@ describe 'transform', ->
       for i in [0...1000]
         test.write ['Test '+i, i, '"'] unless error
 
+    it 'shoud handle columns option with header', (next) ->
+      csv()
+        .from('col1,col2\na1,a2\nb1,b2', columns:true)
+        .to( (data) ->
+          data.should.eql """
+          col1,col2,foo
+          a1,a2,bar
+          b1,b2,bar
+          """
+          next()
+        , newColumns:true, header:true)
+        .transform (data, index) ->
+          data.foo = 'bar';
+          data
+
   describe 'async', ->
 
     it 'should output the record if passed in the callback as an arraw', (next) ->
@@ -224,6 +239,21 @@ describe 'transform', ->
         test.write 'Goldorak go\n'
       test.end()
 
+    it 'shoud handle columns option with header', (next) ->
+      csv()
+        .from('col1,col2\na1,a2\nb1,b2', columns:true)
+        .to( (data) ->
+          data.should.eql """
+          col1,col2,foo
+          a1,a2,bar
+          b1,b2,bar
+          """
+          next()
+        , newColumns:true, header:true)
+        .transform (data, index, callback) ->
+          process.nextTick ->
+            data.foo = 'bar';
+            callback null, data
 
 
 
