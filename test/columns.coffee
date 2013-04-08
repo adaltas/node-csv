@@ -9,9 +9,10 @@ csv = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'columns', ->
   
-  describe 'in read option', ->
+  describe 'defined in read option', ->
   
-    it 'Test columns in true', (next) ->
+    it 'accept a boolean true', (next) ->
+      count = 0
       # Note: if true, columns are expected to be in first line
       csv()
       .from.string( """
@@ -27,6 +28,15 @@ describe 'columns', ->
         else if index is 1
           record.FIELD_4.should.eql 'DEF'
         record
+      .on 'record', (record, index) ->
+        record.should.be.a 'object'
+        record.should.not.be.an.instanceof Array
+        index.should.eql count
+        if index is 0
+          record.FIELD_1.should.eql '20322051544'
+        else if index is 1
+          record.FIELD_4.should.eql 'DEF'
+        count++
       .to.string (result) ->
         result.should.eql """
         20322051544,1979,8.8017226E7,ABC,45,2000-01-01
@@ -34,7 +44,8 @@ describe 'columns', ->
         """
         next()
   
-    it 'Test columns in named', (next) ->
+    it 'accept a list of column names', (next) ->
+      count = 0
       # Note: if true, columns are expected to be in first line
       csv()
       .from.string("""
@@ -54,6 +65,12 @@ describe 'columns', ->
       .on 'record', (record, index) ->
         record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
+        index.should.eql count
+        if index is 0
+          record.FIELD_1.should.eql '20322051544'
+        else if index is 1
+          record.FIELD_4.should.eql 'DEF'
+        count++
       .to.string (result) ->
         result.should.eql """
         20322051544,1979,8.8017226E7,ABC,45,2000-01-01
@@ -79,7 +96,7 @@ describe 'columns', ->
         next()
       , header: true
 
-  describe 'in write option', ->
+  describe 'defined in write option', ->
   
     it 'should be the same length', (next) ->
       # Since there is not columns set in input options, we just expect
