@@ -44,6 +44,8 @@ transform is called on a new line.
 ###
 Parser.prototype.write =  (chars, end) ->
   csv = @csv
+  ltrim = @options.trim or @options.ltrim
+  rtrim = @options.trim or @options.rtrim
   chars = @buf + chars
   l = chars.length
   delimLength = if @options.rowDelimiter then @options.rowDelimiter.length else 0
@@ -60,6 +62,7 @@ Parser.prototype.write =  (chars, end) ->
     # - this isnt the last line (the end argument)
     break if (i+@options.escape.length >= l and chars.substr(i, @options.escape.length) is @options.escape) and not end
     char = if @nextChar then @nextChar else chars.charAt i
+    @lastC = char # this should be removed, only used in buggy end function
     @nextChar = chars.charAt i + 1
     # Auto discovery of rowDelimiter, unix, mac and windows supported
     if not @options.rowDelimiter? and ( @nextChar is '\n' or @nextChar is '\r' )
@@ -67,71 +70,70 @@ Parser.prototype.write =  (chars, end) ->
       @options.rowDelimiter += '\n' if @nextChar is '\r' and chars.charAt(i+2) is '\n'
       delimLength = @options.rowDelimiter.length
     # Parse that damn char
-    if char is @options.escape or char is @options.quote
-      isReallyEscaped = false
-      if char is @options.escape
-        # Make sure the escape is really here for escaping:
-        # If escape is same as quote, and escape is first char of a field 
-        # and it's not quoted, then it is a quote
-        # Next char should be an escape or a quote
-        escapeIsQuote = @options.escape is @options.quote
-        isEscape = @nextChar is @options.escape
-        isQuote = @nextChar is @options.quote
-        if not ( escapeIsQuote and not @field and not @quoting ) and ( isEscape or isQuote )
-          i++
-          isReallyEscaped = true
-          char = @nextChar
-          @nextChar = chars.charAt i + 1
-          @field += char
-      if not isReallyEscaped and char is @options.quote
-        if @quoting
-          # Make sure a closing quote is followed by a delimiter
-          # If we have a next character and 
-          # it isnt a rowDelimiter and 
-          # it isnt an column delimiter
-          areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
-          if @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter
-            return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
-          @quoting = false
-        else if @field
-          # Treat quote as a regular character
-          @field += char
-        else
-          @quoting = true
-    else if @quoting
-      @field += char
-    else if char is @options.delimiter
-      if @options.trim or @options.rtrim
+    # Note, shouldn't we have sth like chars.substr(i, @options.escape.length)
+    isReallyEscaped = false
+    if char is @options.escape
+      # Make sure the escape is really here for escaping:
+      # If escape is same as quote, and escape is first char of a field 
+      # and it's not quoted, then it is a quote
+      # Next char should be an escape or a quote
+      escapeIsQuote = @options.escape is @options.quote
+      isEscape = @nextChar is @options.escape
+      isQuote = @nextChar is @options.quote
+      if not ( escapeIsQuote and not @field and not @quoting ) and ( isEscape or isQuote )
+        i++
+        # isReallyEscaped = true
+        char = @nextChar
+        @nextChar = chars.charAt i + 1
+        @field += char
+        i++
+        continue
+    if not isReallyEscaped and char is @options.quote
+      if @quoting
+        # Make sure a closing quote is followed by a delimiter
+        # If we have a next character and 
+        # it isnt a rowDelimiter and 
+        # it isnt an column delimiter
+        areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
+        if @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter
+          return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+        @quoting = false
+        i++
+        continue
+      else if not @field
+        @quoting = true
+        i++
+        continue
+      # Otherwise, treat quote as a regular character
+    # Between two columns
+    if not @quoting and char is @options.delimiter
+      if rtrim
         @field = @field.trimRight()
       @line.push @field
       @field = ''
-    else if @options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter
+    # End of row, flush the row
+    else if not @quoting and (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
       @lines++
-      if @options.trim or @options.rtrim
+      if rtrim
         @field = @field.trimRight()
       @line.push @field
       @field = ''
       @emit 'row', @line
       # Some cleanup for the next row
       @line = []
-      @lastC = char
       i += @options.rowDelimiter.length
       @nextChar = chars.charAt i
       continue
-    else if char is ' ' or char is '\t'
+    else if not @quoting and (char is ' ' or char is '\t')
       # Discard space unless we are quoting, in a field
-      if not @options.trim and not @options.ltrim
-        @field += char
+      @field += char unless ltrim and not @field
     else
       @field += char
-    @lastC = char
     i++
   # Ok, maybe we still have some char that are left, 
   # we stored them for next call
   @buf = ''
   while i < l
-    @nextChar = chars.charAt i
-    @nextChar = null
     @buf += chars.charAt i
     i++
 
@@ -143,6 +145,7 @@ Parser.prototype.end = ->
   if @field or @lastC is @options.delimiter or @lastC is @options.quote
     if @options.trim or @options.rtrim
       @field = @field.trimRight()
+    # console.log "PUSH: |#{@field}"
     @line.push @field
     @field = ''
   if @line.length > 0
