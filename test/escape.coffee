@@ -43,3 +43,35 @@ describe 'escape', ->
       28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
       """
       next()
+
+  it.only 'should parse if next char is not in the current chunk', (next) ->
+    util = require 'util'
+    {Stream} = require 'stream'
+    ChunksStream = (chunks) ->
+      self = @
+      i = 0;
+      tick = ->
+        if i < chunks.length
+          self.emit 'data', chunks[i++]
+          process.nextTick tick
+        else
+          self.emit 'end'
+      process.nextTick tick
+    util.inherits ChunksStream, Stream
+    ChunksStream.prototype.destroy = -> # ok
+    data = ['"field with \\', '" inside"']
+    records = []
+    csv()
+    .from.stream(new ChunksStream(data), escape: '\\')
+    .on 'error', (err) ->
+      next err
+    .on 'record', (record) ->
+      records.push record
+    .on 'end', (c) ->
+      records.length.should.eql 1
+      records[0][0].should.eql 'field with " inside'
+      next()
+
+
+
+

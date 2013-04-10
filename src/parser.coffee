@@ -28,7 +28,7 @@ Parser = (csv) ->
   @field = ''
   @lastC = ''
   @nextChar = null
-  @line = []
+  @line = [] # Current line being processed
   @
 Parser.prototype.__proto__ = EventEmitter.prototype
 
@@ -52,9 +52,13 @@ Parser.prototype.write =  (chars, end) ->
   i++ if @lines is 0 and csv.options.from.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
   while i < l
     # we stop if
-    # - this isnt the last line
     # - the last chars aren't the delimiters
+    # - this isnt the last line (the end argument)
     break if (i+delimLength >= l and chars.substr(i, @options.rowDelimiter.length) isnt @options.rowDelimiter) and not end
+    # we stop if
+    # - the last chars are an espace char
+    # - this isnt the last line (the end argument)
+    break if (i+@options.escape.length >= l and chars.substr(i, @options.escape.length) is @options.escape) and not end
     char = if @nextChar then @nextChar else chars.charAt i
     @nextChar = chars.charAt i + 1
     # Auto discovery of rowDelimiter, unix, mac and windows supported
