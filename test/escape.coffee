@@ -44,7 +44,7 @@ describe 'escape', ->
       """
       next()
 
-  it.only 'should parse if next char is not in the current chunk', (next) ->
+  it 'should parse if next char is not in the current chunk', (next) ->
     util = require 'util'
     {Stream} = require 'stream'
     ChunksStream = (chunks) ->
