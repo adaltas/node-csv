@@ -38,6 +38,7 @@ csv()
     
 ```javascript
 // node samples/sample.js
+var fs = require('fs');
 var csv = require('csv');
 csv()
 .from.stream(fs.createReadStream(__dirname+'/sample.in'))
