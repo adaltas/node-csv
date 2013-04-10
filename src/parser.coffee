@@ -28,6 +28,7 @@ Parser = (csv) ->
   @field = ''
   @lastC = ''
   @nextChar = null
+  @closingQuote = 0
   @line = [] # Current line being processed
   @
 Parser.prototype.__proto__ = EventEmitter.prototype
@@ -98,6 +99,7 @@ Parser.prototype.write =  (chars, end) ->
         if @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter
           return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
         @quoting = false
+        @closingQuote = i
         i++
         continue
       else if not @field
@@ -106,24 +108,25 @@ Parser.prototype.write =  (chars, end) ->
         continue
       # Otherwise, treat quote as a regular character
     # Between two columns
-    if not @quoting and char is @options.delimiter
+    isDelimiter = (char is @options.delimiter)
+    isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
+    if not @quoting and (isDelimiter or isRowDelimiter)
       if rtrim
-        @field = @field.trimRight()
+        if @closingQuote
+          @field = @field.substr 0, @closingQuote
+        else
+          @field = @field.trimRight()
       @line.push @field
+      @closingQuote = 0
       @field = ''
-    # End of row, flush the row
-    else if not @quoting and (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
-      @lines++
-      if rtrim
-        @field = @field.trimRight()
-      @line.push @field
-      @field = ''
-      @emit 'row', @line
-      # Some cleanup for the next row
-      @line = []
-      i += @options.rowDelimiter.length
-      @nextChar = chars.charAt i
-      continue
+      # End of row, flush the row
+      if isRowDelimiter
+        @emit 'row', @line
+        # Some cleanup for the next row
+        @line = []
+        i += @options.rowDelimiter.length
+        @nextChar = chars.charAt i
+        continue
     else if not @quoting and (char is ' ' or char is '\t')
       # Discard space unless we are quoting, in a field
       @field += char unless ltrim and not @field
