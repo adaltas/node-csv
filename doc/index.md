@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2013-01-05T06:10:44.661Z
+date: 2013-03-31T21:12:03.751Z
 comments: false
 sharing: false
 footer: false
@@ -95,15 +95,15 @@ and a [Stream Reader][readable_stream] implementation available in the CSV API.
 
 ```javascript
 
-|-----------|      |---------|---------|       |---------|
-|           |      |         |         |       |         |
-|           |      |        CSV        |       |         |
-|           |      |         |         |       |         |
-|  Stream   |      |  Writer |  Reader |       |  Stream |
-|  Reader   |.pipe(|   API   |   API   |).pipe(|  Writer |)
-|           |      |         |         |       |         |
-|           |      |         |         |       |         |
-|-----------|      |---------|---------|       |---------|
++--------+      +----------+----------+       +--------+
+|        |      |          |          |       |        |
+|        |      |         CSV         |       |        |
+|        |      |          |          |       |        |
+| Stream |      |  Writer  |  Reader  |       | Stream |
+| Reader |.pipe(|   API    |   API    |).pipe(| Writer |)
+|        |      |          |          |       |        |
+|        |      |          |          |       |        |
++--------+      +----------+----------+       +--------+
 
 ```
 
@@ -152,6 +152,32 @@ is emitted.
   Emitted when the underlying resource has been closed. For example, when writting to a file with `csv().to.path()`, the event will be called once the writing process is complete and the file closed.
 *   *error*   
   Thrown whenever an error occured.
+
+Architecture
+------------
+
+The code is organised mainly around 5 main components. 
+The "from" properties provide convenient functions 
+to write CSV text or to plug a Stream Reader. The "parser" 
+takes this CSV content and transform it into an array or 
+an object for each lines. The "transformer" provide the ability 
+to work on each line in a synchronous or asynchronous mode. 
+The "stringifier" take an array or an object and serialize into
+a CSV text. Finally, the "to" properties provides convenient 
+function to retrieve the text or to write to plug a Stream Writer.
+
+```javascript
+
++-------+--------+--------------+--------------+-----+
+|       |        |              |              |     |
+| from -> parser -> transformer -> stringifier -> to |
+|       |        |              |              |     |
++-------+--------+--------------+--------------+-----+
+
+```
+
+Note, even so the "parser", "transformer" and "singifier" are available
+as properties, you won't have to interact with those.
     
 
 <a name="pause"></a>
@@ -192,7 +218,7 @@ property to "false" and emitting the `end` event.
 
 
 <a name="transform"></a>
-`transform(callback)`
+`transform(callback, [options])`
 ---------------------
 
 Register the transformer callback. The callback is a user provided 
