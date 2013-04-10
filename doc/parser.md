@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Parsing"
-date: 2013-01-05T06:10:44.660Z
+date: 2013-03-31T21:12:03.753Z
 comments: false
 sharing: false
 footer: false
@@ -20,8 +20,8 @@ The library extend the [EventEmitter][event] and emit the following events:
 *   *error*   
   Emitted when an error occured.
 
-<a name="parse"></a>
-`parse(chars)`
+<a name="write"></a>
+`write(chars)`
 --------------
 
 Parse a string which may hold multiple lines.
