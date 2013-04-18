@@ -66,10 +66,18 @@ Parser.prototype.write =  (chars, end) ->
     @lastC = char # this should be removed, only used in buggy end function
     @nextChar = chars.charAt i + 1
     # Auto discovery of rowDelimiter, unix, mac and windows supported
-    if not @options.rowDelimiter? and ( @nextChar is '\n' or @nextChar is '\r' )
-      @options.rowDelimiter = @nextChar
-      @options.rowDelimiter += '\n' if @nextChar is '\r' and chars.charAt(i+2) is '\n'
-      delimLength = @options.rowDelimiter.length
+    if not @options.rowDelimiter?
+      # Empty line
+      if (@line.length is 0 and @field is '') and (char is '\n' or char is '\r')
+        rowDelimiter = char
+        nextNextCharPos = i+1
+      else if @nextChar is '\n' or @nextChar is '\r'
+        rowDelimiter = @nextChar
+        nextNextCharPas = i+2
+      if rowDelimiter
+        @options.rowDelimiter = rowDelimiter
+        @options.rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextNextCharPas) is '\n'
+        delimLength = @options.rowDelimiter.length
     # Parse that damn char
     # Note, shouldn't we have sth like chars.substr(i, @options.escape.length)
     isReallyEscaped = false
@@ -111,6 +119,11 @@ Parser.prototype.write =  (chars, end) ->
     isDelimiter = (char is @options.delimiter)
     isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
     if not @quoting and (isDelimiter or isRowDelimiter)
+      # Empty lines
+      if isRowDelimiter and @line.length is 0 and @field is ''
+        i += @options.rowDelimiter.length
+        @nextChar = chars.charAt i
+        continue
       if rtrim
         if @closingQuote
           @field = @field.substr 0, @closingQuote
@@ -148,7 +161,6 @@ Parser.prototype.end = ->
   if @field or @lastC is @options.delimiter or @lastC is @options.quote
     if @options.trim or @options.rtrim
       @field = @field.trimRight()
-    # console.log "PUSH: |#{@field}"
     @line.push @field
     @field = ''
   if @line.length > 0
