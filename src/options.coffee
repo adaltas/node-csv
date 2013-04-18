@@ -11,6 +11,7 @@ the `from.options()` and `to.options()` to access those objects.
 module.exports = ->
 
   from:
+    rowDelimiter: null
     delimiter: ','
     quote: '"'
     escape: '"'
