@@ -5,7 +5,7 @@ build:
 	@./node_modules/.bin/coffee -b -o lib src/*.coffee
 
 doc: build
-	@./node_modules/.bin/coffee src/doc $(CSV_DOC)
+	@./node_modules/.bin/coffee src/doc.coffee $(CSV_DOC)
 
 test: build
 	@NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script \
