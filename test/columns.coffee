@@ -24,7 +24,7 @@ describe 'columns', ->
         record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
         if index is 0
-          record.FIELD_1.should.eql '20322051544'
+          record.should.eql FIELD_1: '20322051544', FIELD_2: '1979', FIELD_3: '8.8017226E7', FIELD_4: 'ABC', FIELD_5: '45', FIELD_6: '2000-01-01'
         else if index is 1
           record.FIELD_4.should.eql 'DEF'
         record
@@ -33,7 +33,7 @@ describe 'columns', ->
         record.should.not.be.an.instanceof Array
         index.should.eql count
         if index is 0
-          record.FIELD_1.should.eql '20322051544'
+          record.should.eql FIELD_1: '20322051544', FIELD_2: '1979', FIELD_3: '8.8017226E7', FIELD_4: 'ABC', FIELD_5: '45', FIELD_6: '2000-01-01'
         else if index is 1
           record.FIELD_4.should.eql 'DEF'
         count++

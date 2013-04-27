@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Writing data to a destination"
-date: 2013-01-27T18:19:43.154Z
+date: 2013-04-27T09:38:47.377Z
 comments: false
 sharing: false
 footer: false
@@ -107,6 +107,11 @@ Callback is called with 2 arguments:
 Write to a stream. Take a writable stream as first argument and  
 optionally an object of options as a second argument.
 
+Additionnal options may be defined. See the [`readable.pipe` 
+documentation][srpdo] for additionnal information.
+
+[srpdo]: http://www.nodejs.org/api/stream.html#stream_readable_pipe_destination_options
+
 
 <a name="to.path"></a>
 `to.path(path, [options])`
@@ -116,6 +121,31 @@ Write to a path. Take a file path as first argument and optionally an object of
 options as a second argument. The `close` event is sent after the file is written. 
 Relying on the `end` event is incorrect because it is sent when parsing is done 
 but before the file is written.
+
+Additionnal options may be defined with the following default:
+
+```javascript
+
+{ flags: 'w',
+  encoding: null,
+  mode: 0666 }
+
+```
+
+See the [`fs.createReadStream` documentation][fscpo] for additionnal information.
+
+[fscpo]: http://www.nodejs.org/api/fs.html#fs_fs_createwritestream_path_options
+
+Example to modify a file rather than replacing it:
+
+```javascript
+
+csv()
+.to.file('my.csv', {flags:'r+'})
+.write(['hello', 'node'])
+.end()
+```
+
 
 
 <a name="to.array"></a>

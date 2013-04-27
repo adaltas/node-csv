@@ -147,6 +147,11 @@ module.exports = (csv) ->
 
   Write to a stream. Take a writable stream as first argument and  
   optionally an object of options as a second argument.
+
+  Additionnal options may be defined. See the [`readable.pipe` 
+  documentation][srpdo] for additionnal information.
+  
+  [srpdo]: http://www.nodejs.org/api/stream.html#stream_readable_pipe_destination_options
   
   ###
   to.stream = (stream, options) ->
@@ -167,7 +172,24 @@ module.exports = (csv) ->
   options as a second argument. The `close` event is sent after the file is written. 
   Relying on the `end` event is incorrect because it is sent when parsing is done 
   but before the file is written.
+
+  Additionnal options may be defined with the following default:
+
+      { flags: 'w',
+        encoding: null,
+        mode: 0666 }
+
+  See the [`fs.createReadStream` documentation][fscpo] for additionnal information.
   
+  [fscpo]: http://www.nodejs.org/api/fs.html#fs_fs_createwritestream_path_options
+  
+  Example to modify a file rather than replacing it:
+
+      csv()
+      .to.file('my.csv', {flags:'r+'})
+      .write(['hello', 'node'])
+      .end()
+
   ###
   to.path = (path, options) ->
     # Merge user provided options
