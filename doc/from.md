@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Reading data from a source"
-date: 2013-03-31T21:12:03.752Z
+date: 2013-04-27T09:38:47.376Z
 comments: false
 sharing: false
 footer: false
@@ -109,6 +109,19 @@ csv()
 
 
 
+<a name="from.stream"></a>
+`from.stream(stream, [options])`
+--------------------------------
+
+Read from a stream. Take a readable stream as first argument and optionally 
+an object of options as a second argument.
+
+Additionnal options may be defined. See the [`readable.pipe` 
+documentation][srpdo] for additionnal information.
+
+[srpdo]: http://www.nodejs.org/api/stream.html#stream_readable_pipe_destination_options
+
+
 <a name="from.path"></a>
 `from.path(path, [options])`
 ----------------------------
@@ -116,11 +129,20 @@ csv()
 Read from a file path. Take a file path as first argument and optionally an object 
 of options as a second argument.
 
+Additionnal options may be defined with the following default:
 
-<a name="from.stream"></a>
-`from.stream(stream, [options])`
---------------------------------
+```javascript
 
-Read from a stream. Take a readable stream as first argument and optionally 
-an object of options as a second argument.
+{ flags: 'r',
+  encoding: null,
+  fd: null,
+  mode: 0666,
+  bufferSize: 64 * 1024,
+  autoClose: true }
+
+```
+
+See the [`fs.createReadStream` documentation][fscpo] for additionnal information.
+
+[fscpo]: http://www.nodejs.org/api/fs.html#fs_fs_createreadstream_path_options
 
