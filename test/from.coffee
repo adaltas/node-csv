@@ -67,9 +67,6 @@ describe 'from', ->
 
     it 'should deal with source encoding', (next) ->
       iconv = new Iconv 'latin1', 'utf-8'
-      iconv.end = ->
-        iconv.write({});
-        iconv.emit 'end'
       parser = csv().transform (data, index) ->
         data[0].should.eql 'çà va' if index is 1
         data
