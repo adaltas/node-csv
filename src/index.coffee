@@ -211,6 +211,7 @@ be sent until resume() is called.
 ###
 CSV.prototype.pause = ->
   @paused = true
+  @
 
 ###
 
@@ -224,6 +225,7 @@ events after a pause().
 CSV.prototype.resume = ->
   @paused = false
   @emit 'drain'
+  @
 
 ###
 
@@ -271,6 +273,7 @@ CSV.prototype.end = ->
   @readable = false
   @writable = false
   @parser.end()
+  @
 
 ###
 
