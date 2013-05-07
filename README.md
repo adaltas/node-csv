@@ -67,8 +67,8 @@ csv()
 Migration
 ---------
 
-This readme cover the current version 0.2.x of the node 
-csv parser. The documentation for the current version 0.1.0 is 
+This README covers the current version 0.2.x of the `node 
+csv `parser. The documentation for the previous version (0.1.0) is 
 available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
 
 The functions 'from*' and 'to*' are now rewritten as 'from.*' and 'to.*'. The 'data'
