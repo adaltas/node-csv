@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Writing data to a destination"
-date: 2013-04-27T09:38:47.377Z
+date: 2013-05-07T03:50:12.660Z
 comments: false
 sharing: false
 footer: false
@@ -32,9 +32,9 @@ csv.from(data).to.path('/tmp/data.csv');
 Write from any sort of destination. It should be considered as a convenient function 
 which will discover the nature of the destination where to write the CSV data.   
 
-If is an function, then the csv will be provided as the first argument 
+If the parameter is a function, then the csv will be provided as the first argument 
 of the callback. If it is a string, then it is expected to be a 
-file path. If it is an instance of stream, it consider the object to be an  
+file path. If it is an instance of `stream`, it consider the object to be an  
 output stream. 
 
 Here's some examples on how to use this function:

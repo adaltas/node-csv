@@ -31,11 +31,11 @@ module.exports = (csv) ->
   Read from any sort of source. It should be considered as a convenient function which 
   will discover the nature of the data source to parse.   
 
-  If it is a string, then if check if it match an existing file path and read the file content, 
-  otherwise, it treat the string as csv data. If it is an instance of stream, it consider the
-  object to be an input stream. If is an array, then for each line should correspond a record.
+  If the parameter is a string, check if a file of that path exists. If so, read the file contents,
+  otherwise, treat the string as CSV data. If the parameter is an instance of `stream`, consider the
+  object to be an input stream. If it is an array, then treat each line as a record.   
 
-  Here's some examples on how to use this function:
+  Here are some examples on how to use this function:
 
       csv()
       .from('"1","2","3","4"\n"a","b","c","d"')
@@ -82,7 +82,7 @@ module.exports = (csv) ->
   Update and retrieve options relative to the input source. Return 
   the options as an object if no argument is provided.
 
-  *   `delimiter`     Set the field delimiter, one character only, defaults to comma.
+  *   `delimiter`     Set the field delimiter. One character only, defaults to comma.
   *   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
   *   `quote`         Optionnal character surrounding a field, one character only, defaults to double quotes.
   *   `escape`        Set the escape character, one character only, defaults to double quotes.
@@ -93,7 +93,7 @@ module.exports = (csv) ->
   *   `ltrim`         If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
   *   `rtrim`         If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
   
-  Additionnaly, in case you are working with stream, you can pass all 
+  Additionnally, in case you are working with stream, you can pass all 
   the options accepted by the `stream.pipe` function.
 
   ###
@@ -110,8 +110,8 @@ module.exports = (csv) ->
   ------------------------------
   
   Read from an array. Take an array as first argument and optionally 
-  some options as a second argument. Each element of the array 
-  represents a csv record. Those elements may be a string, a buffer, an 
+  an object of options as a second argument. Each element of the array 
+  represents a CSV record. Those elements may be a string, a buffer, an
   array or an object.
 
   ###
