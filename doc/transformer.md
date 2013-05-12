@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Transforming data"
-date: 2013-01-05T06:10:44.660Z
+date: 2013-05-12T16:44:18.653Z
 comments: false
 sharing: false
 footer: false
@@ -14,7 +14,7 @@ github: https://github.com/wdavidw/node-csv-parser
 Transformations may occur synchronously or asynchronously depending
 on the provided transform callback and its declared arguments length.
 
-Callbacks are called for each line, with these arguments:
+Callbacks are called for each line, with these arguments:    
 
 *   *row*   
   CSV record
@@ -35,9 +35,9 @@ provided as the third argument. It must be called with two arguments,
 an error (if any), and the transformed record.
 
 Transformed records may be an array, an associative array, a 
-string or `null`. If `null`, the record will simply be skipped. When the 
+string or `null`. If `null`, the record will simply be skipped. When the
 returned value is an array, the fields are merged in order. 
-When the returned value is an object, the module will search for 
+When the returned value is an object, the module will search for
 the `columns` property in the write or in the read options and 
 intelligently order the values. If no `columns` options are found, 
 it will merge the values in their order of appearance. When the 
