@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2013-03-31T21:12:03.751Z
+date: 2013-05-12T16:49:41.194Z
 comments: false
 sharing: false
 footer: false
@@ -23,10 +23,9 @@ on large input files.
 *   Complete test coverage as sample and inspiration
 *   no external dependencies
 
-Important: this documentation covers the current version (0.2.x) of
-`node-csv-parser`. The documentation for the previous version (0.1.0) is
+Important: this documentation covers the current version (0.2.x) of 
+`node-csv-parser`. The documentation for the previous version (0.1.0) is 
 available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
-
 
 Installation
 ------------
@@ -163,7 +162,7 @@ to write CSV text or to plug a Stream Reader. The "parser"
 takes this CSV content and transform it into an array or 
 an object for each line. The "transformer" provides the ability 
 to work on each line in a synchronous or asynchronous mode. 
-The "stringifier" takes an array or an object and serializes it into
+The "stringifier" takes an array or an object and serializes it into 
 CSV text. Finally, the "to" properties provide convenient 
 functions to retrieve the text or to write to plug a Stream Writer.
 
