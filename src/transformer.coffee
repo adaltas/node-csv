@@ -162,8 +162,8 @@ Transformer.prototype.write = (line) ->
     self.running++
     try
       if sync
-      then done null, self. callback line, csv.state.count - 1
-      else self.callback line, csv.state.count - 1, done
+      then done null, self. callback line, csv.state.count - self.todo.length - 1
+      else self.callback line, csv.state.count - self.todo.length - 1, done
     catch err
       done err
   # Apply back pressure
