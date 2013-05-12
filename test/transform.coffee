@@ -239,6 +239,26 @@ describe 'transform', ->
         test.write 'Goldorak go\n'
       test.end()
 
+    it 'should run sequentially if parallel is 1', (next) ->
+      running = 0
+      count = 0
+      test = csv()
+      .to (data) ->
+        next()
+      .transform (record, index, callback) ->
+        index.should.eql count
+        count++
+        running.should.equal 0
+        running++
+        process.nextTick ->
+          running--
+          running.should.equal 0
+          callback null, record
+      , parallel: 1
+      for i in [0...100]
+        test.write 'Goldorak go\n'
+      test.end()
+
     it 'shoud handle columns option with header', (next) ->
       csv()
         .from('col1,col2\na1,a2\nb1,b2', columns:true)
