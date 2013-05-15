@@ -240,22 +240,22 @@ is an object or an array, it must represent a single line.
 Preserve is for line which are not considered as CSV data.
 
 ###
-CSV.prototype.write = (data, preserve) ->
+CSV.prototype.write = (chunk, preserve) ->
   return false unless @writable
-  data = data.toString() if data instanceof Buffer
-  # Data is a string, we parse it
-  if typeof data is 'string' and not preserve
-    @parser.write data
-  # Data is an array, we transform it
-  else if Array.isArray(data) and not @state.transforming
+  chunk = chunk.toString() if chunk instanceof Buffer
+  # Chunk is a string, we parse it
+  if typeof chunk is 'string' and not preserve
+    @parser.write chunk
+  # Chunk is an array, we transform it
+  else if Array.isArray(chunk) and not @state.transforming
     csv = @
-    @transformer.write data
-  # Data is an object, we transform it or stringify it
+    @transformer.write chunk
+  # Chunk is an object, we transform it or stringify it
   else
     if preserve or @state.transforming
-      @stringifier.write data, preserve
+      @stringifier.write chunk, preserve
     else
-      @transformer.write data
+      @transformer.write chunk
   return not @paused
 
 ###
