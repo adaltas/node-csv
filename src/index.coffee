@@ -241,7 +241,7 @@ Preserve is for line which are not considered as CSV data.
 
 ###
 CSV.prototype.write = (chunk, preserve) ->
-  return false unless @writable
+  return @emit 'error', new Error 'CSV no longer writable' unless @writable
   chunk = chunk.toString() if chunk instanceof Buffer
   # Chunk is a string, we parse it
   if typeof chunk is 'string' and not preserve

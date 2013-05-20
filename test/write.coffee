@@ -97,7 +97,7 @@ describe 'write', ->
     test.write buffer
     test.end()
   
-  it 'Test write string with preserve', (next) ->
+  it 'Test write string should be preserve', (next) ->
     count = 0
     test = csv()
     .transform (record, index) ->
@@ -162,6 +162,15 @@ describe 'write', ->
     test.write col1: 'foo1', col2: 'goo1'
     test.write col1: 'foo2', col2: 'goo2'
     test.end()
+  
+  it 'throw error if not writable', (next) ->
+    test = csv()
+    test.on 'error', (err) ->
+      err.message.should.eql 'CSV no longer writable'
+      next()
+    test.write 'abc,123'
+    test.end()
+    test.write 'def,456'
 
 
 
