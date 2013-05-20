@@ -253,7 +253,7 @@ CSV.prototype.write = (chunk, preserve) ->
   # Chunk is an object, we transform it or stringify it
   else
     if preserve or @state.transforming
-      @stringifier.write chunk, preserve
+      @stringifier.write chunk
     else
       @transformer.write chunk
   return not @paused

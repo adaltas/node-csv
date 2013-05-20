@@ -20,10 +20,12 @@ Write a line to the written stream. Line may be an object, an array or a string
 The `preserve` argument is for the lines which are not considered as CSV data.   
 
 ###
-Stringifier.prototype.write = (line, preserve) ->
+Stringifier.prototype.write = (line) ->
   return unless line?
-  # Emit the record
+  preserve = typeof line isnt 'object'
+  # Emit and stringiy the record
   unless preserve
+  # unless preserve
     try @csv.emit 'record', line, @csv.state.count - 1
     catch e then return @csv.error e
     # Convert the record into a string
