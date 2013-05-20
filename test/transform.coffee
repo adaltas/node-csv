@@ -126,7 +126,7 @@ describe 'transform', ->
       test = csv()
       .transform (record, index) ->
         record[1]
-      .on 'record', (record) ->
+      .on 'data', (record) ->
         result += record
       .on 'end', ->
         result.should.eql '210'
