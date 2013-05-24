@@ -129,14 +129,14 @@ module.exports = (csv) ->
   ###
   to.string = (callback, options) ->
     @options options
-    data = ''
+    data = []
     stream = new Stream
     stream.writable = true
     stream.write = (d) ->
-        data += d
+        data.push d
         true
     stream.end = ->
-        callback data, csv.state.countWriten
+        callback data.join(''), csv.state.countWriten
     csv.pipe stream
     csv
 
