@@ -16,6 +16,7 @@ module.exports = ->
     quote: '"'
     escape: '"'
     columns: null
+    comment: '#'
     flags: 'r'
     encoding: 'utf8'
     trim: false

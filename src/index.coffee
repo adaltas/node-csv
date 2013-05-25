@@ -9,7 +9,7 @@ on large input files.
 
 *   Follow the Node.js streaming API
 *   Async and event based
-*   Support delimiters, quotes and escape characters
+*   Support delimiters, quotes, escape characters and comments
 *   Line breaks discovery: detected in source and reported to destination
 *   Data transformation
 *   Support for large datasets
