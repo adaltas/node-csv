@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2013-05-12T16:49:41.194Z
+date: 2013-05-25T23:28:53.770Z
 comments: false
 sharing: false
 footer: false
@@ -16,7 +16,7 @@ on large input files.
 
 *   Follow the Node.js streaming API
 *   Async and event based
-*   Support delimiters, quotes and escape characters
+*   Support delimiters, quotes, escape characters and comments
 *   Line breaks discovery: detected in source and reported to destination
 *   Data transformation
 *   Support for large datasets
@@ -37,16 +37,19 @@ npm install csv
 Quick example
 -------------
 
+This take a string with a comment and convert it to an array:
+
 ```javascript
 
 // node samples/string.js
 var csv = require('csv');
 csv()
-.from( '"1","2","3","4"\n"a","b","c","d"' )
-.to( console.log )
-// Output:
-// 1,2,3,4
-// a,b,c,d
+.from( '#Welcome\n"1","2","3","4"\n"a","b","c","d"' )
+.to( function(data){
+  console.log data
+} );
+// [ 'a', 'b', 'c', 'd' ] [ 1, 2, 3, 4 ]
+
 
 ```
 
@@ -79,7 +82,6 @@ csv()
 .on('error', function(error){
   console.log(error.message);
 });
-// Output:
 // #0 ["2000-01-01","20322051544","1979.0","8.8017226E7","ABC","45"]
 // #1 ["2050-11-27","28392898392","1974.0","8.8392926E7","DEF","23"]
 // Number of lines: 2

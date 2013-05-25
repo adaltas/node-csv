@@ -25,6 +25,7 @@ Parser = (csv) ->
   # Internal usage, state related
   @buf = ''
   @quoting = false
+  @commenting = false
   @field = ''
   @lastC = ''
   @nextChar = null
@@ -54,11 +55,11 @@ Parser.prototype.write =  (chars, end) ->
   # Strip UTF-8 BOM
   i++ if @lines is 0 and csv.options.from.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
   while i < l
-    # we stop if
+    # we stop if all are true
     # - the last chars aren't the delimiters
     # - this isnt the last line (the end argument)
     break if (i+delimLength >= l and chars.substr(i, @options.rowDelimiter.length) isnt @options.rowDelimiter) and not end
-    # we stop if
+    # we stop if all are true
     # - the last chars are an espace char
     # - this isnt the last line (the end argument)
     break if (i+@options.escape.length >= l and chars.substr(i, @options.escape.length) is @options.escape) and not end
@@ -80,7 +81,6 @@ Parser.prototype.write =  (chars, end) ->
         delimLength = @options.rowDelimiter.length
     # Parse that damn char
     # Note, shouldn't we have sth like chars.substr(i, @options.escape.length)
-    isReallyEscaped = false
     if char is @options.escape
       # Make sure the escape is really here for escaping:
       # If escape is same as quote, and escape is first char of a field 
@@ -91,20 +91,20 @@ Parser.prototype.write =  (chars, end) ->
       isQuote = @nextChar is @options.quote
       if not ( escapeIsQuote and not @field and not @quoting ) and ( isEscape or isQuote )
         i++
-        # isReallyEscaped = true
         char = @nextChar
         @nextChar = chars.charAt i + 1
         @field += char
         i++
         continue
-    if not isReallyEscaped and char is @options.quote
+    if char is @options.quote
       if @quoting
         # Make sure a closing quote is followed by a delimiter
         # If we have a next character and 
         # it isnt a rowDelimiter and 
-        # it isnt an column delimiter
+        # it isnt an column delimiter and
+        # it isnt the begining of a comment
         areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
-        if @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter
+        if @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter and @nextChar isnt @options.comment
           return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
         @quoting = false
         @closingQuote = i
@@ -118,7 +118,12 @@ Parser.prototype.write =  (chars, end) ->
     # Between two columns
     isDelimiter = (char is @options.delimiter)
     isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
-    if not @quoting and (isDelimiter or isRowDelimiter)
+    # Set the commenting flag
+    if not @commenting and not @quoting and char is @options.comment
+      @commenting = true
+    else if @commenting and isRowDelimiter
+      @commenting = false
+    if not @commenting and not @quoting and (isDelimiter or isRowDelimiter)
       # Empty lines
       if isRowDelimiter and @line.length is 0 and @field is ''
         i += @options.rowDelimiter.length
@@ -140,10 +145,10 @@ Parser.prototype.write =  (chars, end) ->
         i += @options.rowDelimiter.length
         @nextChar = chars.charAt i
         continue
-    else if not @quoting and (char is ' ' or char is '\t')
+    else if not @commenting and not @quoting and (char is ' ' or char is '\t')
       # Discard space unless we are quoting, in a field
       @field += char unless ltrim and not @field
-    else
+    else if not @commenting
       @field += char
     i++
   # Ok, maybe we still have some char that are left, 

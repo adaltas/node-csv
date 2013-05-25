@@ -87,6 +87,7 @@ module.exports = (csv) ->
   *   `quote`         Optionnal character surrounding a field, one character only, defaults to double quotes.
   *   `escape`        Set the escape character, one character only, defaults to double quotes.
   *   `columns`       List of fields or true if autodiscovered in the first CSV line, default to null. Impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections for more details.
+  *   `comment`       Treat all the characteres after this one as a comment, default to '#'
   *   `flags`         Used to read a file stream, default to the r charactere.
   *   `encoding`      Encoding of the read stream, defaults to 'utf8', applied when a readable stream is created.
   *   `trim`          If true, ignore whitespace immediately around the delimiter, defaults to false.
