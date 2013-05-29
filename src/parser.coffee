@@ -104,7 +104,7 @@ Parser.prototype.write =  (chars, end) ->
         # it isnt an column delimiter and
         # it isnt the begining of a comment
         areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
-        if @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter and @nextChar isnt @options.comment
+        if not @options.relax and @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter and @nextChar isnt @options.comment
           return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
         @quoting = false
         @closingQuote = i
