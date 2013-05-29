@@ -19,7 +19,6 @@ The library extend the [EventEmitter][event] and emit the following events:
 Parser = (csv) ->
   @csv = csv
   @options = csv.options.from
-  @state = csv.state
   # Counter
   @lines = 0
   # Internal usage, state related
@@ -45,7 +44,6 @@ transform is called on a new line.
 
 ###
 Parser.prototype.write =  (chars, end) ->
-  csv = @csv
   ltrim = @options.trim or @options.ltrim
   rtrim = @options.trim or @options.rtrim
   chars = @buf + chars
@@ -53,7 +51,7 @@ Parser.prototype.write =  (chars, end) ->
   delimLength = if @options.rowDelimiter then @options.rowDelimiter.length else 0
   i = 0
   # Strip UTF-8 BOM
-  i++ if @lines is 0 and csv.options.from.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
+  i++ if @lines is 0 and @options.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
   while i < l
     # we stop if all are true
     # - the last chars aren't the delimiters
@@ -68,8 +66,8 @@ Parser.prototype.write =  (chars, end) ->
     @nextChar = chars.charAt i + 1
     # Auto discovery of rowDelimiter, unix, mac and windows supported
     if not @options.rowDelimiter?
-      # Empty line
-      if (@line.length is 0 and @field is '') and (char is '\n' or char is '\r')
+      # First empty line
+      if (@field is '') and (char is '\n' or char is '\r')
         rowDelimiter = char
         nextNextCharPos = i+1
       else if @nextChar is '\n' or @nextChar is '\r'
