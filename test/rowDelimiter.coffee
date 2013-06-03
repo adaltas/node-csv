@@ -40,7 +40,7 @@ describe 'rowDelimiter', ->
         """
         next()
 
-    it 'should handle chuncks', (next) ->
+    it 'should handle chuncks of multiple chars', (next) ->
       test = csv()
       .from.options(rowDelimiter: '::')
       .on 'end', (count) ->
@@ -56,6 +56,24 @@ describe 'rowDelimiter', ->
       test.write '"ABC","45"'
       test.write '::"DEF","23":'
       test.write ':"GHI","94"::'
+      test.write '"JKL","02"'
+      test.end()
+    
+    it 'should handle chuncks in autodiscovery', (next) ->
+      test = csv()
+      .on 'end', (count) ->
+        count.should.eql 4
+      .to.string (result) ->
+        result.should.eql """
+        ABC,45
+        DEF,23
+        GHI,94
+        JKL,02
+        """
+        next()
+      test.write '"ABC","45"'
+      test.write '\n"DEF","23"\n'
+      test.write '"GHI","94"\n'
       test.write '"JKL","02"'
       test.end()
 
