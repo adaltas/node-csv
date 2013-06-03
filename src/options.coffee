@@ -21,6 +21,7 @@ module.exports = ->
     encoding: 'utf8'
     trim: false
     ltrim: false
+    relax: false
     rtrim: false
 
   to:
