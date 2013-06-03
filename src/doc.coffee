@@ -73,7 +73,7 @@ each( docs )
     sharing: false
     footer: false
     navigation: csv
-    github: https://github.com/wdavidw/node-csv-parser
+    github: https://github.com/wdavidw/node-csv
     ---
     #{content}
     """
