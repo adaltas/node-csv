@@ -35,3 +35,14 @@ describe 'parser', ->
         count.should.eql 2
         next()
 
+  describe 'relax', ->
+
+    it 'work around invalid quotes', (next) ->
+      csv()
+      .from.string("""
+        384682,"SAMAY" Hostel,Jiron "Florida 285"
+        """, quote: '"', escape: '"', relax: true)
+      .to.array (data) ->
+        data.should.eql [ [ '384682', 'SAMAY Hostel', 'Jiron "Florida 285"' ] ]
+        next()
+
