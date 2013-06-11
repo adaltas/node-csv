@@ -2,12 +2,12 @@
 language: en
 layout: page
 title: "Reading data from a source"
-date: 2013-05-25T23:28:53.770Z
+date: 2013-06-04T09:36:56.250Z
 comments: false
 sharing: false
 footer: false
 navigation: csv
-github: https://github.com/wdavidw/node-csv-parser
+github: https://github.com/wdavidw/node-csv
 ---
 
 

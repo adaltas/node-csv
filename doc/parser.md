@@ -2,12 +2,12 @@
 language: en
 layout: page
 title: "Parsing"
-date: 2013-03-31T21:12:03.753Z
+date: 2013-06-04T09:36:56.251Z
 comments: false
 sharing: false
 footer: false
 navigation: csv
-github: https://github.com/wdavidw/node-csv-parser
+github: https://github.com/wdavidw/node-csv
 ---
 
 

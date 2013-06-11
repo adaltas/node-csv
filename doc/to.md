@@ -2,12 +2,12 @@
 language: en
 layout: page
 title: "Writing data to a destination"
-date: 2013-05-07T03:50:12.660Z
+date: 2013-06-04T09:36:56.251Z
 comments: false
 sharing: false
 footer: false
 navigation: csv
-github: https://github.com/wdavidw/node-csv-parser
+github: https://github.com/wdavidw/node-csv
 ---
 
 
