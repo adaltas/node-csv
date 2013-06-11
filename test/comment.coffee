@@ -54,3 +54,16 @@ describe 'comment', ->
       1,2,3
       """
       next()
+
+  it 'is cancel by default', (next) ->
+    csv()
+    .from.string( """
+      abc,#,def
+      1,2,3
+      """ )
+    .to.string (result) ->
+      result.should.eql """
+      abc,#,def
+      1,2,3
+      """
+      next()

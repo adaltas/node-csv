@@ -134,7 +134,7 @@ Transformer.prototype.write = (line) ->
         lineAsObject[column] = if line[column]? then line[column] else null
       line = lineAsObject
   finish = (line) ->
-    # Print header on first line to we need to
+    # Print header on first line if we need to
     self.headers() if csv.options.to.header is true and (csv.state.count - self.running) is 1
     # Stringify the transformed line
     csv.stringifier.write line
