@@ -25,7 +25,6 @@ Stringifier.prototype.write = (line) ->
   preserve = typeof line isnt 'object'
   # Emit and stringiy the record
   unless preserve
-  # unless preserve
     try @csv.emit 'record', line, @csv.state.count - 1
     catch e then return @csv.error e
     # Convert the record into a string
