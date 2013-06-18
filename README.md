@@ -38,10 +38,15 @@ csv()
     
 ```javascript
 // node samples/sample.js
+
 var fs = require('fs');
 var csv = require('csv');
+
+// opts is optional
+var opts = { delimiter: ',', escape: '"' };
+
 csv()
-.from.stream(fs.createReadStream(__dirname+'/sample.in'))
+.from.stream(fs.createReadStream(__dirname+'/sample.in'), opts)
 .to.path(__dirname+'/sample.out')
 .transform( function(row){
   row.unshift(row.pop());
