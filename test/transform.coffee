@@ -261,20 +261,17 @@ describe 'transform', ->
 
     it 'shoud handle columns option with header', (next) ->
       csv()
-        .from('col1,col2\na1,a2\nb1,b2', columns:true)
-        .to( (data) ->
-          data.should.eql """
-          col1,col2,foo
-          a1,a2,bar
-          b1,b2,bar
-          """
-          next()
-        , newColumns:true, header:true)
-        .transform (data, index, callback) ->
-          process.nextTick ->
-            data.foo = 'bar';
-            callback null, data
-
-
-
+      .from('col1,col2\na1,a2\nb1,b2', columns:true)
+      .to( (data) ->
+        data.should.eql """
+        col1,col2,foo
+        a1,a2,bar
+        b1,b2,bar
+        """
+        next()
+      , newColumns:true, header:true)
+      .transform (data, index, callback) ->
+        process.nextTick ->
+          data.foo = 'bar';
+          callback null, data
 
