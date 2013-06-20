@@ -43,11 +43,11 @@ var fs = require('fs');
 var csv = require('csv');
 
 // opts is optional
-var opts = { delimiter: ',', escape: '"' };
+var opts = ;
 
 csv()
-.from.stream(fs.createReadStream(__dirname+'/sample.in'), opts)
-.to.path(__dirname+'/sample.out')
+.from.path(__dirname+'/sample.in', { delimiter: ',', escape: '"' })
+.to.stream(fs.createReadStream(__dirname+'/sample.out'))
 .transform( function(row){
   row.unshift(row.pop());
   return row;
