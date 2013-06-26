@@ -11,10 +11,10 @@
 </pre>
 
 This project provides CSV parsing and has been tested and used 
-on large input files. It provide every option you could expect from an
+on large input files. It provides every option you would expect from an
 advanced CSV parser and stringifier.
 
-[Documentation for the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
+[The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
 Usage
 -----
@@ -25,13 +25,14 @@ Installation command is `npm install csv`.
 
 ```javascript
 // node samples/string.js
-var csv = require('csv');
 csv()
-.from( '"1","2","3","4"\n"a","b","c","d"' )
-.to( console.log )
-// Output:
-// 1,2,3,4
-// a,b,c,d
+.from.string(
+  '#Welcome\n"1","2","3","4"\n"a","b","c","d"',
+  {comment: '#'} )
+.to.array( function(data){
+  console.log(data)
+} );
+// [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]
 ```
 
 ### Advanced example
