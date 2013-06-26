@@ -1,15 +1,12 @@
 
 var csv = require('..');
 
+// node samples/string.js
 csv()
-.from( '"1","2","3","4"\n"a","b","c","d"' )
-.to( console.log )
-
-/*
-
-`node samples/string.js`
-
-1,2,3,4
-a,b,c,d
-
-*/
+.from.string(
+  '#Welcome\n"1","2","3","4"\n"a","b","c","d"',
+  {comment: '#'} )
+.to.array( function(data){
+  console.log(data)
+} );
+// [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]

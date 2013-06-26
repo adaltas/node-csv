@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2013-06-04T09:36:56.251Z
+date: 2013-06-26T21:15:50.637Z
 comments: false
 sharing: false
 footer: false
@@ -42,13 +42,14 @@ This take a string with a comment and convert it to an array:
 ```javascript
 
 // node samples/string.js
-var csv = require('csv');
 csv()
-.from( '#Welcome\n"1","2","3","4"\n"a","b","c","d"' )
-.to( function(data){
-  console.log data
+.from.string(
+  '#Welcome\n"1","2","3","4"\n"a","b","c","d"',
+  {comment: '#'} )
+.to.array( function(data){
+  console.log(data)
 } );
-// [ 'a', 'b', 'c', 'd' ] [ 1, 2, 3, 4 ]
+// [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]
 
 
 ```
@@ -57,10 +58,10 @@ Advanced example
 ----------------
 
 The following example illustrates 4 usages of the library:
-1.  Plug a readable stream by defining a file path
+1.  Plug a readable stream from a file
 2.  Direct output to a file path
-3.  Transform each row (optional)
-4.  Listen to events (optional)
+3.  Transform each row
+4.  Listen to events
 
 ```javascript
 
