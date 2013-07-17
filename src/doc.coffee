@@ -1,5 +1,6 @@
 
 fs = require 'fs'
+path = require 'path'
 mecano = require 'mecano'
 each = require 'each'
 
@@ -74,6 +75,7 @@ each( docs )
     footer: false
     navigation: csv
     github: https://github.com/wdavidw/node-csv
+    source: ./#{path.relative __dirname+'/../', source}
     ---
     #{content}
     """
