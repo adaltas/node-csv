@@ -2,12 +2,13 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2013-06-26T21:15:50.637Z
+date: 2013-07-17T08:03:53.223Z
 comments: false
 sharing: false
 footer: false
 navigation: csv
 github: https://github.com/wdavidw/node-csv
+source: ./src/index.coffee
 ---
 
 
@@ -67,6 +68,7 @@ The following example illustrates 4 usages of the library:
 
 // node samples/sample.js
 var csv = require('csv');
+var fs = require('fs');
 csv()
 .from.stream(fs.createReadStream(__dirname+'/sample.in')
 .to.path(__dirname+'/sample.out')

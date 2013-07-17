@@ -2,12 +2,13 @@
 language: en
 layout: page
 title: "Transforming data"
-date: 2013-06-04T09:36:56.251Z
+date: 2013-07-17T08:03:53.224Z
 comments: false
 sharing: false
 footer: false
 navigation: csv
 github: https://github.com/wdavidw/node-csv
+source: ./src/transformer.coffee
 ---
 
 
