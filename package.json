@@ -1,6 +1,6 @@
 {
   "name": "csv",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "CSV parser with simple api, full of options and tested against large datasets.",
   "homepage": "http://www.adaltas.com/projects/node-csv/",
   "bugs": "https://github.com/wdavidw/node-csv/issues",
