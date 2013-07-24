@@ -77,7 +77,7 @@ module.exports = (csv) ->
   *   `quote`       Defaults to the quote read option.
   *   `quoted`      Boolean, default to false, quote all the fields even if not required.
   *   `escape`      Defaults to the escape read option.
-  *   `columns`     List of fields, applied when `transform` returns an object, order matters, see the transform and the columns sections below.
+  *   `columns`     List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additionnal information.
   *   `header`      Display the column names on the first line if the columns option is provided.
   *   `lineBreaks`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
   *   `flags`       Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.
@@ -223,6 +223,21 @@ module.exports = (csv) ->
     @options options
     records = []
     csv.on 'record', (record) ->
+      # Filter and reorder with the columns option
+      # Note, stringifier is doing sth similar to transformat the
+      # incoming record based on column spec. This logic
+      # should be shared. A correct place could be the transformer step.
+      if @options.to.columns
+        if Array.isArray record
+          _record = record
+          record = {}
+          for column, i in @options.to.columns
+            record[column] = _record[i]
+        else
+          _record = record
+          record = {}
+          for column in @options.to.columns
+            record[column] = _record[column]
       records.push record
     csv.on 'end', ->
       callback records, csv.state.countWriten

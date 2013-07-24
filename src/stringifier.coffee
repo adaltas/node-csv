@@ -23,8 +23,9 @@ The `preserve` argument is for the lines which are not considered as CSV data.
 Stringifier.prototype.write = (line) ->
   return unless line?
   preserve = typeof line isnt 'object'
-  # Emit and stringiy the record
+  # Emit and stringify the record
   unless preserve
+    # Emit
     try @csv.emit 'record', line, @csv.state.count - 1
     catch e then return @csv.error e
     # Convert the record into a string

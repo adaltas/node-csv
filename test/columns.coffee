@@ -181,27 +181,41 @@ describe 'columns', ->
         next()
       , header: true, columns: {field1: 'column1', field3: 'column3'})
 
+    it 'is defined as an array and output with to.array while skiping last column', (next) ->
+      csv()
+      .from("a,b,c,d")
+      .to.array (data, count) ->
+        data.should.eql [field1: 'a', field2: 'b', field3:'c']
+        next()
+      , columns: ['field1', 'field2', 'field3']
+
   describe 'with both options', ->
 
-    it 'should accept from columns as true ans to columns as array', (next) ->
-      data = 'field1,field2,field3\nval1,val2,val3'
+    it 'accepts from columns as true ans to columns as array', (next) ->
       csv()
-      .from(data, columns: true)
+      .from('field1,field2,field3\nval1,val2,val3', columns: true)
       .to (data) ->
         data.should.eql 'val1,val3'
         next()
       , columns: ['field1', 'field3']
 
-    it 'should accept from columns as true ans to columns as object with header', (next) ->
-      data = 'field1,field2,field3\nval1,val2,val3'
+    it 'accepts from columns as true ans to columns as object with header', (next) ->
       csv()
-      .from(data, columns: true)
+      .from('field1,field2,field3\nval1,val2,val3', columns: true)
       .to (data) ->
         data.should.eql 'column1,column3\nval1,val3'
         next()
       , columns: {field1: 'column1', field3: 'column3'}, header: true
 
-    it 'should reorder if from and to columns are arrays', (next) ->
+    it 'accepts from and to as arrays inside to.array', (next) ->
+      csv()
+      .from("id,out,title,description\na,b,c,d", columns: true)
+      .to.array (data, count) ->
+        data.should.eql [id: 'a', title: 'c', description:'d']
+        next()
+      , columns: ['id', 'title', 'description']
+
+    it 'reorders if from and to columns are arrays', (next) ->
       csv()
       .from('val1,val2,val3', columns: ['a','b','c'])
       .to (data) ->
