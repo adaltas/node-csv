@@ -140,6 +140,7 @@ describe 'columns', ->
       , columns: ["FIELD_1", "FIELD_2"])
    
     it 'should emit new columns in output', (next) ->
+      process.maxTickDepth = 2
       csv()
       .from.string("""
         FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6
