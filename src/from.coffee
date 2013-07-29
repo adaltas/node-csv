@@ -1,9 +1,11 @@
-
 fs = require 'fs'
 path = require 'path'
 fs.exists ?= path.exists
 utils = require './utils'
 Stream = require 'stream'
+timers = require 'timers'
+# Use process.nextTick when setImmediate isn't there for legacy support of node < 0.10
+nextTick = if timers.setImmediate then timers.setImmediate else process.nextTick
 
 ###
 
@@ -118,7 +120,7 @@ module.exports = (csv) ->
   ###
   from.array = (data, options) ->
     @options options
-    process.nextTick ->
+    nextTick ->
       for record in data
         csv.write record
       csv.end()
@@ -141,7 +143,7 @@ module.exports = (csv) ->
   ###
   from.string = (data, options) ->
     @options options
-    process.nextTick ->
+    nextTick ->
       # A string is handle exactly the same way as a single `write` call 
       # which is then closed. This is because the `write` function may receive
       # multiple and incomplete lines.

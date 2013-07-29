@@ -1,4 +1,3 @@
-
 ###
 Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 ###
@@ -6,6 +5,9 @@ Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 fs = require 'fs'
 should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+timers = require 'timers'
+# Use process.nextTick when setImmediate isn't there for legacy support of node < 0.10
+nextTick = if timers.setImmediate then timers.setImmediate else process.nextTick
 
 describe 'escape', ->
 
@@ -53,10 +55,11 @@ describe 'escape', ->
       tick = ->
         if i < chunks.length
           self.emit 'data', chunks[i++]
-          process.nextTick tick
+          nextTick tick
         else
           self.emit 'end'
-      process.nextTick tick
+      nextTick tick
+      null # must return null, process.nextTick does but timers.setImmediate does not
     util.inherits ChunksStream, Stream
     ChunksStream.prototype.destroy = -> # ok
     data = ['"field with \\', '" inside"']
@@ -71,7 +74,3 @@ describe 'escape', ->
       records.length.should.eql 1
       records[0][0].should.eql 'field with " inside'
       next()
-
-
-
-
