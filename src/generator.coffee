@@ -1,6 +1,8 @@
-
 Stream = require 'stream'
 util = require 'util'
+timers = require 'timers'
+# Use process.nextTick when setImmediate isn't there for legacy support of node < 0.10
+nextTick = if timers.setImmediate then timers.setImmediate else process.nextTick
 
 ###
 
@@ -34,7 +36,7 @@ Generator = (@options = {}) ->
   @start = Date.now()
   @end = @start + @options.duration
   @readable = true
-  process.nextTick @resume.bind @ if @options.start
+  nextTick @resume.bind @ if @options.start
   @
 Generator.prototype.__proto__ = Stream.prototype
 
