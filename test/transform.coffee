@@ -1,4 +1,3 @@
-
 ###
 Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 ###
@@ -6,6 +5,9 @@ Test CSV - Copyright David Worms <open@adaltas.com> (BSD Licensed)
 fs = require 'fs'
 should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+timers = require 'timers'
+# Use process.nextTick when setImmediate isn't there for legacy support of node < 0.10
+nextTick = if timers.setImmediate then timers.setImmediate else process.nextTick
 
 describe 'transform', ->
 
@@ -200,7 +202,7 @@ describe 'transform', ->
         data.should.eql 'b1,a1\nb2,a2'
         next()
       .transform (record, index, callback) ->
-        process.nextTick ->
+        nextTick ->
           callback null, record.reverse()
 
     it 'should output the record if passed in the callback as an object', (next) ->
@@ -210,7 +212,7 @@ describe 'transform', ->
         data.should.eql 'b1,a1\nb2,a2'
         next()
       .transform (record, index, callback) ->
-        process.nextTick ->
+        nextTick ->
           callback null, a: record[1], b: record[0]
 
     it 'should skip the record if callback called without a record', (next) ->
@@ -220,7 +222,7 @@ describe 'transform', ->
         data.should.eql 'a1,b1\na3,b3'
         next()
       .transform (record, index, callback) ->
-        process.nextTick ->
+        nextTick ->
           callback null, if index % 2 is 0 then record else null
 
     it 'should run 20 transforms in parallel by default', (next) ->
@@ -230,7 +232,7 @@ describe 'transform', ->
         next()
       .transform (record, index, callback) ->
         count++
-        process.nextTick ->
+        nextTick ->
           (count <= 20).should.be.ok
           count--
           callback null, record
@@ -250,7 +252,7 @@ describe 'transform', ->
         count++
         running.should.equal 0
         running++
-        process.nextTick ->
+        nextTick ->
           running--
           running.should.equal 0
           callback null, record
@@ -271,7 +273,6 @@ describe 'transform', ->
         next()
       , newColumns:true, header:true)
       .transform (data, index, callback) ->
-        process.nextTick ->
+        nextTick ->
           data.foo = 'bar';
           callback null, data
-
