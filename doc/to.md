@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Writing data to a destination"
-date: 2013-07-17T08:03:53.224Z
+date: 2013-07-30T09:03:48.121Z
 comments: false
 sharing: false
 footer: false
@@ -68,7 +68,7 @@ as an object if no argument is provided.
 *   `quote`       Defaults to the quote read option.
 *   `quoted`      Boolean, default to false, quote all the fields even if not required.
 *   `escape`      Defaults to the escape read option.
-*   `columns`     List of fields, applied when `transform` returns an object, order matters, see the transform and the columns sections below.
+*   `columns`     List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additionnal information.
 *   `header`      Display the column names on the first line if the columns option is provided.
 *   `lineBreaks`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
 *   `flags`       Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.

@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Reading data from a source"
-date: 2013-07-17T08:03:53.224Z
+date: 2013-07-30T09:03:48.121Z
 comments: false
 sharing: false
 footer: false
@@ -21,8 +21,8 @@ here are two identical ways to read from a file:
 
 ```javascript
 
-csv.from('/tmp/data.csv').on('data', console.log);
-csv.from.path('/tmp/data.csv').on('data', console.log);
+csv().from('/tmp/data.csv').on('data', console.log);
+csv().from.path('/tmp/data.csv').on('data', console.log);
 ```
 
 
