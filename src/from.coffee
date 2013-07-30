@@ -17,8 +17,8 @@ a buffer or a readable stream.
 You may call the `from` function or one of its sub function. For example, 
 here are two identical ways to read from a file:
 
-    csv.from('/tmp/data.csv').on('data', console.log);
-    csv.from.path('/tmp/data.csv').on('data', console.log);
+    csv().from('/tmp/data.csv').on('data', console.log);
+    csv().from.path('/tmp/data.csv').on('data', console.log);
 
 ###
 module.exports = (csv) ->
