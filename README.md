@@ -48,7 +48,7 @@ var opts = ;
 
 csv()
 .from.path(__dirname+'/sample.in', { delimiter: ',', escape: '"' })
-.to.stream(fs.createReadStream(__dirname+'/sample.out'))
+.to.stream(fs.createWriteStream(__dirname+'/sample.out'))
 .transform( function(row){
   row.unshift(row.pop());
   return row;
