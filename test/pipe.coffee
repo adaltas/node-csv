@@ -11,6 +11,7 @@ generator = if process.env.CSV_COV then require '../lib-cov/generator' else requ
 describe 'pipe', ->
   
   it 'should pipe to a file writable stream', (next) ->
+    @timeout 5000
     path = "/tmp/large.out"
     w = generator(start: true, duration: 1000).pipe csv().to.path path
     w.on 'close', ->
