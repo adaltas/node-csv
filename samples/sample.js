@@ -5,8 +5,8 @@ var fs = require('fs');
 var csv = require('..');
 
 csv()
-.from.stream(fs.createReadStream(__dirname+'/sample.in'))
-.to.path(__dirname+'/sample.out')
+.from.path(__dirname+'/sample.in', { delimiter: ',', escape: '"' })
+.to.stream(fs.createWriteStream(__dirname+'/sample.out'))
 .transform( function(row){
   row.unshift(row.pop());
   return row;
