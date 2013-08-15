@@ -4,7 +4,7 @@
   "description": "CSV parser with simple api, full of options and tested against large datasets.",
   "homepage": "http://www.adaltas.com/projects/node-csv/",
   "bugs": "https://github.com/wdavidw/node-csv/issues",
-  "author": "David Worms <david@adaltas.com> (hhttp://www.adaltas.com)",
+  "author": "David Worms <david@adaltas.com> (http://www.adaltas.com)",
   "contributors": [
     "David Worms <david@adaltas.com> (http://www.adaltas.com)",
     "Will White (https://github.com/willwhite)",
