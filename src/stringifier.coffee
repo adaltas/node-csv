@@ -58,7 +58,7 @@ Stringifier.prototype.stringify = (line) ->
         column = columns[i]
         _line[i] = if (typeof line[column] is 'undefined' or line[column] is null) then '' else line[column]
     else
-      for column of line
+      for own column of line
         _line.push line[column]
     line = _line
     _line = null
