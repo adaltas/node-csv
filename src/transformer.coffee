@@ -82,6 +82,7 @@ Transformer = (csv) ->
   @running = 0
   @options = parallel: 100
   @todo = []
+  @_async = null
   @
 Transformer.prototype.__proto__ = stream.prototype
 ### no doc
@@ -147,7 +148,7 @@ Transformer.prototype.write = (line) ->
     self.emit 'end', csv.state.count if csv.state.transforming is 0 and self.closed is true
   csv.state.count++
   return finish line unless @callback
-  sync = @callback.length isnt 3
+  sync = not @async()
   csv.state.transforming++
   self = @
   done = (err, line) ->
@@ -189,5 +190,9 @@ Transformer.prototype.end = ->
   @closed = true
   @emit 'end' if @csv.state.transforming is 0
 
+
+Transformer.prototype.async = ->
+  @_async = if @_async is null then @callback and @callback.length is 3 else @_async
+  @_async
 module.exports = (csv) -> new Transformer csv
 module.exports.Transformer = Transformer
