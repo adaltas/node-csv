@@ -195,7 +195,7 @@ describe 'transform', ->
 
   describe 'async', ->
 
-    it 'should output the record if passed in the callback as an arraw', (next) ->
+    it 'should output the record if passed in the callback as an array', (next) ->
       csv()
       .from('a1,b1\na2,b2')
       .to (data) ->
@@ -276,3 +276,21 @@ describe 'transform', ->
         nextTick ->
           data.foo = 'bar';
           callback null, data
+          
+    it 'should accept more records while still transforming', (next) ->
+      csv()
+      .from.array([{a: '1', b: '2'}, {a: '3', b: '4'}])
+      .to( (data) ->
+        data.should.eql """
+        a_col,b_col
+        1,2
+        3,4
+        """
+        next()
+      , columns: ['a_col', 'b_col'], header: true)
+      .transform (data, index, callback) ->
+        nextTick ->
+          row = 
+            a_col: data.a
+            b_col: data.b
+          callback null, row
