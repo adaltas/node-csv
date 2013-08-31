@@ -251,12 +251,12 @@ CSV.prototype.write = (chunk, preserve) ->
   if typeof chunk is 'string' and not preserve
     @parser.write chunk
   # Chunk is an array, we transform it
-  else if Array.isArray(chunk) and not @state.transforming
+  else if Array.isArray(chunk) and (not @state.transforming or @transformer.async())
     csv = @
     @transformer.write chunk
   # Chunk is an object, we transform it or stringify it
   else
-    if preserve or @state.transforming
+    if preserve or (@state.transforming and not @transformer.async())
       @stringifier.write chunk
     else
       @transformer.write chunk

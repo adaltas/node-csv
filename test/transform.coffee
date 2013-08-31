@@ -278,11 +278,12 @@ describe 'transform', ->
           callback null, data
           
     it 'should accept more records while still transforming', (next) ->
-      csv()
+      test = csv()
       .from.array([{a: '1', b: '2'}, {a: '3', b: '4'}])
       .to( (data) ->
         data.should.eql """
         a_col,b_col
+        5,6
         1,2
         3,4
         """
@@ -290,7 +291,10 @@ describe 'transform', ->
       , columns: ['a_col', 'b_col'], header: true)
       .transform (data, index, callback) ->
         nextTick ->
+          arr = Array.isArray data
           row = 
-            a_col: data.a
-            b_col: data.b
+            a_col: if arr then data[0] else data.a
+            b_col: if arr then data[1] else data.b
           callback null, row
+          
+      test.write ['5', '6']
