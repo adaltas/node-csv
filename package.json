@@ -1,0 +1,15 @@
+{
+  "version": "0.0.0",
+  "name": "csv-generator",
+  "repository": {
+    "type": "git",
+    "url": "http://www.github.com/wdavidw/node-stream-generator"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "coffee-script": "latest",
+    "mocha": "latest",
+    "should": "latest"
+  },
+  "optionalDependencies": {}
+}
