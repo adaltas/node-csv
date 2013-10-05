@@ -1,0 +1,18 @@
+{
+  "version": "0.0.0",
+  "name": "csv-stringify",
+  "repository": {
+    "type": "git",
+    "url": "http://www.github.com/wdavidw/node-csv-stringify"
+  },
+  "dependencies": {
+    "produce": "latest"
+  },
+  "devDependencies": {
+    "coffee-script": "latest",
+    "mocha": "latest",
+    "should": "latest"
+  },
+  "optionalDependencies": {},
+  "main": "./lib"
+}
