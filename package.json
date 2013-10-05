@@ -1,9 +1,9 @@
 {
   "version": "0.0.0",
-  "name": "csv-generator",
+  "name": "produce",
   "repository": {
     "type": "git",
-    "url": "http://www.github.com/wdavidw/node-stream-generator"
+    "url": "http://www.github.com/wdavidw/node-produce"
   },
   "dependencies": {},
   "devDependencies": {
@@ -11,5 +11,6 @@
     "mocha": "latest",
     "should": "latest"
   },
-  "optionalDependencies": {}
+  "optionalDependencies": {},
+  "main": "./lib"
 }
