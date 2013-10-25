@@ -21,7 +21,6 @@ describe 'columns', ->
         28392898392,1974,8.8392926E7,DEF,23,2050-11-27
         """, columns: true )
       .transform (record, index) ->
-        record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
         if index is 0
           record.should.eql FIELD_1: '20322051544', FIELD_2: '1979', FIELD_3: '8.8017226E7', FIELD_4: 'ABC', FIELD_5: '45', FIELD_6: '2000-01-01'
@@ -29,7 +28,6 @@ describe 'columns', ->
           record.FIELD_4.should.eql 'DEF'
         record
       .on 'record', (record, index) ->
-        record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
         index.should.eql count
         if index is 0
@@ -55,7 +53,6 @@ describe 'columns', ->
         columns: ["FIELD_1", "FIELD_2", "FIELD_3", "FIELD_4", "FIELD_5", "FIELD_6"]
       })
       .transform (record, index) ->
-        record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
         if index is 0
           record.FIELD_1.should.eql '20322051544'
@@ -63,7 +60,6 @@ describe 'columns', ->
           record.FIELD_4.should.eql 'DEF'
         record
       .on 'record', (record, index) ->
-        record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
         index.should.eql count
         if index is 0
@@ -127,7 +123,6 @@ describe 'columns', ->
         record.should.be.an.instanceof Array
         {FIELD_2: record[3], zombie: record[1], FIELD_1: record[4]}
       .on 'record', (record, index) ->
-        record.should.be.a 'object'
         record.should.not.be.an.instanceof Array
       .on 'end', (count) ->
         count.should.eql 2
@@ -149,7 +144,7 @@ describe 'columns', ->
         83929843999,1944,8.8349294E2,HIJ,17,2060-08-28
         """, columns: true)
       .transform (record) ->
-        record.should.be.an.a 'object'
+        record.should.have.type 'object'
         record.FIELD_7 = 'new_field'
         record
       .on 'end', (count) ->
