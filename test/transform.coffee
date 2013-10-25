@@ -195,7 +195,7 @@ describe 'transform', ->
     it 'should transform a large file', (next) ->
       expectedFirstLine = 'id,name,date'
       csv()
-        .from.path(__dirname + '/transform.csv', {columns: true})
+        .from.path("#{__dirname}/transform.csv", columns: true)
         .to.string (res) ->
           firstLine = res.slice 0, expectedFirstLine.length
           firstLine.should.eql expectedFirstLine
@@ -286,10 +286,11 @@ describe 'transform', ->
         nextTick ->
           data.foo = 'bar';
           callback null, data
+
     it 'should transform a large file', (next) ->
       expectedFirstLine = 'id,name,date'
       csv()
-        .from.path(__dirname + '/transform.csv', {columns: true})
+        .from.path("#{__dirname}/transform.csv", columns: true)
         .to.string (res) ->
           firstLine = res.slice 0, expectedFirstLine.length
           firstLine.should.eql expectedFirstLine
@@ -297,3 +298,9 @@ describe 'transform', ->
         .to.options({header: true})
         .transform (row, i, cb) ->
           setTimeout (-> cb null, row), 10
+
+
+
+
+
+
