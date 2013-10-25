@@ -81,6 +81,9 @@ Stringifier.prototype.stringify = (line) ->
       else if field instanceof Date
         # Cast date to timestamp string
         field = '' + field.getTime()
+      else if field instanceof Number
+        # Cast number to string
+        field = '' + field.valueOf()
       if field
         containsdelimiter = field.indexOf(delimiter) >= 0
         containsQuote = field.indexOf(quote) >= 0
