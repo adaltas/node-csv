@@ -12,8 +12,7 @@ describe 'stringify', ->
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
-    producer.on 'error', (err) ->
-      next err
+    producer.on 'error', next
     producer.on 'end', (err) ->
       stringifier.end()
     producer.on 'readable', ->
