@@ -1,4 +1,3 @@
-
 ###
 
 Node CSV
@@ -121,7 +120,7 @@ is emitted.
 *   *record*   
   Emitted by the stringifier when a new row is parsed and transformed. The data is 
   the value returned by the user `transform` callback if any. Note however that the event won't 
-  be called if transform return `null` since the record is skipped.
+  be called if `transform` returns `null` since the record is skipped.
   The callback provides two arguments. `row` is the CSV line being processed (an array or an object)
   and `index` is the index number of the line starting at zero
 *   *data*   
