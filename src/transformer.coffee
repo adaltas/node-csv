@@ -93,6 +93,7 @@ Print headers.
 
 ###
 Transformer.prototype.headers = ->
+
   labels = @csv.options.to.columns or @csv.options.from.columns
   # If columns is an object, keys are fields and values are labels
   if typeof labels is 'object' then labels = for k, label of labels then label
@@ -137,7 +138,7 @@ Transformer.prototype.write = (line) ->
       line = lineAsObject
   finish = (line) ->
     # Print header on first line if we need to
-    self.headers() if csv.options.to.header is true and (csv.state.count - self.running) is 1
+    self.headers() if csv.options.to.header is true and (csv.state.count - csv.state.transforming) is 1
     # Stringify the transformed line
     csv.stringifier.write line
     # Pick line if any
