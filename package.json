@@ -1,6 +1,7 @@
 {
   "version": "0.0.0",
   "name": "csv-stringify",
+  "description": "CSV stringifier implementing the Node.js `stream.Transform` API",
   "repository": {
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-stringify"
