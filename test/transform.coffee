@@ -205,7 +205,7 @@ describe 'transform', ->
 
   describe 'async', ->
 
-    it 'should output the record if passed in the callback as an arraw', (next) ->
+    it 'should output the record if passed in the callback as an array', (next) ->
       csv()
       .from('a1,b1\na2,b2')
       .to (data) ->
