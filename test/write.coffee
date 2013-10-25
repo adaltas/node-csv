@@ -40,7 +40,6 @@ describe 'write', ->
     count = 0
     test = csv()
     .on 'record', (record, index) ->
-      record.should.be.a 'object'
       record.should.not.be.an.instanceof Array
       count.should.eql index
       count++
