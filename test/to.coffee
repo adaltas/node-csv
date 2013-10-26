@@ -21,7 +21,7 @@ describe 'to', ->
       csv()
       .from(data)
       .to( "#{__dirname}/fromto/string_to_stream.tmp" )
-      .on 'close', (count) ->
+      .on 'finish', (count) ->
         count.should.eql 2
         expect = fs.readFileSync "#{__dirname}/fromto/string_to_stream.out"
         result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
@@ -67,7 +67,7 @@ describe 'to', ->
           record[0].should.eql '20322051544'
         else if index is 1
           record[0].should.eql '28392898392'
-      .on 'close', (count) ->
+      .on 'finish', (count) ->
         count.should.eql 2
         expect = fs.readFileSync "#{__dirname}/fromto/string_to_stream.out"
         result = fs.readFileSync "#{__dirname}/fromto/string_to_stream.tmp"
