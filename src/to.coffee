@@ -160,7 +160,10 @@ module.exports = (csv) ->
     stream.on 'error', (e) ->
       csv.error e
     stream.on 'close', ->
+      # todo, mark this as deprecated
       csv.emit 'close', csv.state.count
+    stream.on 'finish', ->
+      csv.emit 'finish', csv.state.count
     csv
   
   ###
