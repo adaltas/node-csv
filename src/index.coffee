@@ -55,7 +55,7 @@ The following example illustrates 4 usages of the library:
     var csv = require('csv');
     var fs = require('fs');
     csv()
-    .from.stream(fs.createReadStream(__dirname+'/sample.in')
+    .from.stream(fs.createReadStream(__dirname+'/sample.in'))
     .to.path(__dirname+'/sample.out')
     .transform( function(row){
       row.unshift(row.pop());

@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Node CSV"
-date: 2013-10-25T17:17:57.174Z
+date: 2013-11-19T19:28:25.212Z
 comments: false
 sharing: false
 footer: false
@@ -70,7 +70,7 @@ The following example illustrates 4 usages of the library:
 var csv = require('csv');
 var fs = require('fs');
 csv()
-.from.stream(fs.createReadStream(__dirname+'/sample.in')
+.from.stream(fs.createReadStream(__dirname+'/sample.in'))
 .to.path(__dirname+'/sample.out')
 .transform( function(row){
   row.unshift(row.pop());
@@ -153,8 +153,8 @@ is emitted.
 *   *drain*   
 *   *end*   
   Emitted when the CSV content has been parsed.
-*   *close*   
-  Emitted when the underlying resource has been closed. For example, when writting to a file with `csv().to.path()`, the event will be called once the writing process is complete and the file closed.
+*   *finish*   
+  Emitted when all data has been flushed to the underlying system. For example, when writting to a file with `csv().to.path()`, the event will be called once the writing process is complete and the file closed.
 *   *error*   
   Thrown whenever an error occured.
 
