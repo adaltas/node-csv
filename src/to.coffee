@@ -80,6 +80,7 @@ module.exports = (csv) ->
   *   `columns`     List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additionnal information.
   *   `header`      Display the column names on the first line if the columns option is provided.
   *                 OR create objects with properties named by header titles (when using to.array)
+  *   `objname`     Name of header-record title to name to.objects by.
   *   `lineBreaks`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
   *   `flags`       Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.
   *   `newColumns`  If the `columns` option is not specified (which means columns will be taken from the reader options, will automatically append new columns if they are added during `transform()`.
@@ -267,7 +268,6 @@ module.exports = (csv) ->
             _record = record
             record = {}
             for item, i in _record
-              console.log _record[i]
               record[headers[i]] = _record[i]
       # This stops us getting '[]' as the first record when doing header-based columns
       if @options.to.header
@@ -275,6 +275,79 @@ module.exports = (csv) ->
           records.push record
       else
         records.push record
+    csv.on 'end', ->
+      callback records, csv.state.countWriten
+    csv
+
+  ###
+
+  to.object(path, [options])`
+  --------------------------
+
+  Provide the output string to a callback.
+
+      csv()
+      .from( '"Name","Age"\n"a","12"' )
+      .to.object(function(data, count){}, )
+
+  Callback is called with 2 arguments:
+  *   data      Entire CSV as an object of records, addressable by 'objName'
+  *   count     Number of stringified records
+  ###
+  to.object = (callback, options) ->
+    @options options
+    headers = []
+    headerSeen = false;
+    records = {}
+    # Error out if the option wasn't set.
+    if !options.objname
+      return callback {"error": "You need to specify objName: to.object(callback, objName);"}, 0
+    csv.on 'record', (record) ->
+      # Filter and reorder with the columns option
+      # Note, stringifier is doing sth similar to transformat the
+      # incoming record based on column spec. This logic
+      # should be shared. A correct place could be the transformer step.
+      if @options.to.columns
+        # Added to keep the default behavious in the check below.
+        headerSeen = true
+        if Array.isArray record
+          _record = record
+          record = {}
+          for column, i in @options.to.columns
+            record[column] = _record[i]
+        else
+          _record = record
+          record = {}
+          for column in @options.to.columns
+            record[column] = _record[column]
+      else if @options.to.header
+        if !headerSeen
+          # We have to check this because it seems like the first record we get is '[]'
+          # and THEN we get the header record.
+          if record[0]?
+            headerSeen = true
+            headers = record
+            return headers
+        else
+          if Array.isArray record
+            _record = record
+            record = {}
+            for item, i in _record
+              record[headers[i]] = _record[i]
+          else
+            # This bit looks the same as the bit just above
+            # I don't know how to test it so I don't know if it works
+            # The logic is pretty simple though, and having it the same might just be right
+            _record = record
+            record = {}
+            for item, i in _record
+              record[headers[i]] = _record[i]
+      # This stops us getting '[]' as the first record when doing header-based columns
+      if @options.to.header
+        if headerSeen == true
+          records[record[@options.to.objname]] = record
+      else
+        records[record[@options.to.objname]] = record
     csv.on 'end', ->
       callback records, csv.state.countWriten
     csv

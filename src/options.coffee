@@ -31,6 +31,7 @@ module.exports = ->
     escape: null
     columns: null
     header: false
+    objname: null
     lineBreaks: null
     flags: 'w'
     encoding: 'utf8'
