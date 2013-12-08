@@ -345,9 +345,9 @@ module.exports = (csv) ->
       # This stops us getting '[]' as the first record when doing header-based columns
       if @options.to.header
         if headerSeen == true
-          records[record[@options.to.objname]] = record
+          records[record[@options.to.objname].trim()] = record
       else
-        records[record[@options.to.objname]] = record
+        records[record[@options.to.objname].trim()] = record
     csv.on 'end', ->
       callback records, csv.state.countWriten
     csv
