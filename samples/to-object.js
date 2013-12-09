@@ -9,7 +9,7 @@ csv()
 
 /*
 
-`node samples/header-based-columns.js`
+`node samples/to-object.js`
 
 { first: { ColumnOne: 'first', ColumnTwo: 'Data' },
   second: { ColumnOne: 'second', ColumnTwo: 'MoreData' } }
