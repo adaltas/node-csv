@@ -2,7 +2,7 @@
 language: en
 layout: page
 title: "Transforming data"
-date: 2013-07-17T08:03:53.224Z
+date: 2013-12-09T10:02:20.461Z
 comments: false
 sharing: false
 footer: false
@@ -57,7 +57,7 @@ csv()
     return row.reverse()
 });
 // Executing `node samples/transform.js`, print:
-// 94,Gainsbourg,Serge\n82,Preisner,Zbigniew
+// Zbigniew,Preisner,82\nSerge,Gainsbourg,94
 
 ```
 
@@ -74,7 +74,7 @@ csv()
     });
 });
 // Executing `node samples/transform.js`, print:
-// 94,Gainsbourg,Serge\n82,Preisner,Zbigniew
+// Zbigniew,Preisner,82\nSerge,Gainsbourg,94
 
 ```
 

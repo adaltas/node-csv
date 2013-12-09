@@ -50,7 +50,7 @@ Transform callback run synchronously:
         return row.reverse()
     });
     // Executing `node samples/transform.js`, print:
-    // 94,Gainsbourg,Serge\n82,Preisner,Zbigniew
+    // Zbigniew,Preisner,82\nSerge,Gainsbourg,94
 
 Transform callback run asynchronously:
 
@@ -63,7 +63,7 @@ Transform callback run asynchronously:
         });
     });
     // Executing `node samples/transform.js`, print:
-    // 94,Gainsbourg,Serge\n82,Preisner,Zbigniew
+    // Zbigniew,Preisner,82\nSerge,Gainsbourg,94
 
 Transform callback returning a string:
 
