@@ -4,7 +4,7 @@ util = require 'util'
 
 ###
 
-`generator([options])`: Generate random CSV data
+`produce([options])`: Generate random CSV data
 ================================================
 
 This function is provided for conveniency in case you need to generate random CSV data.
@@ -23,22 +23,22 @@ Options may include
     number of fields. If it is an array, each element correspond 
     to a field. If the element is a function, the function will generate
     the field value, if it is a string, it call the registered 
-    function of the same name (see `Generator[name]`.
+    function of the same name.
 *   `max_word_length`   
-    Maximum number of characters per word
+    Maximum number of characters per word.
 *   `seed`   
     Generate idempotent random characters if a number provided
 *   `length`   
-    Number of line to read
+    Number of line to read.
 
 Starting a generation
 
     csv = require 'csv'
-    generator = csv.generator
-    generator().pipe csv().to.path "#{__dirname}/perf.out"
+    producer = csv.producer seed: 1
+    producer().pipe csv().to.path "#{__dirname}/perf.out"
 
 ###
-Generator = (@options = {}) ->
+Producer = (@options = {}) ->
   stream.Readable.call @, @options
   @options.duration ?= 4 * 60 * 1000
   @options.headers ?= 8
@@ -54,20 +54,20 @@ Generator = (@options = {}) ->
     @options.headers = new Array @options.headers
   for v, i in @options.headers
     v ?= 'ascii'
-    @options.headers[i] = Generator[v] if typeof v is 'string'
+    @options.headers[i] = Producer[v] if typeof v is 'string'
   @
-util.inherits Generator, stream.Readable
+util.inherits Producer, stream.Readable
 
-Generator.prototype.random = ->
+Producer.prototype.random = ->
   if @options.seed
     @options.seed = @options.seed * Math.PI * 100 % 100 / 100
   else
     Math.random()
 
-Generator.prototype.end = ->
+Producer.prototype.end = ->
   @push null
 
-# Generator.prototype._read = (size) ->
+# Producer.prototype._read = (size) ->
 #   # Already started
 #   length = @options.fixed_size_buffer.length
 #   @push @options.fixed_size_buffer if length
@@ -91,7 +91,7 @@ Generator.prototype.end = ->
 #     length += line.length
 #     @push line
 
-Generator.prototype._read = (size) ->
+Producer.prototype._read = (size) ->
   # console.log 'GENERATE', size
   # Already started
   data = []
@@ -138,7 +138,7 @@ Generator.prototype._read = (size) ->
     length += lineLength
     data.push line
 
-Generator.ascii = (gen) ->
+Producer.ascii = (gen) ->
   # Column
   column = []
   for nb_chars in [0 ... Math.ceil gen.random() * gen.options.max_word_length]
@@ -146,11 +146,11 @@ Generator.ascii = (gen) ->
     column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
   column.join ''
 
-Generator.int = (gen) ->
+Producer.int = (gen) ->
   Math.floor gen.random() * Math.pow(2, 52)
 
-Generator.bool = (gen) ->
+Producer.bool = (gen) ->
   Math.floor gen.random() * 2
 
-module.exports = (options) -> new Generator options
-module.exports.Generator = Generator
+module.exports = (options) -> new Producer options
+module.exports.Producer = Producer
