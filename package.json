@@ -1,6 +1,7 @@
 {
   "version": "0.0.0",
   "name": "produce",
+  "description": "CSV and object generation implementing the Node.js `stream.Readable` API",
   "repository": {
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-produce"
