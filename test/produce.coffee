@@ -194,38 +194,22 @@ describe 'produce', ->
         ]
         next()
 
-    # it 'honors highWaterMark', (next) ->
-    #   # 1 is a very small highWaterMark
-    #   count = 0
-    #   producer = produce length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 2
-    #   producer.on 'readable', ->
-    #     console.log 'readable'
-    #     count++
-    #     while row = producer.read() then row
-    #   producer.on 'error', (err) ->
-    #     should.not.exists err
-    #   producer.on 'end', ->
-    #     count.should.eql 5
-    #     # 20 is a medium highWaterMark
-    #     # count = 0
-    #     # producer = producer length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 20
-    #     # producer.on 'readable', ->
-    #     #   count++
-    #     #   while row = producer.read() then row
-    #     # producer.on 'error', (err) ->
-    #     #   should.not.exists err
-    #     # producer.on 'end', ->
-    #     #   count.should.eql 3
-    #       # 100 is a large highWaterMark
-    #       # count = 0
-    #       # producer = produce length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 100
-    #       # producer.on 'readable', ->
-    #       #   while(row = producer.read())
-    #       #     count++
-    #       # producer.on 'error', (err) ->
-    #       #   should.not.exists err
-    #       # producer.on 'end', ->
-    #       #   count.should.eql 1
-    #       #   next()
+    it 'honors highWaterMark', (next) ->
+      count = 0
+      max = 0
+      values = []
+      producer = produce length: 100, objectMode: false, seed: 1, headers: 2, highWaterMark: 100
+      producer.on 'readable', ->
+        while row = producer.read()
+          values.push row.length
+      # we dont test first and last values:
+      # First time, length is twice the highWaterMark
+      # Last time, length is only what's left
+      values.shift()
+      values.pop()
+      # check
+      for value in values then value.should.be.within 100, 130
+      producer.on 'error', next
+      producer.on 'end', next
 
 
