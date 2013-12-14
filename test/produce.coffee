@@ -20,8 +20,7 @@ describe 'produce', ->
         if count++ is 100
           ended = true
           producer.end()
-    producer.on 'error', (err) ->
-      should.not.exists err
+    producer.on 'error', next
     producer.on 'end', ->
       next()
 
@@ -37,8 +36,7 @@ describe 'produce', ->
         if count++ is 100
           ended = true
           producer.end()
-    producer.on 'error', (err) ->
-      should.not.exists err
+    producer.on 'error', next
     producer.on 'end', ->
       next()
 
