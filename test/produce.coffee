@@ -56,8 +56,7 @@ describe 'produce', ->
         if count++ is 2
           ended = true
           producer.end()
-    producer.on 'error', (err) ->
-      should.not.exists err
+    producer.on 'error', next
     producer.on 'end', ->
       data.join('').trim().should.eql """
       OMH,ONKCHhJmjadoA,D,GeACHiN,nnmiN,CGfDKB,NIl,JnnmjadnmiNL
@@ -77,8 +76,7 @@ describe 'produce', ->
         data.push d
         if count++ is 2
           producer.end()
-    producer.on 'error', (err) ->
-      should.not.exists err
+    producer.on 'error', next
     producer.on 'end', ->
       data
       .join('').split('\n')[1].split(',')
@@ -98,8 +96,7 @@ describe 'produce', ->
         data.push d
         if count++ is 2
           producer.end()
-    producer.on 'error', (err) ->
-      should.not.exists err
+    producer.on 'error', next
     producer.on 'end', ->
       data
       .join('').split('\n')[1].split(',')
@@ -116,8 +113,7 @@ describe 'produce', ->
         data.push d
         if count++ is 2
           producer.end()
-    producer.on 'error', (err) ->
-      should.not.exists err
+    producer.on 'error', next
     producer.on 'end', ->
       data
       .join('').split('\n')[1].split(',')
@@ -132,8 +128,7 @@ describe 'produce', ->
     producer.on 'readable', ->
       while(d = producer.read())
         data += d
-    producer.on 'error', (err) ->
-      should.not.exists err
+    producer.on 'error', next
     producer.on 'end', ->
       data.split('\n')
       .length.should.eql 3
@@ -166,8 +161,7 @@ describe 'produce', ->
       producer.on 'readable', ->
         while(row = producer.read())
           rows.push row
-      producer.on 'error', (err) ->
-        should.not.exists err
+      producer.on 'error', next
       producer.on 'end', ->
         rows.should.eql [
           [ 'OMH', 'ONKCHhJmjadoA' ]
@@ -191,8 +185,7 @@ describe 'produce', ->
           rows.push row
           setTimeout run, 10
         run()
-      producer.on 'error', (err) ->
-        should.not.exists err
+      producer.on 'error', next
       producer.on 'end', ->
         rows.should.eql [
           [ 'OMH', 'ONKCHhJmjadoA' ]
