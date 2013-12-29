@@ -50,8 +50,8 @@ Parser.prototype.write =  (chars, end) ->
   l = chars.length
   delimLength = if @options.rowDelimiter then @options.rowDelimiter.length else 0
   i = 0
-  # Strip UTF-8 BOM
-  i++ if @lines is 0 and @options.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
+  # Strip BOM header
+  i++ if @lines is 0 and 0xFEFF is chars.charCodeAt 0
   while i < l
     # we stop if all are true
     # - the last chars aren't the delimiters
