@@ -308,18 +308,25 @@ module.exports = (csv) ->
       # incoming record based on column spec. This logic
       # should be shared. A correct place could be the transformer step.
       if @options.to.columns
-        # Added to keep the default behavious in the check below.
-        headerSeen = true
-        if Array.isArray record
-          _record = record
-          record = {}
-          for column, i in @options.to.columns
-            record[column] = _record[i]
+        # I kept the header row in for compatability but it was too ugly, so removed.
+        if !headerSeen
+          # We have to check this because it seems like the first record we get is '[]'
+          # and THEN we get the header record.
+          if record[0]?
+            headerSeen = true
+            headers = record
+            return headers
         else
-          _record = record
-          record = {}
-          for column in @options.to.columns
-            record[column] = _record[column]
+          if Array.isArray record
+            _record = record
+            record = {}
+            for column, i in @options.to.columns
+              record[column] = _record[i]
+          else
+            _record = record
+            record = {}
+            for column in @options.to.columns
+              record[column] = _record[column]
       else if @options.to.header
         if !headerSeen
           # We have to check this because it seems like the first record we get is '[]'
