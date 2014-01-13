@@ -84,6 +84,10 @@ Stringifier.prototype.stringify = (line) ->
       else if field instanceof Number
         # Cast number to string
         field = '' + field.valueOf()
+      else
+        try
+          field = field.toString();
+        catch e
       if field
         containsdelimiter = field.indexOf(delimiter) >= 0
         containsQuote = field.indexOf(quote) >= 0
