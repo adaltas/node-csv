@@ -21,6 +21,10 @@
     "Edmund von der Burg (https://github.com/evdb)",
     "Douglas Christopher Wilson (https://github.com/dougwilson)"
   ],
+  "licenses": [{
+    "type": "BSD",
+    "url": "https://github.com/wdavidw/node-csv/blob/master/LICENSE"
+  }],
   "engines": {
     "node": ">= 0.1.90"
   },
