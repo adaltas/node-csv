@@ -81,6 +81,14 @@ describe 'from', ->
         result.should.eql expect
         fs.unlink "#{__dirname}/fromto/encoding_utf8.tmp", next
 
+    it 'catch error if path does not exist', (next) ->
+      csv().from.path("wrong/path")
+      .to.array (data, count) ->
+        next new Error 'Should not be called'
+      .on "error", (err) ->
+        "ENOENT".should.eql err.code
+        next()
+
   describe 'stream', ->
 
     it 'should be able to pause', (next) ->
