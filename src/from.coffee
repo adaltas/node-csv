@@ -196,6 +196,8 @@ module.exports = (csv) ->
   from.path = (path, options) ->
     @options options
     stream = fs.createReadStream path, csv.from.options()
+    stream.on 'error', (err) ->
+      csv.error err
     csv.from.stream stream
 
   from
