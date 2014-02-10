@@ -8,7 +8,7 @@ should = require 'should'
 csv = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'header', ->
-  
+
   it 'should print headers with defined write columns', (next) ->
     csv()
     .from.string("""
@@ -25,7 +25,7 @@ describe 'header', ->
       """
       next()
     , header: true, columns: ["FIELD_1", "FIELD_2"] )
-  
+
   it 'should print headers with true read columns and defined write columns', (next) ->
     csv()
     .from.string("""
@@ -51,6 +51,32 @@ describe 'header', ->
     .on 'end', (count) ->
       count.should.eql 0
       next()
+
+  it 'should print array of objects with properties determined by header row', (next) ->
+    csv()
+    .from.string("""
+      FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6
+      20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+      """)
+    .to.array((data) ->
+      data.should.eql [
+        "FIELD_1":"20322051544"
+        "FIELD_2":"1979"
+        "FIELD_3":"8.8017226E7"
+        "FIELD_4":"ABC"
+        "FIELD_5":"45"
+        "FIELD_6":"2000-01-01"
+      ,
+        "FIELD_1":"28392898392"
+        "FIELD_2":"1974"
+        "FIELD_3": "8.8392926E7"
+        "FIELD_4":"DEF"
+        "FIELD_5":"23"
+        "FIELD_6":"2050-11-27"
+      ]
+      next()
+    , header:true)
 
 
 
