@@ -56,7 +56,7 @@ csv()
 .on('record', function(row,index){
   console.log('#'+index+' '+JSON.stringify(row));
 })
-.on('close', function(count){
+.on('end', function(count){
   // when writing to a file, use the 'close' event
   // the 'end' event may fire before the file has been written
   console.log('Number of lines: '+count);
