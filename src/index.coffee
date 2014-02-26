@@ -167,6 +167,6 @@ Parser.prototype.__write =  (chars, end) ->
     @buf += chars.charAt i
     i++
   
-module.exports = () ->
-  new Parser()
+module.exports = (options={}) ->
+  new Parser options
 module.exports.Parser = Parser
