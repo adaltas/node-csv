@@ -158,21 +158,3 @@ describe 'quotes', ->
         e.message.should.match /Invalid closing quote/
         next()
 
-  describe 'serializer', ->
-  
-    it 'should quotes all fields', (next) ->
-      csv()
-      .from.string("""
-        20322051544,"1979.0",8.801"7226E7,ABC
-        "283928""98392",1974.0,8.8392926E7,DEF
-        """)
-      .on 'error', (e) ->
-        false.should.be.ok
-      .to.string( (data) ->
-        data.should.eql """
-        "20322051544","1979.0","8.801""7226E7","ABC"
-        "283928""98392","1974.0","8.8392926E7","DEF"
-        """
-        next()
-      , quoted: true )
-
