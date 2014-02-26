@@ -6,36 +6,62 @@ Stringifier = (options = {}) ->
   # options.objectMode = true
   stream.Transform.call @, options
   @options = options
-  @options.delimiter = ','
-  @options.quote = '"'
-  @options.quoted = false
-  @options.escape = '"'
-  @options.columns = null
-  @options.header = false
-  @options.lineBreaks = null
-  @options.flags = 'w'
-  @options.encoding = 'utf8'
-  @options.newColumns = false
-  @options.end = true
-  @options.eof = false
+  @options.delimiter ?= ','
+  @options.quote ?= '"'
+  @options.quoted ?= false
+  @options.escape ?= '"'
+  @options.columns ?= null
+  @options.header ?= false
+  @options.lineBreaks ?= null
+  @options.flags ?= 'w'
+  @options.encoding ?= 'utf8'
+  @options.newColumns ?= false
+  @options.end ?= true
+  @options.eof ?= false
+  @options.rowDelimiter ?= '\n'
   # Internal usage, state related
-  @count = 0
-  @countWriten = 0
+  # @count = 0
+  @countWriten ?= 0
+  switch @options.rowDelimiter
+    when 'auto'
+      @options.rowDelimiter = null
+    when 'unix'
+      @options.rowDelimiter = "\n"
+    when 'mac'
+      @options.rowDelimiter = "\r"
+    when 'windows'
+      @options.rowDelimiter = "\r\n"
+    when 'unicode'
+      @options.rowDelimiter = "\u2028"
   @
 
 util.inherits Stringifier, stream.Transform
+
+Stringifier.prototype.headers = ->
+  labels = @options.columns
+  # If columns is an object, keys are fields and values are labels
+  if typeof labels is 'object' then labels = for k, label of labels then label
+  labels = @stringify labels
+  stream.Transform.prototype.write.call @, labels
+
+Stringifier.prototype.end = (chunk, encoding, callback)->
+  @headers() if @countWriten is 0
+  stream.Transform.prototype.end.apply @, arguments
 
 Stringifier.prototype.write = (chunk, encoding, callback) ->
   return unless chunk?
   preserve = typeof chunk isnt 'object'
   # Emit and stringiy the record
   unless preserve
-    try @emit 'record', chunk, @count - 1
+    try @emit 'record', chunk, @countWriten
     catch e then return @emit 'error', e
     # Convert the record into a string
     chunk = @stringify chunk
+    # console.log '|', chunk, @headers, @countWriten
+    chunk = @options.rowDelimiter + chunk if @options.header or @countWriten
   # Emit the csv
   chunk = "#{chunk}" if typeof chunk is 'number'
+  @headers() if @options.header and @countWriten is 0
   @countWriten++ unless preserve
   stream.Transform.prototype.write.call @, chunk
 
@@ -74,7 +100,7 @@ Stringifier.prototype.stringify = (line) ->
     # this case, we respect the columns indexes
     line.splice columns.length
   if Array.isArray line
-    newLine = if @countWriten then @options.rowDelimiter or "\n" else ''
+    newLine = ''
     for i in [0...line.length]
       field = line[i]
       if typeof field is 'string'
@@ -91,7 +117,7 @@ Stringifier.prototype.stringify = (line) ->
       if field
         containsdelimiter = field.indexOf(delimiter) >= 0
         containsQuote = field.indexOf(quote) >= 0
-        containsLinebreak = field.indexOf("\r") >= 0 or field.indexOf("\n") >= 0
+        containsLinebreak = field.indexOf('\r') >= 0 or field.indexOf('\n') >= 0
         if containsQuote
           regexp = new RegExp(quote,'g')
           field = field.replace(regexp, escape + quote)
@@ -103,6 +129,6 @@ Stringifier.prototype.stringify = (line) ->
     line = newLine
   line
 
-module.exports = () ->
-  new Stringifier()
+module.exports = (options={}) ->
+  new Stringifier options
 module.exports.Stringifier = Stringifier
