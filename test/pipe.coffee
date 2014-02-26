@@ -1,0 +1,37 @@
+
+fs = require 'fs'
+should = require 'should'
+produce = require 'produce'
+parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+
+describe 'pipe', ->
+
+  it 'work with producer', (next) ->
+    parser = parse()
+    data = []
+    producer = produce length: 2, seed: 1, headers: 2, fixed_size: true
+    parser.on 'readable', ->
+      while(d = parser.read())
+        data.push d
+    parser.on 'finish', ->
+      data.should.eql [
+        [ 'OMH', 'ONKCHhJmjadoA' ]
+        [ 'D', 'GeACHiN' ]
+      ]
+      next()
+    producer.pipe(parser)
+
+  it 'catch source error', (next) ->
+    parser = parse()
+    parser.on 'error', ->
+      next new Error 'Should not pass here'
+    parser.on 'finish', ->
+      next new Error 'Should not pass here'
+    rs = fs.createReadStream('/doesnotexist')
+    rs.on 'error', (err) ->
+      err.code.should.eql 'ENOENT'
+      next()
+    rs.pipe(parser)
+
+ 
+
