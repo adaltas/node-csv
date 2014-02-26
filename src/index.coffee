@@ -61,8 +61,8 @@ Parser.prototype.__write =  (chars, end) ->
   l = chars.length
   delimLength = if @options.rowDelimiter then @options.rowDelimiter.length else 0
   i = 0
-  # Strip UTF-8 BOM
-  i++ if @lines is 0 and @options.encoding is 'utf8' and 0xFEFF is chars.charCodeAt 0
+  # Strip BOM header
+  i++ if @lines is 0 and 0xFEFF is chars.charCodeAt 0
   while i < l
     # we stop if all are true
     # - the last chars aren't the delimiters
@@ -77,8 +77,8 @@ Parser.prototype.__write =  (chars, end) ->
     @nextChar = chars.charAt i + 1
     # Auto discovery of rowDelimiter, unix, mac and windows supported
     if not @options.rowDelimiter?
-      # Empty line
-      if (@line.length is 0 and @field is '') and (char is '\n' or char is '\r')
+      # First empty line
+      if (@field is '') and (char is '\n' or char is '\r')
         rowDelimiter = char
         nextNextCharPos = i+1
       else if @nextChar is '\n' or @nextChar is '\r'
