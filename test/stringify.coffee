@@ -1,11 +1,12 @@
 
+fs = require 'fs'
 should = require 'should'
 produce = require 'produce'
 stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'stringify', ->
 
-  it 'write', (next) ->
+  it 'implement transform', (next) ->
     data = ''
     producer = produce length: 2, objectMode: true, seed: 1, headers: 2
     stringifier = stringify()
@@ -24,6 +25,19 @@ describe 'stringify', ->
       D,GeACHiN
       """
       next()
+
+  it 'pipe to file', (next) ->
+    data = ''
+    producer = produce length: 2, objectMode: true, seed: 1, headers: 2
+    stringifier = stringify()
+    ws = fs.createWriteStream '/tmp/large.out'
+    producer.pipe(stringifier).pipe(ws).on 'finish', ->
+      fs.readFile '/tmp/large.out', 'ascii', (err, data) ->
+        data.should.eql """
+        OMH,ONKCHhJmjadoA
+        D,GeACHiN
+        """
+        next()
 
   it 'pipe', (next) ->
     data = ''
