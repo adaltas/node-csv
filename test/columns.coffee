@@ -187,7 +187,7 @@ describe 'columns', ->
 
   describe 'with both options', ->
 
-    it 'accepts from columns as true ans to columns as array', (next) ->
+    it 'accepts from columns as true and to columns as array', (next) ->
       csv()
       .from('field1,field2,field3\nval1,val2,val3', columns: true)
       .to (data) ->
@@ -195,7 +195,7 @@ describe 'columns', ->
         next()
       , columns: ['field1', 'field3']
 
-    it 'accepts from columns as true ans to columns as object with header', (next) ->
+    it 'accepts from columns as true and to columns as object with header', (next) ->
       csv()
       .from('field1,field2,field3\nval1,val2,val3', columns: true)
       .to (data) ->
