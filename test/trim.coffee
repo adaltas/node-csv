@@ -9,7 +9,7 @@ describe 'ltrim', ->
     data = []
     parser = parse ltrim: true
     parser.on 'readable', ->
-      while(d = parser.read())
+      while d = parser.read()
         data.push d
     parser.on 'finish', ->
       data.should.eql [
@@ -29,7 +29,7 @@ describe 'ltrim', ->
     data = []
     parser = parse ltrim: true
     parser.on 'readable', ->
-      while(d = parser.read())
+      while d = parser.read()
         data.push d
     parser.on 'finish', ->
       data.should.eql [
@@ -51,7 +51,7 @@ describe 'rtrim', ->
     data = []
     parser = parse rtrim: true
     parser.on 'readable', ->
-      while(d = parser.read())
+      while d = parser.read()
         data.push d
     parser.on 'finish', ->
       data.should.eql [
@@ -73,7 +73,7 @@ describe 'trim', ->
     data = []
     parser = parse trim: true
     parser.on 'readable', ->
-      while(d = parser.read())
+      while d = parser.read()
         data.push d
     parser.on 'finish', ->
       data.should.eql [
@@ -93,7 +93,7 @@ describe 'trim', ->
     data = []
     parser = parse trim: true
     parser.on 'readable', ->
-      while(d = parser.read())
+      while d = parser.read()
         data.push d
     parser.on 'finish', ->
       data.should.eql [
@@ -115,7 +115,7 @@ describe 'no trim', ->
     data = []
     parser = parse()
     parser.on 'readable', ->
-      while(d = parser.read())
+      while d = parser.read()
         data.push d
     parser.on 'finish', ->
       data.should.eql [

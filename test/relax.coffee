@@ -13,7 +13,7 @@ describe 'relax', ->
     384682,"SAMAY" Hostel,Jiron "Florida 285"
     """
     parser.on 'readable', ->
-      while(d = parser.read())
+      while d = parser.read()
         data.push d
     parser.on 'error', (err) ->
       next err

@@ -11,7 +11,7 @@ describe 'pipe', ->
     data = []
     producer = produce length: 2, seed: 1, headers: 2, fixed_size: true
     parser.on 'readable', ->
-      while(d = parser.read())
+      while d = parser.read()
         data.push d
     parser.on 'finish', ->
       data.should.eql [
