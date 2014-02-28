@@ -166,7 +166,34 @@ Parser.prototype.__write =  (chars, end) ->
   while i < l
     @buf += chars.charAt i
     i++
-  
-module.exports = (options={}) ->
-  new Parser options
+
+###
+`parser([options])`
+`parser(data, [options], callback)`
+###
+module.exports = ->
+  if arguments.length is 3
+    data = arguments[0]
+    options = arguments[1]
+    callback = arguments[2]
+  else if arguments.length is 2
+    data = arguments[0]
+    callback = arguments[1]
+  else if arguments.length is 1
+    options = arguments[0]
+  options ?= {}
+  parser = new Parser options
+  if data and callback
+    chunks = []
+    parser.write data
+    parser.on 'readable', ->
+      while chunk = parser.read()
+        chunks.push chunk
+    parser.on 'error', (err) ->
+      callback err
+    parser.on 'finish', ->
+      callback null, chunks
+    parser.end()
+  parser
+
 module.exports.Parser = Parser
