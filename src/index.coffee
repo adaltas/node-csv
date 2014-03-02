@@ -35,7 +35,7 @@ util.inherits Parser, stream.Transform
 
 Parser.prototype._transform = (chunk, encoding, callback) ->
   chunk = chunk.toString() if chunk instanceof Buffer
-  @__write chunk
+  @__write chunk, false, callback
   # Call this function (optionally with an error argument) 
   # when you are done processing the supplied chunk.
   callback()
@@ -43,7 +43,7 @@ Parser.prototype._transform = (chunk, encoding, callback) ->
 Parser.prototype._flush = (callback) ->
   @__write '', true
   if @quoting
-    return @error new Error "Quoted field not terminated at line #{@lines+1}"
+    return callback new Error "Quoted field not terminated at line #{@lines+1}"
   # dump open record
   if @field or @lastC is @options.delimiter or @lastC is @options.quote
     if @options.trim or @options.rtrim
@@ -54,7 +54,7 @@ Parser.prototype._flush = (callback) ->
     @push @line
   callback()
 
-Parser.prototype.__write =  (chars, end) ->
+Parser.prototype.__write =  (chars, end, callback) ->
   ltrim = @options.trim or @options.ltrim
   rtrim = @options.trim or @options.rtrim
   chars = @buf + chars
@@ -114,7 +114,7 @@ Parser.prototype.__write =  (chars, end) ->
         # it isnt the begining of a comment
         areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
         if not @options.relax and @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter and @nextChar isnt @options.comment
-          return @error new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+          return callback new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
         @quoting = false
         @closingQuote = i
         i++
@@ -184,15 +184,19 @@ module.exports = ->
   options ?= {}
   parser = new Parser options
   if data and callback
+    called = false
     chunks = []
     parser.write data
     parser.on 'readable', ->
       while chunk = parser.read()
         chunks.push chunk
     parser.on 'error', (err) ->
+      console.log 'ERROR'
+      called = true
       callback err
     parser.on 'finish', ->
-      callback null, chunks
+      console.log 'FINISH'
+      callback null, chunks unless called
     parser.end()
   parser
 
