@@ -40,3 +40,56 @@ describe 'quote', ->
         [ '28392898392','1974.0','8.8392926E7','DEF','2"3','2050-11-27' ]
       ]
       next()
+    
+  it 'empty value', (next) ->
+    parse """
+    20322051544,"",8.8017226E7,45,""
+    "",1974,8.8392926E7,"",""
+    """, (err, data) ->
+      data.should.eql [
+        [ '20322051544','','8.8017226E7','45','' ]
+        [ '','1974','8.8392926E7','','' ]
+      ]
+      next()
+    
+  it 'values containing quotes and double quotes escape', (next) ->
+    parse """
+    20322051544,\"\"\"\",8.8017226E7,45,\"\"\"ok\"\"\"
+    "",1974,8.8392926E7,"",""
+    """, (err, data) ->
+      data.should.eql [
+        [ '20322051544','"','8.8017226E7',45,'"ok"' ]
+        [ '','1974','8.8392926E7','','' ]
+      ]
+      next()
+    
+    it 'line breaks inside quotes', (next) ->
+      parse """
+      20322051544,"
+      ",8.8017226E7,45,"
+      ok
+      "
+      "
+      ",1974,8.8392926E7,"","
+      "
+      """, (err, data) ->
+      data.should.eql [
+        [ '20322051544','\n',',8.8017226E7',45,'\nok\n' ]
+        [ '\n','1974','8.8392926E7','','\n' ]
+      ]
+      next()
+
+describe 'quote error', ->
+  
+  it 'when unclosed', (next) ->
+    parse """
+    "",1974,8.8392926E7,"","
+    """, (err, data) ->
+      err.message.should.eql 'Quoted field not terminated at line 1'
+      next()
+    
+
+
+
+
+
