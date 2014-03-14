@@ -119,6 +119,7 @@ Contributors
 *   Edmund von der Burg: <https://github.com/evdb>
 *   Douglas Christopher Wilson: <https://github.com/dougwilson>
 *   Chris Khoo: <https://github.com/khoomeister>
+*   Joeasaurus: <https://github.com/Joeasaurus>
 
 Related projects
 ----------------
