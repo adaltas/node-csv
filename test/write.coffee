@@ -31,7 +31,6 @@ describe 'write', ->
   
   it 'string randomly splited', (next) ->
     data = []
-    count = 0
     parser = parse()
     parser.on 'readable', ->
       while(d = parser.read())
@@ -57,6 +56,24 @@ describe 'write', ->
         parser.write buffer.substr 0, 250
         buffer = buffer.substr 250
     parser.write buffer
+    parser.end()
+  
+  it.skip 'a new line character', (next) ->
+    # TODO, This is a bug that I dont have time to fix
+    data = []
+    parser = parse()
+    parser.on 'readable', ->
+      while(d = parser.read())
+        data.push d
+    parser.on 'finish', ->
+      data.should.eql [
+        [ 'abc', '123' ]
+        [ 'def', '456' ]
+      ]
+      next()
+    parser.write 'abc,123'
+    parser.write '\n'
+    parser.write 'def,456'
     parser.end()
   
   it 'throw error if not writable', (next) ->
