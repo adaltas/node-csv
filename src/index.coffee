@@ -35,24 +35,29 @@ util.inherits Parser, stream.Transform
 
 Parser.prototype._transform = (chunk, encoding, callback) ->
   chunk = chunk.toString() if chunk instanceof Buffer
-  @__write chunk, false, callback
-  # Call this function (optionally with an error argument) 
-  # when you are done processing the supplied chunk.
-  callback()
+  try
+    @__write chunk, false
+    callback()
+  catch err
+    this.emit 'error', err
 
 Parser.prototype._flush = (callback) ->
-  @__write '', true
-  if @quoting
-    return callback new Error "Quoted field not terminated at line #{@lines+1}"
-  # dump open record
-  if @field or @lastC is @options.delimiter or @lastC is @options.quote
-    if @options.trim or @options.rtrim
-      @field = @field.trimRight()
-    @line.push @field
-    @field = ''
-  if @line.length > 0
-    @push @line
-  callback()
+  try
+    @__write '', true
+    if @quoting
+      this.emit 'error', new Error "Quoted field not terminated at line #{@lines+1}"
+      return
+    # dump open record
+    if @field or @lastC is @options.delimiter or @lastC is @options.quote
+      if @options.trim or @options.rtrim
+        @field = @field.trimRight()
+      @line.push @field
+      @field = ''
+    if @line.length > 0
+      @push @line
+    callback()
+  catch err
+    this.emit 'error', err
 
 Parser.prototype.__write =  (chars, end, callback) ->
   ltrim = @options.trim or @options.ltrim
@@ -114,7 +119,7 @@ Parser.prototype.__write =  (chars, end, callback) ->
         # it isnt the begining of a comment
         areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
         if not @options.relax and @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter and @nextChar isnt @options.comment
-          return callback new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+          throw new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
         @quoting = false
         @closingQuote = i
         i++
@@ -123,6 +128,8 @@ Parser.prototype.__write =  (chars, end, callback) ->
         @quoting = true
         i++
         continue
+      else if @field and not @options.relax
+        throw new Error "Invalid opening quote at line #{@lines+1}"
       # Otherwise, treat quote as a regular character
     # Between two columns
     isDelimiter = (char is @options.delimiter)
@@ -186,18 +193,17 @@ module.exports = ->
   if data and callback
     called = false
     chunks = []
-    parser.write data
+    process.nextTick ->
+      parser.write data
+      parser.end()
     parser.on 'readable', ->
       while chunk = parser.read()
         chunks.push chunk
     parser.on 'error', (err) ->
-      console.log 'ERROR'
       called = true
       callback err
     parser.on 'finish', ->
-      console.log 'FINISH'
       callback null, chunks unless called
-    parser.end()
   parser
 
 module.exports.Parser = Parser
