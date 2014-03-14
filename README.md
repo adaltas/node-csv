@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parser.png)](http://travis-ci.org/wdavidw/node-csv-parser)
+[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv.png)](http://travis-ci.org/wdavidw/node-csv)
 
 <pre>
      _   _           _        _____  _______      __
@@ -75,7 +75,7 @@ Migration
 
 This README covers the current version 0.2.x of the `node 
 csv `parser. The documentation for the previous version (0.1.0) is 
-available [here](https://github.com/wdavidw/node-csv-parser/tree/v0.1).
+available [here](https://github.com/wdavidw/node-csv/tree/v0.1).
 
 The functions 'from*' and 'to*' are now rewritten as 'from.*' and 'to.*'. The 'data'
 event is now the 'record' event. The 'data' now receives a stringified version of 
@@ -127,5 +127,5 @@ Related projects
 *   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
 *   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
 
-[travis]: https://travis-ci.org/#!/wdavidw/node-csv-parser
+[travis]: https://travis-ci.org/#!/wdavidw/node-csv
 
