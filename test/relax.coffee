@@ -27,7 +27,7 @@ describe 'relax', ->
       next()
 
   it.skip 'true with invalid quotes on the right', (next) ->
-    # we need to decide the strategy we want here
+    # TODO: we need to decide the strategy we want here
     parse """
     384682,SAMAY Hostel,Jiron "Florida 285"
     """, relax: true, (err, data) ->
