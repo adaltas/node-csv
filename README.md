@@ -6,6 +6,13 @@ agains very large dataset by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
+Note
+----
+
+This module is to be considered in alpha stage. It is part of an ongoing effort to split the current CSV module 
+into complementary module with a cleaner design and the latest stream implementation. However, the
+code has been important with very little changes and you should feel confident to use it in your code.
+
 Usage
 -----
 
@@ -56,7 +63,7 @@ parser.write("someone:x:1022:1022:a funny cat:/home/someone:/bin/bash");
 parser.end()
 ```
 
-### Using the piple functionnality
+### Using the pipe function
 
 One usefull function part of the Stream API is `pipe` you interact with string and object. You
 may use this function to pipe a `stream.Readable` string source to a `stream.Writable` object 
@@ -105,7 +112,7 @@ make build
 npm test
 ```
 
-The test suite is run online with [Travis][travis] against Node.js version 0.6, 0.7, 0.8 and 0.9.
+The test suite is run online with [Travis][travis] against Node.js version 0.9, 0.10 and 0.11.
 
 Contributors
 ------------
@@ -133,5 +140,5 @@ Related projects
 *   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
 *   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
 
-[travis]: https://travis-ci.org/#!/wdavidw/node-csv
+[travis]: https://travis-ci.org/#!/wdavidw/node-csv-parse
 
