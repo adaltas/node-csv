@@ -34,17 +34,3 @@ describe 'quotes', ->
         e.message.should.match /Invalid closing quote/
         next()
 
-    it.skip 'when around invalid quotes', (next) ->
-      csv()
-      .from.string("""
-        384682,SAMAY Hostel,Jiron "Florida 285"
-        """, quote: '"', escape: '"', relax: true)
-      # .to.array (data) ->
-      #   data.should.eql [ [ '384682', 'SAMAY Hostel', 'Jiron "Florida 285"' ] ]
-      #   next()
-      .on 'error', (e) ->
-        # Error should be thrown unless we remove 
-        # the 'relax' option and change our strategy
-        e.message.should.match /Invalid closing quote/
-        next()
-
