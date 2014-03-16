@@ -1,10 +1,10 @@
 {
   "version": "0.0.0",
-  "name": "produce",
+  "name": "csv-generate",
   "description": "CSV and object generation implementing the Node.js `stream.Readable` API",
   "repository": {
     "type": "git",
-    "url": "http://www.github.com/wdavidw/node-produce"
+    "url": "http://www.github.com/wdavidw/node-csv-generate"
   },
   "dependencies": {},
   "devDependencies": {

@@ -4,14 +4,13 @@ util = require 'util'
 
 ###
 
-`produce([options])`: Generate random CSV data
+`generate([options])`: Generate random CSV data
 ================================================
 
 This function is provided for conveniency in case you need to generate random CSV data.
 
-Note, it is quite simple at the moment, more functionnalities could come later. The code 
-originates from "./samples/perf.coffee" and was later extracted in case other persons need 
-its functionnalities.
+Note, it is quite simple at the moment, more functionnalities could come later. Feel free
+to ask for features and to participate by writting issues and preparing push requests.
 
 Options may include
 
@@ -29,16 +28,39 @@ Options may include
 *   `seed`   
     Generate idempotent random characters if a number provided
 *   `length`   
-    Number of line to read.
+    Number of lines to read.   
+*   `objectMode`   
+    Whether this stream should behave as a stream of objects. Meaning 
+    that stream.read(n) returns a single value instead of a Buffer of 
+    size n. Default=false   
+*   `highWaterMark`   
+    The maximum number of bytes to store in the internal buffer 
+    before ceasing to read from the underlying resource. Default=16kb
 
-Starting a generation
+Starting a generation:   
 
-    csv = require 'csv'
-    producer = csv.producer seed: 1
-    producer().pipe csv().to.path "#{__dirname}/perf.out"
+```coffee
+generate = require 'csv-generate'
+data = []
+generator = generate headers: ['int', 'bool'], seed: 1, duration: 1000
+generator.on 'readable', ->
+  while(d = generator.read())
+    data.push d
+generator.on 'error', (err) ->
+  console.log err.message
+generator.on 'end', ->
+  console.log data
+```
+
+The module is also accessible through the `csv` module:   
+
+```coffee
+csv = require 'csv'
+csv.generate(seed: 1).pipe(csv.stringify).pipe(process.stdout)
+```
 
 ###
-Producer = (@options = {}) ->
+Generator = (@options = {}) ->
   stream.Readable.call @, @options
   @options.duration ?= 4 * 60 * 1000
   @options.headers ?= 8
@@ -54,20 +76,20 @@ Producer = (@options = {}) ->
     @options.headers = new Array @options.headers
   for v, i in @options.headers
     v ?= 'ascii'
-    @options.headers[i] = Producer[v] if typeof v is 'string'
+    @options.headers[i] = Generator[v] if typeof v is 'string'
   @
-util.inherits Producer, stream.Readable
+util.inherits Generator, stream.Readable
 
-Producer.prototype.random = ->
+Generator.prototype.random = ->
   if @options.seed
     @options.seed = @options.seed * Math.PI * 100 % 100 / 100
   else
     Math.random()
 
-Producer.prototype.end = ->
+Generator.prototype.end = ->
   @push null
 
-# Producer.prototype._read = (size) ->
+# Generator.prototype._read = (size) ->
 #   # Already started
 #   length = @options.fixed_size_buffer.length
 #   @push @options.fixed_size_buffer if length
@@ -91,7 +113,7 @@ Producer.prototype.end = ->
 #     length += line.length
 #     @push line
 
-Producer.prototype._read = (size) ->
+Generator.prototype._read = (size) ->
   # console.log 'GENERATE', size
   # Already started
   data = []
@@ -138,7 +160,7 @@ Producer.prototype._read = (size) ->
     length += lineLength
     data.push line
 
-Producer.ascii = (gen) ->
+Generator.ascii = (gen) ->
   # Column
   column = []
   for nb_chars in [0 ... Math.ceil gen.random() * gen.options.max_word_length]
@@ -146,11 +168,11 @@ Producer.ascii = (gen) ->
     column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
   column.join ''
 
-Producer.int = (gen) ->
+Generator.int = (gen) ->
   Math.floor gen.random() * Math.pow(2, 52)
 
-Producer.bool = (gen) ->
+Generator.bool = (gen) ->
   Math.floor gen.random() * 2
 
-module.exports = (options) -> new Producer options
-module.exports.Producer = Producer
+module.exports = (options) -> new Generator options
+module.exports.Generator = Generator

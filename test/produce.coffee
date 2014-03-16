@@ -3,41 +3,41 @@ fs = require 'fs'
 stream = require 'stream'
 util = require 'util'
 should = require 'should'
-produce = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+generate = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'produce', ->
+describe 'generate', ->
 
   it 'with fixed_size', (next) ->
     @timeout 1000000
     count = 0
     ended = false
-    producer = produce encoding: 'utf8', fixed_size: true, highWaterMark: 1024
-    producer.on 'readable', ->
-      while(data = producer.read())
+    generator = generate encoding: 'utf8', fixed_size: true, highWaterMark: 1024
+    generator.on 'readable', ->
+      while(data = generator.read())
         # util.print data.length+'\n'
         ended.should.not.be.ok
         data.length.should.eql if count then 1024 else 2048
         if count++ is 100
           ended = true
-          producer.end()
-    producer.on 'error', next
-    producer.on 'end', ->
+          generator.end()
+    generator.on 'error', next
+    generator.on 'end', ->
       next()
 
   it 'with default', (next) ->
     @timeout 1000000
     count = 0
     ended = false
-    producer = produce encoding: 'utf8', highWaterMark: 1024
-    producer.on 'readable', ->
-      while(data = producer.read())
+    generator = generate encoding: 'utf8', highWaterMark: 1024
+    generator.on 'readable', ->
+      while(data = generator.read())
         # util.print data.length+'\n'
         ended.should.not.be.ok
         if count++ is 100
           ended = true
-          producer.end()
-    producer.on 'error', next
-    producer.on 'end', ->
+          generator.end()
+    generator.on 'error', next
+    generator.on 'end', ->
       next()
 
   it 'with seed', (next) ->
@@ -45,17 +45,17 @@ describe 'produce', ->
     count = 0
     ended = false
     data = []
-    producer = produce seed: 1, highWaterMark: 32
-    producer.on 'readable', ->
-      while(d = producer.read())
+    generator = generate seed: 1, highWaterMark: 32
+    generator.on 'readable', ->
+      while(d = generator.read())
         # util.print d.length+'\n'
         data.push d
         ended.should.not.be.ok
         if count++ is 2
           ended = true
-          producer.end()
-    producer.on 'error', next
-    producer.on 'end', ->
+          generator.end()
+    generator.on 'error', next
+    generator.on 'end', ->
       data.join('').trim().should.eql """
       OMH,ONKCHhJmjadoA,D,GeACHiN,nnmiN,CGfDKB,NIl,JnnmjadnmiNL
       KB,dmiM,fENL,Jn,opEMIkdmiOMFckep,MIj,bgIjadnn,fENLEOMIkbhLDK
@@ -68,14 +68,14 @@ describe 'produce', ->
     @timeout 1000000
     count = 0
     data = []
-    producer = produce headers: 3
-    producer.on 'readable', ->
-      while(d = producer.read())
+    generator = generate headers: 3
+    generator.on 'readable', ->
+      while(d = generator.read())
         data.push d
         if count++ is 2
-          producer.end()
-    producer.on 'error', next
-    producer.on 'end', ->
+          generator.end()
+    generator.on 'error', next
+    generator.on 'end', ->
       data
       .join('').split('\n')[1].split(',')
       .length.should.eql 3
@@ -85,17 +85,17 @@ describe 'produce', ->
     @timeout 1000000
     count = 0
     data = []
-    producer = produce headers: [
+    generator = generate headers: [
       -> 'a'
       -> 'b'
     ]
-    producer.on 'readable', ->
-      while(d = producer.read())
+    generator.on 'readable', ->
+      while(d = generator.read())
         data.push d
         if count++ is 2
-          producer.end()
-    producer.on 'error', next
-    producer.on 'end', ->
+          generator.end()
+    generator.on 'error', next
+    generator.on 'end', ->
       data
       .join('').split('\n')[1].split(',')
       .should.eql ['a', 'b']
@@ -105,14 +105,14 @@ describe 'produce', ->
     @timeout 1000000
     count = 0
     data = []
-    producer = produce headers: ['int', 'bool'], seed: 1
-    producer.on 'readable', ->
-      while(d = producer.read())
+    generator = generate headers: ['int', 'bool'], seed: 1
+    generator.on 'readable', ->
+      while(d = generator.read())
         data.push d
         if count++ is 2
-          producer.end()
-    producer.on 'error', next
-    producer.on 'end', ->
+          generator.end()
+    generator.on 'error', next
+    generator.on 'end', ->
       data
       .join('').split('\n')[1].split(',')
       .should.eql ['1790016367053545', '0']
@@ -122,12 +122,12 @@ describe 'produce', ->
     @timeout 1000000
     count = 0
     data = ''
-    producer = produce length: 3
-    producer.on 'readable', ->
-      while(d = producer.read())
+    generator = generate length: 3
+    generator.on 'readable', ->
+      while(d = generator.read())
         data += d
-    producer.on 'error', next
-    producer.on 'end', ->
+    generator.on 'error', next
+    generator.on 'end', ->
       data.split('\n')
       .length.should.eql 3
       next()
@@ -148,19 +148,19 @@ describe 'produce', ->
       ._data.split('\n')
       .length.should.eql 3
       next()
-    producer = produce length: 3
-    producer.pipe writer
+    generator = generate length: 3
+    generator.pipe writer
 
   describe 'objectMode', ->
 
     it 'sunc read', (next) ->
       rows = []
-      producer = produce length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 1
-      producer.on 'readable', ->
-        while(row = producer.read())
+      generator = generate length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 1
+      generator.on 'readable', ->
+        while(row = generator.read())
           rows.push row
-      producer.on 'error', next
-      producer.on 'end', ->
+      generator.on 'error', next
+      generator.on 'end', ->
         rows.should.eql [
           [ 'OMH', 'ONKCHhJmjadoA' ]
           [ 'D', 'GeACHiN' ]
@@ -173,18 +173,18 @@ describe 'produce', ->
     it 'async read', (next) ->
       @timeout 0
       rows = []
-      producer = produce length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 10
-      producer.on 'readable', ->
+      generator = generate length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 10
+      generator.on 'readable', ->
         length = 0
         run = ->
-          row = producer.read()
+          row = generator.read()
           return unless row
           length += row.join('').length
           rows.push row
           setTimeout run, 10
         run()
-      producer.on 'error', next
-      producer.on 'end', ->
+      generator.on 'error', next
+      generator.on 'end', ->
         rows.should.eql [
           [ 'OMH', 'ONKCHhJmjadoA' ]
           [ 'D', 'GeACHiN' ]
@@ -198,9 +198,9 @@ describe 'produce', ->
       count = 0
       max = 0
       values = []
-      producer = produce length: 100, objectMode: false, seed: 1, headers: 2, highWaterMark: 100
-      producer.on 'readable', ->
-        while row = producer.read()
+      generator = generate length: 100, objectMode: false, seed: 1, headers: 2, highWaterMark: 100
+      generator.on 'readable', ->
+        while row = generator.read()
           values.push row.length
       # we dont test first and last values:
       # First time, length is twice the highWaterMark
@@ -209,7 +209,7 @@ describe 'produce', ->
       values.pop()
       # check
       for value in values then value.should.be.within 100, 130
-      producer.on 'error', next
-      producer.on 'end', next
+      generator.on 'error', next
+      generator.on 'end', next
 
 
