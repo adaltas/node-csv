@@ -23,10 +23,10 @@ IMPORTANT
 
 There is at the moment an important re-design of this module. The project will be split into 4 modules:   
 
-*   [`csv-generate`](https://github.com/wdavidw/node-csv-generate), a flexible generator of CSV string and Javascript objects implementing the Node.js `stream.Readable`. API.   
-*   [`csv-parse`](https://github.com/wdavidw/node-csv-parse), a parser converting CSV text into arrays or objects and implementing the Node.js `stream.Transform` API and also providing a callback-base API.   
-*   [`csv-transform`](https://github.com/wdavidw/node-csv-transform), a simple object transformation framework implementing the Node.js `stream.Transform` API.
-*   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), a stringifier converting records into a CSV text and implementing the Node.js `stream.Transform` API and also providing a callback-base API.   
+*   [`csv-generate`](https://github.com/wdavidw/node-csv-generate), a flexible generator of CSV string and Javascript objects.   
+*   [`csv-parse`](https://github.com/wdavidw/node-csv-parse), a parser converting CSV text into arrays or objects.   
+*   [`csv-transform`](https://github.com/wdavidw/node-csv-transform), a simple object transformation framework.
+*   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), a stringifier converting records into a CSV text.   
 
 All the modules are fully be compatible with the stream 2 and 3 specifications. Also, a simple callback-based API is provided. Those modules are already released and usable separately. They will soon be available as part of this module. We are in the process of dispatching the full test cases into their appropriate module.
 
