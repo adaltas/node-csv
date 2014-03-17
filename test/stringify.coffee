@@ -1,23 +1,23 @@
 
 fs = require 'fs'
 should = require 'should'
-produce = require 'produce'
+generate = require 'csv-generate'
 stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'stringify', ->
 
   it 'implement transform', (next) ->
     data = ''
-    producer = produce length: 2, objectMode: true, seed: 1, headers: 2
+    generator = generate length: 2, objectMode: true, seed: 1, headers: 2
     stringifier = stringify()
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
-    producer.on 'error', next
-    producer.on 'end', (err) ->
+    generator.on 'error', next
+    generator.on 'end', (err) ->
       stringifier.end()
-    producer.on 'readable', ->
-      while(row = producer.read())
+    generator.on 'readable', ->
+      while(row = generator.read())
         stringifier.write row
     stringifier.on 'finish', ->
       data.should.eql """
@@ -28,10 +28,10 @@ describe 'stringify', ->
 
   it 'pipe to file', (next) ->
     data = ''
-    producer = produce length: 2, objectMode: true, seed: 1, headers: 2
+    generator = generate length: 2, objectMode: true, seed: 1, headers: 2
     stringifier = stringify()
     ws = fs.createWriteStream '/tmp/large.out'
-    producer.pipe(stringifier).pipe(ws).on 'finish', ->
+    generator.pipe(stringifier).pipe(ws).on 'finish', ->
       fs.readFile '/tmp/large.out', 'ascii', (err, data) ->
         data.should.eql """
         OMH,ONKCHhJmjadoA
@@ -41,8 +41,8 @@ describe 'stringify', ->
 
   it 'pipe', (next) ->
     data = ''
-    producer = produce length: 2, objectMode: true, seed: 1, headers: 2
-    stringifier = producer.pipe stringify()
+    generator = generate length: 2, objectMode: true, seed: 1, headers: 2
+    stringifier = generator.pipe stringify()
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d

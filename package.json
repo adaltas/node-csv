@@ -7,7 +7,7 @@
     "url": "http://www.github.com/wdavidw/node-csv-stringify"
   },
   "dependencies": {
-    "produce": "latest"
+    "csv-generate": "latest"
   },
   "devDependencies": {
     "coffee-script": "latest",
