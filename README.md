@@ -2,7 +2,7 @@
 
 This project is part of the [CSV module](https://github.com/wdavidw/node-csv) and parse input CSV text into 
 arrays or objects. It is both extremely easy to use and powerfull. It was released since 2010 and is tested
-agains very large dataset by a large community.
+against very large dataset by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
@@ -10,8 +10,8 @@ Note
 ----
 
 This module is to be considered in alpha stage. It is part of an ongoing effort to split the current CSV module 
-into complementary module with a cleaner design and the latest stream implementation. However, the
-code has been important with very little changes and you should feel confident to use it in your code.
+into complementary modules with a cleaner design and the latest stream implementation. However, the
+code has been imported with very little changes and you should feel confident to use it in your code.
 
 Usage
 -----
@@ -21,16 +21,16 @@ by the CSV parser.
 
 Use the callback style API for simplicity or the stream based API for scalability.
 
-### Using the simple API
+### Using the callback API
 
-The parser recieve a string and return an array inside a user-provided callback. This example 
+The parser receive a string and return an array inside a user-provided callback. This example 
 is available with the command `node samples/callback.js`.
 
 ```javascript
 var parse = require('csv-parse');
 
 input = '#Welcome\n"1","2","3","4"\n"a","b","c","d"';
-parse(input, function(err, output){
+parse(input, {comment: '#'}, function(err, output){
   output.should.eql([ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]);
 });
 ```
@@ -41,33 +41,32 @@ parse(input, function(err, output){
 // node samples/stream.js
 var parse = require('csv-parse');
 
-input = fs.createReadStream('/etc/passwd');
 output = [];
 parser = parse({delimiter: ':'})
-parser.on 'readable', function(){
+parser.on('readable', function(){
   while(row = parser.read()){
     output.push(row)
   }
-};
-parser.on 'error', function(err){
+});
+parser.on('error', function(err){
   consol.log(err.message);
-};
-parser.on 'finish', function(){
+});
+parser.on('finish', function(){
   output.should.eql([
-    [ 'root','x','0','0','root','/root','/bin/bash' ]
+    [ 'root','x','0','0','root','/root','/bin/bash' ],
     [ 'someone','x','1022','1022','a funny cat','/home/someone','/bin/bash' ]
   ]);
-};
-parser.write("root:x:0:0:root:/root:/bin/bash");
-parser.write("someone:x:1022:1022:a funny cat:/home/someone:/bin/bash");
+});
+parser.write("root:x:0:0:root:/root:/bin/bash\n");
+parser.write("someone:x:1022:1022:a funny cat:/home/someone:/bin/bash\n");
 parser.end()
 ```
 
 ### Using the pipe function
 
-One usefull function part of the Stream API is `pipe` you interact with string and object. You
+One usefull function part of the Stream API is `pipe` to interact between multiple streams. You
 may use this function to pipe a `stream.Readable` string source to a `stream.Writable` object 
-destination. The next example available as `node samples/piple.js` read the file, parse its content and
+destination. The next example available as `node samples/pipe.js` read the file, parse its content and
 transform it.
 
 ```javascript
@@ -90,29 +89,21 @@ input.pipe(parser).pipe(mutator).pipe(process.stdout);
 Migration
 ---------
 
-Most of the parser is imported from its parent project [CSV](https://github.com/wdavidw/node-csv) in a effort to split it
-between the parser, the stringifier and the transformer.
+Most of the generator is imported from its parent project [CSV][csv] in a effort 
+to split it between the generator, the parser, the transformer and the stringifier.
 
 Development
 -----------
 
-Tests are executed with mocha. To install it, simple run `npm install`, it will install
-mocha and its dependencies in your project "node_modules" directory.
+Tests are executed with mocha. To install it, simple run `npm install` 
+followed by `npm test`. It will install mocha and its dependencies in your 
+project "node_modules" directory and run the test suite. The tests run 
+against the CoffeeScript source files.
 
-To run the tests:
-```bash
-npm test
-```
+To generate the JavaScript files, run `make build`.
 
-The tests run against the CoffeeScript source files.
-
-To generate the JavaScript files:
-```bash
-make build
-npm test
-```
-
-The test suite is run online with [Travis][travis] against Node.js version 0.9, 0.10 and 0.11.
+The test suite is run online with [Travis][travis] against the versions 
+0.9, 0.10 and 0.11 of Node.js.
 
 Contributors
 ------------
@@ -140,5 +131,6 @@ Related projects
 *   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
 *   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
 
+[csv]: https://github.com/wdavidw/node-csv
 [travis]: https://travis-ci.org/#!/wdavidw/node-csv-parse
 
