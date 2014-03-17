@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.png)](http://travis-ci.org/wdavidw/node-csv-parse)
+[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-stringify.png)](http://travis-ci.org/wdavidw/node-csv-stringify)
 
 This project is part of the [CSV module](https://github.com/wdavidw/node-csv) and stringify records into
 a CSV text. It is both extremely easy to use and powerfull. It was released since 2010 and is tested
