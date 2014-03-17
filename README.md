@@ -16,6 +16,20 @@ advanced CSV parser and stringifier.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
+[![NPM](https://nodei.co/npm/csv.png?stars&downloads)](https://nodei.co/npm/csv/) [![NPM](https://nodei.co/npm-dl/csv.png)](https://nodei.co/npm/csv/)
+
+IMPORTANT
+---------
+
+There is at the moment an important re-design of this module. The project will be split into 4 modules:   
+
+*   `csv-generate`, a flexible generator of CSV string and Javascript objects implementing the Node.js `stream.Readable`. API.   
+*   `csv-parse`, a parser converting CSV text into arrays or objects and implementing the Node.js `stream.Transform` API and also providing a callback-base API.   
+*   `csv-transform`, a simple object transformation framework implementing the Node.js `stream.Transform` API.
+*   `csv-stringify`, a stringifier converting records into a CSV text and implementing the Node.js `stream.Transform` API and also providing a callback-base API.   
+
+All the modules are fully be compatible with the stream 2 and 3 specifications. Also, a simple callback-based API is provided. Those modules are already released and usable separately. They will soon be available as part of this module. We are in the process of dispatching the full test cases into their appropriate module.
+
 Usage
 -----
 
@@ -75,7 +89,8 @@ Migration
 
 This README covers the current version 0.2.x of the `node 
 csv `parser. The documentation for the previous version (0.1.0) is 
-available [here](https://github.com/wdavidw/node-csv/tree/v0.1).
+available [here](https://github.com/wdavidw/node-csv/tree/v0.1). The documentation 
+for the incoming 0.3.x version is not yet released.
 
 The functions 'from*' and 'to*' are now rewritten as 'from.*' and 'to.*'. The 'data'
 event is now the 'record' event. The 'data' now receives a stringified version of 
