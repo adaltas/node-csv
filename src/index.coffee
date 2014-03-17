@@ -2,6 +2,24 @@
 stream = require 'stream'
 util = require 'util'
 
+###
+
+`Stringifier([options])`
+-----------------------
+
+*   `delimiter`     Set the field delimiter, one character only, defaults to `options.from.delimiter` which is a comma.
+*   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
+*   `quote`         Defaults to the quote read option.
+*   `quoted`        Boolean, default to false, quote all the fields even if not required.
+*   `escape`        Defaults to the escape read option.
+*   `columns`       List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additionnal information.
+*   `header`        Display the column names on the first line if the columns option is provided.
+*                   OR create objects with properties named by header titles (when using to.array)
+*   `lineBreaks`    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
+*   `newColumns`    If the `columns` option is not specified (which means columns will be taken from the reader options, will automatically append new columns if they are added during `transform()`.
+#*   `eof`          Add a linebreak on the last line, default to false, expect a charactere or use '\n' if value is set to "true"
+
+###
 Stringifier = (options = {}) ->
   # options.objectMode = true
   stream.Transform.call @, options
@@ -13,14 +31,9 @@ Stringifier = (options = {}) ->
   @options.columns ?= null
   @options.header ?= false
   @options.lineBreaks ?= null
-  @options.flags ?= 'w'
-  @options.encoding ?= 'utf8'
   @options.newColumns ?= false
-  @options.end ?= true
-  @options.eof ?= false
   @options.rowDelimiter ?= '\n'
   # Internal usage, state related
-  # @count = 0
   @countWriten ?= 0
   switch @options.rowDelimiter
     when 'auto'
@@ -57,7 +70,6 @@ Stringifier.prototype.write = (chunk, encoding, callback) ->
     catch e then return @emit 'error', e
     # Convert the record into a string
     chunk = @stringify chunk
-    # console.log '|', chunk, @headers, @countWriten
     chunk = @options.rowDelimiter + chunk if @options.header or @countWriten
   # Emit the csv
   chunk = "#{chunk}" if typeof chunk is 'number'
