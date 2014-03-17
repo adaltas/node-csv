@@ -65,32 +65,6 @@ module.exports = (csv) ->
     csv.error new Error "Invalid mixed argument in from" if error
     csv
 
-  ###
-
-  `to.options([options])`
-  -----------------------
-
-  Update and retrieve options relative to the output. Return the options
-  as an object if no argument is provided.
-
-  *   `delimiter`   Set the field delimiter, one character only, defaults to `options.from.delimiter` which is a comma.
-  *   `quote`       Defaults to the quote read option.
-  *   `quoted`      Boolean, default to false, quote all the fields even if not required.
-  *   `escape`      Defaults to the escape read option.
-  *   `columns`     List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additionnal information.
-  *   `header`      Display the column names on the first line if the columns option is provided.
-  *                 OR create objects with properties named by header titles (when using to.array)
-  *   `objname`     Name of header-record title to name to.objects by.
-  *   `lineBreaks`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
-  *   `flags`       Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.
-  *   `newColumns`  If the `columns` option is not specified (which means columns will be taken from the reader options, will automatically append new columns if they are added during `transform()`.
-  *   `end`         Prevent calling `end` on the destination, so that destination is no longer writable.
-  *   `eof`         Add a linebreak on the last line, default to false, expect a charactere or use '\n' if value is set to "true"
-
-  The end options is similar to passing `{end: false}` option in `stream.pipe()`. According to the Node.js documentation:
-  > By default end() is called on the destination when the source stream emits end, so that destination is no longer writable. Pass { end: false } as options to keep the destination stream open.
-
-  ###
   to.options = (options) ->
     if options?
       utils.merge csv.options.to, options
