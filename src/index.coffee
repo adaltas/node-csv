@@ -2,6 +2,27 @@
 stream = require 'stream'
 util = require 'util'
 
+
+
+###
+
+`Parser([options])`
+-------------------
+
+Options may include:
+
+*   `delimiter`     Set the field delimiter. One character only, defaults to comma.
+*   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
+*   `quote`         Optionnal character surrounding a field, one character only, defaults to double quotes.
+*   `escape`        Set the escape character, one character only, defaults to double quotes.
+*   `columns`       List of fields or true if autodiscovered in the first CSV line, default to null. Impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections for more details.
+*   `comment`       Treat all the characteres after this one as a comment, default to '#'
+*   `objname`       Name of header-record title to name objects by.
+*   `trim`          If true, ignore whitespace immediately around the delimiter, defaults to false.
+*   `ltrim`         If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
+*   `rtrim`         If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
+
+###
 Parser = (options = {}) ->
   options.objectMode = true
   stream.Transform.call @, options
@@ -11,9 +32,8 @@ Parser = (options = {}) ->
   @options.quote ?= '"'
   @options.escape ?= '"'
   @options.columns ?= null
-  @options.comment ?= '#'
-  @options.flags ?= 'r'
-  @options.encoding ?= 'utf8'
+  @options.comment ?= ''
+  @options.objname ?= false
   @options.trim ?= false
   @options.ltrim ?= false
   @options.rtrim ?= false
@@ -54,10 +74,25 @@ Parser.prototype._flush = (callback) ->
       @line.push @field
       @field = ''
     if @line.length > 0
-      @push @line
+      @__push @line
     callback()
   catch err
     this.emit 'error', err
+
+Parser.prototype.__push = (line) ->
+  if @options.columns is true
+    @options.columns = line
+    return
+  if @options.columns?
+    lineAsColumns = {}
+    for field, i in line
+      lineAsColumns[@options.columns[i]] = field
+    if @options.objname
+      @push [lineAsColumns[@options.objname], lineAsColumns]
+    else
+      @push lineAsColumns
+  else
+    @push line
 
 Parser.prototype.__write =  (chars, end, callback) ->
   ltrim = @options.trim or @options.ltrim
@@ -155,7 +190,7 @@ Parser.prototype.__write =  (chars, end, callback) ->
       @field = ''
       # End of row, flush the row
       if isRowDelimiter
-        @push @line
+        @__push @line
         # Some cleanup for the next row
         @line = []
         i += @options.rowDelimiter.length
@@ -192,13 +227,16 @@ module.exports = ->
   parser = new Parser options
   if data and callback
     called = false
-    chunks = []
+    chunks = if options.objname then {} else []
     process.nextTick ->
       parser.write data
       parser.end()
     parser.on 'readable', ->
       while chunk = parser.read()
-        chunks.push chunk
+        if options.objname
+          chunks[chunk[0]] = chunk[1]
+        else
+          chunks.push chunk
     parser.on 'error', (err) ->
       called = true
       callback err
