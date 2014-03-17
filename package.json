@@ -15,5 +15,8 @@
     "should": "latest"
   },
   "optionalDependencies": {},
-  "main": "./lib"
+  "main": "./lib",
+  "scripts": {
+    "test": "make test"
+  }
 }
