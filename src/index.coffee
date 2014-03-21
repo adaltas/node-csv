@@ -1,80 +1,81 @@
 
-should = require 'should'
-mutate = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+stream = require 'stream'
+util = require 'util'
 
-describe 'mutate', ->
+Transformer = (@options = {}) ->
+  @options.objectMode = true
+  @options.parallel ?= 100
+  stream.Transform.call @, @options
+  @transforms = [] # User transformation callback
+  @running = 0
+  @started = 0
+  @finished = 0
+  @
 
-  describe 'pass rows after inversing columns', ->
+util.inherits Transformer, stream.Transform
 
-    it 'in sync mode', (next) ->
-      data = []
-      generator = csv.generator length: 1000, objectMode: true, seed: 1, headers: 2
-      mutator = generator.pipe mutate {}
-      mutator.transform (row) ->
-        row.push row.shift()
-        row
-      mutator.on 'readable', ->
-        while(d = mutator.read())
-          data.push d
-      mutator.on 'finish', ->
-        data.slice(0,2).should.eql [
-          [ 'ONKCHhJmjadoA', 'OMH' ]
-          [ 'GeACHiN', 'D' ]
-        ]
-        next()
+Transformer.prototype.transform = (options, cb) ->
+  if typeof options is 'function'
+    cb = options
+    options = {}
+  @transforms.push cb
+  @
 
-    it 'in async mode', (next) ->
-      data = []
-      generator = csv.generator length: 1000, objectMode: true, seed: 1, headers: 2
-      mutator = generator.pipe mutate {}
-      mutator.transform (row, callback) ->
-        row.push row.shift()
-        callback null, row
-      mutator.on 'readable', ->
-        while(d = mutator.read())
-          data.push d
-      mutator.on 'finish', ->
-        data.slice(0,2).should.eql [
-          [ 'ONKCHhJmjadoA', 'OMH' ]
-          [ 'GeACHiN', 'D' ]
-        ]
-        next()
+Transformer.prototype._transform = (chunk, encoding, cb) ->
+  @started++
+  @running++
+  if @running < @options.parallel
+    cb()
+    cb = null
+  for transform in @transforms
+    try
+      if transform.length is 2
+        transform.call null, chunk, (err, chunk) =>
+          @_done err, chunk, cb
+      else
+        @_done null, transform.call(null, chunk), cb
+    catch err then @_done err
 
-  it 'in parallel respect running', (next) ->
-    @timeout 0
-    data = []
-    count = 0
-    running = 0
-    generator = csv.generator length: 1000, objectMode: true, highWaterMark: 40, headers: 2, seed: 1
-    mutator = generator.pipe mutate(parallel: 5)
-    mutator.transform (row, next) ->
-      count++
-      running++
-      running.should.be.below 6
-      setTimeout ->
-        running--
-        next null, "#{row[0]},#{row[1]}"
-      , if count < 9 then 1 else Math.ceil Math.random() * 4
-    mutator.on 'readable', ->
-      while(d = mutator.read())
-        data.push d
-    mutator.on 'error', (err) ->
-      next err
-    mutator.on 'finish', ->
-      # count.should.eql 1000
-      data = data.slice(0, 8)
-      data = data.sort (d1,d2) -> d1.toLowerCase() > d2.toLowerCase()
-      data.should.eql [
-        'bgIjadnn,fENLEOMIkbhLDK'
-        'D,GeACHiN'
-        'fENL,Jn'
-        'KB,dmiM'
-        'NIl,JnnmjadnmiNL'
-        'nnmiN,CGfDKB'
-        'OMH,ONKCHhJmjadoA'
-        'opEMIkdmiOMFckep,MIj'
-      ]
-      next()
+Transformer.prototype.end = (chunk, encoding, cb) ->
+  @_ending = ->
+    stream.Transform.prototype.end.call @, chunk, encoding, cb
+  @_ending() if @_ending and @running is 0
+
+Transformer.prototype._done = (err, chunk, cb) ->
+  @running--
+  if err
+    return @emit 'error', err
+  @finished++
+  @push chunk
+  cb() if cb
+  @_ending() if @_ending and @running is 0
+
+###
+`parse(udf, [options])`
+`parse(data, udf, [options], callback)`
+###
+module.exports = (udf, options) ->
+  if arguments.length is 3
+    [data, udf, callback] = arguments
+  else if arguments.length is 4
+    [data, udf, options, callback] = arguments
+  transform = new Transformer options
+  transform.transform udf
+  if callback
+    result = []
+    process.nextTick ->
+      for row in data
+        transform.write row
+      transform.end()
+    transform.on 'readable', ->
+      while(r = transform.read())
+        result.push r
+    transform.on 'error', (err) ->
+      callback err
+    transform.on 'finish', ->
+      callback null, result
+  transform
 
 
+module.exports.Transformer = Transformer
 
