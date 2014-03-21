@@ -1,6 +1,7 @@
 {
   "version": "0.0.0",
   "name": "mutate",
+  "description": "Object transformations implementing the Node.js `stream.Transform` API",
   "repository": {
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-mutate"
@@ -9,8 +10,12 @@
   "devDependencies": {
     "coffee-script": "latest",
     "mocha": "latest",
+    "csv-generate": "latest",
     "should": "latest"
   },
   "optionalDependencies": {},
-  "main": "./lib"
+  "main": "./lib",
+  "scripts": {
+    "test": "make test"
+  }
 }
