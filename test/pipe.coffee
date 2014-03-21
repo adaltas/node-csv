@@ -1,7 +1,7 @@
 
 fs = require 'fs'
 should = require 'should'
-produce = require 'produce'
+generate = require 'csv-generate'
 parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'pipe', ->
@@ -9,7 +9,7 @@ describe 'pipe', ->
   it 'work with producer', (next) ->
     parser = parse()
     data = []
-    producer = produce length: 2, seed: 1, headers: 2, fixed_size: true
+    generator = generate length: 2, seed: 1, headers: 2, fixed_size: true
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
@@ -19,7 +19,7 @@ describe 'pipe', ->
         [ 'D', 'GeACHiN' ]
       ]
       next()
-    producer.pipe(parser)
+    generator.pipe(parser)
 
   it 'catch source error', (next) ->
     parser = parse()
