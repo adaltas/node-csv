@@ -1,9 +1,10 @@
+[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-transform.png)](http://travis-ci.org/wdavidw/node-csv-transform)
 
 This project provide a simple object transformation framework implementing the 
 Node.js `stream.Transform` API. Despite being developed as a part of the Node.js 
 CSV module (`npm install csv`), it could be used indepently.
 
-[Documentation for the mutate module is available here](http://www.adaltas.com/projects/node-csv/mutate).
+[Documentation for the csv-transform module is available here](http://www.adaltas.com/projects/node-csv/transform).
 
 *   Fully Node.js compliant, pipe through it
 *   Run sequentially or in parallel with a define number of callbacks
