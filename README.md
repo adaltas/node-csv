@@ -1,30 +1,35 @@
 [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.png)](http://travis-ci.org/wdavidw/node-csv-parse)
 
-This project is part of the [CSV module](https://github.com/wdavidw/node-csv) and parse input CSV text into 
-arrays or objects. It is both extremely easy to use and powerfull. It was released since 2010 and is tested
-against very large dataset by a large community.
+This project is part of the [CSV module](https://github.com/wdavidw/node-csv) 
+and is a parser converting input CSV text into arrays or objects and 
+implementing the Node.js `stream.Transform` API. It is also providing a simple 
+callback-base API for converniency. It is both extremely easy to use and 
+powerfull. It was released since 2010 and is tested against very large dataset 
+by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
 Note
 ----
 
-This module is to be considered in alpha stage. It is part of an ongoing effort to split the current CSV module 
-into complementary modules with a cleaner design and the latest stream implementation. However, the
-code has been imported with very little changes and you should feel confident to use it in your code.
+This module is to be considered in alpha stage. It is part of an ongoing effort 
+to split the current CSV module into complementary modules with a cleaner design 
+and the latest stream implementation. However, the code has been imported with 
+very little changes and you should feel confident to use it in your code.
 
 Usage
 -----
 
-Run `npm install csv` to install the full csv module or run `npm install csv-parse` if you are only interested 
-by the CSV parser.
+Run `npm install csv` to install the full csv module or run 
+`npm install csv-parse` if you are only interested by the CSV parser.
 
-Use the callback style API for simplicity or the stream based API for scalability.
+Use the callback style API for simplicity or the stream based API for 
+scalability.
 
 ### Using the callback API
 
-The parser receive a string and return an array inside a user-provided callback. This example 
-is available with the command `node samples/callback.js`.
+The parser receive a string and return an array inside a user-provided 
+callback. This example is available with the command `node samples/callback.js`.
 
 ```javascript
 var parse = require('csv-parse');
@@ -64,10 +69,10 @@ parser.end()
 
 ### Using the pipe function
 
-One usefull function part of the Stream API is `pipe` to interact between multiple streams. You
-may use this function to pipe a `stream.Readable` string source to a `stream.Writable` object 
-destination. The next example available as `node samples/pipe.js` read the file, parse its content and
-transform it.
+One usefull function part of the Stream API is `pipe` to interact between 
+multiple streams. You may use this function to pipe a `stream.Readable` string 
+source to a `stream.Writable` object destination. The next example available as 
+`node samples/pipe.js` read the file, parse its content and transform it.
 
 ```javascript
 output = [];
@@ -90,7 +95,8 @@ Migration
 ---------
 
 Most of the generator is imported from its parent project [CSV][csv] in a effort 
-to split it between the generator, the parser, the transformer and the stringifier.
+to split it between the generator, the parser, the transformer and the 
+stringifier.
 
 Development
 -----------
