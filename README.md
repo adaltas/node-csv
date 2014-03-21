@@ -1,7 +1,7 @@
 
-This project provide object transformation.  It implements the latest stream Transform 
-api. While developed as a part of the Node.js CSV module (`npm install csv`), it could 
-be used indepently.
+This project provide a simple object transformation framework implementing the 
+Node.js `stream.Transform` API. Despite being developed as a part of the Node.js 
+CSV module (`npm install csv`), it could be used indepently.
 
 [Documentation for the mutate module is available here](http://www.adaltas.com/projects/node-csv/mutate).
 
@@ -16,8 +16,8 @@ Installation command is `npm install mutate`.
 
 ### Synchronous example with a maximum of 20 concurrent callbacks
 
-You may run this script with the command `node samples/sync.js`. Note how the `use` 
-callback is only requesting one argument, the data to mutate.
+You may run this script with the command `node samples/sync.js`. Note how the 
+`use` callback is only requesting one argument, the data to mutate.
 
 ```javascript
 var mutate = require('mutate');
@@ -36,10 +36,10 @@ mutate()
 
 ### Run sequentially in sequential mode.
 
-You may run this script with the command `node samples/async.js`. The call `parallel(1)` 
-will restrict the number of parallel callback to 1, thus enabling sequential mode. Also, 
-note how the `use` callback is requesting two arguments, the data to mutate and the callback 
-to call when ready.
+You may run this script with the command `node samples/async.js`. The call 
+`parallel(1)` will restrict the number of parallel callback to 1, thus enabling 
+sequential mode. Also, note how the `use` callback is requesting two arguments, 
+the data to mutate and the callback to call when ready.
     
 ```javascript
 var mutate = require('mutate');
@@ -59,23 +59,25 @@ mutate()
 // b,c,d,a
 ```
 
+Migration
+---------
+
+Most of the generator is imported from its parent project [CSV][csv] in a effort 
+to split it between the generator, the parser, the transformer and the 
+stringifier.
+
 Development
 -----------
 
-Tests are executed with mocha. To install it, simple run `npm install`, it will install
-mocha and its dependencies in your project "node_modules" directory.
+Tests are executed with mocha. To install it, simple run `npm install` 
+followed by `npm test`. It will install mocha and its dependencies in your 
+project "node_modules" directory and run the test suite. The tests run 
+against the CoffeeScript source files.
 
-To run the tests:
-```bash
-npm test
-```
+To generate the JavaScript files, run `make build`.
 
-To generate the JavaScript files:
-```bash
-make build
-```
-
-The test suite is run online with [Travis][travis] against Node.js version 0.6, 0.7, 0.8 and 0.9.
+The test suite is run online with [Travis][travis] against the versions 
+0.9, 0.10 and 0.11 of Node.js.
 
 Contributors
 ------------
