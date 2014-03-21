@@ -1,7 +1,6 @@
 
 fs = require 'fs'
 should = require 'should'
-produce = require 'produce'
 parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'write', ->
