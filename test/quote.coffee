@@ -1,7 +1,6 @@
 
 fs = require 'fs'
 should = require 'should'
-produce = require 'produce'
 parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'quote', ->
@@ -92,6 +91,19 @@ describe 'quote error', ->
     "",1974,8.8392926E7,"","
     """, (err, data) ->
       err.message.should.eql 'Quoted field not terminated at line 1'
+      next()
+    
+  it 'when invalid quotes', (next) ->
+    parse """
+      ""  1974    8.8392926E7 ""t ""
+      ""  1974    8.8392926E7 ""  ""
+    """, quote: '"', escape: '"', delimiter: "\t", (err) ->
+      err.message.should.eql 'Invalid closing quote at line 1; found " " instead of delimiter "\\t"'
+      next()
+    
+  it 'when invalid quotes from string', (next) ->
+    parse '"",1974,8.8392926E7,""t,""', quote: '"', escape: '"', (err) ->
+      err.message.should.match /Invalid closing quote/
       next()
     
 
