@@ -1,21 +1,15 @@
 
-var exec = require('child_process').exec;
 var fs = require('fs');
 var parse = require('../lib');
-var mutate = require('../../mutate');
+var transform = require('../../csv-transform');
 
 output = [];
 parser = parse({delimiter: ':'})
-input = fs.createReadStream('/etc/passwd')
-mutator = mutate({parallel: 100})
-mutator.transform(function(row, callback){
-  exec('du -hs '+row[5], function(err, stdout, stderr){
-    if(!err){
-      callback(null, [row[0], stdout]);
-    }else{
-      callback();
-    }
-  });
-});
-input.pipe(parser).pipe(mutator).pipe(process.stdout);
+input = fs.createReadStream('/etc/passwd');
+transformer = transform(function(row, callback){
+  setTimeout(function(){
+    callback(null, row.join(' ')+'\n');
+  }, 500);
+}, {parallel: 10});
+input.pipe(parser).pipe(transformer).pipe(process.stdout);
 
