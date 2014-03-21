@@ -18,7 +18,6 @@ Options may include:
 *   `header`        Display the column names on the first line if the columns option is provided.
                     OR create objects with properties named by header titles (when using to.array)
 *   `lineBreaks`    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
-*   `newColumns`    If the `columns` option is not specified (which means columns will be taken from the reader options, will automatically append new columns if they are added during `transform()`.
 
 Todo:
 
@@ -36,7 +35,6 @@ Stringifier = (options = {}) ->
   @options.columns ?= null
   @options.header ?= false
   @options.lineBreaks ?= null
-  @options.newColumns ?= false
   @options.rowDelimiter ?= '\n'
   # Internal usage, state related
   @countWriten ?= 0
@@ -147,8 +145,8 @@ Stringifier.prototype.stringify = (line) ->
   line
 
 ###
-`parser([options])`
-`parser(data, [options], callback)`
+`stringify([options])`
+`stringify(data, [options], callback)`
 ###
 module.exports = ->
   if arguments.length is 3
