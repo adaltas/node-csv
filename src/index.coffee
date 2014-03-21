@@ -210,8 +210,8 @@ Parser.prototype.__write =  (chars, end, callback) ->
     i++
 
 ###
-`parser([options])`
-`parser(data, [options], callback)`
+`parse([options])`
+`parse(data, [options], callback)`
 ###
 module.exports = ->
   if arguments.length is 3
