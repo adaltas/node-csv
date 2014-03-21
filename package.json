@@ -1,6 +1,6 @@
 {
   "version": "0.0.0",
-  "name": "mutate",
+  "name": "csv-transform",
   "description": "Object transformations implementing the Node.js `stream.Transform` API",
   "repository": {
     "type": "git",
