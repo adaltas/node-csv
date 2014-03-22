@@ -22,7 +22,7 @@ The `preserve` argument is for the lines which are not considered as CSV data.
 ###
 Stringifier.prototype.write = (line) ->
   return unless line?
-  preserve = typeof line isnt 'object'
+  preserve = @csv.options.to.preserveObjects or typeof line isnt 'object'
   # Emit and stringify the record
   unless preserve
     # Emit
