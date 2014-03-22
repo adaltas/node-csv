@@ -1,6 +1,5 @@
 
 should = require 'should'
-produce = require 'produce'
 transform = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'callback', ->
