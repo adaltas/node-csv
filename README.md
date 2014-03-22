@@ -110,4 +110,4 @@ Contributors
 *   David Worms: <https://github.com/wdavidw>
 
 [csv]: https://github.com/wdavidw/node-csv
-[travis]: https://travis-ci.org/#!/wdavidw/node-csv-parser
+[travis]: https://travis-ci.org/#!/wdavidw/node-csv-stringify
