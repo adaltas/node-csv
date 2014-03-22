@@ -1,6 +1,6 @@
 
 should = require 'should'
-produce = require 'produce'
+generate = require 'csv-generate'
 transform = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'parallel', ->
@@ -11,8 +11,8 @@ describe 'parallel', ->
     data = []
     count = 0
     running = 0
-    producer = produce length: 1000, objectMode: true, highWaterMark: 40, headers: 2, seed: 1
-    transformer = producer.pipe transform (row, next) ->
+    generator = generate length: 1000, objectMode: true, highWaterMark: 40, headers: 2, seed: 1
+    transformer = generator.pipe transform (row, next) ->
       count++
       running++
       running.should.be.below 6

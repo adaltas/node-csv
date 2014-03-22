@@ -1,6 +1,6 @@
 
 should = require 'should'
-produce = require 'produce'
+generate = require 'csv-generate'
 transform = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'pipe', ->
@@ -9,8 +9,8 @@ describe 'pipe', ->
 
     it 'in sync mode', (next) ->
       data = []
-      producer = produce length: 1000, objectMode: true, seed: 1, headers: 2
-      transformer = producer.pipe transform (row) ->
+      generator = generate length: 1000, objectMode: true, seed: 1, headers: 2
+      transformer = generator.pipe transform (row) ->
         row.push row.shift()
         row
       transformer.on 'readable', ->
@@ -25,8 +25,8 @@ describe 'pipe', ->
 
     it 'in async mode', (next) ->
       data = []
-      producer = produce length: 1000, objectMode: true, seed: 1, headers: 2
-      transformer = producer.pipe transform (row, callback) ->
+      generator = generate length: 1000, objectMode: true, seed: 1, headers: 2
+      transformer = generator.pipe transform (row, callback) ->
         row.push row.shift()
         callback null, row
       transformer.on 'readable', ->
