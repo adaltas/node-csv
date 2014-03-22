@@ -59,6 +59,7 @@ Stringifier.prototype.headers = ->
 
 Stringifier.prototype.end = (chunk, encoding, callback)->
   @headers() if @countWriten is 0
+  @write @options.rowDelimiter if @options.eof
   stream.Transform.prototype.end.apply @, arguments
 
 Stringifier.prototype.write = (chunk, encoding, callback) ->
