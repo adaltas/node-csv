@@ -6,11 +6,10 @@
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-parse"
   },
-  "dependencies": {
-    "csv-generate": "latest"
-  },
+  "dependencies": {},
   "devDependencies": {
     "coffee-script": "latest",
+    "csv-generate": "latest",
     "mocha": "latest",
     "should": "latest"
   },
