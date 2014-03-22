@@ -1,8 +1,9 @@
+[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-generate.png)](http://travis-ci.org/wdavidw/node-csv-generate)
 
 CSV and object generation
 =========================
 
-This module export a flexible generator of CSV string and Javascript object 
+This module export a flexible generator of CSV string and Javascript objects 
 implementing the Node.js `stream.Readable` API.
 
 Features includes
@@ -36,4 +37,4 @@ Contributors
 *   David Worms: <https://github.com/wdavidw>
 
 [csv]: https://github.com/wdavidw/node-csv
-[travis]: https://travis-ci.org/#!/wdavidw/node-csv-parser
+[travis]: https://travis-ci.org/#!/wdavidw/node-csv-generate
