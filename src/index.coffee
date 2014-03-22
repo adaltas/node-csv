@@ -63,17 +63,20 @@ module.exports = (udf, options) ->
   transform.transform udf
   if callback
     result = []
+    error = false
     process.nextTick ->
       for row in data
+        break if error
         transform.write row
       transform.end()
     transform.on 'readable', ->
       while(r = transform.read())
         result.push r
     transform.on 'error', (err) ->
+      error = true
       callback err
     transform.on 'finish', ->
-      callback null, result
+      callback null, result unless error
   transform
 
 
