@@ -38,4 +38,5 @@ module.exports = ->
     newColumns: false
     end: true
     eof: false
+    preserveObjects: false
 
