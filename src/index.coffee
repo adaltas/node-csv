@@ -20,7 +20,7 @@ Available properties:
 *    `transform.running`   
       The number of transformation callback which have been executed.   
 
-Using the async mode present the advange that more than one record may be 
+Using the async mode present the advantage that more than one record may be 
 emitted per transform callback.
 ###
 
