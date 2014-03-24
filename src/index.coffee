@@ -2,6 +2,28 @@
 stream = require 'stream'
 util = require 'util'
 
+###
+
+# Transformer
+
+Options include:
+
+*   `parallel` (number)   
+     The number of transformation callbacks to run in parallel, default to 100.
+
+Available properties:
+
+*    `transform.running`   
+      The number of transformation callback being run at a given time.   
+*    `transform.started`   
+      The number of transformation callback which have been initiated.   
+*    `transform.running`   
+      The number of transformation callback which have been executed.   
+
+Using the async mode present the advange that more than one record may be 
+emitted per transform callback.
+###
+
 Transformer = (@options = {}) ->
   @options.objectMode = true
   @options.parallel ?= 100
@@ -14,7 +36,7 @@ Transformer = (@options = {}) ->
 
 util.inherits Transformer, stream.Transform
 
-Transformer.prototype.transform = (options, cb) ->
+Transformer.prototype.register = (options, cb) ->
   if typeof options is 'function'
     cb = options
     options = {}
@@ -30,10 +52,10 @@ Transformer.prototype._transform = (chunk, encoding, cb) ->
   for transform in @transforms
     try
       if transform.length is 2
-        transform.call null, chunk, (err, chunk) =>
-          @_done err, chunk, cb
+        transform.call null, chunk, (err, chunks...) =>
+          @_done err, chunks, cb
       else
-        @_done null, transform.call(null, chunk), cb
+        @_done null, [transform.call(null, chunk)], cb
     catch err then @_done err
 
 Transformer.prototype.end = (chunk, encoding, cb) ->
@@ -41,12 +63,14 @@ Transformer.prototype.end = (chunk, encoding, cb) ->
     stream.Transform.prototype.end.call @, chunk, encoding, cb
   @_ending() if @_ending and @running is 0
 
-Transformer.prototype._done = (err, chunk, cb) ->
+Transformer.prototype._done = (err, chunks, cb) ->
   @running--
   if err
     return @emit 'error', err
   @finished++
-  @push chunk
+  for chunk in chunks
+    chunk = "#{chunk}" if typeof chunk is 'number'
+    @push chunk if chunk?
   cb() if cb
   @_ending() if @_ending and @running is 0
 
@@ -60,7 +84,7 @@ module.exports = (udf, options) ->
   else if arguments.length is 4
     [data, udf, options, callback] = arguments
   transform = new Transformer options
-  transform.transform udf
+  transform.register udf
   if callback
     result = []
     error = false
