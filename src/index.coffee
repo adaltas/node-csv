@@ -80,6 +80,11 @@ Generator = (@options = {}) ->
   @
 util.inherits Generator, stream.Readable
 
+###
+`random`
+
+Generate a random number between 0 and 1 with 2 decimals.
+###
 Generator.prototype.random = ->
   if @options.seed
     @options.seed = @options.seed * Math.PI * 100 % 100 / 100
@@ -89,32 +94,7 @@ Generator.prototype.random = ->
 Generator.prototype.end = ->
   @push null
 
-# Generator.prototype._read = (size) ->
-#   # Already started
-#   length = @options.fixed_size_buffer.length
-#   @push @options.fixed_size_buffer if length
-#   while true
-#     return @end() if @count++ is @options.length
-#     return @end() if  @options.end and Date.now() > @options.end
-#     # Create the line
-#     line = []
-#     for header in @options.headers
-#       # Create the field
-#       line.push header @
-#     # Convert the line to a string
-#     line = "#{if @count is 1 then '' else '\n'}#{line.join ','}"
-#     if length + line.length > size
-#       if @options.fixed_size
-#         @options.fixed_size_buffer = line.substr size - length 
-#         @push line.substr 0, size - length
-#       else
-#         @push line
-#       break
-#     length += line.length
-#     @push line
-
 Generator.prototype._read = (size) ->
-  # console.log 'GENERATE', size
   # Already started
   data = []
   length = @options.fixed_size_buffer.length
@@ -174,5 +154,37 @@ Generator.int = (gen) ->
 Generator.bool = (gen) ->
   Math.floor gen.random() * 2
 
-module.exports = (options) -> new Generator options
+###
+`generate([options])`
+`generate([options], callback)`
+###
+module.exports = ->
+  if arguments.length is 2
+    options = arguments[0]
+    callback = arguments[1]
+  else if arguments.length is 1
+    if typeof arguments[0] is 'function'
+      options = {}
+      callback = arguments[0]
+    else 
+      options = arguments[0]
+  else if arguments.length is 0
+    options = {}
+  generator = new Generator options
+  if callback
+    data = []
+    generator.on 'readable', ->
+      while d = generator.read()
+        data.push if options.objectMode then d else d.toString()
+    generator.on 'error', callback
+    generator.on 'end', ->
+      callback null, if options.objectMode then data else data.join ''
+  generator
 module.exports.Generator = Generator
+
+
+
+
+
+
+
