@@ -30,8 +30,7 @@ describe 'generate', ->
     ended = false
     generator = generate encoding: 'utf8', highWaterMark: 1024
     generator.on 'readable', ->
-      while(data = generator.read())
-        # util.print data.length+'\n'
+      while d = generator.read()
         ended.should.not.be.ok
         if count++ is 100
           ended = true
@@ -47,8 +46,7 @@ describe 'generate', ->
     data = []
     generator = generate seed: 1, highWaterMark: 32
     generator.on 'readable', ->
-      while(d = generator.read())
-        # util.print d.length+'\n'
+      while d = generator.read()
         data.push d
         ended.should.not.be.ok
         if count++ is 2
@@ -70,7 +68,7 @@ describe 'generate', ->
     data = []
     generator = generate headers: 3
     generator.on 'readable', ->
-      while(d = generator.read())
+      while d = generator.read()
         data.push d
         if count++ is 2
           generator.end()
@@ -90,7 +88,7 @@ describe 'generate', ->
       -> 'b'
     ]
     generator.on 'readable', ->
-      while(d = generator.read())
+      while d = generator.read()
         data.push d
         if count++ is 2
           generator.end()
@@ -107,7 +105,7 @@ describe 'generate', ->
     data = []
     generator = generate headers: ['int', 'bool'], seed: 1
     generator.on 'readable', ->
-      while(d = generator.read())
+      while d = generator.read()
         data.push d
         if count++ is 2
           generator.end()
@@ -124,7 +122,7 @@ describe 'generate', ->
     data = ''
     generator = generate length: 3
     generator.on 'readable', ->
-      while(d = generator.read())
+      while d = generator.read()
         data += d
     generator.on 'error', next
     generator.on 'end', ->
@@ -157,7 +155,7 @@ describe 'generate', ->
       rows = []
       generator = generate length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 1
       generator.on 'readable', ->
-        while(row = generator.read())
+        while row = generator.read()
           rows.push row
       generator.on 'error', next
       generator.on 'end', ->
@@ -211,5 +209,8 @@ describe 'generate', ->
       for value in values then value.should.be.within 100, 130
       generator.on 'error', next
       generator.on 'end', next
+
+
+
 
 
