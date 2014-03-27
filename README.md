@@ -115,7 +115,7 @@ To generate the JavaScript files:
 make build
 ```
 
-The test suite is run online with [Travis][travis] against Node.js version 0.6, 0.7, 0.8 and 0.9.
+The test suite is run online with [Travis][travis] against Node.js version 0.9 and 0.10.
 
 Contributors
 ------------
