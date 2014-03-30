@@ -132,7 +132,11 @@ Parser.prototype.write =  (chars, end) ->
           @field = @field.substr 0, @closingQuote
         else
           @field = @field.trimRight()
-      @line.push @field
+
+      if /^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/.test(@field)
+        @line.push parseFloat(@field)
+      else
+        @line.push @field
       @closingQuote = 0
       @field = ''
       # End of row, flush the row

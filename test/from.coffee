@@ -21,6 +21,15 @@ describe 'from', ->
       .on 'end', ->
         next()
 
+    it 'should parse a string of numbers', (next) ->
+      csv()
+      .from('1,2,3,4,5')
+      .on 'record', (record) ->
+        record.length.should.eql 5
+        (typeof record[0]).should.eql 'number'
+      .on 'end', ->
+        next()
+
     it 'should parse an array', (next) ->
       csv()
       .from(['"1","2","3","4","5"',['1','2','3','4','5']])
@@ -34,6 +43,15 @@ describe 'from', ->
       .from("#{__dirname}/from/file.csv")
       .on 'record', (record) ->
         record.length.should.eql 5
+      .on 'end', ->
+        next()
+
+    it 'should parse a file', (next) ->
+      csv()
+      .from("#{__dirname}/from/numbers.csv")
+      .on 'record', (record) ->
+        record.length.should.eql 5
+        (typeof record[0]).should.eql 'number'
       .on 'end', ->
         next()
 
