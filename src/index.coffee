@@ -37,7 +37,6 @@ Parser = (options = {}) ->
   @options.ltrim ?= false
   @options.rtrim ?= false
   @options.auto_parse ?= false
-
   # Counter
   @lines = 0
   # Internal usage, state related
