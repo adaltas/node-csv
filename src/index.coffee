@@ -19,6 +19,7 @@ Options may include:
 *   `trim`          If true, ignore whitespace immediately around the delimiter, defaults to false.
 *   `ltrim`         If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
 *   `rtrim`         If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
+*   `auto_parse`    If true, the parser will attempt to convert read data types to native types
 
 ###
 Parser = (options = {}) ->
@@ -35,6 +36,8 @@ Parser = (options = {}) ->
   @options.trim ?= false
   @options.ltrim ?= false
   @options.rtrim ?= false
+  @options.auto_parse ?= false
+
   # Counter
   @lines = 0
   # Internal usage, state related
@@ -47,6 +50,7 @@ Parser = (options = {}) ->
   @closingQuote = 0
   @line = [] # Current line being processed
   @chunks = []
+  @floatRegexp = /^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/
   @
 
 util.inherits Parser, stream.Transform
@@ -186,7 +190,11 @@ Parser.prototype.__write =  (chars, end, callback) ->
           @field = @field.substr 0, @closingQuote
         else
           @field = @field.trimRight()
-      @line.push @field
+
+      if (@options.auto_parse and @floatRegexp.test(@field))
+        @line.push parseFloat(@field)
+      else
+        @line.push @field
       @closingQuote = 0
       @field = ''
       # End of row, flush the row
