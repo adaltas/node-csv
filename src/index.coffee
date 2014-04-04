@@ -2,8 +2,6 @@
 stream = require 'stream'
 util = require 'util'
 
-
-
 ###
 
 `Parser([options])`
@@ -15,7 +13,7 @@ Options may include:
 *   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
 *   `quote`         Optionnal character surrounding a field, one character only, defaults to double quotes.
 *   `escape`        Set the escape character, one character only, defaults to double quotes.
-*   `columns`       List of fields or true if autodiscovered in the first CSV line, default to null. Impact the `transform` argument and the `data` event by providing an object instead of an array, order matters, see the transform and the columns sections for more details.
+*   `columns`       List of fields as an array, a user defined callback accepting the first line and returning the column names or true if autodiscovered in the first CSV line, default to null, affect the result data set in the sense that records will be objects instead of arrays.   
 *   `comment`       Treat all the characteres after this one as a comment, default to '#'
 *   `objname`       Name of header-record title to name objects by.
 *   `trim`          If true, ignore whitespace immediately around the delimiter, defaults to false.
@@ -82,6 +80,9 @@ Parser.prototype._flush = (callback) ->
 Parser.prototype.__push = (line) ->
   if @options.columns is true
     @options.columns = line
+    return
+  else if typeof @options.columns is 'function'
+    @options.columns = @options.columns line
     return
   if @options.columns?
     lineAsColumns = {}
