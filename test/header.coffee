@@ -4,6 +4,15 @@ stringify = if process.env.CSV_COV then require '../lib-cov' else require '../sr
 
 describe 'header', ->
 
+  it 'as true with received objects', (next) ->
+    stringify [
+      {field1: 'val11', field2: 'val12', field3: 'val13'}
+      {field1: 'val21', field2: 'val22', field3: 'val23'}
+    ], header: true, (err, data) ->
+      return next err if err
+      data.should.eql 'field1,field2,field3\nval11,val12,val13\nval21,val22,val23'
+      next()
+
   it 'emit header', (next) ->
     count = 0
     data = ''

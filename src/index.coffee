@@ -9,12 +9,11 @@ util = require 'util'
 
 Options may include:
 
-*   `columns`       List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additionnal information.
+*   `columns`       List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additionnal information, columns are auto discovered when the user write object, see the "header" option on how to print columns names on the first line.
 *   `delimiter`     Set the field delimiter, one character only, defaults to `options.from.delimiter` which is a comma.
-*   `eof`          Add a linebreak on the last line, default to false, expect a charactere or use '\n' if value is set to "true"
+*   `eof`           Add a linebreak on the last line, default to false, expect a charactere or use '\n' if value is set to "true"
 *   `escape`        Defaults to the escape read option.
-*   `header`        Display the column names on the first line if the columns option is provided.
-                    OR create objects with properties named by header titles (when using to.array)
+*   `header`        Display the column names on the first line if the columns option is provided or discovered.   
 *   `lineBreaks`    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
 *   `quote`         Defaults to the quote read option.
 *   `quoted`        Boolean, default to false, quote all the fields even if not required.
@@ -67,6 +66,7 @@ Stringifier.prototype.write = (chunk, encoding, callback) ->
   preserve = typeof chunk isnt 'object'
   # Emit and stringiy the record
   unless preserve
+    @options.columns ?= Object.keys chunk if @countWriten is 0 and not Array.isArray chunk
     try @emit 'record', chunk, @countWriten
     catch e then return @emit 'error', e
     # Convert the record into a string
