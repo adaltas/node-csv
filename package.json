@@ -9,6 +9,7 @@
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "latest",
+    "pad": "latest",
     "mocha": "latest",
     "csv-generate": "latest",
     "should": "latest"
