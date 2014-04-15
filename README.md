@@ -13,16 +13,16 @@ CSV module (`npm install csv`), it could be used indepently.
 Usage
 -----
 
-Installation command is `npm install mutate`.
+Installation command is `npm install csv-transform`.
 
 ### Synchronous example with a maximum of 20 concurrent callbacks
 
 You may run this script with the command `node samples/sync.js`. Note how the 
-`use` callback is only requesting one argument, the data to mutate.
+`use` callback is only requesting one argument, the data to transform.
 
 ```javascript
-var mutate = require('mutate');
-mutate()
+var transform = require('csv-transform');
+transform()
 .parallel(20)
 .use(function(data){
   data.push(data.shift())
@@ -40,11 +40,11 @@ mutate()
 You may run this script with the command `node samples/async.js`. The call 
 `parallel(1)` will restrict the number of parallel callback to 1, thus enabling 
 sequential mode. Also, note how the `use` callback is requesting two arguments, 
-the data to mutate and the callback to call when ready.
+the data to transform and the callback to call when ready.
     
 ```javascript
-var mutate = require('mutate');
-mutate()
+var transform = require('csv-transform');
+transform()
 .parallel(1)
 .use(function(row, callback){
   setImmediate(function(){

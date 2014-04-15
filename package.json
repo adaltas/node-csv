@@ -4,7 +4,7 @@
   "description": "Object transformations implementing the Node.js `stream.Transform` API",
   "repository": {
     "type": "git",
-    "url": "http://www.github.com/wdavidw/node-mutate"
+    "url": "http://www.github.com/wdavidw/node-csv-transform"
   },
   "dependencies": {},
   "devDependencies": {
