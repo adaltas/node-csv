@@ -1,7 +1,4 @@
 
-fs = require 'fs'
-stream = require 'stream'
-util = require 'util'
 should = require 'should'
 generate = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
