@@ -62,6 +62,7 @@ csv.generate(seed: 1).pipe(csv.stringify).pipe(process.stdout)
 ###
 Generator = (@options = {}) ->
   stream.Readable.call @, @options
+  @options.count = 0 # Number of generated lines or records
   @options.duration ?= 4 * 60 * 1000
   @options.headers ?= 8
   @options.max_word_length ?= 16
@@ -106,8 +107,10 @@ Generator.prototype._read = (size) ->
       if data.length
         if @options.objectMode
           for line in data
+            @count++
             @push line
         else
+          @count++
           @push data.join ''
       # Stop
       return @push null
@@ -128,6 +131,7 @@ Generator.prototype._read = (size) ->
       if @options.objectMode
         data.push line
         for line in data
+          @count++
           @push line
       else 
         if @options.fixed_size
@@ -135,6 +139,7 @@ Generator.prototype._read = (size) ->
           data.push line.substr 0, size - length
         else
           data.push line
+        @count++
         @push data.join ''
       break
     length += lineLength
