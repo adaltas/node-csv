@@ -1,5 +1,4 @@
 
-fs = require 'fs'
 stream = require 'stream'
 util = require 'util'
 should = require 'should'
@@ -14,7 +13,6 @@ describe 'generate', ->
     generator = generate encoding: 'utf8', fixed_size: true, highWaterMark: 1024
     generator.on 'readable', ->
       while(data = generator.read())
-        # util.print data.length+'\n'
         ended.should.not.be.ok
         data.length.should.eql if count then 1024 else 2048
         if count++ is 100
