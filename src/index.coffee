@@ -72,6 +72,7 @@ Generator = (@options = {}) ->
   @options.end ?= null
   @options.seed ?= false
   @options.length ?= -1
+  @options.delimiter ?= ','
   @count = 0
   if typeof @options.headers is 'number'
     @options.headers = new Array @options.headers
@@ -125,7 +126,7 @@ Generator.prototype._read = (size) ->
       lineLength += column.length for column in line
     else
       # Stringify the line
-      line = "#{if @count is 1 then '' else '\n'}#{line.join ','}"
+      line = "#{if @count is 1 then '' else '\n'}#{line.join @options.delimiter}"
       lineLength = line.length
     if length + lineLength > size
       if @options.objectMode
