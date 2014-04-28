@@ -53,6 +53,7 @@ All options are optional.
 Print the header line.
 
     Stringifier.prototype.headers = ->
+      return unless @options.header
       labels = @options.columns
       # If columns is an object, keys are fields and values are labels
       if typeof labels is 'object' then labels = for k, label of labels then label
@@ -77,7 +78,7 @@ Print the header line.
         chunk = @options.rowDelimiter + chunk if @options.header or @countWriten
       # Emit the csv
       chunk = "#{chunk}" if typeof chunk is 'number'
-      @headers() if @options.header and @countWriten is 0
+      @headers() if @countWriten is 0
       @countWriten++ unless preserve
       stream.Transform.prototype.write.call @, chunk
 
