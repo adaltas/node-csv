@@ -21,14 +21,14 @@ advanced CSV parser and stringifier.
 IMPORTANT
 ---------
 
-There is at the moment an important re-design of this module. The project will be split into 4 modules:   
+There is at the moment an important re-design of this module. The project is now splited into 4 packages:   
 
 *   [`csv-generate`](https://github.com/wdavidw/node-csv-generate), a flexible generator of CSV string and Javascript objects.   
 *   [`csv-parse`](https://github.com/wdavidw/node-csv-parse), a parser converting CSV text into arrays or objects.   
-*   [`csv-transform`](https://github.com/wdavidw/node-csv-transform), a simple object transformation framework.
+*   [`stream-transform`](https://github.com/wdavidw/node-stream-transform), a transformation framework.
 *   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), a stringifier converting records into a CSV text.   
 
-All the modules are fully be compatible with the stream 2 and 3 specifications. Also, a simple callback-based API is provided. Those modules are already released and usable separately. They will soon be available as part of this module. We are in the process of dispatching the full test cases into their appropriate module.
+Each modules are fully be compatible with the stream 2 and 3 specifications. Also, a simple callback-based API is provided. Those modules are already released and usable separately. They will soon be available as part of this module. We are in the process of dispatching the full test cases into their appropriate module.
 
 Usage
 -----
