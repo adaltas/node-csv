@@ -77,4 +77,9 @@ describe 'header', ->
       data.should.eql 'some,headers'
       next()
 
+  it 'should not print headers if no records to parse and no header option', (next) ->
+    stringify [], header: false, columns: ['some', 'headers'], (err, data) ->
+      data.should.eql ''
+      next()
+
 
