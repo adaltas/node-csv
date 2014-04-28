@@ -1,11 +1,12 @@
 {
   "version": "0.0.1",
-  "name": "csv-transform",
+  "name": "stream-transform",
   "description": "Object transformations implementing the Node.js `stream.Transform` API",
   "repository": {
     "type": "git",
-    "url": "http://www.github.com/wdavidw/node-csv-transform"
+    "url": "http://www.github.com/wdavidw/node-stream-transform"
   },
+  "keywords": [ "stream", "transform", "csv", "object" ],
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "latest",
