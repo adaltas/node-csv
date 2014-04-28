@@ -1,10 +1,10 @@
-[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-transform.png)](http://travis-ci.org/wdavidw/node-csv-transform)
+[![Build Status](https://secure.travis-ci.org/wdavidw/node-stream-transform.png)](http://travis-ci.org/wdavidw/node-stream-transform)
 
 This project provide a simple object transformation framework implementing the 
 Node.js `stream.Transform` API. Despite being developed as a part of the Node.js 
 CSV module (`npm install csv`), it could be used indepently.
 
-[Documentation for the csv-transform module is available here](http://www.adaltas.com/projects/node-csv/transform).
+[Documentation for the stream-transform package is available here](https://github.com/wdavidw/node-stream-transform).
 
 *   Fully Node.js compliant, pipe through it
 *   Run sequentially or in parallel with a define number of callbacks
@@ -13,15 +13,15 @@ CSV module (`npm install csv`), it could be used indepently.
 Usage
 -----
 
-Installation command is `npm install csv-transform`.
+Installation command is `npm install stream-transform`.
 
-### Synchronous example with a maximum of 20 concurrent callbacks
+### Concurrent example with a maximum of 20 parrallel functions
 
 You may run this script with the command `node samples/sync.js`. Note how the 
 `use` callback is only requesting one argument, the data to transform.
 
 ```javascript
-var transform = require('csv-transform');
+var transform = require('stream-transform');
 transform()
 .parallel(20)
 .use(function(data){
@@ -35,7 +35,7 @@ transform()
 // b,c,d,a
 ```
 
-### Run sequentially in sequential mode.
+### Synchronous example
 
 You may run this script with the command `node samples/async.js`. The call 
 `parallel(1)` will restrict the number of parallel callback to 1, thus enabling 
@@ -43,7 +43,7 @@ sequential mode. Also, note how the `use` callback is requesting two arguments,
 the data to transform and the callback to call when ready.
     
 ```javascript
-var transform = require('csv-transform');
+var transform = require('stream-transform');
 transform()
 .parallel(1)
 .use(function(row, callback){
@@ -86,5 +86,5 @@ Contributors
 *	  David Worms: <https://github.com/wdavidw>
 
 [csv]: https://github.com/wdavidw/node-csv
-[travis]: https://travis-ci.org/#!/wdavidw/node-csv-transform
+[travis]: https://travis-ci.org/#!/wdavidw/node-stream-transform
 
