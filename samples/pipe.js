@@ -1,7 +1,7 @@
 
 var fs = require('fs');
 var parse = require('../lib');
-var transform = require('../../csv-transform');
+var transform = require('../../stream-transform');
 
 output = [];
 parser = parse({delimiter: ':'})
