@@ -25,6 +25,9 @@ Run `npm install csv` to install the full csv module or run
 Use the callback style API for simplicity or the stream based API for 
 scalability.
 
+For examples, refer to [the "samples" folder][csv-samples], 
+the documentation or [the "test" folder][csv-test].
+
 ### Using the callback API
 
 The parser receive a string and return an array inside a user-provided 
@@ -132,5 +135,7 @@ Related projects
 *   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
 
 [csv]: https://github.com/wdavidw/node-csv
+[csv-samples]: https://github.com/wdavidw/node-csv-parse/tree/master/samples
+[csv-test]: https://github.com/wdavidw/node-csv-parse/tree/master/test
 [travis]: https://travis-ci.org/#!/wdavidw/node-csv-parse
 
