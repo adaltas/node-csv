@@ -2,9 +2,9 @@
 should = require 'should'
 stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'write', ->
+describe 'API write', ->
   
-  it 'Test write array', (next) ->
+  it 'arrays', (next) ->
     count = 0
     data = ''
     stringifier = stringify eof: false
@@ -34,7 +34,7 @@ describe 'write', ->
       stringifier.write ["Test #{i}", i, '"']
     stringifier.end()
   
-  it 'Test write object with column options', (next) ->
+  it 'objects with column options', (next) ->
     count = 0
     data = ''
     stringifier = stringify(columns: ['name','value','escape'], eof: false)
@@ -66,7 +66,7 @@ describe 'write', ->
     stringifier.end()
   
   it 'throw error if not writable', (next) ->
-    stringifier = stringify eof: false
+    stringifier = stringify()
     stringifier.on 'error', (err) ->
       err.message.should.eql 'write after end'
       next()
