@@ -1,18 +1,17 @@
 [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.png)](http://travis-ci.org/wdavidw/node-csv-parse)
 
-This project is part of the [CSV module](https://github.com/wdavidw/node-csv) 
-and is a parser converting input CSV text into arrays or objects and 
-implementing the Node.js `stream.Transform` API. It is also providing a simple 
-callback-base API for converniency. It is both extremely easy to use and 
-powerfull. It was released since 2010 and is tested against very large dataset 
-by a large community.
+Part of the [CSV module](https://github.com/wdavidw/node-csv), this project is a
+parser converting CSV text input into arrays or objects. It implements the 
+Node.js `stream.Transform` API. It also provides a simple callback-base API for
+converniency. It is both extremely easy to use and powerfull. It was first 
+released in 2010 and is used against big datasets by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
 Note
 ----
 
-This module is to be considered in alpha stage. It is part of an ongoing effort 
+This module is to be considered in beta stage. It is part of an ongoing effort 
 to split the current CSV module into complementary modules with a cleaner design 
 and the latest stream implementation. However, the code has been imported with 
 very little changes and you should feel confident to use it in your code.
