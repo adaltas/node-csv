@@ -103,6 +103,5 @@ module.exports = (udf, options) ->
       callback null, result unless error
   transform
 
-
 module.exports.Transformer = Transformer
 
