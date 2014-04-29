@@ -8,7 +8,7 @@ describe 'delimiter', ->
     stringify [
       [ '20322051544','','8.8017226E7','45','']
       [ '','1974','8.8392926E7','','']
-    ], (err, data) ->
+    ], eof: false, (err, data) ->
       return next err if err
       data.should.eql """
       20322051544,,8.8017226E7,45,
@@ -20,7 +20,7 @@ describe 'delimiter', ->
     stringify [
       [ '20322051544','','8.8017226E7','45','']
       [ '','1974','8.8392926E7','','']
-    ], delimiter: '\t', (err, data) ->
+    ], delimiter: '\t', eof: false, (err, data) ->
       return next err if err
       data.should.eql """
       20322051544\t\t8.8017226E7\t45\t

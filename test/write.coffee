@@ -7,7 +7,7 @@ describe 'write', ->
   it 'Test write array', (next) ->
     count = 0
     data = ''
-    stringifier = stringify()
+    stringifier = stringify eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
@@ -37,7 +37,7 @@ describe 'write', ->
   it 'Test write object with column options', (next) ->
     count = 0
     data = ''
-    stringifier = stringify(columns: ['name','value','escape'])
+    stringifier = stringify(columns: ['name','value','escape'], eof: false)
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
@@ -66,7 +66,7 @@ describe 'write', ->
     stringifier.end()
   
   it 'throw error if not writable', (next) ->
-    stringifier = stringify()
+    stringifier = stringify eof: false
     stringifier.on 'error', (err) ->
       err.message.should.eql 'write after end'
       next()
