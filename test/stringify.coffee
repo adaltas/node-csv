@@ -9,7 +9,7 @@ describe 'stringify', ->
   it 'implement transform', (next) ->
     data = ''
     generator = generate length: 2, objectMode: true, seed: 1, headers: 2
-    stringifier = stringify()
+    stringifier = stringify eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
@@ -29,7 +29,7 @@ describe 'stringify', ->
   it 'pipe to file', (next) ->
     data = ''
     generator = generate length: 2, objectMode: true, seed: 1, headers: 2
-    stringifier = stringify()
+    stringifier = stringify eof: false
     ws = fs.createWriteStream '/tmp/large.out'
     generator.pipe(stringifier).pipe(ws).on 'finish', ->
       fs.readFile '/tmp/large.out', 'ascii', (err, data) ->
@@ -42,11 +42,10 @@ describe 'stringify', ->
   it 'pipe', (next) ->
     data = ''
     generator = generate length: 2, objectMode: true, seed: 1, headers: 2
-    stringifier = generator.pipe stringify()
+    stringifier = generator.pipe stringify eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
-   
     stringifier.on 'finish', ->
       data.should.eql """
       OMH,ONKCHhJmjadoA

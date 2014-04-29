@@ -8,7 +8,7 @@ describe 'quoted', ->
   it 'surround fields', (next) ->
     count = 0
     data = ''
-    stringifier = stringify quoted: true
+    stringifier = stringify quoted: true, eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d

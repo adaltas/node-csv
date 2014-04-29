@@ -26,6 +26,7 @@ All options are optional.
       @options.delimiter ?= ','
       @options.quote ?= '"'
       @options.quoted ?= false
+      @options.eof ?= true
       @options.escape ?= '"'
       @options.columns ?= null
       @options.header ?= false
@@ -50,32 +51,38 @@ All options are optional.
 
 ## `Stringifier.prototype.headers`
 
-Print the header line.
+Print the header line if the option "header" is "true".
 
     Stringifier.prototype.headers = ->
       return unless @options.header
       labels = @options.columns
       # If columns is an object, keys are fields and values are labels
       if typeof labels is 'object' then labels = for k, label of labels then label
-      labels = @stringify labels
+      if @options.eof
+        labels = @stringify(labels) + @options.rowDelimiter
+      else
+        labels = @stringify(labels)
       stream.Transform.prototype.write.call @, labels
 
     Stringifier.prototype.end = (chunk, encoding, callback)->
       @headers() if @countWriten is 0
-      @write @options.rowDelimiter if @options.eof
+      # @write @options.rowDelimiter if @options.eof
       stream.Transform.prototype.end.apply @, arguments
 
     Stringifier.prototype.write = (chunk, encoding, callback) ->
       return unless chunk?
       preserve = typeof chunk isnt 'object'
-      # Emit and stringiy the record
+      # Emit and stringify the record
       unless preserve
         @options.columns ?= Object.keys chunk if @countWriten is 0 and not Array.isArray chunk
         try @emit 'record', chunk, @countWriten
         catch e then return @emit 'error', e
         # Convert the record into a string
-        chunk = @stringify chunk
-        chunk = @options.rowDelimiter + chunk if @options.header or @countWriten
+        if @options.eof
+          chunk = @stringify(chunk) + @options.rowDelimiter
+        else
+          chunk = @stringify(chunk)
+          chunk = @options.rowDelimiter + chunk if @options.header or @countWriten
       # Emit the csv
       chunk = "#{chunk}" if typeof chunk is 'number'
       @headers() if @countWriten is 0
