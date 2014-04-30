@@ -2,10 +2,10 @@ csv = require('..');
 
 // To array, using the header row as column names
 csv()
-.from.path(__dirname + "/header-based-columns.in")
+.from.path(__dirname + "/header-based-columns.in", {"columns": true})
 .to.array( function(data){
 	console.log(data);
-}, {"header":true});
+});
 
 /*
 
