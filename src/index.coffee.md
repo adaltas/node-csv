@@ -1,30 +1,41 @@
 
 
-`Parser([options])`
--------------------
+# `Parser([options])`
 
-Options may include:
+This module provides a CSV parser tested and used against large datasets. Over
+the year, it has been enhance and is now full of useful options.
 
-*   `delimiter`     Set the field delimiter. One character only, defaults to comma.
-*   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
-*   `quote`         Optionnal character surrounding a field, one character only, defaults to double quotes.
-*   `escape`        Set the escape character, one character only, defaults to double quotes.
-*   `columns`       List of fields as an array, a user defined callback accepting the first line and returning the column names or true if autodiscovered in the first CSV line, default to null, affect the result data set in the sense that records will be objects instead of arrays.   
-*   `comment`       Treat all the characteres after this one as a comment, default to '#'
-*   `objname`       Name of header-record title to name objects by.
-*   `trim`          If true, ignore whitespace immediately around the delimiter, defaults to false.
-*   `ltrim`         If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
-*   `rtrim`         If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
-*   `auto_parse`    If true, the parser will attempt to convert read data types to native types
+*   Follow the Node.js streaming API   
+*   Support delimiters, quotes, escape characters and comments   
+*   Line breaks discovery   
+*   Support big datasets   
+*   Complete test coverage and samples for inspiration   
+*   no external dependencies   
+*   to be used conjointly with `csv-generate`, `stream-transform` and `csv-stringify`   
+
+## Legacy
+
+Important: this documentation covers the latest version (0.3.x) of 
+`node-csv-parser`. Older version are available on GitHub: 
+[0.1.x](https://github.com/wdavidw/node-csv/tree/v0.1), 
+[0.2.x](https://github.com/wdavidw/node-csv/tree/v0.2).
+
+## Installation
+
+```bash
+npm install csv
+```
+
+## Usage
 
 There are two ways to use the parser:
 
 *   `parse(data, [options], callback)`   
     Callback approach, for ease of use.   
-*   `parse([options])`   
+*   `parse([options], [callback])`   
     Stream API, for maximum of power.   
 
-Read the readme file and look inside the samples modules to discover its usage.
+Look at the examples below to discover the usage.
 
     module.exports = ->
       if arguments.length is 3
@@ -32,18 +43,22 @@ Read the readme file and look inside the samples modules to discover its usage.
         options = arguments[1]
         callback = arguments[2]
       else if arguments.length is 2
-        data = arguments[0]
+        if typeof arguments[0] is 'string'
+          data = arguments[0]
+        else
+          options = arguments[0]
         callback = arguments[1]
       else if arguments.length is 1
         options = arguments[0]
       options ?= {}
       parser = new Parser options
-      if data and callback
+      if data or callback
         called = false
         chunks = if options.objname then {} else []
-        process.nextTick ->
-          parser.write data
-          parser.end()
+        if data
+          process.nextTick ->
+            parser.write data
+            parser.end()
         parser.on 'readable', ->
           while chunk = parser.read()
             if options.objname
@@ -60,7 +75,19 @@ Read the readme file and look inside the samples modules to discover its usage.
     stream = require 'stream'
     util = require 'util'
 
-The Parser implement a [`stream.Transform` class][transform].
+*   `delimiter`     Set the field delimiter. One character only, defaults to comma.   
+*   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).   
+*   `quote`         Optionnal character surrounding a field, one character only, defaults to double quotes.   
+*   `escape`        Set the escape character, one character only, defaults to double quotes.   
+*   `columns`       List of fields as an array, a user defined callback accepting the first line and returning the column names or true if autodiscovered in the first CSV line, default to null, affect the result data set in the sense that records will be objects instead of arrays.   
+*   `comment`       Treat all the characteres after this one as a comment, default to '#'.   
+*   `objname`       Name of header-record title to name objects by.   
+*   `trim`          If true, ignore whitespace immediately around the delimiter, defaults to false.   
+*   `ltrim`         If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.   
+*   `rtrim`         If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.   
+*   `auto_parse`    If true, the parser will attempt to convert read data types to native types.   
+
+All options are optional.
 
     Parser = (options = {}) ->
       options.objectMode = true
@@ -79,7 +106,7 @@ The Parser implement a [`stream.Transform` class][transform].
       @options.auto_parse ?= false
       # Counter
       @lines = 0
-      # Internal usage, state related
+      # Internal state
       @buf = ''
       @quoting = false
       @commenting = false
@@ -92,6 +119,15 @@ The Parser implement a [`stream.Transform` class][transform].
       @floatRegexp = /^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/
       @
 
+## Interal API
+
+The Parser implement a [`stream.Transform` class][transform].
+
+### Events
+
+The library extends Node [EventEmitter][event] class and emit all
+the events of the Writable and Readable [Stream API][stream]. 
+
     util.inherits Parser, stream.Transform
 
 For extra flexibility, you can get access to the original Parser
@@ -99,7 +135,7 @@ class: `require('csv-parse').Parser`.
 
     module.exports.Parser = Parser
 
-## `_transform(chunk, encoding, callback)`
+### `_transform(chunk, encoding, callback)`
 
 *   `chunk` Buffer | String   
     The chunk to be transformed. Will always be a buffer unless the decodeStrings option was set to false.
