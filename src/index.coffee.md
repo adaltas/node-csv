@@ -2,6 +2,34 @@
     stream = require 'stream'
     util = require 'util'
 
+`stringify([options])`
+`stringify(data, [options], callback)`
+
+    module.exports = ->
+      if arguments.length is 3
+        data = arguments[0]
+        options = arguments[1]
+        callback = arguments[2]
+      else if arguments.length is 2
+        data = arguments[0]
+        callback = arguments[1]
+      else if arguments.length is 1
+        options = arguments[0]
+      options ?= {}
+      stringifier = new Stringifier options
+      if data and callback
+        chunks = []
+        stringifier.write d for d in data
+        stringifier.on 'readable', ->
+          while chunk = stringifier.read()
+            chunks.push chunk
+        stringifier.on 'error', (err) ->
+          callback err
+        stringifier.on 'finish', ->
+          callback null, chunks.join ''
+        stringifier.end()
+      stringifier
+
 `Stringifier([options])`
 -----------------------
 
@@ -48,6 +76,8 @@ All options are optional.
       @
 
     util.inherits Stringifier, stream.Transform
+
+    module.exports.Stringifier = Stringifier
 
 ## `Stringifier.prototype.headers`
 
@@ -148,33 +178,3 @@ Convert a line to a string. Line may be an object, an array or a string.
             newLine += delimiter
         line = newLine
       line
-
-`stringify([options])`
-`stringify(data, [options], callback)`
-
-    module.exports = ->
-      if arguments.length is 3
-        data = arguments[0]
-        options = arguments[1]
-        callback = arguments[2]
-      else if arguments.length is 2
-        data = arguments[0]
-        callback = arguments[1]
-      else if arguments.length is 1
-        options = arguments[0]
-      options ?= {}
-      stringifier = new Stringifier options
-      if data and callback
-        chunks = []
-        stringifier.write d for d in data
-        stringifier.on 'readable', ->
-          while chunk = stringifier.read()
-            chunks.push chunk
-        stringifier.on 'error', (err) ->
-          callback err
-        stringifier.on 'finish', ->
-          callback null, chunks.join ''
-        stringifier.end()
-      stringifier
-
-    module.exports.Stringifier = Stringifier
