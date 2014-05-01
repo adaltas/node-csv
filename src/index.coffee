@@ -67,7 +67,7 @@ Generator = (@options = {}) ->
   @options.headers ?= 8
   @options.max_word_length ?= 16
   @options.fixed_size ?= false
-  @options.fixed_size_buffer ?= ''
+  @fixed_size_buffer ?= ''
   @options.start ?= Date.now()
   @options.end ?= null
   @options.seed ?= false
@@ -99,11 +99,11 @@ Generator.prototype.end = ->
 Generator.prototype._read = (size) ->
   # Already started
   data = []
-  length = @options.fixed_size_buffer.length
-  data.push @options.fixed_size_buffer if length
+  length = @fixed_size_buffer.length
+  data.push @fixed_size_buffer if length
   while true
     # Time for some rest: flush first and stop later
-    if (@count++ is @options.length) or (@options.end and Date.now() > @options.end)
+    if (@count + data.length is @options.length) or (@options.end and Date.now() > @options.end)
       # Flush
       if data.length
         if @options.objectMode
@@ -126,7 +126,7 @@ Generator.prototype._read = (size) ->
       lineLength += column.length for column in line
     else
       # Stringify the line
-      line = "#{if @count is 1 then '' else '\n'}#{line.join @options.delimiter}"
+      line = "#{if @count + data.length is 0 then '' else '\n'}#{line.join @options.delimiter}"
       lineLength = line.length
     if length + lineLength > size
       if @options.objectMode
@@ -136,7 +136,7 @@ Generator.prototype._read = (size) ->
           @push line
       else 
         if @options.fixed_size
-          @options.fixed_size_buffer = line.substr size - length 
+          @fixed_size_buffer = line.substr size - length 
           data.push line.substr 0, size - length
         else
           data.push line
