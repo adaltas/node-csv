@@ -6,6 +6,7 @@
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-generate"
   },
+  "keywords": [ "stream", "generate", "csv", "object" ],
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "latest",
