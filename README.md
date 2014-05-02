@@ -13,8 +13,8 @@ Node.js `stream.Transform` API. It was originally developed as a part of the Nod
 ## Synchronous versus asynchronous execution
 
 The mode is defined by the signature of transformation function. It is expected
-to run synchronously when it expects only one argument, the data to 
-transform. It is expected to run asynchronously when it expects two arguments,
+to run synchronously when it declares only one argument, the data to 
+transform. It is expected to run asynchronously when it declares two arguments,
 the data to transform and the callback to be called once the transformed data
 is ready.
 
