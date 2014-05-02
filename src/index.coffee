@@ -73,7 +73,8 @@ Generator = (@options = {}) ->
   @options.seed ?= false
   @options.length ?= -1
   @options.delimiter ?= ','
-  @count = 0
+  @count_written = 0
+  @count_created = 0
   if typeof @options.headers is 'number'
     @options.headers = new Array @options.headers
   for v, i in @options.headers
@@ -103,15 +104,15 @@ Generator.prototype._read = (size) ->
   data.push @fixed_size_buffer if length
   while true
     # Time for some rest: flush first and stop later
-    if (@count + data.length is @options.length) or (@options.end and Date.now() > @options.end)
+    if (@count_created is @options.length) or (@options.end and Date.now() > @options.end)
       # Flush
       if data.length
         if @options.objectMode
           for line in data
-            @count++
+            @count_written++
             @push line
         else
-          @count++
+          @count_written++
           @push data.join ''
       # Stop
       return @push null
@@ -126,13 +127,14 @@ Generator.prototype._read = (size) ->
       lineLength += column.length for column in line
     else
       # Stringify the line
-      line = "#{if @count + data.length is 0 then '' else '\n'}#{line.join @options.delimiter}"
+      line = "#{if @count_created is 0 then '' else '\n'}#{line.join @options.delimiter}"
       lineLength = line.length
+    @count_created++
     if length + lineLength > size
       if @options.objectMode
         data.push line
         for line in data
-          @count++
+          @count_written++
           @push line
       else 
         if @options.fixed_size
@@ -140,7 +142,7 @@ Generator.prototype._read = (size) ->
           data.push line.substr 0, size - length
         else
           data.push line
-        @count++
+        @count_written++
         @push data.join ''
       break
     length += lineLength
