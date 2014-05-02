@@ -10,6 +10,21 @@ Node.js `stream.Transform` API. It was originally developed as a part of the Nod
 *   Run sequentially or with a defined number of callbacks executed in parallel
 *   Accept object, array or JSON as input and output
 
+## Usage
+
+Run `npm install csv` to install the full CSV module or run 
+`npm install stream-transform` if you are only interested by the CSV parser.
+
+Callback API: `parse(udf, [options])`
+
+Stream API: `parse(data, udf, [options], [callback])`
+
+Use the callback style API for simplicity or the stream based API for 
+scalability.
+
+For examples, refer to below examples, [the "samples" folder][stream-samples], 
+the documentation or [the "test" folder][stream-test].
+
 ## Synchronous versus asynchronous execution
 
 The mode is defined by the signature of transformation function. It is expected
@@ -38,16 +53,7 @@ in the constructor or send to the `write` function. If you wish to not alter the
 original data, it is your responsibility to send a new data in your
 transformation function instead of the original modified data.
 
-## Usage
-
-Run `npm install csv` to install the full CSV module or run 
-`npm install stream-transform` if you are only interested by the CSV parser.
-
-Use the callback style API for simplicity or the stream based API for 
-scalability.
-
-For examples, refer to [the "samples" folder][stream-samples], 
-the documentation or [the "test" folder][stream-test].
+## Examples
 
 ### Using the callback API
 
@@ -100,7 +106,7 @@ transformer.write(['a','b','c','d']);
 transformer.end();
 ```
 
-### Synchronous example
+### Synchronous transformation
 
 You may run this script with the command `node samples/synchronous.js`.
 
@@ -125,7 +131,7 @@ transform([
 // b,c,d,a
 ```
 
-### Asynchronous example
+### Asynchronous transformation
 
 You may run this script with the command `node samples/asynchronous.js`.
 
@@ -154,8 +160,7 @@ transform([
 // b,c,d,a
 ```
 
-Development
------------
+## Development
 
 Tests are executed with mocha. To install it, simple run `npm install` 
 followed by `npm test`. It will install mocha and its dependencies in your 
@@ -167,8 +172,7 @@ To generate the JavaScript files, run `make build`.
 The test suite is run online with [Travis][travis] against the versions 
 0.9, 0.10 and 0.11 of Node.js.
 
-Contributors
-------------
+## Contributors
 
 *	  David Worms: <https://github.com/wdavidw>
 
