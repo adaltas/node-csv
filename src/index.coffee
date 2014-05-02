@@ -3,6 +3,35 @@ stream = require 'stream'
 util = require 'util'
 
 ###
+`parse(udf, [options])`
+`parse(data, udf, [options], [callback])`
+###
+module.exports = (udf, options) ->
+  if arguments.length is 3
+    [data, udf, callback] = arguments
+  else if arguments.length is 4
+    [data, udf, options, callback] = arguments
+  transform = new Transformer options
+  transform.register udf
+  if callback
+    result = []
+    error = false
+    process.nextTick ->
+      for row in data
+        break if error
+        transform.write row
+      transform.end()
+    transform.on 'readable', ->
+      while(r = transform.read())
+        result.push r
+    transform.on 'error', (err) ->
+      error = true
+      callback err if callback
+    transform.on 'finish', ->
+      callback null, result if callback and not error
+  transform
+
+###
 
 # Transformer
 
@@ -35,6 +64,8 @@ Transformer = (@options = {}) ->
   @
 
 util.inherits Transformer, stream.Transform
+
+module.exports.Transformer = Transformer
 
 Transformer.prototype.register = (options, cb) ->
   if typeof options is 'function'
@@ -73,35 +104,4 @@ Transformer.prototype._done = (err, chunks, cb) ->
     @push chunk if chunk?
   cb() if cb
   @_ending() if @_ending and @running is 0
-
-###
-`parse(udf, [options])`
-`parse(data, udf, [options], callback)`
-###
-module.exports = (udf, options) ->
-  if arguments.length is 3
-    [data, udf, callback] = arguments
-  else if arguments.length is 4
-    [data, udf, options, callback] = arguments
-  transform = new Transformer options
-  transform.register udf
-  if callback
-    result = []
-    error = false
-    process.nextTick ->
-      for row in data
-        break if error
-        transform.write row
-      transform.end()
-    transform.on 'readable', ->
-      while(r = transform.read())
-        result.push r
-    transform.on 'error', (err) ->
-      error = true
-      callback err
-    transform.on 'finish', ->
-      callback null, result unless error
-  transform
-
-module.exports.Transformer = Transformer
 
