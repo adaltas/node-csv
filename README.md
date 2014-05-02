@@ -10,49 +10,145 @@ Node.js `stream.Transform` API. It was originally developed as a part of the Nod
 *   Run sequentially or with a defined number of callbacks executed in parallel
 *   Accept object, array or JSON as input and output
 
-Usage
------
+## Synchronous versus asynchronous execution
 
-Installation command is `npm install stream-transform`.
+The mode is defined by the signature of transformation function. It is expected
+to run synchronously when it expects only one argument, the data to 
+transform. It is expected to run asynchronously when it expects two arguments,
+the data to transform and the callback to be called once the transformed data
+is ready.
 
-### Concurrent example with a maximum of 20 parrallel functions
+In synchronous mode, you may simply return the altered data or throw an error.
+In asynchronous mode, you must call the provided callback with 2 arguments, the
+error if any and the altered data.
 
-You may run this script with the command `node samples/sync.js`. Note how the 
-`use` callback is only requesting one argument, the data to transform.
+## Sequential versus concurrent execution
+
+By sequential, we mean only 1 transformation function is running at a given
+time. By concurrent, we mean a maximum of x functions are running in parrallel. 
+The number of running functions is defined by the "parallel" option. When set to
+"1", the mode is sequential, when above "1", it defines the maximum of running 
+functions. Note, this only affect asynchronous executions.
+
+## Altering or cloning the data
+
+The data recieved inside the transformation function is the original data and is
+not modified nor cloned. Depending on which api you choose, it may be provided 
+in the constructor or send to the `write` function. If you wish to not alter the
+original data, it is your responsibility to send a new data in your
+transformation function instead of the original modified data.
+
+## Usage
+
+Run `npm install csv` to install the full CSV module or run 
+`npm install stream-transform` if you are only interested by the CSV parser.
+
+Use the callback style API for simplicity or the stream based API for 
+scalability.
+
+For examples, refer to [the "samples" folder][stream-samples], 
+the documentation or [the "test" folder][stream-test].
+
+### Using the callback API
+
+The transformer receive a string and return an array inside a user-provided 
+callback. This example is available with the command `node samples/callback.js`.
 
 ```javascript
 var transform = require('stream-transform');
-transform({parallel: 20})
-.use(function(data){
+var should = require('should');
+
+transform([
+  ['1','2','3','4'],
+  ['a','b','c','d']
+], function(data){
   data.push(data.shift())
+  return data;
+}, function(err, output){
+  output.should.eql([ [ '2', '3', '4', '1' ], [ 'b', 'c', 'd', 'a' ] ]);
+});
+```
+
+### Using the stream API
+
+CSV data is send through the `write` function and the resulted data is obtained
+within the "readable" event by calling the `read` function. This example is 
+available with the command `node samples/stream.js`.
+
+```javascript
+var transform = require('stream-transform');
+var should = require('should');
+
+var output = [];
+var transformer = transform(function(data){
+  data.push(data.shift())
+  return data;
+});
+transformer.on('readable', function(){
+  while(row = transformer.read()){
+    output.push(row);
+  }
+});
+transformer.on('error', function(err){
+  console.log(err.message);
+});
+transformer.on('finish', function(){
+  output.should.eql([ [ '2', '3', '4', '1' ], [ 'b', 'c', 'd', 'a' ] ]);
+});
+transformer.write(['1','2','3','4']);
+transformer.write(['a','b','c','d']);
+transformer.end();
+```
+
+### Synchronous example
+
+You may run this script with the command `node samples/synchronous.js`.
+
+The transformation function is run synchronously because is only expect one 
+argument, the data to be transformed. It is expected to return the transformed
+data or to throw an error.
+    
+```javascript
+var transform = require('stream-transform');
+
+transform([
+  ['1','2','3','4'],
+  ['a','b','c','d']
+], function(data){
+  data.push(data.shift());
+  return data.join(',')+'\n';
 })
-.write( ['1','2','3','4'] )
-.write( ['a','b','c','d'] )
-.pipe process.stdout
+.pipe(process.stdout);
+
 // Output:
 // 2,3,4,1
 // b,c,d,a
 ```
 
-### Synchronous example
+### Asynchronous example
 
-You may run this script with the command `node samples/async.js`. The call 
-`parallel(1)` will restrict the number of parallel callback to 1, thus enabling 
-sequential mode. Also, note how the `use` callback is requesting two arguments, 
-the data to transform and the callback to call when ready.
-    
+You may run this script with the command `node samples/asynchronous.js`.
+
+The transformation callback is requesting two arguments, the data to transform
+and the callback to call once the data is ready.
+
+The transformation callback is exected concurrently with a maximum of 20 
+parallel executions.
+
 ```javascript
 var transform = require('stream-transform');
-transform({parallel: 1})
-.use(function(row, callback){
+
+transform([
+  ['1','2','3','4'],
+  ['a','b','c','d']
+], function(data, callback){
   setImmediate(function(){
-    row.unshift(row.pop());
-    callback(row);
-  }
-})
-.write( ['1','2','3','4'] )
-.write( ['a','b','c','d'] )
-.pipe process.stdout
+    data.push(data.shift());
+    callback(null, data.join(',')+'\n');
+  });
+}, {parallel: 20})
+.pipe(process.stdout);
+
 // Output:
 // 2,3,4,1
 // b,c,d,a
@@ -78,5 +174,7 @@ Contributors
 
 [transform]: https://github.com/wdavidw/node-stream-transform
 [csv]: https://github.com/wdavidw/node-csv
+[stream-samples]: https://github.com/wdavidw/node-stream-transform/tree/master/samples
+[stream-test]: https://github.com/wdavidw/node-stream-transform/tree/master/test
 [travis]: http://travis-ci.org/wdavidw/node-stream-transform
 
