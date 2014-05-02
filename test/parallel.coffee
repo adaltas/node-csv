@@ -20,8 +20,8 @@ describe 'parallel', ->
     running = 0
     headers = -1
     generator = generate length: 1000, objectMode: true, highWaterMark: 40, headers: 2, seed: 1, headers: [
-      (g) -> letters pad 3, g.count-1, '0'
-      (g) -> pad 3, g.count-1, '0'
+      (g) -> letters pad 3, g.count_created, '0'
+      (g) -> pad 3, g.count_created-1, '0'
     ]
     transformer = generator.pipe transform (row, next) ->
       count++
