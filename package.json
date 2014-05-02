@@ -8,8 +8,10 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "each": "latest",
     "coffee-script": "latest",
     "csv-generate": "latest",
+    "csv-spectrum": "latest",
     "mocha": "latest",
     "should": "latest"
   },
