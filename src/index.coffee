@@ -6,14 +6,24 @@ util = require 'util'
 `parse(udf, [options])`
 `parse(data, udf, [options], [callback])`
 ###
-module.exports = (udf, options) ->
+module.exports = ->
+  if arguments.length is 1
+    [udf] = arguments
+  if arguments.length is 2
+    if typeof arguments[0] is 'function'
+      [udf, options] = arguments
+    else
+      [data, udf] = arguments
   if arguments.length is 3
-    [data, udf, callback] = arguments
+    if typeof arguments[2] is 'function'
+      [data, udf, callback] = arguments
+    else
+      [data, udf, options] = arguments
   else if arguments.length is 4
     [data, udf, options, callback] = arguments
   transform = new Transformer options
   transform.register udf
-  if callback
+  if data
     result = []
     error = false
     process.nextTick ->
@@ -21,14 +31,15 @@ module.exports = (udf, options) ->
         break if error
         transform.write row
       transform.end()
+  if callback
     transform.on 'readable', ->
       while(r = transform.read())
         result.push r
     transform.on 'error', (err) ->
       error = true
-      callback err if callback
+      callback err
     transform.on 'finish', ->
-      callback null, result if callback and not error
+      callback null, result unless error
   transform
 
 ###
