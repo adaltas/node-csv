@@ -3,8 +3,8 @@
 Part of the [CSV module](https://github.com/wdavidw/node-csv), this project is a
 parser converting CSV text input into arrays or objects. It implements the 
 Node.js `stream.Transform` API. It also provides a simple callback-base API for
-converniency. It is both extremely easy to use and powerfull. It was first 
-released in 2010 and is used against big datasets by a large community.
+convenience. It is both extremely easy to use and powerful. It was first 
+released in 2010 and is used against big data sets by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
@@ -19,7 +19,7 @@ very little changes and you should feel confident to use it in your code.
 Usage
 -----
 
-Run `npm install csv` to install the full csv module or run 
+Run `npm install csv` to install the full CSV module or run 
 `npm install csv-parse` if you are only interested by the CSV parser.
 
 Use the callback style API for simplicity or the stream based API for 
@@ -56,7 +56,7 @@ parser.on('readable', function(){
   }
 });
 parser.on('error', function(err){
-  consol.log(err.message);
+  console.log(err.message);
 });
 parser.on('finish', function(){
   output.should.eql([
@@ -71,7 +71,7 @@ parser.end()
 
 ### Using the pipe function
 
-One usefull function part of the Stream API is `pipe` to interact between 
+One useful function part of the Stream API is `pipe` to interact between 
 multiple streams. You may use this function to pipe a `stream.Readable` string 
 source to a `stream.Writable` object destination. The next example available as 
 `node samples/pipe.js` read the file, parse its content and transform it.
@@ -106,7 +106,7 @@ against the CoffeeScript source files.
 To generate the JavaScript files, run `make build`.
 
 The test suite is run online with [Travis][travis] against the versions 
-0.9, 0.10 and 0.11 of Node.js.
+0.10 and 0.11 of Node.js.
 
 Contributors
 ------------
