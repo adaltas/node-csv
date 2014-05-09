@@ -64,7 +64,7 @@ describe 'generate', ->
     @timeout 1000000
     count = 0
     data = []
-    generator = generate headers: 3
+    generator = generate columns: 3
     generator.on 'readable', ->
       while d = generator.read()
         data.push d
@@ -81,7 +81,7 @@ describe 'generate', ->
     @timeout 1000000
     count = 0
     data = []
-    generator = generate headers: [
+    generator = generate columns: [
       -> 'a'
       -> 'b'
     ]
@@ -101,7 +101,7 @@ describe 'generate', ->
     @timeout 1000000
     count = 0
     data = []
-    generator = generate headers: ['int', 'bool'], seed: 1
+    generator = generate columns: ['int', 'bool'], seed: 1
     generator.on 'readable', ->
       while d = generator.read()
         data.push d
@@ -151,7 +151,7 @@ describe 'generate', ->
 
     it 'sunc read', (next) ->
       rows = []
-      generator = generate length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 1
+      generator = generate length: 5, objectMode: true, seed: 1, columns: 2, highWaterMark: 1
       generator.on 'readable', ->
         while row = generator.read()
           rows.push row
@@ -169,7 +169,7 @@ describe 'generate', ->
     it 'async read', (next) ->
       @timeout 0
       rows = []
-      generator = generate length: 5, objectMode: true, seed: 1, headers: 2, highWaterMark: 10
+      generator = generate length: 5, objectMode: true, seed: 1, columns: 2, highWaterMark: 10
       generator.on 'readable', ->
         length = 0
         run = ->
@@ -194,7 +194,7 @@ describe 'generate', ->
       count = 0
       max = 0
       values = []
-      generator = generate length: 100, objectMode: false, seed: 1, headers: 2, highWaterMark: 100
+      generator = generate length: 100, objectMode: false, seed: 1, columns: 2, highWaterMark: 100
       generator.on 'readable', ->
         while row = generator.read()
           values.push row.length
