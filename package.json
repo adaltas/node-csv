@@ -2,6 +2,24 @@
   "version": "0.0.3",
   "name": "csv-parse",
   "description": "CSV parsing implementing the Node.js `stream.Transform` API",
+  "contributors": [
+    "David Worms <david@adaltas.com> (http://www.adaltas.com)",
+    "Will White (https://github.com/willwhite)",
+    "Justin Latimer (https://github.com/justinlatimer)",
+    "jonseymour (https://github.com/jonseymour)",
+    "pascalopitz (https://github.com/pascalopitz)",
+    "Josh Pschorr (https://github.com/jpschorr)",
+    "Elad Ben-Israel (https://github.com/eladb)",
+    "Philippe Plantier (https://github.com/phipla)",
+    "Tim Oxley (https://github.com/timoxley)",
+    "Damon Oehlman (https://github.com/DamonOehlman)",
+    "Alexandru Topliceanu (https://github.com/topliceanu)",
+    "Visup (https://github.com/visup)",
+    "Edmund von der Burg (https://github.com/evdb)",
+    "Douglas Christopher Wilson (https://github.com/dougwilson)",
+    "Joe Eaves (https://github.com/Joeasaurus)",
+    "Mark Stosberg (https://github.com/markstos)"
+  ],
   "repository": {
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-parse"
