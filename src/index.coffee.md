@@ -1,6 +1,14 @@
 
 # Stream Transformer
 
+A transform stream to transform object and text. Features include:   
+
+*   Extends the Node.js transform stream API.   
+*   Both synchrounous and asynchronous support based and user callback 
+    arguments signature.   
+*   Ability to skip data.   
+*   Sequential and concurrent execution using the "parallel" options.
+
 Please look at the [README], the [samples] and the [tests] for additional
 information.
 
@@ -15,23 +23,28 @@ Callback approach, for ease of use:
 
 Stream API, for maximum of power:   
 
-`transform(data, udf, [options], [callback])`   
+`transform(data, [options], udf, [options], [callback])`   
 
     module.exports = ->
-      if arguments.length is 1
-        [udf] = arguments
-      if arguments.length is 2
-        if typeof arguments[0] is 'function'
-          [udf, options] = arguments
-        else
-          [data, udf] = arguments
-      if arguments.length is 3
-        if typeof arguments[2] is 'function'
-          [data, udf, callback] = arguments
-        else
-          [data, udf, options] = arguments
-      else if arguments.length is 4
-        [data, udf, options, callback] = arguments
+      options = {}
+      for argument, i in arguments
+        type = typeof argument
+        if argument is null then type = 'null'
+        else if type is 'object' and Array.isArray argument then type = 'array'
+        if i is 0 
+          if type is 'function'
+            udf = argument
+          else if type isnt null
+            data = argument
+          continue
+        if type is 'object'
+          for k, v of argument then options[k] = v
+        else if type is 'function'
+          if i is arguments.length - 1
+          then callback = argument
+          else udf = argument
+        else if type isnt 'null'
+          throw new Error 'Invalid arguments'
       transform = new Transformer options
       transform.register udf
       if data
