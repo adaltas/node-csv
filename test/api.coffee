@@ -8,7 +8,7 @@ describe 'API', ->
 
   it 'write and listen to readable event', (next) ->
     data = ''
-    generator = generate length: 2, objectMode: true, seed: 1, headers: 2
+    generator = generate length: 2, objectMode: true, seed: 1, columns: 2
     stringifier = stringify eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
