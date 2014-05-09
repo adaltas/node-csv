@@ -9,7 +9,7 @@ describe 'pipe', ->
   it 'work with producer', (next) ->
     parser = parse()
     data = []
-    generator = generate length: 2, seed: 1, headers: 2, fixed_size: true
+    generator = generate length: 2, seed: 1, columns: 2, fixed_size: true
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
