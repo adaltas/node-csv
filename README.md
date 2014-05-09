@@ -28,7 +28,7 @@ callback. This example is available with the command `node samples/callback.js`.
 ```javascript
 var generate = require('csv-generate');
 
-generate({seed: 1, headers: 2, length: 2}, function(err, output){
+generate({seed: 1, columns: 2, length: 2}, function(err, output){
   output.should.eql('OMH,ONKCHhJmjadoA\nD,GeACHiN');
 });
 ```
@@ -40,7 +40,7 @@ generate({seed: 1, headers: 2, length: 2}, function(err, output){
 var generate = require('csv-generate');
 
 var data = []
-var generator = generate({seed: 1, objectMode: true, headers: 2, length: 2});
+var generator = generate({seed: 1, objectMode: true, columns: 2, length: 2});
 generator.on('readable', function(){
   while(d = generator.read()){
     data.push(d);
@@ -65,7 +65,7 @@ source to a `stream.Writable` object destination. The next example available as
 // node samples/pipe.js
 var generate = require('csv-generate');
 
-var generator = generate({seed: 1, headers: 2, length: 2});
+var generator = generate({columns: ['int', 'bool'], length: 2});
 generator.pipe(process.stdout);
 ```
 
