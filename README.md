@@ -165,12 +165,7 @@ Contributors
 *   Douglas Christopher Wilson: <https://github.com/dougwilson>
 *   Chris Khoo: <https://github.com/khoomeister>
 *   Joeasaurus: <https://github.com/Joeasaurus>
-
-Related projects
-----------------
-
-*   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
-*   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
+*   Mark Stosberg: <https://github.com/markstos>
 
 [csv]: https://github.com/wdavidw/node-csv
 [csv-samples]: https://github.com/wdavidw/node-csv-parse/tree/master/samples
