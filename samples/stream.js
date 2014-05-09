@@ -1,12 +1,12 @@
 
-require('should');
 var parse = require('../lib');
+require('should');
 
-output = [];
-parser = parse({delimiter: ':'})
+var output = [];
+var parser = parse({delimiter: ':'})
 parser.on('readable', function(){
-  while(row = parser.read()){
-    output.push(row)
+  while(record = parser.read()){
+    output.push(record);
   }
 });
 parser.on('error', function(err){
@@ -20,5 +20,5 @@ parser.on('finish', function(){
 });
 parser.write("root:x:0:0:root:/root:/bin/bash\n");
 parser.write("someone:x:1022:1022:a funny cat:/home/someone:/bin/bash\n");
-parser.end()
+parser.end();
 
