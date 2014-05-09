@@ -1,9 +1,21 @@
 
-    stream = require 'stream'
-    util = require 'util'
+# CSV Stringifier
 
-`stringify([options])`
-`stringify(data, [options], callback)`
+Please look at the [README], the [samples] and the [tests] for additional
+information.
+
+    stream = require 'stream'
+    util = require 'util'  
+
+## Usage
+
+Callback approach, for ease of use:   
+
+`stringify(data, [options], callback)`   
+
+Stream API, for maximum of power:   
+
+`stringify([options])`   
 
     module.exports = ->
       if arguments.length is 3
@@ -30,8 +42,7 @@
         stringifier.end()
       stringifier
 
-`Stringifier([options])`
------------------------
+## `Stringifier([options])`
 
 Options may include:
 
@@ -118,12 +129,13 @@ Print the header line if the option "header" is "true".
       @countWriten++ unless preserve
       stream.Transform.prototype.write.call @, chunk
 
+## `Stringifier.prototype._transform(line)`
+
     Stringifier.prototype._transform = (chunk, encoding, callback) ->
       @push chunk
       callback()
 
-`Stringifier(line)`
--------------------
+## `Stringifier.prototype.stringify(line)`
 
 Convert a line to a string. Line may be an object, an array or a string.
 
@@ -178,3 +190,7 @@ Convert a line to a string. Line may be an object, an array or a string.
             newLine += delimiter
         line = newLine
       line
+
+[readme]: https://github.com/wdavidw/node-csv-stringify
+[samples]: https://github.com/wdavidw/node-csv-stringify/tree/master/samples
+[tests]: https://github.com/wdavidw/node-csv-stringify/tree/master/test
