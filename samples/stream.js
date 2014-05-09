@@ -3,7 +3,7 @@ should = require('should');
 generate = require('../lib');
 
 var data = []
-var generator = generate({seed: 1, objectMode: true, headers: 2, length: 2});
+var generator = generate({seed: 1, objectMode: true, columns: 2, length: 2});
 generator.on('readable', function(){
   while(d = generator.read()){
     data.push(d);
