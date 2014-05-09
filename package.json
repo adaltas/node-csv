@@ -24,6 +24,12 @@
     "type": "git",
     "url": "https://github.com/wdavidw/node-csv.git"
   },
+  "dependencies": {
+    "csv-generate": "latest",
+    "csv-parse": "latest",
+    "stream-transform": "latest",
+    "csv-stringify": "latest"
+  },
   "devDependencies": {
     "coffee-script": "latest",
     "mocha": "latest",
@@ -32,7 +38,6 @@
     "mecano": "latest",
     "iconv": "latest"
   },
-  "dependencies": {},
   "optionalDependencies": {},
   "scripts": {
     "test": "make test"
