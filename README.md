@@ -7,13 +7,6 @@ released in 2010 and is used against big data sets by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
-## Note
-
-This module is to be considered in beta stage. It is part of an ongoing effort 
-to split the current CSV module into complementary modules with a cleaner design 
-and the latest stream implementation. However, the code has been imported with 
-very little changes and you should feel confident to use it in your code.
-
 ## Features
 
 *   Follow the Node.js streaming API
@@ -27,7 +20,7 @@ very little changes and you should feel confident to use it in your code.
 
 ## Usage
 
-Run `npm install csv` to install the full CSV module or run 
+Run `npm install csv` to install the full CSV package or run 
 `npm install csv-parse` if you are only interested by the CSV parser.
 
 Use the callback style API for simplicity or the stream based API for 

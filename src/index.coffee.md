@@ -1,6 +1,6 @@
 
 
-# `Parser([options])`
+# CSV Parser
 
 This module provides a CSV parser tested and used against large datasets. Over
 the year, it has been enhance and is now full of useful options.
@@ -13,29 +13,21 @@ the year, it has been enhance and is now full of useful options.
 *   no external dependencies   
 *   to be used conjointly with `csv-generate`, `stream-transform` and `csv-stringify`   
 
-## Legacy
+Please look at the [README], the [samples] and the [tests] for additional
+information.
 
-Important: this documentation covers the latest version (0.3.x) of 
-`node-csv-parser`. Older version are available on GitHub: 
-[0.1.x](https://github.com/wdavidw/node-csv/tree/v0.1), 
-[0.2.x](https://github.com/wdavidw/node-csv/tree/v0.2).
-
-## Installation
-
-```bash
-npm install csv
-```
+    stream = require 'stream'
+    util = require 'util'
 
 ## Usage
 
-There are two ways to use the parser:
+Callback approach, for ease of use:   
 
-*   `parse(data, [options], callback)`   
-    Callback approach, for ease of use.   
-*   `parse([options], [callback])`   
-    Stream API, for maximum of power.   
+`parse(data, [options], callback)`     
 
-Look at the examples below to discover the usage.
+Stream API, for maximum of power:   
+
+`parse([options], [callback])`   
 
     module.exports = ->
       if arguments.length is 3
@@ -72,8 +64,7 @@ Look at the examples below to discover the usage.
           callback null, chunks unless called
       parser
 
-    stream = require 'stream'
-    util = require 'util'
+## `Parser([options])`
 
 *   `delimiter`     Set the field delimiter. One character only, defaults to comma.   
 *   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).   
@@ -309,4 +300,7 @@ Implementation of the [`stream.Transform` API][transform]
         @buf += chars.charAt i
         i++
 
+[readme]: https://github.com/wdavidw/node-csv-parse
+[samples]: https://github.com/wdavidw/node-csv-parse/tree/master/samples
+[tests]: https://github.com/wdavidw/node-csv-parse/tree/master/test
 [transform]: (http://nodejs.org/api/stream.html#stream_class_stream_transform_1)
