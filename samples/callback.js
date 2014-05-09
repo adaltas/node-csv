@@ -1,8 +1,8 @@
 
-should = require('should');
-parse = require('../lib');
+var parse = require('../lib');
+require('should');
 
-input = '#Welcome\n"1","2","3","4"\n"a","b","c","d"';
+var input = '#Welcome\n"1","2","3","4"\n"a","b","c","d"';
 parse(input, {comment: '#'}, function(err, output){
   output.should.eql([ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]);
 });

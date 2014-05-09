@@ -1,14 +1,14 @@
 
 var fs = require('fs');
-var parse = require('../lib');
+var parse = require('..');
 var transform = require('../../stream-transform');
 
-output = [];
-parser = parse({delimiter: ':'})
-input = fs.createReadStream('/etc/passwd');
-transformer = transform(function(row, callback){
+var output = [];
+var parser = parse({delimiter: ':'})
+var input = fs.createReadStream('/etc/passwd');
+var transformer = transform(function(record, callback){
   setTimeout(function(){
-    callback(null, row.join(' ')+'\n');
+    callback(null, record.join(' ')+'\n');
   }, 500);
 }, {parallel: 10});
 input.pipe(parser).pipe(transformer).pipe(process.stdout);

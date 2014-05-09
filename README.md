@@ -8,18 +8,16 @@ released in 2010 and is used against big data sets by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
 
-Note
-----
+## Note
 
 This module is to be considered in beta stage. It is part of an ongoing effort 
 to split the current CSV module into complementary modules with a cleaner design 
 and the latest stream implementation. However, the code has been imported with 
 very little changes and you should feel confident to use it in your code.
 
-Usage
------
+## Usage
 
-Run `npm install csv` to install the full CSV module or run 
+Run `npm install csv` to install the full CSV module or run 
 `npm install csv-parse` if you are only interested by the CSV parser.
 
 Use the callback style API for simplicity or the stream based API for 
@@ -35,24 +33,29 @@ callback. This example is available with the command `node samples/callback.js`.
 
 ```javascript
 var parse = require('csv-parse');
+require('should');
 
-input = '#Welcome\n"1","2","3","4"\n"a","b","c","d"';
+var input = '#Welcome\n"1","2","3","4"\n"a","b","c","d"';
 parse(input, {comment: '#'}, function(err, output){
   output.should.eql([ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]);
 });
 ```
 
 ### Using the stream API
+
+CSV data is send through the `write` function and the resulted data is obtained
+within the "readable" event by calling the `read` function. This example is 
+available with the command `node samples/stream.js`.
     
 ```javascript
-// node samples/stream.js
 var parse = require('csv-parse');
+require('should');
 
-output = [];
-parser = parse({delimiter: ':'})
+var output = [];
+var parser = parse({delimiter: ':'})
 parser.on('readable', function(){
-  while(row = parser.read()){
-    output.push(row)
+  while(record = parser.read()){
+    output.push(record);
   }
 });
 parser.on('error', function(err){
@@ -66,23 +69,27 @@ parser.on('finish', function(){
 });
 parser.write("root:x:0:0:root:/root:/bin/bash\n");
 parser.write("someone:x:1022:1022:a funny cat:/home/someone:/bin/bash\n");
-parser.end()
+parser.end();
 ```
 
 ### Using the pipe function
 
 One useful function part of the Stream API is `pipe` to interact between 
 multiple streams. You may use this function to pipe a `stream.Readable` string 
-source to a `stream.Writable` object destination. The next example available as 
+source to a `stream.Writable` object destination. This example available as 
 `node samples/pipe.js` read the file, parse its content and transform it.
 
 ```javascript
-output = [];
-parser = parse({delimiter: ':'})
-input = fs.createReadStream('/etc/passwd');
-transformer = transform(function(row, callback){
+var fs = require('fs');
+var parse = require('csv-parse');
+var transform = require('stream-transform');
+
+var output = [];
+var parser = parse({delimiter: ':'})
+var input = fs.createReadStream('/etc/passwd');
+var transformer = transform(function(record, callback){
   setTimeout(function(){
-    callback(null, row.join(' ')+'\n');
+    callback(null, record.join(' ')+'\n');
   }, 500);
 }, {parallel: 10});
 input.pipe(parser).pipe(transformer).pipe(process.stdout);
