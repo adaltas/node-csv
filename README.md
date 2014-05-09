@@ -2,8 +2,7 @@
 
 Part of the [CSV module](https://github.com/wdavidw/node-csv), this project is a
 parser converting CSV text input into arrays or objects. It implements the 
-Node.js `stream.Transform` API. It also provides a simple callback-base API for
-convenience. It is both extremely easy to use and powerful. It was first 
+Node.js [stream.Transform`API](http://nodejs.org/api/stream.html#stream_class_stream_transform). It also provides a simple callback-base API for convenience. It is both extremely easy to use and powerful. It was first
 released in 2010 and is used against big data sets by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
@@ -45,6 +44,8 @@ the documentation or [the "test" folder][csv-test].
 The parser receive a string and return an array inside a user-provided 
 callback. This example is available with the command `node samples/callback.js`.
 
+See the full list of supported parsing options below.
+
 ```javascript
 var parse = require('csv-parse');
 
@@ -55,6 +56,10 @@ parse(input, {comment: '#'}, function(err, output){
 ```
 
 ### Using the stream API
+
+The CSV parser implements the [stream.Transform`API](http://nodejs.org/api/stream.html#stream_class_stream_transform).
+
+See the full list of supposrted parser options below.
     
 ```javascript
 // node samples/stream.js
