@@ -2,8 +2,7 @@
 
 Part of the [CSV module](https://github.com/wdavidw/node-csv), this project is a
 parser converting CSV text input into arrays or objects. It implements the 
-Node.js `stream.Transform` API. It also provides a simple callback-base API for
-convenience. It is both extremely easy to use and powerful. It was first 
+Node.js [stream.Transform`API](http://nodejs.org/api/stream.html#stream_class_stream_transform). It also provides a simple callback-base API for convenience. It is both extremely easy to use and powerful. It was first
 released in 2010 and is used against big data sets by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
@@ -14,6 +13,17 @@ This module is to be considered in beta stage. It is part of an ongoing effort
 to split the current CSV module into complementary modules with a cleaner design 
 and the latest stream implementation. However, the code has been imported with 
 very little changes and you should feel confident to use it in your code.
+
+## Features
+
+*   Follow the Node.js streaming API
+*   Support delimiters, quotes, escape characters and comments
+*   Line breaks discovery
+*   Support big datasets
+*   Complete test coverage and samples for inspiration
+*   no external dependencies
+*   to be used conjointly with `csv-generate`, `stream-transform` and `csv-stringify`
+
 
 ## Usage
 
@@ -31,6 +41,8 @@ the documentation or [the "test" folder][csv-test].
 The parser receive a string and return an array inside a user-provided 
 callback. This example is available with the command `node samples/callback.js`.
 
+See the full list of supported parsing options below.
+
 ```javascript
 var parse = require('csv-parse');
 require('should');
@@ -43,9 +55,13 @@ parse(input, {comment: '#'}, function(err, output){
 
 ### Using the stream API
 
+The CSV parser implements the [stream.Transform`API][stream_transform].
+
 CSV data is send through the `write` function and the resulted data is obtained
 within the "readable" event by calling the `read` function. This example is 
 available with the command `node samples/stream.js`.
+
+See the full list of supported parser options below.
     
 ```javascript
 var parse = require('csv-parse');
@@ -95,15 +111,30 @@ var transformer = transform(function(record, callback){
 input.pipe(parser).pipe(transformer).pipe(process.stdout);
 ```
 
-Migration
----------
+## Parser options
+
+*   `delimiter`     Set the field delimiter. One character only, defaults to comma.
+*   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
+*   `quote`         Optionnal character surrounding a field, one character only, defaults to double quotes.
+*   `escape`        Set the escape character, one character only, defaults to double quotes.
+*   `columns`       List of fields as an array, a user defined callback accepting the first line and returning the column names or true if autodiscovered in the first CSV line, default to null, affect the result data set in the sense that records will be objects instead of arrays.
+*   `comment`       Treat all the characteres after this one as a comment, default to '#'.
+*   `objname`       Name of header-record title to name objects by.
+*   `trim`          If true, ignore whitespace immediately around the delimiter, defaults to false.
+*   `ltrim`         If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
+*   `rtrim`         If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
+*   `auto_parse`    If true, the parser will attempt to convert read data types to native types.
+
+## Migration
 
 Most of the generator is imported from its parent project [CSV][csv] in a effort 
 to split it between the generator, the parser, the transformer and the 
 stringifier.
 
-Development
------------
+The "record" has disappeared, you are encouraged to use the "readable" event conjointly 
+with the "read" function as documented above and in the [Stream API][stream_transform].
+
+## Development
 
 Tests are executed with mocha. To install it, simple run `npm install` 
 followed by `npm test`. It will install mocha and its dependencies in your 
@@ -144,5 +175,6 @@ Related projects
 [csv]: https://github.com/wdavidw/node-csv
 [csv-samples]: https://github.com/wdavidw/node-csv-parse/tree/master/samples
 [csv-test]: https://github.com/wdavidw/node-csv-parse/tree/master/test
+[stream_transform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
 [travis]: https://travis-ci.org/#!/wdavidw/node-csv-parse
 
