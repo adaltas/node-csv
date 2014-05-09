@@ -2,7 +2,7 @@
 REPORTER = dot
 
 build:
-	@./node_modules/.bin/coffee -b -o lib src/*.coffee.md
+	@./node_modules/.bin/coffee -b -o lib src
 
 doc: build
 	@./node_modules/.bin/coffee src/doc.coffee $(CSV_DOC)
