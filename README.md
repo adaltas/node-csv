@@ -31,7 +31,7 @@ the documentation or [the "test" folder][csv-test].
 
 ### Using the callback API
 
-The parser receive a string and return an array inside a user-provided 
+The parser receive a string and returns an array inside a user-provided 
 callback. This example is available with the command `node samples/callback.js`.
 
 See the full list of supported parsing options below.
