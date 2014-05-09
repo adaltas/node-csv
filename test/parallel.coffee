@@ -19,7 +19,7 @@ describe 'parallel', ->
     count = 0
     running = 0
     headers = -1
-    generator = generate length: 1000, objectMode: true, highWaterMark: 40, headers: 2, seed: 1, headers: [
+    generator = generate length: 1000, objectMode: true, highWaterMark: 40, headers: 2, seed: 1, columns: [
       (g) -> letters pad 3, g.count_created, '0'
       (g) -> pad 3, g.count_created-1, '0'
     ]

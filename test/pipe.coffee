@@ -9,7 +9,7 @@ describe 'pipe', ->
 
     it 'in sync mode', (next) ->
       data = []
-      generator = generate length: 1000, objectMode: true, seed: 1, headers: 2
+      generator = generate length: 1000, objectMode: true, seed: 1, columns: 2
       transformer = generator.pipe transform (row) ->
         row.push row.shift()
         row
@@ -25,7 +25,7 @@ describe 'pipe', ->
 
     it 'in async mode', (next) ->
       data = []
-      generator = generate length: 1000, objectMode: true, seed: 1, headers: 2
+      generator = generate length: 1000, objectMode: true, seed: 1, columns: 2
       transformer = generator.pipe transform (row, callback) ->
         row.push row.shift()
         callback null, row
