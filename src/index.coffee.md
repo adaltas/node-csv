@@ -96,6 +96,7 @@ Print the header line if the option "header" is "true".
 
     Stringifier.prototype.headers = ->
       return unless @options.header
+      return unless @options.columns
       labels = @options.columns
       # If columns is an object, keys are fields and values are labels
       if typeof labels is 'object' then labels = for k, label of labels then label
