@@ -29,51 +29,52 @@ Starting a generation
   generator(start: true).pipe csv().to.path "#{__dirname}/perf.out"
 
 ###
-Generator = (@options = {}) ->
-  @options.duration ?= 4 * 60 * 1000
-  @options.nb_columns = 8
-  @options.max_word_length ?= 16
-  @start = Date.now()
-  @end = @start + @options.duration
-  @readable = true
-  nextTick @resume.bind @ if @options.start
-  @
-Generator.prototype.__proto__ = Stream.prototype
 
-Generator.prototype.resume = ->
-  @paused = false
-  # Already started
-  while not @paused and @readable
-    return @destroy() if Date.now() > @end
-    # Line
-    line = []
-    for nb_words in [0...@options.nb_columns]
-      # Column
-      column = []
-      for nb_chars in [0 ... Math.ceil Math.random() * @options.max_word_length]
-        char = Math.floor Math.random() * 32
-        column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
-      line.push column.join ''
-    @emit 'data', new Buffer "#{line.join ','}\n", @options.encoding
+class Generator extends Stream
 
-Generator.prototype.pause = ->
-  @paused = true
+  constructor: (@options = {}) ->
+    @options.duration ?= 4 * 60 * 1000
+    @options.nb_columns = 8
+    @options.max_word_length ?= 16
+    @start = Date.now()
+    @end = @start + @options.duration
+    @readable = true
+    nextTick @resume.bind @ if @options.start
 
-Generator.prototype.destroy = ->
-  @readable = false
-  @emit 'end'
-  @emit 'close'
+  resume: ->
+    @paused = false
+    # Already started
+    while not @paused and @readable
+      return @destroy() if Date.now() > @end
+      # Line
+      line = []
+      for nb_words in [0...@options.nb_columns]
+        # Column
+        column = []
+        for nb_chars in [0 ... Math.ceil Math.random() * @options.max_word_length]
+          char = Math.floor Math.random() * 32
+          column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
+        line.push column.join ''
+      @emit 'data', new Buffer "#{line.join ','}\n", @options.encoding
 
-###
-`setEncoding([encoding])`
+  pause: ->
+    @paused = true
 
-Makes the 'data' event emit a string instead of a Buffer. 
-encoding can be 'utf8', 'utf16le' ('ucs2'), 'ascii', or 
-'hex'. Defaults to 'utf8'.
+  destroy: ->
+    @readable = false
+    @emit 'end'
+    @emit 'close'
 
-###
-Generator.prototype.setEncoding = (encoding) ->
-  @options.encoding = encoding
+  ###
+  `setEncoding([encoding])`
+
+  Makes the 'data' event emit a string instead of a Buffer. 
+  encoding can be 'utf8', 'utf16le' ('ucs2'), 'ascii', or 
+  'hex'. Defaults to 'utf8'.
+
+  ###
+  setEncoding: (encoding) ->
+    @options.encoding = encoding
 
 module.exports = (options) -> new Generator options
 module.exports.Generator = Generator
