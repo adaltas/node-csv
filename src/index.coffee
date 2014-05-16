@@ -168,147 +168,146 @@ parser = require './parser'
 transformer = require './transformer'
 utils = require './utils'
 
-CSV = ->
-  self = @
-  @paused = false
-  # A boolean that is true by default, but turns false after an 'error' occurred, 
-  # the stream came to an 'end' or the destroy function is called. 
-  @readable = true
-  # A boolean that is true by default, but turns false after an 'error' occurred 
-  # or after the end and destroy functions are called. 
-  @writable = true
-  @state = state()
-  @options = options()
-  @from = from @
-  @to = to @
-  @parser = parser @
-  @parser.on 'row', (row) ->
-    self.transformer.write row
-  @parser.on 'end', ->
-    # Print headers if no records
-    self.transformer.headers() if self.state.count is 0
-    self.transformer.end()
-  @parser.on 'error', (e) ->
-    self.error e
-  @stringifier = stringifier @
-  @transformer = transformer @
-  @transformer.on 'end', ->
-    # End Of File option
-    eof = self.options.to.eof
-    if eof
-      eof = '\n' if eof is true
-      self.stringifier.write eof
-    self.emit 'end', self.state.count
-    # self.emit 'close', self.state.count
-  @
-CSV.prototype.__proto__ = stream.prototype
+class CSV extends stream
+  constructor: ->
+    self = @
+    @paused = false
+    # A boolean that is true by default, but turns false after an 'error' occurred, 
+    # the stream came to an 'end' or the destroy function is called. 
+    @readable = true
+    # A boolean that is true by default, but turns false after an 'error' occurred 
+    # or after the end and destroy functions are called. 
+    @writable = true
+    @state = state()
+    @options = options()
+    @from = from @
+    @to = to @
+    @parser = parser @
+    @parser.on 'row', (row) =>
+      @transformer.write row
+    @parser.on 'end', =>
+      # Print headers if no records
+      @transformer.headers() if @state.count is 0
+      @transformer.end()
+    @parser.on 'error', (e) =>
+      @error e
+    @stringifier = stringifier @
+    @transformer = transformer @
+    @transformer.on 'end', =>
+      # End Of File option
+      eof = @options.to.eof
+      if eof
+        eof = '\n' if eof is true
+        @stringifier.write eof
+      @emit 'end', @state.count
+      # self.emit 'close', self.state.count
 
-###
+  ###
 
-`pause()`
----------
+  `pause()`
+  ---------
 
-Implementation of the Readable Stream API, requesting that no further data 
-be sent until resume() is called.
+  Implementation of the Readable Stream API, requesting that no further data 
+  be sent until resume() is called.
 
-###
-CSV.prototype.pause = ->
-  @paused = true
-  @
+  ###
+  pause: ->
+    @paused = true
+    @
 
-###
+  ###
 
-`resume()`
-----------
+  `resume()`
+  ----------
 
-Implementation of the Readable Stream API, resuming the incoming 'data' 
-events after a pause().
+  Implementation of the Readable Stream API, resuming the incoming 'data' 
+  events after a pause().
 
-###
-CSV.prototype.resume = ->
-  @paused = false
-  @emit 'drain'
-  @
+  ###
+  resume: ->
+    @paused = false
+    @emit 'drain'
+    @
 
-###
+  ###
 
-`write(data, [preserve])`
--------------------------
+  `write(data, [preserve])`
+  -------------------------
 
-Implementation of the Writable Stream API with a larger signature. Data
-may be a string, a buffer, an array or an object.
+  Implementation of the Writable Stream API with a larger signature. Data
+  may be a string, a buffer, an array or an object.
 
-If data is a string or a buffer, it could span multiple lines. If data 
-is an object or an array, it must represent a single line.
-Preserve is for line which are not considered as CSV data.
+  If data is a string or a buffer, it could span multiple lines. If data 
+  is an object or an array, it must represent a single line.
+  Preserve is for line which are not considered as CSV data.
 
-###
-CSV.prototype.write = (chunk, preserve) ->
-  return @emit 'error', new Error 'CSV no longer writable' unless @writable
-  chunk = chunk.toString() if chunk instanceof Buffer
-  # Chunk is a string, we parse it
-  if typeof chunk is 'string' and not preserve
-    @parser.write chunk
-  # Chunk is an array, we transform it
-  else if Array.isArray(chunk) and not @state.transforming
-    csv = @
-    @transformer.write chunk
-  # Chunk is an object, we transform it or stringify it
-  else
-    if preserve or @state.transforming
-      @stringifier.write chunk
-    else
+  ###
+  write: (chunk, preserve) ->
+    return @emit 'error', new Error 'CSV no longer writable' unless @writable
+    chunk = chunk.toString() if chunk instanceof Buffer
+    # Chunk is a string, we parse it
+    if typeof chunk is 'string' and not preserve
+      @parser.write chunk
+    # Chunk is an array, we transform it
+    else if Array.isArray(chunk) and not @state.transforming
+      csv = @
       @transformer.write chunk
-  return not @paused
+    # Chunk is an object, we transform it or stringify it
+    else
+      if preserve or @state.transforming
+        @stringifier.write chunk
+      else
+        @transformer.write chunk
+    return not @paused
 
-###
+  ###
 
-`end()`
--------
+  `end()`
+  -------
 
-Terminate the parsing. Call this method when no more csv data is 
-to be parsed. It implement the StreamWriter API by setting the `writable` 
-property to "false" and emitting the `end` event.
+  Terminate the parsing. Call this method when no more csv data is 
+  to be parsed. It implement the StreamWriter API by setting the `writable` 
+  property to "false" and emitting the `end` event.
 
-###
-CSV.prototype.end = ->
-  return unless @writable
-  @readable = false
-  @writable = false
-  @parser.end()
-  @
+  ###
+  end: ->
+    return unless @writable
+    @readable = false
+    @writable = false
+    @parser.end()
+    @
 
-###
+  ###
 
-`transform(callback, [options])`
----------------------
+  `transform(callback, [options])`
+  ---------------------
 
-Register the transformer callback. The callback is a user provided 
-function call on each line to filter, enrich or modify the 
-dataset. More information in the "transforming data" section.
+  Register the transformer callback. The callback is a user provided 
+  function call on each line to filter, enrich or modify the 
+  dataset. More information in the "transforming data" section.
 
-###
-CSV.prototype.transform = (callback, options) ->
-  @transformer.callback = callback
-  utils.merge @transformer.options, options if options
-  @
+  ###
+  transform: (callback, options) ->
+    @transformer.callback = callback
+    utils.merge @transformer.options, options if options
+    @
 
-###
+  ###
 
-`error(error)`
---------------
+  `error(error)`
+  --------------
 
-Unified mechanism to handle error, emit the error and mark the 
-stream as non readable and non writable.
+  Unified mechanism to handle error, emit the error and mark the 
+  stream as non readable and non writable.
 
-###
-CSV.prototype.error = (e) ->
-  @readable = false
-  @writable = false
-  @emit 'error', e
-  # Destroy the input stream
-  @readStream.destroy() if @readStream
-  @
+  ###
+  error: (e) ->
+    @readable = false
+    @writable = false
+    @emit 'error', e
+    # Destroy the input stream
+    @readStream.destroy() if @readStream
+    @
 
 module.exports = -> new CSV
 
