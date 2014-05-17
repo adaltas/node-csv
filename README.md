@@ -33,19 +33,19 @@ Each modules are fully be compatible with the stream 2 and 3 specifications. Als
 Usage
 -----
 
-Installation command is `npm install csv`.
+Installation command is `npm install csv --save`.
 
 ### Quick example
 
 ```javascript
 // node samples/string.js
 csv()
-.from.string(
-  '#Welcome\n"1","2","3","4"\n"a","b","c","d"',
-  {comment: '#'} )
-.to.array( function(data){
+.from.string('#Welcome\n"1","2","3","4"\n"a","b","c","d"', { comment: '#' })
+.to.array(function (data) {
   console.log(data)
-} );
+});
+
+// Output
 // [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]
 ```
 
@@ -56,28 +56,29 @@ csv()
 
 var fs = require('fs');
 var csv = require('csv');
-
-// opts is optional
-var opts = ;
+var path = require('path');
+var inFile = path.join(__dirname, 'sample.in');
+var outFile = path.join(__dirname, 'sample.out');
 
 csv()
-.from.path(__dirname+'/sample.in', { delimiter: ',', escape: '"' })
-.to.stream(fs.createWriteStream(__dirname+'/sample.out'))
-.transform( function(row){
+.from.path(inFile, { delimiter: ',', escape: '"' })
+.to.stream(fs.createWriteStream(outFile))
+.transform(function (row) {
   row.unshift(row.pop());
   return row;
 })
-.on('record', function(row,index){
-  console.log('#'+index+' '+JSON.stringify(row));
+.on('record', function (row, index) {
+  console.log('#%s %s', index, JSON.stringify(row));
 })
-.on('close', function(count){
+.on('close', function (count) {
   // when writing to a file, use the 'close' event
   // the 'end' event may fire before the file has been written
-  console.log('Number of lines: '+count);
+  console.log('Number of lines: %s', count);
 })
-.on('error', function(error){
+.on('error', function (error) {
   console.log(error.message);
 });
+
 // Output:
 // #0 ["2000-01-01","20322051544","1979.0","8.8017226E7","ABC","45"]
 // #1 ["2050-11-27","28392898392","1974.0","8.8392926E7","DEF","23"]
@@ -88,7 +89,7 @@ Migration
 ---------
 
 This README covers the current version 0.2.x of the `node 
-csv `parser. The documentation for the previous version (0.1.0) is 
+csv` parser. The documentation for the previous version (0.1.0) is 
 available [here](https://github.com/wdavidw/node-csv/tree/v0.1). The documentation 
 for the incoming 0.3.x version is not yet released.
 
@@ -114,12 +115,12 @@ To generate the JavaScript files:
 make build
 ```
 
-The test suite is run online with [Travis][travis] against Node.js version 0.6, 0.7, 0.8 and 0.9.
+The test suite is run online with [Travis][travis] against Node.js version 0.9 and 0.10.
 
 Contributors
 ------------
 
-*	  David Worms: <https://github.com/wdavidw>
+*   David Worms: <https://github.com/wdavidw>
 *	  Will White: <https://github.com/willwhite>
 *	  Justin Latimer: <https://github.com/justinlatimer>
 *	  jonseymour: <https://github.com/jonseymour>
