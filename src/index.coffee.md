@@ -207,13 +207,13 @@ Implementation of the [`stream.Transform` API][transform]
           # First empty line
           if (@field is '') and (char is '\n' or char is '\r')
             rowDelimiter = char
-            nextNextCharPos = i+1
+            nextCharPos = i+1
           else if @nextChar is '\n' or @nextChar is '\r'
             rowDelimiter = @nextChar
-            nextNextCharPas = i+2
+            nextCharPos = i+2
           if rowDelimiter
             @options.rowDelimiter = rowDelimiter
-            @options.rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextNextCharPas) is '\n'
+            @options.rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextCharPos) is '\n'
             delimLength = @options.rowDelimiter.length
         # Parse that damn char
         # Note, shouldn't we have sth like chars.substr(i, @options.escape.length)
