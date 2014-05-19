@@ -6,27 +6,27 @@
     transform = require 'stream-transform'
     stringify = require 'csv-stringify'
 
-## `csv.generate`
+## `csv.generate()`
 
-Initialize a new CSV generator, similar to `require('csv-generate')`.
+Reference the CSV generator, alias to `require('csv-generate')`.
 
     module.exports.generate = generate
 
-## `csv.parse`
+## `csv.parse()`
 
-Initialize a new CSV parser, similar to `require('csv-parse')`.
+Reference the CSV parser, alias to `require('csv-parse')`.
 
     module.exports.parse = parse
 
-## `csv.transform`
+## `csv.transform()`
 
-Initialize a new stream transformer, similar to `require('stream-transform')`.
+Reference the stream transformer, alias to `require('stream-transform')`.
 
     module.exports.transform = transform
 
 ## `csv.stringify()`
 
-Initialize a new CSV stringifier, similar to `require('csv-stringify')`.
+Reference the CSV stringifier, alias to `require('csv-stringify')`.
 
     module.exports.stringify = stringify
 
