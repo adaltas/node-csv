@@ -3,29 +3,29 @@
 <pre>
      _   _           _        _____  _______      __
     | \ | |         | |      / ____|/ ____\ \    / /
-    |  \| | ___   __| | ___ | |    | (___  \ \  / / 
+    |  \| | ___   __| | ___ | |    | (___  \ \  / /
     | . ` |/ _ \ / _` |/ _ \| |     \___ \  \ \/ /  
-    | |\  | (_) | (_| |  __/| |____ ____) |  \  /   
+    | |\  | (_) | (_| |  __/| |____ ____) |  \  /
     |_| \_|\___/ \__,_|\___| \_____|_____/    \/     New BSD License
 
 </pre>
 
 This project provides CSV generation, parsing, transformation and serialization.
-It has been tested and used on by a large community over the years and should be
-considered reliable. It provides every option you would expect from an advanced 
+It has been tested and used by a large community over the years and should be
+considered reliable. It provides every option you would expect from an advanced
 CSV parser and stringifier.
 
 [![NPM](https://nodei.co/npm/csv.png?stars&downloads)](https://nodei.co/npm/csv/) [![NPM](https://nodei.co/npm-dl/csv.png)](https://nodei.co/npm/csv/)
 
-The project is splitted into 4 packages:   
+The project is splitted into 4 packages:
 
-*   [`csv-generate`](https://github.com/wdavidw/node-csv-generate), a flexible generator of CSV string and Javascript objects.   
-*   [`csv-parse`](https://github.com/wdavidw/node-csv-parse), a parser converting CSV text into arrays or objects.   
+*   [`csv-generate`](https://github.com/wdavidw/node-csv-generate), a flexible generator of CSV string and Javascript objects.
+*   [`csv-parse`](https://github.com/wdavidw/node-csv-parse), a parser converting CSV text into arrays or objects.
 *   [`stream-transform`](https://github.com/wdavidw/node-stream-transform), a transformation framework.
-*   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), a stringifier converting records into a CSV text.   
+*   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), a stringifier converting records into a CSV text.
 
 The full documentation for the current version 0.4 isn't yet available other
-then the links to the README provided just above. The 
+then the links to the README provided just above. The
 [official documentation][website] still cover the version 0.3.
 
 ## Call for feedback
@@ -106,7 +106,7 @@ stringifier.on('readable', function(){
 ### Pipe example
 
 Execute this script with the command `node samples/pipe.js`.
-    
+
 ```javascript
 var csv = require('csv');
 
@@ -121,17 +121,17 @@ csv.stringify ()).pipe(process.stdout);
 Migration
 ---------
 
-This README covers the current version 0.2.x of the `node 
-csv `parser. The documentation for the previous version (0.1.0) is 
-available [here](https://github.com/wdavidw/node-csv/tree/v0.1). The 
+This README covers the current version 0.2.x of the `node
+csv `parser. The documentation for the previous version (0.1.0) is
+available [here](https://github.com/wdavidw/node-csv/tree/v0.1). The
 documentation for the incoming 0.3.x version is not yet released.
 
 The functions 'from*' and 'to*' are now rewritten as 'from.*' and 'to.*'. The 'data'
-event is now the 'record' event. The 'data' now receives a stringified version 
+event is now the 'record' event. The 'data' now receives a stringified version
 of the 'record' event.
 
-The documentation for olders version are available on GitHub: 
-[0.1.x](https://github.com/wdavidw/node-csv/tree/v0.1), 
+The documentation for olders version are available on GitHub:
+[0.1.x](https://github.com/wdavidw/node-csv/tree/v0.1),
 [0.2.x](https://github.com/wdavidw/node-csv/tree/v0.2).
 
 Development
@@ -167,4 +167,3 @@ Related projects
 
 [travis]: https://travis-ci.org/#!/wdavidw/node-csv
 [website]: http://www.adaltas.com/projects/node-csv/
-
