@@ -30,16 +30,7 @@
     "stream-transform": "latest",
     "csv-stringify": "latest"
   },
-  "devDependencies": {
-    "coffee-script": "latest",
-    "mocha": "latest",
-    "should": "latest",
-    "each": "latest",
-    "mecano": "latest",
-    "iconv": "latest"
-  },
+  "devDependencies": {},
   "optionalDependencies": {},
-  "scripts": {
-    "test": "make test"
-  }
+  "scripts": {}
 }
