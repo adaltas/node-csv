@@ -26,10 +26,10 @@
     "url": "https://github.com/wdavidw/node-csv.git"
   },
   "dependencies": {
-    "csv-generate": "latest",
-    "csv-parse": "latest",
-    "stream-transform": "latest",
-    "csv-stringify": "latest"
+    "csv-generate": "*",
+    "csv-parse": "*",
+    "stream-transform": "*",
+    "csv-stringify": "*"
   },
   "devDependencies": {},
   "optionalDependencies": {},
