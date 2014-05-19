@@ -212,8 +212,8 @@ Implementation of the [`stream.Transform` API][transform]
             rowDelimiter = @nextChar
             nextCharPos = i+2
           if rowDelimiter
+            rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextCharPos) is '\n'
             @options.rowDelimiter = rowDelimiter
-            @options.rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextCharPos) is '\n'
             delimLength = @options.rowDelimiter.length
         # Parse that damn char
         # Note, shouldn't we have sth like chars.substr(i, @options.escape.length)
@@ -272,7 +272,6 @@ Implementation of the [`stream.Transform` API][transform]
               @field = @field.substr 0, @closingQuote
             else
               @field = @field.trimRight()
-
           if (@options.auto_parse and @floatRegexp.test(@field))
             @line.push parseFloat(@field)
           else
