@@ -130,6 +130,10 @@ The functions 'from*' and 'to*' are now rewritten as 'from.*' and 'to.*'. The 'd
 event is now the 'record' event. The 'data' now receives a stringified version 
 of the 'record' event.
 
+The documentation for olders version are available on GitHub: 
+[0.1.x](https://github.com/wdavidw/node-csv/tree/v0.1), 
+[0.2.x](https://github.com/wdavidw/node-csv/tree/v0.2).
+
 Development
 -----------
 
@@ -153,7 +157,7 @@ The test suite is run online with [Travis][travis] against Node.js version 0.6, 
 Contributors
 ------------
 
-*	  David Worms: <https://github.com/wdavidw>
+*   David Worms: <https://github.com/wdavidw>
 
 Related projects
 ----------------
