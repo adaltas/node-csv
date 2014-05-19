@@ -13,11 +13,11 @@ Node.js `stream.Transform` API. It was originally developed as a part of the Nod
 ## Usage
 
 Run `npm install csv` to install the full CSV module or run 
-`npm install stream-transform` if you are only interested by the CSV parser.
+`npm install stream-transform` if you are only interested by this package.
 
-Callback API: `parse(udf, [options])`
+Callback API: `transform(udf, [options])`   
 
-Stream API: `parse(data, udf, [options], [callback])`
+Stream API: `transform(data, [options], udf, [options], [callback])`   
 
 Use the callback style API for simplicity or the stream based API for 
 scalability.
@@ -36,6 +36,14 @@ is ready.
 In synchronous mode, you may simply return the altered data or throw an error.
 In asynchronous mode, you must call the provided callback with 2 arguments, the
 error if any and the altered data.
+
+## Array versus objects
+
+The transformation function may either receive arrays or objects.
+
+If you specify the `columns` read option, the `row` argument will be 
+provided as an object with keys matching columns names. Otherwise it
+will be provided as an array.
 
 ## Sequential versus concurrent execution
 
