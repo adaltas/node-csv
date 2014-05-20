@@ -1,4 +1,3 @@
-[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv.png)](http://travis-ci.org/wdavidw/node-csv)
 
 <pre>
      _   _           _        _____  _______      __
@@ -19,10 +18,18 @@ CSV parser and stringifier.
 
 The project is splitted into 4 packages:
 
-*   [`csv-generate`](https://github.com/wdavidw/node-csv-generate), a flexible generator of CSV string and Javascript objects.
-*   [`csv-parse`](https://github.com/wdavidw/node-csv-parse), a parser converting CSV text into arrays or objects.
-*   [`stream-transform`](https://github.com/wdavidw/node-stream-transform), a transformation framework.
-*   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), a stringifier converting records into a CSV text.
+*   [`csv-generate`](https://github.com/wdavidw/node-csv-generate),
+    a flexible generator of CSV string and Javascript objects. 
+    [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-generate.png)][travis-csv-generate]
+*   [`csv-parse`](https://github.com/wdavidw/node-csv-parse),
+    a parser converting CSV text into arrays or objects. 
+    [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.png)][travis-csv-parse]
+*   [`stream-transform`](https://github.com/wdavidw/node-stream-transform),
+    a transformation framework. 
+    [![Build Status](https://secure.travis-ci.org/wdavidw/node-stream-transform.png)][travis-stream-transform]
+*   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), 
+    a stringifier converting records into a CSV text. 
+    [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-stringify.png)][travis-csv-stringify]
 
 The full documentation for the current version 0.4 isn't yet available other
 then the links to the README provided just above. The
@@ -137,6 +144,9 @@ The documentation for olders version are available on GitHub:
 Development
 -----------
 
+This parent project doesn't have test in itself but instead it deleguates the 
+tests to its child projects. 
+
 Tests are executed with mocha. To install it, simple run `npm install`, it will
 install mocha and its dependencies in your project "node_modules" directory.
 
@@ -165,5 +175,8 @@ Related projects
 *   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
 *   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
 
-[travis]: https://travis-ci.org/#!/wdavidw/node-csv
+[travis-csv-generate]: http://travis-ci.org/wdavidw/node-csv-generate
+[travis-csv-parse]: http://travis-ci.org/wdavidw/node-csv-parse
+[travis-stream-transform]: http://travis-ci.org/wdavidw/node-stream-transform
+[travis-csv-stringify]: http://travis-ci.org/wdavidw/node-csv-stringify
 [website]: http://www.adaltas.com/projects/node-csv/
