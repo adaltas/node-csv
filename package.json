@@ -2,6 +2,7 @@
   "version": "0.0.3",
   "name": "csv-parse",
   "description": "CSV parsing implementing the Node.js `stream.Transform` API",
+  "keywords": [ "csv", "parse", "parser" ],
   "contributors": [
     "David Worms <david@adaltas.com> (http://www.adaltas.com)",
     "Will White (https://github.com/willwhite)",
