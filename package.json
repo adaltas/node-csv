@@ -2,11 +2,15 @@
   "version": "0.0.4",
   "name": "csv-generate",
   "description": "CSV and object generation implementing the Node.js `stream.Readable` API",
+  "keywords": [ "stream", "generate", "csv", "object" ],
+  "licenses": [{
+    "type": "BSD",
+    "url": "https://github.com/wdavidw/node-csv-generate/blob/master/LICENSE"
+  }],
   "repository": {
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-generate"
   },
-  "keywords": [ "stream", "generate", "csv", "object" ],
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "latest",
