@@ -16,7 +16,7 @@ CSV parser and stringifier.
 
 [![NPM](https://nodei.co/npm/csv.png?stars&downloads)](https://nodei.co/npm/csv/) [![NPM](https://nodei.co/npm-dl/csv.png)](https://nodei.co/npm/csv/)
 
-The project is splitted into 4 packages:
+The project is split into 4 packages:
 
 *   [`csv-generate`](https://github.com/wdavidw/node-csv-generate),
     a flexible generator of CSV string and Javascript objects. 
