@@ -36,21 +36,24 @@ Stream API, for maximum of power:
         callback = arguments[2]
       else if arguments.length is 2
         if typeof arguments[0] is 'string'
-          data = arguments[0]
-        else
-          options = arguments[0]
-        callback = arguments[1]
+        then data = arguments[0]
+        else options = arguments[0]
+        if typeof arguments[1] is 'function'
+        then callback = arguments[1]
+        else options = arguments[1]
       else if arguments.length is 1
-        options = arguments[0]
+        if typeof arguments[0] is 'function'
+        then callback = arguments[0]
+        else options = arguments[0]
       options ?= {}
       parser = new Parser options
-      if data or callback
+      if data
+        process.nextTick ->
+          parser.write data
+          parser.end()
+      if callback
         called = false
         chunks = if options.objname then {} else []
-        if data
-          process.nextTick ->
-            parser.write data
-            parser.end()
         parser.on 'readable', ->
           while chunk = parser.read()
             if options.objname
