@@ -24,7 +24,9 @@ Run `npm install csv` to install the full CSV package or run
 `npm install csv-parse` if you are only interested by the CSV parser.
 
 Use the callback style API for simplicity or the stream based API for 
-scalability.
+scalability. You may also mix the two styles. For example, the 
+[fs_read.js example][fs_read] pipe a file stream reader and get the results 
+inside a callback.
 
 For examples, refer to [the "samples" folder][csv-samples], 
 the documentation or [the "test" folder][csv-test].
@@ -168,6 +170,7 @@ Contributors
 
 [csv]: https://github.com/wdavidw/node-csv
 [csv-samples]: https://github.com/wdavidw/node-csv-parse/tree/master/samples
+[fs_read]: https://github.com/wdavidw/node-csv-parse/tree/master/samples/fs_read.js
 [csv-test]: https://github.com/wdavidw/node-csv-parse/tree/master/test
 [stream_transform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
 [travis]: https://travis-ci.org/#!/wdavidw/node-csv-parse
