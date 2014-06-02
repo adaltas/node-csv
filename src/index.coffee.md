@@ -284,6 +284,7 @@ Implementation of the [`stream.Transform` API][transform]
           # End of row, flush the row
           if isRowDelimiter
             @__push @line
+            @lines++
             # Some cleanup for the next row
             @line = []
             i += @options.rowDelimiter.length
