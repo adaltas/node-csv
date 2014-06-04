@@ -8,6 +8,20 @@ describe 'api', ->
   it 'exports Parser class', ->
     parse.Parser.should.be.a.Function
 
+  it '0 arg', (next) ->
+    data = []
+    parser = parse()
+    parser.on 'readable', ->
+      while d = parser.read()
+        data.push d
+    parser.on 'err', (err) ->
+      next err
+    parser.on 'finish', ->
+      data.should.eql [ [ 'field_1', 'field_2' ], [ 'value 1', 'value 2' ] ]
+      next()
+    parser.write 'field_1,field_2\nvalue 1,value 2'
+    parser.end()
+
   it '1 arg: callback; pipe data and get result in callback', (next) ->
     generate(length: 2, seed: 1, columns: 2, fixed_size: true)
     .pipe parse (err, data) ->
