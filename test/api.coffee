@@ -41,6 +41,18 @@ describe 'API', ->
       """
       next()
 
+  it '1 arg: pass data and pipe result', (next) ->
+    data = ''
+    stringifier = stringify [
+      ['field_1','field_2'], ['value 1','value 2']
+    ]
+    stringifier.on 'readable', ->
+      while(d = stringifier.read())
+        data += d
+    stringifier.on 'finish', ->
+      data.should.eql 'field_1,field_2\nvalue 1,value 2\n'
+      next()
+
   it '2 args: pass data, pass option and pipe result', (next) ->
     data = ''
     stringifier = stringify [
