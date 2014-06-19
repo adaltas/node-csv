@@ -15,7 +15,7 @@ Callback approach, for ease of use:
 
 Stream API, for maximum of power:   
 
-`stringify([options])`   
+`stringify([options], [callback])`   
 
     module.exports = ->
       if arguments.length is 3
@@ -23,15 +23,24 @@ Stream API, for maximum of power:
         options = arguments[1]
         callback = arguments[2]
       else if arguments.length is 2
-        data = arguments[0]
-        callback = arguments[1]
+        if Array.isArray arguments[0]
+        then data = arguments[0]
+        else options = arguments[0]
+        if typeof arguments[1] is 'function'
+        then callback = arguments[1]
+        else options = arguments[1]
       else if arguments.length is 1
-        options = arguments[0]
+        if typeof arguments[0] is 'function'
+        then callback = arguments[0]
+        else options = arguments[0]
       options ?= {}
       stringifier = new Stringifier options
-      if data and callback
+      if data
+        process.nextTick ->
+          stringifier.write d for d in data
+          stringifier.end()
+      if callback
         chunks = []
-        stringifier.write d for d in data
         stringifier.on 'readable', ->
           while chunk = stringifier.read()
             chunks.push chunk
@@ -39,7 +48,6 @@ Stream API, for maximum of power:
           callback err
         stringifier.on 'finish', ->
           callback null, chunks.join ''
-        stringifier.end()
       stringifier
 
 ## `Stringifier([options])`
