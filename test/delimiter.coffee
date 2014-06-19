@@ -4,7 +4,7 @@ stringify = if process.env.CSV_COV then require '../lib-cov' else require '../sr
 
 describe 'delimiter', ->
   
-  it 'with empty field', (next) ->
+  it 'with default value', (next) ->
     stringify [
       [ '20322051544','','8.8017226E7','45','']
       [ '','1974','8.8392926E7','','']
@@ -16,7 +16,7 @@ describe 'delimiter', ->
       """
       next()
   
-  it 'with tabs to comma', (next) ->
+  it 'with tabs', (next) ->
     stringify [
       [ '20322051544','','8.8017226E7','45','']
       [ '','1974','8.8392926E7','','']
