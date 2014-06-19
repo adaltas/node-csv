@@ -32,6 +32,8 @@ Stream API, for maximum of power:
       else if arguments.length is 1
         if typeof arguments[0] is 'function'
         then callback = arguments[0]
+        else if Array.isArray arguments[0]
+        then data = arguments[0]
         else options = arguments[0]
       options ?= {}
       stringifier = new Stringifier options
