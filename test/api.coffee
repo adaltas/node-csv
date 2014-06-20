@@ -42,7 +42,7 @@ describe 'api', ->
     parser.write 'field_1,field_2\nvalue 1,value 2'
     parser.end()
 
-  it '2 args: options; write data and read stream', (next) ->
+  it '2 args: data, options; read stream', (next) ->
     data = []
     parser = parse 'field_1,field_2\nvalue 1,value 2', columns: true
     parser.on 'readable', ->

@@ -15,7 +15,7 @@ describe 'rowDelimiter', ->
       ]
       next()
 
-  it 'should handle new line precede with a quote', (next) ->
+  it 'handle new line precede with a quote', (next) ->
     parse """
     "ABC","45"::"DEF","23"::"GHI","94"
     """, rowDelimiter: '::', (err, data) ->
@@ -27,7 +27,7 @@ describe 'rowDelimiter', ->
       ]
       next()
 
-  it 'should handle chuncks of multiple chars', (next) ->
+  it 'handle chuncks of multiple chars', (next) ->
     data = []
     parser = parse rowDelimiter: '::'
     parser.on 'readable', ->
@@ -47,7 +47,7 @@ describe 'rowDelimiter', ->
     parser.write '"JKL","02"'
     parser.end()
   
-  it 'should handle chuncks in autodiscovery', (next) ->
+  it 'handle chuncks in autodiscovery', (next) ->
     data = []
     parser = parse()
     parser.on 'readable', ->
