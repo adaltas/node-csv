@@ -9,14 +9,16 @@
 
 </pre>
 
-This project provides CSV generation, parsing, transformation and serialization.
+This project provides CSV generation, parsing, transformation and serialization
+for Node.js.
+
 It has been tested and used by a large community over the years and should be
 considered reliable. It provides every option you would expect from an advanced
 CSV parser and stringifier.
 
 [![NPM](https://nodei.co/npm/csv.png?stars&downloads)](https://nodei.co/npm/csv/) [![NPM](https://nodei.co/npm-dl/csv.png)](https://nodei.co/npm/csv/)
 
-The project is splitted into 4 packages:
+The `csv` package is itself split into 4 packages:
 
 *   [`csv-generate`](https://github.com/wdavidw/node-csv-generate),
     a flexible generator of CSV string and Javascript objects. 
