@@ -6,9 +6,13 @@ Node.js `stream.Transform` API. It was originally developed as a part of the Nod
 
 [Documentation for the stream-transform package is available here][transform].
 
-*   Fully Node.js compliant, pipe through it
-*   Run sequentially or with a defined number of callbacks executed in parallel
+*   Simple callback based API
+*   Node.js [stream.Transform][streamtransform] API, pipe through it
+*   synchronous versus asynchronous user callbacks
 *   Accept object, array or JSON as input and output
+*   Sequential or user-defined concurrent execution
+*   Skip and create new records
+*   Alter or clone input data
 
 ## Usage
 
@@ -20,7 +24,7 @@ Callback API: `transform(udf, [options])`
 Stream API: `transform(data, [options], udf, [options], [callback])`   
 
 Use the callback style API for simplicity or the stream based API for 
-scalability.
+scalability or mix the 2 APIs.
 
 For examples, refer to below examples, [the "samples" folder][stream-samples], 
 the documentation or [the "test" folder][stream-test].
@@ -53,7 +57,14 @@ The number of running functions is defined by the "parallel" option. When set to
 "1", the mode is sequential, when above "1", it defines the maximum of running 
 functions. Note, this only affect asynchronous executions.
 
-## Altering or cloning the data
+## Skipping and creating records
+
+Skipping records is easily achieved by returning null in synchonous mode or
+passing null to the callback handler in asynchonous mode. Generating multiple
+records is only supported in asynchonous mode by providing n-arguments after the
+error argument instead of simply one.
+
+## Altering or cloning the provided data
 
 The data recieved inside the transformation function is the original data and is
 not modified nor cloned. Depending on which api you choose, it may be provided 
@@ -114,7 +125,7 @@ transformer.write(['a','b','c','d']);
 transformer.end();
 ```
 
-### Synchronous transformation
+### Using synchronous transformation
 
 You may run this script with the command `node samples/synchronous.js`.
 
@@ -139,7 +150,7 @@ transform([
 // b,c,d,a
 ```
 
-### Asynchronous transformation
+### Using asynchronous transformation
 
 You may run this script with the command `node samples/asynchronous.js`.
 
@@ -184,6 +195,7 @@ The test suite is run online with [Travis][travis] against the versions
 
 *	  David Worms: <https://github.com/wdavidw>
 
+[streamtransform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
 [transform]: https://github.com/wdavidw/node-stream-transform
 [csv]: https://github.com/wdavidw/node-csv
 [stream-samples]: https://github.com/wdavidw/node-stream-transform/tree/master/samples
