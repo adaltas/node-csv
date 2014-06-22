@@ -45,24 +45,23 @@ Stream API, for maximum of power:
           else udf = argument
         else if type isnt 'null'
           throw new Error 'Invalid arguments'
-      transform = new Transformer options
-      transform.register udf
+      transform = new Transformer options, udf
+      error = false
       if data
-        result = []
-        error = false
         process.nextTick ->
           for row in data
             break if error
             transform.write row
           transform.end()
       if callback
+        result = []
         transform.on 'readable', ->
           while(r = transform.read())
             result.push r
         transform.on 'error', (err) ->
           error = true
           callback err
-        transform.on 'finish', ->
+        transform.on 'end', ->
           callback null, result unless error
       transform
 
@@ -85,11 +84,10 @@ Available properties:
 Using the async mode present the advantage that more than one record may be 
 emitted per transform callback.
 
-    Transformer = (@options = {}) ->
+    Transformer = (@options = {}, @transform) ->
       @options.objectMode = true
       @options.parallel ?= 100
       stream.Transform.call @, @options
-      @transforms = [] # User transformation callbacks
       @running = 0
       @started = 0
       @finished = 0
@@ -99,43 +97,34 @@ emitted per transform callback.
 
     module.exports.Transformer = Transformer
 
-    Transformer.prototype.register = (options, cb) ->
-      if typeof options is 'function'
-        cb = options
-        options = {}
-      @transforms.push cb
-      @
-
     Transformer.prototype._transform = (chunk, encoding, cb) ->
       @started++
       @running++
       if @running < @options.parallel
         cb()
         cb = null
-      for transform in @transforms
-        try
-          if transform.length is 2
-            transform.call null, chunk, (err, chunks...) =>
-              @_done err, chunks, cb
-          else
-            @_done null, [transform.call(null, chunk)], cb
-        catch err then @_done err
+      try
+        if @transform.length is 2
+          @transform.call null, chunk, (err, chunks...) =>
+            @_done err, chunks, cb
+        else
+          @_done null, [@transform.call(null, chunk)], cb
+      catch err then @_done err
 
-    Transformer.prototype.end = (chunk, encoding, cb) ->
+    Transformer.prototype._flush = (cb) ->
       @_ending = ->
-        stream.Transform.prototype.end.call @, chunk, encoding, cb
-      @_ending() if @_ending and @running is 0
+        cb() if @running is 0
+      @_ending()
 
     Transformer.prototype._done = (err, chunks, cb) ->
       @running--
-      if err
-        return @emit 'error', err
+      return @emit 'error', err if err
       @finished++
       for chunk in chunks
         chunk = "#{chunk}" if typeof chunk is 'number'
         @push chunk if chunk?
       cb() if cb
-      @_ending() if @_ending and @running is 0
+      @_ending() if @_ending
 
 [readme]: https://github.com/wdavidw/node-stream-transform
 [samples]: https://github.com/wdavidw/node-stream-transform/tree/master/samples

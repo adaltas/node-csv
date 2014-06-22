@@ -1,11 +1,12 @@
 
 should = require 'should'
+stream = require 'stream'
 generate = require 'csv-generate'
 transform = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'pipe', ->
 
-  describe 'pass rows after inversing columns', ->
+  describe 'source', ->
 
     it 'in sync mode', (next) ->
       data = []
@@ -38,5 +39,38 @@ describe 'pipe', ->
           [ 'GeACHiN', 'D' ]
         ]
         next()
+
+  describe 'source and destination', ->
+
+    it 'in sync mode', (next) ->
+      @timeout 0
+      generator = generate length: 100000, objectMode: true, seed: 1, columns: 2
+      destination = new stream.Writable
+      destination._write = (chunk, encoding, callback) ->
+        setImmediate ->
+          callback()
+        , 100
+      destination.end = ->
+        next()
+      generator
+      .pipe transform (row) ->
+        row.join ','
+      .pipe destination
+
+    it 'in async mode', (next) ->
+      @timeout 0
+      generator = generate length: 100000, objectMode: true, seed: 1, columns: 2
+      destination = new stream.Writable
+      destination._write = (chunk, encoding, callback) ->
+        setImmediate ->
+          callback()
+        , 100
+      destination.end = ->
+        next()
+      generator
+      .pipe transform (row, callback) ->
+        setImmediate ->
+          callback null, row.join ','
+      .pipe destination
 
 
