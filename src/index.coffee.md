@@ -63,7 +63,9 @@ Options may include:
 *   `header`        Display the column names on the first line if the columns option is provided or discovered.   
 *   `lineBreaks`    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).   
 *   `quote`         Defaults to the quote read option.   
-*   `quoted`        Boolean, default to false, quote all the fields even if not required.   
+*   `quoted`        Boolean, default to false, quote all the non-empty fields even if not required.
+*   `quotedEmpty`   Boolean, no default, quote empty fields?  If specified, overrides `quotedString` for empty strings.
+*   `quotedString`  Boolean, default to false, quote all fields of type string even if not required.
 *   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).   
 
 All options are optional.
@@ -75,6 +77,7 @@ All options are optional.
       @options.delimiter ?= ','
       @options.quote ?= '"'
       @options.quoted ?= false
+      @options.quotedString ?= false
       @options.eof ?= true
       @options.escape ?= '"'
       @options.columns ?= null
@@ -194,9 +197,11 @@ Convert a line to a string. Line may be an object, an array or a string.
             if containsQuote
               regexp = new RegExp(quote,'g')
               field = field.replace(regexp, escape + quote)
-            if containsQuote or containsdelimiter or containsLinebreak or @options.quoted
+            if containsQuote or containsdelimiter or containsLinebreak or @options.quoted or (@options.quotedString and typeof line[i] is 'string')
               field = quote + field + quote
             newLine += field
+          else if @options.quotedEmpty or (not @options.quotedEmpty? and line[i] is '' and @options.quotedString)
+            newLine += quote + quote
           if i isnt line.length - 1
             newLine += delimiter
         line = newLine
