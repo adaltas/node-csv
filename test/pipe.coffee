@@ -7,6 +7,7 @@ parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 describe 'pipe', ->
 
   it 'work with producer', (next) ->
+    finished = false
     parser = parse()
     data = []
     generator = generate length: 2, seed: 1, columns: 2, fixed_size: true
@@ -14,6 +15,9 @@ describe 'pipe', ->
       while d = parser.read()
         data.push d
     parser.on 'finish', ->
+      finished = true
+    parser.on 'end', ->
+      finished.should.be.ok
       data.should.eql [
         [ 'OMH', 'ONKCHhJmjadoA' ]
         [ 'D', 'GeACHiN' ]
@@ -25,7 +29,7 @@ describe 'pipe', ->
     parser = parse()
     parser.on 'error', ->
       next new Error 'Should not pass here'
-    parser.on 'finish', ->
+    parser.on 'end', ->
       next new Error 'Should not pass here'
     rs = fs.createReadStream('/doesnotexist')
     rs.on 'error', (err) ->
