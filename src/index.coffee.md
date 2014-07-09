@@ -63,7 +63,7 @@ Stream API, for maximum of power:
         parser.on 'error', (err) ->
           called = true
           callback err
-        parser.on 'finish', ->
+        parser.on 'end', ->
           callback null, chunks unless called
       parser
 
