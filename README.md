@@ -131,14 +131,8 @@ csv.generate({seed: 1, columns: 2, length: 20})
 Migration
 ---------
 
-This README covers the current version 0.2.x of the `node
-csv `parser. The documentation for the previous version (0.1.0) is
-available [here](https://github.com/wdavidw/node-csv/tree/v0.1). The
-documentation for the incoming 0.3.x version is not yet released.
-
-The functions `from*` and `to*` are now rewritten as `from.*` and `to.*`. The `data`
-event is now the `record` event. The `data` event now receives a stringified version
-of the `record` event.
+This README covers the current version 0.3.x of the `node
+csv `parser.
 
 The documentation for older versions are available on GitHub:
 [0.1.x](https://github.com/wdavidw/node-csv/tree/v0.1),
