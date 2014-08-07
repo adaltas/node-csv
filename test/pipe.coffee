@@ -17,7 +17,7 @@ describe 'pipe', ->
       transformer.on 'readable', ->
         while(d = transformer.read())
           data.push d
-      transformer.on 'finish', ->
+      transformer.on 'end', ->
         data.slice(0,2).should.eql [
           [ 'ONKCHhJmjadoA', 'OMH' ]
           [ 'GeACHiN', 'D' ]
@@ -33,7 +33,7 @@ describe 'pipe', ->
       transformer.on 'readable', ->
         while(d = transformer.read())
           data.push d
-      transformer.on 'finish', ->
+      transformer.on 'end', ->
         data.slice(0,2).should.eql [
           [ 'ONKCHhJmjadoA', 'OMH' ]
           [ 'GeACHiN', 'D' ]
@@ -44,14 +44,12 @@ describe 'pipe', ->
 
     it 'in sync mode', (next) ->
       @timeout 0
-      generator = generate length: 100000, objectMode: true, seed: 1, columns: 2
+      count = 0
+      generator = generate length: 10000, objectMode: true, seed: 1, columns: 2
       destination = new stream.Writable
       destination._write = (chunk, encoding, callback) ->
-        setImmediate ->
-          callback()
-        , 100
-      destination.end = ->
-        next()
+        setImmediate callback
+      destination.on 'finish', next
       generator
       .pipe transform (row) ->
         row.join ','
@@ -59,14 +57,11 @@ describe 'pipe', ->
 
     it 'in async mode', (next) ->
       @timeout 0
-      generator = generate length: 100000, objectMode: true, seed: 1, columns: 2
+      generator = generate length: 10000, objectMode: true, seed: 1, columns: 2
       destination = new stream.Writable
       destination._write = (chunk, encoding, callback) ->
-        setImmediate ->
-          callback()
-        , 100
-      destination.end = ->
-        next()
+        setImmediate callback
+      destination.on 'finish', next
       generator
       .pipe transform (row, callback) ->
         setImmediate ->
