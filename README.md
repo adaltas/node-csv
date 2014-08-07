@@ -1,6 +1,6 @@
 [![Build Status](https://secure.travis-ci.org/wdavidw/node-stream-transform.png)][travis]
 
-This project provide a simple object transformation framework implementing the 
+This project provides a simple object transformation framework implementing the 
 Node.js `stream.Transform` API. It was originally developed as a part of the Node.js 
 [CSV package][csv] (`npm install csv`) and can be used independently.
 
