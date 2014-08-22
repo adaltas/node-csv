@@ -3,7 +3,7 @@
      _   _           _        _____  _______      __
     | \ | |         | |      / ____|/ ____\ \    / /
     |  \| | ___   __| | ___ | |    | (___  \ \  / /
-    | . ` |/ _ \ / _` |/ _ \| |     \___ \  \ \/ /  
+    | . ` |/ _ \ / _` |/ _ \| |     \___ \  \ \/ /
     | |\  | (_) | (_| |  __/| |____ ____) |  \  /
     |_| \_|\___/ \__,_|\___| \_____|_____/    \/     New BSD License
 
@@ -27,7 +27,7 @@ The `csv` package is itself split into 4 packages:
     a parser converting CSV text into arrays or objects. 
     [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.png)][travis-csv-parse]
 *   [`stream-transform`](https://github.com/wdavidw/node-stream-transform),
-    a transformation framework. 
+    a transformation framework.
     [![Build Status](https://secure.travis-ci.org/wdavidw/node-stream-transform.png)][travis-stream-transform]
 *   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), 
     a stringifier converting records into a CSV text. 
@@ -43,15 +43,15 @@ The redesign is an important step forward for this package. A lot of sugar has
 been removed in favor of straightforward implementations of the Stream API into
 the 4 sub-packages.
 
-We now need your input. Help us with the documentation, write your impressions
-discuss additionnal APIs.
+We now need your input. Help us with the documentation, write your impressions,
+and discuss additional APIs.
 
 ## Usage
 
 Installation command is `npm install csv`.
 
-Each modules are fully be compatible with the stream 2 and 3 specifications.
-Also, a simple callback-based API is alwasy provided for conveniency.
+Each module is fully compatible with the stream 2 and 3 specifications.
+Also, a simple callback-based API is always provided for convenience.
 
 ### Callback example
 
@@ -119,38 +119,35 @@ Execute this script with the command `node samples/pipe.js`.
 ```javascript
 var csv = require('csv');
 
-csv.generate  ({seed: 1, columns: 2, length: 20}).pipe(
-csv.parse     ()).pipe(
-csv.transform (function(record){
-                return record.map(function(value){return value.toUpperCase()});
-              })).pipe(
-csv.stringify ()).pipe(process.stdout);
+csv.generate({seed: 1, columns: 2, length: 20})
+  .pipe(csv.parse())
+  .pipe(csv.transform(function(record){
+     return record.map(function(value){
+       return value.toUpperCase()
+     });
+  }))
+  .pipe(csv.stringify ())
+  .pipe(process.stdout);
 ```
 
 Migration
 ---------
 
-This README covers the current version 0.2.x of the `node
-csv `parser. The documentation for the previous version (0.1.0) is
-available [here](https://github.com/wdavidw/node-csv/tree/v0.1). The
-documentation for the incoming 0.3.x version is not yet released.
+This README covers the current version 0.3.x of the `node
+csv `parser.
 
-The functions 'from*' and 'to*' are now rewritten as 'from.*' and 'to.*'. The 'data'
-event is now the 'record' event. The 'data' now receives a stringified version
-of the 'record' event.
-
-The documentation for olders version are available on GitHub:
+The documentation for older versions are available on GitHub:
 [0.1.x](https://github.com/wdavidw/node-csv/tree/v0.1),
 [0.2.x](https://github.com/wdavidw/node-csv/tree/v0.2).
 
 Development
 -----------
 
-This parent project doesn't have test in itself but instead it deleguates the 
-tests to its child projects. 
+This parent project doesn't have tests itself but instead delegates the
+tests to its child projects.
 
 Tests are executed with mocha. To install it, simple run `npm install`, it will
-install mocha and its dependencies in your project "node_modules" directory.
+install mocha and its dependencies in your projects `node_modules` directory.
 
 To run the tests:
 ```bash
@@ -164,7 +161,7 @@ To generate the JavaScript files:
 make build
 ```
 
-The test suite is run online with [Travis][travis] against Node.js version 0.6, 0.7, 0.8 and 0.9.
+The test suite is run online with [Travis][travis] against Node.js versions 0.6, 0.7, 0.8 and 0.9.
 
 Contributors
 ------------
@@ -177,6 +174,7 @@ Related projects
 *   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
 *   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
 
+[travis]: https://travis-ci.org/
 [travis-csv-generate]: http://travis-ci.org/wdavidw/node-csv-generate
 [travis-csv-parse]: http://travis-ci.org/wdavidw/node-csv-parse
 [travis-stream-transform]: http://travis-ci.org/wdavidw/node-stream-transform
