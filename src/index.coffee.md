@@ -53,32 +53,7 @@ Stream API, for maximum of power:
 Feel free to ask for new features and to participate by writting issues and 
 preparing push requests.
 
-Options may include:   
-
-*   `duration`   
-    Period to run in milliseconds, default to 4 minutes.
-*   `columns`   
-    Define the number of generated fields and the generation 
-    method. If columns is an integer, it corresponds to the 
-    number of fields. If it is an array, each element correspond 
-    to a field. If the element is a function, the function will generate
-    the field value, if it is a string, it call the registered 
-    function of the same name.
-*   `max_word_length`   
-    Maximum number of characters per word.
-*   `seed`   
-    Generate idempotent random characters if a number provided
-*   `length`   
-    Number of lines to read.   
-*   `objectMode`   
-    Whether this stream should behave as a stream of objects. Meaning 
-    that stream.read(n) returns a single value instead of a Buffer of 
-    size n. Default=false   
-*   `highWaterMark`   
-    The maximum number of bytes to store in the internal buffer 
-    before ceasing to read from the underlying resource. Default=16kb
-
-All options are optional.
+Options are documented [here](http://csv.adaltas.com/generate/).
 
     Generator = (@options = {}) ->
       stream.Readable.call @, @options
