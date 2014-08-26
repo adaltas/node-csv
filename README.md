@@ -3,7 +3,7 @@
 CSV and object generation
 =========================
 
-This module export a flexible generator of CSV string and Javascript objects 
+This package provides a flexible generator of CSV strings and Javascript objects
 implementing the Node.js `stream.Readable` API.
 
 Features includes:
