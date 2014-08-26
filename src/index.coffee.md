@@ -69,7 +69,7 @@ Stream API, for maximum of power:
 
 ## `Parser([options])`
 
-Options are documented [here](http://csv.adaltas.com/generate/).
+Options are documented [here](http://csv.adaltas.com/parse/).
 
     Parser = (options = {}) ->
       options.objectMode = true
