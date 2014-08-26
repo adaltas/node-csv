@@ -148,26 +148,6 @@ To generate the JavaScript files, run `make build`.
 The test suite is run online with [Travis][travis] against the versions 
 0.10 and 0.11 of Node.js.
 
-Contributors
-------------
-
-*   David Worms: <https://github.com/wdavidw>
-*   Will White: <https://github.com/willwhite>
-*   Justin Latimer: <https://github.com/justinlatimer>
-*   jonseymour: <https://github.com/jonseymour>
-*   pascalopitz: <https://github.com/pascalopitz>
-*   Josh Pschorr: <https://github.com/jpschorr>
-*   Elad Ben-Israel: <https://github.com/eladb>
-*   Philippe Plantier: <https://github.com/phipla>
-*   Tim Oxley: <https://github.com/timoxley>
-*   Damon Oehlman: <https://github.com/DamonOehlman>
-*   Alexandru Topliceanu: <https://github.com/topliceanu>
-*   Visup: <https://github.com/visup>
-*   Edmund von der Burg: <https://github.com/evdb>
-*   Douglas Christopher Wilson: <https://github.com/dougwilson>
-*   Chris Khoo: <https://github.com/khoomeister>
-*   Joeasaurus: <https://github.com/Joeasaurus>
-*   Mark Stosberg: <https://github.com/markstos>
 
 [csv]: https://github.com/wdavidw/node-csv
 [csv-samples]: https://github.com/wdavidw/node-csv-parse/tree/master/samples
