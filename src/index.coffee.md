@@ -67,22 +67,7 @@ Stream API, for maximum of power:
 
 ## Transformer
 
-Options include:
-
-*   `parallel` (number)   
-     The number of transformation callbacks to run in parallel, default to "100".
-
-Available properties:
-
-*    `transform.running`   
-      The number of transformation callback being run at a given time.   
-*    `transform.started`   
-      The number of transformation callback which have been initiated.   
-*    `transform.running`   
-      The number of transformation callback which have been executed.   
-
-Using the async mode present the advantage that more than one record may be 
-emitted per transform callback.
+Options are documented [here](http://csv.adaltas.com/transform/).
 
     Transformer = (@options = {}, @transform) ->
       @options.objectMode = true
