@@ -63,6 +63,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.delimiter ?= ','
       @options.quote ?= '"'
       @options.quoted ?= false
+      @options.quotedString ?= false
       @options.eof ?= true
       @options.escape ?= '"'
       @options.columns ?= null
@@ -182,9 +183,11 @@ Convert a line to a string. Line may be an object, an array or a string.
             if containsQuote
               regexp = new RegExp(quote,'g')
               field = field.replace(regexp, escape + quote)
-            if containsQuote or containsdelimiter or containsLinebreak or @options.quoted
+            if containsQuote or containsdelimiter or containsLinebreak or @options.quoted or (@options.quotedString and typeof line[i] is 'string')
               field = quote + field + quote
             newLine += field
+          else if @options.quotedEmpty or (not @options.quotedEmpty? and line[i] is '' and @options.quotedString)
+            newLine += quote + quote
           if i isnt line.length - 1
             newLine += delimiter
         line = newLine
