@@ -69,20 +69,7 @@ Stream API, for maximum of power:
 
 ## `Parser([options])`
 
-*   `delimiter`         Set the field delimiter. One character only, defaults to comma.   
-*   `rowDelimiter`      String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).   
-*   `quote`             Optionnal character surrounding a field, one character only, defaults to double quotes.   
-*   `escape`            Set the escape character, one character only, defaults to double quotes.   
-*   `columns`           List of fields as an array, a user defined callback accepting the first line and returning the column names or true if autodiscovered in the first CSV line, default to null, affect the result data set in the sense that records will be objects instead of arrays.   
-*   `comment`           Treat all the characteres after this one as a comment, default to '#'.   
-*   `objname`           Name of header-record title to name objects by.   
-*   `skip_empty_lines`  Dont generate empty values for empty lines.   
-*   `trim`              If true, ignore whitespace immediately around the delimiter, defaults to false.   
-*   `ltrim`             If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.   
-*   `rtrim`             If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.   
-*   `auto_parse`        If true, the parser will attempt to convert read data types to native types.   
-
-All options are optional.
+Options are documented [here](http://csv.adaltas.com/generate/).
 
     Parser = (options = {}) ->
       options.objectMode = true
