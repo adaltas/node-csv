@@ -54,19 +54,7 @@ Stream API, for maximum of power:
 
 ## `Stringifier([options])`
 
-Options may include:
-
-*   `columns`       List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additionnal information, columns are auto discovered when the user write object, see the "header" option on how to print columns names on the first line.   
-*   `delimiter`     Set the field delimiter, one character only, defaults to `options.from.delimiter` which is a comma.   
-*   `eof`           Add the value of "options.rowDelimiter" on the last line, default to true.   
-*   `escape`        Defaults to the escape read option.   
-*   `header`        Display the column names on the first line if the columns option is provided or discovered.   
-*   `lineBreaks`    String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).   
-*   `quote`         Defaults to the quote read option.   
-*   `quoted`        Boolean, default to false, quote all the fields even if not required.   
-*   `rowDelimiter`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).   
-
-All options are optional.
+Options are documented [here](http://csv.adaltas.com/stringify/).
 
     Stringifier = (options = {}) ->
       # options.objectMode = true
