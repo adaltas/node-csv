@@ -2,7 +2,7 @@
 
 Part of the [CSV module](https://github.com/wdavidw/node-csv), this project is a
 parser converting CSV text input into arrays or objects. It implements the 
-Node.js [stream.Transform`API](http://nodejs.org/api/stream.html#stream_class_stream_transform). It also provides a simple callback-base API for convenience. It is both extremely easy to use and powerful. It was first
+Node.js [`stream.Transform` API][stream_transform]. It also provides a simple callback-based API for convenience. It is both extremely easy to use and powerful. It was first
 released in 2010 and is used against big data sets by a large community.
 
 [The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
@@ -33,7 +33,7 @@ the documentation or [the "test" folder][csv-test].
 
 ### Using the callback API
 
-The parser receive a string and returns an array inside a user-provided 
+The parser receives a string and returns an array inside a user-provided 
 callback. This example is available with the command `node samples/callback.js`.
 
 See the full list of supported parsing options below.
@@ -50,9 +50,9 @@ parse(input, {comment: '#'}, function(err, output){
 
 ### Using the stream API
 
-The CSV parser implements the [stream.Transform`API][stream_transform].
+The CSV parser implements the [`stream.Transform` API][stream_transform].
 
-CSV data is send through the `write` function and the resulted data is obtained
+CSV data is sent through the `write` function and the resulting data is obtained
 within the "readable" event by calling the `read` function. This example is 
 available with the command `node samples/stream.js`.
 
@@ -91,10 +91,10 @@ parser.end();
 
 ### Using the pipe function
 
-One useful function part of the Stream API is `pipe` to interact between 
+One useful function of the Stream API is `pipe` to interact between 
 multiple streams. You may use this function to pipe a `stream.Readable` string 
-source to a `stream.Writable` object destination. This example available as 
-`node samples/pipe.js` read the file, parse its content and transform it.
+source to a `stream.Writable` object destination. This example is available as 
+`node samples/pipe.js` and reads the file, parses its content and transforms it.
 
 ```javascript
 var fs = require('fs');
@@ -129,7 +129,7 @@ input.pipe(parser).pipe(transformer).pipe(process.stdout);
 
 ## Migration
 
-Most of the generator is imported from its parent project [CSV][csv] in a effort 
+Most of the generator is imported from its parent project [CSV][csv] in an effort 
 to split it between the generator, the parser, the transformer and the 
 stringifier.
 
