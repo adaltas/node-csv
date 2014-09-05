@@ -11,6 +11,7 @@
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-stream-transform"
   },
+  "homepage": "http://csv.adaltas.com/transform/",
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "latest",
