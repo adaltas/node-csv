@@ -11,6 +11,7 @@
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-generate"
   },
+  "homepage": "http://csv.adaltas.com/generate/",
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "latest",
