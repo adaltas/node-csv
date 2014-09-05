@@ -22,7 +22,6 @@ describe 'write', ->
         [20322051544, 1979, 8.8017226e7, 'ABC', 45, '2000-01-01']
         [28392898392, 1974, 8.8392926e7, 'DEF', 23, '2050-11-27']
       ]
-
       (typeof data[0][0]).should.eql 'number'
       (typeof data[0][1]).should.eql 'number'
       (typeof data[0][4]).should.eql 'number'
