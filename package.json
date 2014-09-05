@@ -11,6 +11,7 @@
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-stringify"
   },
+  "homepage": "http://csv.adaltas.com/stringify/",
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "latest",
