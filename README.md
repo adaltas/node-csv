@@ -33,24 +33,16 @@ The `csv` package is itself split into 4 packages:
     a stringifier converting records into a CSV text. 
     [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-stringify.png)][travis-csv-stringify]
 
-The full documentation for the current version 0.4 isn't yet available other
-then the links to the README provided just above. The
-[official documentation][website] still cover the version 0.3.
+## Documentation
 
-## Call for feedback
-
-The redesign is an important step forward for this package. A lot of sugar has
-been removed in favor of straightforward implementations of the Stream API into
-the 4 sub-packages.
-
-We now need your input. Help us with the documentation, write your impressions,
-and discuss additional APIs.
+The full documentation for the current version 0.4 is available [here][new_doc] while the
+previous documentation is still available [here][old_doc].
 
 ## Usage
 
 Installation command is `npm install csv`.
 
-Each module is fully compatible with the stream 2 and 3 specifications.
+Each package is fully compatible with the stream 2 and 3 specifications.
 Also, a simple callback-based API is always provided for convenience.
 
 ### Callback example
@@ -130,43 +122,13 @@ csv.generate({seed: 1, columns: 2, length: 20})
   .pipe(process.stdout);
 ```
 
-Migration
----------
-
-This README covers the current version 0.3.x of the `node
-csv `parser.
-
-The documentation for older versions are available on GitHub:
-[0.1.x](https://github.com/wdavidw/node-csv/tree/v0.1),
-[0.2.x](https://github.com/wdavidw/node-csv/tree/v0.2).
-
 Development
 -----------
 
 This parent project doesn't have tests itself but instead delegates the
 tests to its child projects.
 
-Tests are executed with mocha. To install it, simple run `npm install`, it will
-install mocha and its dependencies in your projects `node_modules` directory.
-
-To run the tests:
-```bash
-npm test
-```
-
-The tests run against the CoffeeScript source files.
-
-To generate the JavaScript files:
-```bash
-make build
-```
-
-The test suite is run online with [Travis][travis] against Node.js versions 0.6, 0.7, 0.8 and 0.9.
-
-Contributors
-------------
-
-*   David Worms: <https://github.com/wdavidw>
+Read the documentation of the child projects for addionnal information.
 
 Related projects
 ----------------
@@ -179,4 +141,5 @@ Related projects
 [travis-csv-parse]: http://travis-ci.org/wdavidw/node-csv-parse
 [travis-stream-transform]: http://travis-ci.org/wdavidw/node-stream-transform
 [travis-csv-stringify]: http://travis-ci.org/wdavidw/node-csv-stringify
-[website]: http://www.adaltas.com/projects/node-csv/
+[new_doc]: http://csv.adaltas.com
+[old_doc]: http://csv.adaltas.com/legacy/
