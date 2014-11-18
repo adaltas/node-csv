@@ -74,6 +74,9 @@ describe 'API write', ->
     stringifier.end()
     stringifier.write ['def', '456']
 
-
-
-
+  it 'accepts full write API', (next) ->
+    stringifier = stringify()
+    stringifier.on 'finish', ->
+        next()
+    stringifier.write ['abc','123'], 'utf8' , (e,d) ->
+        stringifier.end()
