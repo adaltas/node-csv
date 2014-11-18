@@ -127,7 +127,7 @@ Print the header line if the option "header" is "true".
       chunk = "#{chunk}" if typeof chunk is 'number'
       @headers() if @countWriten is 0
       @countWriten++ unless preserve
-      stream.Transform.prototype.write.call @, chunk
+      stream.Transform.prototype.write.call @, chunk, encoding, callback
 
 ## `Stringifier.prototype._transform(line)`
 
