@@ -4,7 +4,7 @@ This project provides a simple object transformation framework implementing the
 Node.js `stream.Transform` API. It was originally developed as a part of the Node.js 
 [CSV package][csv] (`npm install csv`) and can be used independently.
 
-[Documentation for the stream-transform package is available here][transform].
+[Documentation for the "stream-transform" package is available here][home].
 
 *   Simple callback based API
 *   Node.js [stream.Transform][streamtransform] API, pipe through it
@@ -196,7 +196,7 @@ The test suite is run online with [Travis][travis] against the versions
 *	  David Worms: <https://github.com/wdavidw>
 
 [streamtransform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
-[transform]: https://github.com/wdavidw/node-stream-transform
+[home]: http://csv.adaltas.com/transform/
 [csv]: https://github.com/wdavidw/node-csv
 [stream-samples]: https://github.com/wdavidw/node-stream-transform/tree/master/samples
 [stream-test]: https://github.com/wdavidw/node-stream-transform/tree/master/test
