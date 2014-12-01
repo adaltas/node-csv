@@ -6,6 +6,8 @@ CSV and object generation
 This package provides a flexible generator of CSV strings and Javascript objects
 implementing the Node.js `stream.Readable` API.
 
+[The full documentation of the "csv-generate" package is available here][home].
+
 Features includes:
 
 *   random or pseudo-random seed based generation
@@ -93,5 +95,6 @@ Contributors
 
 *   David Worms: <https://github.com/wdavidw>
 
+[home]: http://csv.adaltas.com/generate/
 [csv]: https://github.com/wdavidw/node-csv
 [travis]: https://travis-ci.org/#!/wdavidw/node-csv-generate
