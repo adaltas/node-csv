@@ -7,7 +7,7 @@ for converniency. It is both extremely easy to use and powerfull. It was
 released since 2010 and is tested against very large dataset by a large 
 community.
 
-[The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
+[Documentation for the "csv-stringify" package is available here][home].
 
 Note
 ----
@@ -109,5 +109,6 @@ Contributors
 
 *   David Worms: <https://github.com/wdavidw>
 
+[home]: http://csv.adaltas.com/stringify/
 [csv]: https://github.com/wdavidw/node-csv
 [travis]: https://travis-ci.org/#!/wdavidw/node-csv-stringify
