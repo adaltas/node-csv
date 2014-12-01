@@ -5,7 +5,7 @@ parser converting CSV text input into arrays or objects. It implements the
 Node.js [`stream.Transform` API][stream_transform]. It also provides a simple callback-based API for convenience. It is both extremely easy to use and powerful. It was first
 released in 2010 and is used against big data sets by a large community.
 
-[The full documentation of the CSV parser is available here](http://www.adaltas.com/projects/node-csv/).
+[The full documentation of the CSV parser is available here][home].
 
 ## Features
 
@@ -148,7 +148,7 @@ To generate the JavaScript files, run `make build`.
 The test suite is run online with [Travis][travis] against the versions 
 0.10 and 0.11 of Node.js.
 
-
+[home]: http://csv.adaltas.com/parse/
 [csv]: https://github.com/wdavidw/node-csv
 [csv-samples]: https://github.com/wdavidw/node-csv-parse/tree/master/samples
 [fs_read]: https://github.com/wdavidw/node-csv-parse/tree/master/samples/fs_read.js
