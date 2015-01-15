@@ -62,7 +62,7 @@ describe 'quote', ->
     """, (err, data) ->
       return next err if err
       data.should.eql [
-        [ '20322051544','"','8.8017226E7',45,'"ok"' ]
+        [ '20322051544','"','8.8017226E7','45','"ok"' ]
         [ '','1974','8.8392926E7','','' ]
       ]
       next()
@@ -79,7 +79,7 @@ describe 'quote', ->
     """, (err, data) ->
       return next err if err
       data.should.eql [
-        [ '20322051544','\n','8.8017226E7',45,'\nok\n' ]
+        [ '20322051544','\n','8.8017226E7','45','\nok\n' ]
         [ '\n','1974','8.8392926E7','','\n' ]
       ]
       next()
