@@ -1,4 +1,7 @@
 
+// The package "should" must be installed:   
+// `npm install should`
+
 parse = require('..');
 should = require('should');
 
