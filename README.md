@@ -5,7 +5,7 @@ parser converting CSV text input into arrays or objects. It implements the
 Node.js [`stream.Transform` API][stream_transform]. It also provides a simple callback-based API for convenience. It is both extremely easy to use and powerful. It was first
 released in 2010 and is used against big data sets by a large community.
 
-[The full documentation of the "csv-parse" package is available here][home].
+[Documentation for the "csv-parse" package is available here][home].
 
 ## Features
 
