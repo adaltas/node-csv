@@ -1,7 +1,10 @@
 
+// The package "stream-transform" must be installed:   
+// `npm install stream-transform`
+
 var fs = require('fs');
 var parse = require('..');
-var transform = require('../../stream-transform');
+var transform = require('stream-transform');
 
 var parser = parse({delimiter: ':'})
 var input = fs.createReadStream('/etc/passwd');
