@@ -234,12 +234,19 @@ Implementation of the [`stream.Transform` API][transform]
             # it isnt an column delimiter and
             # it isnt the begining of a comment
             areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
-            if not @options.relax and @nextChar and not areNextCharsRowDelimiters and @nextChar isnt @options.delimiter and @nextChar isnt @options.comment
-              throw new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
-            @quoting = false
-            @closingQuote = i
-            i++
-            continue
+            isNextCharADelimiter = @nextChar is @options.delimiter
+            isNextCharAComment = @nextChar is @options.comment
+            if @nextChar and not areNextCharsRowDelimiters and not isNextCharADelimiter and not isNextCharAComment
+              if @options.relax
+                @quoting = false
+                @field = "#{@options.quote}#{@field}"
+              else
+                throw new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+            else
+              @quoting = false
+              @closingQuote = i
+              i++
+              continue
           else if not @field
             @quoting = true
             i++
