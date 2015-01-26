@@ -48,7 +48,7 @@ Stream API, for maximum of power:
             chunks.push chunk
         stringifier.on 'error', (err) ->
           callback err
-        stringifier.on 'finish', ->
+        stringifier.on 'end', ->
           callback null, chunks.join ''
       stringifier
 
