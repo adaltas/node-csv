@@ -109,6 +109,41 @@ describe 'trim', ->
     """
     parser.end()
 
+  it 'write aggressively', (next) ->
+    data = []
+    parser = parse({ trim: true })
+    parser.on 'readable', ->
+      while(d = parser.read())
+        data.push d
+    parser.on 'finish', ->
+      data.should.eql [
+        [ 'Test 0', '', ' 0,00 ', '"' ]
+        [ 'Test 1', '', ' 100000,100000 ', '"' ]
+        [ 'Test 2', '', ' 200000,200000 ', '"' ]
+        [ 'Test 3', '', ' 300000,300000 ', '"' ]
+        [ 'Test 4', '', ' 400000,400000 ', '"' ]
+        [ 'Test 5', '', ' 500000,500000 ', '"' ]
+        [ 'Test 6', '', ' 600000,600000 ', '"' ]
+        [ 'Test 7', '', ' 700000,700000 ', '"' ]
+        [ 'Test 8', '', ' 800000,800000 ', '"' ]
+        [ 'Test 9', '', ' 900000,900000 ', '"' ]
+      ]
+      next()
+    buffer = '''
+     Test 0 ,," 0,00 ",""""
+     Test 1 ,," 100000,100000 ",""""
+     Test 2 ,," 200000,200000 ",""""
+     Test 3 ,," 300000,300000 ",""""
+     Test 4 ,," 400000,400000 ",""""
+     Test 5 ,," 500000,500000 ",""""
+     Test 6 ,," 600000,600000 ",""""
+     Test 7 ,," 700000,700000 ",""""
+     Test 8 ,," 800000,800000 ",""""
+     Test 9 ,," 900000,900000 ",""""
+    '''
+    parser.write i for i in buffer
+    parser.end()
+
 describe 'no trim', ->
   
   it 'should preserve surrounding whitespaces', (next) ->
