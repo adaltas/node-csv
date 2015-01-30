@@ -94,7 +94,6 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @quoting = false
       @commenting = false
       @field = ''
-      @lastC = ''
       @nextChar = null
       @closingQuote = 0
       @line = [] # Current line being processed
@@ -145,12 +144,6 @@ Implementation of the [`stream.Transform` API][transform]
         if @quoting
           this.emit 'error', new Error "Quoted field not terminated at line #{@lines+1}"
           return
-        # dump open record
-        if @field.length or @lastC is @options.quote
-          if @options.trim or @options.rtrim
-            @field = @field.trimRight()
-          @line.push @field
-          @field = ''
         if @line.length > 0
           @__push @line
         callback()
@@ -190,7 +183,6 @@ Implementation of the [`stream.Transform` API][transform]
         acceptedLength += @options.quote.length if @quoting
         break if not end and (i+acceptedLength >= l)
         char = if @nextChar then @nextChar else chars.charAt i
-        @lastC = char # this should be removed, only used in buggy end function
         @nextChar = chars.charAt i + 1
         # Auto discovery of rowDelimiter, unix, mac and windows supported
         unless @options.rowDelimiter?
@@ -243,6 +235,8 @@ Implementation of the [`stream.Transform` API][transform]
               @quoting = false
               @closingQuote = @options.quote.length
               i++
+              if end and i is l
+                @line.push @field
               continue
           else if not @field
             @quoting = true
@@ -294,12 +288,17 @@ Implementation of the [`stream.Transform` API][transform]
             @nextChar = chars.charAt i
             continue
         else if not @commenting and not @quoting and (char is ' ' or char is '\t')
-          # Discard space unless we are quoting, in a field
+          # Left trim unless we are quoting or field already filled
           @field += char unless ltrim and not @field
+          if end and i+1 is l
+            if @options.trim or @options.rtrim
+              @field = @field.trimRight()
+            @line.push @field
           i++
         else if not @commenting
           @field += char
           i++
+          @line.push @field if end and i is l
         else
           i++
       # Store un-parsed chars for next call
