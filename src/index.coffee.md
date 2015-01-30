@@ -146,7 +146,7 @@ Implementation of the [`stream.Transform` API][transform]
           this.emit 'error', new Error "Quoted field not terminated at line #{@lines+1}"
           return
         # dump open record
-        if @field or @lastC is @options.delimiter or @lastC is @options.quote
+        if @field.length or @lastC is @options.quote
           if @options.trim or @options.rtrim
             @field = @field.trimRight()
           @line.push @field
@@ -230,7 +230,8 @@ Implementation of the [`stream.Transform` API][transform]
             # it isnt an column delimiter and
             # it isnt the begining of a comment
             areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
-            isNextCharADelimiter = @nextChar is @options.delimiter
+            # isNextCharADelimiter = @nextChar is @options.delimiter
+            isNextCharADelimiter = chars.substr(i+1, @options.delimiter.length) is @options.delimiter
             isNextCharAComment = @nextChar is @options.comment
             if @nextChar and not areNextCharsRowDelimiters and not isNextCharADelimiter and not isNextCharAComment
               if @options.relax
@@ -251,7 +252,8 @@ Implementation of the [`stream.Transform` API][transform]
             throw new Error "Invalid opening quote at line #{@lines+1}"
           # Otherwise, treat quote as a regular character
         # Between two columns
-        isDelimiter = (char is @options.delimiter)
+        # isDelimiter = (char is @options.delimiter)
+        isDelimiter = chars.substr(i, @options.delimiter.length) is @options.delimiter
         isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
         # Set the commenting flag
         wasCommenting = false
@@ -277,7 +279,12 @@ Implementation of the [`stream.Transform` API][transform]
             @line.push @field
           @closingQuote = 0
           @field = ''
-          # End of row, flush the row
+          if isDelimiter # End of field
+            i += @options.delimiter.length
+            @nextChar = chars.charAt i
+            if end and not @nextChar
+              isRowDelimiter = true
+              @line.push ''
           if isRowDelimiter
             @__push @line
             @lines++
@@ -289,9 +296,12 @@ Implementation of the [`stream.Transform` API][transform]
         else if not @commenting and not @quoting and (char is ' ' or char is '\t')
           # Discard space unless we are quoting, in a field
           @field += char unless ltrim and not @field
+          i++
         else if not @commenting
           @field += char
-        i++
+          i++
+        else
+          i++
       # Store un-parsed chars for next call
       @buf = ''
       while i < l
