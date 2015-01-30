@@ -180,19 +180,15 @@ Implementation of the [`stream.Transform` API][transform]
       rtrim = @options.trim or @options.rtrim
       chars = @buf + chars
       l = chars.length
-      delimLength = if @options.rowDelimiter then @options.rowDelimiter.length else 0
+      rowDelimiterLength = if @options.rowDelimiter then @options.rowDelimiter.length else 0
       i = 0
       # Strip BOM header
       i++ if @lines is 0 and 0xFEFF is chars.charCodeAt 0
       while i < l
-        # we stop if all are true
-        # - the last chars aren't the delimiters
-        # - this isnt the last line (the end argument)
-        break if (i+delimLength >= l and chars.substr(i, @options.rowDelimiter.length) isnt @options.rowDelimiter) and not end
-        # we stop if all are true
-        # - the last chars are an espace char
-        # - this isnt the last line (the end argument)
-        break if (i+@options.escape.length >= l and chars.substr(i, @options.escape.length) is @options.escape) and not end
+        # Ensure we get enough space to look ahead
+        acceptedLength = rowDelimiterLength + @options.escape.length + @options.delimiter.length
+        acceptedLength += @options.quote.length if @quoting
+        break if not end and (i+acceptedLength >= l)
         char = if @nextChar then @nextChar else chars.charAt i
         @lastC = char # this should be removed, only used in buggy end function
         @nextChar = chars.charAt i + 1
@@ -208,7 +204,7 @@ Implementation of the [`stream.Transform` API][transform]
           if rowDelimiter
             rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextCharPos) is '\n'
             @options.rowDelimiter = rowDelimiter
-            delimLength = @options.rowDelimiter.length
+            rowDelimiterLength = @options.rowDelimiter.length
         # Parse that damn char
         # Note, shouldn't we have sth like chars.substr(i, @options.escape.length)
         if char is @options.escape
@@ -244,7 +240,7 @@ Implementation of the [`stream.Transform` API][transform]
                 throw new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
             else
               @quoting = false
-              @closingQuote = i
+              @closingQuote = @options.quote.length
               i++
               continue
           else if not @field
@@ -258,6 +254,7 @@ Implementation of the [`stream.Transform` API][transform]
         isDelimiter = (char is @options.delimiter)
         isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
         # Set the commenting flag
+        wasCommenting = false
         if not @commenting and not @quoting and char is @options.comment
           @commenting = true
         else if @commenting and isRowDelimiter
@@ -271,10 +268,7 @@ Implementation of the [`stream.Transform` API][transform]
               @nextChar = chars.charAt i
               continue
           if rtrim
-            if @closingQuote
-              @field = @field.substr 0, @closingQuote
-            else
-              @field = @field.trimRight()
+            @field = @field.trimRight() unless @closingQuote
           if (@options.auto_parse and @intRegexp.test(@field))
             @line.push parseInt(@field)
           else if (@options.auto_parse and @floatRegexp.test(@field))
