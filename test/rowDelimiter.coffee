@@ -66,3 +66,20 @@ describe 'rowDelimiter', ->
     parser.write '"GHI","94"\n'
     parser.write '"JKL","02"'
     parser.end()
+  
+  it 'write aggressively', (next) ->
+    data = []
+    parser = parse()
+    parser.on 'readable', ->
+      while(d = parser.read())
+        data.push d
+    parser.on 'finish', ->
+      data.should.eql [
+        [ 'abc', '123' ]
+        [ 'def', '456' ]
+      ]
+      next()
+    parser.write 'abc,123'
+    parser.write '\n'
+    parser.write 'def,456'
+    parser.end()
