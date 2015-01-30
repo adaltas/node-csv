@@ -292,8 +292,7 @@ Implementation of the [`stream.Transform` API][transform]
         else if not @commenting
           @field += char
         i++
-      # Ok, maybe we still have some char that are left, 
-      # we stored them for next call
+      # Store un-parsed chars for next call
       @buf = ''
       while i < l
         @buf += chars.charAt i
