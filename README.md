@@ -50,7 +50,7 @@ against the CoffeeScript source files.
 To generate the JavaScript files, run `make build`.
 
 The test suite is run online with [Travis][travis] against the versions 
-0.9, 0.10 and 0.11 of Node.js.
+0.10, 0.11 and 0.12 of Node.js.
 
 Contributors
 ------------
