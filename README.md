@@ -1,35 +1,34 @@
 [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-stringify.png)](http://travis-ci.org/wdavidw/node-csv-stringify)
 
-This project is part of the [CSV module](https://github.com/wdavidw/node-csv) 
-and a stringifier converting records into a CSV text and implementing the 
-Node.js `stream.Transform` API. It is also providing a simple callback-base API 
-for converniency. It is both extremely easy to use and powerfull. It was 
-released since 2010 and is tested against very large dataset by a large 
-community.
+Part of the [CSV module][csv_home], this project is a stringifier converting
+arrays or objects input into a CSV text. It implements the Node.js
+[`stream.Transform` API][stream_transform]. It also provides a simple
+callback-based API for convenience. It is both extremely easy to use and
+powerful. It was first released in 2010 and is used against big data sets by a
+large community.
 
 [Documentation for the "csv-stringify" package is available here][home].
 
-Note
-----
+## Features
 
-This module is to be considered in alpha stage. It is part of an ongoing effort 
-to split the current CSV module into complementary modules with a cleaner design 
-and the latest stream implementation. However, the code has been imported with 
-very little changes and you should feel confident to use it in your code.
+*   Follow the Node.js streaming API
+*   Simplicity with the optional callback API
+*   Support delimiters, quotes, escape characters and header
+*   Support big datasets
+*   Complete test coverage and samples for inspiration
+*   no external dependencies
+*   to be used conjointly with `csv-generate`, `csv-parse` and `stream-transform`
+*   BSD License
 
 Usage
 -----
 
-Run `npm install csv` to install the full csv module or run 
-`npm install csv-stringify` if you are only interested by the CSV stringifier.
+Refer to the [project webpage][home] for [an exhaustive list of options][home]
+and [some usage examples][examples]. 
 
-Use the callback style API for simplicity or the stream based API for 
-scalability.
-
-### Using the callback API
-
-The stringifier receive an array and return a string inside a user-provided 
-callback. This example is available with the command `node samples/callback.js`.
+The module is built on the Node.js Stream API. For the sake of simplify, a
+simple callback API is also provided. To give you a quick look, here's an
+example of the callback API:
 
 ```javascript
 var stringify = require('csv-stringify');
@@ -39,57 +38,6 @@ stringify(input, function(err, output){
   output.should.eql('1,2,3,4\na,b,c,d');
 });
 ```
-
-### Using the stream API
-    
-```javascript
-// node samples/stream.js
-var stringify = require('csv-stringify');
-
-data = '';
-stringifier = stringify({delimiter: ':'})
-stringifier.on('readable', function(){
-  while(row = stringifier.read()){
-    data += row;
-  }
-});
-stringifier.on('error', function(err){
-  consol.log(err.message);
-});
-stringifier.on('finish', function(){
-  data.should.eql(
-    "root:x:0:0:root:/root:/bin/bash\n" +
-    "someone:x:1022:1022:a funny cat:/home/someone:/bin/bash"
-  );
-});
-stringifier.write([ 'root','x','0','0','root','/root','/bin/bash' ]);
-stringifier.write([ 'someone','x','1022','1022','a funny cat','/home/someone','/bin/bash' ]);
-stringifier.end();
-```
-
-### Using the pipe function
-
-One usefull function part of the Stream API is `pipe` to interact between 
-multiple streams. You may use this function to pipe a `stream.Readable` array 
-or object source to a `stream.Writable` string destination. The next example 
-available as `node samples/pipe.js` generate records, stringify them and print 
-them to stdout.
-
-```javascript
-stringify = require('csv-stringify');
-generate = require('csv-generate');
-
-generator = generate({objectMode: true, seed: 1, headers: 2});
-stringifier = stringify();
-generator.pipe(stringifier).pipe(process.stdout);
-```
-
-Migration
----------
-
-Most of the generator is imported from its parent project [CSV][csv] in a effort 
-to split it between the generator, the parser, the transformer and the 
-stringifier.
 
 Development
 -----------
@@ -110,5 +58,6 @@ Contributors
 *   David Worms: <https://github.com/wdavidw>
 
 [home]: http://csv.adaltas.com/stringify/
+[examples]: http://csv.adaltas.com/stringify/examples/
 [csv]: https://github.com/wdavidw/node-csv
 [travis]: https://travis-ci.org/#!/wdavidw/node-csv-stringify
