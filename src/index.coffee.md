@@ -5,16 +5,8 @@
 This module provides a CSV parser tested and used against large datasets. Over
 the year, it has been enhance and is now full of useful options.
 
-*   Follow the Node.js streaming API   
-*   Support delimiters, quotes, escape characters and comments   
-*   Line breaks discovery   
-*   Support big datasets   
-*   Complete test coverage and samples for inspiration   
-*   no external dependencies   
-*   to be used conjointly with `csv-generate`, `stream-transform` and `csv-stringify`   
-
-Please look at the [README], the [samples] and the [tests] for additional
-information.
+Please look at the [README], the [project website][site] the [samples] and the
+[tests] for additional information.
 
     stream = require 'stream'
     util = require 'util'
@@ -25,7 +17,7 @@ Callback approach, for ease of use:
 
 `parse(data, [options], callback)`     
 
-Stream API, for maximum of power:   
+[Node.js Stream API][stream], for maximum of power:   
 
 `parse([options], [callback])`   
 
