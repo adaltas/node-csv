@@ -199,7 +199,7 @@ Implementation of the [`stream.Transform` API][transform]
             rowDelimiterLength = @options.rowDelimiter.length
         # Parse that damn char
         # Note, shouldn't we have sth like chars.substr(i, @options.escape.length)
-        if char is @options.escape
+        if not @commenting and char is @options.escape
           # Make sure the escape is really here for escaping:
           # If escape is same as quote, and escape is first char of a field 
           # and it's not quoted, then it is a quote
@@ -214,7 +214,7 @@ Implementation of the [`stream.Transform` API][transform]
             @field += char
             i++
             continue
-        if char is @options.quote
+        if not @commenting and char is @options.quote
           if @quoting
             # Make sure a closing quote is followed by a delimiter
             # If we have a next character and 
@@ -245,9 +245,6 @@ Implementation of the [`stream.Transform` API][transform]
           else if @field and not @options.relax
             throw new Error "Invalid opening quote at line #{@lines+1}"
           # Otherwise, treat quote as a regular character
-        # Between two columns
-        # isDelimiter = (char is @options.delimiter)
-        isDelimiter = chars.substr(i, @options.delimiter.length) is @options.delimiter
         isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
         # Set the commenting flag
         wasCommenting = false
@@ -256,6 +253,7 @@ Implementation of the [`stream.Transform` API][transform]
         else if @commenting and isRowDelimiter
           wasCommenting = true
           @commenting = false
+        isDelimiter = chars.substr(i, @options.delimiter.length) is @options.delimiter
         if not @commenting and not @quoting and (isDelimiter or isRowDelimiter)
           # Empty lines
           if isRowDelimiter and @line.length is 0 and @field is ''

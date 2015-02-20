@@ -54,16 +54,14 @@ describe 'comment', ->
         [ '1','2', '3' ]
       ]
       next()
-    # csv()
-    # .from.string( """
-    #   abc,#,def
-    #   1,2,3
-    #   """ )
-    # .to.string (result) ->
-    #   result.should.eql """
-    #   abc,#,def
-    #   1,2,3
-    #   """
-    #   next()
+
+  it 'dontknowyet', (next) ->
+    parse """
+    "Alaska","Site1","Rack1","RTU-1","192.168.1.3"
+    # Contains double-quote: "
+    """,
+      comment: "#"
+    , (err, content) ->
+      next err
 
 
