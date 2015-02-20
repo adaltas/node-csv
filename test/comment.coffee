@@ -55,7 +55,7 @@ describe 'comment', ->
       ]
       next()
 
-  it 'dontknowyet', (next) ->
+  it 'accept quotes', (next) ->
     parse """
     "Alaska","Site1","Rack1","RTU-1","192.168.1.3"
     # Contains double-quote: "
