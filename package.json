@@ -32,12 +32,12 @@
   "homepage": "http://csv.adaltas.com/parse/",
   "dependencies": {},
   "devDependencies": {
-    "each": "latest",
-    "coffee-script": "latest",
-    "csv-generate": "latest",
-    "csv-spectrum": "latest",
-    "mocha": "latest",
-    "should": "latest"
+    "each": "0.5.0",
+    "coffee-script": "1.9.1",
+    "csv-generate": "0.0.4",
+    "csv-spectrum": "0.2.0",
+    "mocha": "2.1.0",
+    "should": "5.0.0"
   },
   "optionalDependencies": {},
   "main": "./lib",
