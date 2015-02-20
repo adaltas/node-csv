@@ -179,7 +179,7 @@ Implementation of the [`stream.Transform` API][transform]
       i++ if @lines is 0 and 0xFEFF is chars.charCodeAt 0
       while i < l
         # Ensure we get enough space to look ahead
-        acceptedLength = rowDelimiterLength + @options.escape.length + @options.delimiter.length
+        acceptedLength = rowDelimiterLength + @options.comment.length + @options.escape.length + @options.delimiter.length
         acceptedLength += @options.quote.length if @quoting
         break if not end and (i+acceptedLength >= l)
         char = if @nextChar then @nextChar else chars.charAt i
@@ -248,7 +248,7 @@ Implementation of the [`stream.Transform` API][transform]
         isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
         # Set the commenting flag
         wasCommenting = false
-        if not @commenting and not @quoting and char is @options.comment
+        if not @commenting and not @quoting and @options.comment and chars.substr(i, @options.comment.length) is @options.comment
           @commenting = true
         else if @commenting and isRowDelimiter
           wasCommenting = true
@@ -306,6 +306,8 @@ Implementation of the [`stream.Transform` API][transform]
         i++
 
 [readme]: https://github.com/wdavidw/node-csv-parse
+[site] : http://csv.adaltas.com/parse/
 [samples]: https://github.com/wdavidw/node-csv-parse/tree/master/samples
 [tests]: https://github.com/wdavidw/node-csv-parse/tree/master/test
+[stream]: (http://nodejs.org/api/stream.html
 [transform]: (http://nodejs.org/api/stream.html#stream_class_stream_transform_1)

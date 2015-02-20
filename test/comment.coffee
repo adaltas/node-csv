@@ -55,6 +55,21 @@ describe 'comment', ->
       ]
       next()
 
+  it 'accept multiple characters', (next) ->
+    parser = parse comment: '//', (err, data) ->
+      data.should.eql [
+        [ 'abc','def' ]
+        [ '1','2' ]
+      ]
+      next()
+    data = """
+    abc,def
+    // a comment
+    1,2
+    """
+    parser.write char for char in data
+    parser.end()
+
   it 'accept quotes', (next) ->
     parse """
     "Alaska","Site1","Rack1","RTU-1","192.168.1.3"
