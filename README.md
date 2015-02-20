@@ -19,6 +19,7 @@ large community.
 *   Complete test coverage and samples for inspiration
 *   no external dependencies
 *   to be used conjointly with `csv-generate`, `stream-transform` and `csv-stringify`
+*   BSD License
 
 [home]: http://csv.adaltas.com/parse/
 [csv_home]: https://github.com/wdavidw/node-csv
