@@ -27,7 +27,7 @@ Callback approach, for ease of use:
         options = arguments[1]
         callback = arguments[2]
       else if arguments.length is 2
-        if typeof arguments[0] is 'string' || Buffer.isBuffer arguments[0]
+        if typeof arguments[0] is 'string' or Buffer.isBuffer arguments[0]
         then data = arguments[0]
         else options = arguments[0]
         if typeof arguments[1] is 'function'
