@@ -4,6 +4,22 @@ transform = if process.env.CSV_COV then require '../lib-cov' else require '../sr
 
 describe 'sync', ->
 
+  describe 'api', ->
+    it 'take array, handler and pipe', (next) ->
+      t = transform [
+        ['1','2','3','4'],
+        ['a','b','c','d']
+      ], (data) ->
+        data.push data.shift()
+        return data.join(',') + '\n'
+      results = ''
+      t.on 'readable', ->
+        while(r = t.read()) then results += r
+      t.on 'error', next
+      t.on 'end', ->
+        results.should.eql '2,3,4,1\nb,c,d,a\n'
+        next()
+
   it 'modify the recieved object', (next) ->
     transform [
       [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01' ]

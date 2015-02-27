@@ -19,11 +19,11 @@ information.
 
 Callback approach, for ease of use:   
 
-`transform(udf, [options])`     
+`transform(handler, [options])`     
 
 Stream API, for maximum of power:   
 
-`transform(data, [options], udf, [options], [callback])`   
+`transform(data, [options], handler, [options], [callback])`   
 
     module.exports = ->
       options = {}
@@ -33,19 +33,19 @@ Stream API, for maximum of power:
         else if type is 'object' and Array.isArray argument then type = 'array'
         if i is 0 
           if type is 'function'
-            udf = argument
+            handler = argument
           else if type isnt null
             data = argument
           continue
         if type is 'object'
           for k, v of argument then options[k] = v
         else if type is 'function'
-          if i is arguments.length - 1
+          if handler and i is arguments.length - 1
           then callback = argument
-          else udf = argument
+          else handler = argument
         else if type isnt 'null'
           throw new Error 'Invalid arguments'
-      transform = new Transformer options, udf
+      transform = new Transformer options, handler
       error = false
       if data
         process.nextTick ->
