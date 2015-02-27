@@ -13,6 +13,7 @@ Node.js `stream.Transform` API. It was originally developed as a part of the Nod
 *   Sequential or user-defined concurrent execution
 *   Skip and create new records
 *   Alter or clone input data
+*   BSD License
 
 ## Usage
 
