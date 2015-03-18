@@ -90,7 +90,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @closingQuote = 0
       @line = [] # Current line being processed
       @chunks = []
-      @intRegexp = /^(\-|\+)?([0-9]+)$/
+      @intRegexp = /^(\-|\+)?([1-9]+[0-9]*)$/
       @floatRegexp = /^(\-|\+)?([0-9]+(\.[0-9]+)?([eE][0-9]+)?|Infinity)$/
       # @floatRegexp = /^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/
       @

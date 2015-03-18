@@ -35,6 +35,25 @@ describe 'write', ->
       next()
     parser.end()
 
+  it 'should read ints as strings if they are zeroed first', (next) ->
+    data = []
+    parser = parse({ auto_parse: true })
+    parser.write """
+    1234 Blueberry Hill,01102
+    """
+    parser.on 'readable', ->
+      while(d = parser.read())
+        data.push d
+    parser.on 'error', (err) ->
+      next err
+    parser.on 'finish', ->
+      data.should.eql [
+        ["1234 Blueberry Hill", "01102"]
+      ]
+      (typeof data[0][1]).should.eql 'string'
+      next()
+    parser.end()
+
   it 'string randomly splited', (next) ->
     data = []
     parser = parse()
