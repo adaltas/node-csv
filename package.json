@@ -1,5 +1,5 @@
 {
-  "version": "0.0.9",
+  "version": "0.1.0",
   "name": "csv-parse",
   "description": "CSV parsing implementing the Node.js `stream.Transform` API",
   "keywords": [ "csv", "parse", "parser" ],
@@ -42,6 +42,8 @@
   "optionalDependencies": {},
   "main": "./lib",
   "scripts": {
-    "test": "make test"
+    "coffee": "./node_modules/.bin/coffee -b -o lib src",
+    "pretest": "./node_modules/.bin/coffee -b -o lib src",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter dot"
   }
 }
