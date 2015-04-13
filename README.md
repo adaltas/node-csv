@@ -13,7 +13,7 @@ powerful.
 *   Follow the Node.js [streaming API][streamtransform]
 *   Simplicity with the optional callback API
 *   Synchronous and asynchronous user handler functions
-*   Accept object, array or JSON as input and output
+*   Accepts arrays of strings, or arrays of objects as input
 *   Sequential or user-defined concurrent execution
 *   Skip and create new records
 *   Alter or clone input data
