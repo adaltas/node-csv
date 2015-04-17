@@ -10,6 +10,7 @@ Please look at the [README], the [project website][site] the [samples] and the
 
     stream = require 'stream'
     util = require 'util'
+    {StringDecoder} = require 'string_decoder'
 
 ## Usage
 
@@ -86,6 +87,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @regexp_int = /^(\-|\+)?([1-9]+[0-9]*)$/
       @regexp_float = /^(\-|\+)?([0-9]+(\.[0-9]+)?([eE][0-9]+)?|Infinity)$/
       # Internal state
+      @decoder = new StringDecoder()
       @buf = ''
       @quoting = false
       @commenting = false
@@ -124,7 +126,8 @@ class: `require('csv-parse').Parser`.
 Implementation of the [`stream.Transform` API][transform]
 
     Parser.prototype._transform = (chunk, encoding, callback) ->
-      chunk = chunk.toString() if chunk instanceof Buffer
+      if chunk instanceof Buffer
+        chunk = @decoder.write chunk
       try
         @__write chunk, false
         callback()
@@ -133,7 +136,7 @@ Implementation of the [`stream.Transform` API][transform]
 
     Parser.prototype._flush = (callback) ->
       try
-        @__write '', true
+        @__write @decoder.end(), true
         if @quoting
           this.emit 'error', new Error "Quoted field not terminated at line #{@lines+1}"
           return
