@@ -79,8 +79,8 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.rtrim ?= false
       @options.auto_parse ?= false
       @options.skip_empty_lines ?= false
-      # Counter
-      @lines = 0
+      # Counters
+      @lines = 0 # Number of lines encountered in the source dataset
       # Internal state
       @buf = ''
       @quoting = false
@@ -238,6 +238,7 @@ Implementation of the [`stream.Transform` API][transform]
             throw new Error "Invalid opening quote at line #{@lines+1}"
           # Otherwise, treat quote as a regular character
         isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
+        @lines++ if isRowDelimiter
         # Set the commenting flag
         wasCommenting = false
         if not @commenting and not @quoting and @options.comment and chars.substr(i, @options.comment.length) is @options.comment
@@ -271,7 +272,6 @@ Implementation of the [`stream.Transform` API][transform]
               @line.push ''
           if isRowDelimiter
             @__push @line
-            @lines++
             # Some cleanup for the next row
             @line = []
             i += @options.rowDelimiter.length
