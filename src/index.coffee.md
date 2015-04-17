@@ -283,7 +283,7 @@ Implementation of the [`stream.Transform` API][transform]
             @__push @line
             # Some cleanup for the next row
             @line = []
-            i += @options.rowDelimiter.length
+            i += @options.rowDelimiter?.length
             @nextChar = chars.charAt i
             continue
         else if not @commenting and not @quoting and (char is ' ' or char is '\t')
