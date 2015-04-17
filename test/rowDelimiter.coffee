@@ -83,3 +83,11 @@ describe 'rowDelimiter', ->
     parser.write '\n'
     parser.write 'def,456'
     parser.end()
+
+  it 'Test line ends with field delimiter and without row delimiter', (next) ->
+    parse '"a","b","c",', delimiter: ',', (err, data) ->
+      return next err if err
+      data.should.eql [
+        [ 'a','b','c','' ]
+      ]
+      next()
