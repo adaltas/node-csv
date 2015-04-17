@@ -43,3 +43,14 @@ describe 'write', ->
     parser.end()
     parser.write 'def,456'
   
+  it 'support multi-bytes utf8 encoded characters', (next) ->
+    parser = parse (err, data) ->
+      data[0][0].should.eql '€'
+      next()
+    parser.write new Buffer [0xE2]
+    parser.write new Buffer [0x82]
+    parser.write new Buffer [0xAC]
+    # buff = new Buffer [0xE2, 0x82, 0xAC]
+    # parser.write buff
+    parser.end()
+  
