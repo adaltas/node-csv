@@ -82,6 +82,9 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       # Counters
       @lines = 0 # Number of lines encountered in the source dataset
       @count = 0 # Number of records being processed
+      # Constants
+      @regexp_int = /^(\-|\+)?([1-9]+[0-9]*)$/
+      @regexp_float = /^(\-|\+)?([0-9]+(\.[0-9]+)?([eE][0-9]+)?|Infinity)$/
       # Internal state
       @buf = ''
       @quoting = false
@@ -91,9 +94,6 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @closingQuote = 0
       @line = [] # Current line being processed
       @chunks = []
-      @intRegexp = /^(\-|\+)?([1-9]+[0-9]*)$/
-      @floatRegexp = /^(\-|\+)?([0-9]+(\.[0-9]+)?([eE][0-9]+)?|Infinity)$/
-      # @floatRegexp = /^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/
       @
 
 ## Interal API
@@ -249,6 +249,7 @@ Implementation of the [`stream.Transform` API][transform]
           wasCommenting = true
           @commenting = false
         isDelimiter = chars.substr(i, @options.delimiter.length) is @options.delimiter
+
         if not @commenting and not @quoting and (isDelimiter or isRowDelimiter)
           # Empty lines
           if isRowDelimiter and @line.length is 0 and @field is ''
@@ -258,9 +259,9 @@ Implementation of the [`stream.Transform` API][transform]
               continue
           if rtrim
             @field = @field.trimRight() unless @closingQuote
-          if (@options.auto_parse and @intRegexp.test(@field))
+          if (@options.auto_parse and @regexp_int.test(@field))
             @line.push parseInt(@field)
-          else if (@options.auto_parse and @floatRegexp.test(@field))
+          else if (@options.auto_parse and @regexp_float.test(@field))
             @line.push parseFloat(@field)
           else
             @line.push @field
