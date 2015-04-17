@@ -66,8 +66,11 @@ Options are documented [here](http://csv.adaltas.com/parse/).
 
     Parser = (options = {}) ->
       options.objectMode = true
-      stream.Transform.call @, options
-      @options = options
+      # @options = options
+      @options = {}
+      for k, v of options
+        @options[k] = v
+      stream.Transform.call @, @options
       @options.rowDelimiter ?= null
       @options.delimiter ?= ','
       @options.quote ?= '"'
