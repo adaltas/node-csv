@@ -14,6 +14,30 @@ describe 'line counter', ->
       err.message.should.match /Invalid opening quote at line 3/
       (data == undefined).should.be.true
       next()
+  
+  it 'should count empty lines', (next) ->
+    parse """
+    "this","line","is",valid
+
+    "this","line",is,"also",valid
+    this,"line",is,"invalid",h"ere"
+    "and",valid,line,follows...
+    """, (err, data) ->
+      err.message.should.match /Invalid opening quote at line 4/
+      (data == undefined).should.be.true
+      next()
+  
+  it 'should count empty lines with "skip_empty_lines" true', (next) ->
+    parse """
+    "this","line","is",valid
+
+    "this","line",is,"also",valid
+    this,"line",is,"invalid",h"ere"
+    "and",valid,line,follows...
+    """, skip_empty_lines: true, (err, data) ->
+      err.message.should.match /Invalid opening quote at line 4/
+      (data == undefined).should.be.true
+      next()
 
   it 'should display correct line number when unclosed quotes', (next) ->
     parse """
