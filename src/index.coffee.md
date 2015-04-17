@@ -81,6 +81,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.skip_empty_lines ?= false
       # Counters
       @lines = 0 # Number of lines encountered in the source dataset
+      @count = 0 # Number of records being processed
       # Internal state
       @buf = ''
       @quoting = false
@@ -149,6 +150,7 @@ Implementation of the [`stream.Transform` API][transform]
       else if typeof @options.columns is 'function'
         @options.columns = @options.columns line
         return
+      @count++
       if @options.columns?
         lineAsColumns = {}
         for field, i in line
