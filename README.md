@@ -58,7 +58,7 @@ The test suite is run online with [Travis][travis] against the versions
 [streamtransform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
 [home]: http://csv.adaltas.com/transform/
 [examples]: http://csv.adaltas.com/transform/examples/
-[csv]: https://github.com/wdavidw/node-csv
+[csv_home]: https://github.com/wdavidw/node-csv
 [stream-samples]: https://github.com/wdavidw/node-stream-transform/tree/master/samples
 [stream-test]: https://github.com/wdavidw/node-stream-transform/tree/master/test
 [travis]: http://travis-ci.org/wdavidw/node-stream-transform
