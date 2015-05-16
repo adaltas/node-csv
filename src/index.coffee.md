@@ -222,10 +222,9 @@ Implementation of the [`stream.Transform` API][transform]
             # it isnt an column delimiter and
             # it isnt the begining of a comment
             areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
-            # isNextCharADelimiter = @nextChar is @options.delimiter
-            isNextCharADelimiter = chars.substr(i+1, @options.delimiter.length) is @options.delimiter
+            areNextCharsDelimiter = chars.substr(i+1, @options.delimiter.length) is @options.delimiter
             isNextCharAComment = @nextChar is @options.comment
-            if @nextChar and not areNextCharsRowDelimiters and not isNextCharADelimiter and not isNextCharAComment
+            if @nextChar and not areNextCharsRowDelimiters and not areNextCharsDelimiter and not isNextCharAComment
               if @options.relax
                 @quoting = false
                 @field = "#{@options.quote}#{@field}"
