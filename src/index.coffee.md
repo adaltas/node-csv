@@ -230,7 +230,7 @@ Implementation of the [`stream.Transform` API][transform]
                 @quoting = false
                 @field = "#{@options.quote}#{@field}"
               else
-                throw new Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+                throw Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
             else
               @quoting = false
               @closingQuote = @options.quote.length
@@ -243,7 +243,7 @@ Implementation of the [`stream.Transform` API][transform]
             i++
             continue
           else if @field and not @options.relax
-            throw new Error "Invalid opening quote at line #{@lines+1}"
+            throw Error "Invalid opening quote at line #{@lines+1}"
           # Otherwise, treat quote as a regular character
         isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
         @lines++ if isRowDelimiter
