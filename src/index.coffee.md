@@ -68,7 +68,6 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.escape ?= '"'
       @options.columns ?= null
       @options.header ?= false
-      @options.lineBreaks ?= null
       @options.rowDelimiter ?= '\n'
       # Internal usage, state related
       @countWriten ?= 0
