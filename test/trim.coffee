@@ -141,7 +141,12 @@ describe 'trim', ->
      Test 8 ,," 800000,800000 ",""""
      Test 9 ,," 900000,900000 ",""""
     '''
-    parser.write i for i in buffer
+    # Intentionally create writes that get break in the middle of cells.
+    for i in [0...10]
+      if buffer.length > 18
+        parser.write buffer.substr 0, 18
+        buffer = buffer.substr 18
+    parser.write buffer
     parser.end()
 
 describe 'no trim', ->
