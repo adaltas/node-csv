@@ -66,8 +66,23 @@ describe 'api', ->
       data.should.eql [ [ 'value a', 'value b' ], [ 'value 1', 'value 2' ] ]
       next err
 
-  it '3 args: callback, options, callback', (next) ->
+  it '3 args: data, options, callback', (next) ->
     parse 'field_1,field_2\nvalue 1,value 2', columns: true, (err, data) ->
       data.should.eql [field_1: 'value 1', field_2: 'value 2']
       next err
+
+  it '3 args: data undefined, options, callback', (next) ->
+    parse undefined, columns: true, (err, data) ->
+      err.message.should.eql 'Invalid data argument: undefined'
+      next()
+
+  it '3 args: data, options, callback undefined', (next) ->
+    try
+      parse 'field_1,field_2\nvalue 1,value 2', columns: true, undefined
+    catch e
+      e.message.should.eql "Invalid callback argument: undefined"
+      next()
+
+
+
 
