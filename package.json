@@ -21,10 +21,7 @@
     "Joe Eaves (https://github.com/Joeasaurus)",
     "Mark Stosberg (https://github.com/markstos)"
   ],
-  "licenses": [{
-    "type": "BSD",
-    "url": "https://github.com/wdavidw/node-csv-parse/blob/master/LICENSE"
-  }],
+  "licenses": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-parse"
