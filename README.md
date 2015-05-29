@@ -6,7 +6,7 @@ CSV and object generation
 This package provides a flexible generator of CSV strings and Javascript objects
 implementing the Node.js `stream.Readable` API.
 
-[The full documentation of the "csv-generate" package is available here][home].
+[Documentation for the "csv-generate" package is available here][home].
 
 Features includes:
 
@@ -86,7 +86,7 @@ followed by `npm test`. It will install mocha and its dependencies in your
 project "node_modules" directory and run the test suite. The tests run 
 against the CoffeeScript source files.
 
-To generate the JavaScript files, run `make build`.
+To generate the JavaScript files, run `npm run coffee`.
 
 The test suite is run online with [Travis][travis] against the versions 
 0.9, 0.10 and 0.11 of Node.js.
