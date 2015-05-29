@@ -12,6 +12,7 @@ Features includes:
 
 *   random or pseudo-random seed based generation
 *   `stream.Readable` implementation
+*   BSD License
 
 Usage
 -----
