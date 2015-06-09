@@ -1,5 +1,5 @@
 {
-  "version": "0.0.5",
+  "version": "0.0.6",
   "name": "csv-generate",
   "description": "CSV and object generation implementing the Node.js `stream.Readable` API",
   "keywords": [ "stream", "generate", "csv", "object" ],
