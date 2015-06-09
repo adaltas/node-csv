@@ -3,7 +3,7 @@
   "name": "csv-stringify",
   "description": "CSV stringifier implementing the Node.js `stream.Transform` API",
   "keywords": [ "csv", "stringify", "stringifier" ],
-  "licenses": "BSD-3-Clause",
+  "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-stringify"
