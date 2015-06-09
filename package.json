@@ -3,7 +3,7 @@
   "name": "csv-generate",
   "description": "CSV and object generation implementing the Node.js `stream.Readable` API",
   "keywords": [ "stream", "generate", "csv", "object" ],
-  "licenses": "BSD-3-Clause",
+  "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "http://www.github.com/wdavidw/node-csv-generate"
