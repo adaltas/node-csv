@@ -94,6 +94,7 @@ Options are documented [here](http://csv.adaltas.com/transform/).
             @_done err, chunks, cb
         else
           @_done null, [@transform.call(null, chunk)], cb
+        return false
       catch err then @_done err
 
     Transformer.prototype._flush = (cb) ->
