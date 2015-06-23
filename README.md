@@ -118,7 +118,7 @@ csv.generate({seed: 1, columns: 2, length: 20})
        return value.toUpperCase()
      });
   }))
-  .pipe(csv.stringify ())
+  .pipe(csv.stringify())
   .pipe(process.stdout);
 ```
 
