@@ -67,6 +67,7 @@ Callback approach, for ease of use:
 Options are documented [here](http://csv.adaltas.com/parse/).
 
     Parser = (options = {}) ->
+    
       options.objectMode = true
       # @options = options
       @options = {}
@@ -236,8 +237,7 @@ Implementation of the [`stream.Transform` API][transform]
               @quoting = false
               @closingQuote = @options.quote.length
               i++
-              if end and i is l
-                @line.push @field
+              @line.push @field if end and i is l
               continue
           else if not @field
             @quoting = true
