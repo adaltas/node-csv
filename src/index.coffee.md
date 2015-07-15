@@ -224,6 +224,7 @@ Implementation of the [`stream.Transform` API][transform]
             # it isnt a rowDelimiter and 
             # it isnt an column delimiter and
             # it isnt the begining of a comment
+            # Otherwise, if this is not "relax" mode, throw an error
             areNextCharsRowDelimiters = @options.rowDelimiter and chars.substr(i+1, @options.rowDelimiter.length) is @options.rowDelimiter
             areNextCharsDelimiter = chars.substr(i+1, @options.delimiter.length) is @options.delimiter
             isNextCharAComment = @nextChar is @options.comment
