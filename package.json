@@ -2,7 +2,11 @@
   "version": "0.1.3",
   "name": "csv-parse",
   "description": "CSV parsing implementing the Node.js `stream.Transform` API",
-  "keywords": [ "csv", "parse", "parser" ],
+  "keywords": [
+    "csv",
+    "parse",
+    "parser"
+  ],
   "contributors": [
     "David Worms <david@adaltas.com> (http://www.adaltas.com)",
     "Will White (https://github.com/willwhite)",
@@ -27,7 +31,8 @@
     "url": "http://www.github.com/wdavidw/node-csv-parse"
   },
   "homepage": "http://csv.adaltas.com/parse/",
-  "dependencies": {},
+  "dependencies": {    
+  },
   "devDependencies": {
     "each": "0.5.0",
     "coffee-script": "1.9.3",
