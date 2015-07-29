@@ -9,7 +9,7 @@ Please look at the [README], the [project website][site] the [samples] and the
 [tests] for additional information.
 
     stream = require 'stream'
-    util = require 'util'
+    util = require 'util'    
     {StringDecoder} = require 'string_decoder'
 
 ## Usage
@@ -85,6 +85,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.ltrim ?= false
       @options.rtrim ?= false
       @options.auto_parse ?= false
+      @options.auto_parse_date ?= false
       @options.skip_empty_lines ?= false
       # Counters
       @lines = 0 # Number of lines encountered in the source dataset
@@ -270,6 +271,12 @@ Implementation of the [`stream.Transform` API][transform]
             @line.push parseInt(@field)
           else if (@options.auto_parse and @regexp_float.test(@field))
             @line.push parseFloat(@field)
+          else if (@options.auto_parse and @options.auto_parse_date)
+            m = Date.parse @field            
+            if isNaN m
+              @line.push @field
+            else              
+              @line.push new Date(m)              
           else
             @line.push @field
           @closingQuote = 0
