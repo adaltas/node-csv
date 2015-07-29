@@ -42,7 +42,7 @@ Callback approach, for ease of use:
         else options = arguments[0]
       options ?= {}
       parser = new Parser options
-      if data
+      if data?
         process.nextTick ->
           parser.write data
           parser.end()
@@ -257,7 +257,6 @@ Implementation of the [`stream.Transform` API][transform]
           wasCommenting = true
           @commenting = false
         isDelimiter = chars.substr(i, @options.delimiter.length) is @options.delimiter
-
         if not @commenting and not @quoting and (isDelimiter or isRowDelimiter)
           # Empty lines
           if isRowDelimiter and @line.length is 0 and @field is ''

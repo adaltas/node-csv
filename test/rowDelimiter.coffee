@@ -4,6 +4,11 @@ parse = require '../src'
 
 describe 'rowDelimiter', ->
 
+  it 'No rows', (next) ->
+    parse "", (err, data) ->
+      data.should.eql [] unless err
+      next err
+
   it 'Test line breaks custom', (next) ->
     parse """
     ABC,45::DEF,23
