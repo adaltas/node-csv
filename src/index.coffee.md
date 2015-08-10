@@ -67,7 +67,6 @@ Callback approach, for ease of use:
 Options are documented [here](http://csv.adaltas.com/parse/).
 
     Parser = (options = {}) ->
-    
       options.objectMode = true
       # @options = options
       @options = {}
@@ -91,8 +90,10 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @lines = 0 # Number of lines encountered in the source dataset
       @count = 0 # Number of records being processed
       # Constants
-      @regexp_int = /^(\-|\+)?([1-9]+[0-9]*)$/
-      @regexp_float = /^(\-|\+)?([0-9]+(\.[0-9]+)?([eE][0-9]+)?|Infinity)$/
+      @is_int = /^(\-|\+)?([1-9]+[0-9]*)$/
+      # @is_float = /^(\-|\+)?([0-9]+(\.[0-9]+)([eE][0-9]+)?|Infinity)$/
+      # @is_float = /^(\-|\+)?((([0-9])|([1-9]+[0-9]*))(\.[0-9]+)([eE][0-9]+)?|Infinity)$/
+      @is_float = (value) -> (value - parseFloat( value ) + 1) >= 0 # Borrowed from jquery
       # Internal state
       @decoder = new StringDecoder()
       @buf = ''
@@ -173,6 +174,25 @@ Implementation of the [`stream.Transform` API][transform]
         @push line
 
     Parser.prototype.__write =  (chars, end, callback) ->
+      is_int = (value) =>
+        if typeof @is_int is 'function'
+          @is_int value
+        else
+          @is_int.test value
+      is_float = (value) =>
+        if typeof @is_float is 'function'
+          @is_float value
+        else
+          @is_float.test value
+      auto_parse = (value) =>
+        if @options.auto_parse and is_int @field
+          @field = parseInt @field
+        else if @options.auto_parse and is_float @field
+          @field = parseFloat @field
+        else if @options.auto_parse and @options.auto_parse_date
+          m = Date.parse @field
+          @field = new Date m unless isNaN m
+        @field
       ltrim = @options.trim or @options.ltrim
       rtrim = @options.trim or @options.rtrim
       chars = @buf + chars
@@ -239,7 +259,7 @@ Implementation of the [`stream.Transform` API][transform]
               @quoting = false
               @closingQuote = @options.quote.length
               i++
-              @line.push @field if end and i is l
+              @line.push auto_parse @field if end and i is l
               continue
           else if not @field
             @quoting = true
@@ -267,18 +287,7 @@ Implementation of the [`stream.Transform` API][transform]
               continue
           if rtrim
             @field = @field.trimRight() unless @closingQuote
-          if (@options.auto_parse and @regexp_int.test(@field))
-            @line.push parseInt(@field)
-          else if (@options.auto_parse and @regexp_float.test(@field))
-            @line.push parseFloat(@field)
-          else if (@options.auto_parse and @options.auto_parse_date)
-            m = Date.parse @field            
-            if isNaN m
-              @line.push @field
-            else              
-              @line.push new Date(m)              
-          else
-            @line.push @field
+          @line.push auto_parse @field
           @closingQuote = 0
           @field = ''
           if isDelimiter # End of field
@@ -300,12 +309,12 @@ Implementation of the [`stream.Transform` API][transform]
           if end and i+1 is l
             if @options.trim or @options.rtrim
               @field = @field.trimRight()
-            @line.push @field
+            @line.push auto_parse @field
           i++
         else if not @commenting
           @field += char
           i++
-          @line.push @field if end and i is l
+          @line.push auto_parse @field if end and i is l
         else
           i++
       # Store un-parsed chars for next call

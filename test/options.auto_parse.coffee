@@ -5,6 +5,11 @@ parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
 describe 'Option "auto_parse"', ->
   
+  it 'all columns', (next) ->
+    parse '1,2,3', auto_parse: true, (err, data) ->
+      data.should.eql [ [1, 2, 3] ]
+      next()
+  
   it 'convert numbers', (next) ->
     data = []
     parser = parse({ auto_parse: true })
