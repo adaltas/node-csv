@@ -1,10 +1,9 @@
 [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.png)][travis]
 
 Part of the [CSV module][csv_home], this project is a simple object
-transformation framework. It implements the Node.js
-[`stream.Transform` API][stream_transform]. It also provides a simple
-callback-based API for convenience. It is both extremely easy to use and
-powerful.
+transformation framework. It implements the Node.js [stream.Transform API][stream_transform].  
+It also provides a simple callback-based API for convenience.  
+It is both extremely easy to use and powerful.
 
 [Documentation for the "csv-parse" package is available here][home].
 
