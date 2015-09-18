@@ -128,7 +128,7 @@ Development
 This parent project doesn't have tests itself but instead delegates the
 tests to its child projects.
 
-Read the documentation of the child projects for addionnal information.
+Read the documentation of the child projects for additional information.
 
 Related projects
 ----------------
