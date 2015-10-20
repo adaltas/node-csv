@@ -18,7 +18,7 @@ Usage
 -----
 
 Run `npm install csv` to install the full csv module or run 
-`npm install csv-generate` if you are only interested by the CSV parser.
+`npm install csv-generate` if you are only interested by the CSV generator.
 
 Use the callback style API for simplicity or the stream based API for 
 scalability.
