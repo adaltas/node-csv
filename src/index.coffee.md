@@ -1,9 +1,9 @@
 
 # Stream Transformer
 
-A transform stream to transform object and text. Features include:   
+Pass all elements of an array or a stream to transform, filter and add. Features include:   
 
-*   Extends the Node.js transform stream API.   
+*   Extends the Node.js "stream.Transform" API.   
 *   Both synchrounous and asynchronous support based and user callback 
     arguments signature.   
 *   Ability to skip data.   
@@ -53,16 +53,16 @@ Stream API, for maximum of power:
             break if error
             transform.write row
           transform.end()
-      if callback
+      if callback or options.consume
         result = []
         transform.on 'readable', ->
           while(r = transform.read())
             result.push r
         transform.on 'error', (err) ->
           error = true
-          callback err
+          callback err if callback
         transform.on 'end', ->
-          callback null, result unless error
+          callback null, result if callback and not error
       transform
 
 ## Transformer
@@ -115,4 +115,3 @@ Options are documented [here](http://csv.adaltas.com/transform/).
 [readme]: https://github.com/wdavidw/node-stream-transform
 [samples]: https://github.com/wdavidw/node-stream-transform/tree/master/samples
 [tests]: https://github.com/wdavidw/node-stream-transform/tree/master/test
-
