@@ -21,7 +21,7 @@ describe 'API', ->
     stringifier.write ['value 1','value 2']
     stringifier.end()
 
-  it '1 arg: write data, pass option and pipe result', (next) ->
+  it '1 arg: write data, option and pipe result', (next) ->
     data = ''
     generator = generate length: 2, objectMode: true, seed: 1, columns: 2
     stringifier = stringify eof: false
@@ -41,7 +41,7 @@ describe 'API', ->
       """
       next()
 
-  it '1 arg: pass data and pipe result', (next) ->
+  it '1 arg: data and pipe result', (next) ->
     data = ''
     stringifier = stringify [
       ['field_1','field_2'], ['value 1','value 2']
@@ -53,7 +53,7 @@ describe 'API', ->
       data.should.eql 'field_1,field_2\nvalue 1,value 2\n'
       next()
 
-  it '2 args: pass data, pass option and pipe result', (next) ->
+  it '2 args: data, option and pipe result', (next) ->
     data = ''
     stringifier = stringify [
       ['field_1','field_2'], ['value 1','value 2']
@@ -65,7 +65,7 @@ describe 'API', ->
       data.should.eql 'field_1,field_2\nvalue 1,value 2'
       next()
 
-  it '2 args: pass data, pass callback', (next) ->
+  it '2 args: data, callback', (next) ->
     data = ''
     stringifier = stringify [
       ['field_1','field_2'], ['value 1','value 2']
@@ -73,7 +73,7 @@ describe 'API', ->
       data.should.eql 'field_1,field_2\nvalue 1,value 2\n'
       next()
 
-  it '2 args: pass options, pass callback', (next) ->
+  it '2 args: options, callback', (next) ->
     data = ''
     stringifier = stringify eof: false, (err, data) ->
       data.should.eql 'field_1,field_2\nvalue 1,value 2'
@@ -82,7 +82,7 @@ describe 'API', ->
     stringifier.write ['value 1','value 2']
     stringifier.end()
 
-  it '3 args: pass data, pass options, pass callback', (next) ->
+  it '3 args: data, options, callback', (next) ->
     data = ''
     stringifier = stringify [
       ['field_1','field_2'], ['value 1','value 2']
