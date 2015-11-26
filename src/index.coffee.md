@@ -28,7 +28,7 @@ Callback approach, for ease of use:
         options = arguments[1]
         callback = arguments[2]
         throw Error "Invalid callback argument: #{JSON.stringify callback}" unless typeof callback is 'function'
-        return callback Error "Invalid data argument: #{JSON.stringify data}" unless typeof data is 'string'
+        return callback Error "Invalid data argument: #{JSON.stringify data}" unless typeof data is 'string' or Buffer.isBuffer arguments[0]
       else if arguments.length is 2
         if typeof arguments[0] is 'string' or Buffer.isBuffer arguments[0]
         then data = arguments[0]

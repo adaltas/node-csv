@@ -61,13 +61,23 @@ describe 'api', ->
     parser.write 'field_1,field_2\nvalue 1,value 2'
     parser.end()
 
-  it '2 args: callback, callback', (next) ->
+  it '2 args: data(string), callback', (next) ->
     parse 'value a,value b\nvalue 1,value 2', (err, data) ->
       data.should.eql [ [ 'value a', 'value b' ], [ 'value 1', 'value 2' ] ]
       next err
 
-  it '3 args: data, options, callback', (next) ->
+  it '2 args: data(buffer), callback', (next) ->
+    parse new Buffer('value a,value b\nvalue 1,value 2'), (err, data) ->
+      data.should.eql [ [ 'value a', 'value b' ], [ 'value 1', 'value 2' ] ]
+      next err
+
+  it '3 args: data(string), options, callback', (next) ->
     parse 'field_1,field_2\nvalue 1,value 2', columns: true, (err, data) ->
+      data.should.eql [field_1: 'value 1', field_2: 'value 2']
+      next err
+
+  it '3 args: data(buffer), options, callback', (next) ->
+    parse new Buffer('field_1,field_2\nvalue 1,value 2'), columns: true, (err, data) ->
       data.should.eql [field_1: 'value 1', field_2: 'value 2']
       next err
 
@@ -82,7 +92,3 @@ describe 'api', ->
     catch e
       e.message.should.eql "Invalid callback argument: undefined"
       next()
-
-
-
-
