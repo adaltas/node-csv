@@ -10,7 +10,8 @@ var output = [];
 var parser = parse({delimiter: ':'});
 // Use the writable stream api
 parser.on('readable', function(){
-  while(record = parser.read()){
+  var record;
+  while (record = parser.read()) {
     output.push(record);
   }
 });
