@@ -33,6 +33,15 @@ describe 'columns', ->
       data.should.eql 'column1,column3\nval11,val13\nval21,val23\n'
       next()
 
+  it 'should also work for nested properties', (next) ->
+    stringify [
+      {field1: {nested: 'val11'}, field2: 'val12', field3: 'val13'}
+      {field1: {}, field2: 'val22', field3: 'val23'}
+    ], columns: {'field1.nested': 'column1', field3: 'column3'}, header: true, (err, data) ->
+      return next err if err
+      data.should.eql 'column1,column3\nval11,val13\n,val23\n'
+      next()
+
 
 
 
