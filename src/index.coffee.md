@@ -5,7 +5,8 @@ Please look at the [README], the [samples] and the [tests] for additional
 information.
 
     stream = require 'stream'
-    util = require 'util'  
+    util = require 'util'
+    get = require 'lodash.get'
 
 ## Usage
 
@@ -150,7 +151,8 @@ Convert a line to a string. Line may be an object, an array or a string.
         if columns
           for i in [0...columns.length]
             column = columns[i]
-            _line[i] = if (typeof line[column] is 'undefined' or line[column] is null) then '' else line[column]
+            value = get line, column
+            _line[i] = if (typeof value is 'undefined' or value is null) then '' else value
         else
           for column of line
             _line.push line[column]
