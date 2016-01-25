@@ -163,6 +163,8 @@ Implementation of the [`stream.Transform` API][transform]
         return
       @count++
       if @options.columns?
+        if line.length isnt @options.columns.length
+          this.emit 'error', new Error "Number of columns on line #{@lines+1} does not match header"
         lineAsColumns = {}
         for field, i in line
           lineAsColumns[@options.columns[i]] = field
