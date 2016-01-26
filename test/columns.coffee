@@ -50,6 +50,22 @@ describe 'columns', ->
         "FIELD_6":"2050-11-27"
       ]
       next()
+      
+  it 'handles missing column if array', (next) ->
+    parse """
+    20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+    28392898392,1974,8.8392926E7,23,2050-11-27
+    """, columns: ["FIELD_1", "FIELD_2", "FIELD_3", "FIELD_4", "FIELD_5", "FIELD_6"], (err, data) ->
+      err.message.should.match(/Number of columns on line \d.+ does not match header/)
+      next()
+  
+  it 'handles missing column if number of columns is inconsistent', (next) ->
+    parse """
+    20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+    28392898392,1974,8.8392926E7,23,2050-11-27
+    """, (err, data) ->
+      err.message.should.match(/Number of columns is inconsistent on line \d.+/)
+      next()
   
   it 'returned by user with the help of the first line', (next) ->
     parse """
