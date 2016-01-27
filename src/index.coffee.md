@@ -324,7 +324,7 @@ Implementation of the [`stream.Transform` API][transform]
         i++
 
 [readme]: https://github.com/wdavidw/node-csv-parse
-[site] : http://csv.adaltas.com/parse/
+[site]: http://csv.adaltas.com/parse/
 [samples]: https://github.com/wdavidw/node-csv-parse/tree/master/samples
 [tests]: https://github.com/wdavidw/node-csv-parse/tree/master/test
 [stream]: (http://nodejs.org/api/stream.html
