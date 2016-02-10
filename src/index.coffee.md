@@ -183,11 +183,16 @@ Convert a line to a string. Line may be an object, an array or a string.
           if field
             containsdelimiter = field.indexOf(delimiter) >= 0
             containsQuote = field.indexOf(quote) >= 0
+            containsEscape = field.indexOf(escape) >= 0 and (escape isnt quote)
             containsLinebreak = field.indexOf('\r') >= 0 or field.indexOf('\n') >= 0
+            shouldQuote = containsQuote or containsdelimiter or containsLinebreak or @options.quoted or (@options.quotedString and typeof line[i] is 'string')
+            if shouldQuote and containsEscape
+              regexp = if escape is '\\' then new RegExp(escape + escape, 'g') else new RegExp(escape, 'g');
+              field = field.replace(regexp, escape + escape)
             if containsQuote
               regexp = new RegExp(quote,'g')
               field = field.replace(regexp, escape + quote)
-            if containsQuote or containsdelimiter or containsLinebreak or @options.quoted or (@options.quotedString and typeof line[i] is 'string')
+            if shouldQuote
               field = quote + field + quote
             newLine += field
           else if @options.quotedEmpty or (not @options.quotedEmpty? and line[i] is '' and @options.quotedString)
