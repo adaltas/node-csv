@@ -9,7 +9,7 @@ Please look at the [README], the [project website][site] the [samples] and the
 [tests] for additional information.
 
     stream = require 'stream'
-    util = require 'util'    
+    util = require 'util'
     {StringDecoder} = require 'string_decoder'
 
 ## Usage
