@@ -6,7 +6,7 @@ Provides a synchronous alternative to the CSV parser.
 Usage: `records = parse(data, [options]`
 
     {StringDecoder} = require 'string_decoder'
-    parse = require '.'
+    parse = require './index'
 
     module.exports = (data, options={})->
       records = []
