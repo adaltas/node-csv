@@ -15,7 +15,7 @@ stringifier.on('error', function(err){
 stringifier.on('finish', function(){
   data.should.eql(
     "root:x:0:0:root:/root:/bin/bash\n" +
-    "someone:x:1022:1022:a funny cat:/home/someone:/bin/bash"
+    "someone:x:1022:1022:a funny cat:/home/someone:/bin/bash\n"
   );
 });
 stringifier.write([ 'root','x','0','0','root','/root','/bin/bash' ]);
