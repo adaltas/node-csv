@@ -2,7 +2,7 @@
 should = require 'should'
 stream = require 'stream'
 generate = require 'csv-generate'
-transform = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+transform = require '../src'
 
 describe 'pipe', ->
 
@@ -67,5 +67,3 @@ describe 'pipe', ->
         setImmediate ->
           callback null, row.join ','
       .pipe destination
-
-

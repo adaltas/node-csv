@@ -1,6 +1,6 @@
 
 should = require 'should'
-transform = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+transform = require '../src'
 
 describe 'async', ->
 
@@ -134,15 +134,3 @@ describe 'async', ->
         [ '47191084482','1978','8.8392926E7','2FF','23','2064-02-15' ]
       ]
       next()
-
-
-
-
-
-
-
-
-
-
-
-

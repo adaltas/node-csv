@@ -1,6 +1,6 @@
 
 should = require 'should'
-transform = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+transform = require '../src'
 
 describe 'sync', ->
 
@@ -136,14 +136,3 @@ describe 'sync', ->
         [ 83929843999, 883.49294, 2863555200000 ]
       ]
       next()
-
-
-
-
-
-
-
-
-
-
-
