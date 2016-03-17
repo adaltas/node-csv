@@ -4,7 +4,7 @@ transform = if process.env.CSV_COV then require '../lib-cov' else require '../sr
 
 describe 'types', ->
 
-  it 'recieve object and add new column', (next) ->
+  it 'receive object and add new column', (next) ->
     transform [
       { FIELD_1: '20322051544', FIELD_2: '1979', FIELD_3: 'ABC' }
       { FIELD_1: '28392898392', FIELD_2: '1974', FIELD_3: 'DEF' }
@@ -22,7 +22,7 @@ describe 'types', ->
       ]
       next()
 
-  it 'recieve string and return object', (next) ->
+  it 'receive string and return object', (next) ->
     transform [
       '20322-051544'
       '28392-898392'
