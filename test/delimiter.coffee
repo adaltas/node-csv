@@ -2,7 +2,7 @@
 should = require 'should'
 fs = require 'fs'
 parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
-inputFile = 'test/sampleData.in'
+inputFile = 'samples/sampleData.in'
 
 describe 'delimiter', ->
   
