@@ -197,6 +197,11 @@ Implementation of the [`stream.Transform` API][transform]
       rtrim = @options.trim or @options.rtrim
       chars = @buf + chars
       l = chars.length
+      # MAX_CHAR_READ is the value checked across the field and line buffers so we can avoid the condition
+      # where there is wrong delimiter or rowDelimiters are passed in the option and the data is very huge.
+      # this makes to just pile up whole chars to field/line (based on either wrong delimiter or rowDelimiter)
+      # MAX_CHAR_READ is set to 128000 considering max data read can be 250K.
+      MAX_CHAR_READ = 128000
       rowDelimiterLength = if @options.rowDelimiter then @options.rowDelimiter.length else 0
       i = 0
       # Strip BOM header
@@ -317,6 +322,10 @@ Implementation of the [`stream.Transform` API][transform]
           @line.push auto_parse @field if end and i is l
         else
           i++
+        if not @commenting and @field.length > MAX_CHAR_READ
+          throw Error "Delimter not found in the file #{JSON.stringify(@options.delimiter)}"
+        if not @commenting and @line.length > MAX_CHAR_READ
+          throw Error "Row delimter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Store un-parsed chars for next call
       @buf = ''
       while i < l
