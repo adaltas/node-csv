@@ -86,6 +86,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.auto_parse ?= false
       @options.auto_parse_date ?= false
       @options.skip_empty_lines ?= false
+      @options.max_limit_on_data_read ?= false
       # Counters
       @lines = 0 # Number of lines encountered in the source dataset
       @count = 0 # Number of records being processed
@@ -197,11 +198,12 @@ Implementation of the [`stream.Transform` API][transform]
       rtrim = @options.trim or @options.rtrim
       chars = @buf + chars
       l = chars.length
-      # MAX_CHAR_READ is the value checked across the field and line buffers so we can avoid the condition
+      # maxLimitOnDataRead is the value checked across the field and line buffers so we can avoid the condition
       # where there is wrong delimiter or rowDelimiters are passed in the option and the data is very huge.
       # this makes to just pile up whole chars to field/line (based on either wrong delimiter or rowDelimiter)
-      # MAX_CHAR_READ is set to 128000 considering max data read can be 250K.
-      MAX_CHAR_READ = 128000
+      # if the options.max_limit_on_data_read is not set, bt default maxLimitOnDataRead is set to 128000 
+      # considering max data read can be 250K.
+      maxLimitOnDataRead = if @options.max_limit_on_data_read then @options.max_limit_on_data_read else 128000
       rowDelimiterLength = if @options.rowDelimiter then @options.rowDelimiter.length else 0
       i = 0
       # Strip BOM header
@@ -322,9 +324,9 @@ Implementation of the [`stream.Transform` API][transform]
           @line.push auto_parse @field if end and i is l
         else
           i++
-        if not @commenting and @field.length > MAX_CHAR_READ
+        if not @commenting and @field.length > maxLimitOnDataRead
           throw Error "Delimter not found in the file #{JSON.stringify(@options.delimiter)}"
-        if not @commenting and @line.length > MAX_CHAR_READ
+        if not @commenting and @line.length > maxLimitOnDataRead
           throw Error "Row delimter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Store un-parsed chars for next call
       @buf = ''
