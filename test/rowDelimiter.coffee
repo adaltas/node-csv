@@ -2,7 +2,7 @@
 should = require 'should'
 fs = require 'fs'
 parse = require '../src'
-inputFile = 'test/sampleData.in'
+inputFile = 'samples/sampleData.in'
 
 describe 'rowDelimiter', ->
 
