@@ -5,9 +5,10 @@
 fs = require('fs');
 parse = require('..');
 
-// Using the first line of the CSV data to discover the column names
+// When rowDelimiter does not match the parsed data's rowDelimiter. Data parsed will be limited to max_limit_on_data_read option set.
+// If the max_limit_on_data_read value is not set, default value is set to 250K of data.
 rs = fs.createReadStream(__dirname+'/wrong-rowDelimiter.in');
-parser = parse({rowDelimiter: '::'}, function(err, data){
+parser = parse({rowDelimiter: '::', max_limit_on_data_read: 100}, function(err, data){
   if (err) {
     console.log(err);
   } else {
