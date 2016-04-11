@@ -2,7 +2,6 @@
 should = require 'should'
 fs = require 'fs'
 parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
-inputFile = 'samples/sampleData.in'
 
 describe 'delimiter', ->
   
@@ -55,12 +54,13 @@ describe 'delimiter', ->
       next()
       
   it 'If the delimiter does not match from the csv data, parsing should terminate with appropriate error message when the data read is more than the value set for max_limit_on_data_read', (next) ->
-    foo = ->
-      fs.readFileSync inputFile, 'utf8'
-
-    #if max_limit_on_data_read property is set, the limit is considered as that value, else the default value is set it to 250K data.
-
-    parse foo(), delimiter: ':', rowDelimiter: '\t\t', max_limit_on_data_read: 100, (err, data) ->
+    parse """
+    a,b,c
+    a,b,c
+    a,b,c
+    a,b,c
+    a,b,c
+    """, delimiter: ':', rowDelimiter: '\t\t', max_limit_on_data_read: 10, (err, data) ->
       err.message.should.eql 'Delimter not found in the file ":"' if err
       should(data).not.be.ok()
       next()
