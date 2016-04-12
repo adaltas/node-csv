@@ -105,6 +105,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @closingQuote = 0
       @line = [] # Current line being processed
       @chunks = []
+      @rawBuf = ''
       @
 
 ## Interal API
@@ -156,6 +157,7 @@ Implementation of the [`stream.Transform` API][transform]
         this.emit 'error', err
 
     Parser.prototype.__push = (line) ->
+      row = null
       if @options.columns is true
         @options.columns = line
         return
@@ -168,11 +170,18 @@ Implementation of the [`stream.Transform` API][transform]
         for field, i in line
           lineAsColumns[@options.columns[i]] = field
         if @options.objname
-          @push [lineAsColumns[@options.objname], lineAsColumns]
+          row = [lineAsColumns[@options.objname], lineAsColumns]
         else
-          @push lineAsColumns
+          row = lineAsColumns
       else
-        @push line
+        row = line
+
+      if @options.raw
+        @push { raw: @rawBuf, row: row }
+        @rawBuf = ''
+      else
+        @push row
+			
 
     Parser.prototype.__write =  (chars, end, callback) ->
       is_int = (value) =>
@@ -209,6 +218,8 @@ Implementation of the [`stream.Transform` API][transform]
         break if not end and (i+acceptedLength >= l)
         char = if @nextChar then @nextChar else chars.charAt i
         @nextChar = chars.charAt i + 1
+        if @options.raw
+          @rawBuf += char
         # Auto discovery of rowDelimiter, unix, mac and windows supported
         unless @options.rowDelimiter?
           # First empty line
@@ -218,6 +229,8 @@ Implementation of the [`stream.Transform` API][transform]
           else if @nextChar is '\n' or @nextChar is '\r'
             rowDelimiter = @nextChar
             nextCharPos = i+2
+            if @raw
+              rawBuf += @nextChar
           if rowDelimiter
             rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextCharPos) is '\n'
             @options.rowDelimiter = rowDelimiter
@@ -237,6 +250,9 @@ Implementation of the [`stream.Transform` API][transform]
             char = @nextChar
             @nextChar = chars.charAt i + 1
             @field += char
+            # Since we're skipping the next one, better add it now if in raw mode.
+            if @options.raw
+              @rawBuf += char
             i++
             continue
         if not @commenting and char is @options.quote
