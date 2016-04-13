@@ -160,9 +160,11 @@ Implementation of the [`stream.Transform` API][transform]
       row = null
       if @options.columns is true
         @options.columns = line
+        rawBuf = ''
         return
       else if typeof @options.columns is 'function'
         @options.columns = @options.columns line
+        rawBuf = ''
         return
       @count++
       if @options.columns?
