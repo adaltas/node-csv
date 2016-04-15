@@ -13,7 +13,7 @@ large community.
 
 *   Follow the Node.js streaming API
 *   Simplicity with the optional callback API
-*   Support delimiters, quotes, escape characters and header
+*   Support for custom formatters, delimiters, quotes, escape characters and header
 *   Support big datasets
 *   Complete test coverage and samples for inspiration
 *   no external dependencies
