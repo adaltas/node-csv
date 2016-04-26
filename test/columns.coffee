@@ -51,7 +51,7 @@ describe 'columns', ->
       ]
       next()
       
-  it.skip 'validate options column length on first line', (next) ->
+  it 'validate options column length on first line', (next) ->
     parse """
     1,2,3
     4,5,6,x
@@ -60,7 +60,7 @@ describe 'columns', ->
       err.message.should.eql 'Number of columns on line 1 does not match header'
       next()
       
-  it.skip 'validate options column length on last line', (next) ->
+  it 'validate options column length on last line', (next) ->
     parse """
     1,2,3,x
     4,5,6,x
@@ -69,7 +69,7 @@ describe 'columns', ->
       err.message.should.eql 'Number of columns on line 3 does not match header'
       next()
   
-  it.skip 'handles missing column if number of columns is inconsistent', (next) ->
+  it 'handles missing column if number of columns is inconsistent', (next) ->
     parse """
     20322051544,1979,8.8017226E7,ABC,45,2000-01-01
     28392898392,1974,8.8392926E7,23,2050-11-27
