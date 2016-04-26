@@ -86,6 +86,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.auto_parse ?= false
       @options.auto_parse_date ?= false
       @options.relax ?= false
+      @options.relax_column_count ?= false
       @options.skip_empty_lines ?= false
       @options.max_limit_on_data_read ?= 128000
       # Counters
@@ -165,7 +166,7 @@ Implementation of the [`stream.Transform` API][transform]
         return
       if not @line_length and line.length > 0
         @line_length = if @options.columns then @options.columns.length else line.length
-      if line.length isnt @line_length
+      if not @options.relax_column_count and line.length isnt @line_length
         if @options.columns?
           @emit 'error', Error "Number of columns on line #{@lines} does not match header"
         else
