@@ -86,7 +86,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.auto_parse ?= false
       @options.auto_parse_date ?= false
       @options.relax ?= false
-      @options.relax_column_count ?= false
+      @options.relax_column_count ?= true
       @options.skip_empty_lines ?= false
       @options.max_limit_on_data_read ?= 128000
       # Counters
