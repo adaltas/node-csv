@@ -156,6 +156,14 @@ Implementation of the [`stream.Transform` API][transform]
         this.emit 'error', err
 
     Parser.prototype.__push = (line) ->
+      if not @line_length and line.length > 0
+        @line_length = line.length
+      if line.length isnt @line_length
+        if @options.columns?
+          this.emit 'error', new Error "Number of columns on line #{@lines+1} does not match header"
+        else
+          this.emit 'error', new Error "Number of columns is inconsistent on line #{@lines+1}"
+
       if @options.columns is true
         @options.columns = line
         return
