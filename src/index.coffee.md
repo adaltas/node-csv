@@ -85,6 +85,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.rtrim ?= false
       @options.auto_parse ?= false
       @options.auto_parse_date ?= false
+      @options.relax ?= false
       @options.skip_empty_lines ?= false
       @options.max_limit_on_data_read ?= 128000
       # Counters
@@ -156,20 +157,19 @@ Implementation of the [`stream.Transform` API][transform]
         this.emit 'error', err
 
     Parser.prototype.__push = (line) ->
-      if not @line_length and line.length > 0
-        @line_length = line.length
-      if line.length isnt @line_length
-        if @options.columns?
-          this.emit 'error', new Error "Number of columns on line #{@lines+1} does not match header"
-        else
-          this.emit 'error', new Error "Number of columns is inconsistent on line #{@lines+1}"
-
       if @options.columns is true
         @options.columns = line
         return
       else if typeof @options.columns is 'function'
         @options.columns = @options.columns line
         return
+      if not @line_length and line.length > 0
+        @line_length = if @options.columns then @options.columns.length else line.length
+      if line.length isnt @line_length
+        if @options.columns?
+          @emit 'error', Error "Number of columns on line #{@lines} does not match header"
+        else
+          @emit 'error', Error "Number of columns is inconsistent on line #{@lines+1}"
       @count++
       if @options.columns?
         lineAsColumns = {}
@@ -278,7 +278,7 @@ Implementation of the [`stream.Transform` API][transform]
             throw Error "Invalid opening quote at line #{@lines+1}"
           # Otherwise, treat quote as a regular character
         isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
-        @lines++ if isRowDelimiter
+        @lines++ if isRowDelimiter or (end and i is l - 1)
         # Set the commenting flag
         wasCommenting = false
         if not @commenting and not @quoting and @options.comment and chars.substr(i, @options.comment.length) is @options.comment
