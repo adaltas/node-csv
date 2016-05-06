@@ -57,9 +57,12 @@ Stream API, for maximum of power:
 
 Options are documented [here](http://csv.adaltas.com/stringify/).
 
-    Stringifier = (options = {}) ->
-      # options.objectMode = true
+    Stringifier = (opts = {}) ->
+      # Immutable options
+      options = {}
+      options[k] = v for k, v of opts
       stream.Transform.call @, options
+      ## Default options
       @options = options
       @options.delimiter ?= ','
       @options.quote ?= '"'
