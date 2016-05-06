@@ -2,7 +2,7 @@
 should = require 'should'
 stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'row delimiter', ->
+describe 'options rowDelimiter', ->
 
   it 'Test line breaks custom', (next) ->
     stringify [

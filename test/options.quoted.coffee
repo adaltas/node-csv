@@ -3,7 +3,7 @@ fs = require 'fs'
 should = require 'should'
 stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'quoted', ->
+describe 'options quoted', ->
   
   it 'surround fields', (next) ->
     count = 0
@@ -24,4 +24,3 @@ describe 'quoted', ->
     stringifier.write [ '20322051544','1979.0','8.801"7226E7','ABC' ]
     stringifier.write [ '283928"98392','1974.0','8.8392926E7','DEF' ]
     stringifier.end()
-
