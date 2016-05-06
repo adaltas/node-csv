@@ -2,7 +2,7 @@
 should = require 'should'
 stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'columns', ->
+describe 'options columns', ->
 
   it 'should map the column property name to display name', (next) ->
     stringify [

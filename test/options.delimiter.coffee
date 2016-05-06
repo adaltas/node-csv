@@ -2,7 +2,7 @@
 should = require 'should'
 stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'delimiter', ->
+describe 'options delimiter', ->
   
   it 'with default value', (next) ->
     stringify [
@@ -27,8 +27,3 @@ describe 'delimiter', ->
       \t1974\t8.8392926E7\t\t
       """
       next()
-
-
-
-
-

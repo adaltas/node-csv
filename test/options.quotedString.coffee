@@ -3,7 +3,7 @@ fs = require 'fs'
 should = require 'should'
 stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'quotedString', ->
+describe 'options quotedString', ->
   
   it 'quotes string fields', (next) ->
     count = 0
