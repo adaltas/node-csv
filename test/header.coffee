@@ -2,7 +2,7 @@
 should = require 'should'
 stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'header', ->
+describe 'options header', ->
 
   it 'as "true" and without "column" option with objects', (next) ->
     stringify [
@@ -85,5 +85,13 @@ describe 'header', ->
     stringify [], header: false, columns: ['some', 'headers'], (err, data) ->
       data.should.eql ''
       next()
-
-
+  
+  it 'is immutable', (next) ->
+    options = header: true, quotedEmpty:true, delimiter: "|"
+    data1 = [ { a:'1', b:'2', c:'3' }, {a: '4', b: '5', c: '6'} ]
+    data2 = [ { x:'1', y:'2', z:'3' }, {x: '4', y: '5', z: '6' } ]
+    stringify data1, options, (err, result1) ->
+      stringify data2, options, (err, result2) ->
+        result1.should.eql "a|b|c\n1|2|3\n4|5|6\n" unless err
+        result2.should.eql "x|y|z\n1|2|3\n4|5|6\n" unless err
+        next err
