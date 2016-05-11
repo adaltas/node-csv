@@ -2,7 +2,7 @@
 fs = require 'fs'
 should = require 'should'
 generate = require 'csv-generate'
-stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+stringify = require '../src'
 
 describe 'API pipe', ->
 
