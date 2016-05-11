@@ -72,6 +72,16 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.escape ?= '"'
       @options.columns ?= null
       @options.header ?= false
+      @options.formatters ?= {}
+      @options.formatters.date ?= (value) ->
+        # Cast date to timestamp string by default
+        return '' + value.getTime()
+      @options.formatters.bool ?= (value) ->
+        # Cast boolean to string by default
+        return if value then '1' else ''
+      @options.formatters.object ?= (value) ->
+        # Stringify object as JSON by default
+        return JSON.stringify value
       @options.rowDelimiter ?= '\n'
       # Internal usage, state related
       @countWriten ?= 0
@@ -175,14 +185,11 @@ Convert a line to a string. Line may be an object, an array or a string.
             # Cast number to string
             field = '' + field
           else if typeof field is 'boolean'
-            # Cast boolean to string
-            field = if field then '1' else ''
+            field = @options.formatters.bool(field)
           else if field instanceof Date
-            # Cast date to timestamp string
-            field = '' + field.getTime()
+            field = @options.formatters.date(field)
           else if typeof field is 'object' and field isnt null
-            # Stringify anything else as JSON
-            field = JSON.stringify field
+            field = @options.formatters.object(field)
           if field
             containsdelimiter = field.indexOf(delimiter) >= 0
             containsQuote = field.indexOf(quote) >= 0
