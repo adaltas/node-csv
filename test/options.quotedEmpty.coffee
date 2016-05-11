@@ -1,7 +1,7 @@
 
 fs = require 'fs'
 should = require 'should'
-stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+stringify = require '../src'
 
 describe 'options quotedEmpty', ->
   it 'quotes empty fields (when all not quoted)', (next) ->

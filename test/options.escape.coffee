@@ -1,6 +1,6 @@
 
 should = require 'should'
-stringify = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+stringify = require '../src'
 
 describe 'options escape', ->
 
