@@ -22,16 +22,16 @@ The `csv` package is itself split into 4 packages:
 
 *   [`csv-generate`](https://github.com/wdavidw/node-csv-generate),
     a flexible generator of CSV string and Javascript objects. 
-    [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-generate.png)][travis-csv-generate]
+    [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-generate.svg?branch=master)][travis-csv-generate]
 *   [`csv-parse`](https://github.com/wdavidw/node-csv-parse),
     a parser converting CSV text into arrays or objects. 
-    [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.png)][travis-csv-parse]
+    [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.svg?branch=master)][travis-csv-parse]
 *   [`stream-transform`](https://github.com/wdavidw/node-stream-transform),
     a transformation framework.
-    [![Build Status](https://secure.travis-ci.org/wdavidw/node-stream-transform.png)][travis-stream-transform]
+    [![Build Status](https://secure.travis-ci.org/wdavidw/node-stream-transform.svg?branch=master)][travis-stream-transform]
 *   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), 
     a stringifier converting records into a CSV text. 
-    [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-stringify.png)][travis-csv-stringify]
+    [![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-stringify.svg?branch=master)][travis-csv-stringify]
 
 ## Documentation
 
