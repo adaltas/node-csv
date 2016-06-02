@@ -170,7 +170,7 @@ Implementation of the [`stream.Transform` API][transform]
         if @options.columns?
           @emit 'error', Error "Number of columns on line #{@lines} does not match header"
         else
-          @emit 'error', Error "Number of columns is inconsistent on line #{@lines+1}"
+          @emit 'error', Error "Number of columns is inconsistent on line #{@lines}"
       @count++
       if @options.columns?
         lineAsColumns = {}

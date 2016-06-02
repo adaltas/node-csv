@@ -74,7 +74,7 @@ describe 'columns', ->
     20322051544,1979,8.8017226E7,ABC,45,2000-01-01
     28392898392,1974,8.8392926E7,23,2050-11-27
     """, (err, data) ->
-      err.message.should.match(/Number of columns is inconsistent on line \d.+/)
+      err.message.should.eql 'Number of columns is inconsistent on line 2'
       next()
   
   it 'returned by user with the help of the first line', (next) ->
