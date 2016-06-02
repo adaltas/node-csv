@@ -35,7 +35,7 @@ The `csv` package is itself split into 4 packages:
 
 ## Documentation
 
-The full documentation for the current version 0.4 is available [here][new_doc] while the
+The full documentation for the current versionis available [here][new_doc] while the
 previous documentation is still available [here][old_doc].
 
 ## Usage
