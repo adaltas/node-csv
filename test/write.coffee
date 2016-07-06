@@ -53,4 +53,13 @@ describe 'write', ->
     # buff = new Buffer [0xE2, 0x82, 0xAC]
     # parser.write buff
     parser.end()
-  
+
+  it 'instantly emits data once a newline is retrieved', (next) ->
+    data = []
+    parser = parse()
+    parser.write 'A,B,C\n'
+    parser.on 'data', (data) ->
+      data.should.eql ['A', 'B', 'C']
+      parser.end()
+    parser.on 'finish', ->
+      next()

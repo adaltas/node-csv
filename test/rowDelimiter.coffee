@@ -52,7 +52,27 @@ describe 'rowDelimiter', ->
     parser.write ':"GHI","94"::'
     parser.write '"JKL","02"'
     parser.end()
-  
+
+  it 'handle chuncks of multiple chars without quotes', (next) ->
+    data = []
+    parser = parse rowDelimiter: '::'
+    parser.on 'readable', ->
+      while d = parser.read()
+        data.push d
+    parser.on 'finish', ->
+      data.should.eql [
+        [ 'ABC','45' ]
+        [ 'DEF','23' ]
+        [ 'GHI','94' ]
+        [ 'JKL','02' ]
+      ]
+      next()
+    parser.write 'ABC,45'
+    parser.write '::DEF,23:'
+    parser.write ':GHI,94::'
+    parser.write 'JKL,02'
+    parser.end()
+
   it 'handle chuncks in autodiscovery', (next) ->
     data = []
     parser = parse()

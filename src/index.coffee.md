@@ -213,15 +213,28 @@ Implementation of the [`stream.Transform` API][transform]
       i++ if @lines is 0 and 0xFEFF is chars.charCodeAt 0
       while i < l
         # Ensure we get enough space to look ahead
-        acceptedLength = rowDelimiterLength + @options.comment.length + @options.escape.length + @options.delimiter.length
-        acceptedLength += @options.quote.length if @quoting
-        break if not end and (i+acceptedLength >= l)
+        if not end
+          # Skip if the remaining buffer can be comment
+          if not @commenting and l - i < @options.comment.length and @options.comment.substr(0, l - i) is chars.substr(i, l - i)
+            break
+          # Skip if the remaining buffer can be row delimiter
+          if @options.rowDelimiter and l - i < rowDelimiterLength and @options.rowDelimiter.substr(0, l - i) is chars.substr(i, l - i)
+            break
+          # Skip if the remaining buffer can be row delimiter following the closing quote
+          if @options.rowDelimiter and @quoting and l - i < (@options.quote.length + rowDelimiterLength) and (@options.quote + @options.rowDelimiter).substr(0, l - i) is chars.substr(i, l - i)
+            break
+          # Skip if the remaining buffer can be delimiter
+          if l - i <= @options.delimiter.length and @options.delimiter.substr(0, l - i) is chars.substr(i, l - i)
+            break
+          # Skip if the remaining buffer can be escape sequence
+          if l - i <= @options.escape.length and @options.escape.substr(0, l - i) is chars.substr(i, l - i)
+            break
         char = if @nextChar then @nextChar else chars.charAt i
         @nextChar = chars.charAt i + 1
         # Auto discovery of rowDelimiter, unix, mac and windows supported
         unless @options.rowDelimiter?
           # First empty line
-          if (@field is '') and (char is '\n' or char is '\r')
+          if (not @quoting) and (char is '\n' or char is '\r')
             rowDelimiter = char
             nextCharPos = i+1
           else if @nextChar is '\n' or @nextChar is '\r'
@@ -269,7 +282,9 @@ Implementation of the [`stream.Transform` API][transform]
               @quoting = false
               @closingQuote = @options.quote.length
               i++
-              @line.push auto_parse @field if end and i is l
+              if end and i is l
+                @line.push auto_parse @field
+                @field = ''
               continue
           else if not @field
             @quoting = true
@@ -319,17 +334,28 @@ Implementation of the [`stream.Transform` API][transform]
           if end and i+1 is l
             if @options.trim or @options.rtrim
               @field = @field.trimRight()
-            @line.push auto_parse @field
           i++
         else if not @commenting
           @field += char
           i++
-          @line.push auto_parse @field if end and i is l
         else
           i++
         if not @commenting and @field.length > @options.max_limit_on_data_read
           throw Error "Delimter not found in the file #{JSON.stringify(@options.delimiter)}"
         if not @commenting and @line.length > @options.max_limit_on_data_read
+          throw Error "Row delimter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
+      # Flush remaining fields and lines
+      if end
+        if rtrim
+          @field = @field.trimRight() unless @closingQuote
+        if @field isnt ''
+          @line.push auto_parse @field
+          @field = ''
+        if @field.length > @options.max_limit_on_data_read
+          throw Error "Delimter not found in the file #{JSON.stringify(@options.delimiter)}"
+        if l is 0
+          @lines++
+        if @line.length > @options.max_limit_on_data_read
           throw Error "Row delimter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Store un-parsed chars for next call
       @buf = ''
