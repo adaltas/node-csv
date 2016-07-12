@@ -59,6 +59,17 @@ describe 'columns', ->
     """, columns: ["a", "b", "c", "d"], (err, data) ->
       err.message.should.eql 'Number of columns on line 1 does not match header'
       next()
+
+  it 'emit single error when column count is invalid on multiple lines', (next) ->
+    parse """
+    1;2
+    1
+    3;4
+    5;6;7
+    """
+    , delimiter: ';', skip_empty_lines: true, (err, data) ->
+      err.message.should.eql 'Number of columns is inconsistent on line 2'
+      process.nextTick next
       
   it 'validate options column length on last line', (next) ->
     parse """

@@ -7,7 +7,7 @@ describe 'line counter', ->
   it 'should display correct line number when invalid opening quotes', (next) ->
     parse """
     "this","line","is",valid
-    "this","line",is,"also",valid
+    "this","line",is,"also,valid"
     this,"line",is,"invalid",h"ere"
     "and",valid,line,follows...
     """, (err, data) ->
@@ -18,9 +18,9 @@ describe 'line counter', ->
   it 'should count empty lines', (next) ->
     parse """
     "this","line","is",valid
-
-    "this","line",is,"also",valid
-    this,"line",is,"invalid",h"ere"
+    
+    "this","line",is,"also,valid"
+    this,"line",is,invalid h"ere"
     "and",valid,line,follows...
     """, (err, data) ->
       err.message.should.match /Invalid opening quote at line 4/
@@ -31,8 +31,8 @@ describe 'line counter', ->
     parse """
     "this","line","is",valid
 
-    "this","line",is,"also",valid
-    this,"line",is,"invalid",h"ere"
+    "this","line",is,"also,valid"
+    this,"line",is,invalid h"ere"
     "and",valid,line,follows...
     """, skip_empty_lines: true, (err, data) ->
       err.message.should.match /Invalid opening quote at line 4/

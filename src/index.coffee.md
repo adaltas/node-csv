@@ -166,11 +166,12 @@ Implementation of the [`stream.Transform` API][transform]
         return
       if not @line_length and line.length > 0
         @line_length = if @options.columns then @options.columns.length else line.length
-      if not @options.relax_column_count and line.length isnt @line_length
+      # Dont check column count with relax_column_count and on empty lines
+      if line.length isnt @line_length and not @options.relax_column_count and not (line.length is 1 and line[0] is '')
         if @options.columns?
-          @emit 'error', Error "Number of columns on line #{@lines} does not match header"
+          throw Error "Number of columns on line #{@lines} does not match header"
         else
-          @emit 'error', Error "Number of columns is inconsistent on line #{@lines}"
+          throw Error "Number of columns is inconsistent on line #{@lines}"
       @count++
       if @options.columns?
         lineAsColumns = {}
