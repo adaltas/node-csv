@@ -92,6 +92,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       # Counters
       @lines = 0 # Number of lines encountered in the source dataset
       @count = 0 # Number of records being processed
+      @skipped = 0 # Number of records skipped due to errors
       # Constants
       @is_int = /^(\-|\+)?([1-9]+[0-9]*)$/
       # @is_float = /^(\-|\+)?([0-9]+(\.[0-9]+)([eE][0-9]+)?|Infinity)$/
@@ -166,13 +167,17 @@ Implementation of the [`stream.Transform` API][transform]
         return
       if not @line_length and line.length > 0
         @line_length = if @options.columns then @options.columns.length else line.length
+      if line.length isnt @line_length and not (line.length is 1 and line[0] is '')
       # Dont check column count with relax_column_count and on empty lines
-      if line.length isnt @line_length and not @options.relax_column_count and not (line.length is 1 and line[0] is '')
-        if @options.columns?
-          throw Error "Number of columns on line #{@lines} does not match header"
+        if not @options.relax_column_count
+          if @options.columns?
+            throw Error "Number of columns on line #{@lines} does not match header"
+          else
+            throw Error "Number of columns is inconsistent on line #{@lines}"
         else
-          throw Error "Number of columns is inconsistent on line #{@lines}"
-      @count++
+          @skipped++
+      else
+        @count++
       if @options.columns?
         lineAsColumns = {}
         for field, i in line
