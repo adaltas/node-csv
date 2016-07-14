@@ -71,6 +71,17 @@ describe 'columns', ->
       err.message.should.eql 'Number of columns is inconsistent on line 2'
       process.nextTick next
       
+  it 'don\'t emit single error when column count is invalid on multiple lines and relax_column_count is true', (next) ->
+    parse """
+    1;2
+    1
+    3;4
+    5;6;7
+    """
+    , delimiter: ';', relax_column_count: true, skip_empty_lines: true, (err, data) ->
+      return next err if err
+      process.nextTick next
+
   it 'validate options column length on last line', (next) ->
     parse """
     1,2,3,x
