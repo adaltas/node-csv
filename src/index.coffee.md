@@ -231,7 +231,10 @@ Implementation of the [`stream.Transform` API][transform]
           if l - i <= @options.escape.length and @options.escape.substr(0, l - i) is chars.substr(i, l - i)
             break
         char = if @nextChar then @nextChar else chars.charAt i
-        @nextChar = chars.charAt i + 1
+        if l > i + 1
+          @nextChar = chars.charAt i + 1
+        else
+          @nextChar = ""
         # Auto discovery of rowDelimiter, unix, mac and windows supported
         unless @options.rowDelimiter?
           # First empty line
