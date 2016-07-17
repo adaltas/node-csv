@@ -58,7 +58,6 @@ Options are documented [here](http://csv.adaltas.com/generate/).
     Generator = (@options = {}) ->
       stream.Readable.call @, @options
       @options.count = 0 # Number of generated lines or records
-      @options.duration ?= 4 * 60 * 1000
       @options.columns ?= 8
       @options.max_word_length ?= 16
       @options.fixed_size ?= false
@@ -183,8 +182,3 @@ Generate an boolean value.
 [readme]: https://github.com/wdavidw/node-csv-generate
 [samples]: https://github.com/wdavidw/node-csv-generate/tree/master/samples
 [tests]: https://github.com/wdavidw/node-csv-generate/tree/master/test
-
-
-
-
-
