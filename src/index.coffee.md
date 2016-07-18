@@ -238,7 +238,7 @@ Implementation of the [`stream.Transform` API][transform]
         char = if @nextChar then @nextChar else chars.charAt i
         if l > i + 1
           @nextChar = chars.charAt i + 1
-        else
+        else #103 - Avoid deoptimization due to wrong charAt index.
           @nextChar = ""
         # Auto discovery of rowDelimiter, unix, mac and windows supported
         unless @options.rowDelimiter?
