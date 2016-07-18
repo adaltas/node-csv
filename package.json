@@ -34,12 +34,12 @@
   "dependencies": {    
   },
   "devDependencies": {
-    "each": "0.5.2",
+    "each": "0.6.1",
     "coffee-script": "1.10.0",
     "csv-generate": "1.0.0",
-    "csv-spectrum": "0.3.0",
-    "mocha": "2.3.3",
-    "should": "7.1.0"
+    "csv-spectrum": "1.0.0",
+    "mocha": "2.5.3",
+    "should": "9.0.2"
   },
   "optionalDependencies": {},
   "main": "./lib",
