@@ -67,6 +67,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.delimiter ?= ','
       @options.quote ?= '"'
       @options.quoted ?= false
+      @options.quotedEmpty ?= undefined
       @options.quotedString ?= false
       @options.eof ?= true
       @options.escape ?= '"'
