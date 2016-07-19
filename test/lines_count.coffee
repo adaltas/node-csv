@@ -29,23 +29,18 @@ describe 'number of lines', ->
     """
 
   it 'counts skipped lines', (next) ->
-    parser = parse '', relax_column_count: false
+    parser = parse '', relax_column_count: true
     parser.on 'error', (err) ->
       next(err)
     parser.on 'finish', ->
-      console.log this.lines, "="
-      console.log this.count
-      console.log this.skipped_line_count
-      console.log this.empty_line_count
-      console.log 'header', this.header_count
-
       this.lines.should.eql(this.count + this.empty_line_count + this.skipped_line_count)
-      this.skipped_line_count.should.eql(3)
+      this.empty_line_count.should.eql(2)
+      this.skipped_line_count.should.eql(1)
       next()
     parser.write """
     20322051544,1979,8.8017226E7,ABC,45,2000-01-01
 
-    28392898392,1974,8.8392926E7,DEF,23,2050-11-27
-    
+    28392898392,1974,8.8392926E7,DEF,23,2050-11-27,42
+
     28392898392,1974,8.8392926E7,GHI,23,2050-11-27
     """

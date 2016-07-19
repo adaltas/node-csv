@@ -90,9 +90,11 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.skip_empty_lines ?= false
       @options.max_limit_on_data_read ?= 128000
       # Counters
+      # lines = count + skipped_line_count + empty_line_count
       @lines = 0 # Number of lines encountered in the source dataset
       @count = 0 # Number of records being processed
-      @skipped = 0 # Number of records skipped due to errors
+      @skipped_line_count = 0 # Number of records skipped due to errors
+      @empty_line_count = 0 # Number of empty lines
       # Constants
       @is_int = /^(\-|\+)?([1-9]+[0-9]*)$/
       # @is_float = /^(\-|\+)?([0-9]+(\.[0-9]+)([eE][0-9]+)?|Infinity)$/
@@ -110,7 +112,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @chunks = []
       @
 
-## Interal API
+## Internal API
 
 The Parser implement a [`stream.Transform` class][transform].
 
@@ -167,15 +169,17 @@ Implementation of the [`stream.Transform` API][transform]
         return
       if not @line_length and line.length > 0
         @line_length = if @options.columns then @options.columns.length else line.length
-      if line.length isnt @line_length and not (line.length is 1 and line[0] is '')
-      # Dont check column count with relax_column_count and on empty lines
-        if not @options.relax_column_count
-          if @options.columns?
-            throw Error "Number of columns on line #{@lines} does not match header"
-          else
-            throw Error "Number of columns is inconsistent on line #{@lines}"
+      # Dont check column count on empty lines
+      if (line.length is 1 and line[0] is '')
+        @empty_line_count++
+      else if line.length isnt @line_length
+        # Dont check column count with relax_column_count
+        if @options.relax_column_count
+          @skipped_line_count++
+        else if @options.columns?
+          throw Error "Number of columns on line #{@lines} does not match header"
         else
-          @skipped++
+          throw Error "Number of columns is inconsistent on line #{@lines}"
       else
         @count++
       if @options.columns?
