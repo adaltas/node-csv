@@ -27,7 +27,7 @@ describe 'columns', ->
         "FIELD_6":"2050-11-27"
       ]
       next()
-  
+
   it 'enforced by user if array', (next) ->
     parse """
     20322051544,1979,8.8017226E7,ABC,45,2000-01-01
@@ -50,7 +50,7 @@ describe 'columns', ->
         "FIELD_6":"2050-11-27"
       ]
       next()
-      
+
   it 'validate options column length on first line', (next) ->
     parse """
     1,2,3
@@ -70,17 +70,6 @@ describe 'columns', ->
     , delimiter: ';', skip_empty_lines: true, (err, data) ->
       err.message.should.eql 'Number of columns is inconsistent on line 2'
       process.nextTick next
-      
-  it 'don\'t emit single error when column count is invalid on multiple lines and relax_column_count is true', (next) ->
-    parse """
-    1;2
-    1
-    3;4
-    5;6;7
-    """
-    , delimiter: ';', relax_column_count: true, skip_empty_lines: true, (err, data) ->
-      return next err if err
-      process.nextTick next
 
   it 'validate options column length on last line', (next) ->
     parse """
@@ -90,7 +79,7 @@ describe 'columns', ->
     """, columns: ["a", "b", "c", "d"], (err, data) ->
       err.message.should.eql 'Number of columns on line 3 does not match header'
       next()
-  
+
   it 'handles missing column if number of columns is inconsistent', (next) ->
     parse """
     20322051544,1979,8.8017226E7,ABC,45,2000-01-01
@@ -98,7 +87,7 @@ describe 'columns', ->
     """, (err, data) ->
       err.message.should.eql 'Number of columns is inconsistent on line 2'
       next()
-  
+
   it 'returned by user with the help of the first line', (next) ->
     parse """
     FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6
