@@ -305,7 +305,7 @@ Implementation of the [`stream.Transform` API][transform]
             continue
           else if @field and not @options.relax
             throw Error "Invalid opening quote at line #{@lines+1}"
-          # Otherwise, treat quote as a regular character
+        # Otherwise, treat quote as a regular character
         isRowDelimiter = (@options.rowDelimiter and chars.substr(i, @options.rowDelimiter.length) is @options.rowDelimiter)
         @lines++ if isRowDelimiter or (end and i is l - 1)
         # Set the commenting flag
@@ -354,9 +354,9 @@ Implementation of the [`stream.Transform` API][transform]
         else
           i++
         if not @commenting and @field.length > @options.max_limit_on_data_read
-          throw Error "Delimter not found in the file #{JSON.stringify(@options.delimiter)}"
+          throw Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
         if not @commenting and @line.length > @options.max_limit_on_data_read
-          throw Error "Row delimter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
+          throw Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Flush remaining fields and lines
       if end
         if rtrim
@@ -365,11 +365,11 @@ Implementation of the [`stream.Transform` API][transform]
           @line.push auto_parse @field
           @field = ''
         if @field.length > @options.max_limit_on_data_read
-          throw Error "Delimter not found in the file #{JSON.stringify(@options.delimiter)}"
+          throw Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
         if l is 0
           @lines++
         if @line.length > @options.max_limit_on_data_read
-          throw Error "Row delimter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
+          throw Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Store un-parsed chars for next call
       @buf = ''
       while i < l
