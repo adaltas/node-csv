@@ -61,6 +61,6 @@ describe 'delimiter', ->
     a,b,c
     a,b,c
     """, delimiter: ':', rowDelimiter: '\t\t', max_limit_on_data_read: 10, (err, data) ->
-      err.message.should.eql 'Delimter not found in the file ":"' if err
+      err.message.should.eql 'Delimiter not found in the file ":"' if err
       should(data).not.be.ok()
       next()

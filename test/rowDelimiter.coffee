@@ -126,6 +126,6 @@ describe 'rowDelimiter', ->
     a,b,c
     a,b,c
     """, delimiter: ',', rowDelimiter: '\t', max_limit_on_data_read: 10, (err, data) ->
-      err.message.should.eql 'Row delimter not found in the file "\\t"'
+      err.message.should.eql 'Row delimiter not found in the file "\\t"'
       should(data).not.be.ok()
       next()
