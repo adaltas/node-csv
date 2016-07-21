@@ -57,9 +57,9 @@ describe 'write', ->
   it 'instantly emits data once a newline is retrieved', (next) ->
     data = []
     parser = parse()
-    parser.write 'A,B,C\n'
     parser.on 'data', (data) ->
       data.should.eql ['A', 'B', 'C']
       parser.end()
     parser.on 'finish', ->
       next()
+    parser.write 'A,B,C\n'
