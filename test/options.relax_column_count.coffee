@@ -1,6 +1,6 @@
 
 should = require 'should'
-parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+parse = require '../src'
 
 describe 'relax_column_count', ->
 

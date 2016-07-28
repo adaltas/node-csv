@@ -1,7 +1,7 @@
 
 fs = require 'fs'
 should = require 'should'
-parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+parse = require '../src'
 
 describe 'Option "auto_parse"', ->
   
@@ -39,4 +39,3 @@ describe 'Option "auto_parse"', ->
     parse '123a,1.23,0.123,01.23,.123,123.', auto_parse: true, (err, data) ->
       data.should.eql [ ['123a', 1.23, 0.123, 1.23, 0.123, 123] ]
       next()
-

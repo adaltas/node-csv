@@ -1,7 +1,7 @@
 
 fs = require 'fs'
 should = require 'should'
-parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+parse = require '../src'
 
 describe 'ltrim', ->
   
@@ -170,6 +170,3 @@ describe 'no trim', ->
       28392898392,    1974,8.8392926E7,D EF   ,  23 , 2050-11-27
     """
     parser.end()
-
-
-

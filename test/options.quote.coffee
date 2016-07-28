@@ -1,7 +1,7 @@
 
 fs = require 'fs'
 should = require 'should'
-parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+parse = require '../src'
 
 describe 'quote', ->
   
@@ -94,8 +94,3 @@ describe 'quote error', ->
       err.message.should.match /Invalid closing quote/
       next()
     
-
-
-
-
-
