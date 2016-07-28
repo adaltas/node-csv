@@ -89,6 +89,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.relax_column_count ?= false
       @options.skip_empty_lines ?= false
       @options.max_limit_on_data_read ?= 128000
+      @options.skip_lines_with_empty_values ?= false
       # Counters
       # lines = count + skipped_line_count + empty_line_count
       @lines = 0 # Number of lines encountered in the source dataset
@@ -346,7 +347,16 @@ Implementation of the [`stream.Transform` API][transform]
               isRowDelimiter = true
               @line.push ''
           if isRowDelimiter
-            @__push @line
+            if @options.skip_lines_with_empty_values
+              isValueNotEmpty = false
+              for line in @line
+                if line isnt ''
+                  isValueNotEmpty = true
+                  break
+              if isValueNotEmpty
+                @__push @line
+            else
+              @__push @line
             # Some cleanup for the next row
             @line = []
             i += @options.rowDelimiter?.length
@@ -369,6 +379,7 @@ Implementation of the [`stream.Transform` API][transform]
         if not @commenting and @line.length > @options.max_limit_on_data_read
           throw Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Flush remaining fields and lines
+
       if end
         if rtrim
           @field = @field.trimRight() unless @closingQuote
@@ -381,6 +392,7 @@ Implementation of the [`stream.Transform` API][transform]
           @lines++
         if @line.length > @options.max_limit_on_data_read
           throw Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
+      
       # Store un-parsed chars for next call
       @buf = ''
       while i < l
