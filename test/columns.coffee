@@ -50,6 +50,21 @@ describe 'columns', ->
         "FIELD_6":"2050-11-27"
       ]
       next()
+      
+  it 'skip columns with false value', (next) ->
+    parse """
+    abc,123,def,456
+    hij,789,klm,789
+    """, columns: ["FIELD_1", false, "FIELD_2", false], (err, data) ->
+      return next err if err
+      data.should.eql [
+        "FIELD_1":"abc"
+        "FIELD_2":"def"
+      ,
+        "FIELD_1":"hij"
+        "FIELD_2":"klm"
+      ]
+      next()
 
   it 'validate options column length on first line', (next) ->
     parse """
