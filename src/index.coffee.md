@@ -163,6 +163,7 @@ Implementation of the [`stream.Transform` API][transform]
         this.emit 'error', err
 
     Parser.prototype.__push = (line) ->
+      return if @options.skip_lines_with_empty_values and line.join('').trim() is ''
       row = null
       if @options.columns is true
         @options.columns = line
@@ -348,16 +349,7 @@ Implementation of the [`stream.Transform` API][transform]
               isRowDelimiter = true
               @line.push ''
           if isRowDelimiter
-            if @options.skip_lines_with_empty_values
-              isValueNotEmpty = false
-              for line in @line
-                if line isnt ''
-                  isValueNotEmpty = true
-                  break
-              if isValueNotEmpty
-                @__push @line
-            else
-              @__push @line
+            @__push @line
             # Some cleanup for the next row
             @line = []
             i += @options.rowDelimiter?.length
