@@ -202,7 +202,6 @@ Implementation of the [`stream.Transform` API][transform]
         @rawBuf = ''
       else
         @push row
-			
 
     Parser.prototype.__write =  (chars, end, callback) ->
       is_int = (value) =>
@@ -235,26 +234,21 @@ Implementation of the [`stream.Transform` API][transform]
       while i < l
         # Ensure we get enough space to look ahead
         if not end
-          # Skip if the remaining buffer can be comment
-          if not @commenting and l - i < @options.comment.length and @options.comment.substr(0, l - i) is chars.substr(i, l - i)
-            break
-          # Skip if the remaining buffer can be row delimiter
-          if @options.rowDelimiter and l - i < rowDelimiterLength and @options.rowDelimiter.substr(0, l - i) is chars.substr(i, l - i)
-            break
-          # Skip if the remaining buffer can be row delimiter following the closing quote
-          if @options.rowDelimiter and @quoting and l - i < (@options.quote.length + rowDelimiterLength) and (@options.quote + @options.rowDelimiter).substr(0, l - i) is chars.substr(i, l - i)
-            break
-          # Skip if the remaining buffer can be delimiter
-          if l - i <= @options.delimiter.length and @options.delimiter.substr(0, l - i) is chars.substr(i, l - i)
-            break
-          # Skip if the remaining buffer can be escape sequence
-          if l - i <= @options.escape.length and @options.escape.substr(0, l - i) is chars.substr(i, l - i)
-            break
+          remainingBuffer = chars.substr(i, l - i)
+          break if (
+            # Skip if the remaining buffer can be comment
+            (not @commenting and l - i < @options.comment.length and @options.comment.substr(0, l - i) is remainingBuffer) or
+            # Skip if the remaining buffer can be row delimiter
+            (@options.rowDelimiter and l - i < rowDelimiterLength and @options.rowDelimiter.substr(0, l - i) is remainingBuffer) or
+            # Skip if the remaining buffer can be row delimiter following the closing quote
+            (@options.rowDelimiter and @quoting and l - i < (@options.quote.length + rowDelimiterLength) and (@options.quote + @options.rowDelimiter).substr(0, l - i) is remainingBuffer) or
+            # Skip if the remaining buffer can be delimiter
+            (l - i <= @options.delimiter.length and @options.delimiter.substr(0, l - i) is remainingBuffer) or
+            # Skip if the remaining buffer can be escape sequence
+            (l - i <= @options.escape.length and @options.escape.substr(0, l - i) is remainingBuffer)
+          )
         char = if @nextChar then @nextChar else chars.charAt i
-        if l > i + 1
-          @nextChar = chars.charAt i + 1
-        else #103 - Avoid deoptimization due to wrong charAt index.
-          @nextChar = ""
+        @nextChar = if l > i + 1 then chars.charAt(i + 1) else ''
         @rawBuf += char if @options.raw
         # Auto discovery of rowDelimiter, unix, mac and windows supported
         unless @options.rowDelimiter?
