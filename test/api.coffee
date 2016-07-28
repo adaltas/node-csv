@@ -1,7 +1,7 @@
 
 should = require 'should'
 generate = require 'csv-generate'
-parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+parse = require '../src'
 
 describe 'api', ->
 

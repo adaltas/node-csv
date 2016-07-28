@@ -1,7 +1,7 @@
 
 fs = require 'fs'
 should = require 'should'
-parse = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+parse = require '../src'
 
 describe 'relax', ->
 
@@ -62,10 +62,3 @@ describe 'relax', ->
     """, relax: false, (err, data) ->
       err.message.should.eql 'Invalid opening quote at line 1'
       next()
-
-
-
-
-
-
-
