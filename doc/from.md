@@ -12,11 +12,11 @@ source: ./src/from.coffee
 ---
 
 
-The `csv().from` property provides functions to read from an external 
-source and write to a CSV instance. The source may be a string, a file, 
-a buffer or a readable stream.   
+The `csv().from` property provides functions to read from an external
+source and write to a CSV instance. The source may be a string, a file,
+a buffer or a readable stream.
 
-You may call the `from` function or one of its sub function. For example, 
+You may call the `from` function or one of its sub function. For example,
 here are two identical ways to read from a file:
 
 ```javascript
@@ -30,12 +30,12 @@ csv().from.path('/tmp/data.csv').on('data', console.log);
 `from(mixed)`
 -------------
 
-Read from any sort of source. It should be considered as a convenient function which 
-will discover the nature of the data source to parse.   
+Read from any sort of source. It should be considered as a convenient function which
+will discover the nature of the data source to parse.
 
 If the parameter is a string, check if a file of that path exists. If so, read the file contents,
 otherwise, treat the string as CSV data. If the parameter is an instance of `stream`, consider the
-object to be an input stream. If it is an array, then treat each line as a record.   
+object to be an input stream. If it is an array, then treat each line as a record.
 
 Here are some examples on how to use this function:
 
@@ -64,7 +64,7 @@ csv()
 `from.options([options])`
 -------------------------
 
-Update and retrieve options relative to the input source. Return 
+Update and retrieve options relative to the input source. Return
 the options as an object if no argument is provided.
 
 *   `delimiter`     Set the field delimiter. One character only, defaults to comma.
@@ -79,7 +79,7 @@ the options as an object if no argument is provided.
 *   `ltrim`         If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
 *   `rtrim`         If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
 
-Additionnally, in case you are working with stream, you can pass all 
+Additionally, in case you are working with stream, you can pass all
 the options accepted by the `stream.pipe` function.
 
 
@@ -87,8 +87,8 @@ the options accepted by the `stream.pipe` function.
 `from.array(data, [options])`
 ------------------------------
 
-Read from an array. Take an array as first argument and optionally 
-an object of options as a second argument. Each element of the array 
+Read from an array. Take an array as first argument and optionally
+an object of options as a second argument. Each element of the array
 represents a CSV record. Those elements may be a string, a buffer, an
 array or an object.
 
@@ -97,9 +97,9 @@ array or an object.
 `from.string(data, [options])`
 -------------------------------
 
-Read from a string or a buffer. Take a string as first argument and 
-optionally an object of options as a second argument. The string 
-must be the complete csv data, look at the streaming alternative if your 
+Read from a string or a buffer. Take a string as first argument and
+optionally an object of options as a second argument. The string
+must be the complete csv data, look at the streaming alternative if your
 CSV is large.
 
 ```javascript
@@ -115,11 +115,11 @@ csv()
 `from.stream(stream, [options])`
 --------------------------------
 
-Read from a stream. Take a readable stream as first argument and optionally 
+Read from a stream. Take a readable stream as first argument and optionally
 an object of options as a second argument.
 
-Additionnal options may be defined. See the [`readable.pipe` 
-documentation][srpdo] for additionnal information.
+Additional options may be defined. See the [`readable.pipe`
+documentation][srpdo] for additional information.
 
 [srpdo]: http://www.nodejs.org/api/stream.html#stream_readable_pipe_destination_options
 
@@ -128,10 +128,10 @@ documentation][srpdo] for additionnal information.
 `from.path(path, [options])`
 ----------------------------
 
-Read from a file path. Take a file path as first argument and optionally an object 
+Read from a file path. Take a file path as first argument and optionally an object
 of options as a second argument.
 
-Additionnal options may be defined with the following default:
+Additional options may be defined with the following default:
 
 ```javascript
 
@@ -144,7 +144,7 @@ Additionnal options may be defined with the following default:
 
 ```
 
-See the [`fs.createReadStream` documentation][fscpo] for additionnal information.
+See the [`fs.createReadStream` documentation][fscpo] for additional information.
 
 [fscpo]: http://www.nodejs.org/api/fs.html#fs_fs_createreadstream_path_options
 

@@ -14,9 +14,9 @@ source: ./src/to.coffee
 
 The `csv().to` property provides functions to read from a CSV instance and
 to write to an external destination. The destination may be a stream, a file
-or a callback. 
+or a callback.
 
-You may call the `to` function or one of its sub function. For example, 
+You may call the `to` function or one of its sub function. For example,
 here are two identical ways to write to a file:
 
 ```javascript
@@ -30,13 +30,13 @@ csv.from(data).to.path('/tmp/data.csv');
 `to(mixed)`
 -----------
 
-Write from any sort of destination. It should be considered as a convenient function 
-which will discover the nature of the destination where to write the CSV data.   
+Write from any sort of destination. It should be considered as a convenient function
+which will discover the nature of the destination where to write the CSV data.
 
-If the parameter is a function, then the csv will be provided as the first argument 
-of the callback. If it is a string, then it is expected to be a 
-file path. If it is an instance of `stream`, it consider the object to be an  
-output stream. 
+If the parameter is a function, then the csv will be provided as the first argument
+of the callback. If it is a string, then it is expected to be a
+file path. If it is an instance of `stream`, it consider the object to be an
+output stream.
 
 Here's some examples on how to use this function:
 
@@ -61,14 +61,14 @@ csv()
 `to.options([options])`
 -----------------------
 
-Update and retrieve options relative to the output. Return the options 
+Update and retrieve options relative to the output. Return the options
 as an object if no argument is provided.
 
 *   `delimiter`   Set the field delimiter, one character only, defaults to `options.from.delimiter` which is a comma.
 *   `quote`       Defaults to the quote read option.
 *   `quoted`      Boolean, default to false, quote all the fields even if not required.
 *   `escape`      Defaults to the escape read option.
-*   `columns`     List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additionnal information.
+*   `columns`     List of fields, applied when `transform` returns an object, order matters, read the transformer documentation for additional information.
 *   `header`      Display the column names on the first line if the columns option is provided.
 *   `lineBreaks`  String used to delimit record rows or a special value; special values are 'auto', 'unix', 'mac', 'windows', 'unicode'; defaults to 'auto' (discovered in source or 'unix' if no source is specified).
 *   `flags`       Defaults to 'w', 'w' to create or overwrite an file, 'a' to append to a file. Applied when using the `toPath` method.
@@ -79,7 +79,7 @@ as an object if no argument is provided.
 
 The end options is similar to passing `{end: false}` option in <a name="stream.pipe"></a>
 `stream.pipe()`. According to the Node.js documentation:
-> By default end() is called on the destination when the source stream emits end, so that destination is no longer writable. Pass { end: false } as options to keep the destination stream open. 
+> By default end() is called on the destination when the source stream emits end, so that destination is no longer writable. Pass { end: false } as options to keep the destination stream open.
 
 
 <a name="to.string"></a>
@@ -105,11 +105,11 @@ Callback is called with 2 arguments:
 `to.stream(stream, [options])`
 ------------------------------
 
-Write to a stream. Take a writable stream as first argument and  
+Write to a stream. Take a writable stream as first argument and
 optionally an object of options as a second argument.
 
-Additionnal options may be defined. See the [`readable.pipe` 
-documentation][srpdo] for additionnal information.
+Additional options may be defined. See the [`readable.pipe`
+documentation][srpdo] for additional information.
 
 [srpdo]: http://www.nodejs.org/api/stream.html#stream_readable_pipe_destination_options
 
@@ -118,12 +118,12 @@ documentation][srpdo] for additionnal information.
 `to.path(path, [options])`
 --------------------------
 
-Write to a path. Take a file path as first argument and optionally an object of 
-options as a second argument. The `close` event is sent after the file is written. 
-Relying on the `end` event is incorrect because it is sent when parsing is done 
+Write to a path. Take a file path as first argument and optionally an object of
+options as a second argument. The `close` event is sent after the file is written.
+Relying on the `end` event is incorrect because it is sent when parsing is done
 but before the file is written.
 
-Additionnal options may be defined with the following default:
+Additional options may be defined with the following default:
 
 ```javascript
 
@@ -133,7 +133,7 @@ Additionnal options may be defined with the following default:
 
 ```
 
-See the [`fs.createReadStream` documentation][fscpo] for additionnal information.
+See the [`fs.createReadStream` documentation][fscpo] for additional information.
 
 [fscpo]: http://www.nodejs.org/api/fs.html#fs_fs_createwritestream_path_options
 
