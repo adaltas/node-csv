@@ -206,7 +206,7 @@ Implementation of the [`stream.Transform` API][transform]
       else
         @push row
 
-    Parser.prototype.__write =  (chars, end, callback) ->
+    Parser.prototype.__write =  (chars, end) ->
       is_int = (value) =>
         if typeof @is_int is 'function'
           @is_int value
