@@ -74,15 +74,8 @@ Options are documented [here](http://csv.adaltas.com/parse/).
         @options[k] = v
       stream.Transform.call @, @options
       # adding backwards compatibility
-      if @options.rowDelimiter?
-        if typeof @options.rowDelimiter is "string"
-          @options.rowDelimiter = [@options.rowDelimiter]
-          @receivedRowDelimiterAsString = true
-        else if @options.rowDelimiter.constructor is Array
-          @options.rowDelimiter = @options.rowDelimiter
-          @receivedRowDelimiterAsString = false
-      else
-        @options.rowDelimiter = null
+      @options.rowDelimiter ?= null
+      @options.rowDelimiter = [@options.rowDelimiter] if typeof @options.rowDelimiter is "string"
       @options.delimiter ?= ','
       @options.quote ?= '"'
       @options.escape ?= '"'
@@ -417,10 +410,7 @@ Implementation of the [`stream.Transform` API][transform]
         if not @commenting and @field.length > @options.max_limit_on_data_read
           throw Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
         if not @commenting and @line.length > @options.max_limit_on_data_read
-          if @receivedRowDelimiterAsString
-            throw Error "Row delimiter(s) not found in the file #{JSON.stringify(@options.rowDelimiter[0])}"
-          else
-            throw Error "Row delimiter(s) not found in the file #{JSON.stringify(@options.rowDelimiter)}"
+          throw Error "Row delimiter not found in the file #{JSON.stringify @options.rowDelimiter}"
       # Flush remaining fields and lines
       if end
         rtrimed = false
@@ -435,10 +425,7 @@ Implementation of the [`stream.Transform` API][transform]
         if l is 0
           @lines++
         if @line.length > @options.max_limit_on_data_read
-          if @receivedRowDelimiterAsString
-            throw Error "Row delimiter(s) not found in the file #{JSON.stringify(@options.rowDelimiter[0])}"
-          else
-            throw Error "Row delimiter(s) not found in the file #{JSON.stringify(@options.rowDelimiter)}"
+          throw Error "Row delimiter not found in the file #{JSON.stringify @options.rowDelimiter}"
       # Store un-parsed chars for next call
       @buf = ''
       while i < l
