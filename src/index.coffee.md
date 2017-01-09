@@ -273,7 +273,6 @@ Implementation of the [`stream.Transform` API][transform]
           {rowDelimiter: matchedRowDelimiter, matched: true}
         else
           {rowDelimiter: matchedRowDelimiter, matched: false}
-
       ltrim = @options.trim or @options.ltrim
       rtrim = @options.trim or @options.rtrim
       chars = @buf + chars
@@ -423,11 +422,12 @@ Implementation of the [`stream.Transform` API][transform]
           else
             throw Error "Row delimiter(s) not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Flush remaining fields and lines
-
       if end
-        if rtrim
-          @field = @field.trimRight() unless @closingQuote
-        if @field isnt ''
+        rtrimed = false
+        if rtrim and not @closingQuote
+          @field = @field.trimRight()
+          rtrimed = true
+        if @field isnt '' or rtrimed
           @line.push auto_parse @field
           @field = ''
         if @field.length > @options.max_limit_on_data_read
@@ -439,7 +439,6 @@ Implementation of the [`stream.Transform` API][transform]
             throw Error "Row delimiter(s) not found in the file #{JSON.stringify(@options.rowDelimiter[0])}"
           else
             throw Error "Row delimiter(s) not found in the file #{JSON.stringify(@options.rowDelimiter)}"
-      
       # Store un-parsed chars for next call
       @buf = ''
       while i < l
