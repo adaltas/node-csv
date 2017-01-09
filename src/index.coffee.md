@@ -428,7 +428,7 @@ Implementation of the [`stream.Transform` API][transform]
           @field = @field.trimRight()
           rtrimed = true
         if @field isnt '' or rtrimed
-          @line.push auto_parse @field
+          @line.push auto_parse @field unless @field is '' and @options.skip_empty_lines
           @field = ''
         if @field.length > @options.max_limit_on_data_read
           throw Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"

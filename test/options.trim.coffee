@@ -109,7 +109,7 @@ describe 'trim', ->
     """
     parser.end()
   
-  it 'with header and column count', (next) ->
+  it 'with header and last field is a space', (next) ->
     parse 'h1,h2,h3, \n1,2,3, \n4,5,6, ', 
       delimiter: ','
       columns: true
@@ -117,8 +117,22 @@ describe 'trim', ->
     , (err, data) ->
       return next err if err
       data.should.eql [
-        { h1: '1', h2: '2', h3: '3', '': '' },
+        { h1: '1', h2: '2', h3: '3', '': '' }
         { h1: '4', h2: '5', h3: '6', '': '' }
+      ]
+      next()
+    
+  it 'with skip_empty_lines and empty lines at the end', (next) ->
+    parse "letter,number\na,1\nb,2\nc,3\n",
+      columns: true
+      skip_empty_lines: true
+      trim: true
+    , (err, data) ->
+      return next err if err
+      data.should.eql [
+        { letter: 'a', number: '1' }
+        { letter: 'b', number: '2' }
+        { letter: 'c', number: '3' }
       ]
       next()
 
