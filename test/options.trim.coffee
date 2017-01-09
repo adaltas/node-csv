@@ -108,6 +108,19 @@ describe 'trim', ->
     28392898392, 1974, 8.8392926E7," ABC DEF ", 23, 2050-11-27
     """
     parser.end()
+  
+  it 'with header and column count', (next) ->
+    parse 'h1,h2,h3, \n1,2,3, \n4,5,6, ', 
+      delimiter: ','
+      columns: true
+      trim: true
+    , (err, data) ->
+      return next err if err
+      data.should.eql [
+        { h1: '1', h2: '2', h3: '3', '': '' },
+        { h1: '4', h2: '5', h3: '6', '': '' }
+      ]
+      next()
 
   it 'write aggressively', (next) ->
     data = []
