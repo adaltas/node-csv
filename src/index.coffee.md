@@ -229,14 +229,14 @@ Implementation of the [`stream.Transform` API][transform]
         else
           @is_float.test value
       auto_parse = (value) =>
-        if @options.auto_parse and is_int @field
-          @field = parseInt @field
-        else if @options.auto_parse and is_float @field
-          @field = parseFloat @field
+        if @options.auto_parse and is_int value
+          value = parseInt value
+        else if @options.auto_parse and is_float value
+          value = parseFloat value
         else if @options.auto_parse and @options.auto_parse_date
-          m = Date.parse @field
-          @field = new Date m unless isNaN m
-        @field
+          m = Date.parse value
+          value = new Date m unless isNaN m
+        value
       is_rem_buf_rowDelimiter = (remainingBuffer, remainingBufferLength) =>
         rowDelimiterMatched = false
         if @rowDelimiter? # check when rowDelimiter is set to default
