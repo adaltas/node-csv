@@ -174,20 +174,23 @@ Implementation of the [`stream.Transform` API][transform]
 
     Parser.prototype.__push = (line) ->
       return if @options.skip_lines_with_empty_values and line.join('').trim() is ''
-      row = null
+      # Convert the first line to columns if columns option is true
       if @options.columns is true
         @options.columns = line
         rawBuf = ''
         return
+      # Retrieve column from user defined function if columns option is a function
       else if typeof @options.columns is 'function'
         @options.columns = @options.columns line
         rawBuf = ''
         return
+      # Store the expected number of columns
       if not @line_length and line.length > 0
         @line_length = if @options.columns then @options.columns.length else line.length
       # Dont check column count on empty lines
       if (line.length is 1 and line[0] is '')
         @empty_line_count++
+      # Validate column length
       else if line.length isnt @line_length
         # Dont check column count with relax_column_count
         if @options.relax_column_count
@@ -198,23 +201,21 @@ Implementation of the [`stream.Transform` API][transform]
           throw Error "Number of columns is inconsistent on line #{@lines}"
       else
         @count++
+      # Convert to object if columns
       if @options.columns?
         lineAsColumns = {}
         for field, i in line
           continue if this.options.columns[i] is false
           lineAsColumns[@options.columns[i]] = field
         if @options.objname
-          row = [lineAsColumns[@options.objname], lineAsColumns]
+          line = [lineAsColumns[@options.objname], lineAsColumns]
         else
-          row = lineAsColumns
-      else
-        row = line
-
+          line = lineAsColumns
       if @options.raw
-        @push { raw: @rawBuf, row: row }
+        @push { raw: @rawBuf, row: line }
         @rawBuf = ''
       else
-        @push row
+        @push line
 
     Parser.prototype.__write =  (chars, end) ->
       is_int = (value) =>
