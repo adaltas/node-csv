@@ -414,7 +414,7 @@ Implementation of the [`stream.Transform` API][transform]
       # Flush remaining fields and lines
       if end
         rtrimed = false
-        if rtrim and not @closingQuote
+        if rtrim and not @closingQuote and not isDelimiter
           @field = @field.trimRight()
           rtrimed = true
         if @field isnt '' or rtrimed
