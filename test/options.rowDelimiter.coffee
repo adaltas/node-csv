@@ -208,3 +208,23 @@ describe 'rowDelimiter', ->
       err.message.should.eql 'Row delimiter not found in the file ["\\t"]'
       should(data).not.be.ok()
       next()
+
+  it 'ensure autodiscovery support chunck between lines', (next) ->
+    data = []
+    parser = parse()
+    parser.on 'readable', ->
+      while d = parser.read()
+        data.push d
+    parser.on 'finish', ->
+      data.should.eql [
+        [ 'ABC','45' ]
+        [ 'DEF','23' ]
+        [ 'GHI','94' ]
+        [ 'JKL','02' ]
+      ]
+      next()
+    parser.write 'ABC,45'
+    parser.write '\r\nDEF,23\r'
+    parser.write '\nGHI,94\r\n'
+    parser.write 'JKL,02\r\n'
+    parser.end()
