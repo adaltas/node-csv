@@ -202,7 +202,8 @@ Implementation of the [`stream.Transform` API][transform]
           row = lineAsColumns
       else
         row = line
-
+      return if @count < @options.from
+      return if @count > @options.to
       if @options.raw
         @push { raw: @rawBuf, row: row }
         @rawBuf = ''
