@@ -44,7 +44,7 @@ describe 'columns', ->
       ,
         "FIELD_1":"28392898392"
         "FIELD_2":"1974"
-        "FIELD_3": "8.8392926E7"
+        "FIELD_3":"8.8392926E7"
         "FIELD_4":"DEF"
         "FIELD_5":"23"
         "FIELD_6":"2050-11-27"
