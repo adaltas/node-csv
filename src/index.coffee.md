@@ -73,9 +73,8 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       for k, v of options
         @options[k] = v
       stream.Transform.call @, @options
-      # adding backwards compatibility
       @options.rowDelimiter ?= null
-      @options.rowDelimiter = [@options.rowDelimiter] if typeof @options.rowDelimiter is "string"
+      @options.rowDelimiter = [@options.rowDelimiter] if typeof @options.rowDelimiter is 'string'
       @options.delimiter ?= ','
       @options.quote ?= '"'
       @options.escape ?= '"'
@@ -108,13 +107,14 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @buf = ''
       @quoting = false
       @commenting = false
-      @field = ''
+      @field = null
       @nextChar = null
       @closingQuote = 0
       @line = [] # Current line being processed
       @chunks = []
       @rawBuf = ''
-      @rowDelimiter = null
+      @_ = {}
+      @_.rowDelimiterLength = Math.max(@options.rowDelimiter.map( (v) -> v.length)...) if @options.rowDelimiter
       @
 
 ## Internal API
@@ -167,23 +167,20 @@ Implementation of the [`stream.Transform` API][transform]
 
     Parser.prototype.__push = (line) ->
       return if @options.skip_lines_with_empty_values and line.join('').trim() is ''
-      # Convert the first line to columns if columns option is true
+      row = null
       if @options.columns is true
         @options.columns = line
         rawBuf = ''
         return
-      # Retrieve column from user defined function if columns option is a function
       else if typeof @options.columns is 'function'
         @options.columns = @options.columns line
         rawBuf = ''
         return
-      # Store the expected number of columns
       if not @line_length and line.length > 0
         @line_length = if @options.columns then @options.columns.length else line.length
       # Dont check column count on empty lines
       if (line.length is 1 and line[0] is '')
         @empty_line_count++
-      # Validate column length
       else if line.length isnt @line_length
         # Dont check column count with relax_column_count
         if @options.relax_column_count
@@ -194,21 +191,23 @@ Implementation of the [`stream.Transform` API][transform]
           throw Error "Number of columns is inconsistent on line #{@lines}"
       else
         @count++
-      # Convert to object if columns
       if @options.columns?
         lineAsColumns = {}
         for field, i in line
           continue if this.options.columns[i] is false
           lineAsColumns[@options.columns[i]] = field
         if @options.objname
-          line = [lineAsColumns[@options.objname], lineAsColumns]
+          row = [lineAsColumns[@options.objname], lineAsColumns]
         else
-          line = lineAsColumns
+          row = lineAsColumns
+      else
+        row = line
+
       if @options.raw
-        @push { raw: @rawBuf, row: line }
+        @push { raw: @rawBuf, row: row }
         @rawBuf = ''
       else
-        @push line
+        @push row
 
     Parser.prototype.__write =  (chars, end) ->
       is_int = (value) =>
@@ -230,42 +229,6 @@ Implementation of the [`stream.Transform` API][transform]
           m = Date.parse value
           value = new Date m unless isNaN m
         value
-      is_rem_buf_rowDelimiter = (remainingBuffer, remainingBufferLength) =>
-        rowDelimiterMatched = false
-        if @rowDelimiter? # check when rowDelimiter is set to default
-          if remainingBufferLength < @rowDelimiter.length and @rowDelimiter.substr(0, remainingBufferLength) is remainingBuffer
-            rowDelimiterMatched = true
-        else if @options.rowDelimiter?
-          for rowDelimiter in @options.rowDelimiter
-            if remainingBufferLength < rowDelimiter.length and rowDelimiter.substr(0, remainingBufferLength) is remainingBuffer
-              rowDelimiterMatched = true
-              break
-        rowDelimiterMatched
-      is_rem_buf_rowDelimiter_following_closing_quote = (remainingBuffer, remainingBufferLength) =>
-        rowDelimiterFollowingClosingQuoteMatched = false
-        if @rowDelimiter? # check when rowDelimiter is set to default
-          if @quoting and remainingBufferLength < (@options.quote.length + @rowDelimiter.length) and (@options.quote + @rowDelimiter).substr(0, remainingBufferLength) is remainingBuffer
-            rowDelimiterFollowingClosingQuoteMatched = true
-        else if @options.rowDelimiter?
-          for rowDelimiter in @options.rowDelimiter
-            if @quoting and remainingBufferLength < (@options.quote.length + rowDelimiter.length) and (@options.quote + rowDelimiter).substr(0, remainingBufferLength) is remainingBuffer
-              rowDelimiterFollowingClosingQuoteMatched = true
-              break
-        rowDelimiterFollowingClosingQuoteMatched
-      match_chars_with_row_delimiters = (chars, index) =>
-        matchedRowDelimiter = null
-        if @rowDelimiter? # check when rowDelimiter is set to default
-          if chars.substr(index, @rowDelimiter.length) is @rowDelimiter
-            matchedRowDelimiter = @rowDelimiter
-        else if @options.rowDelimiter?
-          for rowDelimiter in @options.rowDelimiter
-            if chars.substr(index, rowDelimiter.length) is rowDelimiter
-              matchedRowDelimiter = rowDelimiter
-              break
-        if matchedRowDelimiter?
-          {rowDelimiter: matchedRowDelimiter, matched: true}
-        else
-          {rowDelimiter: matchedRowDelimiter, matched: false}
       ltrim = @options.trim or @options.ltrim
       rtrim = @options.trim or @options.rtrim
       chars = @buf + chars
@@ -280,10 +243,10 @@ Implementation of the [`stream.Transform` API][transform]
           break if (
             # Skip if the remaining buffer can be comment
             (not @commenting and l - i < @options.comment.length and @options.comment.substr(0, l - i) is remainingBuffer) or
-            # Skip if the remaining buffer can be a row delimiter
-            is_rem_buf_rowDelimiter(remainingBuffer, l-i) or
+            # Skip if the remaining buffer can be row delimiter
+            (@options.rowDelimiter and l - i < @_.rowDelimiterLength and @options.rowDelimiter.some( (rd) -> rd.substr(0, l - i) is remainingBuffer)) or
             # Skip if the remaining buffer can be row delimiter following the closing quote
-            is_rem_buf_rowDelimiter_following_closing_quote(remainingBuffer, l-i) or
+            (@options.rowDelimiter and @quoting and l - i < (@options.quote.length + @_.rowDelimiterLength) and @options.rowDelimiter.some((rd) => (@options.quote + rd).substr(0, l - i) is remainingBuffer)) or
             # Skip if the remaining buffer can be delimiter
             (l - i <= @options.delimiter.length and @options.delimiter.substr(0, l - i) is remainingBuffer) or
             # Skip if the remaining buffer can be escape sequence
@@ -293,7 +256,7 @@ Implementation of the [`stream.Transform` API][transform]
         @nextChar = if l > i + 1 then chars.charAt(i + 1) else ''
         @rawBuf += char if @options.raw
         # Auto discovery of rowDelimiter, unix, mac and windows supported
-        unless @options.rowDelimiter?.length > 0
+        unless @options.rowDelimiter?
           # First empty line
           if (not @quoting) and (char is '\n' or char is '\r')
             rowDelimiter = char
@@ -305,7 +268,8 @@ Implementation of the [`stream.Transform` API][transform]
               rawBuf += @nextChar
           if rowDelimiter
             rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextCharPos) is '\n'
-            @rowDelimiter = rowDelimiter
+            @options.rowDelimiter = [rowDelimiter]
+            @_.rowDelimiterLength = rowDelimiter.length
         # Parse that damn char
         # Note, shouldn't we have sth like chars.substr(i, @options.escape.length)
         if not @commenting and char is @options.escape
@@ -316,10 +280,11 @@ Implementation of the [`stream.Transform` API][transform]
           escapeIsQuote = @options.escape is @options.quote
           isEscape = @nextChar is @options.escape
           isQuote = @nextChar is @options.quote
-          if not ( escapeIsQuote and not @field and not @quoting ) and ( isEscape or isQuote )
+          if not ( escapeIsQuote and not @field? and not @quoting ) and ( isEscape or isQuote )
             i++
             char = @nextChar
             @nextChar = chars.charAt i + 1
+            @field = '' unless @field?
             @field += char
             # Since we're skipping the next one, better add it now if in raw mode.
             if @options.raw
@@ -334,8 +299,7 @@ Implementation of the [`stream.Transform` API][transform]
             # it isnt an column delimiter and
             # it isnt the begining of a comment
             # Otherwise, if this is not "relax" mode, throw an error
-            {matched, rowDelimiter} = match_chars_with_row_delimiters(chars, i+1)
-            areNextCharsRowDelimiters = matched
+            areNextCharsRowDelimiters = @options.rowDelimiter and @options.rowDelimiter.some((rd) -> chars.substr(i+1, rd.length) is rd)
             areNextCharsDelimiter = chars.substr(i+1, @options.delimiter.length) is @options.delimiter
             isNextCharAComment = @nextChar is @options.comment
             if @nextChar and not areNextCharsRowDelimiters and not areNextCharsDelimiter and not isNextCharAComment
@@ -349,18 +313,18 @@ Implementation of the [`stream.Transform` API][transform]
               @closingQuote = @options.quote.length
               i++
               if end and i is l
-                @line.push auto_parse @field
-                @field = ''
+                @line.push auto_parse @field or ''
+                @field = null
               continue
           else if not @field
             @quoting = true
             i++
             continue
-          else if @field and not @options.relax
+          else if @field? and not @options.relax
             throw Error "Invalid opening quote at line #{@lines+1}"
         # Otherwise, treat quote as a regular character
-        {matched, rowDelimiter} = match_chars_with_row_delimiters(chars, i)
-        isRowDelimiter = matched
+        isRowDelimiter = (@options.rowDelimiter and @options.rowDelimiter.some((rd)-> chars.substr(i, rd.length) is rd))
+        isRowDelimiterLength = @options.rowDelimiter.filter((rd)-> chars.substr(i, rd.length) is rd)[0].length if isRowDelimiter
         @lines++ if isRowDelimiter or (end and i is l - 1)
         # Set the commenting flag
         wasCommenting = false
@@ -372,16 +336,16 @@ Implementation of the [`stream.Transform` API][transform]
         isDelimiter = chars.substr(i, @options.delimiter.length) is @options.delimiter
         if not @commenting and not @quoting and (isDelimiter or isRowDelimiter)
           # Empty lines
-          if isRowDelimiter and @line.length is 0 and @field is ''
+          if isRowDelimiter and @line.length is 0 and not @field?
             if wasCommenting or @options.skip_empty_lines
-              i += rowDelimiter.length if rowDelimiter?
+              i += isRowDelimiterLength
               @nextChar = chars.charAt i
               continue
           if rtrim
-            @field = @field.trimRight() unless @closingQuote
-          @line.push auto_parse @field
+            @field = @field?.trimRight() unless @closingQuote
+          @line.push auto_parse @field or ''
           @closingQuote = 0
-          @field = ''
+          @field = null
           if isDelimiter # End of field
             i += @options.delimiter.length
             @nextChar = chars.charAt i
@@ -392,40 +356,37 @@ Implementation of the [`stream.Transform` API][transform]
             @__push @line
             # Some cleanup for the next row
             @line = []
-            i += rowDelimiter.length if rowDelimiter?
+            i += isRowDelimiterLength
             @nextChar = chars.charAt i
             continue
         else if not @commenting and not @quoting and (char is ' ' or char is '\t')
           # Left trim unless we are quoting or field already filled
+          @field = '' unless @field?
           @field += char unless ltrim and not @field
-          if end and i+1 is l
-            if @options.trim or @options.rtrim
-              @field = @field.trimRight()
           i++
         else if not @commenting
+          @field = '' unless @field?
           @field += char
           i++
         else
           i++
-        if not @commenting and @field.length > @options.max_limit_on_data_read
+        if not @commenting and @field?.length > @options.max_limit_on_data_read
           throw Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
-        if not @commenting and @line.length > @options.max_limit_on_data_read
-          throw Error "Row delimiter not found in the file #{JSON.stringify @options.rowDelimiter}"
+        if not @commenting and @line?.length > @options.max_limit_on_data_read
+          throw Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Flush remaining fields and lines
       if end
-        rtrimed = false
-        if rtrim and not @closingQuote and not isDelimiter
-          @field = @field.trimRight()
-          rtrimed = true
-        if @field isnt '' or rtrimed
-          @line.push auto_parse @field unless @field is '' and @options.skip_empty_lines
-          @field = ''
-        if @field.length > @options.max_limit_on_data_read
+        if @field?
+          if rtrim
+            @field = @field?.trimRight() unless @closingQuote
+          @line.push auto_parse @field or ''
+          @field = null
+        if @field?.length > @options.max_limit_on_data_read
           throw Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
         if l is 0
           @lines++
         if @line.length > @options.max_limit_on_data_read
-          throw Error "Row delimiter not found in the file #{JSON.stringify @options.rowDelimiter}"
+          throw Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Store un-parsed chars for next call
       @buf = ''
       while i < l
