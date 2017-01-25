@@ -222,11 +222,12 @@ Implementation of the [`stream.Transform` API][transform]
         else
           @is_float.test value
       auto_parse = (value) =>
-        if @options.auto_parse and is_int value
+        return value unless @options.auto_parse
+        if is_int value
           value = parseInt value
-        else if @options.auto_parse and is_float value
+        else if is_float value
           value = parseFloat value
-        else if @options.auto_parse and @options.auto_parse_date
+        else if @options.auto_parse_date
           m = Date.parse value
           value = new Date m unless isNaN m
         value
