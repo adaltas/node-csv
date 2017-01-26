@@ -243,6 +243,8 @@ Implementation of the [`stream.Transform` API][transform]
         if not end
           remainingBuffer = chars.substr(i, l - i)
           break if (
+            (not @options.rowDelimiter and i + 3 > l) or
+            # (i+1000 >= l) or
             # Skip if the remaining buffer can be comment
             (not @_.commenting and l - i < @options.comment.length and @options.comment.substr(0, l - i) is remainingBuffer) or
             # Skip if the remaining buffer can be row delimiter
@@ -258,16 +260,17 @@ Implementation of the [`stream.Transform` API][transform]
         @_.nextChar = if l > i + 1 then chars.charAt(i + 1) else ''
         @_.rawBuf += char if @options.raw
         # Auto discovery of rowDelimiter, unix, mac and windows supported
-        unless @options.rowDelimiter?
+        if not @options.rowDelimiter?
+          nextCharPos = i
+          rowDelimiter = null
           # First empty line
-          if (not @_.quoting) and (char is '\n' or char is '\r')
+          if not @_.quoting and (char is '\n' or char is '\r')
             rowDelimiter = char
-            nextCharPos = i+1
-          else if @_.nextChar is '\n' or @_.nextChar is '\r'
+            nextCharPos += 1
+          else if not (not @_.quoting and char is @options.quote) and (@_.nextChar is '\n' or @_.nextChar is '\r')
             rowDelimiter = @_.nextChar
-            nextCharPos = i+2
-            if @raw
-              rawBuf += @_.nextChar
+            nextCharPos += 2
+            rawBuf += @_.nextChar if @raw
           if rowDelimiter
             rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextCharPos) is '\n'
             @options.rowDelimiter = [rowDelimiter]
