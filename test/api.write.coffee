@@ -56,7 +56,7 @@ describe 'write', ->
 
   it 'instantly emits data once a newline is retrieved', (next) ->
     data = []
-    parser = parse()
+    parser = parse rowDelimiter: '\n'
     parser.on 'data', (data) ->
       data.should.eql ['A', 'B', 'C']
       parser.end()

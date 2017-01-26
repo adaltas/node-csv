@@ -5,11 +5,6 @@ parse = require '../src'
 
 describe 'rowDelimiter', ->
 
-  it 'No rows', (next) ->
-    parse "", (err, data) ->
-      data.should.eql [] unless err
-      next err
-
   it 'Test line breaks custom when rowDelimiter is a string', (next) ->
     parse """
     ABC,45::DEF,23
@@ -139,51 +134,6 @@ describe 'rowDelimiter', ->
     parser.write ':GHI,94\r'
     parser.write '\nJKL,02'
     parser.end()
-
-  it 'handle chunks in autodiscovery', (next) ->
-    data = []
-    parser = parse()
-    parser.on 'readable', ->
-      while d = parser.read()
-        data.push d
-    parser.on 'finish', ->
-      data.should.eql [
-        [ 'ABC','45' ]
-        [ 'DEF','23' ]
-        [ 'GHI','94' ]
-        [ 'JKL','02' ]
-      ]
-      next()
-    parser.write '"ABC","45"'
-    parser.write '\n"DEF","23"\n'
-    parser.write '"GHI","94"\n'
-    parser.write '"JKL","02"'
-    parser.end()
-  
-  it 'write aggressively', (next) ->
-    data = []
-    parser = parse()
-    parser.on 'readable', ->
-      while(d = parser.read())
-        data.push d
-    parser.on 'finish', ->
-      data.should.eql [
-        [ 'abc', '123' ]
-        [ 'def', '456' ]
-      ]
-      next()
-    parser.write 'abc,123'
-    parser.write '\n'
-    parser.write 'def,456'
-    parser.end()
-
-  it 'Test line ends with field delimiter and without row delimiter', (next) ->
-    parse '"a","b","c",', delimiter: ',', (err, data) ->
-      return next err if err
-      data.should.eql [
-        [ 'a','b','c','' ]
-      ]
-      next()
       
   it 'If the rowDelimiter(string) does not match from the csv data, parsing should terminate with appropriate error message when the data read is more than the value set for max_limit_on_data_read', (next) ->
     parse """
@@ -208,23 +158,85 @@ describe 'rowDelimiter', ->
       err.message.should.eql 'Row delimiter not found in the file ["\\t"]'
       should(data).not.be.ok()
       next()
+  
+  describe 'auto', ->
+    
+    it 'No rows', (next) ->
+      parse "", (err, data) ->
+        data.should.eql [] unless err
+        next err
 
-  it 'ensure autodiscovery support chunck between lines', (next) ->
-    data = []
-    parser = parse()
-    parser.on 'readable', ->
-      while d = parser.read()
-        data.push d
-    parser.on 'finish', ->
-      data.should.eql [
-        [ 'ABC','45' ]
-        [ 'DEF','23' ]
-        [ 'GHI','94' ]
-        [ 'JKL','02' ]
-      ]
-      next()
-    parser.write 'ABC,45'
-    parser.write '\r\nDEF,23\r'
-    parser.write '\nGHI,94\r\n'
-    parser.write 'JKL,02\r\n'
-    parser.end()
+    it 'handle chunks in autodiscovery', (next) ->
+      data = []
+      parser = parse()
+      parser.on 'readable', ->
+        while d = parser.read()
+          data.push d
+      parser.on 'finish', ->
+        data.should.eql [
+          [ 'ABC','45' ]
+          [ 'DEF','23' ]
+          [ 'GHI','94' ]
+          [ 'JKL','02' ]
+        ]
+        next()
+      parser.write '"ABC","45"'
+      parser.write '\n"DEF","23"\n'
+      parser.write '"GHI","94"\n'
+      parser.write '"JKL","02"'
+      parser.end()
+    
+    it 'write aggressively', (next) ->
+      data = []
+      parser = parse()
+      parser.on 'readable', ->
+        while(d = parser.read())
+          data.push d
+      parser.on 'finish', ->
+        data.should.eql [
+          [ 'abc', '123' ]
+          [ 'def', '456' ]
+        ]
+        next()
+      parser.write 'abc,123'
+      parser.write '\n'
+      parser.write 'def,456'
+      parser.end()
+
+    it 'Test line ends with field delimiter and without row delimiter', (next) ->
+      parse '"a","b","c",', delimiter: ',', (err, data) ->
+        return next err if err
+        data.should.eql [
+          [ 'a','b','c','' ]
+        ]
+        next()
+
+    it 'ensure autodiscovery support chunck between lines', (next) ->
+      data = []
+      parser = parse()
+      parser.on 'readable', ->
+        while d = parser.read()
+          data.push d
+      parser.on 'finish', ->
+        data.should.eql [
+          [ 'ABC','45' ]
+          [ 'DEF','23' ]
+          [ 'GHI','94' ]
+          [ 'JKL','02' ]
+        ]
+        next()
+      parser.write 'ABC,45'
+      parser.write '\r\nDEF,23\r'
+      parser.write '\nGHI,94\r\n'
+      parser.write 'JKL,02\r\n'
+      parser.end()
+
+    it 'skip default row delimiters when quoted', (next) ->
+      parser = parse (err, data) -> # rowDelimiter: '\r\n', 
+        data.should.eql [
+          ['1', '2', '\n']
+          ['3', '4', '']
+        ] unless err
+        next err
+      parser.write c for c in '1,2,"\n"\r\n3,4,'
+      parser.end()
