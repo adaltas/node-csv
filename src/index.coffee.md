@@ -264,10 +264,10 @@ Implementation of the [`stream.Transform` API][transform]
           nextCharPos = i
           rowDelimiter = null
           # First empty line
-          if not @_.quoting and (char is '\n' or char is '\r')
+          if not @_.quoting and char in ['\n', '\r']
             rowDelimiter = char
             nextCharPos += 1
-          else if not (not @_.quoting and char is @options.quote) and (@_.nextChar is '\n' or @_.nextChar is '\r')
+          else if  @_.quoting and char is @options.quote and @_.nextChar in ['\n', '\r']
             rowDelimiter = @_.nextChar
             nextCharPos += 2
             rawBuf += @_.nextChar if @raw
@@ -364,7 +364,7 @@ Implementation of the [`stream.Transform` API][transform]
             i += isRowDelimiterLength
             @_.nextChar = chars.charAt i
             continue
-        else if not @_.commenting and not @_.quoting and (char is ' ' or char is '\t')
+        else if not @_.commenting and not @_.quoting and (char in [' ', '\t'])
           # Left trim unless we are quoting or field already filled
           @_.field = '' unless @_.field?
           @_.field += char unless ltrim and not @_.field
