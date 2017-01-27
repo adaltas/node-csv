@@ -240,7 +240,7 @@ Implementation of the [`stream.Transform` API][transform]
       i++ if @lines is 0 and 0xFEFF is chars.charCodeAt 0
       while i < l
         # Ensure we get enough space to look ahead
-        if not end
+        unless end
           remainingBuffer = chars.substr(i, l - i)
           break if (
             (not @options.rowDelimiter and i + 3 > l) or
@@ -393,10 +393,7 @@ Implementation of the [`stream.Transform` API][transform]
         if @_.line.length > @options.max_limit_on_data_read
           throw Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Store un-parsed chars for next call
-      @_.buf = ''
-      while i < l
-        @_.buf += chars.charAt i
-        i++
+      @_.buf = chars.substr i
 
 [readme]: https://github.com/wdavidw/node-csv-parse
 [site]: http://csv.adaltas.com/parse/
