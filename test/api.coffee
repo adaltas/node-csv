@@ -10,8 +10,7 @@ describe 'API', ->
     data = ''
     stringifier = stringify()
     stringifier.on 'readable', ->
-      while d = stringifier.read()
-        data += d
+      data += d while d = stringifier.read()
     stringifier.on 'err', (err) ->
       next err
     stringifier.on 'finish', ->
@@ -26,14 +25,12 @@ describe 'API', ->
     generator = generate length: 2, objectMode: true, seed: 1, columns: 2
     stringifier = stringify eof: false
     stringifier.on 'readable', ->
-      while(d = stringifier.read())
-        data += d
+      data += d while d = stringifier.read()
     generator.on 'error', next
     generator.on 'end', (err) ->
       stringifier.end()
     generator.on 'readable', ->
-      while(row = generator.read())
-        stringifier.write row
+      stringifier.write row while row = generator.read()
     stringifier.on 'finish', ->
       data.should.eql """
       OMH,ONKCHhJmjadoA
@@ -47,8 +44,7 @@ describe 'API', ->
       ['field_1','field_2'], ['value 1','value 2']
     ]
     stringifier.on 'readable', ->
-      while(d = stringifier.read())
-        data += d
+      data += d while d = stringifier.read()
     stringifier.on 'finish', ->
       data.should.eql 'field_1,field_2\nvalue 1,value 2\n'
       next()
@@ -59,8 +55,7 @@ describe 'API', ->
       ['field_1','field_2'], ['value 1','value 2']
     ], eof: false
     stringifier.on 'readable', ->
-      while(d = stringifier.read())
-        data += d
+      data += d while d = stringifier.read()
     stringifier.on 'finish', ->
       data.should.eql 'field_1,field_2\nvalue 1,value 2'
       next()
