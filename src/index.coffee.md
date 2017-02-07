@@ -57,7 +57,7 @@ Stream API, for maximum of power:
         result = []
         transform.on 'readable', ->
           while(r = transform.read())
-            result.push r
+            result.push r if callback
         transform.on 'error', (err) ->
           error = true
           callback err if callback
