@@ -18,6 +18,7 @@ describe 'pipe', ->
         while(d = transformer.read())
           data.push d
       transformer.on 'end', ->
+        data.length.should.eql 1000
         data.slice(0,2).should.eql [
           [ 'ONKCHhJmjadoA', 'OMH' ]
           [ 'GeACHiN', 'D' ]
