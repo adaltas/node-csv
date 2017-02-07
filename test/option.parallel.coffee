@@ -11,7 +11,7 @@ letters = (number) ->
     65 - 49 + 1 + c.charCodeAt 0
   String.fromCharCode text...
 
-describe 'parallel', ->
+describe 'option parallel', ->
 
   it 'respect running', (next) ->
     @timeout 0
