@@ -47,7 +47,7 @@ describe 'line counter', ->
     "",1974,8.8392926E7,"","
     "",1974,8.8392926E7,"",""
     """, (err, data) ->
-      err.message.should.match /Quoted field not terminated at line 4/
+      err.message.should.eql "Quoted field not terminated at line 6"
       (data == undefined).should.be.true
       next()
     
@@ -59,7 +59,7 @@ describe 'line counter', ->
       "  1974    8.8392926E7 ""t "
       "  1974    8.8392926E7 "t ""
     """, quote: '"', escape: '"', delimiter: "\t", (err, data) ->
-      err.message.should.match /Invalid closing quote at line 3/
+      err.message.should.eql 'Invalid closing quote at line 3; found " " instead of delimiter "\\t"'
       (data == undefined).should.be.true
       next()
     
