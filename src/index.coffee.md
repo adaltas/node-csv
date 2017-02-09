@@ -329,7 +329,7 @@ Implementation of the [`stream.Transform` API][transform]
             throw Error "Invalid opening quote at line #{@lines+1}"
         # Otherwise, treat quote as a regular character
         isRowDelimiter = @options.rowDelimiter and @options.rowDelimiter.some((rd)-> chars.substr(i, rd.length) is rd)
-        isRowDelimiterLength = @options.rowDelimiter.filter((rd)-> chars.substr(i, rd.length) is rd)[0].length if isRowDelimiter
+        
         @lines++ if isRowDelimiter or (end and i is l - 1)
         # Set the commenting flag
         wasCommenting = false
@@ -340,6 +340,7 @@ Implementation of the [`stream.Transform` API][transform]
           @_.commenting = false
         isDelimiter = chars.substr(i, @options.delimiter.length) is @options.delimiter
         if not @_.commenting and not @_.quoting and (isDelimiter or isRowDelimiter)
+          isRowDelimiterLength = @options.rowDelimiter.filter((rd)-> chars.substr(i, rd.length) is rd)[0].length if isRowDelimiter
           # Empty lines
           if isRowDelimiter and @_.line.length is 0 and not @_.field?
             if wasCommenting or @options.skip_empty_lines
