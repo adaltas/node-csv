@@ -328,7 +328,7 @@ Implementation of the [`stream.Transform` API][transform]
           else if @_.field? and not @options.relax
             throw Error "Invalid opening quote at line #{@lines+1}"
         # Otherwise, treat quote as a regular character
-        isRowDelimiter = (@options.rowDelimiter and @options.rowDelimiter.some((rd)-> chars.substr(i, rd.length) is rd))
+        isRowDelimiter = @options.rowDelimiter and @options.rowDelimiter.some((rd)-> chars.substr(i, rd.length) is rd)
         isRowDelimiterLength = @options.rowDelimiter.filter((rd)-> chars.substr(i, rd.length) is rd)[0].length if isRowDelimiter
         @lines++ if isRowDelimiter or (end and i is l - 1)
         # Set the commenting flag
