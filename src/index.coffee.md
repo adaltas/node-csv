@@ -145,25 +145,21 @@ class: `require('csv-parse').Parser`.
 Implementation of the [`stream.Transform` API][transform]
 
     Parser.prototype._transform = (chunk, encoding, callback) ->
-      if chunk instanceof Buffer
-        chunk = @_.decoder.write chunk
-      try
-        @__write chunk, false
-        callback()
-      catch err
-        this.emit 'error', err
+      chunk = @_.decoder.write chunk if chunk instanceof Buffer
+      err = @__write chunk, false
+      return this.emit 'error', err if err
+      callback()
 
     Parser.prototype._flush = (callback) ->
-      try
-        @__write @_.decoder.end(), true
-        if @_.quoting
-          this.emit 'error', new Error "Quoted field not terminated at line #{@lines+1}"
-          return
-        if @_.line.length > 0
-          @__push @_.line
-        callback()
-      catch err
-        this.emit 'error', err
+      err = @__write @_.decoder.end(), true
+      return this.emit 'error', err if err
+      if @_.quoting
+        this.emit 'error', new Error "Quoted field not terminated at line #{@lines+1}"
+        return
+      if @_.line.length > 0
+        err = @__push @_.line
+        return callback err if err
+      callback()
 
     Parser.prototype.__push = (line) ->
       return if @options.skip_lines_with_empty_values and line.join('').trim() is ''
@@ -173,7 +169,15 @@ Implementation of the [`stream.Transform` API][transform]
         rawBuf = ''
         return
       else if typeof @options.columns is 'function'
-        @options.columns = @options.columns line
+        call_column_udf = (fn, line) ->
+          try
+            columns = fn.call null, line
+            return [null, columns]
+          catch err
+            return [err]
+        [err, columns] = call_column_udf @options.columns, line
+        return err if err
+        @options.columns = columns
         rawBuf = ''
         return
       if not @_.line_length and line.length > 0
@@ -186,9 +190,9 @@ Implementation of the [`stream.Transform` API][transform]
         if @options.relax_column_count
           @skipped_line_count++
         else if @options.columns?
-          throw Error "Number of columns on line #{@lines} does not match header"
+          return Error "Number of columns on line #{@lines} does not match header"
         else
-          throw Error "Number of columns is inconsistent on line #{@lines}"
+          return Error "Number of columns is inconsistent on line #{@lines}"
       else
         @count++
       if @options.columns?
@@ -209,6 +213,7 @@ Implementation of the [`stream.Transform` API][transform]
         @_.rawBuf = ''
       else
         @push row
+      null
 
     Parser.prototype.__write =  (chars, end) ->
       is_int = (value) =>
@@ -312,7 +317,7 @@ Implementation of the [`stream.Transform` API][transform]
                 @_.quoting = false
                 @_.field = "#{@options.quote}#{@_.field}"
               else
-                throw Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@_.nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+                return Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@_.nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
             else
               @_.quoting = false
               @_.closingQuote = @options.quote.length
@@ -326,7 +331,7 @@ Implementation of the [`stream.Transform` API][transform]
             i++
             continue
           else if @_.field? and not @options.relax
-            throw Error "Invalid opening quote at line #{@lines+1}"
+            return Error "Invalid opening quote at line #{@lines+1}"
         # Otherwise, treat quote as a regular character
         isRowDelimiter = @options.rowDelimiter and @options.rowDelimiter.some((rd)-> chars.substr(i, rd.length) is rd)
         
@@ -359,7 +364,8 @@ Implementation of the [`stream.Transform` API][transform]
               isRowDelimiter = true
               @_.line.push ''
           if isRowDelimiter
-            @__push @_.line
+            err = @__push @_.line
+            return err if err
             # Some cleanup for the next row
             @_.line = []
             i += isRowDelimiterLength
@@ -377,9 +383,9 @@ Implementation of the [`stream.Transform` API][transform]
         else
           i++
         if not @_.commenting and @_.field?.length > @options.max_limit_on_data_read
-          throw Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
+          return Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
         if not @_.commenting and @_.line?.length > @options.max_limit_on_data_read
-          throw Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
+          return Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Flush remaining fields and lines
       if end
         if @_.field?
@@ -388,13 +394,14 @@ Implementation of the [`stream.Transform` API][transform]
           @_.line.push auto_parse @_.field or ''
           @_.field = null
         if @_.field?.length > @options.max_limit_on_data_read
-          throw Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
+          return Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
         if l is 0
           @lines++
         if @_.line.length > @options.max_limit_on_data_read
-          throw Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
+          return Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Store un-parsed chars for next call
       @_.buf = chars.substr i
+      null
 
 [readme]: https://github.com/wdavidw/node-csv-parse
 [site]: http://csv.adaltas.com/parse/
