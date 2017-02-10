@@ -9,8 +9,8 @@ A Readable Stream for random CSV and data generator. Features include:
 *   Framework to generate custom data.   
 *   Various option to personnalize the generation.   
 
-Please look at the [README], the [samples] and the [tests] for additional
-information.
+Please look at the [documentation], the [README], the [samples] and the 
+[tests] for additional information.
 
     stream = require 'stream'
     util = require 'util'
@@ -177,6 +177,7 @@ Generate an boolean value.
     Generator.bool = (gen) ->
       Math.floor gen.random() * 2
 
+[documentation]: http://csv.adaltas.com/generate/
 [readme]: https://github.com/wdavidw/node-csv-generate
 [samples]: https://github.com/wdavidw/node-csv-generate/tree/master/samples
 [tests]: https://github.com/wdavidw/node-csv-generate/tree/master/test
