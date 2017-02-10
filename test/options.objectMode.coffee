@@ -15,7 +15,3 @@ describe 'callback', ->
         [ 'iNJnmjPbhL','Ik','jPbhKCHhJn','fDKCHhIkeAABEM','kdnlh','DKACIl','HgGdoABEMIjP','adlhKCGf' ]
       ]
       next()
-
-
-
-
