@@ -207,8 +207,3 @@ describe 'generate', ->
       for value in values then value.should.be.within 100, 130
       generator.on 'error', next
       generator.on 'end', next
-
-
-
-
-
