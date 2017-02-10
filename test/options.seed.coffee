@@ -2,7 +2,7 @@
 should = require 'should'
 generate = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'random', ->
+describe 'option seed', ->
 
     describe 'without seed', ->
 

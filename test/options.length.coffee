@@ -2,7 +2,7 @@
 should = require 'should'
 generate = if process.env.CSV_COV then require '../lib-cov' else require '../src'
 
-describe 'callback', ->
+describe 'option length', ->
 
   it 'raw text', (next) ->
     @timeout 1000000
