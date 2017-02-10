@@ -61,7 +61,6 @@ Options are documented [here](http://csv.adaltas.com/generate/).
       @options.max_word_length ?= 16
       @options.fixed_size ?= false
       @fixed_size_buffer ?= ''
-      @options.start ?= Date.now()
       @options.end ?= null
       @options.seed ?= false
       @options.length ?= -1
