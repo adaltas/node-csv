@@ -60,13 +60,15 @@ Options are documented [here](http://csv.adaltas.com/generate/).
       @options.columns ?= 8
       @options.max_word_length ?= 16
       @options.fixed_size ?= false
-      @fixed_size_buffer ?= ''
       @options.end ?= null
       @options.seed ?= false
       @options.length ?= -1
       @options.delimiter ?= ','
-      @count_written = 0
-      @count_created = 0
+      # State
+      @_ =
+        fixed_size_buffer: ''
+        count_written: 0
+        count_created: 0
       if typeof @options.columns is 'number'
         @options.columns = new Array @options.columns
       for v, i in @options.columns
@@ -103,19 +105,19 @@ Put new data into the read queue.
     Generator.prototype._read = (size) ->
       # Already started
       data = []
-      length = @fixed_size_buffer.length
-      data.push @fixed_size_buffer if length
+      length = @_.fixed_size_buffer.length
+      data.push @_.fixed_size_buffer if length
       while true
         # Time for some rest: flush first and stop later
-        if (@count_created is @options.length) or (@options.end and Date.now() > @options.end)
+        if (@_.count_created is @options.length) or (@options.end and Date.now() > @options.end)
           # Flush
           if data.length
             if @options.objectMode
               for line in data
-                @count_written++
+                @_.count_written++
                 @push line
             else
-              @count_written++
+              @_.count_written++
               @push data.join ''
           # Stop
           return @push null
@@ -130,22 +132,22 @@ Put new data into the read queue.
           lineLength += column.length for column in line
         else
           # Stringify the line
-          line = "#{if @count_created is 0 then '' else '\n'}#{line.join @options.delimiter}"
+          line = "#{if @_.count_created is 0 then '' else '\n'}#{line.join @options.delimiter}"
           lineLength = line.length
-        @count_created++
+        @_.count_created++
         if length + lineLength > size
           if @options.objectMode
             data.push line
             for line in data
-              @count_written++
+              @_.count_written++
               @push line
           else 
             if @options.fixed_size
-              @fixed_size_buffer = line.substr size - length 
+              @_.fixed_size_buffer = line.substr size - length 
               data.push line.substr 0, size - length
             else
               data.push line
-            @count_written++
+            @_.count_written++
             @push data.join ''
           break
         length += lineLength
