@@ -1,1 +1,2 @@
 --compilers coffee:coffee-script/register
+--timeout 20000
