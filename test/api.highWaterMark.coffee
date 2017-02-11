@@ -17,5 +17,5 @@ describe 'api highWaterMark', ->
       # Last time, length is only what's left
       values.shift()
       values.pop()
-      for value in values then value.should.be.within 100, 200
+      for value in values then value.should.be.within 100, 250
       next()
