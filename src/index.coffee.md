@@ -141,7 +141,7 @@ Put new data into the read queue.
             for line in data
               @_.count_written++
               @push line
-          else 
+          else
             if @options.fixed_size
               @_.fixed_size_buffer = line.substr size - length 
               data.push line.substr 0, size - length

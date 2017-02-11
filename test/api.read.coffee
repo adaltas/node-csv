@@ -4,7 +4,25 @@ generate = if process.env.CSV_COV then require '../lib-cov' else require '../src
 
 describe 'api read', ->
 
-  it 'sync read', (next) ->
+  it 'sync read text', (next) ->
+    buffers = []
+    generator = generate length: 5, seed: 1, columns: 2
+    generator.on 'readable', ->
+      while buffer = generator.read()
+        Buffer.isBuffer buffer
+        buffers.push buffer
+    generator.on 'error', next
+    generator.on 'end', ->
+      Buffer.concat(buffers).toString().should.eql """
+      OMH,ONKCHhJmjadoA
+      D,GeACHiN
+      nnmiN,CGfDKB
+      NIl,JnnmjadnmiNL
+      KB,dmiM
+      """
+      next()
+
+  it 'sync read objects', (next) ->
     rows = []
     generator = generate length: 5, objectMode: true, seed: 1, columns: 2
     generator.on 'readable', ->
