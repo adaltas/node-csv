@@ -76,6 +76,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.rowDelimiter ?= null
       @options.rowDelimiter = [@options.rowDelimiter] if typeof @options.rowDelimiter is 'string'
       @options.delimiter ?= ','
+      @options.quote = '' if @options.quote isnt undefined and not @options.quote
       @options.quote ?= '"'
       @options.escape ?= '"'
       @options.columns ?= null

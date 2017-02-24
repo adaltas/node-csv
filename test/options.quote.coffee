@@ -65,14 +65,39 @@ describe 'quote', ->
     ",1974,8.8392926E7,"","
     "
     """, (err, data) ->
-      return next err if err
       data.should.eql [
         [ '20322051544','\n','8.8017226E7','45','\nok\n' ]
         [ '\n','1974','8.8392926E7','','\n' ]
-      ]
-      next()
+      ] unless err
+      next err
 
-describe 'quote error', ->
+describe 'disabled', ->
+  
+  it 'if empty', (next) ->
+    parse """
+    a,b,c
+    1,r"2"d"2",3
+    """, quote: '', (err, data) ->
+      data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
+      next err
+        
+  it 'if null', (next) ->
+    parse """
+    a,b,c
+    1,r"2"d"2",3
+    """, quote: null, (err, data) ->
+      data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
+      next err
+        
+  it 'if false', (next) ->
+    parse """
+    a,b,c
+    1,r"2"d"2",3
+    """, quote: null, (err, data) ->
+      data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
+      next err
+
+describe 'error', ->
   
   it 'when unclosed', (next) ->
     parse """
