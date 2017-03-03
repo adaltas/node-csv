@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.png)][travis]
+[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.svg)][travis]
 
 Part of the [CSV module][csv_home], this project is a parser converting CSV text
 input into arrays or objects. It implements the Node.js
