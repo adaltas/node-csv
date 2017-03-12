@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* src: group state variable initialisation
 * package: update repo url
 * quote: disabled when null, false or empty
 * src: remove try/catch
