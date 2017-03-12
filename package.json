@@ -28,7 +28,7 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "http://www.github.com/wdavidw/node-csv-parse"
+    "url": "http://www.github.com/adaltas/node-csv-parse"
   },
   "homepage": "http://csv.adaltas.com/parse/",
   "dependencies": {    
