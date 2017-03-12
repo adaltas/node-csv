@@ -1,5 +1,4 @@
 
-
 # CSV Parser
 
 This module provides a CSV parser tested and used against large datasets. Over
@@ -104,18 +103,18 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       # @is_float = /^(\-|\+)?((([0-9])|([1-9]+[0-9]*))(\.[0-9]+)([eE][0-9]+)?|Infinity)$/
       @is_float = (value) -> (value - parseFloat( value ) + 1) >= 0 # Borrowed from jquery
       # Internal state
-      @_ = {}
-      @_.decoder = new StringDecoder()
-      @_.quoting = false
-      @_.commenting = false
-      @_.field = null
-      @_.nextChar = null
-      @_.closingQuote = 0
-      @_.line = [] # Current line being processed
-      @_.chunks = []
-      @_.rawBuf = ''
-      @_.buf = ''
-      @_.rowDelimiterLength = Math.max(@options.rowDelimiter.map( (v) -> v.length)...) if @options.rowDelimiter
+      @_ =
+        decoder: new StringDecoder()
+        quoting: false
+        commenting: false
+        field: null
+        nextChar: null
+        closingQuote: 0
+        line: [] # Current line being processed
+        chunks: []
+        rawBuf: ''
+        buf: ''
+        rowDelimiterLength: Math.max(@options.rowDelimiter.map( (v) -> v.length)...) if @options.rowDelimiter
       @
 
 ## Internal API
@@ -334,8 +333,7 @@ Implementation of the [`stream.Transform` API][transform]
           else if @_.field? and not @options.relax
             return Error "Invalid opening quote at line #{@lines+1}"
         # Otherwise, treat quote as a regular character
-        isRowDelimiter = @options.rowDelimiter and @options.rowDelimiter.some((rd)-> chars.substr(i, rd.length) is rd)
-        
+        isRowDelimiter = @options.rowDelimiter and @options.rowDelimiter.some((rd)-> chars.substr(i, rd.length) is rd)  
         @lines++ if isRowDelimiter or (end and i is l - 1)
         # Set the commenting flag
         wasCommenting = false
