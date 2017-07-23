@@ -31,15 +31,14 @@
     "url": "http://www.github.com/adaltas/node-csv-parse"
   },
   "homepage": "http://csv.adaltas.com/parse/",
-  "dependencies": {    
-  },
+  "dependencies": {},
   "devDependencies": {
     "each": "0.6.1",
-    "coffee-script": "1.12.3",
+    "coffee-script": "1.12.7",
     "csv-generate": "1.0.0",
     "csv-spectrum": "1.0.0",
-    "mocha": "3.2.0",
-    "should": "11.2.0"
+    "mocha": "3.4.2",
+    "should": "11.2.1"
   },
   "optionalDependencies": {},
   "main": "./lib",
