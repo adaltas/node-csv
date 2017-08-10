@@ -382,7 +382,7 @@ Implementation of the [`stream.Transform` API][transform]
         else
           i++
         if not @_.commenting and @_.field?.length > @options.max_limit_on_data_read
-          return Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
+          return Error "Field exceeds max_limit_on_data_read setting (#{@options.max_limit_on_data_read}) #{JSON.stringify(@options.delimiter)}"
         if not @_.commenting and @_.line?.length > @options.max_limit_on_data_read
           return Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Flush remaining fields and lines
