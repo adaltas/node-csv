@@ -1,7 +1,11 @@
 
 # Changelog
 
-## Trunk
+## v1.2.2
+
+* relax: handle double quote
+
+## v1.2.1
 
 * src: group state variable initialisation
 * package: update repo url

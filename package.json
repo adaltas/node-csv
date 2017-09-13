@@ -1,5 +1,5 @@
 {
-  "version": "1.2.1",
+  "version": "1.2.2",
   "name": "csv-parse",
   "description": "CSV parsing implementing the Node.js `stream.Transform` API",
   "keywords": [
@@ -37,8 +37,8 @@
     "coffee-script": "1.12.7",
     "csv-generate": "1.0.0",
     "csv-spectrum": "1.0.0",
-    "mocha": "3.4.2",
-    "should": "11.2.1"
+    "mocha": "3.5.3",
+    "should": "13.0.1"
   },
   "optionalDependencies": {},
   "main": "./lib",
