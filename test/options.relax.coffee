@@ -56,7 +56,7 @@ describe 'relax', ->
       next()
 
   it 'false with two invalid quotes on the left', (next) ->
-    # try with relax true
+    # try with relax false
     parse """
     384682,""SAMAY"" Hostel,Jiron Florida 285
     """, relax: false, (err, data) ->
