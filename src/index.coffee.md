@@ -315,7 +315,7 @@ Implementation of the [`stream.Transform` API][transform]
             if @_.nextChar and not areNextCharsRowDelimiters and not areNextCharsDelimiter and not isNextCharAComment
               if @options.relax
                 @_.quoting = false
-                @_.field = "#{@options.quote}#{@_.field}"
+                @_.field = "#{@options.quote}#{@_.field}" if @_.field
               else
                 return Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@_.nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
             else
