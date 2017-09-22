@@ -23,7 +23,7 @@ describe 'sync', ->
       'name 2': {'field_1': 'name 2', 'field_2': 'value 2'}
     }
   
-  it.only 'catch errors', ->
+  it 'catch errors', ->
     try
       parse 'A,B\nB\nC,K', trim: true
       throw Error 'Error not catched'
