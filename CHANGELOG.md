@@ -1,6 +1,10 @@
 
 # Changelog
 
+## trunk
+
+* sync: catch err on write
+
 ## v1.2.2
 
 * relax: handle double quote

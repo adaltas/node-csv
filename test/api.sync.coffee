@@ -22,6 +22,13 @@ describe 'sync', ->
       'name 1': {'field_1': 'name 1', 'field_2': 'value 1'},
       'name 2': {'field_1': 'name 2', 'field_2': 'value 2'}
     }
+  
+  it.only 'catch errors', ->
+    try
+      parse 'A,B\nB\nC,K', trim: true
+      throw Error 'Error not catched'
+    catch err
+      err.message.should.eql 'Number of columns is inconsistent on line 2'
     
     
   
