@@ -1,7 +1,7 @@
 
 # Changelog
 
-## trunk
+## v1.2.3
 
 * sync: catch err on write
 
