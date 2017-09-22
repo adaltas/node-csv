@@ -19,7 +19,10 @@ Usage: `records = parse(data, [options]`
           records[record[0]] = record[1]
         else
           records.push record
-      parser.__write data, false
-      parser.__write data.end(), true if data instanceof Buffer
+      err = parser.__write data, false
+      throw err if err
+      if data instanceof Buffer
+        err = parser.__write data.end(), true
+        throw err if err
       parser._flush (->)
       records
