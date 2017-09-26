@@ -1,6 +1,10 @@
 
 # Changelog
 
+## trunk
+
+* api: improve argument validation 
+
 ## v1.2.3
 
 * sync: catch err on write

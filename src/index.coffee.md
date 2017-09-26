@@ -29,12 +29,26 @@ Callback approach, for ease of use:
         throw Error "Invalid callback argument: #{JSON.stringify callback}" unless typeof callback is 'function'
         return callback Error "Invalid data argument: #{JSON.stringify data}" unless typeof data is 'string' or Buffer.isBuffer arguments[0]
       else if arguments.length is 2
+        # 1st arg is data:string or options:object
         if typeof arguments[0] is 'string' or Buffer.isBuffer arguments[0]
-        then data = arguments[0]
-        else options = arguments[0]
+          data = arguments[0]
+        else if isObjLiteral arguments[0]
+          options = arguments[0]
+        else
+          err = "Invalid first argument: #{JSON.stringify arguments[0]}"
+        # 2nd arg is options:object or callback:function
         if typeof arguments[1] is 'function'
-        then callback = arguments[1]
-        else options = arguments[1]
+          callback = arguments[1]
+        else if isObjLiteral arguments[1]
+          if options
+          then err = 'Invalid arguments: got options twice as first and second arguments'
+          else options = arguments[1]
+        else
+          err = "Invalid first argument: #{JSON.stringify arguments[1]}"
+        if err
+          unless callback
+          then throw Error err
+          else return callback Error err
       else if arguments.length is 1
         if typeof arguments[0] is 'function'
         then callback = arguments[0]
@@ -401,6 +415,17 @@ Implementation of the [`stream.Transform` API][transform]
       # Store un-parsed chars for next call
       @_.buf = chars.substr i
       null
+
+## Utils
+
+    isObjLiteral = (_obj) ->
+      _test  = _obj
+      if typeof _obj isnt 'object' or _obj is null or Array.isArray _obj then false else
+        (->
+          while not false
+            break if Object.getPrototypeOf( _test = Object.getPrototypeOf _test  ) is null
+          Object.getPrototypeOf _obj is _test
+        )()
 
 [readme]: https://github.com/wdavidw/node-csv-parse
 [site]: http://csv.adaltas.com/parse/
