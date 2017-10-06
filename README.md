@@ -20,23 +20,22 @@ CSV parser and stringifier.
 
 The `csv` package is itself split into 4 packages:
 
-*   [`csv-generate`](https://github.com/wdavidw/node-csv-generate),
+*   [`csv-generate`](https://github.com/adaltas/node-csv-generate),
     a flexible generator of CSV string and Javascript objects. 
     [![Build Status](https://secure.travis-ci.org/adaltas/node-csv-generate.svg?branch=master)][travis-csv-generate]
-*   [`csv-parse`](https://github.com/wdavidw/node-csv-parse),
+*   [`csv-parse`](https://github.com/adaltas/node-csv-parse),
     a parser converting CSV text into arrays or objects. 
     [![Build Status](https://secure.travis-ci.org/adaltas/node-csv-parse.svg?branch=master)][travis-csv-parse]
-*   [`stream-transform`](https://github.com/wdavidw/node-stream-transform),
+*   [`stream-transform`](https://github.com/adaltas/node-stream-transform),
     a transformation framework.
     [![Build Status](https://secure.travis-ci.org/adaltas/node-stream-transform.svg?branch=master)][travis-stream-transform]
-*   [`csv-stringify`](https://github.com/wdavidw/node-csv-stringify), 
+*   [`csv-stringify`](https://github.com/adaltas/node-csv-stringify), 
     a stringifier converting records into a CSV text. 
     [![Build Status](https://secure.travis-ci.org/adaltas/node-csv-stringify.svg?branch=master)][travis-csv-stringify]
 
 ## Documentation
 
-The full documentation for the current version is available [here][new_doc] while the
-previous documentation is still available [here][old_doc].
+The full documentation for the current version is available [here][doc].
 
 ## Usage
 
@@ -138,9 +137,8 @@ Related projects
 *   Mat Holt "PapaParse": <https://github.com/mholt/PapaParse>
 
 [travis]: https://travis-ci.org/
-[travis-csv-generate]: http://travis-ci.org/wdavidw/node-csv-generate
-[travis-csv-parse]: http://travis-ci.org/wdavidw/node-csv-parse
-[travis-stream-transform]: http://travis-ci.org/wdavidw/node-stream-transform
-[travis-csv-stringify]: http://travis-ci.org/wdavidw/node-csv-stringify
-[new_doc]: http://csv.adaltas.com
-[old_doc]: http://csv.adaltas.com/legacy/
+[travis-csv-generate]: http://travis-ci.org/adaltas/node-csv-generate
+[travis-csv-parse]: http://travis-ci.org/adaltas/node-csv-parse
+[travis-stream-transform]: http://travis-ci.org/adaltas/node-stream-transform
+[travis-csv-stringify]: http://travis-ci.org/adaltas/node-csv-stringify
+[doc]: http://csv.adaltas.com
