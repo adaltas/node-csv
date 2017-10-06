@@ -6,7 +6,7 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "http://www.github.com/wdavidw/node-csv-stringify"
+    "url": "http://www.github.com/adaltas/node-csv-stringify"
   },
   "homepage": "http://csv.adaltas.com/stringify/",
   "dependencies": {
