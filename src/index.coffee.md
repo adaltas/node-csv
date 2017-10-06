@@ -202,6 +202,7 @@ Implementation of the [`stream.Transform` API][transform]
       else if line.length isnt @_.line_length
         # Dont check column count with relax_column_count
         if @options.relax_column_count
+          @count++
           @skipped_line_count++
         else if @options.columns?
           return Error "Number of columns on line #{@lines} does not match header"
