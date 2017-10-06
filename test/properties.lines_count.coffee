@@ -33,7 +33,7 @@ describe 'number of lines', ->
     parser.on 'error', (err) ->
       next(err)
     parser.on 'finish', ->
-      this.lines.should.eql(this.count + this.empty_line_count + this.skipped_line_count)
+      this.lines.should.eql(this.count + this.empty_line_count)
       this.empty_line_count.should.eql(2)
       this.skipped_line_count.should.eql(1)
       next()

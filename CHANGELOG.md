@@ -3,6 +3,7 @@
 
 ## trunk
 
+* relax_column_count: honors count while preserving skipped_line_count
 * api: improve argument validation 
 
 ## v1.2.3
