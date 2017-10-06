@@ -1,7 +1,7 @@
 
 # Changelog
 
-## trunk
+## v1.2.4
 
 * relax_column_count: honors count while preserving skipped_line_count
 * api: improve argument validation 
