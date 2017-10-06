@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-stringify.png)](http://travis-ci.org/wdavidw/node-csv-stringify)
+[![Build Status](https://secure.travis-ci.org/adaltas/node-csv-stringify.svg)][travis]
 
 Part of the [CSV module][csv_home], this project is a stringifier converting
 arrays or objects input into a CSV text. It implements the Node.js
@@ -59,5 +59,5 @@ Contributors
 
 [home]: http://csv.adaltas.com/stringify/
 [examples]: http://csv.adaltas.com/stringify/examples/
-[csv]: https://github.com/wdavidw/node-csv
-[travis]: https://travis-ci.org/#!/wdavidw/node-csv-stringify
+[csv]: https://github.com/adaltas/node-csv
+[travis]: https://travis-ci.org/#!/adaltas/node-csv-stringify
