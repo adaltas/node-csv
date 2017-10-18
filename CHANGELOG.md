@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* options: ensure objectMode is cloned
+
 ## v1.2.4
 
 * relax_column_count: honors count while preserving skipped_line_count
