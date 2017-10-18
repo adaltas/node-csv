@@ -80,11 +80,11 @@ Callback approach, for ease of use:
 Options are documented [here](http://csv.adaltas.com/parse/).
 
     Parser = (options = {}) ->
-      options.objectMode = true
       # @options = options
       @options = {}
       for k, v of options
         @options[k] = v
+      @options.objectMode = true
       stream.Transform.call @, @options
       @options.rowDelimiter ?= null
       @options.rowDelimiter = [@options.rowDelimiter] if typeof @options.rowDelimiter is 'string'
