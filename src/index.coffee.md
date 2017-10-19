@@ -249,6 +249,9 @@ Implementation of the [`stream.Transform` API][transform]
           @is_float.test value
       auto_parse = (value) =>
         return value unless @options.auto_parse
+        if typeof @options.auto_parse is 'function'
+          return @options.auto_parse value
+        # auto_parse == true
         if is_int value
           value = parseInt value
         else if is_float value
