@@ -100,6 +100,12 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.rtrim ?= false
       @options.auto_parse ?= false
       @options.auto_parse_date ?= false
+      if @options.auto_parse_date is true
+        @options.auto_parse_date = (value) ->
+          m = Date.parse(value)
+          if !isNaN(m)
+            value = new Date(m)
+          value
       @options.relax ?= false
       @options.relax_column_count ?= false
       @options.skip_empty_lines ?= false
@@ -248,8 +254,7 @@ Implementation of the [`stream.Transform` API][transform]
         else if is_float value
           value = parseFloat value
         else if @options.auto_parse_date
-          m = Date.parse value
-          value = new Date m unless isNaN m
+          value = @options.auto_parse_date(value)
         value
       ltrim = @options.trim or @options.ltrim
       rtrim = @options.trim or @options.rtrim
