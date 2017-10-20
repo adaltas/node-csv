@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: preserve compatibility with Node.js < 7.6
+
 ## v1.3.0
 
 * options: auto_parse as a user function

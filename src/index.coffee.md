@@ -9,7 +9,7 @@ Please look at the [README], the [project website][site] the [samples] and the
 
     stream = require 'stream'
     util = require 'util'
-    {StringDecoder} = require 'string_decoder'
+    StringDecoder = require('string_decoder').StringDecoder
 
 ## Usage
 
