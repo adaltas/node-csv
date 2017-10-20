@@ -38,6 +38,13 @@ describe 'option columns', ->
       .should.eql ['1790016367053545', '0']
       next()
 
+  it 'validate types', (next) ->
+    try
+      generate columns: ['int', 'bool', 'invalid']
+    catch err
+      err.message.should.eql 'Invalid column type: got "invalid", default values are ["ascii","int","bool"]'
+      next()
+
   it 'as user function', (next) ->
     @timeout 1000000
     count = 0

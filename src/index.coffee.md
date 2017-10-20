@@ -71,9 +71,12 @@ Options are documented [here](http://csv.adaltas.com/generate/).
         count_created: 0
       if typeof @options.columns is 'number'
         @options.columns = new Array @options.columns
+      accepted_header_types = Object.keys(Generator).filter( (t) -> t isnt 'super_')
       for v, i in @options.columns
         v ?= 'ascii'
-        @options.columns[i] = Generator[v] if typeof v is 'string'
+        if typeof v is 'string'
+          throw Error "Invalid column type: got \"#{v}\", default values are #{JSON.stringify accepted_header_types}" unless v in accepted_header_types
+          @options.columns[i] = Generator[v]
       @
 
     util.inherits Generator, stream.Readable
