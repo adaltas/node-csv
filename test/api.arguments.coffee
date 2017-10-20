@@ -1,5 +1,4 @@
 
-should = require 'should'
 generate = require 'csv-generate'
 parse = require '../src'
 

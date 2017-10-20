@@ -1,5 +1,4 @@
 
-require 'should'
 parse = require '../src'
 
 describe 'raw', ->

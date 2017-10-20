@@ -1,5 +1,4 @@
 
-should = require 'should'
 parse = require '../src'
 
 describe 'number of lines', ->

@@ -1,5 +1,4 @@
 
-should = require 'should'
 fs = require 'fs'
 parse = require '../src'
 
