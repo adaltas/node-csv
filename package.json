@@ -6,22 +6,22 @@
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "http://www.github.com/wdavidw/node-stream-transform"
+    "url": "http://www.github.com/adaltas/node-stream-transform"
   },
   "homepage": "http://csv.adaltas.com/transform/",
   "dependencies": {},
   "devDependencies": {
-    "coffee-script": "latest",
-    "pad": "latest",
-    "mocha": "latest",
-    "csv-generate": "latest",
-    "should": "latest"
+    "coffeescript": "~2.0.1",
+    "pad": "~2.0.1",
+    "mocha": "~4.0.1",
+    "csv-generate": "~1.1.0",
+    "should": "~13.1.2"
   },
   "optionalDependencies": {},
   "main": "./lib",
   "scripts": {
     "coffee": "./node_modules/.bin/coffee -b -o lib src",
     "pretest": "./node_modules/.bin/coffee -b -o lib src",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter dot"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha test/**/*.coffee"
   }
 }
