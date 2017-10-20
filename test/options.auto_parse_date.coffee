@@ -1,6 +1,5 @@
 
 fs = require 'fs'
-should = require 'should'
 parse = require '../src'
 
 describe 'Option "auto_parse_date"', ->
