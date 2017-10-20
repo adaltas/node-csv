@@ -1,6 +1,5 @@
 
 fs = require 'fs'
-should = require 'should'
 generate = require 'csv-generate'
 stringify = require '../src'
 

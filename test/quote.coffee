@@ -1,6 +1,5 @@
 
 fs = require 'fs'
-should = require 'should'
 stringify = require '../src'
 
 describe 'quote', ->
