@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "name": "stream-transform",
   "description": "Object transformations implementing the Node.js `stream.Transform` API",
   "keywords": [ "stream", "transform", "csv", "object" ],
