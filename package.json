@@ -19,10 +19,10 @@
     "url": "https://github.com/adaltas/node-csv.git"
   },
   "dependencies": {
-    "csv-generate": "^1.0.0",
-    "csv-parse": "^1.2.0",
-    "stream-transform": "^0.1.2",
-    "csv-stringify": "^1.0.4"
+    "csv-generate": "^1.1.2",
+    "csv-parse": "^1.3.3",
+    "stream-transform": "^0.2.2",
+    "csv-stringify": "^1.1.2"
   },
   "devDependencies": {},
   "optionalDependencies": {},
