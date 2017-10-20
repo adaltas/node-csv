@@ -1,5 +1,5 @@
 {
-  "version": "0.2.2",
+  "version": "1.0.0",
   "name": "stream-transform",
   "description": "Object transformations implementing the Node.js `stream.Transform` API",
   "keywords": [ "stream", "transform", "csv", "object" ],
@@ -11,10 +11,10 @@
   "homepage": "http://csv.adaltas.com/transform/",
   "dependencies": {},
   "devDependencies": {
-    "coffee-script": "~1.12.7",
+    "coffeescript": "~2.0.1",
     "pad": "~2.0.1",
     "mocha": "~4.0.1",
-    "csv-generate": "~1.1.0",
+    "csv-generate": "~2.0.0",
     "should": "~13.1.2"
   },
   "optionalDependencies": {},
