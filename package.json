@@ -33,18 +33,18 @@
   "homepage": "http://csv.adaltas.com/parse/",
   "dependencies": {},
   "devDependencies": {
-    "each": "0.6.1",
-    "coffee-script": "1.12.7",
-    "csv-generate": "1.0.0",
-    "csv-spectrum": "1.0.0",
-    "mocha": "3.5.3",
-    "should": "13.0.1"
+    "each": "~0.6.1",
+    "coffeescript": "~2.0.1",
+    "csv-generate": "~1.0.0",
+    "csv-spectrum": "~1.0.0",
+    "mocha": "~4.0.1",
+    "should": "~13.1.2"
   },
   "optionalDependencies": {},
   "main": "./lib",
   "scripts": {
     "coffee": "./node_modules/.bin/coffee -b -o lib src",
     "pretest": "./node_modules/.bin/coffee -b -o lib src",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter dot"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha test/**/*.coffee"
   }
 }
