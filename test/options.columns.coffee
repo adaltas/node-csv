@@ -1,5 +1,4 @@
 
-should = require 'should'
 stringify = require '../src'
 
 describe 'options columns', ->

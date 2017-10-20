@@ -1,5 +1,4 @@
 
-should = require 'should'
 stringify = require '../src/sync'
 
 describe 'sync', ->
