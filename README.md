@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-generate.png)](http://travis-ci.org/wdavidw/node-csv-generate)
+[![Build Status](https://secure.travis-ci.org/adaltas/node-csv-generate.svg)][travis]
 
 CSV and object generation
 =========================
@@ -97,5 +97,5 @@ Contributors
 *   David Worms: <https://github.com/wdavidw>
 
 [home]: http://csv.adaltas.com/generate/
-[csv]: https://github.com/wdavidw/node-csv
-[travis]: https://travis-ci.org/#!/wdavidw/node-csv-generate
+[csv]: https://github.com/adaltas/node-csv
+[travis]: https://travis-ci.org/#!/adaltas/node-csv-generate
