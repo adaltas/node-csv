@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.1.1",
   "name": "csv-stringify",
   "description": "CSV stringifier implementing the Node.js `stream.Transform` API",
   "keywords": [ "csv", "stringify", "stringifier" ],
@@ -13,7 +13,7 @@
     "lodash.get": "~4.4.2"
   },
   "devDependencies": {
-    "coffeescript": "~2.0.1",
+    "coffee-script": "~1.12.7",
     "csv-generate": "~1.0.0",
     "mocha": "~4.0.1",
     "should": "~13.1.2"
