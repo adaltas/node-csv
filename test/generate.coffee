@@ -1,7 +1,7 @@
 
 stream = require 'stream'
 util = require 'util'
-generate = if process.env.CSV_COV then require '../lib-cov' else require '../src'
+generate = require '../src'
 
 describe 'generate', ->
 
