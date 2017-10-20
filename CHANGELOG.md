@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## v1.3.1
 
 * package: preserve compatibility with Node.js < 7.6
 
