@@ -1,8 +1,10 @@
 
 # Changelog
 
-## Trunk
+## v1.3.0
 
+* options: auto_parse as a user function
+* options: auto_parse_date as a user function
 * test: should require handled by mocha
 * package: coffeescript 2 and use semver tilde
 * options: ensure objectMode is cloned
