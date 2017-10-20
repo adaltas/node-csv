@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: coffeescript 2 and use semver tilde
 * options: ensure objectMode is cloned
 
 ## v1.2.4
