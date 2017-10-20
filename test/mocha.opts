@@ -1,4 +1,5 @@
 --throw-deprecation
+--require should
 --require coffeescript/register
 --timeout 40000
 --reporter spec

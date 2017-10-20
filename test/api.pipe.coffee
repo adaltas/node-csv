@@ -1,5 +1,4 @@
 
-should = require 'should'
 stream = require 'stream'
 generate = require 'csv-generate'
 transform = require '../src'

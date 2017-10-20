@@ -1,5 +1,4 @@
 
-should = require 'should'
 transform = require '../src'
 
 describe 'async', ->

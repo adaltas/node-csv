@@ -1,6 +1,5 @@
 
 pad = require 'pad'
-should = require 'should'
 generate = require 'csv-generate'
 transform = require '../src'
 
