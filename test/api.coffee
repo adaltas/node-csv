@@ -19,7 +19,7 @@ describe 'API', ->
     stringifier.write ['value 1','value 2']
     stringifier.end()
 
-  it '1 arg: write data, option and pipe result', (next) ->
+  it '1 arg: option; write and data using the stream API', (next) ->
     data = ''
     generator = generate length: 2, objectMode: true, seed: 1, columns: 2
     stringifier = stringify eof: false
