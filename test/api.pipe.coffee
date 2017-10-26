@@ -5,7 +5,7 @@ stringify = require '../src'
 
 describe 'API pipe', ->
 
-  it 'pipe to destination', (next) ->
+  it 'pipe from source to destination', (next) ->
     data = ''
     generator = generate length: 2, objectMode: true, seed: 1, columns: 2
     stringifier = stringify eof: false
@@ -17,6 +17,20 @@ describe 'API pipe', ->
         D,GeACHiN
         """
         fs.unlink '/tmp/large.out', next
+
+  it 'pipe to destination', (next) ->
+    data = ''
+    generate length: 1000, objectMode: true, seed: 1, columns: 2, (err, data) ->
+      stringifier = stringify eof: false
+      ws = fs.createWriteStream '/tmp/large.out'
+      stringifier.pipe ws
+      for row in data
+        stringifier.write row
+      stringifier.end()
+      ws.on 'finish', ->
+        fs.readFile '/tmp/large.out', 'ascii', (err, data) ->
+          data.split('\n').length.should.eql 1000 unless err
+          next err
 
   it 'pipe from source', (next) ->
     data = ''
