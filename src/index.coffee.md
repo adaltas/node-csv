@@ -10,13 +10,18 @@ information.
 
 ## Usage
 
-Callback approach, for ease of use:   
+Direct synchronous call that returns full result set:
 
-`stringify(data, [options], callback)`   
+`const stringify = require('csv-stringify/lib/sync')`
+`stringify(records, [options]`
 
-Stream API, for maximum of power:   
+Callback approach, for ease of use (note that this returns full result set):
 
-`stringify([options], [callback])`   
+`stringify(data, [options], callback)`
+
+Stream API, for maximum of power (returns writable stream):
+
+`stringify([options], [callback])`
 
     module.exports = ->
       if arguments.length is 3
@@ -52,6 +57,18 @@ Stream API, for maximum of power:
         stringifier.on 'end', ->
           callback null, chunks.join ''
       stringifier
+
+You can also use *util.promisify* native function (Node.js 8+) in order to wrap callbacks into promises for more convenient use when source is a readable stream and you are OK with storing entire result set in memory:
+
+    const {promisify} = require('util');
+    const csv = require('csv');
+    const stringifyAsync = promisify(csv.stringify);
+
+    //returns promise
+    function generateCsv (sourceData) {
+        return stringifyAsync(sourceData);
+    }
+
 
 ## `Stringifier([options])`
 
