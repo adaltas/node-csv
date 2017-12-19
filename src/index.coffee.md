@@ -212,6 +212,7 @@ Convert a line to a string. Line may be an object, an array or a string.
           else if typeof field is 'object' and field isnt null
             field = @options.formatters.object(field)
           if field
+            return @emit 'error', Error 'Formatter must return a string, null or undefined' unless typeof field is 'string'
             containsdelimiter = field.indexOf(delimiter) >= 0
             containsQuote = field.indexOf(quote) >= 0
             containsEscape = field.indexOf(escape) >= 0 and (escape isnt quote)
