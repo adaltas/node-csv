@@ -1,25 +1,16 @@
 
 stringify = require '../src'
-toXFormatter = () -> 'X'
-customFormatterOptions = {
-  formatters: {
-    date: toXFormatter,
-    bool: toXFormatter,
-    object: toXFormatter
-  }
-}
-
-test_date = new Date
 
 describe 'types', ->
 
   describe 'defaults', ->
 
     it 'should map date to getTime', (next) ->
+      date = new Date
       stringify [
-        {value: test_date}
+        {value: date}
       ], (err, data) ->
-        data.should.eql test_date.getTime() + '\n'  unless err
+        data.should.eql date.getTime() + '\n'  unless err
         next err
 
     it 'should map true boolean value to 1', (next) ->
@@ -40,21 +31,28 @@ describe 'types', ->
 
     it 'should let overwrite date formatter', (next) ->
       stringify [
-        {value: test_date}
-      ], customFormatterOptions, (err, data) ->
+        {value: new Date}
+      ], {formatters: date: -> 'X'}, (err, data) ->
         data.should.eql 'X\n'  unless err
         next err
 
     it 'should let overwrite boolean formatter', (next) ->
       stringify [
-        {value: true}
-      ], customFormatterOptions, (err, data) ->
+        value: true
+      ], {formatters: bool: -> 'X'}, (err, data) ->
         data.should.eql 'X\n'  unless err
         next err
 
     it 'should let overwrite object formatter', (next) ->
       stringify [
-        {value: {a:1}}
-      ], customFormatterOptions, (err, data) ->
+        value: a: 1
+      ], {formatters: object: -> 'X'}, (err, data) ->
         data.should.eql 'X\n'  unless err
         next err
+
+    it 'must return a string', (next) ->
+      stringify [
+        a: true
+      ], {formatters: bool: (value) -> if value then 1 else 0}, (err, data) ->
+        err.message.should.eql 'Formatter must return a string, null or undefined'
+        next()
