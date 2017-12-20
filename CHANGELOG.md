@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.0.1
 
 * package: new release workflow
 * formatters: validate returned value
