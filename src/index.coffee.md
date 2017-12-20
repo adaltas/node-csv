@@ -10,20 +10,11 @@ information.
 
 ## Usage
 
-Direct synchronous call (returns full result set):
+This module export a function as its main entry point and return a transform
+stream.
 
-`const stringify = require('csv-stringify/lib/sync')`
-`stringify(records, [options]`
-
-Callback approach, for ease of use (returns readable stream):
-
-`const stringify = require('csv-stringify')`
-`stringify(data, [options], callback)`
-
-Stream API, for maximum of power (returns writable stream):
-
-`const stringify = require('csv-stringify')`
-`stringify([options], [callback])`
+Refers to the [official prject documentation](http://csv.adaltas.com/stringify/)
+on how to call this function.
 
     module.exports = ->
       if arguments.length is 3
