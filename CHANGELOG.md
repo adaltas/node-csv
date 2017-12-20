@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+package: new release workflow
+
 ## 2.0.0
 
 This major version use CoffeeScript 2 which produces a modern JavaScript syntax 
