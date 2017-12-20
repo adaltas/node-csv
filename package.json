@@ -1,8 +1,12 @@
 {
-  "version": "2.0.0",
+  "version": "2.0.1",
   "name": "csv-stringify",
   "description": "CSV stringifier implementing the Node.js `stream.Transform` API",
-  "keywords": [ "csv", "stringify", "stringifier" ],
+  "keywords": [
+    "csv",
+    "stringify",
+    "stringifier"
+  ],
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
