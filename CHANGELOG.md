@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: new release workflow
 * formatters: validate returned value
 
 ## 2.0.0
