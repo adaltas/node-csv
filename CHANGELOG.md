@@ -13,10 +13,17 @@ lower than 7.6 as well as the browsers. It is however stable in term of API.
 
 * package: use CoffeeScript 2
 
+## v1.3.3
+
+* package: revert to CoffeeScript 1
+
+## v1.3.2
+
+Irrelevant release, forgot to generate the coffee files.
+
 ## v1.3.1
 
 * package: preserve compatibility with Node.js < 7.6
-* package: back to CoffeeScript 1
 
 ## v1.3.0
 
