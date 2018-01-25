@@ -10,6 +10,7 @@ import * as stream from "stream";
 export = parse;
 
 declare function parse(input: string, options?: parse.Options, callback?: parse.Callback): any;
+declare function parse(input: string, callback?: parse.Callback): any;
 declare function parse(options?: parse.Options, callback?: parse.Callback): any;
 declare function parse(callback?: parse.Callback): any;
 declare namespace parse {
