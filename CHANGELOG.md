@@ -3,6 +3,7 @@
 
 ## Trunk
 
+package: start running tests in preversion
 package: new release workflow
 
 ## 2.0.0
