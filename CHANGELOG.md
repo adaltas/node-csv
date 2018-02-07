@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.0.2
 
 package: only remove js files in lib
 source: remove unreferenced variables #179
