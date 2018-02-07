@@ -3,6 +3,7 @@
 
 ## Trunk
 
+source: remove unreferenced variables #179
 package: start running tests in preversion
 package: new release workflow
 

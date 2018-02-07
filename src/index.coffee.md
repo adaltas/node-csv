@@ -186,7 +186,6 @@ Implementation of the [`stream.Transform` API][transform]
       row = null
       if @options.columns is true
         @options.columns = line
-        rawBuf = ''
         return
       else if typeof @options.columns is 'function'
         call_column_udf = (fn, line) ->
@@ -198,7 +197,6 @@ Implementation of the [`stream.Transform` API][transform]
         [err, columns] = call_column_udf @options.columns, line
         return err if err
         @options.columns = columns
-        rawBuf = ''
         return
       if not @_.line_length and line.length > 0
         @_.line_length = if @options.columns then @options.columns.length else line.length
@@ -298,7 +296,6 @@ Implementation of the [`stream.Transform` API][transform]
           else if  @_.quoting and char is @options.quote and @_.nextChar in ['\n', '\r']
             rowDelimiter = @_.nextChar
             nextCharPos += 2
-            rawBuf += @_.nextChar if @raw
           if rowDelimiter
             rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextCharPos) is '\n'
             @options.rowDelimiter = [rowDelimiter]
