@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: ignore yarn lock file
+
 ## Version 2.0.2
 
 * package: start running tests in preversion
