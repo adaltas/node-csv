@@ -1,6 +1,7 @@
 .*
 /node_modules
 yarn.lock
+!.babelrc
 !.travis.yml
 !.npmignore
 !.gitignore

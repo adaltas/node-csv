@@ -31,12 +31,15 @@
     "url": "https://github.com/wdavidw/node-csv-parse"
   },
   "homepage": "http://csv.adaltas.com/parse/",
-  "dependencies": {},
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  },
   "devDependencies": {
-    "each": "~0.6.1",
     "coffeescript": "~2.0.1",
     "csv-generate": "~2.0.0",
     "csv-spectrum": "~1.0.0",
+    "each": "~0.6.1",
     "mocha": "~4.0.1",
     "should": "~13.1.2"
   },
@@ -49,8 +52,8 @@
     "patch": "npm version patch -m 'Bump to version %s'",
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
-    "coffee": "./node_modules/.bin/coffee -b -o lib src",
-    "pretest": "./node_modules/.bin/coffee -b -o lib src",
+    "coffee": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
+    "pretest": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
     "test": "./node_modules/.bin/mocha test/**/*.coffee"
   }
 }
