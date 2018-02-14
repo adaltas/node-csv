@@ -2,7 +2,12 @@
   "version": "2.0.0",
   "name": "csv-generate",
   "description": "CSV and object generation implementing the Node.js `stream.Readable` API",
-  "keywords": [ "stream", "generate", "csv", "object" ],
+  "keywords": [
+    "stream",
+    "generate",
+    "csv",
+    "object"
+  ],
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
@@ -11,7 +16,10 @@
   "homepage": "http://csv.adaltas.com/generate/",
   "bugs": "https://github.com/adaltas/node-csv-generate/issues",
   "author": "David Worms <david@adaltas.com> (http://www.adaltas.com)",
-  "dependencies": {},
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  },
   "devDependencies": {
     "coffeescript": "~2.0.1",
     "mocha": "~4.0.1",
@@ -20,8 +28,14 @@
   "optionalDependencies": {},
   "main": "./lib",
   "scripts": {
-    "coffee": "./node_modules/.bin/coffee -b -o lib src",
-    "pretest": "./node_modules/.bin/coffee -b -o lib src",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha test/**/*.coffee"
+    "preversion": "rm -rf lib && npm test && grep '## Trunk' CHANGELOG.md",
+    "version": "version=`grep '^  \"version\": ' package.json | sed 's/.*\"\\([0-9\\.]*\\)\".*/\\1/'` && sed -i \"s/## Trunk/## Version $version/\" CHANGELOG.md && git add CHANGELOG.md",
+    "postversion": "git push && git push --tags && npm publish",
+    "patch": "npm version patch -m 'Bump to version %s'",
+    "minor": "npm version minor -m 'Bump to version %s'",
+    "major": "npm version major -m 'Bump to version %s'",
+    "coffee": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
+    "pretest": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
+    "test": "mocha test/**/*.coffee"
   }
 }
