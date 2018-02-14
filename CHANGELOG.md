@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: move babel to dev dependencies
+
 ## Version 2.0.3
 
 * package: es5 backward compatiblity
