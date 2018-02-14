@@ -1,12 +1,16 @@
 
 # Changelog
 
+## Trunk
+
+* package: ignore yarn lock file
+
 ## Version 2.0.2
 
-package: only remove js files in lib
-source: remove unreferenced variables #179
-package: start running tests in preversion
-package: new release workflow
+* package: only remove js files in lib
+* source: remove unreferenced variables #179
+* package: start running tests in preversion
+* package: new release workflow
 
 ## 2.0.0
 
