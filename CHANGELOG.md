@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: es5 backward compatiblity
 * package: ignore yarn lock file
 
 ## Version 2.0.2
