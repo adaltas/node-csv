@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.0.1
 
 * package: es5 backward compatiblity
 * package: ignore yarn lock file
