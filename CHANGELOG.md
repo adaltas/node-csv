@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 1.0.2
 
 * package: move babel to dev dependencies
 
