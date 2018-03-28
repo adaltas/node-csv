@@ -3,6 +3,7 @@
 
 ## Version 2.0.4
 
+* sync: handle errors on last line
 * package: move babel to dev dependencies
 
 ## Version 2.0.3
