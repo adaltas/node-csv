@@ -3,7 +3,7 @@ fs = require 'fs'
 generate = require 'csv-generate'
 parse = require '../src'
 
-describe 'pipe', ->
+describe 'api pipe', ->
 
   it 'work with producer', (next) ->
     finished = false

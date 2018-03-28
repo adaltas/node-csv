@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'rowDelimiter', ->
+describe 'options rowDelimiter', ->
 
   it 'Test line breaks custom when rowDelimiter is a string', (next) ->
     parse """

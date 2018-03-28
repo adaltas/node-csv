@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'relax_column_count', ->
+describe 'options relax_column_count', ->
 
   it 'read from first row if true', (next) ->
     parse """

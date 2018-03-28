@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'line counter', ->
+describe 'properties counter', ->
   
   it 'should display correct line number when invalid opening quotes', (next) ->
     parse """

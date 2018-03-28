@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'raw', ->
+describe 'api raw', ->
   it 'includes escape chars', (next) ->
     str = """
     "hello""world",LOL

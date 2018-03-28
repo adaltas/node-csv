@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'relax', ->
+describe 'options relax', ->
 
   it 'true with invalid quotes in the middle', (next) ->
     # try with relax true

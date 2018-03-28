@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'ltrim', ->
+describe 'options ltrim', ->
   
   it 'should ignore the whitespaces immediately following the delimiter', (next) ->
     data = []

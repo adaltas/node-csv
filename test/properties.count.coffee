@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'count records', ->
+describe 'properties count records', ->
   
   it 'without any options', (next) ->
     parser = parse """

@@ -2,7 +2,7 @@
 generate = require 'csv-generate'
 parse = require '../src'
 
-describe 'api', ->
+describe 'api arguments', ->
 
   it 'exports Parser class', ->
     parse.Parser.should.be.a.Function
