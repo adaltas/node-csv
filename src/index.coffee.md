@@ -111,6 +111,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.skip_empty_lines ?= false
       @options.max_limit_on_data_read ?= 128000
       @options.skip_lines_with_empty_values ?= false
+      @options.skip_lines_with_error ?= false
       # Counters
       # lines = count + skipped_line_count + empty_line_count
       @lines = 0 # Number of lines encountered in the source dataset
@@ -135,6 +136,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
         rawBuf: ''
         buf: ''
         rowDelimiterLength: Math.max(@options.rowDelimiter.map( (v) -> v.length)...) if @options.rowDelimiter
+        lineHasError: false
       @
 
 ## Internal API
@@ -168,7 +170,7 @@ Implementation of the [`stream.Transform` API][transform]
       setImmediate =>
         chunk = @_.decoder.write chunk if chunk instanceof Buffer
         err = @__write chunk, false
-        return this.emit 'error', err if err
+        return @emit 'error', err if err
         callback()
 
     Parser.prototype._flush = (callback) ->
@@ -177,7 +179,13 @@ Implementation of the [`stream.Transform` API][transform]
     Parser.prototype.__flush = ->
         err = @__write @_.decoder.end(), true
         return err if err
-        return Error "Quoted field not terminated at line #{@lines+1}" if @_.quoting        
+        if @_.quoting
+          err = Error "Quoted field not terminated at line #{@lines+1}"
+          unless @options.skip_lines_with_error
+            return err
+          else
+            @emit 'skip', err
+            return
         return @__push @_.line if @_.line.length > 0
 
     Parser.prototype.__push = (line) ->
@@ -208,9 +216,20 @@ Implementation of the [`stream.Transform` API][transform]
           @count++
           @skipped_line_count++
         else if @options.columns?
-          return Error "Number of columns on line #{@lines} does not match header"
+          # Suggest: Inconsistent header and column numbers: header is 1 and number of columns is 1 on line 1
+          err = Error "Number of columns on line #{@lines} does not match header"
+          unless @options.skip_lines_with_error
+            return err
+          else
+            @emit 'skip', err
+            return
         else
-          return Error "Number of columns is inconsistent on line #{@lines}"
+          err = Error "Number of columns is inconsistent on line #{@lines}"
+          unless @options.skip_lines_with_error
+            return err
+          else
+            @emit 'skip', err
+            return
       else
         @count++
       if @options.columns?
@@ -337,7 +356,13 @@ Implementation of the [`stream.Transform` API][transform]
                 @_.quoting = false
                 @_.field = "#{@options.quote}#{@_.field}" if @_.field
               else
-                return Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@_.nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+                err = Error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@_.nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+                unless @options.skip_lines_with_error
+                  return err
+                else
+                  unless @_.lineHasError
+                    @_.lineHasError = true
+                    @emit 'skip', err
             else
               @_.quoting = false
               @_.closingQuote = @options.quote.length
@@ -351,7 +376,13 @@ Implementation of the [`stream.Transform` API][transform]
             i++
             continue
           else if @_.field? and not @options.relax
-            return Error "Invalid opening quote at line #{@lines+1}"
+            err = Error "Invalid opening quote at line #{@lines+1}"
+            unless @options.skip_lines_with_error
+              return err
+            else
+              unless @_.lineHasError
+                @_.lineHasError = true
+                @emit 'skip', err
         # Otherwise, treat quote as a regular character
         isRowDelimiter = @options.rowDelimiter and @options.rowDelimiter.some((rd)-> chars.substr(i, rd.length) is rd)  
         @lines++ if isRowDelimiter or (end and i is l - 1)
@@ -382,10 +413,13 @@ Implementation of the [`stream.Transform` API][transform]
             if end and not @_.nextChar
               isRowDelimiter = true
               @_.line.push ''
-          if isRowDelimiter
-            err = @__push @_.line
-            return err if err
-            # Some cleanup for the next row
+          if isRowDelimiter # End of record
+            if @_.lineHasError
+              @_.lineHasError = false
+            else
+              err = @__push @_.line
+              return err if err
+            # Some cleanup for the next record
             @_.line = []
             i += isRowDelimiterLength
             @_.nextChar = chars.charAt i
