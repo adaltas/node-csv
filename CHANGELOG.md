@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* skip_lines_with_error: Go process the next line on error
 * events: register and write not blocking
 * test: prefix names by group membership
 * events: emit record
