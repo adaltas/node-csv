@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.1.0
 
 * skip_lines_with_error: DRYed implementation
 * skip_lines_with_error: Go process the next line on error
