@@ -165,10 +165,11 @@ class: `require('csv-parse').Parser`.
 Implementation of the [`stream.Transform` API][transform]
 
     Parser.prototype._transform = (chunk, encoding, callback) ->
-      chunk = @_.decoder.write chunk if chunk instanceof Buffer
-      err = @__write chunk, false
-      return this.emit 'error', err if err
-      callback()
+      setImmediate =>
+        chunk = @_.decoder.write chunk if chunk instanceof Buffer
+        err = @__write chunk, false
+        return this.emit 'error', err if err
+        callback()
 
     Parser.prototype._flush = (callback) ->
       callback @__flush()

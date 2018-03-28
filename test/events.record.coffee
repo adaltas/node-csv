@@ -4,19 +4,18 @@ parse = require '../src'
 describe 'events record', ->
   
   it 'emit array', (next) ->
-    before = []
-    expect = [
-      [ 'ABC', '45' ]
-      [ 'DEF', '23' ]
-    ]
+    records = []
     parser = parse()
-    parser.on 'record', (record) ->
-      before.push record
     parser.write """
     "ABC","45"
     "DEF","23"
     """
+    parser.on 'record', (record) ->
+      records.push record
     parser.on 'finish', ->
-      before.should.eql expect
+      records.should.eql [
+        [ 'ABC', '45' ]
+        [ 'DEF', '23' ]
+      ]
       next()
     parser.end()
