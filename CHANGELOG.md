@@ -3,6 +3,7 @@
 
 ## Version 2.0.4
 
+* package: ignore npm and yarn lock files
 * sync: handle errors on last line
 * package: move babel to dev dependencies
 
