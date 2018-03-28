@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'objname', ->
+describe 'options objname', ->
 
   it 'should print object of objects with properties using value of given column from columns', (next) ->
     parse """

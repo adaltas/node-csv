@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'from', ->
+describe 'options from', ->
 
   it 'start at defined position', (next) ->
     parse """

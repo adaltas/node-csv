@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'quote', ->
+describe 'options quote', ->
   
   it 'with default',  (next) ->
     parse """

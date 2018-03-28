@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* test: prefix names by group membership
 * events: emit record
 * raw: test to ensure it preserve columns
 * package: latest dependencies (28 march 2018)

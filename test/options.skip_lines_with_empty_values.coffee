@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'skip_lines_with_empty_values', ->
+describe 'options skip_lines_with_empty_values', ->
   
   it 'dont skip by default', (next) ->
     parse """

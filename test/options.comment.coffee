@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'comment', ->
+describe 'options comment', ->
 
   it 'skip line starting by # by default', (next) ->
     parse """

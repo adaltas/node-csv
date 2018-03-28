@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'write', ->
+describe 'api write', ->
 
   it 'string randomly splited', (next) ->
     data = []

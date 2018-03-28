@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'Option "auto_parse_date"', ->
+describe 'options "auto_parse_date"', ->
   
   it 'convert numbers', (next) ->
     data = []

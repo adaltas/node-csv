@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'columns', ->
+describe 'options columns', ->
 
   it 'read from first row if true', (next) ->
     parse """

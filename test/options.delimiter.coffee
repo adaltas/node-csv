@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'delimiter', ->
+describe 'options delimiter', ->
   
   it 'using default comma', (next) ->
     parse """

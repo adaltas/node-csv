@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'Option "auto_parse"', ->
+describe 'options "auto_parse"', ->
   
   it 'all columns', (next) ->
     parse '1,2,3', auto_parse: true, (err, data) ->

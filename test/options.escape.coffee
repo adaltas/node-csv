@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'escape', ->
+describe 'options escape', ->
 
   it 'only apply to quote and escape characters', (next) ->
     parse """

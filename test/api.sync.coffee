@@ -1,7 +1,7 @@
 
 parse = require '../src/sync'
 
-describe 'sync', ->
+describe 'api sync', ->
   
   it 'take a string and return records', ->
     data = parse 'field_1,field_2\nvalue 1,value 2'
