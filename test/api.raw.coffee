@@ -17,7 +17,7 @@ describe 'raw', ->
     my
     friend
     """, raw: true, escape: '"', (err, data) ->
-      data[1].raw.should.match /\n$/
+      data[1].raw.should.match /\n$/ unless err
       next err
 
   it 'has the inner line breaks', (next) ->
@@ -27,7 +27,16 @@ describe 'raw', ->
     r"
     """
     parse str, raw: true, escape: '"', (err, data) ->
-      data[0].raw.should.eql str
+      data[0].raw.should.eql str unless err
+      next err
+
+  it 'preserve columns', (next) ->
+    parse """
+    name,last name
+    Boudreau,Jonathan
+    """, raw: true, columns: ['FIELD_1', false], (err, data) ->
+      data[0].raw.should.eql 'name,last name\n' unless err
+      data[0].row.should.eql FIELD_1: 'name' unless err
       next err
     
 
