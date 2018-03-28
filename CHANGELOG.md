@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: latest dependencies (28 march 2018)
 * raw: ensure tests call and success
 * package: ignore npm and yarn lock files
 * sync: handle errors on last line
