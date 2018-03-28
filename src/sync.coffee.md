@@ -24,5 +24,6 @@ Usage: `records = parse(data, [options]`
       if data instanceof Buffer
         err = parser.__write data.end(), true
         throw err if err
-      parser._flush (->)
+      err = parser.__flush()
+      throw err if err
       records

@@ -171,15 +171,13 @@ Implementation of the [`stream.Transform` API][transform]
       callback()
 
     Parser.prototype._flush = (callback) ->
-      err = @__write @_.decoder.end(), true
-      return this.emit 'error', err if err
-      if @_.quoting
-        this.emit 'error', new Error "Quoted field not terminated at line #{@lines+1}"
-        return
-      if @_.line.length > 0
-        err = @__push @_.line
-        return callback err if err
-      callback()
+      callback @__flush()
+
+    Parser.prototype.__flush = ->
+        err = @__write @_.decoder.end(), true
+        return err if err
+        return Error "Quoted field not terminated at line #{@lines+1}" if @_.quoting        
+        return @__push @_.line if @_.line.length > 0
 
     Parser.prototype.__push = (line) ->
       return if @options.skip_lines_with_empty_values and line.join('').trim() is ''

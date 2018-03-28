@@ -29,5 +29,14 @@ describe 'sync', ->
     catch err
       err.message.should.eql 'Number of columns is inconsistent on line 2'
     
+  it 'catch err in last line while flushing', ->
+    ( ->
+      parse """
+      headerA, headerB
+      A2, B2
+      A1, B1, C2, D2
+      """
+    ).should.throw 'Number of columns is inconsistent on line 3'
+    
     
   
