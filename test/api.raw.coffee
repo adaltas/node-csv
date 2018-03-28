@@ -2,36 +2,33 @@
 parse = require '../src'
 
 describe 'raw', ->
-  it 'includes escape chars', ->
+  it 'includes escape chars', (next) ->
     str = """
     "hello""world",LOL
     """
-    parse str, escape: '"', (err, data) ->
-      data[0].raw.should.eql str
+    parse str, raw: true, escape: '"', (err, data) ->
+      data[0].raw.should.eql str unless err
+      data[0].row.should.eql [ 'hello"world', 'LOL' ] unless err
+      next err
 
-  it 'includes line breaks', ->
+  it 'includes line breaks', (next) ->
     parse """
     hello
     my
     friend
-    """, escape: '"', (err, data) ->
+    """, raw: true, escape: '"', (err, data) ->
       data[1].raw.should.match /\n$/
+      next err
 
-  it 'skips columns', ->
-    parse """
-    name,last name
-    Boudreau,Jonathan
-    """, {}, (err, data) ->
-      data[0].raw.should.not.contain 'name'
-
-  it 'has the inner line breaks', ->
+  it 'has the inner line breaks', (next) ->
     str = """
     foo,"b
     a
     r"
     """
-    parse str, escape: '"', (err, data) ->
+    parse str, raw: true, escape: '"', (err, data) ->
       data[0].raw.should.eql str
+      next err
     
 
  

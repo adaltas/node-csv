@@ -1,10 +1,14 @@
 
 # Changelog
 
-## Version 2.0.4
+## Trunk
 
+* raw: ensure tests call and success
 * package: ignore npm and yarn lock files
 * sync: handle errors on last line
+
+## Version 2.0.4
+
 * package: move babel to dev dependencies
 
 ## Version 2.0.3
