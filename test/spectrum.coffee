@@ -14,4 +14,4 @@ describe 'spectrum', ->
           return next err if err
           data.should.eql JSON.parse test.json.toString()
           next()
-      .then next
+      .next next
