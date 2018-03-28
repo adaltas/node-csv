@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* events: emit record
 * raw: test to ensure it preserve columns
 * package: latest dependencies (28 march 2018)
 * raw: ensure tests call and success

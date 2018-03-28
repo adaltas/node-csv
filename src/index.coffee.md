@@ -181,7 +181,7 @@ Implementation of the [`stream.Transform` API][transform]
 
     Parser.prototype.__push = (line) ->
       return if @options.skip_lines_with_empty_values and line.join('').trim() is ''
-      row = null
+      record = null
       if @options.columns is true
         @options.columns = line
         return
@@ -218,18 +218,19 @@ Implementation of the [`stream.Transform` API][transform]
           continue if this.options.columns[i] is false
           lineAsColumns[@options.columns[i]] = field
         if @options.objname
-          row = [lineAsColumns[@options.objname], lineAsColumns]
+          record = [lineAsColumns[@options.objname], lineAsColumns]
         else
-          row = lineAsColumns
+          record = lineAsColumns
       else
-        row = line
+        record = line
       return if @count < @options.from
       return if @count > @options.to
       if @options.raw
-        @push { raw: @_.rawBuf, row: row }
+        @push { raw: @_.rawBuf, row: record }
         @_.rawBuf = ''
       else
-        @push row
+        @push record
+      @emit 'record', record if @listenerCount('record')
       null
 
     Parser.prototype.__write =  (chars, end) ->
