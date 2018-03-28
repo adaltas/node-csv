@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* events: register and write not blocking
 * test: prefix names by group membership
 * events: emit record
 * raw: test to ensure it preserve columns
