@@ -205,7 +205,7 @@ Convert a line to a string. Line may be an object, an array or a string.
           if field
             return @emit 'error', Error 'Formatter must return a string, null or undefined' unless typeof field is 'string'
             containsdelimiter = field.indexOf(delimiter) >= 0
-            containsQuote = field.indexOf(quote) >= 0
+            containsQuote = (quote isnt '') and field.indexOf(quote) >= 0
             containsEscape = field.indexOf(escape) >= 0 and (escape isnt quote)
             containsLinebreak = field.indexOf('\r') >= 0 or field.indexOf('\n') >= 0
             shouldQuote = containsQuote or containsdelimiter or containsLinebreak or @options.quoted or (@options.quotedString and typeof line[i] is 'string')
