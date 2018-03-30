@@ -87,3 +87,14 @@ describe 'quote', ->
       ,1974,8.8392926E7,,
       """
       next()
+
+  it 'values with linebreaks and different rowDelimiter', (next) ->
+    stringify [
+      [ '123\n456', 789]
+      [ '','1974' ]
+    ], {eof: false, rowDelimiter: '__'}, (err, data) ->
+      data.should.eql """
+      123
+      456,789__,1974
+      """
+      next()
