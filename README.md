@@ -24,9 +24,9 @@ Usage
 -----
 
 Refer to the [project webpage][home] for [an exhaustive list of options][home]
-and [some usage examples][examples]. 
+and [some usage examples][examples].
 
-The module is built on the Node.js Stream API. For the sake of simplify, a
+The module is built on the Node.js Stream API. For the sake of simplicity, a
 simple callback API is also provided. To give you a quick look, here's an
 example of the callback API:
 
@@ -35,21 +35,21 @@ var stringify = require('csv-stringify');
 
 input = [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ];
 stringify(input, function(err, output){
-  output.should.eql('1,2,3,4\na,b,c,d');
+  output.should.eql('1,2,3,4\na,b,c,d\n');
 });
 ```
 
 Development
 -----------
 
-Tests are executed with mocha. To install it, simple run `npm install` 
-followed by `npm test`. It will install mocha and its dependencies in your 
-project "node_modules" directory and run the test suite. The tests run 
+Tests are executed with mocha. To install it, run `npm install`
+followed by `npm test`. It will install mocha and its dependencies in your
+project "node_modules" directory and run the test suite. The tests run
 against the CoffeeScript source files.
 
 To generate the JavaScript files, run `npm run coffee`.
 
-The test suite is run online with [Travis][travis] against the versions 
+The test suite is run online with [Travis][travis] against the versions
 0.10, 0.11 and 0.12 of Node.js.
 
 Contributors
@@ -58,6 +58,8 @@ Contributors
 *   David Worms: <https://github.com/wdavidw>
 
 [home]: http://csv.adaltas.com/stringify/
+[csv_home]: https://github.com/adaltas/node-csv
+[stream_transform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
 [examples]: http://csv.adaltas.com/stringify/examples/
 [csv]: https://github.com/adaltas/node-csv
 [travis]: https://travis-ci.org/#!/adaltas/node-csv-stringify
