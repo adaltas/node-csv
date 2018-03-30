@@ -106,6 +106,8 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
           @options.rowDelimiter = "\r"
         when 'windows'
           @options.rowDelimiter = "\r\n"
+        when 'ascii'
+          @options.rowDelimiter = "\u001e"
         when 'unicode'
           @options.rowDelimiter = "\u2028"
       @
