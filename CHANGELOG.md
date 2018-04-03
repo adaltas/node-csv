@@ -4,6 +4,7 @@
 ## Trunk
 
 * package: allow empty quote value
+* package: add ascii option for rowDelimiter
 
 ## Version 2.0.4
 
