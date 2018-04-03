@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* Switch linebreak check for rowDelimiter check
+
 ## Version 2.1.0
 
 * package: allow empty quote value
