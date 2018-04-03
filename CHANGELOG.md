@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 3.0.0
 
 * Switch linebreak check for rowDelimiter check
 
