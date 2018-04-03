@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.1.0
 
 * package: allow empty quote value
 * package: add ascii option for rowDelimiter
