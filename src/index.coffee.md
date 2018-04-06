@@ -252,17 +252,20 @@ Implementation of the [`stream.Transform` API][transform]
           @is_float value
         else
           @is_float.test value
-      auto_parse = (value) =>
+      cast = (value, context = {}) =>
         return value unless @options.auto_parse
+        context.quoting ?= !!@_.closingQuote
+        context.count ?= @count
+        context.index ?= @_.line.length
+        context.column ?= if Array.isArray @options.columns then @options.columns[context.index] else context.index
         if typeof @options.auto_parse is 'function'
-          return @options.auto_parse value
-        # auto_parse == true
+          return @options.auto_parse value, context
         if is_int value
           value = parseInt value
         else if is_float value
           value = parseFloat value
         else if @options.auto_parse_date
-          value = @options.auto_parse_date(value)
+          value = @options.auto_parse_date value, context
         value
       ltrim = @options.trim or @options.ltrim
       rtrim = @options.trim or @options.rtrim
@@ -346,11 +349,11 @@ Implementation of the [`stream.Transform` API][transform]
               else
                 return err if err = @error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@_.nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
             else
+              i++
               @_.quoting = false
               @_.closingQuote = @options.quote.length
-              i++
               if end and i is l
-                @_.line.push auto_parse @_.field or ''
+                @_.line.push cast @_.field or ''
                 @_.field = null
               continue
           else if not @_.field
@@ -380,7 +383,7 @@ Implementation of the [`stream.Transform` API][transform]
               continue
           if rtrim
             @_.field = @_.field?.trimRight() unless @_.closingQuote
-          @_.line.push auto_parse @_.field or ''
+          @_.line.push cast @_.field or ''
           @_.closingQuote = 0
           @_.field = null
           if isDelimiter # End of field
@@ -420,7 +423,7 @@ Implementation of the [`stream.Transform` API][transform]
         if @_.field?
           if rtrim
             @_.field = @_.field?.trimRight() unless @_.closingQuote
-          @_.line.push auto_parse @_.field or ''
+          @_.line.push cast @_.field or ''
           @_.field = null
         if @_.field?.length > @options.max_limit_on_data_read
           return Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
