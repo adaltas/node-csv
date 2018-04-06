@@ -40,19 +40,33 @@ describe 'options "auto_parse"', ->
       next()
 
   it 'custom function', (next) ->
-      data = []
-      parser = parse({ auto_parse: (value) => new Date(value+' 05:00:00') })
-      parser.write """
-      2000-01-01,date1
-      2050-11-27,date2
-      """
-      parser.on 'readable', ->
-        while(d = parser.read())
-          data.push d
-      parser.on 'error', (err) ->
-        next err
-      parser.on 'finish', ->
-        data[0][0].should.be.instanceOf Date
-        data[1][0].should.be.instanceOf Date
-        next()
-      parser.end()
+    parse """
+    2000-01-01,date1
+    2050-11-27,date2
+    """,
+      auto_parse: (value, context) ->
+        if context.index is 0
+        then new Date "#{value} 05:00:00"
+        else {...context}
+    , (err, records) ->
+      records.should.eql [
+        [ new Date('2000-01-01T04:00:00.000Z'), {quoting: false, count: 0, index: 1, column: 1} ]
+        [ new Date('2050-11-27T04:00:00.000Z'), {quoting: false, count: 1, index: 1, column: 1} ]
+      ] unless err
+      next err
+
+  it 'custom function with quoting context', (next) ->
+    parse """
+    "2000-01-01",date1
+    2025-12-31,"date2"
+    2050-11-27,"date3"
+    """,
+      auto_parse: (value, {quoting}) ->
+        quoting
+    , (err, records) ->
+      records.should.eql [
+        [ true, false ]
+        [ false, true ]
+        [ false, true ]
+      ] unless err
+      next err
