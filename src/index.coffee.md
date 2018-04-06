@@ -98,10 +98,12 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       @options.trim ?= false
       @options.ltrim ?= false
       @options.rtrim ?= false
-      @options.auto_parse ?= false
-      @options.auto_parse_date ?= false
-      if @options.auto_parse_date is true
-        @options.auto_parse_date = (value) ->
+      @options.cast = @options.auto_parse if @options.auto_parse?
+      @options.cast ?= false
+      @options.cast_date = @options.auto_parse_date if @options.auto_parse_date?
+      @options.cast_date ?= false
+      if @options.cast_date is true
+        @options.cast_date = (value) ->
           m = Date.parse(value)
           if !isNaN(m)
             value = new Date(m)
@@ -253,19 +255,19 @@ Implementation of the [`stream.Transform` API][transform]
         else
           @is_float.test value
       cast = (value, context = {}) =>
-        return value unless @options.auto_parse
+        return value unless @options.cast
         context.quoting ?= !!@_.closingQuote
         context.count ?= @count
         context.index ?= @_.line.length
         context.column ?= if Array.isArray @options.columns then @options.columns[context.index] else context.index
-        if typeof @options.auto_parse is 'function'
-          return @options.auto_parse value, context
+        if typeof @options.cast is 'function'
+          return @options.cast value, context
         if is_int value
           value = parseInt value
         else if is_float value
           value = parseFloat value
-        else if @options.auto_parse_date
-          value = @options.auto_parse_date value, context
+        else if @options.cast_date
+          value = @options.cast_date value, context
         value
       ltrim = @options.trim or @options.ltrim
       rtrim = @options.trim or @options.rtrim
