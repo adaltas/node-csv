@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.2.0
 
 * cast: deprecate auto_parse
 * auto_parse: function get context as second argument
