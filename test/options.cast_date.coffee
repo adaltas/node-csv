@@ -2,7 +2,7 @@
 fs = require 'fs'
 parse = require '../src'
 
-describe 'options "auto_parse_date" (deprecated)', ->
+describe 'options "cast_date"', ->
   
   it 'convert numbers', (next) ->
     data = []
@@ -10,8 +10,8 @@ describe 'options "auto_parse_date" (deprecated)', ->
     2000-01-01,date1
     2050-11-27,date2
     """,
-      auto_parse: true
-      auto_parse_date: true
+      cast: true
+      cast_date: true
     , (err, records) ->
       records.should.eql [
         [ new Date('2000-01-01T00:00:00.000Z'), 'date1' ],

@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* cast: deprecate auto_parse
 * auto_parse: function get context as second argument
 
 ## Version 2.1.0
