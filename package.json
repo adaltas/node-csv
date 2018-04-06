@@ -19,13 +19,13 @@
     "url": "https://github.com/adaltas/node-csv.git"
   },
   "dependencies": {
-    "csv-generate": "^2.0.0",
-    "csv-parse": "^2.0.0",
-    "stream-transform": "^1.0.0",
-    "csv-stringify": "^2.0.0"
+    "csv-generate": "^2.0.2",
+    "csv-parse": "^2.2.0",
+    "stream-transform": "^1.0.2",
+    "csv-stringify": "^3.0.0"
   },
   "devDependencies": {
-    "coffeescript": "~2.0.1"
+    "coffeescript": "~2.2.4"
   },
   "optionalDependencies": {},
   "scripts": {
