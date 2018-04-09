@@ -1,6 +1,6 @@
 {
   "name": "csv",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "CSV parser with simple api, full of options and tested against large datasets.",
   "keywords": [
     "node",
