@@ -8,6 +8,10 @@ See the changelogs of our child projects:
 * [csv-stringify](https://github.com/adaltas/node-csv-stringify/blob/master/CHANGELOG.md)
 * [stream-transform](https://github.com/adaltas/node-stream-transform/blob/master/CHANGELOG.md)
 
+## Trunk
+
+package: attempt to re-submit npm package, no ./lib/index.js present
+
 ## Version 3.0.0
 
 csv-generate: "^2.0.2"
