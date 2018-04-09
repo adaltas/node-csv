@@ -8,7 +8,7 @@ See the changelogs of our child projects:
 * [csv-stringify](https://github.com/adaltas/node-csv-stringify/blob/master/CHANGELOG.md)
 * [stream-transform](https://github.com/adaltas/node-stream-transform/blob/master/CHANGELOG.md)
 
-## Trunk
+## Version 3.0.1
 
 package: attempt to re-submit npm package, no ./lib/index.js present
 
