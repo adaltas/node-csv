@@ -46,12 +46,12 @@ describe 'options "auto_parse" (deprecated)', ->
     """,
       auto_parse: (value, context) ->
         if context.index is 0
-        then new Date "#{value} 05:00:00"
+        then "#{value}T05:00:00.000Z"
         else {...context}
     , (err, records) ->
       records.should.eql [
-        [ new Date('2000-01-01T04:00:00.000Z'), {quoting: false, count: 0, index: 1, column: 1} ]
-        [ new Date('2050-11-27T04:00:00.000Z'), {quoting: false, count: 1, index: 1, column: 1} ]
+        [ '2000-01-01T05:00:00.000Z', {quoting: false, count: 0, index: 1, column: 1} ]
+        [ '2050-11-27T05:00:00.000Z', {quoting: false, count: 1, index: 1, column: 1} ]
       ] unless err
       next err
 
