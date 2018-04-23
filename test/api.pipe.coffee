@@ -5,7 +5,7 @@ parse = require '../src'
 
 describe 'api pipe', ->
 
-  it 'work with producer', (next) ->
+  it 'piping in and reading out', (next) ->
     finished = false
     parser = parse()
     data = []
@@ -23,6 +23,15 @@ describe 'api pipe', ->
       ]
       next()
     generator.pipe(parser)
+
+  it 'piping in and callback out', (next) ->
+    generator = generate length: 2, seed: 1, columns: 2, fixed_size: true
+    generator.pipe parse (err, data) ->
+      data.should.eql [
+        [ 'OMH', 'ONKCHhJmjadoA' ]
+        [ 'D', 'GeACHiN' ]
+      ]
+      next()
 
   it 'catch source error', (next) ->
     parser = parse()
