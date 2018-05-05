@@ -3,13 +3,14 @@
 
 ## Trunk
 
-travis: run against node 8 and 10
+* parser: set nextChar to null instead of empty
+* travis: run against node 8 and 10
 
 ## Version 2.3.0
 
-cast: pass the header property
-auto_parse: deprecated message on tests
-cast: inject lines property
+* cast: pass the header property
+* auto_parse: deprecated message on tests
+* cast: inject lines property
 
 ## Version 2.2.0
 

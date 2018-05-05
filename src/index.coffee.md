@@ -298,7 +298,7 @@ Implementation of the [`stream.Transform` API][transform]
             (l - i <= @options.escape.length and @options.escape.substr(0, l - i) is remainingBuffer)
           )
         char = if @_.nextChar then @_.nextChar else chars.charAt i
-        @_.nextChar = if l > i + 1 then chars.charAt(i + 1) else ''
+        @_.nextChar = if l > i + 1 then chars.charAt(i + 1) else null
         @_.rawBuf += char if @options.raw
         # Auto discovery of rowDelimiter, unix, mac and windows supported
         if not @options.rowDelimiter?
@@ -347,7 +347,7 @@ Implementation of the [`stream.Transform` API][transform]
             areNextCharsRowDelimiters = @options.rowDelimiter and @options.rowDelimiter.some((rd) -> chars.substr(i+1, rd.length) is rd)
             areNextCharsDelimiter = chars.substr(i+1, @options.delimiter.length) is @options.delimiter
             isNextCharAComment = @_.nextChar is @options.comment
-            if @_.nextChar and not areNextCharsRowDelimiters and not areNextCharsDelimiter and not isNextCharAComment
+            if @_.nextChar? and not areNextCharsRowDelimiters and not areNextCharsDelimiter and not isNextCharAComment
               if @options.relax
                 @_.quoting = false
                 @_.field = "#{@options.quote}#{@_.field}" if @_.field

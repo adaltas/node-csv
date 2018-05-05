@@ -16,8 +16,8 @@ describe 'options comment', ->
         [ 'ABC','45' ]
         [ 'DEF','23' ]
         [ 'GHI','94' ]
-      ]
-      next()
+      ] unless err
+      next err
 
   it 'doent apply inside quotes', (next) ->
     parse """
@@ -29,8 +29,8 @@ describe 'options comment', ->
         [ 'ABC','45' ]
         [ 'D#noEF','23' ]
         [ 'GHI','94' ]
-      ]
-      next()
+      ] unless err
+      next err
 
   it 'is cancel if empty', (next) ->
     parse """
