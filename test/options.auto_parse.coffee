@@ -50,8 +50,8 @@ describe 'options "auto_parse" (deprecated)', ->
         else {...context}
     , (err, records) ->
       records.should.eql [
-        [ '2000-01-01T05:00:00.000Z', {quoting: false, count: 0, index: 1, column: 1} ]
-        [ '2050-11-27T05:00:00.000Z', {quoting: false, count: 1, index: 1, column: 1} ]
+        [ '2000-01-01T05:00:00.000Z', {quoting: false, count: 0, index: 1, column: 1, lines: 1} ]
+        [ '2050-11-27T05:00:00.000Z', {quoting: false, count: 1, index: 1, column: 1, lines: 2} ]
       ] unless err
       next err
 

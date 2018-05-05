@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+cast: inject lines property
+
 ## Version 2.2.0
 
 * cast: deprecate auto_parse

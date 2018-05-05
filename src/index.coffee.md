@@ -257,6 +257,7 @@ Implementation of the [`stream.Transform` API][transform]
       cast = (value, context = {}) =>
         return value unless @options.cast
         context.quoting ?= !!@_.closingQuote
+        context.lines ?= @lines
         context.count ?= @count
         context.index ?= @_.line.length
         context.column ?= if Array.isArray @options.columns then @options.columns[context.index] else context.index
@@ -422,6 +423,8 @@ Implementation of the [`stream.Transform` API][transform]
           return Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Flush remaining fields and lines
       if end
+        if l is 0
+          @lines++
         if @_.field?
           if rtrim
             @_.field = @_.field?.trimRight() unless @_.closingQuote
@@ -429,8 +432,6 @@ Implementation of the [`stream.Transform` API][transform]
           @_.field = null
         if @_.field?.length > @options.max_limit_on_data_read
           return Error "Delimiter not found in the file #{JSON.stringify(@options.delimiter)}"
-        if l is 0
-          @lines++
         if @_.line.length > @options.max_limit_on_data_read
           return Error "Row delimiter not found in the file #{JSON.stringify(@options.rowDelimiter)}"
       # Store un-parsed chars for next call
