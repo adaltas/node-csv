@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* trim: after and before quote
 * tests: compatibility with Node.js 10
 * trim: handle quote followed by escape
 * parser: set nextChar to null instead of empty

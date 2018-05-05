@@ -336,7 +336,9 @@ Implementation of the [`stream.Transform` API][transform]
               @_.rawBuf += char
             i++
             continue
+        # Char match quote
         if not @_.commenting and char is @options.quote
+          return @error 'Only trimable characters are accepted after quotes' if @_.acceptOnlyEmptyChars and char not in [' ', '\t']
           if @_.quoting
             # Make sure a closing quote is followed by a delimiter
             # If we have a next character and 
@@ -344,15 +346,22 @@ Implementation of the [`stream.Transform` API][transform]
             # it isnt an column delimiter and
             # it isnt the begining of a comment
             # Otherwise, if this is not "relax" mode, throw an error
+            isNextCharTrimable = rtrim and @_.nextChar in [' ', '\t']
             areNextCharsRowDelimiters = @options.rowDelimiter and @options.rowDelimiter.some((rd) -> chars.substr(i+1, rd.length) is rd)
             areNextCharsDelimiter = chars.substr(i+1, @options.delimiter.length) is @options.delimiter
             isNextCharAComment = @_.nextChar is @options.comment
-            if @_.nextChar? and not areNextCharsRowDelimiters and not areNextCharsDelimiter and not isNextCharAComment
+            if @_.nextChar? and not isNextCharTrimable and not areNextCharsRowDelimiters and not areNextCharsDelimiter and not isNextCharAComment
               if @options.relax
                 @_.quoting = false
                 @_.field = "#{@options.quote}#{@_.field}" if @_.field
               else
                 return err if err = @error "Invalid closing quote at line #{@lines+1}; found #{JSON.stringify(@_.nextChar)} instead of delimiter #{JSON.stringify(@options.delimiter)}"
+            else if @_.nextChar? and isNextCharTrimable
+              i++
+              @_.quoting = false
+              @_.closingQuote = @options.quote.length
+              @_.acceptOnlyEmptyChars = true
+              continue
             else
               i++
               @_.quoting = false
@@ -378,6 +387,15 @@ Implementation of the [`stream.Transform` API][transform]
           wasCommenting = true
           @_.commenting = false
         isDelimiter = chars.substr(i, @options.delimiter.length) is @options.delimiter
+        if @_.acceptOnlyEmptyChars
+          if isDelimiter or isRowDelimiter
+            @_.acceptOnlyEmptyChars = false
+          else
+            if char in [' ', '\t']
+              i++
+              continue
+            else
+              return @error 'Only trimable characters are accepted after quotes'
         if not @_.commenting and not @_.quoting and (isDelimiter or isRowDelimiter)
           isRowDelimiterLength = @options.rowDelimiter.filter((rd)-> chars.substr(i, rd.length) is rd)[0].length if isRowDelimiter
           # Empty lines

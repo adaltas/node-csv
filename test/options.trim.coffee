@@ -4,8 +4,15 @@ parse = require '../src'
 
 describe 'options ltrim', ->
 
-  it 'quote followed by escape', (next) ->
+  it 'before quote', (next) ->
+    parse """
+     'a', 'b'
+     'c', 'd'
+    """, quote: "'", escape: "'", trim: true, (err, data) ->
+      data.should.eql [["a", "b"],["c", "d"]] unless err
+      next err
 
+  it 'quote followed by escape', (next) ->
     parse """
      '''a','''b'
     '''c', '''d'
@@ -54,6 +61,23 @@ describe 'options ltrim', ->
     parser.end()
 
 describe 'rtrim', ->
+
+  it 'after quote', (next) ->
+
+    parse """
+    'a' ,'b' 
+    'c' ,'d' 
+    """, quote: "'", escape: "'", trim: true, (err, data) ->
+      data.should.eql [["a", "b"],["c", "d"]] unless err
+      next err
+
+  it 'quote followed by escape', (next) ->
+    parse """
+    'a''' ,'b'''
+    'c''','d''' 
+    """, quote: "'", escape: "'", trim: true, (err, data) ->
+      data.should.eql [["a'", "b'"],["c'", "d'"]] unless err
+      next err
   
   it 'should ignore the whitespaces immediately preceding the delimiter', (next) ->
     data = []
