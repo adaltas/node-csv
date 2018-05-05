@@ -2,6 +2,10 @@
 fs = require 'fs'
 parse = require '../src'
 
+#################################################################
+###            DEPRECATED: see the cast option                ###
+#################################################################
+
 describe 'options "auto_parse_date" (deprecated)', ->
   
   it 'convert numbers', (next) ->

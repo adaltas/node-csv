@@ -3,6 +3,7 @@
 
 ## Trunk
 
+auto_parse: deprecated message on tests
 cast: inject lines property
 
 ## Version 2.2.0
