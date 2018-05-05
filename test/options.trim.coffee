@@ -3,6 +3,15 @@ fs = require 'fs'
 parse = require '../src'
 
 describe 'options ltrim', ->
+
+  it 'quote followed by escape', (next) ->
+
+    parse """
+     '''a','''b'
+    '''c', '''d'
+    """, quote: "'", escape: "'", trim: true, (err, data) ->
+      data.should.eql [["'a", "'b"],["'c", "'d"]] unless err
+      next err
   
   it 'should ignore the whitespaces immediately following the delimiter', (next) ->
     data = []

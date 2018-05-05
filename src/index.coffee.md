@@ -325,7 +325,7 @@ Implementation of the [`stream.Transform` API][transform]
           escapeIsQuote = @options.escape is @options.quote
           isEscape = @_.nextChar is @options.escape
           isQuote = @_.nextChar is @options.quote
-          if not ( escapeIsQuote and not @_.field? and not @_.quoting ) and ( isEscape or isQuote )
+          if not ( escapeIsQuote and not @_.field and not @_.quoting ) and ( isEscape or isQuote )
             i++
             char = @_.nextChar
             @_.nextChar = chars.charAt i + 1
