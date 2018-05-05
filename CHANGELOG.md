@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.3.0
 
 cast: pass the header property
 auto_parse: deprecated message on tests
