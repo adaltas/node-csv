@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+travis: run against node 8 and 10
+
 ## Version 2.3.0
 
 cast: pass the header property
