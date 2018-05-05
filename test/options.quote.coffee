@@ -96,7 +96,7 @@ describe 'disabled', ->
       data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
       next err
 
-describe 'error', ->
+describe 'error "Quoted field not terminated"', ->
   
   it 'when unclosed', (next) ->
     parse """
@@ -104,7 +104,9 @@ describe 'error', ->
     """, (err, data) ->
       err.message.should.eql 'Quoted field not terminated at line 1'
       next()
-    
+
+describe 'error "Invalid closing quote"', ->
+
   it 'when invalid quotes', (next) ->
     parse """
       ""  1974    8.8392926E7 ""t ""
@@ -112,8 +114,15 @@ describe 'error', ->
     """, quote: '"', escape: '"', delimiter: "\t", (err) ->
       err.message.should.eql 'Invalid closing quote at line 1; found " " instead of delimiter "\\t"'
       next()
-  
-  it '"invalid opening quotes" count empty lines', (next) ->
+    
+  it '"Invalid closing quote" display expected delimiter', (next) ->
+    parse '"",1974,8.8392926E7,""t,""', quote: '"', escape: '"', (err) ->
+      err.message.should.eql 'Invalid closing quote at line 1; found "t" instead of delimiter ","'
+      next()
+
+describe 'error "Invalid opening quotes"', ->
+
+  it 'count empty lines', (next) ->
     parse """
     "this","line","is",valid
     
@@ -123,10 +132,5 @@ describe 'error', ->
     """, (err, data) ->
       err.message.should.eql 'Invalid opening quote at line 4'
       (data == undefined).should.be.true
-      next()
-    
-  it '"Invalid closing quote" display expected delimiter', (next) ->
-    parse '"",1974,8.8392926E7,""t,""', quote: '"', escape: '"', (err) ->
-      err.message.should.eql 'Invalid closing quote at line 1; found "t" instead of delimiter ","'
       next()
     
