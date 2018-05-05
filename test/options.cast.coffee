@@ -50,8 +50,8 @@ describe 'options "cast"', ->
         else {...context}
     , (err, records) ->
       records.should.eql [
-        [ '2000-01-01T05:00:00.000Z', {quoting: false, count: 0, index: 1, column: 1, lines: 1} ]
-        [ '2050-11-27T05:00:00.000Z', {quoting: false, count: 1, index: 1, column: 1, lines: 2} ]
+        [ '2000-01-01T05:00:00.000Z', {quoting: false, count: 0, index: 1, column: 1, lines: 1, header: false} ]
+        [ '2050-11-27T05:00:00.000Z', {quoting: false, count: 1, index: 1, column: 1, lines: 2, header: false} ]
       ] unless err
       next err
 
@@ -71,7 +71,7 @@ describe 'options "cast"', ->
       ] unless err
       next err
 
-  it 'with column', (next) ->
+  it 'header is true on first line when columns is true', (next) ->
     parse """
     a,b,c
     1,2,3
@@ -79,11 +79,26 @@ describe 'options "cast"', ->
     """,
       columns: true
       auto_parse: (value, context) ->
-        console.log context
-        # if count is -1 then value else parseInt value
+        if context.header then value else parseInt value
     , (err, records) ->
-      # records.should.eql [
-      #   {a: 1, b: 2, c: 3}
-      #   {a: 4, b: 5, c: 6}
-      # ] unless err
+      records.should.eql [
+        {a: 1, b: 2, c: 3}
+        {a: 4, b: 5, c: 6}
+      ] unless err
+      next err
+
+  it 'header is false when columns is an object', (next) ->
+    parse """
+    1,2,3
+    4,5,6
+    """,
+      columns: ['a', 'b', 'c']
+      auto_parse: (value, context) ->
+        context.header.should.be.false()
+        parseInt value
+    , (err, records) ->
+      records.should.eql [
+        {a: 1, b: 2, c: 3}
+        {a: 4, b: 5, c: 6}
+      ] unless err
       next err

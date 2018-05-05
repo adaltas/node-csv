@@ -260,6 +260,8 @@ Implementation of the [`stream.Transform` API][transform]
         context.lines ?= @lines
         context.count ?= @count
         context.index ?= @_.line.length
+        # context.header ?= if @options.column and @lines is 1 and @count is 0 then true else false
+        context.header ?= @options.columns is true
         context.column ?= if Array.isArray @options.columns then @options.columns[context.index] else context.index
         if typeof @options.cast is 'function'
           return @options.cast value, context
