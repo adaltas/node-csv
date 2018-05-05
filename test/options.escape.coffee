@@ -33,7 +33,7 @@ describe 'options escape', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'field with " inside' ]
       ]

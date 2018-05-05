@@ -12,7 +12,8 @@ describe 'events record', ->
     """
     parser.on 'record', (record) ->
       records.push record
-    parser.on 'finish', ->
+    parser.on 'data', -> while this.read() then null
+    parser.on 'end', ->
       records.should.eql [
         [ 'ABC', '45' ]
         [ 'DEF', '23' ]

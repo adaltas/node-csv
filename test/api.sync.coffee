@@ -8,7 +8,7 @@ describe 'api sync', ->
     data.should.eql [ [ 'field_1', 'field_2' ], [ 'value 1', 'value 2' ] ]
       
   it 'take a buffer and return records', ->
-    data = parse new Buffer 'field_1,field_2\nvalue 1,value 2'
+    data = parse Buffer.from 'field_1,field_2\nvalue 1,value 2'
     data.should.eql [ [ 'field_1', 'field_2' ], [ 'value 1', 'value 2' ] ]
     
   it 'honors columns option', ->

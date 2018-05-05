@@ -13,11 +13,11 @@ describe 'api arguments', ->
       data = []
       parser = parse()
       parser.on 'readable', ->
-        while d = parser.read()
+        while d = this.read()
           data.push d
       parser.on 'err', (err) ->
         next err
-      parser.on 'finish', ->
+      parser.on 'end', ->
         data.should.eql [ [ 'field_1', 'field_2' ], [ 'value 1', 'value 2' ] ]
         next()
       parser.write 'field_1,field_2\nvalue 1,value 2'
@@ -39,7 +39,7 @@ describe 'api arguments', ->
           data.push d
       parser.on 'err', (err) ->
         next err
-      parser.on 'finish', ->
+      parser.on 'end', ->
         data.should.eql [field_1: 'value 1', field_2: 'value 2']
         next()
       parser.write 'field_1,field_2\nvalue 1,value 2'
@@ -55,7 +55,7 @@ describe 'api arguments', ->
           data.push d
       parser.on 'err', (err) ->
         next err
-      parser.on 'finish', ->
+      parser.on 'end', ->
         data.should.eql [field_1: 'value 1', field_2: 'value 2']
         next()
 
@@ -72,7 +72,7 @@ describe 'api arguments', ->
         next err
 
     it 'data:buffer, callback:function', (next) ->
-      parse new Buffer('value a,value b\nvalue 1,value 2'), (err, data) ->
+      parse Buffer.from('value a,value b\nvalue 1,value 2'), (err, data) ->
         data.should.eql [ [ 'value a', 'value b' ], [ 'value 1', 'value 2' ] ]
         next err
 
@@ -106,7 +106,7 @@ describe 'api arguments', ->
         next err
 
     it 'data:buffer, options:object, callback:function', (next) ->
-      parse new Buffer('field_1,field_2\nvalue 1,value 2'), columns: true, (err, data) ->
+      parse Buffer.from('field_1,field_2\nvalue 1,value 2'), columns: true, (err, data) ->
         data.should.eql [field_1: 'value 1', field_2: 'value 2']
         next err
 

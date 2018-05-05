@@ -8,11 +8,12 @@ describe 'api events', ->
     parser = parse()
     parser.on 'record', (record) ->
       before.push record
+    parser.on 'data', -> while this.read() then null 
     parser.write """
     "ABC","45"
     "DEF","23"
     """
-    parser.on 'finish', ->
+    parser.on 'end', ->
       before.should.eql [
         [ 'ABC', '45' ]
         [ 'DEF', '23' ]
@@ -29,7 +30,8 @@ describe 'api events', ->
     """
     parser.on 'record', (record) ->
       after.push record
-    parser.on 'finish', ->
+    parser.on 'data', -> while this.read() then null 
+    parser.on 'end', ->
       after.should.eql [
         [ 'ABC', '45' ]
         [ 'DEF', '23' ]
