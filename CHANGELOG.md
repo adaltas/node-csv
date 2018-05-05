@@ -3,6 +3,7 @@
 
 ## Trunk
 
+cast: pass the header property
 auto_parse: deprecated message on tests
 cast: inject lines property
 
