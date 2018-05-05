@@ -10,7 +10,7 @@ describe 'api write', ->
     parser.on 'readable', ->
       while(d = parser.read())
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'Test 0', '0', '"' ]
         [ 'Test 1', '1', '"' ]
@@ -46,10 +46,10 @@ describe 'api write', ->
     parser = parse (err, data) ->
       data[0][0].should.eql '€'
       next()
-    parser.write new Buffer [0xE2]
-    parser.write new Buffer [0x82]
-    parser.write new Buffer [0xAC]
-    # buff = new Buffer [0xE2, 0x82, 0xAC]
+    parser.write Buffer.from [0xE2]
+    parser.write Buffer.from [0x82]
+    parser.write Buffer.from [0xAC]
+    # buff = Buffer.from [0xE2, 0x82, 0xAC]
     # parser.write buff
     parser.end()
 
@@ -59,6 +59,6 @@ describe 'api write', ->
     parser.on 'data', (data) ->
       data.should.eql ['A', 'B', 'C']
       parser.end()
-    parser.on 'finish', ->
+    parser.on 'end', ->
       next()
     parser.write 'A,B,C\n'

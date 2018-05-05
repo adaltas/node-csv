@@ -5,7 +5,8 @@ describe 'properties number of lines', ->
 
   it 'adds up with default settings', (next) ->
     parser = parse()
-    parser.on 'finish', ->
+    parser.on 'data', -> while this.read() then null
+    parser.on 'end', ->
       this.lines.should.eql(this.count + this.empty_line_count + this.skipped_line_count)
       next()
     parser.write 'ABC\n\nDEF'
@@ -29,9 +30,10 @@ describe 'properties number of lines', ->
 
   it 'counts skipped lines', (next) ->
     parser = parse '', relax_column_count: true
+    parser.on 'data', -> while this.read() then null
     parser.on 'error', (err) ->
       next(err)
-    parser.on 'finish', ->
+    parser.on 'end', ->
       this.lines.should.eql(this.count + this.empty_line_count)
       this.empty_line_count.should.eql(2)
       this.skipped_line_count.should.eql(1)

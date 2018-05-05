@@ -13,7 +13,7 @@ describe 'api pipe', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       finished = true
     parser.on 'end', ->
       finished.should.be.ok

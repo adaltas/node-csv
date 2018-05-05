@@ -58,7 +58,7 @@ describe 'options rowDelimiter', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
@@ -78,7 +78,7 @@ describe 'options rowDelimiter', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
@@ -100,7 +100,7 @@ describe 'options rowDelimiter', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
@@ -120,7 +120,7 @@ describe 'options rowDelimiter', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
@@ -171,7 +171,7 @@ describe 'options rowDelimiter', ->
       parser.on 'readable', ->
         while d = parser.read()
           data.push d
-      parser.on 'finish', ->
+      parser.on 'end', ->
         data.should.eql [
           [ 'ABC','45' ]
           [ 'DEF','23' ]
@@ -191,7 +191,7 @@ describe 'options rowDelimiter', ->
       parser.on 'readable', ->
         while(d = parser.read())
           data.push d
-      parser.on 'finish', ->
+      parser.on 'end', ->
         data.should.eql [
           [ 'abc', '123' ]
           [ 'def', '456' ]
@@ -216,7 +216,7 @@ describe 'options rowDelimiter', ->
       parser.on 'readable', ->
         while d = parser.read()
           data.push d
-      parser.on 'finish', ->
+      parser.on 'end', ->
         data.should.eql [
           [ 'ABC','45' ]
           [ 'DEF','23' ]

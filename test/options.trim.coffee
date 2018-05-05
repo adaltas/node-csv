@@ -19,7 +19,7 @@ describe 'options ltrim', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'FIELD 1','FIELD 2','FIELD 3','FIELD 4','FIELD 5','FIELD 6' ]
         [ '20322051544',' 1979','8.8017226E7','ABC','45','2000-01-01' ]
@@ -39,7 +39,7 @@ describe 'options ltrim', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'FIELD_1','FIELD_2' ]
         [ '20322051544','a' ]
@@ -61,7 +61,7 @@ describe 'rtrim', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'FIELD_1','FIELD_2','FIELD_3','FIELD_4','FIELD_5','FIELD_6']
         [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01']
@@ -83,7 +83,7 @@ describe 'trim', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'FIELD 1','FIELD 2','FIELD 3','FIELD 4','FIELD 5','FIELD 6' ]
         [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01' ]
@@ -103,7 +103,7 @@ describe 'trim', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'FIELD 1','FIELD 2','FIELD 3','FIELD 4','FIELD 5','FIELD 6' ]
         [ '20322051544','1979','8.8017226E7','ABC DEF','45','2000-01-01' ]
@@ -154,7 +154,7 @@ describe 'trim', ->
     parser.on 'readable', ->
       while(d = parser.read())
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ 'Test 0', '', ' 0,00 ', '"' ]
         [ 'Test 1', '', ' 100000,100000 ', '"' ]
@@ -196,7 +196,7 @@ describe 'no trim', ->
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
-    parser.on 'finish', ->
+    parser.on 'end', ->
       data.should.eql [
         [ '  FIELD 1  ','  FIELD 2 ',' FIELD 3','FIELD 4 ',' FIELD 5','FIELD 6   ' ]
         [ '20322051544','1979  ','8.8017226E7','AB C  ',' 45 ','   2000-01-01' ]
