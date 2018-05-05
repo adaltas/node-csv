@@ -3,6 +3,27 @@ parse = require '../src'
 
 describe 'properties counter', ->
   
+  it 'count lines', (next) ->
+    p = parse """
+    a,b,c
+    d,e,f
+    h,i,j
+    """, (err, data) ->
+      p.lines.should.eql 3 unless err
+      next err
+  
+  it 'should count empty lines', (next) ->
+    p = parse """
+    
+    a,b,c
+    
+    d,e,f
+    h,i,j
+    
+    """, skip_empty_lines: true, (err, data) ->
+      p.lines.should.eql 6 unless err
+      next err
+        
   it 'should display correct line number when invalid opening quotes', (next) ->
     parse """
     "this","line","is",valid
@@ -11,18 +32,6 @@ describe 'properties counter', ->
     "and",valid,line,follows...
     """, (err, data) ->
       err.message.should.match /Invalid opening quote at line 3/
-      (data == undefined).should.be.true
-      next()
-  
-  it 'should count empty lines', (next) ->
-    parse """
-    "this","line","is",valid
-    
-    "this","line",is,"also,valid"
-    this,"line",is,invalid h"ere"
-    "and",valid,line,follows...
-    """, (err, data) ->
-      err.message.should.match /Invalid opening quote at line 4/
       (data == undefined).should.be.true
       next()
   
