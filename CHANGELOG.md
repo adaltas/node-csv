@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.4.0
 
 * trim: after and before quote
 * tests: compatibility with Node.js 10
