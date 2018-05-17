@@ -28,12 +28,12 @@
   },
   "dependencies": {
     "csv-generate": "^2.0.2",
-    "csv-parse": "^2.2.0",
+    "csv-parse": "^2.4.0",
     "stream-transform": "^1.0.2",
     "csv-stringify": "^3.0.0"
   },
   "devDependencies": {
-    "coffeescript": "~2.2.4"
+    "coffeescript": "~2.3.0"
   },
   "optionalDependencies": {},
   "scripts": {
