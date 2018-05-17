@@ -1,8 +1,12 @@
-.*
-#*.tmp
+# Project files
 /node_modules
-lib-cov
-samples/sample.out
-samples/perf.out
+/samples/sample.out
+/samples/perf.out
+# Lock files
+/yarn.lock
+/package-lock.json
+# Hidden files
+.*
 !.travis.yml
+!.npmignore
 !.gitignore
