@@ -234,7 +234,12 @@ Implementation of the [`stream.Transform` API][transform]
       else
         record = line
       return if @count < @options.from
-      return if @count > @options.to
+      if @count > @options.to
+        if @options.endStreamWithTo
+          @push null
+          return
+        else
+          return
       if @options.raw
         @push { raw: @_.rawBuf, row: record }
         @_.rawBuf = ''
