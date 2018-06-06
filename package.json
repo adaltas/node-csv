@@ -34,11 +34,11 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "coffeescript": "~2.3.0",
+    "coffeescript": "~2.3.1",
     "csv-generate": "~2.0.2",
     "csv-spectrum": "~1.0.0",
     "each": "~1.2.0",
-    "mocha": "~5.1.1",
+    "mocha": "~5.2.0",
     "should": "~13.2.1"
   },
   "optionalDependencies": {},
