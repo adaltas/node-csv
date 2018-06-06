@@ -31,12 +31,12 @@ describe 'options to', ->
       ]
       next()
 
-  it 'end stream when reach to', (next) ->
+  it 'end stream when to reached, further lines not parsed', (next) ->
     parse """
     1,2,3
     4,5,6
-    7,8,9
-    """, to: 2, endStreamWithTo: true, (err, data) ->
+    7,8
+    """, to: 2, (err, data) ->
       return next err if err
       data.should.eql [
         [ '1','2','3' ]
