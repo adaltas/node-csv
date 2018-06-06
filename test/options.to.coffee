@@ -31,7 +31,7 @@ describe 'options to', ->
       ]
       next()
 
-  it 'end stream when to reached, further lines not parsed', (next) ->
+  it 'end stream when "to" is reached, further lines are not parsed', (next) ->
     parse """
     1,2,3
     4,5,6

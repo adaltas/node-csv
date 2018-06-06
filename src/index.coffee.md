@@ -139,6 +139,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
         buf: ''
         rowDelimiterLength: Math.max(@options.rowDelimiter.map( (v) -> v.length)...) if @options.rowDelimiter
         lineHasError: false
+        isEnded: false
       @
 
 ## Internal API
@@ -187,7 +188,7 @@ Implementation of the [`stream.Transform` API][transform]
         return @__push @_.line if @_.line.length > 0
 
     Parser.prototype.__push = (line) ->
-      return if @isEnded
+      return if @_.isEnded
       return if @options.skip_lines_with_empty_values and line.join('').trim() is ''
       record = null
       if @options.columns is true
@@ -241,9 +242,9 @@ Implementation of the [`stream.Transform` API][transform]
       else
         @push record
       @emit 'record', record if @listenerCount('record')
-      # When to is reached set ingore any future calls
+      # When to is reached set ignore any future calls
       if @count >= @options.to
-        @isEnded = true
+        @_.isEnded = true
         return @push null
       null
 
