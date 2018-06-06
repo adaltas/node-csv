@@ -187,6 +187,7 @@ Implementation of the [`stream.Transform` API][transform]
         return @__push @_.line if @_.line.length > 0
 
     Parser.prototype.__push = (line) ->
+      return if @isEnded
       return if @options.skip_lines_with_empty_values and line.join('').trim() is ''
       record = null
       if @options.columns is true
@@ -234,18 +235,16 @@ Implementation of the [`stream.Transform` API][transform]
       else
         record = line
       return if @count < @options.from
-      if @count > @options.to
-        if @options.endStreamWithTo
-          @push null
-          return
-        else
-          return
       if @options.raw
         @push { raw: @_.rawBuf, row: record }
         @_.rawBuf = ''
       else
         @push record
       @emit 'record', record if @listenerCount('record')
+      # When to is reached set ingore any future calls
+      if @count >= @options.to
+        @isEnded = true
+        return @push null
       null
 
     Parser.prototype.__write =  (chars, end) ->
