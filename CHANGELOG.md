@@ -1,9 +1,12 @@
 
 # Changelog
 
-## Version 2.4.0
+## Trunk
 
 * to: ignore future records when to is reached
+
+## Version 2.4.0
+
 * trim: after and before quote
 * tests: compatibility with Node.js 10
 * trim: handle quote followed by escape
