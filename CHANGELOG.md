@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.4.1
 
 * to: ignore future records when to is reached
 
