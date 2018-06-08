@@ -1,7 +1,4 @@
-// Type definitions for csv-parse 1.1
-// Project: https://github.com/wdavidw/node-csv-parse
-// Definitions by: David Muller <https://github.com/davidm77>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+// Original definitions in https://github.com/DefinitelyTyped/DefinitelyTyped by: David Muller <https://github.com/davidm77>
 
 /// <reference types="node" />
 
