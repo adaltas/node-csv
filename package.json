@@ -36,5 +36,6 @@
     "coffee": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
     "pretest": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
     "test": "mocha test/**/*.coffee"
-  }
+  },
+  "types": "./lib/index.d.ts"
 }
