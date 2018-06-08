@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* typescript: make definition header more relevant
+
 ## Version 2.4.1
 
 * to: ignore future records when to is reached
