@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* typescript: add typings
+
 ## Version 3.0.0
 
 * Switch linebreak check for rowDelimiter check
