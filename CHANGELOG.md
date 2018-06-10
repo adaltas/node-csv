@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 3.1.0
 
 * typescript: add typings
 
