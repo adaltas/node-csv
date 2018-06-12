@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* typescript: sync API needs to return a string
+
 ## Version 3.1.0
 
 * typescript: add typings
