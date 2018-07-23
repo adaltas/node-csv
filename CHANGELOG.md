@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* index: use destructuring assignment for deps
+
 ## Version 2.5.0
 
 * typescript: make definition header more relevant
