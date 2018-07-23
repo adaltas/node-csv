@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.1.0
 
 * sync: new module to ease synchronous usage
 
