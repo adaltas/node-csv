@@ -19,11 +19,13 @@ Please look at the [documentation], the [README], the [samples] and the
 
 Callback approach, for ease of use:   
 
-`generate([options])`   
+`generate([options], callback)`   
 
 Stream API, for maximum of power:   
 
-`generate([options], callback)`   
+`generate([options])`   
+
+## Source Code
 
     module.exports = ->
       if arguments.length is 2
@@ -56,9 +58,6 @@ preparing push requests.
 Options are documented [here](http://csv.adaltas.com/generate/).
 
     Generator = (@options = {}) ->
-      # @options = {}
-      # for k, v of options
-        # @options[k] = v
       stream.Readable.call @, @options
       @options.columns ?= 8
       @options.max_word_length ?= 16

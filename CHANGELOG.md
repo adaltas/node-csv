@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* sync: new module to ease synchronous usage
+
 ## Version 2.0.2
 
 * package: move babel to dev dependencies
