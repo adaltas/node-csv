@@ -2,12 +2,12 @@
 
 # CSV Generator
 
-A Readable Stream for random CSV and data generator. Features include:   
+A Readable Stream for random CSV and data generator. Features include:
 
-*   Node.js Stream 2 implementation.   
-*   Idempotence with the "seed" option.    
-*   Framework to generate custom data.   
-*   Various option to personnalize the generation.   
+*   Node.js Stream 2 implementation.
+*   Idempotence with the "seed" option.
+*   Framework to generate custom data.
+*   Various option to personnalize the generation.
 
 Please look at the [documentation], the [README], the [samples] and the 
 [tests] for additional information.
@@ -15,15 +15,15 @@ Please look at the [documentation], the [README], the [samples] and the
     stream = require 'stream'
     util = require 'util'
 
-## Usage
+## Usage  
 
-Callback approach, for ease of use:   
+Stream API, for maximum of power:
 
-`generate([options], callback)`   
+`generate([options])`
 
-Stream API, for maximum of power:   
+Callback approach, for ease of use:
 
-`generate([options])`   
+`generate([options], callback)`
 
 ## Source Code
 
