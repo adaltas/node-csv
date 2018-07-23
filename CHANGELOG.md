@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* sync: refactor internal variables
 * index: use destructuring assignment for deps
 
 ## Version 2.5.0
