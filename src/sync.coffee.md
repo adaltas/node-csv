@@ -8,6 +8,8 @@ Provides a synchronous alternative to the CSV generator.
 
 `generate(options)`  
 
+## Source Code
+
     generate = require '.'
 
     module.exports = (options) ->
