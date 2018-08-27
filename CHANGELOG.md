@@ -14,6 +14,7 @@ New features:
 Cleanup
 
 * src: cache call to typeof
+* package: latest dependencies
 
 ## Version 3.1.1
 
