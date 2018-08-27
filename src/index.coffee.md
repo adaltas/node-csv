@@ -88,7 +88,10 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.formatters.date ?= (value) ->
         # Cast date to timestamp string by default
         return '' + value.getTime()
-      @options.formatters.bool ?= (value) ->
+      # Backward compatibility
+      @options.formatters.boolean = @options.formatters.bool if @options.formatters.bool
+      # Custom formatters
+      @options.formatters.boolean ?= (value) ->
         # Cast boolean to string by default
         return if value then '1' else ''
       @options.formatters.object ?= (value) ->
@@ -199,7 +202,7 @@ Convert a line to a string. Line may be an object, an array or a string.
             # Cast number to string
             field = '' + field
           else if typeof field is 'boolean'
-            field = @options.formatters.bool(field)
+            field = @options.formatters.boolean(field)
           else if field instanceof Date
             field = @options.formatters.date(field)
           else if typeof field is 'object' and field isnt null
