@@ -85,21 +85,21 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.columns ?= null
       @options.header ?= false
       @options.formatters ?= {}
-      @options.formatters.date ?= (value) ->
-        # Cast date to timestamp string by default
-        return '' + value.getTime()
       # Backward compatibility
       @options.formatters.boolean = @options.formatters.bool if @options.formatters.bool
       # Custom formatters
-      @options.formatters.number ?= (value) ->
-        # Cast number to string using native casting by default
-        return '' + value
+      @options.formatters.date ?= (value) ->
+        # Cast date to timestamp string by default
+        '' + value.getTime()
       @options.formatters.boolean ?= (value) ->
         # Cast boolean to string by default
-        return if value then '1' else ''
+        if value then '1' else ''
+      @options.formatters.number ?= (value) ->
+        # Cast number to string using native casting by default
+        '' + value
       @options.formatters.object ?= (value) ->
         # Stringify object as JSON by default
-        return JSON.stringify value
+        JSON.stringify value
       @options.rowDelimiter ?= '\n'
       # Internal usage, state related
       @countWriten ?= 0
