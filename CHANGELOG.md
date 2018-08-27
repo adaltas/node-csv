@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 4.0.1
 
 * typescript: reflect latest change in formatters
 
