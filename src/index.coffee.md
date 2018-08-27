@@ -91,6 +91,9 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       # Backward compatibility
       @options.formatters.boolean = @options.formatters.bool if @options.formatters.bool
       # Custom formatters
+      @options.formatters.number ?= (value) ->
+        # Cast number to string using native casting by default
+        return '' + value
       @options.formatters.boolean ?= (value) ->
         # Cast boolean to string by default
         return if value then '1' else ''
@@ -200,7 +203,7 @@ Convert a line to a string. Line may be an object, an array or a string.
             # fine 99% of the cases, keep going
           else if typeof field is 'number'
             # Cast number to string
-            field = '' + field
+            field = @options.formatters.number(field)
           else if typeof field is 'boolean'
             field = @options.formatters.boolean(field)
           else if field instanceof Date
