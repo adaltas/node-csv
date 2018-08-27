@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* typescript: reflect latest change in formatters
+
 ## Version 4.0.0
 
 Backward incompatibilities:

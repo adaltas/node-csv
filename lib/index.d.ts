@@ -83,8 +83,9 @@ declare namespace stringify {
          * Key-value object which defines custom formatters for certain data types
          */
         formatters?: {
+            boolean?: Formatter<boolean>
             date?: Formatter<Date>
-            bool?: Formatter<boolean>
+            number?: Formatter<number>
             /**
              * Custom formatter for generic object values
              */
