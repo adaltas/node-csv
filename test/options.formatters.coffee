@@ -13,7 +13,7 @@ describe 'options formatters', ->
   it 'should let overwrite boolean formatter', (next) ->
     stringify [
       value: true
-    ], {formatters: bool: -> 'X'}, (err, data) ->
+    ], {formatters: boolean: -> 'X'}, (err, data) ->
       data.should.eql 'X\n'  unless err
       next err
 
@@ -27,6 +27,6 @@ describe 'options formatters', ->
   it 'must return a string', (next) ->
     stringify [
       a: true
-    ], {formatters: bool: (value) -> if value then 1 else 0}, (err, data) ->
+    ], {formatters: boolean: (value) -> if value then 1 else 0}, (err, data) ->
       err.message.should.eql 'Formatter must return a string, null or undefined'
       next()

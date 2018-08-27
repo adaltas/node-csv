@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* formatters: rename bool to boolean
+
 ## Version 3.1.1
 
 * typescript: sync API needs to return a string
