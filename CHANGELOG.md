@@ -3,7 +3,13 @@
 
 ## Trunk
 
+Backward incompatibilities:
+
 * formatters: rename bool to boolean
+
+New features:
+
+* formatters: handle number
 
 ## Version 3.1.1
 
