@@ -3,6 +3,12 @@
 
 ## Trunk
 
+Breaking changes:
+
+* columns: skip empty values when null, false or undefined
+
+Cleanup:
+
 * sync: refactor internal variables
 * index: use destructuring assignment for deps
 
