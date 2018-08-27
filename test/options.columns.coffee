@@ -61,11 +61,8 @@ describe 'options columns', ->
       """, columns: ["FIELD_1", false, "FIELD_2", false], (err, data) ->
         return next err if err
         data.should.eql [
-          "FIELD_1":"abc"
-          "FIELD_2":"def"
-        ,
-          "FIELD_1":"hij"
-          "FIELD_2":"klm"
+          { FIELD_1: "abc", FIELD_2: "def" }
+          { FIELD_1: "hij", FIELD_2: "klm"}
         ]
         next()
 
@@ -78,17 +75,6 @@ describe 'options columns', ->
         err.message.should.eql 'Number of columns on line 1 does not match header'
         next()
 
-    it 'emit single error when column count is invalid on multiple lines', (next) ->
-      parse """
-      1;2
-      1
-      3;4
-      5;6;7
-      """
-      , delimiter: ';', skip_empty_lines: true, (err, data) ->
-        err.message.should.eql 'Number of columns is inconsistent on line 2'
-        process.nextTick next
-
     it 'validate options column length on last line', (next) ->
       parse """
       1,2,3,x
@@ -97,13 +83,58 @@ describe 'options columns', ->
       """, columns: ["a", "b", "c", "d"], (err, data) ->
         err.message.should.eql 'Number of columns on line 3 does not match header'
         next()
-
-    it 'handles missing column if number of columns is inconsistent', (next) ->
+    
+    it 'skips column names defined as undefined', (next) ->
       parse """
-      20322051544,1979,8.8017226E7,ABC,45,2000-01-01
-      28392898392,1974,8.8392926E7,23,2050-11-27
-      """, (err, data) ->
-        err.message.should.eql 'Number of columns is inconsistent on line 2'
+      0,1,2,3,4
+      5,6,7,8,9
+      """, columns: ['a',,,, 'b'], (err, data) ->
+        data.should.eql [
+          {a: '0', b: '4'}
+          {a: '5', b: '9'}
+        ]
+        next()
+    
+    it 'skips column names defined as false', (next) ->
+      parse """
+      0,1,2,3,4
+      5,6,7,8,9
+      """, columns: ['a',false,false,false, 'b'], (err, data) ->
+        data.should.eql [
+          {a: '0', b: '4'}
+          {a: '5', b: '9'}
+        ]
+        next()
+    
+    it 'skips column names defined as null and last', (next) ->
+      # Fix a but where error was not throw if columns empty count was equal to
+      # the number of column in the dataset plus one.
+      # It seems the bug is due to to JavaScript as
+      # `console.log(JSON.stringify([,,]))`
+      # report only 2 null values
+      parse """
+      0,1,2
+      3,4,5
+      """, columns: ['a',null,null], (err, data) ->
+        console.log err, data
+        data.should.eql [
+          { a: '0' }
+          { a: '3' }
+        ]
+        next()
+    
+    it 'illustrate bug with undefined values', (next) ->
+      # Be careful on how JavaScript handle multiple trailing commas as it
+      # will discard the last one.
+      # For exemple, `console.log(JSON.stringify([,,]))` report 2 null values
+      parse """
+      0,1,2
+      3,4,5
+      """, columns: ['a',,,], (err, data) ->
+        data.should.eql [
+          { a: '0' }
+          { a: '3' }
+        ]
         next()
 
   describe 'function', ->
@@ -144,4 +175,25 @@ describe 'options columns', ->
         throw Error 'Catchme'
       , (err, data) ->
         err.message.should.eql 'Catchme'
+        next()
+  
+  describe 'number of columns', ->
+
+    it 'emit single error when column count is invalid on multiple lines', (next) ->
+      parse """
+      1;2
+      1
+      3;4
+      5;6;7
+      """
+      , delimiter: ';', skip_empty_lines: true, (err, data) ->
+        err.message.should.eql 'Number of columns is inconsistent on line 2'
+        process.nextTick next
+
+    it 'handles missing column if number of columns is inconsistent', (next) ->
+      parse """
+      20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+      28392898392,1974,8.8392926E7,23,2050-11-27
+      """, (err, data) ->
+        err.message.should.eql 'Number of columns is inconsistent on line 2'
         next()

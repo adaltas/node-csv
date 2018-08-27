@@ -227,8 +227,11 @@ Implementation of the [`stream.Transform` API][transform]
       if @options.columns?
         lineAsColumns = {}
         for field, i in line
-          continue if this.options.columns[i] is false
-          lineAsColumns[@options.columns[i]] = field
+          columnName = @options.columns[i]
+          # console.log('columnName', columnName)
+          continue if columnName is undefined or columnName is null or columnName is false
+          throw Error "Invalid column name #{JSON.stringify columnName}" if typeof columnName isnt 'string'
+          lineAsColumns[columnName] = field
         if @options.objname
           record = [lineAsColumns[@options.objname], lineAsColumns]
         else
