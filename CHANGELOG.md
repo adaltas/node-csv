@@ -11,6 +11,10 @@ New features:
 
 * formatters: handle number
 
+Cleanup
+
+* src: cache call to typeof
+
 ## Version 3.1.1
 
 * typescript: sync API needs to return a string

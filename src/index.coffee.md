@@ -199,16 +199,17 @@ Convert a line to a string. Line may be an object, an array or a string.
         newLine = ''
         for i in [0...line.length]
           field = line[i]
-          if typeof field is 'string'
+          type = typeof field
+          if type is 'string'
             # fine 99% of the cases, keep going
-          else if typeof field is 'number'
+          else if type is 'number'
             # Cast number to string
             field = @options.formatters.number(field)
-          else if typeof field is 'boolean'
+          else if type is 'boolean'
             field = @options.formatters.boolean(field)
           else if field instanceof Date
             field = @options.formatters.date(field)
-          else if typeof field is 'object' and field isnt null
+          else if type is 'object' and field isnt null
             field = @options.formatters.object(field)
           if field
             return @emit 'error', Error 'Formatter must return a string, null or undefined' unless typeof field is 'string'
