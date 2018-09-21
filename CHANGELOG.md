@@ -10,6 +10,7 @@ See the changelogs of our child projects:
 
 ## Trunk
 
+* samples: new pipe_funny script
 * samples: rewrite pipe with comments
 
 ## Version 3.1.0
