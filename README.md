@@ -109,6 +109,7 @@ Execute this script with the command `node samples/pipe.js`.
 
 ```javascript
 const csv = require('csv');
+
 csv
 .generate({seed: 1, columns: 2, length: 20})
 .pipe(csv.parse())

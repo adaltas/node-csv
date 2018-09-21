@@ -8,6 +8,10 @@ See the changelogs of our child projects:
 * [csv-stringify](https://github.com/adaltas/node-csv-stringify/blob/master/CHANGELOG.md)
 * [stream-transform](https://github.com/adaltas/node-stream-transform/blob/master/CHANGELOG.md)
 
+## Trunk
+
+* samples: rewrite pipe with comments
+
 ## Version 3.1.0
 
 * csv-parse  ^2.2.0  →  ^2.4.0
