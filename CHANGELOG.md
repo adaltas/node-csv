@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* samples: update syntax
 package: improve ignore files
 
 ## Version 3.0.0
