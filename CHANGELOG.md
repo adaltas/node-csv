@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* samples: new column script
 * samples: update syntax
 package: improve ignore files
 
