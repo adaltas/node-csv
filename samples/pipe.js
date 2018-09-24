@@ -1,6 +1,8 @@
 
-should = require('should');
-generate = require('../lib');
+const generate = require('../lib')
 
-var generator = generate({columns: ['int', 'bool'], length: 2});
-generator.pipe(process.stdout);
+generate({
+  columns: ['int', 'bool'],
+  length: 2
+})
+.pipe(process.stdout)
