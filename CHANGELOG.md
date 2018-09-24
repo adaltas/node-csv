@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 1.0.3
 
 * travis: support Node.js 10
 * package: improve ignore files
