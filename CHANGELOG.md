@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* travis: support Node.js 10
 * package: improve ignore files
 * samples: update syntax
 * sync: new module to ease synchronous usage
