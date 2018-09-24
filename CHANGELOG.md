@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: improve ignore files
+
 ## Version 4.0.1
 
 * typescript: reflect latest change in formatters
