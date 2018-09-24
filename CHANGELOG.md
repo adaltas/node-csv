@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* samples: update syntax
 * sync: new module to ease synchronous usage
 * stream: dont push empty string
 
