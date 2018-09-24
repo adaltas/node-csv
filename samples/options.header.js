@@ -3,15 +3,18 @@
 // birthYear,phone
 // OMH,ONKCHhJmjadoA
 
-var stringify = require('../lib');
-var generate = require('csv-generate');
-
-var generator = generate({objectMode: true, seed: 1, headers: 2});
-
-var columns = {
- year: 'birthYear',
- phone: 'phone'
-};
-var stringifier = stringify({ header: true, columns: columns });
-
-generator.pipe(stringifier).pipe(process.stdout);
+const stringify = require('../lib')
+const generate = require('csv-generate')
+const generator = generate({
+  objectMode: true,
+  seed: 1,
+  headers: 2
+})
+const stringifier = stringify({
+  header: true,
+  columns: {
+   year: 'birthYear',
+   phone: 'phone'
+  }
+})
+generator.pipe(stringifier).pipe(process.stdout)

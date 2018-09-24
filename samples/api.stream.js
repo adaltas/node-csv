@@ -1,23 +1,27 @@
 
-require('should');
-var stringify = require('../lib');
+const stringify = require('../lib')
+const assert = require('assert')
 
-data = '';
-stringifier = stringify({delimiter: ':'})
+const data = []
+const stringifier = stringify({
+  delimiter: ':'
+})
+stringifier.write([ 'root','x','0','0','root','/root','/bin/bash' ])
+stringifier.write([ 'someone','x','1022','1022','','/home/someone','/bin/bash' ])
+stringifier.end()
 stringifier.on('readable', function(){
+  let row;
   while(row = stringifier.read()){
-    data += row;
+    data.push(row)
   }
-});
+})
 stringifier.on('error', function(err){
-  console.log(err.message);
-});
+  console.error(err.message)
+})
 stringifier.on('finish', function(){
-  data.should.eql(
+  assert.equal(
+    data.join('\n'),
     "root:x:0:0:root:/root:/bin/bash\n" +
-    "someone:x:1022:1022:a funny cat:/home/someone:/bin/bash\n"
-  );
-});
-stringifier.write([ 'root','x','0','0','root','/root','/bin/bash' ]);
-stringifier.write([ 'someone','x','1022','1022','a funny cat','/home/someone','/bin/bash' ]);
-stringifier.end();
+    "someone:x:1022:1022::/home/someone:/bin/bash\n"
+  )
+})
