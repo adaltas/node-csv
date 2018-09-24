@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/adaltas/node-csv-parse.svg)][travis]
+[![Build Status](https://api.travis-ci.org/adaltas/node-csv-parse.svg)](https://travis-ci.org/#!/adaltas/node-csv-parse)
 
 Part of the [CSV module][csv_home], this project is a parser converting CSV text
 input into arrays or objects. It implements the Node.js
@@ -24,5 +24,3 @@ large community.
 [home]: http://csv.adaltas.com/parse/
 [csv_home]: https://github.com/wdavidw/node-csv
 [stream_transform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
-[travis]: http://travis-ci.org/wdavidw/node-csv-parse
-
