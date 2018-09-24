@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: improve ignore files
+
 ## Version 2.1.0
 
 * sync: new module to ease synchronous usage
