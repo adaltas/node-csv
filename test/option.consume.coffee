@@ -3,24 +3,18 @@ pad = require 'pad'
 generate = require 'csv-generate'
 transform = require '../src'
 
-letters = (number) ->
-  text = "#{number}"
-  text = "#{pad 3, text, '0'}"
-  text = for c in text
-    65 - 49 + 1 + c.charCodeAt 0
-  String.fromCharCode text...
-
 describe 'option consume', ->
 
   it 'async', (next) ->
     @timeout 0
     data = []
     count = 0
-    generator = generate length: 100000, objectMode: true, seed: 1
+    generator = generate length: 100000, objectMode: true
     transformer = generator.pipe transform (row, callback) ->
       count++
       setImmediate  -> callback null, ''
-    , parallel: 10, consume: true
+    , parallel: 7, consume: true
+    transformer.on 'error', next
     transformer.on 'finish', ->
       count.should.eql 100000
       next()
@@ -29,12 +23,13 @@ describe 'option consume', ->
     @timeout 0
     data = []
     count = 0
-    generator = generate length: 100000, objectMode: true, seed: 1
+    generator = generate length: 100000, objectMode: true
     transformer = generator.pipe transform (row) ->
       count++
       ''
     , parallel: 10, consume: true
-    transformer.on 'finish', ->
+    transformer.on 'error', next
+    transformer.on 'end', ->
       count.should.eql 100000
       next()
 
@@ -44,7 +39,7 @@ describe 'sequential', ->
     @timeout 0
     data = []
     count = 0
-    generator = generate length: 100000, objectMode: true, seed: 1
+    generator = generate length: 100000, objectMode: true
     transformer = generator.pipe transform (row, callback) ->
       count++
       setImmediate  -> callback null, ''
@@ -57,7 +52,7 @@ describe 'sequential', ->
     @timeout 0
     data = []
     count = 0
-    generator = generate length: 100000, objectMode: true, seed: 1
+    generator = generate length: 100000, objectMode: true
     transformer = generator.pipe transform (row) ->
       count++
       ''
