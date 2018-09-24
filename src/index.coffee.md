@@ -113,7 +113,7 @@ Options are documented [here](http://csv.adaltas.com/transform/).
         chunk = "#{chunk}" if typeof chunk is 'number'
         # We dont push empty string
         # See https://nodejs.org/api/stream.html#stream_readable_push
-        @push() if chunk? and chunk isnt ''
+        @push chunk if chunk? and chunk isnt ''
       cb() if cb
       @_ending() if @_ending
 
