@@ -1,7 +1,7 @@
-[![Build Status](https://secure.travis-ci.org/adaltas/node-csv-generate.svg)][travis]
 
-CSV and object generation
-=========================
+[![Build Status](https://api.travis-ci.org/adaltas/node-csv-generate.svg)](https://travis-ci.org/#!/adaltas/node-csv-generate)
+
+# CSV and object generation
 
 This package provides a flexible generator of CSV strings and Javascript objects
 implementing the Node.js `stream.Readable` API.
@@ -14,8 +14,7 @@ Features includes:
 *   `stream.Readable` implementation
 *   BSD License
 
-Usage
------
+## Usage
 
 Run `npm install csv` to install the full csv module or run 
 `npm install csv-generate` if you are only interested by the CSV generator.
@@ -72,14 +71,12 @@ var generator = generate({columns: ['int', 'bool'], length: 2});
 generator.pipe(process.stdout);
 ```
 
-Migration
----------
+## Migration
 
 Most of the generator is imported from its parent project [CSV][csv] in a effort 
 to split it between the generator, the parser, the transformer and the stringifier.
 
-Development
------------
+## Development
 
 Tests are executed with mocha. To install it, simple run `npm install` 
 followed by `npm test`. It will install mocha and its dependencies in your 
@@ -88,14 +85,12 @@ against the CoffeeScript source files.
 
 To generate the JavaScript files, run `npm run coffee`.
 
-The test suite is run online with [Travis][travis] against the versions 
+The test suite is run online with [Travis](https://travis-ci.org/#!/adaltas/node-csv-generate) against the versions 
 0.9, 0.10 and 0.11 of Node.js.
 
-Contributors
-------------
+## Contributors
 
 *   David Worms: <https://github.com/wdavidw>
 
 [home]: http://csv.adaltas.com/generate/
 [csv]: https://github.com/adaltas/node-csv
-[travis]: https://travis-ci.org/#!/adaltas/node-csv-generate
