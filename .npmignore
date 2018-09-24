@@ -1,6 +1,5 @@
+/.travis.yml
+/package-lock.json
 /src
 /test
-/Makefile
-.travis.yml
-package-lock.json
-yarn.lock
+/yarn.lock

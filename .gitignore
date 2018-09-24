@@ -1,8 +1,7 @@
 .*
+!/.travis.yml
+!/.npmignore
+!/.gitignore
 /node_modules
-yarn.lock
-package-lock.json
-!.babelrc
-!.travis.yml
-!.npmignore
-!.gitignore
+/package-lock.json
+/yarn.lock

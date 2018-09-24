@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+package: improve ignore files
+
 ## Version 3.0.0
 
 Breaking changes:
