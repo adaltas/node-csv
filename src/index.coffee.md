@@ -19,11 +19,11 @@ information.
 
 Callback approach, for ease of use:   
 
-`transform(handler, [options])`     
+`transform([data], handler, [options])`     
 
 Stream API, for maximum of power:   
 
-`transform(data, [options], handler, [options], [callback])`   
+`transform([data], [options], handler, [options], [callback])`   
 
     module.exports = ->
       options = {}
@@ -56,8 +56,8 @@ Stream API, for maximum of power:
       if callback or options.consume
         result = []
         transform.on 'readable', ->
-          while(r = transform.read())
-            result.push r if callback
+          while(record = transform.read())
+            result.push record if callback
         transform.on 'error', (err) ->
           error = true
           callback err if callback
@@ -92,26 +92,28 @@ Options are documented [here](http://csv.adaltas.com/transform/).
         l = @transform.length
         l-- if @options.params?
         if l is 1 # sync
-          @_done null, [@transform.call(null, chunk, @options.params)], cb
+          @__done null, [@transform.call(null, chunk, @options.params)], cb
         else if l is 2 # async
-          callback = (err, chunks...) => @_done err, chunks, cb
+          callback = (err, chunks...) => @__done err, chunks, cb
           @transform.call null, chunk, callback, @options.params
         else throw Error "Invalid handler arguments"
         return false
-      catch err then @_done err
+      catch err then @__done err
 
     Transformer.prototype._flush = (cb) ->
       @_ending = ->
         cb() if @running is 0
       @_ending()
 
-    Transformer.prototype._done = (err, chunks, cb) ->
+    Transformer.prototype.__done = (err, chunks, cb) ->
       @running--
       return @emit 'error', err if err
       @finished++
       for chunk in chunks
         chunk = "#{chunk}" if typeof chunk is 'number'
-        @push chunk if chunk?
+        # We dont push empty string
+        # See https://nodejs.org/api/stream.html#stream_readable_push
+        @push() if chunk? and chunk isnt ''
       cb() if cb
       @_ending() if @_ending
 

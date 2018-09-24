@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* stream: dont push empty string
+
 ## Version 1.0.2
 
 * package: move babel to dev dependencies
