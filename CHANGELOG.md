@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* sync: new module to ease synchronous usage
 * stream: dont push empty string
 
 ## Version 1.0.2
