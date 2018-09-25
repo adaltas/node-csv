@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/wdavidw/node-csv-parse.png)][travis]
+[![Build Status](https://api.travis-ci.org/adaltas/node-stream-transform.svg)](https://travis-ci.org/#!/adaltas/node-stream-transform)
 
 Part of the [CSV module][csv_home], this project is a simple object
 transformation framework. It implements the Node.js [`stream.Transform` API][streamtransform].  
@@ -50,7 +50,7 @@ against the CoffeeScript source files.
 
 To generate the JavaScript files, run `npm run coffee`.
 
-The test suite is run online with [Travis][travis] against the versions 
+The test suite is run online with [Travis](http://travis-ci.org/wdavidw/node-stream-transform) against the versions 
 0.10, 0.11 and 0.12 of Node.js.
 
 
@@ -60,5 +60,3 @@ The test suite is run online with [Travis][travis] against the versions
 [csv_home]: https://github.com/wdavidw/node-csv
 [stream-samples]: https://github.com/wdavidw/node-stream-transform/tree/master/samples
 [stream-test]: https://github.com/wdavidw/node-stream-transform/tree/master/test
-[travis]: http://travis-ci.org/wdavidw/node-stream-transform
-

@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* readme: update travis badge
+
 ## Version 1.0.3
 
 * travis: support Node.js 10
