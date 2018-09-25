@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 1.0.4
 
 * readme: update travis badge
 
