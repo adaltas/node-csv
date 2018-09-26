@@ -1,4 +1,5 @@
-[![Build Status](https://secure.travis-ci.org/adaltas/node-csv-stringify.svg)][travis]
+
+[![Build Status](https://api.travis-ci.org/adaltas/node-csv-stringify.svg)](https://travis-ci.org/#!/adaltas/node-csv-stringify)
 
 Part of the [CSV module][csv_home], this project is a stringifier converting
 arrays or objects input into a CSV text. It implements the Node.js
@@ -49,8 +50,7 @@ against the CoffeeScript source files.
 
 To generate the JavaScript files, run `npm run coffee`.
 
-The test suite is run online with [Travis][travis] against the versions
-0.10, 0.11 and 0.12 of Node.js.
+The test suite is run online with [Travis](https://travis-ci.org/#!/adaltas/node-csv-stringify). See the [Travis definition file](https://github.com/adaltas/node-csv-stringify/blob/master/.travis.yml) to view the tested Node.js version.
 
 Contributors
 ------------
@@ -62,4 +62,3 @@ Contributors
 [stream_transform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
 [examples]: http://csv.adaltas.com/stringify/examples/
 [csv]: https://github.com/adaltas/node-csv
-[travis]: https://travis-ci.org/#!/adaltas/node-csv-stringify
