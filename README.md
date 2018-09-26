@@ -10,19 +10,18 @@ large community.
 
 [Documentation for the "csv-stringify" package is available here][home].
 
-## Features
+## Main features
 
-*   Follow the Node.js streaming API
-*   Simplicity with the optional callback API
-*   Support for custom formatters, delimiters, quotes, escape characters and header
-*   Support big datasets
-*   Complete test coverage and samples for inspiration
-*   no external dependencies
-*   to be used conjointly with `csv-generate`, `csv-parse` and `stream-transform`
-*   BSD License
+* Follow the Node.js streaming API
+* Simplicity with the optional callback API
+* Support for custom formatters, delimiters, quotes, escape characters and header
+* Support big datasets
+* Complete test coverage and samples for inspiration
+* no external dependencies
+* to be used conjointly with `csv-generate`, `csv-parse` and `stream-transform`
+* BSD License
 
-Usage
------
+## Usage
 
 Refer to the [project webpage][home] for [an exhaustive list of options][home]
 and [some usage examples][examples].
@@ -40,8 +39,7 @@ stringify(input, function(err, output){
 });
 ```
 
-Development
------------
+## Development
 
 Tests are executed with mocha. To install it, run `npm install`
 followed by `npm test`. It will install mocha and its dependencies in your
@@ -52,8 +50,7 @@ To generate the JavaScript files, run `npm run coffee`.
 
 The test suite is run online with [Travis](https://travis-ci.org/#!/adaltas/node-csv-stringify). See the [Travis definition file](https://github.com/adaltas/node-csv-stringify/blob/master/.travis.yml) to view the tested Node.js version.
 
-Contributors
-------------
+## Contributors
 
 *   David Worms: <https://github.com/wdavidw>
 
