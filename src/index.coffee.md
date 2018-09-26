@@ -178,33 +178,33 @@ Print the header line if the option "header" is "true".
 
 Convert a line to a string. Line may be an object, an array or a string.
 
-    Stringifier.prototype.stringify = (line) ->
-      return line if typeof line isnt 'object'
+    Stringifier.prototype.stringify = (record) ->
+      return record if typeof record isnt 'object'
       columns = @options.columns
       columns = Object.keys columns if typeof columns is 'object' and columns isnt null and not Array.isArray columns
       delimiter = @options.delimiter
       quote = @options.quote
       escape = @options.escape
-      unless Array.isArray line
-        _line = []
+      unless Array.isArray record
+        _record = []
         if columns
           for i in [0...columns.length]
             column = columns[i]
-            value = get line, column
-            _line[i] = if (typeof value is 'undefined' or value is null) then '' else value
+            value = get record, column
+            _record[i] = if (typeof value is 'undefined' or value is null) then '' else value
         else
-          for column of line
-            _line.push line[column]
-        line = _line
-        _line = null
+          for column of record
+            _record.push record[column]
+        record = _record
+        _record = null
       else if columns # Note, we used to have @options.columns
         # We are getting an array but the user want specified output columns. In
         # this case, we respect the columns indexes
-        line.splice columns.length
-      if Array.isArray line
-        newLine = ''
-        for i in [0...line.length]
-          field = line[i]
+        record.splice columns.length
+      if Array.isArray record
+        newrecord = ''
+        for i in [0...record.length]
+          field = record[i]
           type = typeof field
           if type is 'string'
             # fine 99% of the cases, keep going
@@ -223,7 +223,7 @@ Convert a line to a string. Line may be an object, an array or a string.
             containsQuote = (quote isnt '') and field.indexOf(quote) >= 0
             containsEscape = field.indexOf(escape) >= 0 and (escape isnt quote)
             containsRowDelimiter = field.indexOf(@options.rowDelimiter) >= 0
-            shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or @options.quoted or (@options.quotedString and typeof line[i] is 'string')
+            shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or @options.quoted or (@options.quotedString and typeof record[i] is 'string')
             if shouldQuote and containsEscape
               regexp = if escape is '\\' then new RegExp(escape + escape, 'g') else new RegExp(escape, 'g');
               field = field.replace(regexp, escape + escape)
@@ -232,13 +232,13 @@ Convert a line to a string. Line may be an object, an array or a string.
               field = field.replace(regexp, escape + quote)
             if shouldQuote
               field = quote + field + quote
-            newLine += field
-          else if @options.quotedEmpty or (not @options.quotedEmpty? and line[i] is '' and @options.quotedString)
-            newLine += quote + quote
-          if i isnt line.length - 1
-            newLine += delimiter
-        line = newLine
-      line
+            newrecord += field
+          else if @options.quotedEmpty or (not @options.quotedEmpty? and record[i] is '' and @options.quotedString)
+            newrecord += quote + quote
+          if i isnt record.length - 1
+            newrecord += delimiter
+        record = newrecord
+      record
 
 [readme]: https://github.com/wdavidw/node-csv-stringify
 [samples]: https://github.com/wdavidw/node-csv-stringify/tree/master/samples
