@@ -17,7 +17,7 @@ large community.
 * Support for custom formatters, delimiters, quotes, escape characters and header
 * Support big datasets
 * Complete test coverage and samples for inspiration
-* no external dependencies
+* Only 1 external dependency
 * to be used conjointly with `csv-generate`, `csv-parse` and `stream-transform`
 * BSD License
 
