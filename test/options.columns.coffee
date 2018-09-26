@@ -2,6 +2,20 @@
 stringify = require '../src'
 
 describe 'options columns', ->
+  
+  it 'validate types', ->
+    (->
+      stringify [], columns: true, (->)
+    ).should.throw 'Invalid option "columns": expect an array or an object'
+    (->
+      stringify [], columns: false, (->)
+    ).should.throw 'Invalid option "columns": expect an array or an object'
+    (->
+      stringify [], columns: '', (->)
+    ).should.throw 'Invalid option "columns": expect an array or an object'
+    (->
+      stringify [], columns: (->), (->)
+    ).should.throw 'Invalid option "columns": expect an array or an object'
 
   it 'should map the column property name to display name', (next) ->
     stringify [

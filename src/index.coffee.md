@@ -82,8 +82,12 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.quotedString ?= false
       @options.eof ?= true
       @options.escape ?= '"'
-      @options.columns ?= null
       @options.header ?= false
+      # Normalize the columns option
+      @options.columns ?= null
+      if @options.columns?
+        unless typeof @options.columns is 'object'
+          throw Error 'Invalid option "columns": expect an array or an object'
       @options.formatters ?= {}
       # Backward compatibility
       @options.formatters.boolean = @options.formatters.bool if @options.formatters.bool
@@ -131,7 +135,8 @@ Print the header line if the option "header" is "true".
       return unless @options.columns
       labels = @options.columns
       # If columns is an object, keys are fields and values are labels
-      if typeof labels is 'object' then labels = for k, label of labels then label
+      if typeof labels is 'object'
+        labels = for k, label of labels then label
       if @options.eof
         labels = @stringify(labels) + @options.rowDelimiter
       else
@@ -143,9 +148,10 @@ Print the header line if the option "header" is "true".
       stream.Transform.prototype.end.apply @, arguments
 
     Stringifier.prototype.write = (chunk, encoding, callback) ->
+      # Nothing to do if null or undefined
       return unless chunk?
       preserve = typeof chunk isnt 'object'
-      # Emit and stringify the record
+      # Emit and stringify the record if an object or an array
       unless preserve
         @options.columns ?= Object.keys chunk if @countWriten is 0 and not Array.isArray chunk
         try @emit 'record', chunk, @countWriten
