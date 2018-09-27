@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* examples: new state example
 * examples: new api sync example
 * examples: new mixed output stream example
 * handler: bind execution context with current instance
