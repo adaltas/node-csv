@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* samples: new api sync scripts
 * samples: new objectmode scripts
 * readme: remove api doc
 * travis: support Node.js 10
