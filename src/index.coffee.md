@@ -63,11 +63,13 @@ Options are documented [here](http://csv.adaltas.com/generate/).
       @options.max_word_length ?= 16
       @options.fixed_size ?= false
       @options.end ?= null
+      @options.duration ?= null
       @options.seed ?= false
       @options.length ?= -1
       @options.delimiter ?= ','
       # State
       @_ =
+        start_time: Date.now()
         fixed_size_buffer: ''
         count_written: 0
         count_created: 0
@@ -114,7 +116,7 @@ Put new data into the read queue.
       data.push @_.fixed_size_buffer if length
       while true
         # Time for some rest: flush first and stop later
-        if (@_.count_created is @options.length) or (@options.end and Date.now() > @options.end)
+        if (@_.count_created is @options.length) or (@options.end and Date.now() > @options.end) or (@options.duration and Date.now() > @_.start_time + @options.duration)
           # Flush
           if data.length
             if @options.objectMode
