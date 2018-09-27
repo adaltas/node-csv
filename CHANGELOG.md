@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* options: new duration option
 * samples: new api sync scripts
 * samples: new objectmode scripts
 * readme: remove api doc
