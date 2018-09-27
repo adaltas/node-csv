@@ -6,15 +6,15 @@ const output = []
 const transformer = transform(function(data){
   data.push(data.shift())
   return data
-});
+})
 transformer.on('readable', function(){
   while(row = transformer.read()){
     output.push(row)
   }
-});
+})
 transformer.on('error', function(err){
   console.log(err.message)
-});
+})
 transformer.on('finish', function(){
   assert.deepEqual(output, [
     [ '2', '3', '4', '1' ],
