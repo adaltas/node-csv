@@ -92,10 +92,10 @@ Options are documented [here](http://csv.adaltas.com/transform/).
         l = @transform.length
         l-- if @options.params?
         if l is 1 # sync
-          @__done null, [@transform.call(null, chunk, @options.params)], cb
+          @__done null, [@transform.call @, chunk, @options.params], cb
         else if l is 2 # async
           callback = (err, chunks...) => @__done err, chunks, cb
-          @transform.call null, chunk, callback, @options.params
+          @transform.call @, chunk, callback, @options.params
         else throw Error "Invalid handler arguments"
         return false
       catch err then @__done err

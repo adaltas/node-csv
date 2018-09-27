@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* handler: bind execution context with current instance
+
 ## Version 1.0.4
 
 * readme: update travis badge
