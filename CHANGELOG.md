@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 4.1.0
 
 * columns: support array with column definition objects
 * travis: support Node.js 10
