@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* src: generate code
+
 ## Version 3.1.0
 
 * package: move to csv.js.org
