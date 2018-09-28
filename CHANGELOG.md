@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: upgrade dependencies including babel 7
 * options: new duration option
 * samples: new api sync scripts
 * samples: new objectmode scripts
