@@ -32,8 +32,9 @@
   },
   "homepage": "http://csv.adaltas.com/parse/",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
     "coffeescript": "^2.3.2",
     "csv-generate": "^2.1.0",
     "stream-transform": "^1.0.4",
