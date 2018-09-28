@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: move to csv.js.org
 * samples: new cast sample
 * package: upgrade to babel 7
 * samples: new mixed api samples

@@ -1,7 +1,6 @@
 
 const parse = require('../lib')
 const assert = require('assert')
-
 // Create the parser
 const parser = parse({
   delimiter: ':'

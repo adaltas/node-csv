@@ -3,7 +3,9 @@
 
 Provides a synchronous alternative to the CSV parser.
 
-Usage: `const records = parse(data, [options]`
+## Usage
+
+`const records = parse(data, [options]`
 
     {StringDecoder} = require 'string_decoder'
     parse = require './index'
