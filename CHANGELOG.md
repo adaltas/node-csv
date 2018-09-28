@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* columns: support array with column definition objects
 * travis: support Node.js 10
 * samples: new formatters script
 * samples: update syntax

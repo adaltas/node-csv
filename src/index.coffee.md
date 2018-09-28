@@ -84,10 +84,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.escape ?= '"'
       @options.header ?= false
       # Normalize the columns option
-      @options.columns ?= null
-      if @options.columns?
-        unless typeof @options.columns is 'object'
-          throw Error 'Invalid option "columns": expect an array or an object'
+      @options.columns = Stringifier.normalize_columns @options.columns
       @options.formatters ?= {}
       # Backward compatibility
       @options.formatters.boolean = @options.formatters.bool if @options.formatters.bool
@@ -133,15 +130,12 @@ Print the header line if the option "header" is "true".
     Stringifier.prototype.headers = ->
       return unless @options.header
       return unless @options.columns
-      labels = @options.columns
-      # If columns is an object, keys are fields and values are labels
-      if typeof labels is 'object'
-        labels = for k, label of labels then label
+      headers = @options.columns.map (column) -> column.header
       if @options.eof
-        labels = @stringify(labels) + @options.rowDelimiter
+        headers = @stringify(headers) + @options.rowDelimiter
       else
-        labels = @stringify(labels)
-      stream.Transform.prototype.write.call @, labels
+        headers = @stringify(headers)
+      stream.Transform.prototype.write.call @, headers
 
     Stringifier.prototype.end = (chunk, encoding, callback)->
       @headers() if @countWriten is 0
@@ -153,7 +147,9 @@ Print the header line if the option "header" is "true".
       preserve = typeof chunk isnt 'object'
       # Emit and stringify the record if an object or an array
       unless preserve
-        @options.columns ?= Object.keys chunk if @countWriten is 0 and not Array.isArray chunk
+        # Detect columns from the first record
+        if @countWriten is 0 and not Array.isArray chunk
+          @options.columns ?= Stringifier.normalize_columns Object.keys chunk
         try @emit 'record', chunk, @countWriten
         catch e then return @emit 'error', e
         # Convert the record into a string
@@ -181,7 +177,6 @@ Convert a line to a string. Line may be an object, an array or a string.
     Stringifier.prototype.stringify = (record) ->
       return record if typeof record isnt 'object'
       columns = @options.columns
-      columns = Object.keys columns if typeof columns is 'object' and columns isnt null and not Array.isArray columns
       delimiter = @options.delimiter
       quote = @options.quote
       escape = @options.escape
@@ -189,8 +184,7 @@ Convert a line to a string. Line may be an object, an array or a string.
         _record = []
         if columns
           for i in [0...columns.length]
-            column = columns[i]
-            value = get record, column
+            value = get record, columns[i].key
             _record[i] = if (typeof value is 'undefined' or value is null) then '' else value
         else
           for column of record
@@ -239,6 +233,28 @@ Convert a line to a string. Line may be an object, an array or a string.
             newrecord += delimiter
         record = newrecord
       record
+
+    Stringifier.normalize_columns = (columns) ->
+      return null unless columns?
+      if columns?
+        unless typeof columns is 'object'
+          throw Error 'Invalid option "columns": expect an array or an object'
+        unless Array.isArray columns
+          columns = for k, v of columns
+            key: k
+            header: v
+        else
+          columns = for column in columns
+            if typeof column is 'string'
+              key: column
+              header: column
+            else if typeof column is 'object' and column? and not Array.isArray column
+              throw Error 'Invalid column definition: property "key" is required' unless column.key
+              column.header ?= column.key
+              column
+            else
+              throw Error 'Invalid column definition: expect a string or an object'
+      columns
 
 [readme]: https://github.com/wdavidw/node-csv-stringify
 [samples]: https://github.com/wdavidw/node-csv-stringify/tree/master/samples
