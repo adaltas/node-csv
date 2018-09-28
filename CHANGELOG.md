@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.2.0
 
 * package: move to csv.js.org
 * package: upgrade dependencies including babel 7
