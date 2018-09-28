@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: move to csv.js.org
 * package: upgrade dependencies including babel 7
 * options: new duration option
 * samples: new api sync scripts

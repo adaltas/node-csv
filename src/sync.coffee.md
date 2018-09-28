@@ -6,7 +6,7 @@ Provides a synchronous alternative to the CSV generator.
 
 ## Usage 
 
-`generate(options)`  
+`const csv = generate(options)`  
 
 ## Source Code
 
