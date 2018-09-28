@@ -7,7 +7,7 @@
 * travis: support Node.js 10
 * samples: new column script
 * samples: update syntax
-package: improve ignore files
+* package: improve ignore files
 
 ## Version 3.0.0
 
