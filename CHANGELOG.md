@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* example: new sequential mode sample
 * examples: new state examples
 * examples: new api sync example
 * examples: new mixed output stream example
