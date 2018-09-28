@@ -12,7 +12,7 @@ parser.write("root:x:0:0:root:/root:/bin/bash\n")
 parser.write("someone:x:1022:1022::/home/someone:/bin/bash\n")
 // Close the readable stream
 parser.end()
-// Use the writable stream api
+// Use the readable stream api
 parser.on('readable', function(){
   let record
   while (record = parser.read()) {

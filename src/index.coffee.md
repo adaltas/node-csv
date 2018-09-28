@@ -125,7 +125,7 @@ Options are documented [here](http://csv.adaltas.com/parse/).
       # @is_float = /^(\-|\+)?([0-9]+(\.[0-9]+)([eE][0-9]+)?|Infinity)$/
       # @is_float = /^(\-|\+)?((([0-9])|([1-9]+[0-9]*))(\.[0-9]+)([eE][0-9]+)?|Infinity)$/
       @is_float = (value) -> (value - parseFloat( value ) + 1) >= 0 # Borrowed from jquery
-      # Internal state
+      # Internal private state
       @_ =
         decoder: new StringDecoder()
         quoting: false

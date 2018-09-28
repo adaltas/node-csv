@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* samples: new mixed api samples
 * travis: support Node.js 10
 * samples: new column script
 * samples: update syntax
