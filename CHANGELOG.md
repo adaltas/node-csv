@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* stream: be a much better transform citizen
 * package: upgrade to babel 7
 
 ## Version 4.1.0

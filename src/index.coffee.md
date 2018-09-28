@@ -72,6 +72,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       # Immutable options
       options = {}
       options[k] = v for k, v of opts
+      options.objectMode = true
       stream.Transform.call @, options
       ## Default options
       @options = options
@@ -123,25 +124,11 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
 
     module.exports.Stringifier = Stringifier
 
-## `Stringifier.prototype.headers`
+## `Stringifier.prototype._transform(chunk, encoding, callback)`
 
-Print the header line if the option "header" is "true".
+Implementation of the [transform._transform function](https://nodejs.org/api/stream.html#stream_transform_transform_chunk_encoding_callback).
 
-    Stringifier.prototype.headers = ->
-      return unless @options.header
-      return unless @options.columns
-      headers = @options.columns.map (column) -> column.header
-      if @options.eof
-        headers = @stringify(headers) + @options.rowDelimiter
-      else
-        headers = @stringify(headers)
-      stream.Transform.prototype.write.call @, headers
-
-    Stringifier.prototype.end = (chunk, encoding, callback)->
-      @headers() if @countWriten is 0
-      stream.Transform.prototype.end.apply @, arguments
-
-    Stringifier.prototype.write = (chunk, encoding, callback) ->
+    Stringifier.prototype._transform = (chunk, encoding, callback) ->
       # Nothing to do if null or undefined
       return unless chunk?
       preserve = typeof chunk isnt 'object'
@@ -154,20 +141,26 @@ Print the header line if the option "header" is "true".
         catch e then return @emit 'error', e
         # Convert the record into a string
         if @options.eof
-          chunk = @stringify(chunk) + @options.rowDelimiter
+          chunk = @stringify(chunk)
+          return unless chunk?
+          chunk = chunk + @options.rowDelimiter
         else
           chunk = @stringify(chunk)
+          return unless chunk?
           chunk = @options.rowDelimiter + chunk if @options.header or @countWriten
       # Emit the csv
       chunk = "#{chunk}" if typeof chunk is 'number'
       @headers() if @countWriten is 0
       @countWriten++ unless preserve
-      stream.Transform.prototype.write.call @, chunk, encoding, callback
-
-## `Stringifier.prototype._transform(line)`
-
-    Stringifier.prototype._transform = (chunk, encoding, callback) ->
       @push chunk
+      callback()
+
+## `Stringifier.prototype._flush(callback)`
+
+Implementation of the [transform._flush function](https://nodejs.org/api/stream.html#stream_transform_flush_callback).
+
+    Stringifier.prototype._flush = (callback) ->
+      @headers() if @countWriten is 0
       callback()
 
 ## `Stringifier.prototype.stringify(line)`
@@ -201,18 +194,24 @@ Convert a line to a string. Line may be an object, an array or a string.
           field = record[i]
           type = typeof field
           if type is 'string'
-            # fine 99% of the cases, keep going
+            # fine 99% of the cases
           else if type is 'number'
             # Cast number to string
-            field = @options.formatters.number(field)
+            try field = @options.formatters.number(field)
+            catch err then @emit 'error', err
           else if type is 'boolean'
-            field = @options.formatters.boolean(field)
+            try field = @options.formatters.boolean(field)
+            catch err then @emit 'error', err
           else if field instanceof Date
-            field = @options.formatters.date(field)
+            try field = @options.formatters.date(field)
+            catch err then @emit 'error', err
           else if type is 'object' and field isnt null
-            field = @options.formatters.object(field)
+            try field = @options.formatters.object(field)
+            catch err then @emit 'error', err
           if field
-            return @emit 'error', Error 'Formatter must return a string, null or undefined' unless typeof field is 'string'
+            unless typeof field is 'string'
+              @emit 'error', Error 'Formatter must return a string, null or undefined'
+              return null
             containsdelimiter = field.indexOf(delimiter) >= 0
             containsQuote = (quote isnt '') and field.indexOf(quote) >= 0
             containsEscape = field.indexOf(escape) >= 0 and (escape isnt quote)
@@ -233,6 +232,24 @@ Convert a line to a string. Line may be an object, an array or a string.
             newrecord += delimiter
         record = newrecord
       record
+
+## `Stringifier.prototype.headers`
+
+Print the header line if the option "header" is "true".
+
+    Stringifier.prototype.headers = ->
+      return unless @options.header
+      return unless @options.columns
+      headers = @options.columns.map (column) -> column.header
+      if @options.eof
+        headers = @stringify(headers) + @options.rowDelimiter
+      else
+        headers = @stringify(headers)
+      @push headers
+
+## `Stringifier.prototype.headers`
+
+Print the header line if the option "header" is "true".
 
     Stringifier.normalize_columns = (columns) ->
       return null unless columns?
