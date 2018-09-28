@@ -3,6 +3,13 @@ stringify = require '../src'
 
 describe 'options formatters', ->
 
+  it 'handle string formatter', (next) ->
+    stringify [
+      value: 'ok'
+    ], {formatters: string: -> 'X'}, (err, data) ->
+      data.should.eql 'X\n'  unless err
+      next err
+
   it 'handle boolean formatter', (next) ->
     stringify [
       value: true

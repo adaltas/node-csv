@@ -90,6 +90,8 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       # Backward compatibility
       @options.formatters.boolean = @options.formatters.bool if @options.formatters.bool
       # Custom formatters
+      @options.formatters.string ?= (value) ->
+        value
       @options.formatters.date ?= (value) ->
         # Cast date to timestamp string by default
         '' + value.getTime()
@@ -193,21 +195,21 @@ Convert a line to a string. Line may be an object, an array or a string.
         for i in [0...record.length]
           field = record[i]
           type = typeof field
-          if type is 'string'
-            # fine 99% of the cases
-          else if type is 'number'
-            # Cast number to string
-            try field = @options.formatters.number(field)
-            catch err then @emit 'error', err
-          else if type is 'boolean'
-            try field = @options.formatters.boolean(field)
-            catch err then @emit 'error', err
-          else if field instanceof Date
-            try field = @options.formatters.date(field)
-            catch err then @emit 'error', err
-          else if type is 'object' and field isnt null
-            try field = @options.formatters.object(field)
-            catch err then @emit 'error', err
+          try
+            if type is 'string'
+              # fine 99% of the cases
+              field = @options.formatters.string(field)
+            else if type is 'number'
+              field = @options.formatters.number(field)
+            else if type is 'boolean'
+              field = @options.formatters.boolean(field)
+            else if field instanceof Date
+              field = @options.formatters.date(field)
+            else if type is 'object' and field isnt null
+              field = @options.formatters.object(field)
+          catch err
+            @emit 'error', err
+            return
           if field
             unless typeof field is 'string'
               @emit 'error', Error 'Formatter must return a string, null or undefined'
