@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 3.1.2
 
 * readme: fix links to project website
 
