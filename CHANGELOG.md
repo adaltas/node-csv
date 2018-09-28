@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: move to csv.js.org
+
 ## Version 4.2.0
 
 * formatter: new string formatter

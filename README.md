@@ -1,14 +1,14 @@
 
 [![Build Status](https://api.travis-ci.org/adaltas/node-csv-stringify.svg)](https://travis-ci.org/#!/adaltas/node-csv-stringify)
 
-Part of the [CSV module][csv_home], this project is a stringifier converting
-arrays or objects input into a CSV text. It implements the Node.js
-[`stream.Transform` API][stream_transform]. It also provides a simple
-callback-based API for convenience. It is both extremely easy to use and
-powerful. It was first released in 2010 and is used against big data sets by a
-large community.
+Part of the [CSV module][csv_home], this project is a stringifier converting arrays or objects into a CSV text. It implements the Node.js [`stream.Transform` API][stream_transform]. It also provides a simple callback-based API for convenience. It is both extremely easy to use and powerful. It was first released in 2010 and is used against big data sets by a large community.
 
-[Documentation for the "csv-stringify" package is available here][home].
+## Documentation
+
+* [Project homepage](http://localhost:8000/stringify/)
+* [API](http://localhost:8000/stringify/api/)
+* [Options](http://localhost:8000/stringify/options/)
+* [Examples](http://localhost:8000/stringify/examples/)
 
 ## Main features
 
@@ -22,9 +22,6 @@ large community.
 * BSD License
 
 ## Usage
-
-Refer to the [project webpage][home] for [an exhaustive list of options][home]
-and [some usage examples][examples].
 
 The module is built on the Node.js Stream API. For the sake of simplicity, a
 simple callback API is also provided. To give you a quick look, here's an
@@ -54,7 +51,6 @@ The test suite is run online with [Travis](https://travis-ci.org/#!/adaltas/node
 
 *   David Worms: <https://github.com/wdavidw>
 
-[home]: http://csv.adaltas.com/stringify/
 [csv_home]: https://github.com/adaltas/node-csv
 [stream_transform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
 [examples]: http://csv.adaltas.com/stringify/examples/

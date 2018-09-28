@@ -3,7 +3,9 @@
 
 Provides a synchronous alternative to the CSV stringifier.
 
-Usage: `data = stringify(records, [options]`
+## Usage
+
+`const csv = stringify(records, [options]`
 
     {StringDecoder} = require 'string_decoder'
     stringify = require './index'

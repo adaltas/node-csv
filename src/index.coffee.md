@@ -1,7 +1,7 @@
 
 # CSV Stringifier
 
-Please look at the [README], the [samples] and the [tests] for additional
+Please look at the [project documentation](https://csv.js.org/stringify/) for additional
 information.
 
     stream = require 'stream'
@@ -274,7 +274,3 @@ Print the header line if the option "header" is "true".
             else
               throw Error 'Invalid column definition: expect a string or an object'
       columns
-
-[readme]: https://github.com/wdavidw/node-csv-stringify
-[samples]: https://github.com/wdavidw/node-csv-stringify/tree/master/samples
-[tests]: https://github.com/wdavidw/node-csv-stringify/tree/master/test

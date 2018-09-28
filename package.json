@@ -12,7 +12,7 @@
     "type": "git",
     "url": "http://www.github.com/adaltas/node-csv-stringify"
   },
-  "homepage": "http://csv.adaltas.com/stringify/",
+  "homepage": "https://csv.js.org/stringify/",
   "dependencies": {
     "lodash.get": "~4.4.2"
   },
