@@ -12,7 +12,7 @@ describe 'options formatters', ->
 
   it 'handle date formatter', (next) ->
     stringify [
-      {value: new Date}
+      value: new Date
     ], {formatters: date: -> 'X'}, (err, data) ->
       data.should.eql 'X\n'  unless err
       next err
@@ -31,9 +31,16 @@ describe 'options formatters', ->
       data.should.eql 'X\n'  unless err
       next err
 
+  it 'catch error', (next) ->
+    stringify [
+      value: true
+    ], {formatters: boolean: (value) -> throw Error 'Catchme'}, (err, data) ->
+      err.message.should.eql 'Catchme'
+      next()
+
   it 'boolean must return a string', (next) ->
     stringify [
-      a: true
+      value: true
     ], {formatters: boolean: (value) -> if value then 1 else 0}, (err, data) ->
       err.message.should.eql 'Formatter must return a string, null or undefined'
       next()
