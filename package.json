@@ -13,7 +13,7 @@
     "type": "git",
     "url": "http://www.github.com/adaltas/node-csv-generate"
   },
-  "homepage": "http://csv.adaltas.com/generate/",
+  "homepage": "https://csv.js.org/generate/",
   "bugs": "https://github.com/adaltas/node-csv-generate/issues",
   "author": "David Worms <david@adaltas.com> (http://www.adaltas.com)",
   "devDependencies": {

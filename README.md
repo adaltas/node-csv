@@ -6,21 +6,29 @@
 This package provides a flexible generator of CSV strings and Javascript objects
 implementing the Node.js `stream.Readable` API.
 
-[Documentation for the "csv-generate" package is available here][home].
+[Documentation for the "csv-generate" package is available here](https://csv.js.org/generate/).
 
-Features includes:
+## Documentation
 
-*   random or pseudo-random seed based generation
-*   `stream.Readable` implementation
-*   BSD License
+* [Project homepage](http://localhost:8000/stringify/)
+* [API](http://localhost:8000/stringify/api/)
+* [Options](http://localhost:8000/stringify/options/)
+* [Examples](http://localhost:8000/stringify/examples/)
+
+## Main features
+
+* Scalable `stream.Readable` implementation
+* random or pseudo-random seed based generation
+* Idempotence with the "seed" option
+* User-defined value generation
+* Multiple types of values (integer, boolean, dates, ...)
+* BSD License
 
 ## Usage
 
-Run `npm install csv` to install the full csv module or run 
-`npm install csv-generate` if you are only interested by the CSV generator.
+Run `npm install csv` to install the full csv module or run `npm install csv-generate` if you are only interested by the CSV generator.
 
-Use the callback style API for simplicity or the stream based API for 
-scalability.
+Use the callback style API for simplicity or the stream based API for scalability.
 
 ## Development
 
@@ -33,6 +41,3 @@ The test suite is run online with [Travis](https://travis-ci.org/#!/adaltas/node
 ## Contributors
 
 *   David Worms: <https://github.com/wdavidw>
-
-[home]: http://csv.adaltas.com/generate/
-[csv]: https://github.com/adaltas/node-csv

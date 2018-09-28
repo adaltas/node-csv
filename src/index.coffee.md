@@ -2,15 +2,7 @@
 
 # CSV Generator
 
-A Readable Stream for random CSV and data generator. Features include:
-
-*   Node.js Stream 2 implementation.
-*   Idempotence with the "seed" option.
-*   Framework to generate custom data.
-*   Various option to personnalize the generation.
-
-Please look at the [documentation], the [README], the [samples] and the 
-[tests] for additional information.
+Please look at the [documentation](https://csv.js.org/generate/) for additional information.
 
     stream = require 'stream'
     util = require 'util'
@@ -52,10 +44,9 @@ Callback approach, for ease of use:
 
 ## `Generator([options])`
 
-Feel free to ask for new features and to participate by writting issues and 
-preparing push requests.
+Feel free to ask for new features and to participate by writting issues and preparing push requests.
 
-Options are documented [here](http://csv.adaltas.com/generate/).
+Options are documented [here](http://csv.js.org/generate/options/).
 
     Generator = (@options = {}) ->
       stream.Readable.call @, @options
@@ -89,8 +80,7 @@ Options are documented [here](http://csv.adaltas.com/generate/).
 
 ## `Generator.prototype.random()`
 
-Generate a random number between 0 and 1 with 2 decimals. The function is 
-idempotent if it detect the "seed" option.
+Generate a random number between 0 and 1 with 2 decimals. The function is idempotent if it detect the "seed" option.
 
     Generator.prototype.random = ->
       if @options.seed
@@ -185,8 +175,3 @@ Generate an boolean value.
 
     Generator.bool = (gen) ->
       Math.floor gen.random() * 2
-
-[documentation]: http://csv.adaltas.com/generate/
-[readme]: https://github.com/wdavidw/node-csv-generate
-[samples]: https://github.com/wdavidw/node-csv-generate/tree/master/samples
-[tests]: https://github.com/wdavidw/node-csv-generate/tree/master/test
