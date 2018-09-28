@@ -17,11 +17,12 @@
   "bugs": "https://github.com/adaltas/node-csv-generate/issues",
   "author": "David Worms <david@adaltas.com> (http://www.adaltas.com)",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "coffeescript": "~2.0.1",
-    "mocha": "~4.0.1",
-    "should": "~13.1.2"
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "coffeescript": "~2.3.2",
+    "mocha": "~5.2.0",
+    "should": "~13.2.3"
   },
   "optionalDependencies": {},
   "main": "./lib",
