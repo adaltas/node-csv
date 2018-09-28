@@ -4,12 +4,12 @@ Part of the [CSV module](https://csv.js.org/), this project is a parser converti
 
 ## Documentation
 
-* [Project homepage](http://localhost:8000/parse/)
-* [API](http://localhost:8000/parse/api/)
-* [Options](http://localhost:8000/parse/options/)
-* [State properties](http://localhost:8000/parse/state/)
-* [Common errors](http://localhost:8000/parse/errors/)
-* [Examples](http://localhost:8000/parse/examples/)
+* [Project homepage](http://csv.js.org/parse/)
+* [API](http://csv.js.org/parse/api/)
+* [Options](http://csv.js.org/parse/options/)
+* [State properties](http://csv.js.org/parse/state/)
+* [Common errors](http://csv.js.org/parse/errors/)
+* [Examples](http://csv.js.org/parse/examples/)
 
 ## Features
 

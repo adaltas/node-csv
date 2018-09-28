@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* readme: fix links to project website
+
 ## Version 3.1.1
 
 * src: generate code
