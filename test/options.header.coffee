@@ -46,7 +46,7 @@ describe 'options header', ->
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
-    stringifier.on 'finish', ->
+    stringifier.on 'end', ->
       data.should.eql 'col1,col2\n'
       next()
     stringifier.end()

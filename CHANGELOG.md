@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* formatter: new string formatter
 * stream: be a much better transform citizen
 * package: upgrade to babel 7
 
