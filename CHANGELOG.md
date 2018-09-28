@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 3.1.0
 
 * package: move to csv.js.org
 * samples: new cast sample
