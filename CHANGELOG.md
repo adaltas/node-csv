@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 4.3.0
 
 * package: move to csv.js.org
 
