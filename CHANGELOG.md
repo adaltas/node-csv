@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* samples: new cast sample
 * package: upgrade to babel 7
 * samples: new mixed api samples
 * travis: support Node.js 10
