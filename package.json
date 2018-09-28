@@ -13,7 +13,7 @@
     "type": "git",
     "url": "http://www.github.com/adaltas/node-stream-transform"
   },
-  "homepage": "http://csv.adaltas.com/transform/",
+  "homepage": "https://csv.js.org/transform/",
   "devDependencies": {
     "@babel/cli": "^7.1.0",
     "@babel/core": "^7.1.0",

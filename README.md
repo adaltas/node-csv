@@ -1,8 +1,15 @@
 [![Build Status](https://api.travis-ci.org/adaltas/node-stream-transform.svg)](https://travis-ci.org/#!/adaltas/node-stream-transform)
 
-Part of the [CSV module][csv_home], this project is a simple object transformation framework. It implements the Node.js [`stream.Transform` API][streamtransform]. It also provides a simple callback-based API for convenience. It is both extremely easy to use and powerful.
+Part of the [CSV module](https://csv.js.org/), this project is a simple object transformation framework. It implements the Node.js [`stream.Transform` API](http://nodejs.org/api/stream.html#stream_class_stream_transform). It also provides a simple callback-based API for convenience. It is both extremely easy to use and powerful.
 
-[Documentation for the "csv-parse" package is available here][home].
+## Documentation
+
+* [Project homepage](http://localhost:8000/stringify/)
+* [API](http://localhost:8000/stringify/api/)
+* [Options](http://localhost:8000/stringify/options/)
+* [Handler](http://localhost:8000/stringify/handler/)
+* [State properties](http://localhost:8000/stringify/state/)
+* [Examples](http://localhost:8000/stringify/examples/)
 
 ## Features
 
@@ -18,8 +25,6 @@ Part of the [CSV module][csv_home], this project is a simple object transformati
 * BSD License
 
 ## Usage
-
-Refer to the [project webpage][home] for [an exhaustive list of options][home] and [some usage examples][examples]. 
 
 The module is built on the Node.js Stream API. For the sake of simplify, a simple callback API is also provided. To give you a quick look, here's an example of the callback API:
 
@@ -42,8 +47,3 @@ Tests are executed with mocha. To install it, simple run `npm install` followed 
 To generate the JavaScript files, run `npm run coffee`.
 
 The test suite is run online with [Travis](http://travis-ci.org/wdavidw/node-stream-transform). See the [Travis definition file](https://github.com/adaltas/node-stream-transform/blob/master/.travis.yml) to view the tested Node.js version.
-
-[streamtransform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
-[home]: http://csv.adaltas.com/transform/
-[examples]: http://csv.adaltas.com/transform/examples/
-[csv_home]: https://github.com/wdavidw/node-csv
