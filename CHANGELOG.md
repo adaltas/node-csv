@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* readme: fix links to project website
+
 ## Version 1.0.5
 
 * package: move to csv.js.org
