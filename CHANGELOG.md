@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: upgrade dependencies including babel 7
 * example: new sequential mode sample
 * examples: new state examples
 * examples: new api sync example
