@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: move to csv.js.org
 * package: upgrade dependencies including babel 7
 * example: new sequential mode sample
 * examples: new state examples
