@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: upgrade to babel 7
+
 ## Version 4.1.0
 
 * columns: support array with column definition objects
