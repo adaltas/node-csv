@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 4.2.0
 
 * formatter: new string formatter
 * stream: be a much better transform citizen
