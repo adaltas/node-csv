@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* readme: fix website urls
+
 ## Version 1.0.6
 
 * readme: fix links to project website
