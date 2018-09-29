@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.2.2
 
 * readme: fix website urls
 
