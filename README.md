@@ -4,12 +4,12 @@ Part of the [CSV module](https://csv.js.org/), this project is a simple object t
 
 ## Documentation
 
-* [Project homepage](http://csv.js.org/stringify/)
-* [API](http://csv.js.org/stringify/api/)
-* [Options](http://csv.js.org/stringify/options/)
-* [Handler](http://csv.js.org/stringify/handler/)
-* [State properties](http://csv.js.org/stringify/state/)
-* [Examples](http://csv.js.org/stringify/examples/)
+* [Project homepage](http://csv.js.org/transform/)
+* [API](http://csv.js.org/transform/api/)
+* [Options](http://csv.js.org/transform/options/)
+* [Handler](http://csv.js.org/transform/handler/)
+* [State properties](http://csv.js.org/transform/state/)
+* [Examples](http://csv.js.org/transform/examples/)
 
 ## Features
 
