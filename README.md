@@ -10,10 +10,10 @@ implementing the Node.js `stream.Readable` API.
 
 ## Documentation
 
-* [Project homepage](http://csv.js.org/stringify/)
-* [API](http://csv.js.org/stringify/api/)
-* [Options](http://csv.js.org/stringify/options/)
-* [Examples](http://csv.js.org/stringify/examples/)
+* [Project homepage](http://csv.js.org/generate/)
+* [API](http://csv.js.org/generate/api/)
+* [Options](http://csv.js.org/generate/options/)
+* [Examples](http://csv.js.org/generate/examples/)
 
 ## Main features
 
