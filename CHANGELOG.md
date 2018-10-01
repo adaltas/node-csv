@@ -8,7 +8,7 @@ See the changelogs of our child projects:
 * [csv-stringify](https://github.com/adaltas/node-csv-stringify/blob/master/CHANGELOG.md)
 * [stream-transform](https://github.com/adaltas/node-stream-transform/blob/master/CHANGELOG.md)
 
-## Trunk
+## Version 4.0.0
 
 * es5: support older version of Node.js using Babel
 * readme: update project website url
