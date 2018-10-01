@@ -10,6 +10,7 @@ See the changelogs of our child projects:
 
 ## Trunk
 
+* readme: update project website url
 * sync: expose the sync api
 * samples: new pipe_funny script
 * samples: rewrite pipe with comments
