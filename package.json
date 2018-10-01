@@ -27,13 +27,15 @@
     "url": "https://github.com/adaltas/node-csv.git"
   },
   "dependencies": {
-    "csv-generate": "^2.0.2",
-    "csv-parse": "^2.4.0",
-    "stream-transform": "^1.0.2",
-    "csv-stringify": "^3.0.0"
+    "csv-generate": "^2.2.2",
+    "csv-parse": "^3.1.2",
+    "stream-transform": "^1.0.7",
+    "csv-stringify": "^4.3.1"
   },
   "devDependencies": {
-    "coffeescript": "~2.3.0"
+    "coffeescript": "~2.3.2",
+    "mocha": "~5.2.0",
+    "should": "~13.2.3"
   },
   "optionalDependencies": {},
   "scripts": {
