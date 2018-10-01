@@ -10,6 +10,7 @@ See the changelogs of our child projects:
 
 ## Trunk
 
+* es5: support older version of Node.js using Babel
 * readme: update project website url
 * sync: expose the sync api
 * samples: new pipe_funny script
