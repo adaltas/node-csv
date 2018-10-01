@@ -11,7 +11,7 @@
     "stringifier",
     "stringify"
   ],
-  "homepage": "http://csv.adaltas.com",
+  "homepage": "https://csv.js.org/",
   "bugs": "https://github.com/adaltas/node-csv/issues",
   "author": "David Worms <david@adaltas.com> (http://www.adaltas.com)",
   "contributors": [
@@ -33,6 +33,9 @@
     "csv-stringify": "^4.3.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
     "coffeescript": "~2.3.2",
     "mocha": "~5.2.0",
     "should": "~13.2.3"
@@ -45,6 +48,8 @@
     "patch": "npm version patch -m 'Bump to version %s'",
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
-    "coffee": "./node_modules/.bin/coffee -b -o lib src"
+    "coffee": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
+    "pretest": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
+    "test": "mocha test/**/*.coffee"
   }
 }
