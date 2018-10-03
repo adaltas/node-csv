@@ -2,10 +2,16 @@
 const stringify = require('../lib')
 const generate = require('csv-generate')
 
-generator = generate({
+generate({
   objectMode: true,
   seed: 1,
   headers: 2
 })
-stringifier = stringify()
-generator.pipe(stringifier).pipe(process.stdout)
+.pipe(stringify({
+  header: true,
+  columns: {
+   year: 'birthYear',
+   phone: 'phone'
+  }
+}))
+.pipe(process.stdout)

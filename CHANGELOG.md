@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* samples: improve some scripts
+
 ## Version 4.3.1
 
 * readme: fix links to project website
