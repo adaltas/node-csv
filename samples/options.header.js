@@ -4,17 +4,19 @@
 // OMH,ONKCHhJmjadoA
 
 const stringify = require('../lib')
-const generate = require('csv-generate')
-const generator = generate({
-  objectMode: true,
-  seed: 1,
-  headers: 2
-})
-const stringifier = stringify({
+const assert = require('assert')
+
+stringify([
+  { year: 'XXXX', phone: 'XXX XXXX' },
+  { year: 'YYYY', phone: 'YYY YYYY' }
+],{
   header: true,
-  columns: {
-   year: 'birthYear',
-   phone: 'phone'
-  }
+  columns: ['year', 'phone']
+}, function(err, data){
+  assert.equal(
+    data,
+    "year,phone\n" +
+    "XXXX,XXX XXXX\n" +
+    "YYYY,YYY YYYY\n"
+  )
 })
-generator.pipe(stringifier).pipe(process.stdout)
