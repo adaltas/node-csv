@@ -412,7 +412,9 @@ Implementation of the [`stream.Transform` API](https://nodejs.org/api/stream.htm
           @_.line.push cast @_.field or ''
           @_.closingQuote = 0
           @_.field = null
-          if isDelimiter # End of field
+          # End of field
+          # Ensure that the delimiter doesnt match as well the rowDelimiter
+          if isDelimiter and not isRowDelimiter
             i += @options.delimiter.length
             @_.nextChar = chars.charAt i
             if end and not @_.nextChar
