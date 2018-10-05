@@ -4,7 +4,7 @@ parse = require '../src'
 
 describe 'options rowDelimiter', ->
 
-  it 'Test line breaks custom when rowDelimiter is a string', (next) ->
+  it 'as a string', (next) ->
     parse """
     ABC,45::DEF,23
     """, rowDelimiter: '::', (err, data) ->
@@ -15,7 +15,7 @@ describe 'options rowDelimiter', ->
       ]
       next()
 
-  it 'Test line breaks custom when rowDelimiter is an array', (next) ->
+  it 'as an array', (next) ->
     parse """
     ABC,45::DEF,23\n50,60
     """, rowDelimiter: ['::','\n'], (err, data) ->
@@ -26,6 +26,23 @@ describe 'options rowDelimiter', ->
         [ '50', '60']
       ]
       next()
+  
+  it 'ensure that delimiter and rowDelimiter doesnt match', (next) ->
+    parse """
+    a;b
+    11;22;
+    33;33;
+    
+    """,
+      delimiter: ';'
+      rowDelimiter: [';\n', '\n']
+    , (err, data) ->
+      data.should.eql [
+        [ 'a', 'b' ]
+        [ '11', '22' ]
+        [ '33', '33' ]
+      ] unless err
+      next err
 
   it 'handle new line preceded by a quote when rowDelimiter is a string', (next) ->
     parse """
