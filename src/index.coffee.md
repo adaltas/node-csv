@@ -135,7 +135,7 @@ Options are documented [here](http://csv.js.org/parse/options/).
         chunks: []
         rawBuf: ''
         buf: ''
-        rowDelimiterLength: Math.max(@options.rowDelimiter.map( (v) -> v.length)...) if @options.rowDelimiter
+        rowDelimiterMaxLength: Math.max(@options.rowDelimiter.map( (v) -> v.length)...) if @options.rowDelimiter
         lineHasError: false
         isEnded: false
       @
@@ -224,7 +224,6 @@ Implementation of the [`stream.Transform` API](https://nodejs.org/api/stream.htm
         lineAsColumns = {}
         for field, i in line
           columnName = @options.columns[i]
-          # console.log('columnName', columnName)
           continue if columnName is undefined or columnName is null or columnName is false
           throw Error "Invalid column name #{JSON.stringify columnName}" if typeof columnName isnt 'string'
           lineAsColumns[columnName] = field
@@ -293,9 +292,9 @@ Implementation of the [`stream.Transform` API](https://nodejs.org/api/stream.htm
             # Skip if the remaining buffer can be comment
             (not @_.commenting and l - i < @options.comment.length and @options.comment.substr(0, l - i) is remainingBuffer) or
             # Skip if the remaining buffer can be row delimiter
-            (@options.rowDelimiter and l - i < @_.rowDelimiterLength and @options.rowDelimiter.some( (rd) -> rd.substr(0, l - i) is remainingBuffer)) or
+            (@options.rowDelimiter and l - i < @_.rowDelimiterMaxLength and @options.rowDelimiter.some( (rd) -> rd.substr(0, l - i) is remainingBuffer)) or
             # Skip if the remaining buffer can be row delimiter following the closing quote
-            (@options.rowDelimiter and @_.quoting and l - i < (@options.quote.length + @_.rowDelimiterLength) and @options.rowDelimiter.some((rd) => (@options.quote + rd).substr(0, l - i) is remainingBuffer)) or
+            (@options.rowDelimiter and @_.quoting and l - i < (@options.quote.length + @_.rowDelimiterMaxLength) and @options.rowDelimiter.some((rd) => (@options.quote + rd).substr(0, l - i) is remainingBuffer)) or
             # Skip if the remaining buffer can be delimiter
             (l - i <= @options.delimiter.length and @options.delimiter.substr(0, l - i) is remainingBuffer) or
             # Skip if the remaining buffer can be escape sequence
@@ -318,7 +317,7 @@ Implementation of the [`stream.Transform` API](https://nodejs.org/api/stream.htm
           if rowDelimiter
             rowDelimiter += '\n' if rowDelimiter is '\r' and chars.charAt(nextCharPos) is '\n'
             @options.rowDelimiter = [rowDelimiter]
-            @_.rowDelimiterLength = rowDelimiter.length
+            @_.rowDelimiterMaxLength = rowDelimiter.length
         # Parse that damn char
         # Note, shouldn't we have sth like chars.substr(i, @options.escape.length)
         if not @_.commenting and char is @options.escape
