@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* internal: rename rowDelimiterLength to rowDelimiterMaxLength
+
 ## Version 3.1.2
 
 * readme: fix links to project website
