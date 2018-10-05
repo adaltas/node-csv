@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 3.1.3
 
 * rowDelimiter: fix overlap with delimiter
 * internal: rename rowDelimiterLength to rowDelimiterMaxLength
