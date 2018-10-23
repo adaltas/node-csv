@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* travis: test agains Node.js 11
+
 ## Version 1.0.7
 
 * readme: fix website urls
