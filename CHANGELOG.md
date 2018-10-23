@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* travis: test agains Node.js 11
 * samples: improve some scripts
 
 ## Version 4.3.1
