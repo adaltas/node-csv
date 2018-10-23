@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* travis: test agains Node.js 11
+
 ## Version 3.1.3
 
 * rowDelimiter: fix overlap with delimiter
