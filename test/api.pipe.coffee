@@ -3,9 +3,9 @@ stream = require 'stream'
 util = require 'util'
 generate = require '../src'
 
-describe 'generate', ->
+describe 'api pipe', ->
 
-  it 'with length using pipe', (next) ->
+  it 'to a custom writer', (next) ->
     @timeout 1000000
     Writer = ->
       stream.Writable.call @
