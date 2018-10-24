@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* callback: generate buffers unless encoding is present
 * eof: new option
 * row_delimiter: new option
 * travis: test agains Node.js 11

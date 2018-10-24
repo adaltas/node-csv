@@ -36,10 +36,15 @@ Callback approach, for ease of use:
         data = []
         generator.on 'readable', ->
           while d = generator.read()
-            data.push if options.objectMode then d else d.toString()
+            data.push d
         generator.on 'error', callback
         generator.on 'end', ->
-          callback null, if options.objectMode then data else data.join ''
+          unless options.objectMode
+            if options.encoding
+              data = data.join ''
+            else
+              data = Buffer.concat data
+          callback null, data
       generator
 
 ## `Generator([options])`
