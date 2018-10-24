@@ -3,7 +3,13 @@
 
 ## Trunk
 
+Breaking change:
+
 * callback: generate buffers unless encoding is present
+
+New features and bug fixes:
+
+* options: accept underscore and came case keys
 * eof: new option
 * row_delimiter: new option
 * travis: test agains Node.js 11
