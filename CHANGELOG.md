@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* row_delimiter: new option
 * travis: test agains Node.js 11
 
 ## Version 2.2.2
