@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* eof: new option
 * row_delimiter: new option
 * travis: test agains Node.js 11
 
