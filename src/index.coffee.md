@@ -39,8 +39,8 @@ Callback approach, for ease of use:
             data.push d
         generator.on 'error', callback
         generator.on 'end', ->
-          unless options.objectMode
-            if options.encoding
+          unless generator.options.objectMode
+            if generator.options.encoding
               data = data.join ''
             else
               data = Buffer.concat data
@@ -53,19 +53,24 @@ Feel free to ask for new features and to participate by writting issues and prep
 
 Options are documented [here](http://csv.js.org/generate/options/).
 
-    Generator = (@options = {}) ->
-      stream.Readable.call @, @options
+    Generator = (options = {}) ->
+      stream.Readable.call @, options
+      # Clone and camelize options
+      @options = {}
+      for k, v of options
+        @options[Generator.camelize k] = v
+      # Normalize options
       @options.columns ?= 8
-      @options.max_word_length ?= 16
-      @options.fixed_size ?= false
+      @options.maxWordLength ?= 16
+      @options.fixedSize ?= false
       @options.end ?= null
       @options.duration ?= null
       @options.seed ?= false
       @options.length ?= -1
       @options.delimiter ?= ','
-      @options.row_delimiter ?= '\n'
+      @options.rowDelimiter ?= '\n'
       @options.eof ?= false
-      @options.eof = @options.row_delimiter if @options.eof is true
+      @options.eof = @options.rowDelimiter if @options.eof is true
       # State
       @_ =
         start_time: Date.now()
@@ -74,7 +79,7 @@ Options are documented [here](http://csv.js.org/generate/options/).
         count_created: 0
       if typeof @options.columns is 'number'
         @options.columns = new Array @options.columns
-      accepted_header_types = Object.keys(Generator).filter( (t) -> t isnt 'super_')
+      accepted_header_types = Object.keys(Generator).filter( (t) -> t not in ['super_', 'camelize'])
       for v, i in @options.columns
         v ?= 'ascii'
         if typeof v is 'string'
@@ -137,7 +142,7 @@ Put new data into the read queue.
           lineLength += column.length for column in line
         else
           # Stringify the line
-          line = "#{if @_.count_created is 0 then '' else @options.row_delimiter}#{line.join @options.delimiter}"
+          line = "#{if @_.count_created is 0 then '' else @options.rowDelimiter}#{line.join @options.delimiter}"
           lineLength = line.length
         @_.count_created++
         if length + lineLength > size
@@ -147,7 +152,7 @@ Put new data into the read queue.
               @_.count_written++
               @push line
           else
-            if @options.fixed_size
+            if @options.fixedSize
               @_.fixed_size_buffer = line.substr size - length 
               data.push line.substr 0, size - length
             else
@@ -165,7 +170,7 @@ Generate an ASCII value.
     Generator.ascii = (gen) ->
       # Column
       column = []
-      for nb_chars in [0 ... Math.ceil gen.random() * gen.options.max_word_length]
+      for nb_chars in [0 ... Math.ceil gen.random() * gen.options.maxWordLength]
         char = Math.floor gen.random() * 32
         column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
       column.join ''
@@ -183,3 +188,9 @@ Generate an boolean value.
 
     Generator.bool = (gen) ->
       Math.floor gen.random() * 2
+
+## `Generator.camelize`
+
+    Generator.camelize = (str) ->
+      str.replace /_([a-z])/gi, (_, match, index) ->
+        match.toUpperCase()
