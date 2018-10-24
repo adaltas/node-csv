@@ -59,6 +59,8 @@ Options are documented [here](http://csv.js.org/generate/options/).
       @options.length ?= -1
       @options.delimiter ?= ','
       @options.row_delimiter ?= '\n'
+      @options.eof ?= false
+      @options.eof = @options.row_delimiter if @options.eof is true
       # State
       @_ =
         start_time: Date.now()
@@ -116,7 +118,7 @@ Put new data into the read queue.
                 @push line
             else
               @_.count_written++
-              @push data.join ''
+              @push data.join('') + if @options.eof then @options.eof else ''
           # Stop
           return @push null
         # Create the line
