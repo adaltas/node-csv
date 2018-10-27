@@ -277,6 +277,7 @@ Implementation of the [`stream.Transform` API](https://nodejs.org/api/stream.htm
         value
       ltrim = @options.trim or @options.ltrim
       rtrim = @options.trim or @options.rtrim
+      escapeIsQuote = @options.escape is @options.quote
       chars = @_.buf + chars
       l = chars.length
       i = 0
@@ -325,7 +326,6 @@ Implementation of the [`stream.Transform` API](https://nodejs.org/api/stream.htm
           # If escape is same as quote, and escape is first char of a field 
           # and it's not quoted, then it is a quote
           # Next char should be an escape or a quote
-          escapeIsQuote = @options.escape is @options.quote
           isEscape = @_.nextChar is @options.escape
           isQuote = @_.nextChar is @options.quote
           if not ( escapeIsQuote and not @_.field and not @_.quoting ) and ( isEscape or isQuote )
