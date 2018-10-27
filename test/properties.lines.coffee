@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'properties counter', ->
+describe 'properties lines', ->
   
   it 'count lines', (next) ->
     p = parse """
@@ -10,6 +10,11 @@ describe 'properties counter', ->
     h,i,j
     """, (err, data) ->
       p.lines.should.eql 3 unless err
+      next err
+        
+  it 'count no line', (next) ->
+    p = parse "", (err, data) ->
+      p.lines.should.eql 0 unless err
       next err
   
   it 'should count empty lines', (next) ->
