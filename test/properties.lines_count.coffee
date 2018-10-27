@@ -1,7 +1,7 @@
 
 parse = require '../src'
 
-describe 'properties number of lines', ->
+describe 'properties lines_count', ->
 
   it 'adds up with default settings', (next) ->
     parser = parse()
