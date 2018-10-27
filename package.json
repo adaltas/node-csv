@@ -5,7 +5,10 @@
   "keywords": [
     "csv",
     "parse",
-    "parser"
+    "parser",
+    "convert",
+    "tsv",
+    "stream"
   ],
   "contributors": [
     "David Worms <david@adaltas.com> (http://www.adaltas.com)",
