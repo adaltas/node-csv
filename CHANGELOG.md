@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* lines: test empty line account for 1 line
 * options: extract default options
 * package: add a few keywords
 * src: precompute escapeIsQuote
