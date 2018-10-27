@@ -14,10 +14,16 @@ describe 'properties lines', ->
         
   it 'count no line', (next) ->
     p = parse "", (err, data) ->
-      p.lines.should.eql 0 unless err
+      p.lines.should.eql 1 unless err
+      next err
+        
+  it.skip 'count empty lines', (next) ->
+    # Not yet passing
+    p = parse "\n\n", (err, data) ->
+      p.lines.should.eql 3 unless err
       next err
   
-  it 'should count empty lines', (next) ->
+  it 'should count sparse empty lines', (next) ->
     p = parse """
     
     a,b,c
