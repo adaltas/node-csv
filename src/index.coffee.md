@@ -143,6 +143,7 @@ Options are documented [here](http://csv.js.org/parse/options/).
         rawBuf: ''
         buf: ''
         rowDelimiterMaxLength: Math.max(@options.rowDelimiter.map( (v) -> v.length)...) if @options.rowDelimiter
+        quotedRowDelimiterMaxLength: options.quote.length + Math.max(@options.rowDelimiter.map( (v) -> v.length)...) if @options.rowDelimiter
         lineHasError: false
         isEnded: false
       @
@@ -293,20 +294,21 @@ Implementation of the [`stream.Transform` API](https://nodejs.org/api/stream.htm
       while i < l
         # Ensure we get enough space to look ahead
         unless end
-          remainingBuffer = chars.substr(i, l - i)
+          numOfCharLeft = l - i
+          remainingBuffer = chars.substr(i, numOfCharLeft)
           break if (
+            # Skip if row delimiter larger than auto discovered values
             (not @options.rowDelimiter and i + 3 > l) or
-            # (i+1000 >= l) or
-            # Skip if the remaining buffer can be comment
-            (not @_.commenting and l - i < @options.comment.length and @options.comment.substr(0, l - i) is remainingBuffer) or
-            # Skip if the remaining buffer can be row delimiter
-            (@options.rowDelimiter and l - i < @_.rowDelimiterMaxLength and @options.rowDelimiter.some( (rd) -> rd.substr(0, l - i) is remainingBuffer)) or
+            # Skip if the remaining buffer smaller than comment
+            (not @_.commenting and numOfCharLeft < @options.comment.length) or
+            # Skip if the remaining buffer smaller than row delimiter
+            (@options.rowDelimiter and numOfCharLeft < @_.rowDelimiterMaxLength) or
             # Skip if the remaining buffer can be row delimiter following the closing quote
-            (@options.rowDelimiter and @_.quoting and l - i < (@options.quote.length + @_.rowDelimiterMaxLength) and @options.rowDelimiter.some((rd) => (@options.quote + rd).substr(0, l - i) is remainingBuffer)) or
+            (@_.quoting and @options.rowDelimiter and numOfCharLeft < @_.quotedRowDelimiterMaxLength) or
             # Skip if the remaining buffer can be delimiter
-            (l - i <= @options.delimiter.length and @options.delimiter.substr(0, l - i) is remainingBuffer) or
+            (numOfCharLeft <= @options.delimiter.length and @options.delimiter.substr(0, numOfCharLeft) is remainingBuffer) or
             # Skip if the remaining buffer can be escape sequence
-            (l - i <= @options.escape.length and @options.escape.substr(0, l - i) is remainingBuffer)
+            (numOfCharLeft <= @options.escape.length and @options.escape.substr(0, numOfCharLeft) is remainingBuffer)
           )
         char = if @_.nextChar then @_.nextChar else chars.charAt i
         @_.nextChar = if l > i + 1 then chars.charAt(i + 1) else null
