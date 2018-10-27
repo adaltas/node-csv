@@ -6,13 +6,13 @@ describe 'options delimiter', ->
   
   it 'using default comma', (next) ->
     parse """
-    20322051544,,8.8017226E7,45,
-    ,1974,8.8392926E7,,
+    abc,,123,
+    ,def,,
     """, (err, data) ->
       return next err if err
       data.should.eql [
-        [ '20322051544','','8.8017226E7','45','']
-        [ '','1974','8.8392926E7','','']
+        [ 'abc','','123','']
+        [ '','def','','']
       ]
       next()
   
