@@ -77,41 +77,48 @@ Callback approach, for ease of use:
 
 Options are documented [here](http://csv.js.org/parse/options/).
 
-    Parser = (options = {}) ->
-      # @options = options
-      @options = {}
-      for k, v of options
-        @options[k] = v
-      @options.objectMode = true
-      stream.Transform.call @, @options
-      @options.rowDelimiter ?= null
-      @options.rowDelimiter = [@options.rowDelimiter] if typeof @options.rowDelimiter is 'string'
-      @options.delimiter ?= ','
-      @options.quote = '' if @options.quote isnt undefined and not @options.quote
-      @options.quote ?= '"'
-      @options.escape ?= '"'
-      @options.columns ?= null
-      @options.comment ?= ''
-      @options.objname ?= false
-      @options.trim ?= false
-      @options.ltrim ?= false
-      @options.rtrim ?= false
-      @options.cast = @options.auto_parse if @options.auto_parse?
-      @options.cast ?= false
-      @options.cast_date = @options.auto_parse_date if @options.auto_parse_date?
-      @options.cast_date ?= false
-      if @options.cast_date is true
-        @options.cast_date = (value) ->
+    default_options =
+      rowDelimiter: null
+      delimiter: ','
+      quote: '"'
+      escape: '"'
+      columns: null
+      comment: ''
+      objname: false
+      trim: false
+      ltrim: false
+      rtrim: false
+      cast: false
+      cast_date: false
+      relax: false
+      relax_column_count: false
+      skip_empty_lines: false
+      max_limit_on_data_read: 128000
+      skip_lines_with_empty_values: false
+      skip_lines_with_error: false
+    
+    Parser = (opts = {}) ->
+      opts.objectMode = true
+      stream.Transform.call @, opts
+      options = {}
+      # Clone options
+      for k, v of opts
+        options[k] = v
+      # Default values
+      for k, v of default_options
+        if options[k] is undefined
+          options[k] = default_options[k]
+      @options = options
+      options.rowDelimiter = [options.rowDelimiter] if typeof options.rowDelimiter is 'string'
+      options.quote = '' if options.quote isnt undefined and not options.quote
+      options.cast = options.auto_parse if options.auto_parse?
+      options.cast_date = options.auto_parse_date if options.auto_parse_date?
+      if options.cast_date is true
+        options.cast_date = (value) ->
           m = Date.parse(value)
           if !isNaN(m)
             value = new Date(m)
           value
-      @options.relax ?= false
-      @options.relax_column_count ?= false
-      @options.skip_empty_lines ?= false
-      @options.max_limit_on_data_read ?= 128000
-      @options.skip_lines_with_empty_values ?= false
-      @options.skip_lines_with_error ?= false
       # Counters
       # lines = count + skipped_line_count + empty_line_count
       @lines = 0 # Number of lines encountered in the source dataset
@@ -362,13 +369,13 @@ Implementation of the [`stream.Transform` API](https://nodejs.org/api/stream.htm
             else if @_.nextChar? and isNextCharTrimable
               i++
               @_.quoting = false
-              @_.closingQuote = @options.quote.length
+              @_.closingQuote = 1
               @_.acceptOnlyEmptyChars = true
               continue
             else
               i++
               @_.quoting = false
-              @_.closingQuote = @options.quote.length
+              @_.closingQuote = 1
               if end and i is l
                 @_.line.push cast @_.field or ''
                 @_.field = null
