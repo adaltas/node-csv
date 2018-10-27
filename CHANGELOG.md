@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* lines: test count is 0 when empty
 * package: add a few keywords
 * src: precompute escapeIsQuote
 * travis: test agains Node.js 11
