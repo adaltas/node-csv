@@ -49,8 +49,6 @@ describe 'api write', ->
     parser.write Buffer.from [0xE2]
     parser.write Buffer.from [0x82]
     parser.write Buffer.from [0xAC]
-    # buff = Buffer.from [0xE2, 0x82, 0xAC]
-    # parser.write buff
     parser.end()
 
   it 'instantly emits data once a newline is retrieved', (next) ->
