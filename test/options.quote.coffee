@@ -43,14 +43,14 @@ describe 'options quote', ->
       next()
     
   it 'values containing quotes and double quotes escape', (next) ->
-    parse """
-    20322051544,\"\"\"\",8.8017226E7,45,\"\"\"ok\"\"\"
-    "",1974,8.8392926E7,"",""
-    """, (err, data) ->
+    parse '''
+    AB,"""",CD,"""hi"""
+    "",JK,"",""
+    ''', (err, data) ->
       return next err if err
       data.should.eql [
-        [ '20322051544','"','8.8017226E7','45','"ok"' ]
-        [ '','1974','8.8392926E7','','' ]
+        [ 'AB','"','CD','"hi"' ]
+        [ '','JK','','' ]
       ]
       next()
     
@@ -107,18 +107,26 @@ describe 'error "Quoted field not terminated"', ->
 
 describe 'error "Invalid closing quote"', ->
 
-  it 'when invalid quotes', (next) ->
-    parse """
-      ""  1974    8.8392926E7 ""t ""
-      ""  1974    8.8392926E7 ""  ""
-    """, quote: '"', escape: '"', delimiter: "\t", (err) ->
-      err.message.should.eql 'Invalid closing quote at line 1; found " " instead of delimiter "\\t"'
+  it 'when followed by a character', (next) ->
+    parse '""!', quote: '"', escape: '"', (err) ->
+      err.message.should.eql 'Invalid closing quote at line 1; found "!" instead of delimiter ","'
       next()
-    
-  it '"Invalid closing quote" display expected delimiter', (next) ->
-    parse '"",1974,8.8392926E7,""t,""', quote: '"', escape: '"', (err) ->
-      err.message.should.eql 'Invalid closing quote at line 1; found "t" instead of delimiter ","'
-      next()
+
+  it 'no throw followed by a comment', (next) ->
+    parse '""# A comment', quote: '"', escape: '"', comment: '#', (err) ->
+      next err
+
+  it 'no throw followed by a delimiter', (next) ->
+    parse '""|BB', quote: '"', escape: '"', delimiter: '|', (err) ->
+      next err
+
+  it 'no throw followed by a row delimiter', (next) ->
+    parse '""|BB', quote: '"', escape: '"', rowDelimiter: '|', (err) ->
+      next err
+
+  it 'no throw followed by a trimable character', (next) ->
+    parse '"" ', quote: '"', escape: '"', rtrim: true, (err) ->
+      next err
 
 describe 'error "Invalid opening quotes"', ->
 
