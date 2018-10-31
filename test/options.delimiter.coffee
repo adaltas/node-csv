@@ -18,13 +18,13 @@ describe 'options delimiter', ->
   
   it 'using tab', (next) ->
     parse """
-    20322051544\t\t8.8017226E7\t45\t
-    \t1974\t8.8392926E7\t\t
+    abc\t\tde\tf\t
+    \thij\tklm\t\t
     """, delimiter: '\t', (err, data) ->
       return next err if err
       data.should.eql [
-        [ '20322051544','','8.8017226E7','45','']
-        [ '','1974','8.8392926E7','','']
+        [ 'abc','','de','f','']
+        [ '','hij','klm','','']
       ]
       next()
   
@@ -60,6 +60,6 @@ describe 'options delimiter', ->
     a,b,c
     a,b,c
     """, delimiter: ':', rowDelimiter: '\t\t', max_limit_on_data_read: 10, (err, data) ->
-      err.message.should.eql 'Field exceeds max_limit_on_data_read setting (10) ":"' if err
+      err.message.should.eql 'Field exceeds max_limit_on_data_read: maximum value is 10' if err
       should(data).not.be.ok()
       next()

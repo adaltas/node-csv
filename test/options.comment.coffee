@@ -3,7 +3,7 @@ parse = require '../src'
 
 describe 'options comment', ->
 
-  it 'skip line starting by # by default', (next) ->
+  it 'skip line starting by single comment char', (next) ->
     parse """
     # skip this
     "ABC","45"
