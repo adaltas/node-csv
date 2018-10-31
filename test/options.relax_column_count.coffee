@@ -2,8 +2,27 @@
 parse = require '../src'
 
 describe 'options relax_column_count', ->
+  
+  it 'throw error by default', (next) ->
+    parse """
+    1,2,3
+    4,5
+    """, (err, data) ->
+      err.message.should.eql 'Number of columns is inconsistent on line 2'
+      next()
+        
+  it 'dont throw error if true', (next) ->
+    parse """
+    1,2,3
+    4,5
+    """, relax_column_count: true, (err, data) ->
+      data.should.eql [
+        [ '1', '2', '3' ]
+        [ '4', '5' ]
+      ] unless err
+      next err
 
-  it 'read from first row if true', (next) ->
+  it 'with column', (next) ->
     parse """
     1,2,3
     4,5
@@ -14,13 +33,13 @@ describe 'options relax_column_count', ->
       ] unless err
       next err
 
-  it 'doesnt break count and relying options like from', (next) ->
+  it 'with columns and from, doesnt break count and relying options like from', (next) ->
     parse """
     1,2,3
     4,5
     6,7,8
     9,10
-    """, columns: ['a','b','c','d'], relax_column_count: true, from: 3, (err, data) ->
+    """, relax_column_count: true, columns: ['a','b','c','d'], from: 3, (err, data) ->
       data.should.eql [
         { "a":"6", "b":"7", "c":"8" }
         { "a":"9", "b":"10" }
