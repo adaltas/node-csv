@@ -16,4 +16,4 @@ const transformer = transform(function(record, callback){
 }, {
   parallel: 5
 })
-input.pipe(parser).pipe(transformer).pipe(process.stdout)
+generator.pipe(parser).pipe(transformer).pipe(process.stdout)
