@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* max_limit_on_data_read: update error msg
 * src: simplify detection for more data
 * lines: test empty line account for 1 line
 * options: extract default options
