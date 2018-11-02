@@ -10,11 +10,10 @@ describe 'options from', ->
     4,5,6
     7,8,9
     """, from: 3, (err, data) ->
-      return next err if err
       data.should.eql [
         [ '7','8','9' ]
-      ]
-      next()
+      ] unless err
+      next err
 
   it 'dont count headers', (next) ->
     parse """
@@ -23,8 +22,7 @@ describe 'options from', ->
     4,5,6
     7,8,9
     """, columns: true, from: 3, (err, data) ->
-      return next err if err
       data.should.eql [
         {a:'7',b:'8',c:'9'}
-      ]
-      next()
+      ] unless err
+      next err
