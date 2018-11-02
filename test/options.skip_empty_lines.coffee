@@ -3,48 +3,52 @@ parse = require '../src'
 
 describe 'options skip_empty_lines', ->
   
-  it 'dont skip by default', (next) ->
-    parse """
-    ABC\n\nDEF
-    """, (err, data) ->
-      return next err if err
-      data.should.eql [
-        [ 'ABC' ]
-        [ '' ]
-        [ 'DEF' ]
-      ]
-      next()
-  
-  it 'skip', (next) ->
-    parse """
-    ABC\n\nDEF
-    """, skip_empty_lines: true, (err, data) ->
-      return next err if err
-      data.should.eql [
-        [ 'ABC' ]
-        [ 'DEF' ]
-      ]
-      next()
-
-  it 'skip respect parser.read', (next) ->
-    data = []
-    parser = parse skip_empty_lines: true
-    parser.write """
+    describe 'false', ->
     
-    20322051544,1979,8.8017226E7,ABC,45,2000-01-01
+      it 'dont skip by default', (next) ->
+        parse """
+        ABC\n\nDEF
+        """, (err, data) ->
+          return next err if err
+          data.should.eql [
+            [ 'ABC' ]
+            [ '' ]
+            [ 'DEF' ]
+          ]
+          next()
+  
+    describe 'true', ->
+    
+      it 'skip', (next) ->
+        parse """
+        ABC\n\nDEF
+        """, skip_empty_lines: true, (err, data) ->
+          return next err if err
+          data.should.eql [
+            [ 'ABC' ]
+            [ 'DEF' ]
+          ]
+          next()
 
-    28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+      it 'skip respect parser.read', (next) ->
+        data = []
+        parser = parse skip_empty_lines: true
+        parser.write """
+        
+        20322051544,1979,8.8017226E7,ABC,45,2000-01-01
 
-    """
-    parser.on 'readable', ->
-      while(d = parser.read())
-        data.push d
-    parser.on 'error', (err) ->
-      next err
-    parser.on 'end', ->
-      data.should.eql [
-        ['20322051544', '1979', '8.8017226E7', 'ABC', '45', '2000-01-01']
-        ['28392898392', '1974', '8.8392926E7', 'DEF', '23', '2050-11-27']
-      ]
-      next()
-    parser.end()
+        28392898392,1974,8.8392926E7,DEF,23,2050-11-27
+
+        """
+        parser.on 'readable', ->
+          while(d = parser.read())
+            data.push d
+        parser.on 'error', (err) ->
+          next err
+        parser.on 'end', ->
+          data.should.eql [
+            ['20322051544', '1979', '8.8017226E7', 'ABC', '45', '2000-01-01']
+            ['28392898392', '1974', '8.8392926E7', 'DEF', '23', '2050-11-27']
+          ]
+          next()
+        parser.end()
