@@ -5,16 +5,18 @@ parse = require '../src'
 describe 'options quote', ->
   
   it 'with default',  (next) ->
-    parse """
-    abc,"123",def,"456"
-    hij,klm,"789",nop
-    """, (err, data) ->
+    parser = parse (err, data) ->
       return next err if err
       data.should.eql [
         [ 'abc','123','def','456' ]
         [ 'hij','klm','789','nop' ]
       ]
       next()
+    parser.write chr for chr in '''
+      abc,"123",def,"456"
+      hij,klm,"789",nop
+      '''
+    parser.end()
     
   it 'with fields containing delimiters', (next) ->
     parse """
@@ -70,75 +72,75 @@ describe 'options quote', ->
       ] unless err
       next err
 
-describe 'disabled', ->
-  
-  it 'if empty', (next) ->
-    parse """
-    a,b,c
-    1,r"2"d"2",3
-    """, quote: '', (err, data) ->
-      data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
-      next err
-        
-  it 'if null', (next) ->
-    parse """
-    a,b,c
-    1,r"2"d"2",3
-    """, quote: null, (err, data) ->
-      data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
-      next err
-        
-  it 'if false', (next) ->
-    parse """
-    a,b,c
-    1,r"2"d"2",3
-    """, quote: null, (err, data) ->
-      data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
-      next err
-
-describe 'error "Quoted field not terminated"', ->
-  
-  it 'when unclosed', (next) ->
-    parse """
-    "",1974,8.8392926E7,"","
-    """, (err, data) ->
-      err.message.should.eql 'Quoted field not terminated at line 1'
-      next()
-
-describe 'error "Invalid closing quote"', ->
-
-  it 'when followed by a character', (next) ->
-    parse '""!', quote: '"', escape: '"', (err) ->
-      err.message.should.eql 'Invalid closing quote at line 1; found "!" instead of delimiter ","'
-      next()
-
-  it 'no throw followed by a comment', (next) ->
-    parse '""# A comment', quote: '"', escape: '"', comment: '#', (err) ->
-      next err
-
-  it 'no throw followed by a delimiter', (next) ->
-    parse '""|BB', quote: '"', escape: '"', delimiter: '|', (err) ->
-      next err
-
-  it 'no throw followed by a row delimiter', (next) ->
-    parse '""|BB', quote: '"', escape: '"', rowDelimiter: '|', (err) ->
-      next err
-
-  it 'no throw followed by a trimable character', (next) ->
-    parse '"" ', quote: '"', escape: '"', rtrim: true, (err) ->
-      next err
-
-describe 'error "Invalid opening quotes"', ->
-
-  it 'count empty lines', (next) ->
-    parse """
-    "this","line","is",valid
+  describe 'disabled', ->
     
-    "this","line",is,"also,valid"
-    this,"line",is,invalid h"ere"
-    "and",valid,line,follows...
-    """, (err, data) ->
-      err.message.should.eql 'Invalid opening quote at line 4'
-      (data == undefined).should.be.true
-      next()
+    it 'if empty', (next) ->
+      parse """
+      a,b,c
+      1,r"2"d"2",3
+      """, quote: '', (err, data) ->
+        data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
+        next err
+          
+    it 'if null', (next) ->
+      parse """
+      a,b,c
+      1,r"2"d"2",3
+      """, quote: null, (err, data) ->
+        data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
+        next err
+          
+    it 'if false', (next) ->
+      parse """
+      a,b,c
+      1,r"2"d"2",3
+      """, quote: null, (err, data) ->
+        data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
+        next err
+
+  describe 'error "Quoted field not terminated"', ->
     
+    it 'when unclosed', (next) ->
+      parse """
+      "",1974,8.8392926E7,"","
+      """, (err, data) ->
+        err.message.should.eql 'Quoted field not terminated at line 1'
+        next()
+
+  describe 'error "Invalid closing quote"', ->
+
+    it 'when followed by a character', (next) ->
+      parse '""!', quote: '"', escape: '"', (err) ->
+        err.message.should.eql 'Invalid closing quote at line 1; found "!" instead of delimiter ","'
+        next()
+
+    it 'no throw followed by a comment', (next) ->
+      parse '""# A comment', quote: '"', escape: '"', comment: '#', (err) ->
+        next err
+
+    it 'no throw followed by a delimiter', (next) ->
+      parse '""|BB', quote: '"', escape: '"', delimiter: '|', (err) ->
+        next err
+
+    it 'no throw followed by a row delimiter', (next) ->
+      parse '""|BB', quote: '"', escape: '"', rowDelimiter: '|', (err) ->
+        next err
+
+    it 'no throw followed by a trimable character', (next) ->
+      parse '"" ', quote: '"', escape: '"', rtrim: true, (err) ->
+        next err
+
+  describe 'error "Invalid opening quotes"', ->
+
+    it 'count empty lines', (next) ->
+      parse """
+      "this","line","is",valid
+      
+      "this","line",is,"also,valid"
+      this,"line",is,invalid h"ere"
+      "and",valid,line,follows...
+      """, (err, data) ->
+        err.message.should.eql 'Invalid opening quote at line 4'
+        (data == undefined).should.be.true
+        next()
+      
