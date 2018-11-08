@@ -3,27 +3,51 @@ parse = require '../src'
 
 describe 'options escape', ->
 
-  it 'only apply to quote and escape characters', (next) ->
-    parse """
-    20322051544,"19""79.0",8.8017226E7,"A""B""C",45,2000-01-01
-    28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
-    """, escape: '"', (err, data) ->
+  it 'is same as quote', (next) ->
+    parse '''
+    aa,"b1""b2","c""d""e"
+    "f""g",h,"i1""i2"
+    ''', escape: '"', (err, data) ->
       return next err if err
       data.should.eql [
-        [ '20322051544','19"79.0','8.8017226E7','A"B"C','45','2000-01-01' ]
-        [ '28392898392','1974.0','8.8392926E7','DEF','23','2050-11-27' ]
+        [ 'aa','b1"b2','c"d"e' ]
+        [ 'f"g','h','i1"i2' ]
       ]
       next()
 
-  it 'should honor the backslash escape charactere', (next) ->
-    parse """
-    20322051544,"19\\"79.0",8.8017226E7,"A\\"B\\"C",45,2000-01-01
-    28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
-    """, escape: '\\', (err, data) ->
+  it 'is different than quote and apply to quote char', (next) ->
+    parse '''
+    aa,"b1\\"b2","c\\"d\\"e"
+    "f\\"g",h,"i1\\"i2"
+    ''', escape: '\\', (err, data) ->
       return next err if err
       data.should.eql [
-        [ '20322051544','19\"79.0','8.8017226E7','A\"B\"C','45','2000-01-01' ]
-        [ '28392898392','1974.0','8.8392926E7','DEF','23','2050-11-27' ]
+        [ 'aa','b1"b2','c"d"e' ]
+        [ 'f"g','h','i1"i2' ]
+      ]
+      next()
+
+  it 'is different than quote and apply to escape char', (next) ->
+    parse '''
+    aa,"b1\\\\b2","c\\\\d\\\\e"
+    "f\\\\g",h,"i1\\\\i2"
+    ''', escape: '\\', (err, data) ->
+      return next err if err
+      data.should.eql [
+        [ 'aa','b1\\b2','c\\d\\e' ]
+        [ 'f\\g','h','i1\\i2' ]
+      ]
+      next()
+
+  it 'is different than quote and apply to escape char outside quoted field', (next) ->
+    parse '''
+    aa,b1\\\\b2,c\\\\d\\\\e
+    f\\\\g,h,i1\\\\i2
+    ''', escape: '\\', (err, data) ->
+      return next err if err
+      data.should.eql [
+        [ 'aa','b1\\b2','c\\d\\e' ]
+        [ 'f\\g','h','i1\\i2' ]
       ]
       next()
 
@@ -35,9 +59,10 @@ describe 'options escape', ->
         data.push d
     parser.on 'end', ->
       data.should.eql [
-        [ 'field with " inside' ]
+        [ 'abc " def' ]
       ]
       next()
-    parser.write '"field with \\'
-    parser.write '" inside"'
+    parser.write chr for chr in '''
+      "abc \\" def"
+      '''
     parser.end()
