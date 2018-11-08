@@ -28,15 +28,15 @@ describe 'options ltrim', ->
         data.push d
     parser.on 'end', ->
       data.should.eql [
-        [ 'FIELD 1','FIELD 2','FIELD 3','FIELD 4','FIELD 5','FIELD 6' ]
-        [ '20322051544',' 1979','8.8017226E7','ABC','45','2000-01-01' ]
-        [ '28392898392','     1974','8.8392926E7','DEF','23','2050-11-27' ]
+        [ 'a a','b b','c c' ]
+        [ 'd d',' ee','ff' ]
+        [ 'gg','     hh','ii' ]
       ]
       next()
     parser.write """
-    FIELD 1, FIELD 2, FIELD 3,    FIELD 4, FIELD 5,        FIELD 6
-    20322051544," 1979",8.8017226E7,      ABC,45,2000-01-01
-    28392898392,    "     1974",  8.8392926E7,DEF,   23, 2050-11-27
+    a a, b b,    c c
+     d d," ee",ff
+     gg,    "     hh",  ii
     """
     parser.end()
   
@@ -72,11 +72,15 @@ describe 'rtrim', ->
       next err
 
   it 'quote followed by escape', (next) ->
+    # 1st line: with field delimiter
+    # 2nd line: with row delimiter
+    # 3rd line: with end of file
     parse """
     'a''' ,'b'''
     'c''','d''' 
+    'e''','f''' 
     """, quote: "'", escape: "'", trim: true, (err, data) ->
-      data.should.eql [["a'", "b'"],["c'", "d'"]] unless err
+      data.should.eql [["a'", "b'"],["c'", "d'"],["e'", "f'"]] unless err
       next err
   
   it 'should ignore the whitespaces immediately preceding the delimiter', (next) ->
