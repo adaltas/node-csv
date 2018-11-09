@@ -2,6 +2,22 @@
 parse = require '../lib'
 
 describe 'trim', ->
+  
+  it 'set ltrim', ->
+    parser = parse trim: true
+    parser.options.ltrim.should.be.true()
+      
+  it 'respect ltrim', ->
+    parser = parse trim: true, ltrim: false
+    parser.options.ltrim.should.be.false()
+      
+  it 'set rtrim', ->
+    parser = parse trim: true
+    parser.options.rtrim.should.be.true()
+      
+  it 'respect rtrim', ->
+    parser = parse trim: true, rtrim: false
+    parser.options.rtrim.should.be.false()
 
   it 'should ignore the whitespaces immediately preceding and following the delimiter', (next) ->
     data = []
