@@ -51,15 +51,3 @@ describe 'option delimiter', ->
         [ '','1974','8.8392926E7','','']
       ]
       next()
-      
-  it 'If the delimiter does not match from the csv data, parsing should terminate with appropriate error message when the data read is more than the value set for max_limit_on_data_read', (next) ->
-    parse """
-    a,b,c
-    a,b,c
-    a,b,c
-    a,b,c
-    a,b,c
-    """, delimiter: ':', rowDelimiter: '\t\t', max_limit_on_data_read: 10, (err, data) ->
-      err.message.should.eql 'Field exceeds max_limit_on_data_read: maximum value is 10' if err
-      should(data).not.be.ok()
-      next()

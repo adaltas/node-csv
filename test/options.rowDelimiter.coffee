@@ -150,30 +150,6 @@ describe 'options rowDelimiter', ->
     parser.write ':GHI,94\r'
     parser.write '\nJKL,02'
     parser.end()
-      
-  it 'If the rowDelimiter(string) does not match from the csv data, parsing should terminate with appropriate error message when the data read is more than the value set for max_limit_on_data_read', (next) ->
-    parse """
-    a,b,c
-    a,b,c
-    a,b,c
-    a,b,c
-    a,b,c
-    """, delimiter: ',', rowDelimiter: '\t', max_limit_on_data_read: 10, (err, data) ->
-      err.message.should.eql 'Record exceeds max_limit_on_data_read: maximum value is 10'
-      should(data).not.be.ok()
-      next()
-
-  it 'If the rowDelimiter(array) does not match from the csv data, parsing should terminate with appropriate error message when the data read is more than the value set for max_limit_on_data_read', (next) ->
-    parse """
-    a,b,c
-    a,b,c
-    a,b,c
-    a,b,c
-    a,b,c
-    """, delimiter: ',', rowDelimiter: ['\t'], max_limit_on_data_read: 10, (err, data) ->
-      err.message.should.eql 'Record exceeds max_limit_on_data_read: maximum value is 10'
-      should(data).not.be.ok()
-      next()
   
   describe 'auto', ->
     
