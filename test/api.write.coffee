@@ -1,5 +1,4 @@
 
-fs = require 'fs'
 parse = require '../lib'
 
 describe 'API write', ->
