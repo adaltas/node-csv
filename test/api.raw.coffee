@@ -2,6 +2,18 @@
 parse = require '../lib'
 
 describe 'API raw', ->
+  
+  it 'validation', ->
+    parse '', raw: undefined, (->)
+    parse '', raw: null, (->)
+    parse '', raw: false, (->)
+    (->
+      parse '', raw: '', (->)
+    ).should.throw 'Invalid Option: raw must be true, got ""'
+    (->
+      parse '', raw: 2, (->)
+    ).should.throw 'Invalid Option: raw must be true, got 2'
+
   it 'includes escape chars', (next) ->
     str = """
     "hello""world",LOL
