@@ -3,6 +3,18 @@ parse = require '../lib'
 
 describe 'options quote', ->
   
+  it 'default', ->
+    parser = parse()
+    parser.options.quote.should.eql Buffer.from('"')[0]
+      
+  it 'normalize', ->
+    parser = parse quote: true
+    parser.options.quote.should.eql Buffer.from('"')[0]
+    parser = parse quote: false
+    (parser.options.quote is null).should.be.true()
+    parser = parse quote: null
+    (parser.options.quote is null).should.be.true()
+  
   it 'with default',  (next) ->
     data = '''
     abc,"123",def,"456"
