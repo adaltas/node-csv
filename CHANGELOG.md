@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 3.2.0
 
 * max_limit_on_data_read: update error msg
 * src: simplify detection for more data
