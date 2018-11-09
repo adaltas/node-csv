@@ -1,4 +1,5 @@
 
+fs = require 'fs'
 generate = require 'csv-generate'
 parse = require '../lib'
 
