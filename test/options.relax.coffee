@@ -1,6 +1,6 @@
 
 fs = require 'fs'
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options relax', ->
 
@@ -25,12 +25,20 @@ describe 'options relax', ->
 
   it 'true with invalid quotes on the left', (next) ->
     # try with relax true
+    # parse """
+    # 384682,"SAMAY" Hostel,Jiron Florida 285
+    # """, relax: true, (err, data) ->
+    #   return next err if err
+    #   data.should.eql [
+    #     [ '384682', '"SAMAY" Hostel', 'Jiron Florida 285' ]
+    #   ]
+    #   next()
     parse """
-    384682,"SAMAY" Hostel,Jiron Florida 285
+    a,"b" c,d
     """, relax: true, (err, data) ->
       return next err if err
       data.should.eql [
-        [ '384682', '"SAMAY" Hostel', 'Jiron Florida 285' ]
+        [ 'a', '"b" c', 'd' ]
       ]
       next()
 
@@ -40,7 +48,7 @@ describe 'options relax', ->
     parse """
     384682,"SAMAY" Hostel,Jiron Florida 285
     """, relax: false, (err, data) ->
-      err.message.should.eql 'Invalid closing quote at line 1; found " " instead of delimiter ","'
+      err.message.should.eql 'Invalid Closing Quote: got " " at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
       next()
 
   it 'true with two invalid quotes on the left', (next) ->
@@ -50,16 +58,20 @@ describe 'options relax', ->
     """, relax: true, (err, data) ->
       return next err if err
       data.should.eql [
-        [ '384682', '"SAMAY" Hostel', 'Jiron Florida 285' ]
-      ]
-      next()
+        [ '384682', '""SAMAY"" Hostel', 'Jiron Florida 285' ]
+      ] unless err
+      next err
 
   it 'false with two invalid quotes on the left', (next) ->
     # try with relax false
     parse """
     384682,""SAMAY"" Hostel,Jiron Florida 285
     """, relax: false, (err, data) ->
-      err.message.should.eql 'Invalid closing quote at line 1; found "S" instead of delimiter ","'
+      # Change of implementation in version 4, was
+      err.message.should.eql 'Invalid Closing Quote: got "S" at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+      # data.should.eql [
+      #   [ '384682', '"SAMAY" Hostel', 'Jiron Florida 285' ]
+      # ] unless err
       next()
 
   it 'true with invalid quotes on the right', (next) ->

@@ -1,7 +1,7 @@
 
 spectrum = require 'csv-spectrum'
 each = require 'each'
-parse = require '../src'
+parse = require '../lib'
 
 describe 'spectrum', ->
 

@@ -1,7 +1,34 @@
 
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options columns', ->
+  
+  describe 'validation', ->
+    
+    it 'check the columns value', ->
+      (->
+        parse "", columns: [{
+          name: 'valid',
+        },{
+          invalid: 'oh no'
+        }], (->)
+      ).should.throw 'Invalid Option columns: property "name" is required at position 1'
+    
+    it 'check the columns value', ->
+      (->
+        parse "", columns: [{name: 'valid'}, true], (->)
+      ).should.throw 'Invalid Option columns: expect a string or an object, got true at position 1'
+  
+    it 'skip columns with false value', (next) ->
+      parse """
+      1,2,3,4
+      5,6,7,8
+      """, columns: ["a", false, "c", false], (err, data) ->
+        data.should.eql [
+          { a: "1", c: "3"}
+          { a: "5", c: "7" }
+        ] unless err
+        next err
   
   describe 'boolean', ->
 
@@ -51,17 +78,6 @@ describe 'options columns', ->
           "FIELD_6":"2050-11-27"
         ] unless err
         next err
-        
-    it 'skip columns with false value', (next) ->
-      parse """
-      abc,123,def,456
-      hij,789,klm,789
-      """, columns: ["FIELD_1", false, "FIELD_2", false], (err, data) ->
-        data.should.eql [
-          { FIELD_1: "abc", FIELD_2: "def" }
-          { FIELD_1: "hij", FIELD_2: "klm"}
-        ] unless err
-        next err
 
     it 'validate options column length on first line', (next) ->
       parse """
@@ -69,7 +85,7 @@ describe 'options columns', ->
       4,5,6,x
       7,8,9,x
       """, columns: ["a", "b", "c", "d"], (err, data) ->
-        err.message.should.eql 'Number of columns on line 1 does not match header'
+        err.message.should.eql 'Invalid Record Length: header length is 4, got 3 on line 1'
         next()
 
     it 'validate options column length on last line', (next) ->
@@ -78,7 +94,7 @@ describe 'options columns', ->
       4,5,6,x
       7,8,9
       """, columns: ["a", "b", "c", "d"], (err, data) ->
-        err.message.should.eql 'Number of columns on line 3 does not match header'
+        err.message.should.eql 'Invalid Record Length: header length is 4, got 3 on line 3'
         next()
     
     it 'skips column names defined as undefined', (next) ->
@@ -134,14 +150,14 @@ describe 'options columns', ->
         next err
 
   describe 'function', ->
-
+  
     it 'takes first line as argument', (next) ->
       parse """
       FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6
       20322051544,1979,8.8017226E7,ABC,45,2000-01-01
       28392898392,1974,8.8392926E7,DEF,23,2050-11-27
-      """, columns: (columns) ->
-        for column in columns
+      """, columns: (record) ->
+        for column in record
           column.toLowerCase()
       , (err, data) ->
         data.should.eql [
@@ -170,25 +186,4 @@ describe 'options columns', ->
         throw Error 'Catchme'
       , (err, data) ->
         err.message.should.eql 'Catchme'
-        next()
-  
-  describe 'number of columns', ->
-
-    it 'emit single error when column count is invalid on multiple lines', (next) ->
-      parse """
-      1;2
-      1
-      3;4
-      5;6;7
-      """
-      , delimiter: ';', skip_empty_lines: true, (err, data) ->
-        err.message.should.eql 'Number of columns is inconsistent on line 2'
-        process.nextTick next
-
-    it 'handles missing column if number of columns is inconsistent', (next) ->
-      parse """
-      20322051544,1979,8.8017226E7,ABC,45,2000-01-01
-      28392898392,1974,8.8392926E7,23,2050-11-27
-      """, (err, data) ->
-        err.message.should.eql 'Number of columns is inconsistent on line 2'
         next()

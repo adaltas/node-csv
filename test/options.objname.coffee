@@ -1,5 +1,5 @@
 
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options objname', ->
 

@@ -1,9 +1,9 @@
 
 fs = require 'fs'
 generate = require 'csv-generate'
-parse = require '../src'
+parse = require '../lib'
 
-describe 'api pipe', ->
+describe 'API pipe', ->
 
   it 'piping in and reading out', (next) ->
     finished = false

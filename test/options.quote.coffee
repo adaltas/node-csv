@@ -1,10 +1,14 @@
 
 fs = require 'fs'
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options quote', ->
   
   it 'with default',  (next) ->
+    data = '''
+    abc,"123",def,"456"
+    hij,klm,"789",nop
+    '''
     parser = parse (err, data) ->
       return next err if err
       data.should.eql [
@@ -12,10 +16,7 @@ describe 'options quote', ->
         [ 'hij','klm','789','nop' ]
       ]
       next()
-    parser.write chr for chr in '''
-      abc,"123",def,"456"
-      hij,klm,"789",nop
-      '''
+    parser.write chr for chr in data
     parser.end()
     
   it 'with fields containing delimiters', (next) ->
@@ -55,6 +56,21 @@ describe 'options quote', ->
         [ '','JK','','' ]
       ]
       next()
+    
+  it 'values containing quotes and double quotes escape', (next) ->
+    data = '''
+    """"
+    """"
+    '''
+    parser = parse (err, data) ->
+      return next err if err
+      data.should.eql [
+        [ '"' ]
+        [ '"' ]
+      ]
+      next()
+    parser.write chr for chr in data
+    parser.end()
     
   it 'line breaks inside quotes', (next) ->
     parse """
@@ -104,14 +120,14 @@ describe 'options quote', ->
       parse """
       "",1974,8.8392926E7,"","
       """, (err, data) ->
-        err.message.should.eql 'Quoted field not terminated at line 1'
+        err.message.should.eql 'Invalid Closing Quote: quote is not closed at line 1'
         next()
 
-  describe 'error "Invalid closing quote"', ->
+  describe 'error "Invalid Closing Quote"', ->
 
     it 'when followed by a character', (next) ->
       parse '""!', quote: '"', escape: '"', (err) ->
-        err.message.should.eql 'Invalid closing quote at line 1; found "!" instead of delimiter ","'
+        err.message.should.eql 'Invalid Closing Quote: got "!" at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
         next()
 
     it 'no throw followed by a comment', (next) ->
@@ -135,12 +151,11 @@ describe 'options quote', ->
     it 'count empty lines', (next) ->
       parse """
       "this","line","is",valid
-      
       "this","line",is,"also,valid"
       this,"line",is,invalid h"ere"
       "and",valid,line,follows...
       """, (err, data) ->
-        err.message.should.eql 'Invalid opening quote at line 4'
+        err.message.should.eql 'Invalid opening quote at line 3'
         (data == undefined).should.be.true
         next()
       

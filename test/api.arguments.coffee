@@ -1,8 +1,8 @@
 
 generate = require 'csv-generate'
-parse = require '../src'
+parse = require '../lib'
 
-describe 'api arguments', ->
+describe 'API arguments', ->
 
   it 'exports Parser class', ->
     parse.Parser.should.be.a.Function
@@ -77,27 +77,25 @@ describe 'api arguments', ->
         next err
 
     it 'data:undefined, options:object', ->
-      try
+      (->
         parse undefined, {}
-      catch err
-        err.message.should.eql 'Invalid first argument: undefined'
+      ).should.throw 'Invalid argument: got undefined at index 0'
 
-    it 'data:undefined, callback:function', (next) ->
-      parse undefined, (err, data) ->
-        err.message.should.eql 'Invalid first argument: undefined'
-        next()
+    it 'data:undefined, callback:function', ->
+      (->
+        parse undefined, (->)
+      ).should.throw 'Invalid argument: got undefined at index 0'
 
-    it 'data:array, callback:function', (next) ->
-      parse ['value a,value b', 'value 1,value 2'], (err, data) ->
-        err.message.should.eql 'Invalid first argument: ["value a,value b","value 1,value 2"]'
-        next()
+    it 'data:array, callback:function', ->
+      (->
+        parse ['value a,value b', 'value 1,value 2'], (->)
+      ).should.throw 'Invalid argument: got ["value a,value b","value 1,value 2"] at index 0'
 
     it 'options:object, options:object', ->
-      try
+      (->
         parse {}, {}
-      catch err
-        err.message.should.eql 'Invalid arguments: got options twice as first and second arguments'
-      
+      ).should.throw 'Invalid argument: got {} at index 1'
+
   describe '3 args', ->
 
     it 'data:string, options:object, callback:function', (next) ->
@@ -110,14 +108,13 @@ describe 'api arguments', ->
         data.should.eql [field_1: 'value 1', field_2: 'value 2']
         next err
 
-    it 'data:undefined, options:object, callback:function', (next) ->
-      parse undefined, columns: true, (err, data) ->
-        err.message.should.eql 'Invalid data argument: undefined'
-        next()
+    it 'data:undefined, options:object, callback:function', ->
+      (->
+        parse undefined, columns: true, (->)
+      ).should.throw 'Invalid argument: got undefined at index 0'
 
-    it 'data:string, options:object, callback:undefined', (next) ->
-      try
+    it 'data:string, options:object, callback:undefined', ->
+      (->
         parse 'field_1,field_2\nvalue 1,value 2', columns: true, undefined
-      catch err
-        err.message.should.eql "Invalid callback argument: undefined"
-        next()
+      ).should.throw 'Invalid argument: got undefined at index 2'
+      

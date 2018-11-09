@@ -1,5 +1,5 @@
 
-parse = require '../src'
+parse = require '../lib'
 
 describe 'properties count records', ->
   
@@ -9,8 +9,8 @@ describe 'properties count records', ->
     d,e,f
     g,h,i
     """, (err, data) ->
-      parser.count.should.eql 3
-      next()
+      parser.info.records.should.eql 3 unless err
+      next err
   
   it 'with "column" option', (next) ->
     parser = parse """
@@ -20,6 +20,6 @@ describe 'properties count records', ->
     j,k,l
     m,n,o
     """, columns: true, (err, data) ->
-      parser.count.should.eql 4
-      next()
+      parser.info.records.should.eql 4 unless err
+      next err
   

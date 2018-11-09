@@ -1,6 +1,6 @@
 
 fs = require 'fs'
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options "cast_date"', ->
   

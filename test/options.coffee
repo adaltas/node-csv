@@ -1,28 +1,15 @@
 
-parse = require '../src'
+parse = require '../lib'
 
-describe 'options', ->
+describe 'Options', ->
 
-  it 'copy the first level of properties', (next) ->
-    options = columns: true
+  it 'are cloned', (next) ->
+    options = quote: false
     parse """
     FIELD_1,FIELD_2
     20322051544,1979
     28392898392,1974
     """, options, (err, data) ->
       return next err if err
-      options.columns.should.be.True
-      parse """
-      FIELD_1,FIELD_2
-      20322051544,1979
-      28392898392,1974
-      """, options, (err, data) ->
-        return next err if err
-        data.should.eql [
-          "FIELD_1":"20322051544"
-          "FIELD_2":"1979"
-        ,
-          "FIELD_1":"28392898392"
-          "FIELD_2":"1974"
-        ]
-        next()
+      (options.quote is false).should.be.true()
+      next()

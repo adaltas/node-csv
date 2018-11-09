@@ -1,6 +1,6 @@
 
 fs = require 'fs'
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options "cast"', ->
   
@@ -50,8 +50,8 @@ describe 'options "cast"', ->
         else {...context}
     , (err, records) ->
       records.should.eql [
-        [ '2000-01-01T05:00:00.000Z', {quoting: false, count: 0, index: 1, column: 1, lines: 1, header: false} ]
-        [ '2050-11-27T05:00:00.000Z', {quoting: false, count: 1, index: 1, column: 1, lines: 2, header: false} ]
+        [ '2000-01-01T05:00:00.000Z', {quoting: false, index: 1, column: 1, empty_line_count: 0, lines: 1, header: false, records: 0, skipped_line_count: 0} ]
+        [ '2050-11-27T05:00:00.000Z', {quoting: false, index: 1, column: 1, empty_line_count: 0, lines: 2, header: false, records: 1, skipped_line_count: 0} ]
       ] unless err
       next err
 
@@ -78,7 +78,7 @@ describe 'options "cast"', ->
     4,5,6
     """,
       columns: true
-      auto_parse: (value, context) ->
+      cast: (value, context) ->
         if context.header then value else parseInt value
     , (err, records) ->
       records.should.eql [
@@ -93,7 +93,7 @@ describe 'options "cast"', ->
     4,5,6
     """,
       columns: ['a', 'b', 'c']
-      auto_parse: (value, context) ->
+      cast: (value, context) ->
         context.header.should.be.false()
         parseInt value
     , (err, records) ->

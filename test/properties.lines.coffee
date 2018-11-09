@@ -1,5 +1,5 @@
 
-parse = require '../src'
+parse = require '../lib'
 
 describe 'properties lines', ->
   
@@ -9,18 +9,17 @@ describe 'properties lines', ->
     d,e,f
     h,i,j
     """, (err, data) ->
-      p.lines.should.eql 3 unless err
+      p.info.lines.should.eql 3 unless err
       next err
         
   it 'count no line', (next) ->
     p = parse "", (err, data) ->
-      p.lines.should.eql 1 unless err
+      p.info.lines.should.eql 1 unless err
       next err
         
-  it.skip 'count empty lines', (next) ->
-    # Not yet passing
+  it 'count empty lines', (next) ->
     p = parse "\n\n", (err, data) ->
-      p.lines.should.eql 3 unless err
+      p.info.lines.should.eql 3 unless err
       next err
   
   it 'should count sparse empty lines', (next) ->
@@ -32,7 +31,7 @@ describe 'properties lines', ->
     h,i,j
     
     """, skip_empty_lines: true, (err, data) ->
-      p.lines.should.eql 6 unless err
+      p.info.lines.should.eql 6 unless err
       next err
         
   it 'should display correct line number when invalid opening quotes', (next) ->
@@ -66,7 +65,7 @@ describe 'properties lines', ->
     "",1974,8.8392926E7,"","
     "",1974,8.8392926E7,"",""
     """, (err, data) ->
-      err.message.should.eql "Quoted field not terminated at line 6"
+      err.message.should.eql "Invalid Closing Quote: quote is not closed at line 5"
       (data == undefined).should.be.true
       next()
     
@@ -78,7 +77,7 @@ describe 'properties lines', ->
       "  1974    8.8392926E7 ""t "
       "  1974    8.8392926E7 "t ""
     """, quote: '"', escape: '"', delimiter: "\t", (err, data) ->
-      err.message.should.eql 'Invalid closing quote at line 3; found " " instead of delimiter "\\t"'
+      err.message.should.eql 'Invalid Closing Quote: got " " at line 3 instead of delimiter, row delimiter, trimable character (if activated) or comment'
       (data == undefined).should.be.true
       next()
     
@@ -91,6 +90,6 @@ describe 'properties lines', ->
     "",1974,8.8392926E7,"",""
     "",1974,8.8392926E7,""t,""
     """, quote: '"', escape: '"', (err, data) ->
-      err.message.should.match /Invalid closing quote at line 2/
+      err.message.should.eql 'Invalid Closing Quote: got "t" at line 2 instead of delimiter, row delimiter, trimable character (if activated) or comment'
       (data == undefined).should.be.true
       next()

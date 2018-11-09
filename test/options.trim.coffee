@@ -1,43 +1,60 @@
 
 fs = require 'fs'
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options ltrim', ->
 
-  it 'before quote', (next) ->
+  it 'plain text', (next) ->
     parse """
-     'a', 'b'
-     'c', 'd'
+     a b, c d
+     e f, g h
     """, quote: "'", escape: "'", trim: true, (err, data) ->
-      data.should.eql [["a", "b"],["c", "d"]] unless err
+      data.should.eql [['a b', 'c d'],['e f', 'g h']] unless err
       next err
 
+  it 'before quote', (next) ->
+    data = '''
+     'a', 'b'
+     'c', 'd'
+    '''
+    parser = parse quote: "'", escape: "'", trim: true, (err, data) ->
+      data.should.eql [["a", "b"],["c", "d"]] unless err
+      next err
+    parser.write chr for chr in data
+    parser.end()
+
   it 'quote followed by escape', (next) ->
+    # 1st line: with start of file
+    # 2nd line: with field delimiter
+    # 3rd line: with row delimiter
     parse """
      '''a','''b'
     '''c', '''d'
+     '''e','''f'
     """, quote: "'", escape: "'", trim: true, (err, data) ->
-      data.should.eql [["'a", "'b"],["'c", "'d"]] unless err
+      data.should.eql [["'a", "'b"],["'c", "'d"],["'e", "'f"]] unless err
       next err
   
-  it 'should ignore the whitespaces immediately following the delimiter', (next) ->
-    data = []
-    parser = parse ltrim: true
-    parser.on 'readable', ->
-      while d = parser.read()
-        data.push d
-    parser.on 'end', ->
-      data.should.eql [
-        [ 'a a','b b','c c' ]
-        [ 'd d',' ee','ff' ]
-        [ 'gg','     hh','ii' ]
-      ]
+  it 'with whitespaces around quotes', (next) ->
+    data = '''
+       " a b", "   c d"
+     " e f",   "   g h"
+    '''
+    parser = parse ltrim: true, (err, data) ->
+      data.should.eql [[' a b', '   c d'],[' e f', '   g h']] unless err
+      next err
+    parser.write chr for chr in data
+    parser.end()
+
+  it 'with char after whitespaces', (next) ->
+    data = '''
+     x  " a b",x "   c d"
+    x " e f", x  "   g h"
+    '''
+    parser = parse ltrim: true, (err, data) ->
+      err.message.should.eql 'Invalid opening quote at line 1'
       next()
-    parser.write """
-    a a, b b,    c c
-     d d," ee",ff
-     gg,    "     hh",  ii
-    """
+    parser.write chr for chr in data
     parser.end()
   
   it 'should work on last field', (next) ->
@@ -62,14 +79,24 @@ describe 'options ltrim', ->
 
 describe 'rtrim', ->
 
-  it 'after quote', (next) ->
-
+  it 'plain text', (next) ->
     parse """
+    a b ,c d 
+    e f ,g h 
+    """, quote: "'", escape: "'", trim: true, (err, data) ->
+      data.should.eql [['a b', 'c d'],['e f', 'g h']] unless err
+      next err
+
+  it 'after quote', (next) ->
+    data = '''
     'a' ,'b' 
     'c' ,'d' 
-    """, quote: "'", escape: "'", trim: true, (err, data) ->
+    '''
+    parser = parse quote: "'", escape: "'", trim: true, (err, data) ->
       data.should.eql [["a", "b"],["c", "d"]] unless err
       next err
+    parser.write chr for chr in data
+    parser.end()
 
   it 'quote followed by escape', (next) ->
     # 1st line: with field delimiter
@@ -83,24 +110,26 @@ describe 'rtrim', ->
       data.should.eql [["a'", "b'"],["c'", "d'"],["e'", "f'"]] unless err
       next err
   
-  it 'should ignore the whitespaces immediately preceding the delimiter', (next) ->
-    data = []
-    parser = parse rtrim: true
-    parser.on 'readable', ->
-      while d = parser.read()
-        data.push d
-    parser.on 'end', ->
-      data.should.eql [
-        [ 'FIELD_1','FIELD_2','FIELD_3','FIELD_4','FIELD_5','FIELD_6']
-        [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01']
-        [ '28392898392','1974','8.8392926E7','DEF','23','2050-11-27']
-      ]
+  it 'with whitespaces around quotes', (next) ->
+    data = '''
+    "a b "   ,"c d   " 
+    "e f " ,"g h   "   
+    '''
+    parser = parse rtrim: true, (err, data) ->
+      data.should.eql [['a b ', 'c d   '],['e f ', 'g h   ']] unless err
+      next err
+    parser.write chr for chr in data
+    parser.end()
+
+  it 'with char after whitespaces', (next) ->
+    data = '''
+    "a b " x  ,"c d   " x
+    "e f " x,"g h   "  x 
+    '''
+    parser = parse rtrim: true, (err, data) ->
+      err.message.should.eql 'Invalid Closing Quote: found non trimable byte after quote at line 1'
       next()
-    parser.write """
-    FIELD_1 ,FIELD_2  ,FIELD_3  ,FIELD_4    ,FIELD_5 ,FIELD_6         
-    20322051544   ,1979,8.8017226E7  ,ABC,45    ,2000-01-01  
-    28392898392,1974     ,8.8392926E7,DEF,23 ,2050-11-27 
-    """
+    parser.write chr for chr in data
     parser.end()
 
 describe 'trim', ->
@@ -144,7 +173,7 @@ describe 'trim', ->
     28392898392, 1974, 8.8392926E7," ABC DEF ", 23, 2050-11-27
     """
     parser.end()
-  
+
   it 'with columns and last field is a space', (next) ->
     parse 'h1,h2,h3, \n1,2,3, \n4,5,6, ', 
       delimiter: ','
@@ -156,12 +185,12 @@ describe 'trim', ->
         { h1: '4', h2: '5', h3: '6', '': '' }
       ] unless err
       next err
-  
+
   it 'last field empty', (next) ->
     parse "a,", trim: true, (err, records) ->
       records.should.eql [ [ 'a', '' ] ] unless err
       next err
-    
+
   it 'with skip_empty_lines and empty lines at the end', (next) ->
     parse "letter,number\na,1\nb,2\nc,3\n",
       columns: true
@@ -177,13 +206,13 @@ describe 'trim', ->
       next()
 
   it 'write aggressively', (next) ->
-    data = []
+    records = []
     parser = parse({ trim: true })
     parser.on 'readable', ->
       while(d = parser.read())
-        data.push d
+        records.push d
     parser.on 'end', ->
-      data.should.eql [
+      records.should.eql [
         [ 'Test 0', '', ' 0,00 ', '"' ]
         [ 'Test 1', '', ' 100000,100000 ', '"' ]
         [ 'Test 2', '', ' 200000,200000 ', '"' ]
@@ -196,7 +225,7 @@ describe 'trim', ->
         [ 'Test 9', '', ' 900000,900000 ', '"' ]
       ]
       next()
-    buffer = '''
+    data = '''
      Test 0 ,," 0,00 ",""""
      Test 1 ,," 100000,100000 ",""""
      Test 2 ,," 200000,200000 ",""""
@@ -208,16 +237,11 @@ describe 'trim', ->
      Test 8 ,," 800000,800000 ",""""
      Test 9 ,," 900000,900000 ",""""
     '''
-    # Intentionally create writes that get break in the middle of cells.
-    for i in [0...10]
-      if buffer.length > 18
-        parser.write buffer.substr 0, 18
-        buffer = buffer.substr 18
-    parser.write buffer
+    parser.write chr for chr in data
     parser.end()
 
 describe 'no trim', ->
-  
+
   it 'should preserve surrounding whitespaces', (next) ->
     data = []
     parser = parse()

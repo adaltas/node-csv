@@ -1,6 +1,6 @@
 
 fs = require 'fs'
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options rowDelimiter', ->
 
@@ -159,7 +159,7 @@ describe 'options rowDelimiter', ->
     a,b,c
     a,b,c
     """, delimiter: ',', rowDelimiter: '\t', max_limit_on_data_read: 10, (err, data) ->
-      err.message.should.eql 'Row delimiter not found in the file ["\\t"]'
+      err.message.should.eql 'Record exceeds max_limit_on_data_read: maximum value is 10'
       should(data).not.be.ok()
       next()
 
@@ -171,13 +171,16 @@ describe 'options rowDelimiter', ->
     a,b,c
     a,b,c
     """, delimiter: ',', rowDelimiter: ['\t'], max_limit_on_data_read: 10, (err, data) ->
-      err.message.should.eql 'Row delimiter not found in the file ["\\t"]'
+      err.message.should.eql 'Record exceeds max_limit_on_data_read: maximum value is 10'
       should(data).not.be.ok()
       next()
   
   describe 'auto', ->
     
     it 'No rows', (next) ->
+      # not sure if the current behavior is right,
+      # the new behavior is proposing [['']]
+      # which kind of look more appropriate
       parse "", (err, data) ->
         data.should.eql [] unless err
         next err
