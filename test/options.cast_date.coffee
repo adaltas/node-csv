@@ -3,7 +3,7 @@ parse = require '../lib'
 
 describe 'options "cast_date"', ->
   
-  it 'convert numbers', (next) ->
+  it 'true', (next) ->
     data = []
     parser = parse """
     2000-01-01,date1
