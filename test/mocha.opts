@@ -1,5 +1,6 @@
 --throw-deprecation
 --require should
+--require ts-node/register
 --require coffeescript/register
 --timeout 40000
 --reporter spec

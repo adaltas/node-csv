@@ -99,7 +99,7 @@ declare namespace parse {
          * default to null,
          * affect the result data set in the sense that records will be objects instead of arrays.
          */
-        columns?: any[] | boolean | ((line1: any) => boolean | string[]);
+        columns?: any[] | boolean | ((record: any) => boolean | string[]);
 
         /**
          * Treat all the characters after this one as a comment, default to '' (disabled).
@@ -109,12 +109,12 @@ declare namespace parse {
         /**
          * Set the field delimiter. One character only, defaults to comma.
          */
-        delimiter?: string;
+        delimiter?: string | Buffer;
 
         /**
          * Set the escape character, one character only, defaults to double quotes.
          */
-        escape?: string;
+        escape?: string | Buffer;
 
         /**
          * Start returning records from a particular line.
@@ -132,7 +132,7 @@ declare namespace parse {
          * used to guard against a wrong delimiter or rowDelimiter,
          * default to 128000 characters.
          */
-        max_limit_on_data_read?: number;
+        max_record_size?: number;
 
         /**
          * Name of header-record title to name objects by.
@@ -142,7 +142,7 @@ declare namespace parse {
         /**
          * Optional character surrounding a field, one character only, defaults to double quotes.
          */
-        quote?: string | boolean;
+        quote?: string | boolean | Buffer;
 
         /**
          * Preserve quotes inside unquoted field.
@@ -163,7 +163,7 @@ declare namespace parse {
          * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
          * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
          */
-        rowDelimiter?: string | string[];
+        rowDelimiter?: string | string[] | Buffer | Buffer[];
 
         /**
          * If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
