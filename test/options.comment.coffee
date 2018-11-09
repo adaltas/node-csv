@@ -2,6 +2,18 @@
 parse = require '../lib'
 
 describe 'options comment', ->
+  
+  it 'validation', ->
+    parse '', comment: undefined, (->)
+    parse '', comment: null, (->)
+    parse '', comment: false, (->)
+    parse '', comment: '', (->)
+    (->
+      parse '', comment: true, (->)
+    ).should.throw 'Invalid Option: comment must be a buffer or a string, got true'
+    (->
+      parse '', comment: 2, (->)
+    ).should.throw 'Invalid Option: comment must be a buffer or a string, got 2'
 
   it 'skip line starting by single comment char', (next) ->
     parse """
