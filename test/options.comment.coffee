@@ -1,5 +1,5 @@
 
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options comment', ->
 
@@ -18,7 +18,7 @@ describe 'options comment', ->
         [ 'GHI','94' ]
       ] unless err
       next err
-
+  
   it 'doent apply inside quotes', (next) ->
     parse """
       "ABC","45"
@@ -31,7 +31,7 @@ describe 'options comment', ->
         [ 'GHI','94' ]
       ] unless err
       next err
-
+  
   it 'is cancel if empty', (next) ->
     parse """
     abc,#,def
@@ -42,7 +42,7 @@ describe 'options comment', ->
         [ '1','2', '3' ]
       ]
       next()
-
+  
   it 'is cancel by default', (next) ->
     parse """
     abc,#,def
@@ -53,7 +53,7 @@ describe 'options comment', ->
         [ '1','2', '3' ]
       ]
       next()
-
+  
   it 'accept multiple characters', (next) ->
     parser = parse comment: '//', (err, data) ->
       data.should.eql [
@@ -68,7 +68,7 @@ describe 'options comment', ->
     """
     parser.write char for char in data
     parser.end()
-
+  
   it 'accept quotes', (next) ->
     parse """
     "Alaska","Site1","Rack1","RTU-1","192.168.1.3"

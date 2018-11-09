@@ -1,8 +1,8 @@
 
 fs = require 'fs'
-parse = require '../src'
+parse = require '../lib'
 
-describe 'api write', ->
+describe 'API write', ->
 
   it 'string randomly splited', (next) ->
     data = []
@@ -50,13 +50,3 @@ describe 'api write', ->
     parser.write Buffer.from [0x82]
     parser.write Buffer.from [0xAC]
     parser.end()
-
-  it 'instantly emits data once a newline is retrieved', (next) ->
-    data = []
-    parser = parse rowDelimiter: '\n'
-    parser.on 'data', (data) ->
-      data.should.eql ['A', 'B', 'C']
-      parser.end()
-    parser.on 'end', ->
-      next()
-    parser.write 'A,B,C\n'

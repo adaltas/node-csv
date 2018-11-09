@@ -1,5 +1,5 @@
 
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options skip_empty_lines', ->
   

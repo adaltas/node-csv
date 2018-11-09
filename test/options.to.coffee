@@ -1,6 +1,6 @@
 
 fs = require 'fs'
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options to', ->
 
@@ -43,3 +43,28 @@ describe 'options to', ->
         [ '4','5','6' ]
       ]
       next()
+
+  it 'not influenced by lines', (next) ->
+    parse """
+    1,2,"
+    3"
+    4,5,"
+    6"
+    7,8,"
+    9"
+    """, to: 2, (err, data) ->
+      data.should.eql [
+        [ '1','2','\n3' ]
+        [ '4','5','\n6' ]
+      ] unless err
+      next err
+
+  it 'not influenced by row delimiter', (next) ->
+    parse """
+    1,2,3:4,5,6:7,8,9
+    """, to: 2, rowDelimiter: ':', (err, data) ->
+      data.should.eql [
+        [ '1','2','3' ]
+        [ '4','5','6' ]
+      ] unless err
+      next err

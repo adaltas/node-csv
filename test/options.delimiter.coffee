@@ -1,8 +1,8 @@
 
 fs = require 'fs'
-parse = require '../src'
+parse = require '../lib'
 
-describe 'options delimiter', ->
+describe 'option delimiter', ->
   
   it 'using default comma', (next) ->
     parse """

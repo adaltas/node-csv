@@ -1,40 +1,50 @@
 
-parse = require '../src'
+parse = require '../lib'
 
-describe 'api events', ->
+describe 'API events', ->
   
-  it 'emit record before write', (next) ->
-    before = []
+  it 'emit readable event', (next) ->
+    records = []
     parser = parse()
-    parser.on 'record', (record) ->
-      before.push record
-    parser.on 'data', -> while this.read() then null 
+    parser.on 'readable', ->
+      while record = this.read()
+        records.push record
     parser.write """
     "ABC","45"
     "DEF","23"
     """
     parser.on 'end', ->
-      before.should.eql [
+      records.should.eql [
         [ 'ABC', '45' ]
         [ 'DEF', '23' ]
       ]
       next()
     parser.end()
       
-  it 'emit record after write', (next) ->
-    after = []
+  it 'emit data event', (next) ->
+    records = []
     parser = parse()
+    parser.on 'data', (record) ->
+      records.push record
     parser.write """
     "ABC","45"
     "DEF","23"
     """
-    parser.on 'record', (record) ->
-      after.push record
-    parser.on 'data', -> while this.read() then null 
     parser.on 'end', ->
-      after.should.eql [
+      records.should.eql [
         [ 'ABC', '45' ]
         [ 'DEF', '23' ]
       ]
       next()
+    parser.end()
+
+  it 'ensure error in _transform is called once', (next) ->
+    data = '''
+     x  " a b",x "   c d"
+    x " e f", x  "   g h"
+    '''
+    parser = parse (err, data) ->
+      err.message.should.eql 'Invalid opening quote at line 1'
+      next()
+    parser.write chr for chr in data
     parser.end()

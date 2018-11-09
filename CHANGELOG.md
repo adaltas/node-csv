@@ -1,6 +1,28 @@
 
 # Changelog
 
+## Trunk
+
+This is a complete rewrite based with a Buffer implementation. There are no major breaking changes but it introduces a multiple minor breaking changes:
+
+* count is now info.records
+* drop the record event
+* normalize error message as `{error type}: {error description}`
+* state values are now isolated into the `info` object
+* `count` is now `info.records`
+* `lines` is now `info.lines`
+* `empty_line_count` is now `info.empty_line_count`
+* `skipped_line_count` is now `info.skipped_line_count`
+* `context.count` is cast function is now `context.records`
+* drop support for options `auto_parse` and `auto_parse_date`
+* drop emission of the `record` event
+* in raw option, the `raw` property is renamed `record`  
+
+API management
+
+* Multiple tests have been rewritten with easier data sample
+* Source code is now written in ES6 instead of CoffeeScript
+
 ## Version 3.2.0
 
 * max_limit_on_data_read: update error msg

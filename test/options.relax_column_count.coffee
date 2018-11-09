@@ -1,16 +1,27 @@
 
-parse = require '../src'
+parse = require '../lib'
 
 describe 'options relax_column_count', ->
-  
+
   it 'throw error by default', (next) ->
     parse """
     1,2,3
     4,5
     """, (err, data) ->
-      err.message.should.eql 'Number of columns is inconsistent on line 2'
+      err.message.should.eql 'Invalid Record Length: expect 3, got 2 on line 2'
       next()
-        
+
+  it 'emit single error when column count is invalid on multiple lines', (next) ->
+    parse """
+    1,2
+    1
+    3,4
+    5,6,7
+    """
+    , (err, data) ->
+      err.message.should.eql 'Invalid Record Length: expect 2, got 1 on line 2'
+      process.nextTick next
+
   it 'dont throw error if true', (next) ->
     parse """
     1,2,3
