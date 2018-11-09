@@ -3,11 +3,11 @@
 
 ## Trunk
 
-This is a complete rewrite based with a Buffer implementation. There are no major breaking changes but it introduces a multiple minor breaking changes:
+This is a complete rewrite based with a Buffer implementation. There are no major breaking changes but it introduces multiple minor breaking changes:
 
 * count is now info.records
 * drop the record event
-* normalize error message as `{error type}: {error description}`
+* normalise error message as `{error type}: {error description}`
 * state values are now isolated into the `info` object
 * `count` is now `info.records`
 * `lines` is now `info.lines`
@@ -18,6 +18,12 @@ This is a complete rewrite based with a Buffer implementation. There are no majo
 * drop emission of the `record` event
 * in raw option, the `raw` property is renamed `record`
 * option `max_limit_on_data_read` is now `max_record_size`
+
+New features:
+
+* trim: respect ltrim and rtrim when defined
+* delimiter: may be a Buffer
+* delimiter: handle multiple bytes/characters
 
 API management
 
