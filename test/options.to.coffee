@@ -61,7 +61,7 @@ describe 'options to', ->
   it 'not influenced by row delimiter', (next) ->
     parse """
     1,2,3:4,5,6:7,8,9
-    """, to: 2, rowDelimiter: ':', (err, data) ->
+    """, to: 2, record_delimiter: ':', (err, data) ->
       data.should.eql [
         [ '1','2','3' ]
         [ '4','5','6' ]

@@ -43,7 +43,7 @@ describe 'options from', ->
   it 'not influenced by row delimiter', (next) ->
     parse """
     1,2,3:4,5,6:7,8,9
-    """, from: 3, rowDelimiter: ':', (err, data) ->
+    """, from: 3, record_delimiter: ':', (err, data) ->
       data.should.eql [
         [ '7','8','9' ]
       ] unless err
