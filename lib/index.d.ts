@@ -193,9 +193,14 @@ declare namespace parse {
         skip_lines_with_empty_values?: boolean;
 
         /**
-         * Stop returning records after a particular line.
+         * Stop handling records after the requested number of records.
          */
         to?: number;
+
+        /**
+         * Stop handling records after the requested line number.
+         */
+        to_line?: number;
 
         /**
          * If true, ignore whitespace immediately around the delimiter, defaults to false.

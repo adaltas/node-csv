@@ -127,10 +127,10 @@ describe('API Types', () => {
       options.to = 10;
     });
     
-    // it('to_line', () => {
-    //   const options: Options = {};
-    //   options.to_line = 10;
-    // });
+    it('to_line', () => {
+      const options: Options = {};
+      options.to_line = 10;
+    });
     
     it('trim', () => {
       const options: Options = {};
