@@ -117,9 +117,14 @@ declare namespace parse {
         escape?: string | Buffer;
 
         /**
-         * Start returning records from a particular line.
+         * Start handling records from the requested number of records.
          */
         from?: number;
+        
+        /**
+         * Start handling records from the requested line number.
+         */
+        from_line?: number;
 
         /**
          * If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
