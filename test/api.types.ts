@@ -52,10 +52,10 @@ describe('API Types', () => {
       options.from = 10;
     });
     
-    // it('from_line', () => {
-    //   const options: Options = {};
-    //   options.from_line = 10;
-    // });
+    it('from_line', () => {
+      const options: Options = {};
+      options.from_line = 10;
+    });
     
     it('ltrim', () => {
       const options: Options = {};
