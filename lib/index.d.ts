@@ -129,7 +129,7 @@ declare namespace parse {
 
         /**
          * Maximum numer of characters to be contained in the field and line buffers before an exception is raised,
-         * used to guard against a wrong delimiter or rowDelimiter,
+         * used to guard against a wrong delimiter or record_delimiter,
          * default to 128000 characters.
          */
         max_record_size?: number;
@@ -163,7 +163,7 @@ declare namespace parse {
          * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
          * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
          */
-        rowDelimiter?: string | string[] | Buffer | Buffer[];
+        record_delimiter?: string | string[] | Buffer | Buffer[];
 
         /**
          * If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.

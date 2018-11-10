@@ -1,12 +1,12 @@
 
 parse = require '../lib'
 
-describe 'options rowDelimiter', ->
+describe 'options record_delimiter', ->
 
   it 'as a string', (next) ->
     parse """
     ABC,45::DEF,23
-    """, rowDelimiter: '::', (err, data) ->
+    """, record_delimiter: '::', (err, data) ->
       return next err if err
       data.should.eql [
         [ 'ABC','45' ]
@@ -17,7 +17,7 @@ describe 'options rowDelimiter', ->
   it 'as an array', (next) ->
     parse """
     ABC,45::DEF,23\n50,60
-    """, rowDelimiter: ['::','\n'], (err, data) ->
+    """, record_delimiter: ['::','\n'], (err, data) ->
       return next err if err
       data.should.eql [
         [ 'ABC','45' ]
@@ -26,7 +26,7 @@ describe 'options rowDelimiter', ->
       ]
       next()
   
-  it 'ensure that delimiter and rowDelimiter doesnt match', (next) ->
+  it 'ensure that delimiter and record_delimiter doesnt match', (next) ->
     parse """
     a;b
     11;22;
@@ -34,7 +34,7 @@ describe 'options rowDelimiter', ->
     
     """,
       delimiter: ';'
-      rowDelimiter: [';\n', '\n']
+      record_delimiter: [';\n', '\n']
     , (err, data) ->
       data.should.eql [
         [ 'a', 'b' ]
@@ -43,10 +43,10 @@ describe 'options rowDelimiter', ->
       ] unless err
       next err
 
-  it 'handle new line preceded by a quote when rowDelimiter is a string', (next) ->
+  it 'handle new line preceded by a quote when record_delimiter is a string', (next) ->
     parse """
     "ABC","45"::"DEF","23"::"GHI","94"
-    """, rowDelimiter: '::', (err, data) ->
+    """, record_delimiter: '::', (err, data) ->
       return next err if err
       data.should.eql [
         [ 'ABC','45' ]
@@ -55,10 +55,10 @@ describe 'options rowDelimiter', ->
       ]
       next()
 
-  it 'handle new line preceded by a quote when rowDelimiter is an array', (next) ->
+  it 'handle new line preceded by a quote when record_delimiter is an array', (next) ->
     parse """
     "ABC","45"::"DEF","23"::"GHI","94"\r\n"JKL","13"
-    """, rowDelimiter: ['::', '\r\n'], (err, data) ->
+    """, record_delimiter: ['::', '\r\n'], (err, data) ->
       return next err if err
       data.should.eql [
         [ 'ABC','45' ]
@@ -68,9 +68,9 @@ describe 'options rowDelimiter', ->
       ]
       next()
 
-  it 'handle chunks of multiple chars when rowDelimiter is a string', (next) ->
+  it 'handle chunks of multiple chars when record_delimiter is a string', (next) ->
     data = []
-    parser = parse rowDelimiter: '::'
+    parser = parse record_delimiter: '::'
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
@@ -88,9 +88,9 @@ describe 'options rowDelimiter', ->
     parser.write '"JKL","02"'
     parser.end()
 
-  it 'handle chunks of multiple chars when rowDelimiter is an array', (next) ->
+  it 'handle chunks of multiple chars when record_delimiter is an array', (next) ->
     data = []
-    parser = parse rowDelimiter: ['::', '\r']
+    parser = parse record_delimiter: ['::', '\r']
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
@@ -110,9 +110,9 @@ describe 'options rowDelimiter', ->
     parser.write '"MNO","13"'
     parser.end()
 
-  it 'handle chunks of multiple chars without quotes when rowDelimiter is a string', (next) ->
+  it 'handle chunks of multiple chars without quotes when record_delimiter is a string', (next) ->
     data = []
-    parser = parse rowDelimiter: '::'
+    parser = parse record_delimiter: '::'
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
@@ -130,9 +130,9 @@ describe 'options rowDelimiter', ->
     parser.write 'JKL,02'
     parser.end()
 
-  it 'handle chunks of multiple chars without quotes when rowDelimiter is an array', (next) ->
+  it 'handle chunks of multiple chars without quotes when record_delimiter is an array', (next) ->
     data = []
-    parser = parse rowDelimiter: ['::','\n','\r\n']
+    parser = parse record_delimiter: ['::','\n','\r\n']
     parser.on 'readable', ->
       while d = parser.read()
         data.push d
@@ -226,7 +226,7 @@ describe 'options rowDelimiter', ->
       parser.end()
 
     it 'skip default row delimiters when quoted', (next) ->
-      parser = parse (err, data) -> # rowDelimiter: '\r\n', 
+      parser = parse (err, data) -> # record_delimiter: '\r\n', 
         data.should.eql [
           ['1', '2', '\n']
           ['3', '4', '']

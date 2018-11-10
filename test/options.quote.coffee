@@ -150,7 +150,7 @@ describe 'options quote', ->
         next err
 
     it 'no throw followed by a row delimiter', (next) ->
-      parse '""|BB', quote: '"', escape: '"', rowDelimiter: '|', (err) ->
+      parse '""|BB', quote: '"', escape: '"', record_delimiter: '|', (err) ->
         next err
 
     it 'no throw followed by a trimable character', (next) ->

@@ -94,12 +94,12 @@ describe('API Types', () => {
       options.raw = true;
     });
     
-    it('rowDelimiter', () => {
+    it('record_delimiter', () => {
       const options: Options = {};
-      options.rowDelimiter = '\n';
-      options.rowDelimiter = ['\n'];
-      options.rowDelimiter = Buffer.from('\n');
-      options.rowDelimiter = [Buffer.from('\n')];
+      options.record_delimiter = '\n';
+      options.record_delimiter = ['\n'];
+      options.record_delimiter = Buffer.from('\n');
+      options.record_delimiter = [Buffer.from('\n')];
     });
     
     it('rtrim', () => {
