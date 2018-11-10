@@ -56,12 +56,14 @@ declare namespace parse {
     }
 
     interface CastingContext {
-        column?: string;
-        count: number;
-        index: number;
-        header: boolean;
-        quoting: boolean;
-        lines: number;
+        readonly column?: number | string;
+        readonly empty_line_count: number;
+        readonly header: boolean;
+        readonly index: number;
+        readonly quoting: boolean;
+        readonly lines: number;
+        readonly records: number;
+        readonly skipped_line_count: number;
     }
 
     type CastingFunction = (value: string, context: CastingContext) => any;

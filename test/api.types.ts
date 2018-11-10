@@ -1,12 +1,12 @@
 import * as parse from '../lib/index';
-import {Options} from '../lib/index';
+import {CastingContext, Options} from '../lib/index';
 // import {} from 'should';
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 // import 'mocha';
 
 describe('API Types', () => {
   
-  describe('options', () => {
+  describe('Options', () => {
     
     it('cast', () => {
       const options: Options = {};
@@ -138,5 +138,25 @@ describe('API Types', () => {
     });
     
   });
+  
+  describe('CastingContext', () => {
+    
+    it('all properties', () => {
+      (context: CastingContext) => {
+        const column: number|string = context.column
+        const empty_line_count: number = context.empty_line_count
+        const header: boolean = context.header
+        const index: number = context.index
+        const quoting: boolean = context.quoting
+        const lines: number = context.lines
+        const records: number = context.records
+        const skipped_line_count: number = context.skipped_line_count
+        return [
+          column, empty_line_count, header, index,
+          quoting, lines, records, skipped_line_count
+        ]
+      }
+    })
+  })
   
 });
