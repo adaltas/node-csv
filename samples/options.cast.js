@@ -18,7 +18,11 @@ const records = parse(data, {
 })
 assert.deepEqual(records, [
   [ '2000-01-01T05:00:00.000Z', {
-    quoting: false, lines: 1, count: 0, index: 1, header: false, column: 1 } ],
+    column: 1, empty_line_count: 0, header: false, index: 1,
+    quoting: false, lines: 1, records: 0, skipped_line_count: 0
+  } ],
   [ '2050-11-27T05:00:00.000Z', {
-    quoting: false, lines: 2, count: 1, index: 1, header: false, column: 1 } ]
+    column: 1, empty_line_count: 0, header: false, index: 1,
+    quoting: false, lines: 2, records: 1, skipped_line_count: 0
+  } ]
 ])
