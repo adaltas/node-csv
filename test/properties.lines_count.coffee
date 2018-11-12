@@ -7,7 +7,7 @@ describe 'properties lines_count', ->
     parser = parse()
     parser.on 'data', -> while this.read() then null
     parser.on 'end', ->
-      this.info.lines.should.eql(this.info.records + this.info.empty_lines + this.info.skipped_line_count)
+      this.info.lines.should.eql(this.info.records + this.info.empty_lines + this.info.skipped_lines)
       next()
     parser.write 'ABC\n\nDEF'
     parser.end()
@@ -21,7 +21,7 @@ describe 'properties lines_count', ->
     parser.on 'error', (err) ->
       err.message.should.eql 'Invalid Record Length: expect 1, got 6 on line 2'
       this.info.empty_lines.should.eql(0)
-      this.info.skipped_line_count.should.eql(0)
+      this.info.skipped_lines.should.eql(0)
       this.info.lines.should.eql(2)
       next()
     parser.on 'end', ->
@@ -43,7 +43,7 @@ describe 'properties lines_count', ->
     parser.on 'end', ->
       this.info.lines.should.eql(this.info.records + this.info.empty_lines)
       this.info.empty_lines.should.eql(2)
-      this.info.skipped_line_count.should.eql(1)
+      this.info.skipped_lines.should.eql(1)
       next()
     parser.write """
     20322051544,1979,8.8017226E7,ABC,45,2000-01-01
