@@ -25,7 +25,7 @@ describe('API Types', () => {
       const info: Info = parser.info
       const keys: any = Object.keys(info)
       keys.sort().should.eql([
-        'empty_lines', 'lines', 'records', 'skipped_lines'
+        'empty_lines', 'invalid_field_length', 'lines', 'records'
       ])
     })
     
@@ -48,9 +48,9 @@ describe('API Types', () => {
       info.records = 1
     })
       
-    it('skipped_lines', () => {
+    it('invalid_field_length', () => {
       const info: Info = {}
-      info.skipped_lines = 1
+      info.invalid_field_length = 1
     })
     
   })
@@ -209,10 +209,10 @@ describe('API Types', () => {
         const quoting: boolean = context.quoting
         const lines: number = context.lines
         const records: number = context.records
-        const skipped_lines: number = context.skipped_lines
+        const invalid_field_length: number = context.invalid_field_length
         return [
           column, empty_lines, header, index,
-          quoting, lines, records, skipped_lines
+          quoting, lines, records, invalid_field_length
         ]
       }
     })

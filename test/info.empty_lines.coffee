@@ -33,3 +33,13 @@ describe 'properties empty_lines', ->
     ''', (err, data, {empty_lines}) ->
       empty_lines.should.eql 1
       next()
+
+  it 'dont count empty lines when empty and skip_empty_lines disabled', (next) ->
+    parse '''
+    
+    a,b,c
+    d,e,f
+    ''', (err, data, {empty_lines}) ->
+      err.message.should.eql 'Invalid Record Length: expect 1, got 3 on line 2'
+      empty_lines.should.eql 0
+      next()
