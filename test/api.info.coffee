@@ -9,20 +9,22 @@ describe 'API info', ->
     a,b,
     ''', (err, data, info) ->
       info.should.eql
+        comment_lines: 0
         empty_lines: 0
         invalid_field_length: 0
         lines: 2
         records: 2
       next()
 
-    it 'is exported in the callback on success', (next) ->
-      parse '''
-      1,2,3
-      a,b,c
-      ''', (err, data, info) ->
-        info.should.eql
-          empty_lines: 0
-          invalid_field_length: 0
-          lines: 2
-          records: 2
-        next err
+  it 'is exported in the callback on success', (next) ->
+    parse '''
+    1,2,3
+    a,b,c
+    ''', (err, data, info) ->
+      info.should.eql
+        comment_lines: 0
+        empty_lines: 0
+        invalid_field_length: 0
+        lines: 2
+        records: 2
+      next err

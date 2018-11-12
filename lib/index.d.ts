@@ -187,6 +187,10 @@ declare namespace parse {
 
     interface Info {
         /**
+         * Count the number of lines being fully commented.
+         */
+        readonly comment_lines: number;
+        /**
          * Count the number of processed empty lines.
          */
         readonly empty_lines: number;
