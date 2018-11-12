@@ -187,20 +187,20 @@ declare namespace parse {
 
     interface Info {
         /**
-         * 
+         * Count the number of processed empty lines.
          */
-        empty_lines?: number;
+        readonly empty_lines: number;
         /**
-         * 
+         * The number of lines encountered in the source dataset, start at 1 for the first line.
          */
-        lines?: number;
+        readonly lines: number;
         /**
-         * 
+         * Count the number of processed records.
          */
-        records?: number;
+        readonly records: number;
         /**
-         * 
+         * Number of non uniform records when `relax_column_count` is true.
          */
-        invalid_field_length?: number;
+        readonly invalid_field_length: number;
     }
 }
