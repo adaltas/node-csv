@@ -23,6 +23,8 @@ declare namespace parse {
         __push(line: any): any;
 
         __write(chars: any, end: any, callback: any): any;
+        
+        readonly options: Options;
 
         /**
          * Internal counter of records being processed.
@@ -152,6 +154,11 @@ declare namespace parse {
         quote?: string | boolean | Buffer;
 
         /**
+         * Generate two properties raw and row where raw is the original CSV row content and row is the parsed array or object.
+         */
+        raw?: boolean;
+
+        /**
          * Preserve quotes inside unquoted field.
          */
         relax?: boolean;
@@ -160,11 +167,6 @@ declare namespace parse {
          * Discard inconsistent columns count, default to false.
          */
         relax_column_count?: boolean;
-
-        /**
-         * Generate two properties raw and row where raw is the original CSV row content and row is the parsed array or object.
-         */
-        raw?: boolean;
 
         /**
          * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.

@@ -1,10 +1,28 @@
 import * as parse from '../lib/index';
-import {CastingContext, Options} from '../lib/index';
+import {CastingContext, Options, Parser} from '../lib/index';
 // import {} from 'should';
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 // import 'mocha';
 
 describe('API Types', () => {
+  
+  describe('Parser', () => {
+    
+    it('Expose options', () => {
+      const parser: Parser = parse()
+      const options: Options = parser.options
+      const keys: any = Object.keys(options)
+      keys.sort().should.eql([
+        'cast', 'cast_date', 'columns', 'comment', 'delimiter',
+        'escape', 'from', 'from_line', 'ltrim', 'max_record_size',
+        'objname', 'quote', 'raw', 'readableObjectMode',
+        'record_delimiter', 'relax', 'relax_column_count',
+        'rtrim', 'skip_empty_lines', 'skip_lines_with_empty_values', 
+        'skip_lines_with_error', 'to', 'to_line', 'trim'
+      ])
+    })
+    
+  })
   
   describe('Options', () => {
     
@@ -33,6 +51,11 @@ describe('API Types', () => {
         })
         return fields
       };
+    });
+      
+    it('comment', () => {
+      const options: Options = {};
+      options.comment = '\\';
     });
     
     it('delimiter', () => {
@@ -79,6 +102,11 @@ describe('API Types', () => {
       options.quote = Buffer.from('"');
     });
     
+    it('raw', () => {
+      const options: Options = {};
+      options.raw = true;
+    });
+    
     it('relax', () => {
       const options: Options = {};
       options.relax = true;
@@ -87,11 +115,6 @@ describe('API Types', () => {
     it('relax_column_count', () => {
       const options: Options = {};
       options.relax_column_count = true;
-    });
-    
-    it('raw', () => {
-      const options: Options = {};
-      options.raw = true;
     });
     
     it('record_delimiter', () => {
@@ -115,6 +138,11 @@ describe('API Types', () => {
     it('skip_empty_lines', () => {
       const options: Options = {};
       options.skip_empty_lines = true;
+    });
+    
+    it('skip_lines_with_empty_values', () => {
+      const options: Options = {};
+      options.skip_lines_with_empty_values = true;
     });
     
     it('skip_lines_with_error', () => {
