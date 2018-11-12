@@ -11,7 +11,7 @@ declare function parse(input: string, callback?: parse.Callback): parse.Parser;
 declare function parse(options?: parse.Options, callback?: parse.Callback): parse.Parser;
 declare function parse(callback?: parse.Callback): parse.Parser;
 declare namespace parse {
-    type Callback = (err: any | Error, output: any) => void;
+    type Callback = (err: any | Error, output: any, info: Info) => void;
 
     type MatcherFunc = (value: any) => boolean;
 
@@ -25,36 +25,8 @@ declare namespace parse {
         __write(chars: any, end: any, callback: any): any;
         
         readonly options: Options;
-
-        /**
-         * Internal counter of records being processed.
-         */
-        readonly count: number;
-
-        /**
-         * Internal counter of empty lines
-         */
-        readonly empty_line_count: number;
-
-        /**
-         * Number of non uniform lines skipped when relax_column_count is true.
-         */
-        readonly skipped_line_count: number;
-
-        /**
-         * The number of lines encountered in the source dataset, start at 1 for the first line.
-         */
-        readonly lines: number;
-
-        /**
-         * The regular expression or function used to determine if a value should be cast to an integer.
-         */
-        readonly is_int: RegExp | MatcherFunc;
-
-        /**
-         * The regular expression or function used to determine if a value should be cast to a float.
-         */
-        readonly is_float: RegExp | MatcherFunc
+        
+        readonly info: Info;
     }
 
     interface CastingContext {
@@ -211,5 +183,24 @@ declare namespace parse {
          * Does not remove whitespace in a quoted field.
          */
         trim?: boolean;
+    }
+
+    interface Info {
+        /**
+         * 
+         */
+        empty_line_count?: number;
+        /**
+         * 
+         */
+        lines?: number;
+        /**
+         * 
+         */
+        records?: number;
+        /**
+         * 
+         */
+        skipped_line_count?: number;
     }
 }

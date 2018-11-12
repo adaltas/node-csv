@@ -24,9 +24,10 @@ This is a complete rewrite based with a Buffer implementation. There are no majo
 New features:
 
 * new options from_line and to_line
-* trim: respect ltrim and rtrim when defined
+* trim: respect `ltrim` and `rtrim` when defined
 * delimiter: may be a Buffer
 * delimiter: handle multiple bytes/characters
+* callback: export info object as third argument
 
 API management
 
