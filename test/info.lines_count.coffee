@@ -3,15 +3,6 @@ parse = require '../lib'
 
 describe 'properties lines_count', ->
 
-  it 'adds up with default settings', (next) ->
-    parser = parse()
-    parser.on 'data', -> while this.read() then null
-    parser.on 'end', ->
-      this.info.lines.should.eql(this.info.records + this.info.empty_lines + this.info.skipped_lines)
-      next()
-    parser.write 'ABC\n\nDEF'
-    parser.end()
-
   it 'displays no skipped lines when not skip_empty_lines', (next) ->
     parser = parse skip_empty_lines: false
     parser.on 'readable', ->
