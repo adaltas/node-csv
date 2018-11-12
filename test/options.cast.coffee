@@ -101,3 +101,15 @@ describe 'options "cast"', ->
         {a: 4, b: 5, c: 6}
       ] unless err
       next err
+
+  it 'catch error', (next) ->
+    parse """
+    1,2,3
+    4,5,6
+    """,
+      cast: (value, context) ->
+        if value is '6' then throw Error 'Catchme'
+        value
+    , (err, records) ->
+      err.message.should.eql 'Catchme'
+      next()
