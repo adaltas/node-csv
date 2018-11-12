@@ -31,6 +31,7 @@ New features:
 * callback: export info object as third argument
 * cast: catch error in user functions
 * ts: mark info as readonly with required properties
+* comment_lines: count the number of commented lines with no records
 
 API management
 

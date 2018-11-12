@@ -25,8 +25,8 @@ describe('API Types', () => {
       const info: Info = parser.info
       const keys: any = Object.keys(info)
       keys.sort().should.eql([
-        'empty_lines', 'invalid_field_length',
-        'lines', 'records'
+        'comment_lines', 'empty_lines',
+        'invalid_field_length', 'lines', 'records'
       ])
     })
     
@@ -35,9 +35,15 @@ describe('API Types', () => {
   describe('Info', () => {
     
     const fakeinfo = {
-      empty_lines: 1, invalid_field_length: 1, 
-      lines: 1, records: 1
+      comment_lines: 1, empty_lines: 1,
+      invalid_field_length: 1, lines: 1, records: 1
     }
+    
+    it('comment_lines', () => {
+      const info: Info = fakeinfo
+      const comment_lines: number = info.comment_lines
+      comment_lines
+    })
     
     it('empty_lines', () => {
       const info: Info = fakeinfo
