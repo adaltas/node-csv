@@ -12,7 +12,7 @@ This is a complete rewrite based with a Buffer implementation. There are no majo
 * state values are now isolated into the `info` object
 * `count` is now `info.records`
 * `lines` is now `info.lines`
-* `empty_line_count` is now `info.empty_line_count`
+* `empty_line_count` is now `info.empty_lines`
 * `skipped_line_count` is now `info.skipped_line_count`
 * `context.count` is cast function is now `context.records`
 * drop support for deprecated options `auto_parse` and `auto_parse_date`
@@ -20,6 +20,7 @@ This is a complete rewrite based with a Buffer implementation. There are no majo
 * in raw option, the `raw` property is renamed `record`
 * option `max_limit_on_data_read` is now `max_record_size`
 * default value of `max_record_size` is now `0` (unlimited)
+* remove the `record` event, use the `readable` event and `this.read()` instead
 
 New features:
 
