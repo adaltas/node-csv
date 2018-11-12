@@ -29,6 +29,7 @@ New features:
 * delimiter: may be a Buffer
 * delimiter: handle multiple bytes/characters
 * callback: export info object as third argument
+* cast: catch error in user functions
 
 API management
 

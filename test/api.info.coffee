@@ -4,7 +4,7 @@ parse = require '../lib'
 describe 'API info', ->
 
   it 'is exported in the callback', (next) ->
-    parser = parse '''
+    parse '''
     1,2,3
     a,b,c
     ''', (err, data, info) ->

@@ -25,7 +25,7 @@ describe 'options columns', ->
       5,6,7,8
       """, columns: ["a", false, "c", false], (err, data) ->
         data.should.eql [
-          { a: "1", c: "3"}
+          { a: "1", c: "3" }
           { a: "5", c: "7" }
         ] unless err
         next err
