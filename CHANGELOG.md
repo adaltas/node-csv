@@ -30,6 +30,7 @@ New features:
 * delimiter: handle multiple bytes/characters
 * callback: export info object as third argument
 * cast: catch error in user functions
+* ts: mark info as readonly with required properties
 
 API management
 
