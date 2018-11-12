@@ -13,7 +13,7 @@ This is a complete rewrite based with a Buffer implementation. There are no majo
 * `count` is now `info.records`
 * `lines` is now `info.lines`
 * `empty_line_count` is now `info.empty_lines`
-* `skipped_line_count` is now `info.skipped_line_count`
+* `skipped_line_count` is now `info.skipped_lines`
 * `context.count` is cast function is now `context.records`
 * drop support for deprecated options `auto_parse` and `auto_parse_date`
 * drop emission of the `record` event

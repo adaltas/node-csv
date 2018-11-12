@@ -11,6 +11,6 @@ describe 'API info', ->
       info.should.eql
         empty_lines: 0
         lines: 2
-        skipped_line_count: 0
+        skipped_lines: 0
         records: 2
       next()

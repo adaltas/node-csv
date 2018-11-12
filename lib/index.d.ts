@@ -37,7 +37,7 @@ declare namespace parse {
         readonly quoting: boolean;
         readonly lines: number;
         readonly records: number;
-        readonly skipped_line_count: number;
+        readonly skipped_lines: number;
     }
 
     type CastingFunction = (value: string, context: CastingContext) => any;
@@ -201,6 +201,6 @@ declare namespace parse {
         /**
          * 
          */
-        skipped_line_count?: number;
+        skipped_lines?: number;
     }
 }
