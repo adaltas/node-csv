@@ -49,8 +49,8 @@ describe 'options "cast"', ->
         else {...context}
     , (err, records) ->
       records.should.eql [
-        [ '2000-01-01T05:00:00.000Z', {quoting: false, index: 1, column: 1, empty_line_count: 0, lines: 1, header: false, records: 0, skipped_line_count: 0} ]
-        [ '2050-11-27T05:00:00.000Z', {quoting: false, index: 1, column: 1, empty_line_count: 0, lines: 2, header: false, records: 1, skipped_line_count: 0} ]
+        [ '2000-01-01T05:00:00.000Z', {quoting: false, index: 1, column: 1, empty_lines: 0, lines: 1, header: false, records: 0, skipped_line_count: 0} ]
+        [ '2050-11-27T05:00:00.000Z', {quoting: false, index: 1, column: 1, empty_lines: 0, lines: 2, header: false, records: 1, skipped_line_count: 0} ]
       ] unless err
       next err
 

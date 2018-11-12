@@ -31,7 +31,7 @@ declare namespace parse {
 
     interface CastingContext {
         readonly column?: number | string;
-        readonly empty_line_count: number;
+        readonly empty_lines: number;
         readonly header: boolean;
         readonly index: number;
         readonly quoting: boolean;
@@ -189,7 +189,7 @@ declare namespace parse {
         /**
          * 
          */
-        empty_line_count?: number;
+        empty_lines?: number;
         /**
          * 
          */
