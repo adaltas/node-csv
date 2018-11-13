@@ -12,7 +12,7 @@ describe('API Types', () => {
       const keys: any = Object.keys(options)
       keys.sort().should.eql([
         'cast', 'cast_date', 'columns', 'comment', 'delimiter',
-        'escape', 'from', 'from_line', 'ltrim', 'max_record_size',
+        'escape', 'from', 'from_line', 'info', 'ltrim', 'max_record_size',
         'objname', 'quote', 'raw', 'readableObjectMode',
         'record_delimiter', 'relax', 'relax_column_count',
         'rtrim', 'skip_empty_lines', 'skip_lines_with_empty_values', 
@@ -125,6 +125,11 @@ describe('API Types', () => {
     it('from_line', () => {
       const options: Options = {}
       options.from_line = 10
+    })
+    
+    it('info', () => {
+      const options: Options = {}
+      options.info = true
     })
     
     it('ltrim', () => {
