@@ -6,7 +6,6 @@
 This is a complete rewrite based with a Buffer implementation. There are no major breaking changes but it introduces multiple minor breaking changes:
 
 * options `rowDelimiter` is now `record_delimiter`
-* count is now info.records
 * drop the record event
 * normalise error message as `{error type}: {error description}`
 * state values are now isolated into the `info` object
@@ -17,7 +16,7 @@ This is a complete rewrite based with a Buffer implementation. There are no majo
 * `context.count` is cast function is now `context.records`
 * drop support for deprecated options `auto_parse` and `auto_parse_date`
 * drop emission of the `record` event
-* in raw option, the `raw` property is renamed `record`
+* in `raw` option, the `row` property is renamed `record`
 * option `max_limit_on_data_read` is now `max_record_size`
 * default value of `max_record_size` is now `0` (unlimited)
 * remove the `record` event, use the `readable` event and `this.read()` instead
