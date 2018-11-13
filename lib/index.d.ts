@@ -101,6 +101,11 @@ declare namespace parse {
          * Start handling records from the requested line number.
          */
         from_line?: number;
+        
+        /**
+         * Generate two properties `info` and `record` where `info` is a snapshot of the info object at the time the record was created and `record` is the parsed array or object.
+         */
+        info?: boolean;
 
         /**
          * If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
