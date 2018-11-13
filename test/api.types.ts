@@ -1,4 +1,5 @@
 
+import 'should'
 import * as parse from '../lib/index'
 import {CastingContext, Info, Options, Parser} from '../lib/index'
 
