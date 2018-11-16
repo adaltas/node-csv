@@ -5,21 +5,19 @@ import * as stream from 'stream'
 export = stringify
 
 declare function stringify(callback?: stringify.Callback): stringify.Stringifier
-declare function stringify(options?: stringify.Options, callback?: stringify.Callback): stringify.Stringifier
+declare function stringify(options: stringify.Options, callback?: stringify.Callback): stringify.Stringifier
 declare function stringify(input: stringify.Input, callback?: stringify.Callback): stringify.Stringifier
 declare function stringify(input: stringify.Input, options?: stringify.Options, callback?: stringify.Callback): stringify.Stringifier
 declare namespace stringify {
-    type Callback = (err: any | Error, output: any) => void
+    type Callback = (err?: null | Error, output?: string) => void
 
-    type RowDelimiter = string | 'auto' | 'unix' | 'windows' | 'ascii' | 'unicode'
+    type RowDelimiter = 'string' | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
 
     type Formatter<T> = (value: T) => string
 
-    interface PlainObject<T> {
-        [key: string]: T
-    }
+    type PlainObject<T> = Record<string, T>
 
-    type Input = any[] | PlainObject<any>
+    type Input = any[]
 
     interface Options {
         /**
@@ -89,7 +87,7 @@ declare namespace stringify {
             /**
              * Custom formatter for generic object values
              */
-            object?: Formatter<any>
+            object?: Formatter<Record<string, any>>
         }
     }
 
