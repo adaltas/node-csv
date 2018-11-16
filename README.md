@@ -7,7 +7,7 @@ Part of the [CSV module](https://csv.js.org/), this project is a parser converti
 * [Project homepage](http://csv.js.org/parse/)
 * [API](http://csv.js.org/parse/api/)
 * [Options](http://csv.js.org/parse/options/)
-* [State properties](http://csv.js.org/parse/state/)
+* [Info properties](http://csv.js.org/parse/info/)
 * [Common errors](http://csv.js.org/parse/errors/)
 * [Examples](http://csv.js.org/parse/examples/)
 
@@ -19,6 +19,6 @@ Part of the [CSV module](https://csv.js.org/), this project is a parser converti
 *   Line breaks discovery
 *   Support big datasets
 *   Complete test coverage and samples for inspiration
-*   no external dependencies
-*   to be used conjointly with `csv-generate`, `stream-transform` and `csv-stringify`
-*   BSD License 
+*   No external dependencies
+*   Work nicely with the [csv-generate](https://csv.js.org/generate/), [stream-transform](https://csv.js.org/transform/) and [csv-stringify](https://csv.js.org/stringify/) packages
+*   MIT License
