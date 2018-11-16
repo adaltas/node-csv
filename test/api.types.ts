@@ -31,6 +31,16 @@ describe('API Types', () => {
       ])
     })
     
+    it('Receive Callback', (next) => {
+      parse('a\nb', function(err: Error, data: object, info: Info){
+        if(err !== undefined){
+          data.should.eql([['a'], ['b']])
+          info.records.should.eql(2)
+        }
+        next(err)
+      })
+    })
+    
   })
   
   describe('Info', () => {

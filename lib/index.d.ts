@@ -11,7 +11,8 @@ declare function parse(input: string, callback?: parse.Callback): parse.Parser;
 declare function parse(options?: parse.Options, callback?: parse.Callback): parse.Parser;
 declare function parse(callback?: parse.Callback): parse.Parser;
 declare namespace parse {
-    type Callback = (err: any | Error, output: any, info: Info) => void;
+
+    type Callback = (err: Error | undefined, records: any | undefined, info?: Info) => void;
 
     type MatcherFunc = (value: any) => boolean;
 
@@ -19,9 +20,9 @@ declare namespace parse {
 
     class Parser {
         constructor(options: Options);
-
+        
         __push(line: any): any;
-
+        
         __write(chars: any, end: any, callback: any): any;
         
         readonly options: Options;
