@@ -19,6 +19,11 @@ declare namespace stringify {
 
     type Input = any[]
 
+    interface ColumnOption {
+        key: string
+        header?: string
+    }
+
     interface Options {
         /**
          * List of fields, applied when `transform` returns an object
@@ -28,7 +33,7 @@ declare namespace stringify {
          * can refer to nested properties of the input JSON
          * see the "header" option on how to print columns names on the first line
          */
-        columns?: string[] | PlainObject<string>
+        columns?: string[] | PlainObject<string> | ColumnOption[]
 
         /**
          * Set the field delimiter, one character only, defaults to a comma.
