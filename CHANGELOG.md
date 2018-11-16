@@ -37,6 +37,7 @@ API management
 
 * Multiple tests have been rewritten with easier data sample
 * Source code is now written in ES6 instead of CoffeeScript
+* package: switch to MIT license
 
 ## Version 3.2.0
 
