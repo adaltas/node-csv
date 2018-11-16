@@ -5,7 +5,8 @@
 
 This is a complete rewrite based with a Buffer implementation. There are no major breaking changes but it introduces multiple minor breaking changes:
 
-* options `rowDelimiter` is now `record_delimiter`
+* option `rowDelimiter` is now `record_delimiter`
+* option `max_limit_on_data_read` is now `max_record_size`
 * drop the record event
 * normalise error message as `{error type}: {error description}`
 * state values are now isolated into the `info` object
@@ -17,13 +18,12 @@ This is a complete rewrite based with a Buffer implementation. There are no majo
 * drop support for deprecated options `auto_parse` and `auto_parse_date`
 * drop emission of the `record` event
 * in `raw` option, the `row` property is renamed `record`
-* option `max_limit_on_data_read` is now `max_record_size`
 * default value of `max_record_size` is now `0` (unlimited)
 * remove the `record` event, use the `readable` event and `this.read()` instead
 
 New features:
 
-* new options info, from_line and to_line
+* new options `info`, `from_line` and `to_line`
 * trim: respect `ltrim` and `rtrim` when defined
 * delimiter: may be a Buffer
 * delimiter: handle multiple bytes/characters
@@ -31,6 +31,7 @@ New features:
 * cast: catch error in user functions
 * ts: mark info as readonly with required properties
 * comment_lines: count the number of commented lines with no records
+* callback: pass undefined instead of null
 
 API management
 
