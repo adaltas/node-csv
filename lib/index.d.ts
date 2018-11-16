@@ -12,7 +12,7 @@ declare function parse(options?: parse.Options, callback?: parse.Callback): pars
 declare function parse(callback?: parse.Callback): parse.Parser;
 declare namespace parse {
 
-    type Callback = (err: Error | undefined, records: any | undefined, info?: Info) => void;
+    type Callback = (err: Error | undefined, records: any | undefined, info: Info) => void;
 
     type MatcherFunc = (value: any) => boolean;
 
