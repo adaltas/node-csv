@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'properties empty_lines', ->
+describe 'info empty_lines', ->
 
   it 'no lines', (next) ->
     parse '', (err, data, {empty_lines}) ->
@@ -41,5 +41,14 @@ describe 'properties empty_lines', ->
     d,e,f
     ''', (err, data, {empty_lines}) ->
       err.message.should.eql 'Invalid Record Length: expect 1, got 3 on line 2'
+      empty_lines.should.eql 0
+      next()
+
+  it 'dont count commented lines', (next) ->
+    parse '''
+    a,b,c
+    d,e,f
+    # comment
+    ''', (err, data, {empty_lines}) ->
       empty_lines.should.eql 0
       next()

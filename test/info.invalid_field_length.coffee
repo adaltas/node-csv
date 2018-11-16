@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'properties lines_count', ->
+describe 'info invalid_field_length', ->
 
   it 'with relax_column_count', (next) ->
     parse '''
