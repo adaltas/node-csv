@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'properties comment_lines', ->
+describe 'info comment_lines', ->
 
   it 'no empty lines', (next) ->
     parse '''

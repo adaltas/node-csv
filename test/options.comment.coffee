@@ -15,6 +15,16 @@ describe 'options comment', ->
       parse '', comment: 2, (->)
     ).should.throw 'Invalid Option: comment must be a buffer or a string, got 2'
 
+  it 'single comment line', (next) ->
+    parse '# comment', comment: '#', (err, data) ->
+      data.length.should.eql 0
+      next err
+
+  it 'single comment line with empty field', (next) ->
+    parse '""# comment', comment: '#', (err, data) ->
+      data.length.should.eql 1
+      next err
+
   it 'skip line starting by single comment char', (next) ->
     parse """
     # skip this
