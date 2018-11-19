@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 3.1.0
 
 * duration: fix start time
 * package: MIT license (was BSD)
