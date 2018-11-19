@@ -150,7 +150,7 @@ Put new data into the read queue.
             data.push line
             for line in data
               @_.count_written++
-              @push line
+              @__push line
           else
             if @options.fixedSize
               @_.fixed_size_buffer = line.substr size - length 
@@ -158,10 +158,22 @@ Put new data into the read queue.
             else
               data.push line
             @_.count_written++
-            @push data.join ''
+            @__push data.join ''
           break
         length += lineLength
         data.push line
+
+## `Generator.prototype._read(size)`
+
+Put new data into the read queue.
+
+    Generator.prototype.__push = (record) ->
+      if @options.sleep
+        setTimeout =>
+          @push record
+        , @options.sleep
+      else
+        @push record
 
 ## `Generator.ascii(gen)`
 
@@ -170,7 +182,6 @@ Generate an ASCII value.
     Generator.ascii = (gen) ->
       # Column
       column = []
-      for nb_chars in [0 ... Math.ceil gen.random() * gen.options.maxWordLength]
         char = Math.floor gen.random() * 32
         column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
       column.join ''
