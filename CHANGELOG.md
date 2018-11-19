@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+sleep: new option
+
 ## Version 3.0.0
 
 Breaking change:
