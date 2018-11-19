@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* duration: fix start time
 * package: MIT license (was BSD)
 * sleep: new option
 

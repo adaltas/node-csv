@@ -73,7 +73,7 @@ Options are documented [here](http://csv.js.org/generate/options/).
       @options.eof = @options.rowDelimiter if @options.eof is true
       # State
       @_ =
-        start_time: Date.now()
+        start_time: if @options.duration then Date.now() else null
         fixed_size_buffer: ''
         count_written: 0
         count_created: 0
@@ -182,6 +182,8 @@ Generate an ASCII value.
     Generator.ascii = (gen) ->
       # Column
       column = []
+      nb_chars = Math.ceil gen.random() * gen.options.maxWordLength
+      for _ in [0 ... nb_chars]
         char = Math.floor gen.random() * 32
         column.push String.fromCharCode char + if char < 16 then 65 else 97 - 16
       column.join ''
