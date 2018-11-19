@@ -2,13 +2,11 @@
 const parse = require('../lib')
 const assert = require('assert')
 
-const records = parse(`
-  "key_1","key_2"
-  "value 1","value 2"
-`, {
-  columns: true,
-  trim: true,
-  skip_empty_lines: true
+parse(`
+"key_1","key_2"
+"value 1","value 2"
+`.trim(), {
+  columns: true
 }, function(err, records){
   assert.deepEqual(
     records, [{
