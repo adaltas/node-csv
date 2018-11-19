@@ -3,7 +3,8 @@
 
 ## Trunk
 
-sleep: new option
+* package: MIT license (was BSD)
+* sleep: new option
 
 ## Version 3.0.0
 
