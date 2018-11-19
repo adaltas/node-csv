@@ -33,7 +33,7 @@ describe 'options relax_column_count', ->
       ] unless err
       next err
 
-  it 'with column', (next) ->
+  it 'with columns bigger than records', (next) ->
     parse """
     1,2,3
     4,5
@@ -41,6 +41,17 @@ describe 'options relax_column_count', ->
       data.should.eql [
         { "a":"1", "b":"2", "c":"3" }
         { "a":"4", "b":"5" }
+      ] unless err
+      next err
+
+  it 'with columns smaller than records', (next) ->
+    parse """
+    1,2,3,4
+    5,6,7
+    """, columns: ['a','b','c'], relax_column_count: true, (err, data) ->
+      data.should.eql [
+        { a: '1', b: '2', c: '3' }
+        { a: '5', b: '6', c: '7'}
       ] unless err
       next err
 
