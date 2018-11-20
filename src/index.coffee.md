@@ -87,6 +87,16 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       # Normalize the columns option
       @options.columns = Stringifier.normalize_columns @options.columns
       @options.formatters ?= {}
+      # Normalize option `quoted_match`
+      if @options.quoted_match is undefined or @options.quoted_match is null or @options.quoted_match is false
+        @options.quoted_match = null
+      else if not Array.isArray @options.quoted_match
+        @options.quoted_match = [@options.quoted_match]
+      if @options.quoted_match then for quoted_match in @options.quoted_match
+        isString = typeof quoted_match is 'string'
+        isRegExp = quoted_match instanceof RegExp
+        if not isString and not isRegExp
+          throw Error "Invalid Option: quoted_match must be a string or a regex, got #{JSON.stringify quoted_match}"
       # Backward compatibility
       @options.formatters.boolean = @options.formatters.bool if @options.formatters.bool
       # Custom formatters
@@ -218,7 +228,15 @@ Convert a line to a string. Line may be an object, an array or a string.
             containsQuote = (quote isnt '') and field.indexOf(quote) >= 0
             containsEscape = field.indexOf(escape) >= 0 and (escape isnt quote)
             containsRowDelimiter = field.indexOf(@options.row_delimiter) >= 0
-            shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or @options.quoted or (@options.quoted_string and typeof record[i] is 'string')
+            quoted = @options.quoted
+            quotedString = @options.quoted_string and typeof record[i] is 'string'
+            quotedMatch = @options.quoted_match and typeof record[i] is 'string' and @options.quoted_match.filter (quoted_match) ->
+              if typeof quoted_match is 'string'
+                record[i].indexOf(quoted_match) isnt -1
+              else
+                quoted_match.test record[i]
+            quotedMatch = quotedMatch and quotedMatch.length > 0
+            shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
             if shouldQuote and containsEscape
               regexp = if escape is '\\' then new RegExp(escape + escape, 'g') else new RegExp(escape, 'g');
               field = field.replace(regexp, escape + escape)

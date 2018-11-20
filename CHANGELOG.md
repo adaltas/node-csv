@@ -7,8 +7,9 @@ Breaking changes:
 
 * options: instance options stored in underscore form
 
-Features:
+New features:
 
+* quoted_match: new option
 * options: accept underscore and camelcase forms
 
 Project Management:
