@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options relax', ->
+describe 'Option `relax`', ->
 
   it 'true with invalid quotes in the middle', (next) ->
     # try with relax true

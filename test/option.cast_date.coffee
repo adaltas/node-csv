@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options "cast_date"', ->
+describe 'Option `cast_date`', ->
   
   it 'true', (next) ->
     data = []

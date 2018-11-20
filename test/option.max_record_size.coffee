@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options `max_record_size`', ->
+describe 'Option `max_record_size`', ->
 
   it 'field exceed limit', (next) ->
     parse '''

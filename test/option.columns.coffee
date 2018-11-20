@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options columns', ->
+describe 'Option `columns`', ->
   
   describe 'validation', ->
     
