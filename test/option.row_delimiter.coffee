@@ -1,13 +1,13 @@
 
 stringify = require '../src'
 
-describe 'Option `rowDelimiter`', ->
+describe 'Option `row_delimiter`', ->
 
   it 'Test line breaks custom', (next) ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], rowDelimiter: '::', (err, result) ->
+    ], row_delimiter: '::', (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC::28392898392,8.8392926E7,DEF::'
       next()
@@ -16,7 +16,7 @@ describe 'Option `rowDelimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], rowDelimiter: 'unix', (err, result) ->
+    ], row_delimiter: 'unix', (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC\n28392898392,8.8392926E7,DEF\n'
       next()
@@ -25,7 +25,7 @@ describe 'Option `rowDelimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], rowDelimiter: 'unicode', (err, result) ->
+    ], row_delimiter: 'unicode', (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC\u202828392898392,8.8392926E7,DEF\u2028'
       next()
@@ -34,7 +34,7 @@ describe 'Option `rowDelimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], rowDelimiter: 'mac', (err, result) ->
+    ], row_delimiter: 'mac', (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC\r28392898392,8.8392926E7,DEF\r'
       next()
@@ -43,7 +43,7 @@ describe 'Option `rowDelimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], rowDelimiter: 'windows', (err, result) ->
+    ], row_delimiter: 'windows', (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC\r\n28392898392,8.8392926E7,DEF\r\n'
       next()
@@ -52,7 +52,7 @@ describe 'Option `rowDelimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], {rowDelimiter: 'ascii', delimiter: '\u001f'}, (err, result) ->
+    ], row_delimiter: 'ascii', delimiter: '\u001f', (err, result) ->
       return next err if err
       result.should.eql '20322051544\u001f8.8017226E7\u001fABC\u001e28392898392\u001f8.8392926E7\u001fDEF\u001e'
       next()

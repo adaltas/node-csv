@@ -2,11 +2,11 @@
 fs = require 'fs'
 stringify = require '../src'
 
-describe 'Option `quotedEmpty`', ->
+describe 'Option `quoted_empty`', ->
   it 'quotes empty fields (when all not quoted)', (next) ->
     count = 0
     data = ''
-    stringifier = stringify quoted: false, quotedEmpty: true, eof: false
+    stringifier = stringify quoted: false, quoted_empty: true, eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
@@ -24,7 +24,7 @@ describe 'Option `quotedEmpty`', ->
   it 'quotes empty fields (when strings quoted)', (next) ->
     count = 0
     data = ''
-    stringifier = stringify quotedEmpty: true, quotedString: true, eof: false
+    stringifier = stringify quoted_empty: true, quoted_string: true, eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
@@ -42,7 +42,7 @@ describe 'Option `quotedEmpty`', ->
   it 'prevents quoting empty fields (when strings quoted)', (next) ->
     count = 0
     data = ''
-    stringifier = stringify quotedEmpty: false, quotedString: true, eof: false
+    stringifier = stringify quoted_empty: false, quoted_string: true, eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
@@ -60,7 +60,7 @@ describe 'Option `quotedEmpty`', ->
   it 'quotes empty fields (when all quoted)', (next) ->
     count = 0
     data = ''
-    stringifier = stringify quoted: true, quotedEmpty: true, eof: false
+    stringifier = stringify quoted: true, quoted_empty: true, eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
