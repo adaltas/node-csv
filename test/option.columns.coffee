@@ -1,7 +1,7 @@
 
 stringify = require '../src'
 
-describe 'options columns', ->
+describe 'Option `columns`', ->
 
   describe 'definition', ->
     

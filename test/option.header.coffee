@@ -1,7 +1,7 @@
 
 stringify = require '../src'
 
-describe 'options header', ->
+describe 'Option `header`', ->
 
   it 'as "true" and without "column" option with objects', (next) ->
     stringify [

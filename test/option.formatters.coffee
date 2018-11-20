@@ -1,7 +1,7 @@
 
 stringify = require '../src'
 
-describe 'options formatters', ->
+describe 'Option `formatters`', ->
 
   it 'handle string formatter', (next) ->
     stringify [
