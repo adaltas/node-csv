@@ -1,7 +1,11 @@
 
 [![Build Status](https://api.travis-ci.org/adaltas/node-csv-stringify.svg)](https://travis-ci.org/#!/adaltas/node-csv-stringify)
 
-Part of the [CSV module][csv_home], this project is a stringifier converting arrays or objects into a CSV text. It implements the Node.js [`stream.Transform` API][stream_transform]. It also provides a simple callback-based API for convenience. It is both extremely easy to use and powerful. It was first released in 2010 and is used against big data sets by a large community.
+This package is a stringifier converting records into a CSV text and implementing the
+Node.js [`stream.Transform` API](https://nodejs.org/api/stream.html). It also provides the easier synchronous and
+callback-based APIs for conveniency. It is both extremely easy to use and
+powerful. It was first released in 2010 and is tested against big data
+sets by a large community.
 
 ## Documentation
 
