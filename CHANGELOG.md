@@ -9,6 +9,7 @@ Breaking changes:
 
 New features:
 
+* stream: pass all options to the transformer
 * quoted_match: new option
 * options: accept underscore and camelcase forms
 

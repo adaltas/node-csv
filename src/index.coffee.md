@@ -69,67 +69,67 @@ function generateCsv(sourceData) {
 Options are documented [here](http://csv.adaltas.com/stringify/).
 
     Stringifier = (opts = {}) ->
-      # Immutable options
+      stream.Transform.call @, {options..., {objectMode: true}...}
       options = {}
+      # Immutable options and camelcase conversion
       options[underscore k] = v for k, v of opts
-      options.objectMode = true
-      stream.Transform.call @, options
       ## Default options
-      @options = options
-      @options.delimiter ?= ','
-      @options.quote ?= '"'
-      @options.quoted ?= false
-      @options.quoted_empty ?= undefined
-      @options.quoted_string ?= false
-      @options.eof ?= true
-      @options.escape ?= '"'
-      @options.header ?= false
+      options.delimiter ?= ','
+      options.quote ?= '"'
+      options.quoted ?= false
+      options.quoted_empty ?= undefined
+      options.quoted_string ?= false
+      options.eof ?= true
+      options.escape ?= '"'
+      options.header ?= false
       # Normalize the columns option
-      @options.columns = Stringifier.normalize_columns @options.columns
-      @options.formatters ?= {}
+      options.columns = Stringifier.normalize_columns options.columns
+      options.formatters ?= {}
       # Normalize option `quoted_match`
-      if @options.quoted_match is undefined or @options.quoted_match is null or @options.quoted_match is false
-        @options.quoted_match = null
-      else if not Array.isArray @options.quoted_match
-        @options.quoted_match = [@options.quoted_match]
-      if @options.quoted_match then for quoted_match in @options.quoted_match
+      if options.quoted_match is undefined or options.quoted_match is null or options.quoted_match is false
+        options.quoted_match = null
+      else if not Array.isArray options.quoted_match
+        options.quoted_match = [options.quoted_match]
+      if options.quoted_match then for quoted_match in options.quoted_match
         isString = typeof quoted_match is 'string'
         isRegExp = quoted_match instanceof RegExp
         if not isString and not isRegExp
           throw Error "Invalid Option: quoted_match must be a string or a regex, got #{JSON.stringify quoted_match}"
       # Backward compatibility
-      @options.formatters.boolean = @options.formatters.bool if @options.formatters.bool
+      options.formatters.boolean = options.formatters.bool if options.formatters.bool
       # Custom formatters
-      @options.formatters.string ?= (value) ->
+      options.formatters.string ?= (value) ->
         value
-      @options.formatters.date ?= (value) ->
+      options.formatters.date ?= (value) ->
         # Cast date to timestamp string by default
         '' + value.getTime()
-      @options.formatters.boolean ?= (value) ->
+      options.formatters.boolean ?= (value) ->
         # Cast boolean to string by default
         if value then '1' else ''
-      @options.formatters.number ?= (value) ->
+      options.formatters.number ?= (value) ->
         # Cast number to string using native casting by default
         '' + value
-      @options.formatters.object ?= (value) ->
+      options.formatters.object ?= (value) ->
         # Stringify object as JSON by default
         JSON.stringify value
-      @options.row_delimiter ?= '\n'
+      options.row_delimiter ?= '\n'
       # Internal usage, state related
       @countWriten ?= 0
-      switch @options.row_delimiter
+      switch options.row_delimiter
         when 'auto'
-          @options.row_delimiter = null
+          options.row_delimiter = null
         when 'unix'
-          @options.row_delimiter = "\n"
+          options.row_delimiter = "\n"
         when 'mac'
-          @options.row_delimiter = "\r"
+          options.row_delimiter = "\r"
         when 'windows'
-          @options.row_delimiter = "\r\n"
+          options.row_delimiter = "\r\n"
         when 'ascii'
-          @options.row_delimiter = "\u001e"
+          options.row_delimiter = "\u001e"
         when 'unicode'
-          @options.row_delimiter = "\u2028"
+          options.row_delimiter = "\u2028"
+      # Expose options
+      @options = options
       @
 
     util.inherits Stringifier, stream.Transform
