@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options escape', ->
+describe 'Option `escape`', ->
   
   describe 'same as quote', ->
 

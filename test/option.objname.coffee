@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options objname', ->
+describe 'Option `objname`', ->
 
   it 'should print object of objects with properties using value of given column from columns', (next) ->
     parse """

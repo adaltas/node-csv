@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options skip_empty_lines', ->
+describe 'Option `skip_empty_lines`', ->
   
     describe 'false', ->
     

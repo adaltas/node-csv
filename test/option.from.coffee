@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options from', ->
+describe 'Option `from`', ->
 
   it 'start at defined position', (next) ->
     parse """

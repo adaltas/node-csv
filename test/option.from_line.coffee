@@ -1,17 +1,16 @@
 
 parse = require '../lib'
 
-describe 'options to_line', ->
+describe 'Option `from_line`', ->
 
   it 'start at defined position', (next) ->
     parse """
     1,2,3
     4,5,6
     7,8,9
-    """, to_line: 2, (err, data) ->
+    """, from_line: 3, (err, data) ->
       data.should.eql [
-        [ '1','2','3' ]
-        [ '4','5','6' ]
+        [ '7','8','9' ]
       ] unless err
       next err
 
@@ -21,14 +20,14 @@ describe 'options to_line', ->
     1,2,3
     4,5,6
     7,8,9
-    """, columns: true, to_line: 3, (err, data) ->
+    """, columns: true, from_line: 3, (err, data) ->
       data.should.eql [
-        {a: '1',b: '2',c: '3'}
         {a: '4',b: '5',c: '6'}
+        {a: '7',b: '8',c: '9'}
       ] unless err
       next err
 
-  it 'records with quoted line at the end of line', (next) ->
+  it 'records with quoted line at the begining of line', (next) ->
     parse """
     1,2,"
     
@@ -37,10 +36,10 @@ describe 'options to_line', ->
     6"
     7,8,"
     9"
-    """, to_line: 5, (err, data) ->
+    """, from_line: 4, (err, data) ->
       data.should.eql [
-        [ '1','2','\n\n3' ]
         [ '4','5','\n6' ]
+        [ '7','8','\n9' ]
       ] unless err
       next err
 
@@ -53,10 +52,10 @@ describe 'options to_line', ->
     6"
     7,8,"
     9"
-    """, to_line: 6, (err, data) ->
+    """, from_line: 2, (err, data) ->
       data.should.eql [
-        [ '1','2','\n\n3' ]
         [ '4','5','\n6' ]
+        [ '7','8','\n9' ]
       ] unless err
       next err
 
@@ -66,10 +65,9 @@ describe 'options to_line', ->
     3:d,e,f:4,5,
     6:g,h,i:7,8,
     9
-    """, to_line: 2, record_delimiter: ':', (err, data) ->
+    """, from_line: 3, record_delimiter: ':', (err, data) ->
       data.should.eql [
-        [ 'a','b','c' ]
-        [ '1','2','\n3' ]
-        [ 'd','e','f' ]
+        [ 'g','h','i' ]
+        [ '7','8','\n9' ]
       ] unless err
       next err

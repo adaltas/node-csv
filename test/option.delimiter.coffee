@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'option delimiter', ->
+describe 'Option `delimiter`', ->
   
   it 'using default comma', (next) ->
     parse """

@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options info', ->
+describe 'Option `info`', ->
   
   describe 'validation', ->
     

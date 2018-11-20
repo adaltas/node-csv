@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options quote', ->
+describe 'Option `quote`', ->
   
   it 'default', ->
     parser = parse()

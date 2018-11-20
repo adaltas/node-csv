@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options "cast"', ->
+describe 'Option `cast`', ->
   
   it 'all columns', (next) ->
     parse '1,2,3', cast: true, (err, data) ->

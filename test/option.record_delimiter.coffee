@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options record_delimiter', ->
+describe 'Option `record_delimiter`', ->
 
   it 'as a string', (next) ->
     parse """

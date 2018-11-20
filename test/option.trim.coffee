@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'trim', ->
+describe 'Option `trim`', ->
   
   it 'set ltrim', ->
     parser = parse trim: true

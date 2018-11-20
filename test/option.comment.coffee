@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options comment', ->
+describe 'Option `comment`', ->
   
   it 'validation', ->
     parse '', comment: undefined, (->)

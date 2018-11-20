@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options ltrim', ->
+describe 'Option `ltrim`', ->
 
   it 'plain text', (next) ->
     parse """

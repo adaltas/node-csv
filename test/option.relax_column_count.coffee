@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options relax_column_count', ->
+describe 'Option `relax_column_count`', ->
 
   it 'throw error by default', (next) ->
     parse """

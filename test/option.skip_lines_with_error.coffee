@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'options skip_lines_with_error', ->
+describe 'Option `skip_lines_with_error`', ->
   
   it 'handle "Invalid closing quote"', (next) ->
     skip = null
