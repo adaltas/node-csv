@@ -3,6 +3,9 @@
 
 ## Trunk
 
+Project Management:
+
+* package: update license to MIT
 * travis: test agains Node.js 11
 * samples: improve some scripts
 
