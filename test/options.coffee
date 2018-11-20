@@ -15,6 +15,6 @@ describe 'Options', ->
       next()
   
   it 'camelize options', ->
-    parser = parse record_delimiter: ':'
-    parser.options.recordDelimiter.toString().should.eql ':'
-    (parser.options.record_delimiter is undefined).should.be.true()
+    parser = parse recordDelimiter: ':'
+    parser.options.record_delimiter.toString().should.eql ':'
+    (parser.options.recordDelimiter is undefined).should.be.true()
