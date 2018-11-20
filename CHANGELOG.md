@@ -1,6 +1,12 @@
 
 # Changelog
 
+## Trunk
+
+New features:
+
+* options: accept camelize and underscore forms
+
 ## Version 4.0.1
 
 Fix:
