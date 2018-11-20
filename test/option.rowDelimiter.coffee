@@ -1,7 +1,7 @@
 
 stringify = require '../src'
 
-describe 'options rowDelimiter', ->
+describe 'Option `rowDelimiter`', ->
 
   it 'Test line breaks custom', (next) ->
     stringify [
@@ -56,4 +56,3 @@ describe 'options rowDelimiter', ->
       return next err if err
       result.should.eql '20322051544\u001f8.8017226E7\u001fABC\u001e28392898392\u001f8.8392926E7\u001fDEF\u001e'
       next()
-

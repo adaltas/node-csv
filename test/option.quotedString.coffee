@@ -2,7 +2,7 @@
 fs = require 'fs'
 stringify = require '../src'
 
-describe 'options quotedString', ->
+describe 'Option `quotedString`', ->
   
   it 'quotes string fields', (next) ->
     count = 0

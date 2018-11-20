@@ -1,7 +1,7 @@
 
 stringify = require '../src'
 
-describe 'options escape', ->
+describe 'Option `escape`', ->
 
   it 'only apply to quote and escape characters', (next) ->
     stringify [

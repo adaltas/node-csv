@@ -1,7 +1,7 @@
 
 stringify = require '../src'
 
-describe 'options delimiter', ->
+describe 'Option `delimiter`', ->
   
   it 'with default value', (next) ->
     stringify [

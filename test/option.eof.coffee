@@ -1,7 +1,7 @@
 
 stringify = require '../src'
 
-describe 'options eof', ->
+describe 'Option `eof`', ->
   
   it 'print line break when true', (next) ->
     stringify [

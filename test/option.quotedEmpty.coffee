@@ -2,7 +2,7 @@
 fs = require 'fs'
 stringify = require '../src'
 
-describe 'options quotedEmpty', ->
+describe 'Option `quotedEmpty`', ->
   it 'quotes empty fields (when all not quoted)', (next) ->
     count = 0
     data = ''
