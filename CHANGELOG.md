@@ -3,6 +3,14 @@
 
 ## Trunk
 
+Breaking changes:
+
+* options: instance options stored in underscore form
+
+Features:
+
+* options: accept underscore and camelcase forms
+
 Project Management:
 
 * package: update license to MIT

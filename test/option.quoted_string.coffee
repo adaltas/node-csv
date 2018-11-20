@@ -2,12 +2,12 @@
 fs = require 'fs'
 stringify = require '../src'
 
-describe 'Option `quotedString`', ->
+describe 'Option `quoted_string`', ->
   
   it 'quotes string fields', (next) ->
     count = 0
     data = ''
-    stringifier = stringify quotedString: true, eof: false
+    stringifier = stringify quoted_string: true, eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
@@ -25,7 +25,7 @@ describe 'Option `quotedString`', ->
   it 'quotes empty string fields (when all quoted)', (next) ->
     count = 0
     data = ''
-    stringifier = stringify quoted: true, quotedString: true, eof: false
+    stringifier = stringify quoted: true, quoted_string: true, eof: false
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d

@@ -71,7 +71,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
     Stringifier = (opts = {}) ->
       # Immutable options
       options = {}
-      options[k] = v for k, v of opts
+      options[underscore k] = v for k, v of opts
       options.objectMode = true
       stream.Transform.call @, options
       ## Default options
@@ -79,8 +79,8 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.delimiter ?= ','
       @options.quote ?= '"'
       @options.quoted ?= false
-      @options.quotedEmpty ?= undefined
-      @options.quotedString ?= false
+      @options.quoted_empty ?= undefined
+      @options.quoted_string ?= false
       @options.eof ?= true
       @options.escape ?= '"'
       @options.header ?= false
@@ -104,22 +104,22 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       @options.formatters.object ?= (value) ->
         # Stringify object as JSON by default
         JSON.stringify value
-      @options.rowDelimiter ?= '\n'
+      @options.row_delimiter ?= '\n'
       # Internal usage, state related
       @countWriten ?= 0
-      switch @options.rowDelimiter
+      switch @options.row_delimiter
         when 'auto'
-          @options.rowDelimiter = null
+          @options.row_delimiter = null
         when 'unix'
-          @options.rowDelimiter = "\n"
+          @options.row_delimiter = "\n"
         when 'mac'
-          @options.rowDelimiter = "\r"
+          @options.row_delimiter = "\r"
         when 'windows'
-          @options.rowDelimiter = "\r\n"
+          @options.row_delimiter = "\r\n"
         when 'ascii'
-          @options.rowDelimiter = "\u001e"
+          @options.row_delimiter = "\u001e"
         when 'unicode'
-          @options.rowDelimiter = "\u2028"
+          @options.row_delimiter = "\u2028"
       @
 
     util.inherits Stringifier, stream.Transform
@@ -145,11 +145,11 @@ Implementation of the [transform._transform function](https://nodejs.org/api/str
         if @options.eof
           chunk = @stringify(chunk)
           return unless chunk?
-          chunk = chunk + @options.rowDelimiter
+          chunk = chunk + @options.row_delimiter
         else
           chunk = @stringify(chunk)
           return unless chunk?
-          chunk = @options.rowDelimiter + chunk if @options.header or @countWriten
+          chunk = @options.row_delimiter + chunk if @options.header or @countWriten
       # Emit the csv
       chunk = "#{chunk}" if typeof chunk is 'number'
       @headers() if @countWriten is 0
@@ -217,8 +217,8 @@ Convert a line to a string. Line may be an object, an array or a string.
             containsdelimiter = field.indexOf(delimiter) >= 0
             containsQuote = (quote isnt '') and field.indexOf(quote) >= 0
             containsEscape = field.indexOf(escape) >= 0 and (escape isnt quote)
-            containsRowDelimiter = field.indexOf(@options.rowDelimiter) >= 0
-            shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or @options.quoted or (@options.quotedString and typeof record[i] is 'string')
+            containsRowDelimiter = field.indexOf(@options.row_delimiter) >= 0
+            shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or @options.quoted or (@options.quoted_string and typeof record[i] is 'string')
             if shouldQuote and containsEscape
               regexp = if escape is '\\' then new RegExp(escape + escape, 'g') else new RegExp(escape, 'g');
               field = field.replace(regexp, escape + escape)
@@ -228,7 +228,7 @@ Convert a line to a string. Line may be an object, an array or a string.
             if shouldQuote
               field = quote + field + quote
             newrecord += field
-          else if @options.quotedEmpty or (not @options.quotedEmpty? and record[i] is '' and @options.quotedString)
+          else if @options.quoted_empty or (not @options.quoted_empty? and record[i] is '' and @options.quoted_string)
             newrecord += quote + quote
           if i isnt record.length - 1
             newrecord += delimiter
@@ -244,7 +244,7 @@ Print the header line if the option "header" is "true".
       return unless @options.columns
       headers = @options.columns.map (column) -> column.header
       if @options.eof
-        headers = @stringify(headers) + @options.rowDelimiter
+        headers = @stringify(headers) + @options.row_delimiter
       else
         headers = @stringify(headers)
       @push headers
@@ -274,3 +274,9 @@ Print the header line if the option "header" is "true".
             else
               throw Error 'Invalid column definition: expect a string or an object'
       columns
+
+      
+
+    underscore = (str) ->
+      str.replace /([A-Z])/g, (_, match, index) ->
+        return '_' + match.toLowerCase()
