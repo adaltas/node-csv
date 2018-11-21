@@ -25,7 +25,7 @@ describe 'Option `header`', ->
   it 'emit header', (next) ->
     count = 0
     data = ''
-    stringifier = stringify(columns: [ 'col1', 'col2' ], header: true, rowDelimiter: 'unix')
+    stringifier = stringify(columns: [ 'col1', 'col2' ], header: true)
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d
@@ -42,7 +42,7 @@ describe 'Option `header`', ->
   it 'emit header even without a source', (next) ->
     count = 0
     data = ''
-    stringifier = stringify(columns: [ 'col1', 'col2' ], header: true, rowDelimiter: 'unix')
+    stringifier = stringify(columns: [ 'col1', 'col2' ], header: true)
     stringifier.on 'readable', ->
       while(d = stringifier.read())
         data += d

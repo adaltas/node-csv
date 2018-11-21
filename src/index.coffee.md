@@ -112,22 +112,28 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       options.formatters.object ?= (value) ->
         # Stringify object as JSON by default
         JSON.stringify value
-      options.row_delimiter ?= '\n'
+      if options.record_delimiter is undefined or options.record_delimiter is null or options.record_delimiter is false
+        options.record_delimiter ?= '\n'
+      else if typeof options.record_delimiter is 'string'
+        switch options.record_delimiter
+          when 'auto'
+            options.record_delimiter = null
+          when 'unix'
+            options.record_delimiter = "\n"
+          when 'mac'
+            options.record_delimiter = "\r"
+          when 'windows'
+            options.record_delimiter = "\r\n"
+          when 'ascii'
+            options.record_delimiter = "\u001e"
+          when 'unicode'
+            options.record_delimiter = "\u2028"
+      else if Buffer.isBuffer options.record_delimiter
+        options.record_delimiter = options.record_delimiter.toString()
+      else
+        throw Error "Invalid Option: record_delimiter must be a string or a buffer, got #{JSON.stringify options.record_delimiter}"
       # Internal usage, state related
       @countWriten ?= 0
-      switch options.row_delimiter
-        when 'auto'
-          options.row_delimiter = null
-        when 'unix'
-          options.row_delimiter = "\n"
-        when 'mac'
-          options.row_delimiter = "\r"
-        when 'windows'
-          options.row_delimiter = "\r\n"
-        when 'ascii'
-          options.row_delimiter = "\u001e"
-        when 'unicode'
-          options.row_delimiter = "\u2028"
       # Expose options
       @options = options
       @
@@ -155,11 +161,11 @@ Implementation of the [transform._transform function](https://nodejs.org/api/str
         if @options.eof
           chunk = @stringify(chunk)
           return unless chunk?
-          chunk = chunk + @options.row_delimiter
+          chunk = chunk + @options.record_delimiter
         else
           chunk = @stringify(chunk)
           return unless chunk?
-          chunk = @options.row_delimiter + chunk if @options.header or @countWriten
+          chunk = @options.record_delimiter + chunk if @options.header or @countWriten
       # Emit the csv
       chunk = "#{chunk}" if typeof chunk is 'number'
       @headers() if @countWriten is 0
@@ -227,7 +233,7 @@ Convert a line to a string. Line may be an object, an array or a string.
             containsdelimiter = field.indexOf(delimiter) >= 0
             containsQuote = (quote isnt '') and field.indexOf(quote) >= 0
             containsEscape = field.indexOf(escape) >= 0 and (escape isnt quote)
-            containsRowDelimiter = field.indexOf(@options.row_delimiter) >= 0
+            containsRowDelimiter = field.indexOf(@options.record_delimiter) >= 0
             quoted = @options.quoted
             quotedString = @options.quoted_string and typeof record[i] is 'string'
             quotedMatch = @options.quoted_match and typeof record[i] is 'string' and @options.quoted_match.filter (quoted_match) ->
@@ -262,7 +268,7 @@ Print the header line if the option "header" is "true".
       return unless @options.columns
       headers = @options.columns.map (column) -> column.header
       if @options.eof
-        headers = @stringify(headers) + @options.row_delimiter
+        headers = @stringify(headers) + @options.record_delimiter
       else
         headers = @stringify(headers)
       @push headers
