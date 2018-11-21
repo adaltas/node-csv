@@ -5,14 +5,14 @@
 
 Breaking changes:
 
-* cast: was formatters
-* record_delimiter: was row_delimiter
+* `cast`: was `formatters`
+* `record_delimiter`: was `row_delimiter`
 * options: instance options stored in underscore form
 * nodejs: drop support for version 7, use './lib/es5'
 
 New features:
 
-* quoted_match: new option
+* `quoted_match`: new option
 * options: accept underscore and camelcase forms
 
 Minor enhancements:
@@ -36,13 +36,13 @@ Project Management:
 
 ## Version 4.2.0
 
-* formatter: new string formatter
+* `formatters`: new string formatter
 * stream: be a much better transform citizen
 * package: upgrade to babel 7
 
 ## Version 4.1.0
 
-* columns: support array with column definition objects
+* `columns`: support array with column definition objects
 * travis: support Node.js 10
 * samples: new formatters script
 * samples: update syntax
@@ -56,15 +56,15 @@ Project Management:
 
 Backward incompatibilities:
 
-* formatters: rename bool to boolean
+* `formatters`: rename bool to boolean
 
 New features:
 
-* formatters: handle number
+* `formatters`: handle number
 
 Cleanup
 
-* src: cache call to typeof
+* src: cache call to `typeof`
 * package: latest dependencies
 
 ## Version 3.1.1
@@ -77,12 +77,12 @@ Cleanup
 
 ## Version 3.0.0
 
-* Switch linebreak check for rowDelimiter check
+* Switch linebreak check for `rowDelimiter` check
 
 ## Version 2.1.0
 
 * package: allow empty quote value
-* package: add ascii option for rowDelimiter
+* package: add ascii option for `rowDelimiter`
 
 ## Version 2.0.4
 
@@ -113,4 +113,4 @@ lower than 7.6 as well as the browsers. It is however stable in term of API.
 ## v1.1.0
 
 * test: should require handled by mocha
-* package: coffeescript 2 and use semver tilde
+* package: CoffeeScript 2 and use of semver tilde
