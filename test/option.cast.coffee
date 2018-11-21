@@ -1,53 +1,53 @@
 
 stringify = require '../src'
 
-describe 'Option `formatters`', ->
+describe 'Option `cast`', ->
 
   it 'handle string formatter', (next) ->
     stringify [
       value: 'ok'
-    ], {formatters: string: -> 'X'}, (err, data) ->
+    ], {cast: string: -> 'X'}, (err, data) ->
       data.should.eql 'X\n'  unless err
       next err
 
   it 'handle boolean formatter', (next) ->
     stringify [
       value: true
-    ], {formatters: boolean: -> 'X'}, (err, data) ->
+    ], {cast: boolean: -> 'X'}, (err, data) ->
       data.should.eql 'X\n'  unless err
       next err
 
   it 'handle date formatter', (next) ->
     stringify [
       value: new Date
-    ], {formatters: date: -> 'X'}, (err, data) ->
+    ], {cast: date: -> 'X'}, (err, data) ->
       data.should.eql 'X\n'  unless err
       next err
 
   it 'handle number formatter', (next) ->
     stringify [
       value: 3.14
-    ], {formatters: number: (value) -> '' + value * 2 }, (err, data) ->
+    ], {cast: number: (value) -> '' + value * 2 }, (err, data) ->
       data.should.eql '6.28\n'  unless err
       next err
 
   it 'handle object formatter', (next) ->
     stringify [
       value: a: 1
-    ], {formatters: object: -> 'X'}, (err, data) ->
+    ], {cast: object: -> 'X'}, (err, data) ->
       data.should.eql 'X\n'  unless err
       next err
 
   it 'catch error', (next) ->
     stringify [
       value: true
-    ], {formatters: boolean: (value) -> throw Error 'Catchme'}, (err, data) ->
+    ], {cast: boolean: (value) -> throw Error 'Catchme'}, (err, data) ->
       err.message.should.eql 'Catchme'
       next()
 
   it 'boolean must return a string', (next) ->
     stringify [
       value: true
-    ], {formatters: boolean: (value) -> if value then 1 else 0}, (err, data) ->
+    ], {cast: boolean: (value) -> if value then 1 else 0}, (err, data) ->
       err.message.should.eql 'Formatter must return a string, null or undefined'
       next()
