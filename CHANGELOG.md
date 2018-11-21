@@ -10,7 +10,7 @@ See the changelogs of our child projects:
 
 ## Trunk
 
-* travis: test with Node.js 7, 8 and 10
+* travis: test with Node.js 8, 10 and 11
 
 ## Version 4.0.0
 
