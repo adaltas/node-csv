@@ -9,9 +9,13 @@ Breaking changes:
 
 New features:
 
-* stream: pass all options to the transformer
 * quoted_match: new option
 * options: accept underscore and camelcase forms
+
+Minor enhancements:
+
+* stream: pass all options to the transform stream
+* stream: use writableObjectMode
 
 Project Management:
 
