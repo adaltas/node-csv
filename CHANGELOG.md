@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.0.0
 
 Breaking changes:
 
