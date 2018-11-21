@@ -10,8 +10,7 @@ stringify([
   { year: 'XXXX', phone: 'XXX XXXX' },
   { year: 'YYYY', phone: 'YYY YYYY' }
 ],{
-  header: true,
-  columns: ['year', 'phone']
+  header: true
 }, function(err, data){
   assert.equal(
     data,
