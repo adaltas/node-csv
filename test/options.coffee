@@ -14,7 +14,7 @@ describe 'Options', ->
       (options.quote is false).should.be.true()
       next()
   
-  it 'camelize options', ->
+  it 'underscore options', ->
     parser = parse recordDelimiter: ':'
     parser.options.record_delimiter.toString().should.eql ':'
     (parser.options.recordDelimiter is undefined).should.be.true()
