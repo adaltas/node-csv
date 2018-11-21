@@ -88,11 +88,11 @@ describe 'quote', ->
       """
       next()
 
-  it 'values with linebreaks and different rowDelimiter', (next) ->
+  it 'values with linebreaks and different record delimiter', (next) ->
     stringify [
       [ '123\n456', 789]
       [ '','1974' ]
-    ], {eof: false, rowDelimiter: '__'}, (err, data) ->
+    ], {eof: false, record_delimiter: '__'}, (err, data) ->
       data.should.eql """
       123
       456,789__,1974

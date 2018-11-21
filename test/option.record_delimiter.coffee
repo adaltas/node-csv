@@ -1,13 +1,27 @@
 
 stringify = require '../src'
 
-describe 'Option `row_delimiter`', ->
+describe 'Option `record_delimiter`', ->
+  
+  it 'validate', ->
+    ( ->
+      stringify record_delimiter: true
+    ).should.throw 'Invalid Option: record_delimiter must be a string or a buffer, got true'
 
-  it 'Test line breaks custom', (next) ->
+  it 'Test line breaks custom string', (next) ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], row_delimiter: '::', (err, result) ->
+    ], record_delimiter: '::', (err, result) ->
+      return next err if err
+      result.should.eql '20322051544,8.8017226E7,ABC::28392898392,8.8392926E7,DEF::'
+      next()
+
+  it 'Test line breaks custom buffer', (next) ->
+    stringify [
+      [ '20322051544','8.8017226E7','ABC' ]
+      [ '28392898392','8.8392926E7','DEF' ]
+    ], record_delimiter: Buffer.from('::'), (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC::28392898392,8.8392926E7,DEF::'
       next()
@@ -16,7 +30,7 @@ describe 'Option `row_delimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], row_delimiter: 'unix', (err, result) ->
+    ], record_delimiter: 'unix', (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC\n28392898392,8.8392926E7,DEF\n'
       next()
@@ -25,7 +39,7 @@ describe 'Option `row_delimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], row_delimiter: 'unicode', (err, result) ->
+    ], record_delimiter: 'unicode', (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC\u202828392898392,8.8392926E7,DEF\u2028'
       next()
@@ -34,7 +48,7 @@ describe 'Option `row_delimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], row_delimiter: 'mac', (err, result) ->
+    ], record_delimiter: 'mac', (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC\r28392898392,8.8392926E7,DEF\r'
       next()
@@ -43,7 +57,7 @@ describe 'Option `row_delimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], row_delimiter: 'windows', (err, result) ->
+    ], record_delimiter: 'windows', (err, result) ->
       return next err if err
       result.should.eql '20322051544,8.8017226E7,ABC\r\n28392898392,8.8392926E7,DEF\r\n'
       next()
@@ -52,7 +66,7 @@ describe 'Option `row_delimiter`', ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
       [ '28392898392','8.8392926E7','DEF' ]
-    ], row_delimiter: 'ascii', delimiter: '\u001f', (err, result) ->
+    ], record_delimiter: 'ascii', delimiter: '\u001f', (err, result) ->
       return next err if err
       result.should.eql '20322051544\u001f8.8017226E7\u001fABC\u001e28392898392\u001f8.8392926E7\u001fDEF\u001e'
       next()
