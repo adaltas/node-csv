@@ -6,6 +6,7 @@
 Breaking changes:
 
 * options: instance options stored in underscore form
+* nodejs: drop support for version 7
 
 New features:
 
