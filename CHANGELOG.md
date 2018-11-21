@@ -5,6 +5,7 @@
 
 Breaking changes:
 
+* cast: was formatters
 * record_delimiter: was row_delimiter
 * options: instance options stored in underscore form
 * nodejs: drop support for version 7, use './lib/es5'

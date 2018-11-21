@@ -84,7 +84,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
       options.header ?= false
       # Normalize the columns option
       options.columns = Stringifier.normalize_columns options.columns
-      options.formatters ?= {}
+      options.cast ?= {}
       # Normalize option `quoted_match`
       if options.quoted_match is undefined or options.quoted_match is null or options.quoted_match is false
         options.quoted_match = null
@@ -96,20 +96,20 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
         if not isString and not isRegExp
           throw Error "Invalid Option: quoted_match must be a string or a regex, got #{JSON.stringify quoted_match}"
       # Backward compatibility
-      options.formatters.boolean = options.formatters.bool if options.formatters.bool
-      # Custom formatters
-      options.formatters.string ?= (value) ->
+      options.cast.boolean = options.cast.bool if options.cast.bool
+      # Custom cast
+      options.cast.string ?= (value) ->
         value
-      options.formatters.date ?= (value) ->
+      options.cast.date ?= (value) ->
         # Cast date to timestamp string by default
         '' + value.getTime()
-      options.formatters.boolean ?= (value) ->
+      options.cast.boolean ?= (value) ->
         # Cast boolean to string by default
         if value then '1' else ''
-      options.formatters.number ?= (value) ->
+      options.cast.number ?= (value) ->
         # Cast number to string using native casting by default
         '' + value
-      options.formatters.object ?= (value) ->
+      options.cast.object ?= (value) ->
         # Stringify object as JSON by default
         JSON.stringify value
       if options.record_delimiter is undefined or options.record_delimiter is null or options.record_delimiter is false
@@ -214,15 +214,15 @@ Convert a line to a string. Line may be an object, an array or a string.
           try
             if type is 'string'
               # fine 99% of the cases
-              field = @options.formatters.string(field)
+              field = @options.cast.string(field)
             else if type is 'number'
-              field = @options.formatters.number(field)
+              field = @options.cast.number(field)
             else if type is 'boolean'
-              field = @options.formatters.boolean(field)
+              field = @options.cast.boolean(field)
             else if field instanceof Date
-              field = @options.formatters.date(field)
+              field = @options.cast.date(field)
             else if type is 'object' and field isnt null
-              field = @options.formatters.object(field)
+              field = @options.cast.object(field)
           catch err
             @emit 'error', err
             return
