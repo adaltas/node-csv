@@ -69,7 +69,7 @@ function generateCsv(sourceData) {
 Options are documented [here](http://csv.adaltas.com/stringify/).
 
     Stringifier = (opts = {}) ->
-      stream.Transform.call @, {options..., {objectMode: true}...}
+      stream.Transform.call @, {options..., {writableObjectMode: true}...}
       options = {}
       # Immutable options and camelcase conversion
       options[underscore k] = v for k, v of opts
