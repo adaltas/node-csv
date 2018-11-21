@@ -10,6 +10,9 @@ See the changelogs of our child projects:
 
 ## Trunk
 
+* generate: version 3.1.0
+* stringify: version 5.0.0
+* parse: version 4.0.1
 * travis: test with Node.js 8, 10 and 11
 
 ## Version 4.0.0
