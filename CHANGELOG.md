@@ -7,6 +7,10 @@ New features:
 
 * options: accept camelize and underscore forms
 
+Fix:
+
+* stream: pass stream options without modification
+
 ## Version 4.0.1
 
 Fix:
