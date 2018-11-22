@@ -14,10 +14,10 @@ describe('API Types', () => {
       keys.sort().should.eql([
         'cast', 'cast_date', 'columns', 'comment', 'delimiter',
         'escape', 'from', 'from_line', 'info', 'ltrim', 'max_record_size',
-        'objname', 'quote', 'raw', 'readableObjectMode',
-        'record_delimiter', 'relax', 'relax_column_count',
-        'rtrim', 'skip_empty_lines', 'skip_lines_with_empty_values', 
-        'skip_lines_with_error', 'to', 'to_line', 'trim'
+        'objname', 'quote', 'raw', 'record_delimiter',
+        'relax', 'relax_column_count', 'rtrim', 'skip_empty_lines',
+        'skip_lines_with_empty_values', 'skip_lines_with_error', 'to', 
+        'to_line', 'trim'
       ])
     })
       
