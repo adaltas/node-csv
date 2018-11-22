@@ -3,9 +3,13 @@
 
 ## Trunk
 
+Minor enhancements:
+
+* src: extends stream class
+
 Project Management:
 
-package: latest dev dependencies
+* package: latest dev dependencies
 
 ## Version 5.0.0
 
