@@ -51,3 +51,15 @@ describe 'Option `cast`', ->
     ], {cast: boolean: (value) -> if value then 1 else 0}, (err, data) ->
       err.message.should.eql 'Formatter must return a string, null or undefined'
       next()
+  
+  it.skip 'pass a context argument', (next) ->
+    stringify [
+      is_true: true
+      is_false: false
+    ], cast: boolean: (value, context) ->
+      console.log context
+      if value then 'yes' else 'no'
+    , (err, data) ->
+      data.trim().should.eql 'yes,no'
+      next()
+    

@@ -185,10 +185,7 @@ Convert a line to a string. Line may be an object, an array or a string.
 
       stringify: (record) ->
         return record if typeof record isnt 'object'
-        columns = @options.columns
-        delimiter = @options.delimiter
-        quote = @options.quote
-        escape = @options.escape
+        {columns, delimiter, quote, escape} = @options
         unless Array.isArray record
           _record = []
           if columns
