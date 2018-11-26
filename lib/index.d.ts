@@ -11,7 +11,7 @@ declare function stringify(input: stringify.Input, options?: stringify.Options, 
 declare namespace stringify {
     type Callback = (err?: null | Error, output?: string) => void
 
-    type RowDelimiter = 'string' | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
+    type RowDelimiter = string | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
 
     type Formatter<T> = (value: T) => string
 
