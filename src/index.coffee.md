@@ -207,31 +207,18 @@ Convert a line to a string. Line may be an object, an array or a string.
         if Array.isArray record
           newrecord = ''
           for i in [0...record.length]
-            field = record[i]
-            type = typeof field
-            try
-              if type is 'string'
-                # fine 99% of the cases
-                field = @options.cast.string(field)
-              else if type is 'number'
-                field = @options.cast.number(field)
-              else if type is 'boolean'
-                field = @options.cast.boolean(field)
-              else if field instanceof Date
-                field = @options.cast.date(field)
-              else if type is 'object' and field isnt null
-                field = @options.cast.object(field)
-            catch err
+            [err, value] = @cast record[i]
+            if err
               @emit 'error', err
               return
-            if field
-              unless typeof field is 'string'
+            if value
+              unless typeof value is 'string'
                 @emit 'error', Error 'Formatter must return a string, null or undefined'
                 return null
-              containsdelimiter = field.indexOf(delimiter) >= 0
-              containsQuote = (quote isnt '') and field.indexOf(quote) >= 0
-              containsEscape = field.indexOf(escape) >= 0 and (escape isnt quote)
-              containsRowDelimiter = field.indexOf(@options.record_delimiter) >= 0
+              containsdelimiter = value.indexOf(delimiter) >= 0
+              containsQuote = (quote isnt '') and value.indexOf(quote) >= 0
+              containsEscape = value.indexOf(escape) >= 0 and (escape isnt quote)
+              containsRowDelimiter = value.indexOf(@options.record_delimiter) >= 0
               quoted = @options.quoted
               quotedString = @options.quoted_string and typeof record[i] is 'string'
               quotedMatch = @options.quoted_match and typeof record[i] is 'string' and @options.quoted_match.filter (quoted_match) ->
@@ -243,13 +230,13 @@ Convert a line to a string. Line may be an object, an array or a string.
               shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
               if shouldQuote and containsEscape
                 regexp = if escape is '\\' then new RegExp(escape + escape, 'g') else new RegExp(escape, 'g');
-                field = field.replace(regexp, escape + escape)
+                value = value.replace(regexp, escape + escape)
               if containsQuote
                 regexp = new RegExp(quote,'g')
-                field = field.replace(regexp, escape + quote)
+                value = value.replace(regexp, escape + quote)
               if shouldQuote
-                field = quote + field + quote
-              newrecord += field
+                value = quote + value + quote
+              newrecord += value
             else if @options.quoted_empty or (not @options.quoted_empty? and record[i] is '' and @options.quoted_string)
               newrecord += quote + quote
             if i isnt record.length - 1
@@ -270,6 +257,25 @@ Print the header line if the option "header" is "true".
         else
           headers = @stringify(headers)
         @push headers
+
+      cast: (value) ->
+        type = typeof value
+        try
+          if type is 'string'
+            # fine 99% of the cases
+            [undefined, @options.cast.string value]
+          else if type is 'number'
+            [undefined, @options.cast.number value]
+          else if type is 'boolean'
+            [undefined, @options.cast.boolean value]
+          else if value instanceof Date
+            [undefined, @options.cast.date value]
+          else if type is 'object' and value isnt null
+            [undefined, @options.cast.object value]
+          else
+            [undefined, value]
+        catch err
+          [err]
 
 ## `Stringifier.prototype.headers`
 
