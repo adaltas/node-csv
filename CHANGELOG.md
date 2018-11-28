@@ -1,6 +1,17 @@
 
 # Changelog
 
+## Roadmap
+
+* seed: always a number, value "0" disable the feature
+* Promise module API
+* record_delimiter: rename from row_delimiter
+* internal: store options in underscore form
+
+## Trunk
+
+* ts: new TypeScript definition files
+
 ## Version 3.1.0
 
 * duration: fix start time
