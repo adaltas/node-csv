@@ -51,7 +51,7 @@ describe 'Option `header`', ->
       next()
     stringifier.end()
 
-  it 'should print headers with defined write columns', (next) ->
+  it 'print headers with defined write columns', (next) ->
     stringify [
       [ 20322051544, 1979, '8.8017226E7', 'ABC', 45, '2000-01-01' ]
       [ 28392898392, 1974, '8.8392926E7', 'DEF', 23, '2050-11-27' ]
@@ -60,8 +60,8 @@ describe 'Option `header`', ->
       FIELD_1,FIELD_2
       20322051544,1979
       28392898392,1974
-      """
-      next()
+      """ unless err
+      next err
 
   it 'should print headers with true read columns and defined write columns', (next) ->
     stringify [
