@@ -8,7 +8,7 @@ describe 'option high_water_mark', ->
     generator = generate fixed_size: true, highWaterMark: 64
     generator.on 'readable', ->
       while(data = generator.read())
-        data.length.should.be.within 64, 128
+        data.length.should.be.within 64, 64*3
         generator.end() if count++ is 100
     generator.on 'error', next
     generator.on 'end', next

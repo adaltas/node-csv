@@ -54,6 +54,10 @@ Feel free to ask for new features and to participate by writting issues and prep
 Options are documented [here](http://csv.js.org/generate/options/).
 
     Generator = (options = {}) ->
+      # Convert Stream Readable options if underscored
+      options.highWaterMark = options.high_water_mark if options.high_water_mark
+      options.objectMode = options.object_mode if options.object_mode
+      # Call parent constructor
       stream.Readable.call @, options
       # Clone and camelize options
       @options = {}
@@ -61,15 +65,18 @@ Options are documented [here](http://csv.js.org/generate/options/).
         @options[Generator.camelize k] = v
       # Normalize options
       @options.columns ?= 8
-      @options.maxWordLength ?= 16
-      @options.fixedSize ?= false
-      @options.end ?= null
-      @options.duration ?= null
-      @options.seed ?= false
-      @options.length ?= -1
       @options.delimiter ?= ','
-      @options.rowDelimiter ?= '\n'
+      @options.duration ?= null
+      @options.encoding ?= null
+      @options.end ?= null
       @options.eof ?= false
+      @options.fixedSize ?= false
+      @options.length ?= -1
+      @options.maxWordLength ?= 16
+      @options.rowDelimiter ?= '\n'
+      @options.seed ?= false
+      @options.sleep ?= 0
+      # Default values
       @options.eof = @options.rowDelimiter if @options.eof is true
       # State
       @_ =
@@ -168,7 +175,7 @@ Put new data into the read queue.
 Put new data into the read queue.
 
     Generator.prototype.__push = (record) ->
-      if @options.sleep
+      if @options.sleep > 0
         setTimeout =>
           @push record
         , @options.sleep
