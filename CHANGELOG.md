@@ -8,7 +8,7 @@
 * record_delimiter: rename from row_delimiter
 * internal: store options in underscore form
 
-## Trunk
+## Version 3.2.0
 
 * ts: new TypeScript definition files
 
