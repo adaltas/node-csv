@@ -114,6 +114,18 @@ describe 'Option `cast`', ->
           ] unless err
           next err
 
+      it 'dont count header line', (next) ->
+        parse """
+        a,b,c
+        1,2,3
+        4,5,6
+        """,
+          columns: true
+          cast: (value, context) ->
+            value
+        , (err, records) ->
+          next err
+
     describe 'error', ->
       
       it 'catch error', (next) ->
