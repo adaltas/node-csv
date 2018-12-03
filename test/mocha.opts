@@ -1,7 +1,7 @@
 --throw-deprecation
 --require should
---require ts-node/register
 --require coffeescript/register
+--require ts-node/register
 --timeout 40000
 --reporter spec
 --recursive

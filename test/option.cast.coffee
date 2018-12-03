@@ -79,47 +79,51 @@ describe 'Option `cast`', ->
           [ false, true ]
         ] unless err
         next err
+    
+    describe 'columns', ->
 
-    it 'header is true on first line when columns is true', (next) ->
-      parse """
-      a,b,c
-      1,2,3
-      4,5,6
-      """,
-        columns: true
-        cast: (value, context) ->
-          if context.header then value else parseInt value
-      , (err, records) ->
-        records.should.eql [
-          {a: 1, b: 2, c: 3}
-          {a: 4, b: 5, c: 6}
-        ] unless err
-        next err
+      it 'header is true on first line when columns is true', (next) ->
+        parse """
+        a,b,c
+        1,2,3
+        4,5,6
+        """,
+          columns: true
+          cast: (value, context) ->
+            if context.header then value else parseInt value
+        , (err, records) ->
+          records.should.eql [
+            {a: 1, b: 2, c: 3}
+            {a: 4, b: 5, c: 6}
+          ] unless err
+          next err
 
-    it 'header is false when columns is an object', (next) ->
-      parse """
-      1,2,3
-      4,5,6
-      """,
-        columns: ['a', 'b', 'c']
-        cast: (value, context) ->
-          context.header.should.be.false()
-          parseInt value
-      , (err, records) ->
-        records.should.eql [
-          {a: 1, b: 2, c: 3}
-          {a: 4, b: 5, c: 6}
-        ] unless err
-        next err
+      it 'header is false when columns is an object', (next) ->
+        parse """
+        1,2,3
+        4,5,6
+        """,
+          columns: ['a', 'b', 'c']
+          cast: (value, context) ->
+            context.header.should.be.false()
+            parseInt value
+        , (err, records) ->
+          records.should.eql [
+            {a: 1, b: 2, c: 3}
+            {a: 4, b: 5, c: 6}
+          ] unless err
+          next err
 
-    it 'catch error', (next) ->
-      parse """
-      1,2,3
-      4,5,6
-      """,
-        cast: (value, context) ->
-          if value is '6' then throw Error 'Catchme'
-          value
-      , (err, records) ->
-        err.message.should.eql 'Catchme'
-        next()
+    describe 'error', ->
+      
+      it 'catch error', (next) ->
+        parse """
+        1,2,3
+        4,5,6
+        """,
+          cast: (value) ->
+            if value is '6' then throw Error 'Catchme'
+            value
+        , (err, records) ->
+          err.message.should.eql 'Catchme'
+          next()
