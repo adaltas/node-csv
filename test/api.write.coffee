@@ -79,3 +79,23 @@ describe 'API write', ->
         next()
     stringifier.write ['abc','123'], 'utf8' , (e,d) ->
         stringifier.end()
+
+  it 'write invalid record null', (next) ->
+    stringifier = stringify()
+    stringifier.on 'error', (err) ->
+      err.message.should.eql 'May not write null values to stream'
+      next()
+    stringifier.on 'end', ->
+      next Error 'Oh no!'
+    stringifier.write null, 'utf8' , (e,d) ->
+      stringifier.end()
+
+  it 'write invalid record true', (next) ->
+    stringifier = stringify()
+    stringifier.on 'error', (err) ->
+      err.message.should.eql 'Invalid Record: expect an array or an object, got true'
+      next()
+    stringifier.on 'end', ->
+      next Error 'Oh no!'
+    stringifier.write true, 'utf8' , (e,d) ->
+      stringifier.end()

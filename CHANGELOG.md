@@ -5,6 +5,7 @@
 
 Minor enhancements:
 
+* write: validate written records
 * src: extends stream class
 
 Project Management:

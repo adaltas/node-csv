@@ -146,7 +146,8 @@ Implementation of the [transform._transform function](https://nodejs.org/api/str
 
       _transform: (chunk, encoding, callback) ->
         # Nothing to do if null or undefined
-        return unless chunk?
+        unless Array.isArray(chunk) or typeof chunk is 'object' #and chunk isnt null
+          return callback Error "Invalid Record: expect an array or an object, got #{JSON.stringify chunk}"
         preserve = typeof chunk isnt 'object'
         # Emit and stringify the record if an object or an array
         unless preserve
