@@ -9,6 +9,7 @@ New features:
 
 Fix:
 
+* cast: function may return non-string values
 * stream: pass stream options without modification
 
 ## Version 4.0.1
