@@ -3,6 +3,10 @@
 
 ## Trunk
 
+New features
+
+* cast: pass context to functions
+
 Minor enhancements:
 
 * write: validate written records

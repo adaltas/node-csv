@@ -49,17 +49,73 @@ describe 'Option `cast`', ->
     stringify [
       value: true
     ], {cast: boolean: (value) -> if value then 1 else 0}, (err, data) ->
-      err.message.should.eql 'Formatter must return a string, null or undefined'
+      err.message.should.eql 'Formatter must return a string, null or undefined, got 1'
       next()
   
-  it.skip 'pass a context argument', (next) ->
-    stringify [
-      is_true: true
-      is_false: false
-    ], cast: boolean: (value, context) ->
-      console.log context
-      if value then 'yes' else 'no'
-    , (err, data) ->
-      data.trim().should.eql 'yes,no'
-      next()
+  describe 'context', ->
+  
+    it 'expose the expected properties', (next) ->
+      stringify [
+        ['a']
+      ], cast: string: (value, context) ->
+        Object.keys(context).sort().should.eql [
+          'column', 'header', 'index', 'records'
+        ]
+        null
+      , next
+  
+    it 'index and column on array', (next) ->
+      stringify [
+        [true, false]
+      ], cast: boolean: (value, context) ->
+        if value
+          context.index.should.equal 0
+          context.column.should.equal 0
+          'yes'
+        else
+          context.index.should.equal 1
+          context.column.should.equal 1
+          'no'
+      , (err, data) ->
+        data.trim().should.eql 'yes,no'
+        next()
+        
+    it 'index and column on object', (next) ->
+      stringify [
+        is_true: true
+        is_false: false
+      ], cast: boolean: (value, context) ->
+        if value
+          context.index.should.equal 0
+          context.column.should.equal 'is_true'
+          'yes'
+        else
+          context.index.should.equal 1
+          context.column.should.equal 'is_false'
+          'no'
+      , (err, data) ->
+        data.trim().should.eql 'yes,no'
+        next()
+    
+  describe 'header', ->
+
+    it 'records with header and columns as array', (next) ->
+      stringify [
+        ['value 1']
+        ['value 2']
+      ], header: true, columns: ['header'], cast: string: (value, context) ->
+        "#{context.records}"
+      , (err, data) ->
+        data.trim().should.eql '0\n0\n1' unless err
+        next err
+
+    it 'records without header', (next) ->
+      stringify [
+        ['record 1']
+        ['record 2']
+      ], cast: string: (value, context) ->
+        "#{context.records}"
+      , (err, data) ->
+        data.trim().should.eql '0\n1' unless err
+        next err
     

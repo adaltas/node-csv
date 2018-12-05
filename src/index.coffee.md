@@ -134,10 +134,11 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
           options.record_delimiter = options.record_delimiter.toString()
         else
           throw Error "Invalid Option: record_delimiter must be a string or a buffer, got #{JSON.stringify options.record_delimiter}"
-        # Internal usage, state related
-        @countWriten ?= 0
         # Expose options
         @options = options
+        # Information
+        @info =
+          records: 0
         @
 
 ## `Stringifier.prototype._transform(chunk, encoding, callback)`
@@ -145,30 +146,28 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
 Implementation of the [transform._transform function](https://nodejs.org/api/stream.html#stream_transform_transform_chunk_encoding_callback).
 
       _transform: (chunk, encoding, callback) ->
-        # Nothing to do if null or undefined
-        unless Array.isArray(chunk) or typeof chunk is 'object' #and chunk isnt null
+        # Chunk validation
+        unless Array.isArray(chunk) or typeof chunk is 'object'
           return callback Error "Invalid Record: expect an array or an object, got #{JSON.stringify chunk}"
-        preserve = typeof chunk isnt 'object'
+        # Detect columns from the first record
+        if @info.records is 0 and not Array.isArray chunk
+          @options.columns ?= @normalize_columns Object.keys chunk
+        # Emit the header
+        @headers() if @info.records is 0
         # Emit and stringify the record if an object or an array
-        unless preserve
-          # Detect columns from the first record
-          if @countWriten is 0 and not Array.isArray chunk
-            @options.columns ?= @normalize_columns Object.keys chunk
-          try @emit 'record', chunk, @countWriten
-          catch e then return @emit 'error', e
-          # Convert the record into a string
-          if @options.eof
-            chunk = @stringify(chunk)
-            return unless chunk?
-            chunk = chunk + @options.record_delimiter
-          else
-            chunk = @stringify(chunk)
-            return unless chunk?
-            chunk = @options.record_delimiter + chunk if @options.header or @countWriten
+        try @emit 'record', chunk, @info.records
+        catch e then return @emit 'error', e
+        # Convert the record into a string
+        if @options.eof
+          chunk = @stringify(chunk)
+          return unless chunk?
+          chunk = chunk + @options.record_delimiter
+        else
+          chunk = @stringify(chunk)
+          return unless chunk?
+          chunk = @options.record_delimiter + chunk if @options.header or @info.records
         # Emit the csv
-        chunk = "#{chunk}" if typeof chunk is 'number'
-        @headers() if @countWriten is 0
-        @countWriten++ unless preserve
+        @info.records++
         @push chunk
         callback()
 
@@ -177,7 +176,7 @@ Implementation of the [transform._transform function](https://nodejs.org/api/str
 Implementation of the [transform._flush function](https://nodejs.org/api/stream.html#stream_transform_flush_callback).
 
       _flush: (callback) ->
-        @headers() if @countWriten is 0
+        @headers() if @info.records is 0
         callback()
 
 ## `Stringifier.prototype.stringify(line)`
@@ -186,44 +185,62 @@ Convert a line to a string. Line may be an object, an array or a string.
 
       stringify: (record) ->
         return record if typeof record isnt 'object'
-        {columns, delimiter, quote, escape} = @options
-        unless Array.isArray record
+        {columns, delimiter, header, quote, escape} = @options
+        # Record is an array
+        if Array.isArray record
+          # We are getting an array but the user has specified output columns. In
+          # this case, we respect the columns indexes
+          record.splice columns.length if columns
+          # Cast record elements
+          for field, i in record
+            [err, value] = @__cast field, index: i, column: i, records: @info.records, header: header and @info.records is 0
+            if err
+              @emit 'error', err
+              return
+            record[i] = [value, field]
+        # Record is a literal object
+        else
           _record = []
           if columns
             for i in [0...columns.length]
-              value = get record, columns[i].key
-              _record[i] = if (typeof value is 'undefined' or value is null) then '' else value
+              field = get record, columns[i].key
+              [err, value] = @__cast field, index: i, column: columns[i].key, records: @info.records, header: header and @info.records is 0
+              if err
+                @emit 'error', err
+                return
+              _record[i] = [value, field]
           else
             for column of record
-              _record.push record[column]
+              field = record[column]
+              [err, value] = @__cast field, index: i, column: columns[i].key, records: @info.records, header: header and @info.records is 0
+              if err
+                @emit 'error', err
+                return
+              _record.push [value, field]
           record = _record
           _record = null
-        else if columns # Note, we used to have @options.columns
-          # We are getting an array but the user want specified output columns. In
-          # this case, we respect the columns indexes
-          record.splice columns.length
         if Array.isArray record
           newrecord = ''
           for i in [0...record.length]
-            [err, value] = @cast record[i]
+            [value, field] = record[i]
             if err
               @emit 'error', err
               return
             if value
               unless typeof value is 'string'
-                @emit 'error', Error 'Formatter must return a string, null or undefined'
+                @emit 'error', Error "Formatter must return a string, null or undefined, got #{JSON.stringify value}"
                 return null
               containsdelimiter = value.indexOf(delimiter) >= 0
               containsQuote = (quote isnt '') and value.indexOf(quote) >= 0
               containsEscape = value.indexOf(escape) >= 0 and (escape isnt quote)
               containsRowDelimiter = value.indexOf(@options.record_delimiter) >= 0
               quoted = @options.quoted
-              quotedString = @options.quoted_string and typeof record[i] is 'string'
-              quotedMatch = @options.quoted_match and typeof record[i] is 'string' and @options.quoted_match.filter (quoted_match) ->
+              quotedString = @options.quoted_string and typeof field is 'string'
+              quotedMatch = @options.quoted_match and typeof field is 'string' and @options.quoted_match.filter (quoted_match) ->
                 if typeof quoted_match is 'string'
-                  record[i].indexOf(quoted_match) isnt -1
+                  value.indexOf(quoted_match) isnt -1
                 else
-                  quoted_match.test record[i]
+                  quoted_match.test value
               quotedMatch = quotedMatch and quotedMatch.length > 0
               shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
               if shouldQuote and containsEscape
@@ -235,7 +252,7 @@ Convert a line to a string. Line may be an object, an array or a string.
               if shouldQuote
                 value = quote + value + quote
               newrecord += value
-            else if @options.quoted_empty or (not @options.quoted_empty? and record[i] is '' and @options.quoted_string)
+            else if @options.quoted_empty or (not @options.quoted_empty? and field is '' and @options.quoted_string)
               newrecord += quote + quote
             if i isnt record.length - 1
               newrecord += delimiter
@@ -256,28 +273,26 @@ Print the header line if the option "header" is "true".
           headers = @stringify(headers)
         @push headers
 
-      cast: (value) ->
+      __cast: (value, context) ->
         type = typeof value
         try
           if type is 'string'
-            # fine 99% of the cases
-            [undefined, @options.cast.string value]
+            # Fine for 99% of the cases
+            [undefined, @options.cast.string value, context]
           else if type is 'number'
-            [undefined, @options.cast.number value]
+            [undefined, @options.cast.number value, context]
           else if type is 'boolean'
-            [undefined, @options.cast.boolean value]
+            [undefined, @options.cast.boolean value, context]
           else if value instanceof Date
-            [undefined, @options.cast.date value]
+            [undefined, @options.cast.date value, context]
           else if type is 'object' and value isnt null
-            [undefined, @options.cast.object value]
+            [undefined, @options.cast.object value, context]
           else
-            [undefined, value]
+            [undefined, value, value]
         catch err
           [err]
 
-## `Stringifier.prototype.headers`
-
-Print the header line if the option "header" is "true".
+## `Stringifier.prototype.normalize_columns`
 
       normalize_columns: (columns) ->
         return null unless columns?
