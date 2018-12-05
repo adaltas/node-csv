@@ -3,6 +3,10 @@
 
 ## Trunk
 
+Fix:
+
+* header: ensure column definition
+
 New features
 
 * cast: pass context to functions

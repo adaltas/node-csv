@@ -136,6 +136,9 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
           throw Error "Invalid Option: record_delimiter must be a string or a buffer, got #{JSON.stringify options.record_delimiter}"
         # Expose options
         @options = options
+        # Internal state
+        @state =
+          stop: false
         # Information
         @info =
           records: 0
@@ -146,17 +149,28 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
 Implementation of the [transform._transform function](https://nodejs.org/api/stream.html#stream_transform_transform_chunk_encoding_callback).
 
       _transform: (chunk, encoding, callback) ->
+        if @state.stop is true
+          return
         # Chunk validation
         unless Array.isArray(chunk) or typeof chunk is 'object'
+          @state.stop = true
           return callback Error "Invalid Record: expect an array or an object, got #{JSON.stringify chunk}"
         # Detect columns from the first record
-        if @info.records is 0 and not Array.isArray chunk
-          @options.columns ?= @normalize_columns Object.keys chunk
+        if @info.records is 0
+          if Array.isArray chunk
+            if @options.header is true and not @options.columns
+              @state.stop = true
+              return callback Error 'Undiscoverable Columns: header option requires column option or object records'
+          else
+            @options.columns ?= @normalize_columns Object.keys chunk
         # Emit the header
         @headers() if @info.records is 0
         # Emit and stringify the record if an object or an array
-        try @emit 'record', chunk, @info.records
-        catch e then return @emit 'error', e
+        try
+          @emit 'record', chunk, @info.records
+        catch e 
+          @state.stop = true
+          return @emit 'error', e
         # Convert the record into a string
         if @options.eof
           chunk = @stringify(chunk)
