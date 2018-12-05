@@ -13,6 +13,8 @@ describe 'Option `header`', ->
       next()
 
   it 'as "true" and without "column" option with arrays', (next) ->
+    # Well, we asked to print header but there is no header to print because
+    # columns is missing, might return an error in the future
     stringify [
       ['field1', 'field2', 'field3']
       ['val11', 'val12', 'val13']

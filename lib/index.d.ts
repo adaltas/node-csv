@@ -13,7 +13,7 @@ declare namespace stringify {
 
     type RowDelimiter = string | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
 
-    type Formatter<T> = (value: T) => string
+    type Cast<T> = (value: T, CastingContext) => string
 
     type PlainObject<T> = Record<string, T>
 
@@ -22,6 +22,13 @@ declare namespace stringify {
     interface ColumnOption {
         key: string
         header?: string
+    }
+
+    interface CastingContext {
+        readonly column?: number | string;
+        readonly header: boolean;
+        readonly index: number;
+        readonly records: number;
     }
 
     interface Options {
@@ -83,16 +90,16 @@ declare namespace stringify {
         rowDelimiter?: RowDelimiter
 
         /**
-         * Key-value object which defines custom formatters for certain data types
+         * Key-value object which defines custom cast for certain data types
          */
-        formatters?: {
-            boolean?: Formatter<boolean>
-            date?: Formatter<Date>
-            number?: Formatter<number>
+        cast?: {
+            boolean?: Cast<boolean>
+            date?: Cast<Date>
+            number?: Cast<number>
             /**
              * Custom formatter for generic object values
              */
-            object?: Formatter<Record<string, any>>
+            object?: Cast<Record<string, any>>
         }
     }
 
