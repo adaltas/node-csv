@@ -9,7 +9,7 @@ stringify([{
   name: 'bar',
   date: new Date(1971, 0)
 }],{
-  formatters: {
+  cast: {
     date: function(value) {
       return value.toISOString()
     }

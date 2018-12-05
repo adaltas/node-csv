@@ -12,16 +12,13 @@ describe 'Option `header`', ->
       data.should.eql 'field1,field2,field3\nval11,val12,val13\nval21,val22,val23\n'
       next()
 
-  it 'as "true" and without "column" option with arrays', (next) ->
-    # Well, we asked to print header but there is no header to print because
-    # columns is missing, might return an error in the future
+  it 'must get columns from somewhere', (next) ->
     stringify [
-      ['field1', 'field2', 'field3']
-      ['val11', 'val12', 'val13']
-      ['val21', 'val22', 'val23']
+      ['h1', 'h2', 'h3']
+      ['1', '2', '3']
+      ['4', '5', '6']
     ], header: true, (err, data) ->
-      return next err if err
-      data.should.eql 'field1,field2,field3\nval11,val12,val13\nval21,val22,val23\n'
+      err.message.should.eql 'Undiscoverable Columns: header option requires column option or object records'
       next()
 
   it 'emit header', (next) ->
