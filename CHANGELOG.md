@@ -1,6 +1,12 @@
 
 # Changelog
 
+## Trunk
+
+Fix:
+
+* ts: add casting context missing type 
+
 ## Version 5.1.0
 
 Fix:
