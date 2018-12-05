@@ -13,7 +13,7 @@ declare namespace stringify {
 
     type RowDelimiter = string | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
 
-    type Cast<T> = (value: T, CastingContext) => string
+    type Cast<T> = (value: T, context: CastingContext) => string
 
     type PlainObject<T> = Record<string, T>
 
