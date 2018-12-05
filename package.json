@@ -17,11 +17,11 @@
     "lodash.get": "~4.4.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
     "coffeescript": "~2.3.2",
-    "csv-generate": "~3.1.0",
+    "csv-generate": "~3.2.0",
     "mocha": "~5.2.0",
     "should": "~13.2.3"
   },
