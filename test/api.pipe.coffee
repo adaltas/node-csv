@@ -1,5 +1,6 @@
 
 fs = require 'fs'
+{ Readable } = require 'stream'
 generate = require 'csv-generate'
 parse = require '../lib'
 
@@ -44,5 +45,15 @@ describe 'API pipe', ->
       err.code.should.eql 'ENOENT'
       next()
     rs.pipe(parser)
+
+  it 'handle empty string', (next) ->
+    s = new Readable()
+    s._read = ->
+      @push null
+    s.pipe parse
+      delimiter: ','
+    , (err, records) ->
+      records.should.eql [] unless err
+      next err
 
  
