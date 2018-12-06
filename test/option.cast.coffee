@@ -18,7 +18,7 @@ describe 'Option `cast`', ->
       28392898392,1974,8.8392926e7,8E2,DEF,23,2050-11-27
       """
       parser.on 'readable', ->
-        while(d = parser.read())
+        while d = parser.read()
           data.push d
       parser.on 'error', (err) ->
         next err
@@ -54,14 +54,45 @@ describe 'Option `cast`', ->
       , (err, records) ->
         records.should.eql [
           [ '2000-01-01T05:00:00.000Z', {
-            quoting: false, index: 1, column: 1, empty_lines: 0, lines: 1, 
-            header: false, invalid_field_length: 0, records: 0
+            column: 1, empty_lines: 0, header: false, index: 1, 
+            invalid_field_length: 0, lines: 1, quoting: false, records: 0
           } ]
           [ '2050-11-27T05:00:00.000Z', {
-            quoting: false, index: 1, column: 1, empty_lines: 0, lines: 2, 
-            header: false, invalid_field_length: 0, records: 1
+            column: 1, empty_lines: 0, header: false, index: 1, 
+            invalid_field_length: 0, lines: 2, quoting: false, records: 1
           } ]
         ] unless err
+        next err
+
+    it 'column is a string', (next) ->
+      parse """
+      1,2
+      3,4,5
+      6
+      """,
+        columns: ['a', 'b']
+        relax_column_count: true
+        cast: (value, {header, column}) ->
+          typeof column
+      , (err, records) ->
+        records.should.eql [
+          {a: 'string', b: 'string'}
+          {a: 'string', b: 'string'}
+          {a: 'string'}
+        ] unless err
+        next err
+
+    it 'dont call cast on unreferenced columns', (next) ->
+      parse """
+      1,2
+      3,4,5,6
+      7
+      """,
+        columns: ['a', 'b']
+        relax_column_count: true
+        cast: (value, {header, column}) ->
+          throw Error 'Oh no' if value > 4 and value < 7
+      , (err, records) ->
         next err
 
     it 'custom function with quoting context', (next) ->
@@ -88,8 +119,8 @@ describe 'Option `cast`', ->
       4,5,6
       """,
         max_record_size: 10
-        cast: (value, context) ->
-          switch context.index
+        cast: (value, {index}) ->
+          switch index
             when 0
               undefined
             when 1
@@ -109,8 +140,8 @@ describe 'Option `cast`', ->
       4,5,6
       """,
         columns: true
-        cast: (value, context) ->
-          if context.header then value else parseInt value
+        cast: (value, {header}) ->
+          if header then value else parseInt value
       , (err, records) ->
         records.should.eql [
           {a: 1, b: 2, c: 3}
@@ -124,8 +155,8 @@ describe 'Option `cast`', ->
       4,5,6
       """,
         columns: ['a', 'b', 'c']
-        cast: (value, context) ->
-          context.header.should.be.false()
+        cast: (value, {header}) ->
+          header.should.be.false()
           parseInt value
       , (err, records) ->
         records.should.eql [
@@ -141,7 +172,7 @@ describe 'Option `cast`', ->
       4,5,6
       """,
         columns: true
-        cast: (value, context) ->
+        cast: (value) ->
           value
       , (err, records) ->
         next err
