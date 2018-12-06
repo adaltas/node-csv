@@ -82,7 +82,7 @@ describe 'Option `cast`', ->
       
       it 'return undefined', ->
 
-    it 'work with record count', (next) ->
+    it 'accept all values', (next) ->
       parse """
       1,2,3
       4,5,6
