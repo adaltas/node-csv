@@ -23,7 +23,7 @@ sets by a large community.
 * Complete test coverage and samples for inspiration
 * Only 1 external dependency
 * to be used conjointly with `csv-generate`, `csv-parse` and `stream-transform`
-* BSD License
+* MIT License
 
 ## Usage
 
