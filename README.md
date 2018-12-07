@@ -22,7 +22,7 @@ Part of the [CSV module](https://csv.js.org/), this project is a simple object t
 * Sequential or user-defined concurrent execution
 * Skip and multiply records
 * Alter or clone input records
-* BSD License
+* MIT License
 
 ## Usage
 
