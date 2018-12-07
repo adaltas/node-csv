@@ -22,7 +22,7 @@ implementing the Node.js `stream.Readable` API.
 * Idempotence with the "seed" option
 * User-defined value generation
 * Multiple types of values (integer, boolean, dates, ...)
-* BSD License
+* MIT License
 
 ## Usage
 
