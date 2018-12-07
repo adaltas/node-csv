@@ -1,6 +1,12 @@
 
 # Changelog
 
+## Trunk
+
+Fix:
+
+* rtrim: accept tab
+
 ## Version 4.1.0
 
 New features:
