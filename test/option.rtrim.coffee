@@ -45,6 +45,17 @@ describe 'Option `rtrim`', ->
     parser.write chr for chr in data
     parser.end()
 
+  it 'with tags around quotes', (next) ->
+    data = '''
+    "a\tb\t"\t\t\t,"c\td\t\t\t"\t
+    "e\tf\t"\t,"g\th\t\t\t"\t\t\t
+    '''
+    parser = parse rtrim: true, (err, data) ->
+      data.should.eql [['a\tb\t', 'c\td\t\t\t'],['e\tf\t', 'g\th\t\t\t']] unless err
+      next err
+    parser.write chr for chr in data
+    parser.end()
+
   it 'with char after whitespaces', (next) ->
     data = '''
     "a b " x  ,"c d   " x
