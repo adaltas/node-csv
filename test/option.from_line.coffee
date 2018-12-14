@@ -59,7 +59,7 @@ describe 'Option `from_line`', ->
       ] unless err
       next err
 
-  it 'not influenced by row delimiter', (next) ->
+  it 'not influenced by record delimiters', (next) ->
     parse """
     a,b,c:1,2,
     3:d,e,f:4,5,
@@ -69,5 +69,15 @@ describe 'Option `from_line`', ->
       data.should.eql [
         [ 'g','h','i' ]
         [ '7','8','\n9' ]
+      ] unless err
+      next err
+
+  it 'handle multiple bytes record delimiters', (next) ->
+    parse """
+    a,b\r\nc,d\r\ne,f
+    """, from_line: 2, (err, data) ->
+      data.should.eql [
+        [ 'c','d' ]
+        [ 'e','f' ]
       ] unless err
       next err
