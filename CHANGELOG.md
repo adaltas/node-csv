@@ -5,6 +5,7 @@
 
 Fix:
 
+* record_delimiter: fix multi bytes with skip_empty_lines and from_line
 * rtrim: accept tab
 
 ## Version 4.1.0

@@ -234,3 +234,13 @@ describe 'Option `record_delimiter`', ->
         next err
       parser.write c for c in '1,2,"\n"\r\n3,4,'
       parser.end()
+      
+    it 'with skip empty lines', (next) ->
+      parse """
+      ABC\r\n\r\nDEF\r\n\r\n
+      """, skip_empty_lines: true, (err, data) ->
+        data.should.eql [
+          [ 'ABC' ]
+          [ 'DEF' ]
+        ] unless err
+        next err
