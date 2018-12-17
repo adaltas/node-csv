@@ -42,14 +42,12 @@
   },
   "optionalDependencies": {},
   "scripts": {
-    "preversion": "grep '## Trunk' CHANGELOG.md && rm -rf lib && npm run coffee",
+    "preversion": "grep '## Trunk' CHANGELOG.md",
     "version": "version=`grep '^  \"version\": ' package.json | sed 's/.*\"\\([0-9\\.]*\\)\".*/\\1/'` && sed -i \"s/## Trunk/## Version $version/\" CHANGELOG.md && git add CHANGELOG.md",
     "postversion": "git push && git push --tags && npm publish",
     "patch": "npm version patch -m 'Bump to version %s'",
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
-    "coffee": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
-    "pretest": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
     "test": "mocha test/**/*.coffee"
   }
 }
