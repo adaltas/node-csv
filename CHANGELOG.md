@@ -8,6 +8,9 @@ See the changelogs of our child projects:
 * [csv-stringify](https://github.com/adaltas/node-csv-stringify/blob/master/CHANGELOG.md)
 * [stream-transform](https://github.com/adaltas/node-stream-transform/blob/master/CHANGELOG.md)
 
+## Trunk
+* package: switch to MIT license
+
 ## Version 5.0.0
 
 * csv-generate: version 3.1.0
