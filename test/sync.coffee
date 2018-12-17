@@ -1,5 +1,5 @@
 
-csv = require '../src/sync'
+csv = require '../lib/sync'
 
 describe 'api sync', ->
 

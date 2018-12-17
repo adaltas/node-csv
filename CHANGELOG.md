@@ -9,6 +9,8 @@ See the changelogs of our child projects:
 * [stream-transform](https://github.com/adaltas/node-stream-transform/blob/master/CHANGELOG.md)
 
 ## Trunk
+
+* all: modules written in native JavaScript
 * package: switch to MIT license
 
 ## Version 5.0.0
