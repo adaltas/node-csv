@@ -1,6 +1,12 @@
 
 # Changelog
 
+## Trunk
+
+Fix:
+
+* write: immutable input chunks
+
 ## Version 5.1.1
 
 Fix:

@@ -197,16 +197,17 @@ Implementation of the [transform._flush function](https://nodejs.org/api/stream.
 
 Convert a line to a string. Line may be an object, an array or a string.
 
-      stringify: (record) ->
-        return record if typeof record isnt 'object'
+      stringify: (chunk) ->
+        return chunk if typeof chunk isnt 'object'
         {columns, delimiter, header, quote, escape} = @options
+        record = []
         # Record is an array
-        if Array.isArray record
+        if Array.isArray chunk
           # We are getting an array but the user has specified output columns. In
           # this case, we respect the columns indexes
-          record.splice columns.length if columns
+          chunk.splice columns.length if columns
           # Cast record elements
-          for field, i in record
+          for field, i in chunk
             [err, value] = @__cast field, index: i, column: i, records: @info.records, header: header and @info.records is 0
             if err
               @emit 'error', err
@@ -214,25 +215,22 @@ Convert a line to a string. Line may be an object, an array or a string.
             record[i] = [value, field]
         # Record is a literal object
         else
-          _record = []
           if columns
             for i in [0...columns.length]
-              field = get record, columns[i].key
+              field = get chunk, columns[i].key
               [err, value] = @__cast field, index: i, column: columns[i].key, records: @info.records, header: header and @info.records is 0
               if err
                 @emit 'error', err
                 return
-              _record[i] = [value, field]
+              record[i] = [value, field]
           else
-            for column of record
-              field = record[column]
+            for column of chunk
+              field = chunk[column]
               [err, value] = @__cast field, index: i, column: columns[i].key, records: @info.records, header: header and @info.records is 0
               if err
                 @emit 'error', err
                 return
-              _record.push [value, field]
-          record = _record
-          _record = null
+              record.push [value, field]
         if Array.isArray record
           newrecord = ''
           for i in [0...record.length]

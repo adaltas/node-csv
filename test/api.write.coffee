@@ -99,3 +99,23 @@ describe 'API write', ->
       next Error 'Oh no!'
     stringifier.write true, 'utf8' , (e,d) ->
       stringifier.end()
+  
+  describe 'input', ->
+
+    it 'array are immutable', (next) ->
+      chunks = [['a', 'b'], ['c', 'd']]
+      stringify chunks, (err) ->
+        chunks.should.eql [['a', 'b'], ['c', 'd']] unless err
+        next err
+      
+    it 'object (with columns are immutable', (next) ->
+      chunks = [{a: 1, b: 2}, {a: 3, b: 4}]
+      stringify chunks, columns: ['b'], (err, data) ->
+        chunks.should.eql [{a: 1, b: 2}, {a: 3, b: 4}] unless err
+        next err
+      
+    it 'object (without columns) are immutable', (next) ->
+      chunks = [{a: 1, b: 2}, {a: 3, b: 4}]
+      stringify chunks, (err, data) ->
+        chunks.should.eql [{a: 1, b: 2}, {a: 3, b: 4}] unless err
+        next err
