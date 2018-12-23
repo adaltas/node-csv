@@ -7,11 +7,6 @@ const output = []
 const parser = parse({
   delimiter: ':'
 })
-// Write data to the stream
-parser.write("root:x:0:0:root:/root:/bin/bash\n")
-parser.write("someone:x:1022:1022::/home/someone:/bin/bash\n")
-// Close the readable stream
-parser.end()
 // Use the readable stream api
 parser.on('readable', function(){
   let record
@@ -33,3 +28,8 @@ parser.on('end', function(){
     ]
   )
 })
+// Write data to the stream
+parser.write("root:x:0:0:root:/root:/bin/bash\n")
+parser.write("someone:x:1022:1022::/home/someone:/bin/bash\n")
+// Close the readable stream
+parser.end()
