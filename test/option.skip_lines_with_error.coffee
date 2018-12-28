@@ -3,6 +3,18 @@ parse = require '../lib'
 
 describe 'Option `skip_lines_with_error`', ->
   
+  it 'validation', ->
+    parse '', skip_lines_with_error: true, (->)
+    parse '', skip_lines_with_error: false, (->)
+    parse '', skip_lines_with_error: null, (->)
+    parse '', skip_lines_with_error: undefined, (->)
+    (->
+      parse '', skip_lines_with_error: 1, (->)
+    ).should.throw 'Invalid Option: skip_lines_with_error must be a boolean, got 1'
+    (->
+      parse '', skip_lines_with_error: 'oh no', (->)
+    ).should.throw 'Invalid Option: skip_lines_with_error must be a boolean, got "oh no"'
+  
   it 'handle "Invalid closing quote"', (next) ->
     skip = null
     parser = parse skip_lines_with_error: true, (err, data) ->

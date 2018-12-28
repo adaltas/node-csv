@@ -5,6 +5,9 @@
 
 Enhancements:
 
+* skip_empty_lines: validation refinements
+* skip_lines_with_empty_values: validation refinements
+* skip_lines_with_error: validation refinements
 * relax_column_count: validation refinements
 * relax: validation refinements
 * delimiter: validation refinements
