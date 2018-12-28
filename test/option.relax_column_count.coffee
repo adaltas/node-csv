@@ -2,6 +2,18 @@
 parse = require '../lib'
 
 describe 'Option `relax_column_count`', ->
+  
+  it 'validation', ->
+    parse '', relax_column_count: true, (->)
+    parse '', relax_column_count: false, (->)
+    parse '', relax_column_count: null, (->)
+    parse '', relax_column_count: undefined, (->)
+    (->
+      parse '', relax_column_count: 1, (->)
+    ).should.throw 'Invalid Option: relax_column_count must be a boolean, got 1'
+    (->
+      parse '', relax_column_count: 'oh no', (->)
+    ).should.throw 'Invalid Option: relax_column_count must be a boolean, got "oh no"'
 
   it 'throw error by default', (next) ->
     parse """
