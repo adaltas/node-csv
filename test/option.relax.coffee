@@ -2,6 +2,18 @@
 parse = require '../lib'
 
 describe 'Option `relax`', ->
+  
+  it 'validation', ->
+    parse '', relax: true, (->)
+    parse '', relax: false, (->)
+    parse '', relax: null, (->)
+    parse '', relax: undefined, (->)
+    (->
+      parse '', relax: 1, (->)
+    ).should.throw 'Invalid Option: relax must be a boolean, got 1'
+    (->
+      parse '', relax: 'oh no', (->)
+    ).should.throw 'Invalid Option: relax must be a boolean, got "oh no"'
 
   it 'true with invalid quotes in the middle', (next) ->
     # try with relax true
