@@ -5,6 +5,7 @@
 
 Enhancements:
 
+* relax_column_count: validation refinements
 * relax: validation refinements
 * delimiter: validation refinements
 * max_record_size: validation refinements
