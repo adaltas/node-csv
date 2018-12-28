@@ -1,6 +1,12 @@
 
 # Changelog
 
+## Trunk
+
+Enhancements:
+
+* max_record_size: validation refinement
+
 ## Version 4.2.0
 
 Fix:
@@ -12,7 +18,7 @@ Fix:
 
 New features:
 
-* options: accept camelize and underscore forms
+* options: accept snake case and camel case
 * cast: dont call cast for non column-mappable fields
 
 Fix:
