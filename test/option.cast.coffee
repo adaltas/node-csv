@@ -45,6 +45,23 @@ describe 'Option `cast`', ->
       err.message.should.eql 'Catchme'
       next()
 
+  it 'return null', (next) ->
+    # We might change this behavior in futures version, allowing to skip a field
+    # if the return value is null or undefined, see #83
+    stringify [
+      { a: true, b: true }
+      { a: false, b: true }
+      { a: true, b: false }
+      { a: false, b: false }
+    ], {cast: boolean: (value) -> if value then '1' else null}, (err, data) ->
+      data.trim().should.eql """
+      1,1
+      ,1
+      1,
+      ,
+      """
+      next()
+
   it 'boolean must return a string', (next) ->
     stringify [
       value: true

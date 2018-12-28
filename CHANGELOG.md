@@ -38,13 +38,13 @@ Breaking changes:
 
 * `cast`: was `formatters`
 * `record_delimiter`: was `row_delimiter`
-* options: instance options stored in underscore form
+* options: instance options stored in snake case
 * nodejs: drop support for version 7, use './lib/es5'
 
 New features:
 
 * `quoted_match`: new option
-* options: accept underscore and camelcase forms
+* options: accept snake case and camel case
 
 Minor enhancements:
 
