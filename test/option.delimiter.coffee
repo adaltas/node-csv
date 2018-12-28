@@ -3,6 +3,19 @@ parse = require '../lib'
 
 describe 'Option `delimiter`', ->
   
+  it 'validation', ->
+    parse '', delimiter: ',', (->)
+    parse '', delimiter: Buffer.from(','), (->)
+    (->
+      parse '', delimiter: '', (->)
+    ).should.throw 'Invalid Option: delimiter must be a non empty string'
+    (->
+      parse '', delimiter: Buffer.from(''), (->)
+    ).should.throw 'Invalid Option: delimiter must be a non empty buffer'
+    (->
+      parse '', delimiter: true, (->)
+    ).should.throw 'Invalid Option: delimiter must be a string or a buffer, got true'
+  
   it 'using default comma', (next) ->
     parse """
     abc,,123,

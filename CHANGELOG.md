@@ -5,7 +5,8 @@
 
 Enhancements:
 
-* max_record_size: validation refinement
+* delimiter: validation refinements
+* max_record_size: validation refinements
 
 ## Version 4.2.0
 
