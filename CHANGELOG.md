@@ -5,6 +5,7 @@
 
 Enhancements:
 
+* escape: validation refinements
 * skip_empty_lines: validation refinements
 * skip_lines_with_empty_values: validation refinements
 * skip_lines_with_error: validation refinements

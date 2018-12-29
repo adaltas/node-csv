@@ -3,6 +3,18 @@ parse = require '../lib'
 
 describe 'Option `escape`', ->
   
+  it 'validation', ->
+    parse '', escape: '\\', (->)
+    parse '', escape: Buffer.from('\\'), (->)
+    parse '', escape: null, (->)
+    parse '', escape: undefined, (->)
+    (->
+      parse '', escape: false, (->)
+    ).should.throw 'Invalid Option: escape must be a buffer or a string, got false'
+    (->
+      parse '', escape: true, (->)
+    ).should.throw 'Invalid Option: escape must be a buffer or a string, got true'
+  
   describe 'same as quote', ->
 
     it 'is same as quote', (next) ->
