@@ -14,6 +14,7 @@ New features:
 
 Minor enhancements:
 
+* trim, ltrim, rtrim: validation refinements
 * to: validation refinements
 * from_line: validation refinements
 * objname: validation refinements
