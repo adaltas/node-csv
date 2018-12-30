@@ -2,6 +2,27 @@
 parse = require '../lib'
 
 describe 'Option `from_line`', ->
+  
+  it 'validation', ->
+    parse '', from_line: 10, (->)
+    parse '', from_line: "10", (->)
+    parse '', from_line: null, (->)
+    parse '', from_line: undefined, (->)
+    (->
+      parse '', from_line: -1, (->)
+    ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got -1'
+    (->
+      parse '', from_line: 0, (->)
+    ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got 0'
+    (->
+      parse '', from_line: true, (->)
+    ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got true'
+    (->
+      parse '', from_line: false, (->)
+    ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got false'
+    (->
+      parse '', from_line: 'oh no', (->)
+    ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got "oh no"'
 
   it 'start at defined position', (next) ->
     parse """
