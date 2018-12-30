@@ -1,10 +1,20 @@
 
 # Changelog
 
+## Todo
+
+* max_comment_size: new option
+* promise: new API module
+
 ## Trunk
 
-Enhancements:
+New features:
 
+* objname: accept a buffer
+
+Minor enhancements:
+
+* objname: validation refinements
 * from: validation refinements
 * escape: validation refinements
 * skip_empty_lines: validation refinements
