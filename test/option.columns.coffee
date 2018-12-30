@@ -54,6 +54,17 @@ describe 'Option `columns`', ->
           "FIELD_6":"2050-11-27"
         ] unless err
         next err
+
+    it 'disabled if false', (next) ->
+      parse """
+      a,b,c
+      d,e,f
+      """, columns: false, (err, data) ->
+        data.should.eql [
+          ['a', 'b', 'c']
+          ['d', 'e', 'f']
+        ] unless err
+        next err
           
   describe 'boolean array', ->
 
