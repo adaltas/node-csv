@@ -14,6 +14,7 @@ New features:
 
 Minor enhancements:
 
+* to_line: validation refinements
 * trim, ltrim, rtrim: validation refinements
 * to: validation refinements
 * from_line: validation refinements
