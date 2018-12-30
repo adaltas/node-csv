@@ -10,11 +10,17 @@ describe 'Option `from`', ->
       parse '', from: -1, (->)
     ).should.throw 'Invalid Option: from must be a positive integer, got -1'
     (->
+      parse '', from: '-1', (->)
+    ).should.throw 'Invalid Option: from must be castable to a positive integer, got "-1"'
+    (->
       parse '', from: true, (->)
-    ).should.throw 'Invalid Option: from must be a positive integer, got true'
+    ).should.throw 'Invalid Option: from must be an integer, got true'
+    (->
+      parse '', from: false, (->)
+    ).should.throw 'Invalid Option: from must be an integer, got false'
     (->
       parse '', from: 'oh no', (->)
-    ).should.throw 'Invalid Option: from must be a positive integer, got "oh no"'
+    ).should.throw 'Invalid Option: from must be an integer, got "oh no"'
 
   it 'start at defined position', (next) ->
     parse """
