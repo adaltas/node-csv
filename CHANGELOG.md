@@ -14,6 +14,7 @@ See the changelogs of our child projects:
 * csv-stringify: version 5.1.2
 * csv-parse: version 4.3.0
 * stream-transform: version 1.0.8
+* babel: re-integration
 
 ## Version 5.0.1
 

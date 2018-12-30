@@ -48,6 +48,7 @@
     "patch": "npm version patch -m 'Bump to version %s'",
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
+    "pretest": "cd lib && babel *.js -d es5 && cd ..",
     "test": "mocha test/**/*.coffee"
   }
 }
