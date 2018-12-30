@@ -15,14 +15,17 @@ describe 'Option `from_line`', ->
       parse '', from_line: 0, (->)
     ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got 0'
     (->
+      parse '', from_line: "0", (->)
+    ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got "0"'
+    (->
       parse '', from_line: true, (->)
-    ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got true'
+    ).should.throw 'Invalid Option: from_line must be an integer, got true'
     (->
       parse '', from_line: false, (->)
-    ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got false'
+    ).should.throw 'Invalid Option: from_line must be an integer, got false'
     (->
       parse '', from_line: 'oh no', (->)
-    ).should.throw 'Invalid Option: from_line must be a positive integer greater than 0, got "oh no"'
+    ).should.throw 'Invalid Option: from_line must be an integer, got "oh no"'
 
   it 'start at defined position', (next) ->
     parse """

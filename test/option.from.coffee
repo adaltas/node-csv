@@ -11,7 +11,7 @@ describe 'Option `from`', ->
     ).should.throw 'Invalid Option: from must be a positive integer, got -1'
     (->
       parse '', from: '-1', (->)
-    ).should.throw 'Invalid Option: from must be castable to a positive integer, got "-1"'
+    ).should.throw 'Invalid Option: from must be a positive integer, got "-1"'
     (->
       parse '', from: true, (->)
     ).should.throw 'Invalid Option: from must be an integer, got true'

@@ -2,6 +2,30 @@
 parse = require '../lib'
 
 describe 'Option `to_line`', ->
+  
+  it 'validation', ->
+    parse '', to_line: 10, (->)
+    parse '', to_line: "10", (->)
+    parse '', to_line: null, (->)
+    parse '', to_line: undefined, (->)
+    (->
+      parse '', to_line: -1, (->)
+    ).should.throw 'Invalid Option: to_line must be a positive integer greater than 0, got -1'
+    (->
+      parse '', to_line: 0, (->)
+    ).should.throw 'Invalid Option: to_line must be a positive integer greater than 0, got 0'
+    (->
+      parse '', to_line: "0", (->)
+    ).should.throw 'Invalid Option: to_line must be a positive integer greater than 0, got "0"'
+    (->
+      parse '', to_line: true, (->)
+    ).should.throw 'Invalid Option: to_line must be an integer, got true'
+    (->
+      parse '', to_line: false, (->)
+    ).should.throw 'Invalid Option: to_line must be an integer, got false'
+    (->
+      parse '', to_line: 'oh no', (->)
+    ).should.throw 'Invalid Option: to_line must be an integer, got "oh no"'
 
   it 'start at defined position', (next) ->
     parse """

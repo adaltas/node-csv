@@ -8,13 +8,13 @@ describe 'Option `to`', ->
     parse '', to: "10", (->)
     (->
       parse '', to: -1, (->)
-    ).should.throw 'Invalid Option: to must be a positive integer, got -1'
+    ).should.throw 'Invalid Option: to must be a positive integer greater than 0, got -1'
     (->
       parse '', to: 0, (->)
-    ).should.throw 'Invalid Option: to must be a positive integer, got 0'
+    ).should.throw 'Invalid Option: to must be a positive integer greater than 0, got 0'
     (->
       parse '', to: '0', (->)
-    ).should.throw 'Invalid Option: to must be castable to a positive integer, got "0"'
+    ).should.throw 'Invalid Option: to must be a positive integer greater than 0, got "0"'
     (->
       parse '', to: true, (->)
     ).should.throw 'Invalid Option: to must be an integer, got true'
