@@ -14,6 +14,7 @@ New features:
 
 Minor enhancements:
 
+* from_line: validation refinements
 * objname: validation refinements
 * from: validation refinements
 * escape: validation refinements
