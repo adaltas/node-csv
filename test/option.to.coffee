@@ -2,6 +2,28 @@
 parse = require '../lib'
 
 describe 'Option `to`', ->
+  
+  it 'validation', ->
+    parse '', to: 10, (->)
+    parse '', to: "10", (->)
+    (->
+      parse '', to: -1, (->)
+    ).should.throw 'Invalid Option: to must be a positive integer, got -1'
+    (->
+      parse '', to: 0, (->)
+    ).should.throw 'Invalid Option: to must be a positive integer, got 0'
+    (->
+      parse '', to: '0', (->)
+    ).should.throw 'Invalid Option: to must be castable to a positive integer, got "0"'
+    (->
+      parse '', to: true, (->)
+    ).should.throw 'Invalid Option: to must be an integer, got true'
+    (->
+      parse '', to: false, (->)
+    ).should.throw 'Invalid Option: to must be an integer, got false'
+    (->
+      parse '', to: 'oh no', (->)
+    ).should.throw 'Invalid Option: to must be an integer, got "oh no"'
 
   it 'start at defined position', (next) ->
     parse """
