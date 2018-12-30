@@ -1,7 +1,47 @@
 
 parse = require '../lib'
 
+describe 'Option `rtrim`', ->
+  
+  it 'validation', ->
+    parse '', rtrim: true, (->)
+    parse '', rtrim: false, (->)
+    parse '', rtrim: null, (->)
+    parse '', rtrim: undefined, (->)
+    (->
+      parse '', rtrim: 1, (->)
+    ).should.throw 'Invalid Option: rtrim must be a boolean, got 1'
+    (->
+      parse '', rtrim: "true", (->)
+    ).should.throw 'Invalid Option: rtrim must be a boolean, got "true"'
+
+describe 'Option `ltrim`', ->
+  
+  it 'validation', ->
+    parse '', ltrim: true, (->)
+    parse '', ltrim: false, (->)
+    parse '', ltrim: null, (->)
+    parse '', ltrim: undefined, (->)
+    (->
+      parse '', ltrim: 1, (->)
+    ).should.throw 'Invalid Option: ltrim must be a boolean, got 1'
+    (->
+      parse '', ltrim: "true", (->)
+    ).should.throw 'Invalid Option: ltrim must be a boolean, got "true"'
+
 describe 'Option `trim`', ->
+  
+  it 'validation', ->
+    parse '', trim: true, (->)
+    parse '', trim: false, (->)
+    parse '', trim: null, (->)
+    parse '', trim: undefined, (->)
+    (->
+      parse '', trim: 1, (->)
+    ).should.throw 'Invalid Option: trim must be a boolean, got 1'
+    (->
+      parse '', trim: "true", (->)
+    ).should.throw 'Invalid Option: trim must be a boolean, got "true"'
   
   it 'set ltrim', ->
     parser = parse trim: true
