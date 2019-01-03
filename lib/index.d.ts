@@ -75,19 +75,19 @@ declare namespace stringify {
         /**
          * Boolean, no default, quote empty fields? If specified, overrides quotedString for empty strings.
          */
-        quotedEmpty?: boolean
+        quoted_empty?: boolean
 
         /**
          * Boolean, default to false, quote all fields of type string even if not required.
          */
-        quotedString?: boolean
+        quoted_string?: boolean
 
         /**
          * String used to delimit record rows or a special value
          * special values are 'auto', 'unix', 'mac', 'windows', 'ascii', 'unicode'
          * defaults to 'auto' (discovered in source or 'unix' if no source is specified).
          */
-        rowDelimiter?: RowDelimiter
+        record_delimiter?: RowDelimiter
 
         /**
          * Key-value object which defines custom cast for certain data types
