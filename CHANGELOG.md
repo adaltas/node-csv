@@ -1,6 +1,11 @@
 
 # Changelog
 
+## Trunk
+
+ts: rename RowDelimiter to RecordDelimiter
+ts: convert camel case to snake case
+
 ## Version 5.1.2
 
 Fix:

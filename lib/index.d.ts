@@ -11,7 +11,7 @@ declare function stringify(input: stringify.Input, options?: stringify.Options, 
 declare namespace stringify {
     type Callback = (err?: null | Error, output?: string) => void
 
-    type RowDelimiter = string | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
+    type RecordDelimiter = string | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
 
     type Cast<T> = (value: T, context: CastingContext) => string
 
@@ -48,7 +48,7 @@ declare namespace stringify {
         delimiter?: string
 
         /**
-         * Add the value of "options.rowDelimiter" on the last line, default to true.
+         * Add the value of "options.RecordDelimiter" on the last line, default to true.
          */
         eof?: boolean
 
@@ -87,7 +87,7 @@ declare namespace stringify {
          * special values are 'auto', 'unix', 'mac', 'windows', 'ascii', 'unicode'
          * defaults to 'auto' (discovered in source or 'unix' if no source is specified).
          */
-        record_delimiter?: RowDelimiter
+        record_delimiter?: RecordDelimiter
 
         /**
          * Key-value object which defines custom cast for certain data types
