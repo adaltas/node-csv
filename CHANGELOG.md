@@ -6,6 +6,10 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+* ts: unused MatcherFunc type
+
 ## Version 4.3.0
 
 New features:
