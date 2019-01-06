@@ -14,8 +14,6 @@ declare namespace parse {
 
     type Callback = (err: Error | undefined, records: any | undefined, info: Info) => void;
 
-    type MatcherFunc = (value: any) => boolean;
-
     interface Parser extends stream.Transform {}
 
     class Parser {
