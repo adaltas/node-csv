@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* babel: include .babelrc to git
+
 ## Version 1.0.8
 
 Project Management
