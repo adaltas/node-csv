@@ -6,7 +6,11 @@
 * seed: always a number, value "0" disable the feature
 * Promise module API
 * record_delimiter: rename from row_delimiter
-* internal: store options in underscore form
+* internal: store options in snake case form
+
+## Trunk
+
+babel: include .babelrc to git
 
 ## Version 3.2.0
 
@@ -26,7 +30,7 @@ Breaking change:
 
 New features and bug fixes:
 
-* options: accept underscore and came case keys
+* options: accept snake case and came case keys
 * eof: new option
 * row_delimiter: new option
 * travis: test agains Node.js 11
