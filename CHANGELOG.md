@@ -8,6 +8,7 @@
 
 ## Trunk
 
+* babel: include .babelrc to git
 * ts: unused MatcherFunc type
 
 ## Version 4.3.0
