@@ -1,4 +1,5 @@
 .*
+!/.babelrc
 !/.travis.yml
 !/.gitignore
 !/.npmignore
