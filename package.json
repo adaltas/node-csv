@@ -33,9 +33,6 @@
     "csv-stringify": "^5.1.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
     "coffeescript": "~2.3.2",
     "mocha": "~5.2.0",
     "should": "~13.2.3"
@@ -48,7 +45,6 @@
     "patch": "npm version patch -m 'Bump to version %s'",
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
-    "pretest": "cd lib && babel *.js -d es5 && cd ..",
     "test": "mocha test/**/*.coffee"
   }
 }
