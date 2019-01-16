@@ -100,20 +100,20 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
         # Backward compatibility
         options.cast.boolean = options.cast.bool if options.cast.bool
         # Custom cast
-        options.cast.string ?= (value) ->
-          value
-        options.cast.date ?= (value) ->
-          # Cast date to timestamp string by default
-          '' + value.getTime()
         options.cast.boolean ?= (value) ->
           # Cast boolean to string by default
           if value then '1' else ''
+        options.cast.date ?= (value) ->
+          # Cast date to timestamp string by default
+          '' + value.getTime()
         options.cast.number ?= (value) ->
           # Cast number to string using native casting by default
           '' + value
         options.cast.object ?= (value) ->
           # Stringify object as JSON by default
           JSON.stringify value
+        options.cast.string ?= (value) ->
+          value
         if options.record_delimiter is undefined or options.record_delimiter is null or options.record_delimiter is false
           options.record_delimiter ?= '\n'
         else if typeof options.record_delimiter is 'string'
