@@ -82,7 +82,17 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
         options.quoted_empty ?= undefined
         options.quoted_string ?= false
         options.eof ?= true
-        options.escape ?= '"'
+        # options.escape ?= '"'
+        # Normalize option `escape`
+        if options.escape is null or options.escape is undefined
+          options.escape = '"'
+        else
+          if Buffer.isBuffer(options.escape)
+            options.escape = options.escape.toString()
+          if typeof options.escape isnt 'string'
+            throw new Error("Invalid Option: escape must be a boolean, a buffer or a string, got #{JSON.stringify(options.escape)}")
+          else if options.escape.length > 1
+            throw new Error("Invalid Option: escape must be one character, got #{options.escape.length} characters")
         options.header ?= false
         # Normalize the columns option
         options.columns = @normalize_columns options.columns

@@ -3,6 +3,12 @@
 
 ## Trunk
 
+Fix:
+
+* escape: enforce validation
+
+Project management:
+
 * babel: include .babelrc to git
 * ts: rename RowDelimiter to RecordDelimiter
 * ts: convert camel case to snake case
@@ -34,7 +40,7 @@ Minor enhancements:
 * write: validate written records
 * src: extends stream class
 
-Project Management:
+Project management:
 
 * package: latest dev dependencies
 
@@ -57,7 +63,7 @@ Minor enhancements:
 * stream: pass all options to the transform stream
 * stream: use writableObjectMode
 
-Project Management:
+Project management:
 
 * package: update license to MIT
 * travis: test agains Node.js 11
