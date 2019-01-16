@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.2.0
 
 Fix:
 
