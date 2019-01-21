@@ -45,8 +45,8 @@ declare namespace stringify {
         /**
          * Set the field delimiter, one character only, defaults to a comma.
          */
-        delimiter?: string
 
+        delimiter?: string | Buffer;
         /**
          * Add the value of "options.RecordDelimiter" on the last line, default to true.
          */

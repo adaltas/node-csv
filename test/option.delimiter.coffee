@@ -3,6 +3,21 @@ stringify = require '../src'
 
 describe 'Option `delimiter`', ->
   
+  it 'validation', ->
+    stringify [], delimiter: ''
+    stringify [], delimiter: ','
+    stringify [], delimiter: ',,'
+    stringify [], delimiter: Buffer.from ','
+    ( ->
+      stringify [], delimiter: true
+    ).should.throw 'Invalid Option: delimitert must be a buffer or a string, got true'
+    ( ->
+      stringify [], delimiter: false
+    ).should.throw 'Invalid Option: delimitert must be a buffer or a string, got false'
+    ( ->
+      stringify [], delimiter: 123
+    ).should.throw 'Invalid Option: delimitert must be a buffer or a string, got 123'
+  
   it 'with default value', (next) ->
     stringify [
       [ '20322051544','','8.8017226E7','45','']

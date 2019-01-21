@@ -8,13 +8,13 @@ describe 'Option `escape`', ->
     stringify [], escape: Buffer.from ','
     ( ->
       stringify [], escape: true
-    ).should.throw 'Invalid Option: escape must be a boolean, a buffer or a string, got true'
+    ).should.throw 'Invalid Option: escape must be a buffer or a string, got true'
     ( ->
       stringify [], escape: false
-    ).should.throw 'Invalid Option: escape must be a boolean, a buffer or a string, got false'
+    ).should.throw 'Invalid Option: escape must be a buffer or a string, got false'
     ( ->
       stringify [], escape: 123
-    ).should.throw 'Invalid Option: escape must be a boolean, a buffer or a string, got 123'
+    ).should.throw 'Invalid Option: escape must be a buffer or a string, got 123'
     ( ->
       stringify [], escape: 'XX'
     ).should.throw 'Invalid Option: escape must be one character, got 2 characters'
