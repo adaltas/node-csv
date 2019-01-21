@@ -14,6 +14,18 @@ describe 'Option `delimiter`', ->
       ,1974,8.8392926E7,,
       """
       next()
+        
+  it 'disabled if empty', (next) ->
+    stringify [
+      [ 'a',1]
+      [ 'b',2]
+    ], delimiter: '', eof: false, (err, data) ->
+      return next err if err
+      data.should.eql """
+      a1
+      b2
+      """
+      next()
   
   it 'with on character', (next) ->
     stringify [
