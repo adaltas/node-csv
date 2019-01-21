@@ -4,6 +4,7 @@
 ## Trunk
 
 New feature:
+* delimiter: disabled if value is empty
 * cast: overwrite options if value is an object
 
 ## Version 5.2.0

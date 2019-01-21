@@ -262,7 +262,7 @@ Convert a line to a string. Line may be an object, an array or a string.
             unless typeof value is 'string'
               @emit 'error', Error "Formatter must return a string, null or undefined, got #{JSON.stringify value}"
               return null
-            containsdelimiter = value.indexOf(delimiter) >= 0
+            containsdelimiter = delimiter.length && value.indexOf(delimiter) >= 0
             containsQuote = (quote isnt '') and value.indexOf(quote) >= 0
             containsEscape = value.indexOf(escape) >= 0 and (escape isnt quote)
             containsRowDelimiter = value.indexOf(record_delimiter) >= 0
