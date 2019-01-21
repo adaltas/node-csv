@@ -66,7 +66,7 @@ describe 'Option `cast`', ->
     stringify [
       value: true
     ], {cast: boolean: (value) -> if value then 1 else 0}, (err, data) ->
-      err.message.should.eql 'Formatter must return a string, null or undefined, got 1'
+      err.message.should.eql 'Invalid Casting Value: returned value must return a string, an object, null or undefined, got 1'
       next()
   
   describe 'context', ->
@@ -135,4 +135,23 @@ describe 'Option `cast`', ->
       , (err, data) ->
         data.trim().should.eql '0\n1' unless err
         next err
+    
+  describe 'info object', ->
+  
+    it 'modify escape', (next) ->
+      stringify [
+        ['record " 1']
+        ['record " 2']
+        ['record " 3']
+      ], eof: false, escape: '#', cast: string: (value, context) ->
+        return value if context.records is 2
+        value: value, escape: ['\\', '"'][context.records]
+      , (err, data) ->
+        data.should.eql """
+        "record \\" 1"
+        "record "" 2"
+        "record #" 3"
+        """
+        next err
+    
     

@@ -209,7 +209,7 @@ Convert a line to a string. Line may be an object, an array or a string.
 
       stringify: (chunk) ->
         return chunk if typeof chunk isnt 'object'
-        {columns, delimiter, header, quote, escape} = @options
+        {columns, header} = @options
         record = []
         # Record is an array
         if Array.isArray chunk
@@ -244,9 +244,20 @@ Convert a line to a string. Line may be an object, an array or a string.
         csvrecord = ''
         for i in [0...record.length]
           [value, field] = record[i]
-          if err
-            @emit 'error', err
+          if typeof value is 'string'
+            options = @options
+          else if isObject value
+            {value, options...} = value
+            unless typeof value is 'string' or value is undefined or value is null
+              @emit 'error', Error "Invalid Casting Value: returned value must return a string, null or undefined, got #{JSON.stringify value}"
+              return
+            options = {this.options..., options...}
+          else if value is undefined or value is null
+            options = @options
+          else
+            @emit 'error', Error "Invalid Casting Value: returned value must return a string, an object, null or undefined, got #{JSON.stringify value}"
             return
+          {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter} = options
           if value
             unless typeof value is 'string'
               @emit 'error', Error "Formatter must return a string, null or undefined, got #{JSON.stringify value}"
@@ -254,10 +265,9 @@ Convert a line to a string. Line may be an object, an array or a string.
             containsdelimiter = value.indexOf(delimiter) >= 0
             containsQuote = (quote isnt '') and value.indexOf(quote) >= 0
             containsEscape = value.indexOf(escape) >= 0 and (escape isnt quote)
-            containsRowDelimiter = value.indexOf(@options.record_delimiter) >= 0
-            quoted = @options.quoted
-            quotedString = @options.quoted_string and typeof field is 'string'
-            quotedMatch = @options.quoted_match and typeof field is 'string' and @options.quoted_match.filter (quoted_match) ->
+            containsRowDelimiter = value.indexOf(record_delimiter) >= 0
+            quotedString = quoted_string and typeof field is 'string'
+            quotedMatch = quoted_match and typeof field is 'string' and quoted_match.filter (quoted_match) ->
               if typeof quoted_match is 'string'
                 value.indexOf(quoted_match) isnt -1
               else
@@ -273,7 +283,7 @@ Convert a line to a string. Line may be an object, an array or a string.
             if shouldQuote
               value = quote + value + quote
             csvrecord += value
-          else if @options.quoted_empty or (not @options.quoted_empty? and field is '' and @options.quoted_string)
+          else if quoted_empty or (not quoted_empty? and field is '' and quoted_string)
             csvrecord += quote + quote
           if i isnt record.length - 1
             csvrecord += delimiter
@@ -337,6 +347,9 @@ Print the header line if the option "header" is "true".
         columns
 
     module.exports.Stringifier = Stringifier
+  
+    isObject = (obj) ->
+      typeof obj is 'object' and obj isnt null and not Array.isArray obj
 
     underscore = (str) ->
       str.replace /([A-Z])/g, (_, match, index) ->
