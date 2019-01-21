@@ -4,6 +4,7 @@
 ## Trunk
 
 New feature:
+* quote: may be a boolean value
 * delimiter: accept buffer and enforce validation
 * delimiter: disabled if value is empty
 * cast: overwrite options if value is an object
