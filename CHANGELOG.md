@@ -9,6 +9,13 @@ New feature:
 * delimiter: disabled if value is empty
 * cast: overwrite options if value is an object
 
+Fix:
+* record_delimiter: enforce validation
+
+Project management:
+* package: latest dependencies
+* typescript: type tests
+
 ## Version 5.2.0
 
 Fix:
