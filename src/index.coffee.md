@@ -241,45 +241,43 @@ Convert a line to a string. Line may be an object, an array or a string.
                 @emit 'error', err
                 return
               record.push [value, field]
-        if Array.isArray record
-          newrecord = ''
-          for i in [0...record.length]
-            [value, field] = record[i]
-            if err
-              @emit 'error', err
-              return
-            if value
-              unless typeof value is 'string'
-                @emit 'error', Error "Formatter must return a string, null or undefined, got #{JSON.stringify value}"
-                return null
-              containsdelimiter = value.indexOf(delimiter) >= 0
-              containsQuote = (quote isnt '') and value.indexOf(quote) >= 0
-              containsEscape = value.indexOf(escape) >= 0 and (escape isnt quote)
-              containsRowDelimiter = value.indexOf(@options.record_delimiter) >= 0
-              quoted = @options.quoted
-              quotedString = @options.quoted_string and typeof field is 'string'
-              quotedMatch = @options.quoted_match and typeof field is 'string' and @options.quoted_match.filter (quoted_match) ->
-                if typeof quoted_match is 'string'
-                  value.indexOf(quoted_match) isnt -1
-                else
-                  quoted_match.test value
-              quotedMatch = quotedMatch and quotedMatch.length > 0
-              shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
-              if shouldQuote and containsEscape
-                regexp = if escape is '\\' then new RegExp(escape + escape, 'g') else new RegExp(escape, 'g');
-                value = value.replace(regexp, escape + escape)
-              if containsQuote
-                regexp = new RegExp(quote,'g')
-                value = value.replace(regexp, escape + quote)
-              if shouldQuote
-                value = quote + value + quote
-              newrecord += value
-            else if @options.quoted_empty or (not @options.quoted_empty? and field is '' and @options.quoted_string)
-              newrecord += quote + quote
-            if i isnt record.length - 1
-              newrecord += delimiter
-          record = newrecord
-        record
+        csvrecord = ''
+        for i in [0...record.length]
+          [value, field] = record[i]
+          if err
+            @emit 'error', err
+            return
+          if value
+            unless typeof value is 'string'
+              @emit 'error', Error "Formatter must return a string, null or undefined, got #{JSON.stringify value}"
+              return null
+            containsdelimiter = value.indexOf(delimiter) >= 0
+            containsQuote = (quote isnt '') and value.indexOf(quote) >= 0
+            containsEscape = value.indexOf(escape) >= 0 and (escape isnt quote)
+            containsRowDelimiter = value.indexOf(@options.record_delimiter) >= 0
+            quoted = @options.quoted
+            quotedString = @options.quoted_string and typeof field is 'string'
+            quotedMatch = @options.quoted_match and typeof field is 'string' and @options.quoted_match.filter (quoted_match) ->
+              if typeof quoted_match is 'string'
+                value.indexOf(quoted_match) isnt -1
+              else
+                quoted_match.test value
+            quotedMatch = quotedMatch and quotedMatch.length > 0
+            shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
+            if shouldQuote and containsEscape
+              regexp = if escape is '\\' then new RegExp(escape + escape, 'g') else new RegExp(escape, 'g');
+              value = value.replace(regexp, escape + escape)
+            if containsQuote
+              regexp = new RegExp(quote,'g')
+              value = value.replace(regexp, escape + quote)
+            if shouldQuote
+              value = quote + value + quote
+            csvrecord += value
+          else if @options.quoted_empty or (not @options.quoted_empty? and field is '' and @options.quoted_string)
+            csvrecord += quote + quote
+          if i isnt record.length - 1
+            csvrecord += delimiter
+        csvrecord
 
 ## `Stringifier.prototype.headers`
 
