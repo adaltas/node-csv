@@ -10,13 +10,13 @@ describe 'Option `delimiter`', ->
     stringify [], delimiter: Buffer.from ','
     ( ->
       stringify [], delimiter: true
-    ).should.throw 'Invalid Option: delimitert must be a buffer or a string, got true'
+    ).should.throw 'Invalid Option: delimiter must be a buffer or a string, got true'
     ( ->
       stringify [], delimiter: false
-    ).should.throw 'Invalid Option: delimitert must be a buffer or a string, got false'
+    ).should.throw 'Invalid Option: delimiter must be a buffer or a string, got false'
     ( ->
       stringify [], delimiter: 123
-    ).should.throw 'Invalid Option: delimitert must be a buffer or a string, got 123'
+    ).should.throw 'Invalid Option: delimiter must be a buffer or a string, got 123'
   
   it 'with default value', (next) ->
     stringify [

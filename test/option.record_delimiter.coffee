@@ -3,11 +3,21 @@ stringify = require '../src'
 
 describe 'Option `record_delimiter`', ->
   
-  it 'validate', ->
+  it 'validation', ->
+    stringify [], record_delimiter: ''
+    stringify [], record_delimiter: ','
+    stringify [], record_delimiter: ',,'
+    stringify [], record_delimiter: Buffer.from ','
     ( ->
-      stringify record_delimiter: true
-    ).should.throw 'Invalid Option: record_delimiter must be a string or a buffer, got true'
-
+      stringify [], record_delimiter: true
+    ).should.throw 'Invalid Option: record_delimiter must be a buffer or a string, got true'
+    ( ->
+      stringify [], record_delimiter: false
+    ).should.throw 'Invalid Option: record_delimiter must be a buffer or a string, got false'
+    ( ->
+      stringify [], record_delimiter: 123
+    ).should.throw 'Invalid Option: record_delimiter must be a buffer or a string, got 123'
+  
   it 'Test line breaks custom string', (next) ->
     stringify [
       [ '20322051544','8.8017226E7','ABC' ]
