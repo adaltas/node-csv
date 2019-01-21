@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.3.0
 
 New feature:
 * quote: may be a boolean value
