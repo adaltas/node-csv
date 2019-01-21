@@ -81,10 +81,21 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
         else
           if Buffer.isBuffer options.delimiter
             options.delimiter = options.delimiter.toString()
-          if typeof options.delimiter isnt 'string'
+          else if typeof options.delimiter isnt 'string'
             throw new Error("Invalid Option: delimiter must be a buffer or a string, got #{JSON.stringify(options.delimiter)}")
         # Normalize option `quote`
-        options.quote ?= '"'
+        if options.quote is null or options.quote is undefined
+          options.quote = '"'
+        else
+          if options.quote is true
+            options.quote = '"'
+          else if options.quote is false
+            options.quote = ''
+          else if Buffer.isBuffer options.quote
+            options.quote = options.quote.toString()
+          else if typeof options.quote isnt 'string'
+            throw new Error("Invalid Option: quote must be a boolean, a buffer or a string, got #{JSON.stringify(options.quote)}")
+        # Normalize option `quoted`
         options.quoted ?= false
         options.quoted_empty ?= undefined
         options.quoted_string ?= false

@@ -46,7 +46,7 @@ declare namespace stringify {
          * Set the field delimiter, one character only, defaults to a comma.
          */
 
-        delimiter?: string | Buffer;
+        delimiter?: string | Buffer
         /**
          * Add the value of "options.RecordDelimiter" on the last line, default to true.
          */
@@ -55,8 +55,8 @@ declare namespace stringify {
         /**
          * Defaults to the escape read option.
          */
-        escape?: string
 
+        escape?: string | Buffer
         /**
          * Display the column names on the first line if the columns option is provided or discovered.
          */
@@ -65,8 +65,8 @@ declare namespace stringify {
         /**
          * The quote characters, defaults to the ", an empty quote value will preserve the original field.
          */
-        quote?: string
 
+        quote?: string | Buffer | boolean
         /**
          * Boolean, default to false, quote all the non-empty fields even if not required.
          */

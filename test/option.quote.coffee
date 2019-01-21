@@ -3,6 +3,28 @@ fs = require 'fs'
 stringify = require '../src'
 
 describe 'Option `quote`', ->
+  
+  it 'validation', ->
+    stringify [], quote: ''
+    stringify [], quote: '"'
+    stringify [], quote: '||'
+    stringify [], quote: Buffer.from '"'
+    stringify [], quote: true
+    stringify [], quote: false
+    ( ->
+      stringify [], quote: 123
+    ).should.throw 'Invalid Option: quote must be a boolean, a buffer or a string, got 123'
+  
+  it 'disabled if empty', (next) ->
+    stringify [
+      [ '20322051544','"','8.8017226E7',45,'"ok"' ]
+      [ '','1974','8.8392926E7','','' ]
+    ], {eof: false, quote: ''}, (err, data) ->
+      data.should.eql """
+      20322051544,",8.8017226E7,45,"ok"
+      ,1974,8.8392926E7,,
+      """
+      next()
 
   it 'with separator inside fields',  (next) ->
     stringify [
