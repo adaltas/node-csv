@@ -14,7 +14,7 @@ Fix:
 
 Project management:
 * package: latest dependencies
-* typescript: type tests
+* ts: type tests
 
 ## Version 5.2.0
 
