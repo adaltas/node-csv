@@ -2,7 +2,7 @@
 fs = require 'fs'
 stringify = require '../src'
 
-describe 'quote', ->
+describe 'Option `quote`', ->
 
   it 'with separator inside fields',  (next) ->
     stringify [
