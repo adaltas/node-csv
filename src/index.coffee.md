@@ -82,7 +82,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
           if Buffer.isBuffer options.delimiter
             options.delimiter = options.delimiter.toString()
           else if typeof options.delimiter isnt 'string'
-            throw new Error("Invalid Option: delimiter must be a buffer or a string, got #{JSON.stringify(options.delimiter)}")
+            throw new Error "Invalid Option: delimiter must be a buffer or a string, got #{JSON.stringify options.delimiter}"
         # Normalize option `quote`
         if options.quote is null or options.quote is undefined
           options.quote = '"'
@@ -94,7 +94,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
           else if Buffer.isBuffer options.quote
             options.quote = options.quote.toString()
           else if typeof options.quote isnt 'string'
-            throw new Error("Invalid Option: quote must be a boolean, a buffer or a string, got #{JSON.stringify(options.quote)}")
+            throw new Error "Invalid Option: quote must be a boolean, a buffer or a string, got #{JSON.stringify options.quote}"
         # Normalize option `quoted`
         options.quoted ?= false
         options.quoted_empty ?= undefined
@@ -107,9 +107,9 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
           if Buffer.isBuffer options.escape
             options.escape = options.escape.toString()
           if typeof options.escape isnt 'string'
-            throw new Error("Invalid Option: escape must be a buffer or a string, got #{JSON.stringify(options.escape)}")
+            throw new Error "Invalid Option: escape must be a buffer or a string, got #{JSON.stringify options.escape}"
           else if options.escape.length > 1
-            throw new Error("Invalid Option: escape must be one character, got #{options.escape.length} characters")
+            throw new Error "Invalid Option: escape must be one character, got #{options.escape.length} characters"
         options.header ?= false
         # Normalize the columns option
         options.columns = @normalize_columns options.columns
@@ -123,7 +123,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
           isString = typeof quoted_match is 'string'
           isRegExp = quoted_match instanceof RegExp
           if not isString and not isRegExp
-            throw Error "Invalid Option: quoted_match must be a string or a regex, got #{JSON.stringify quoted_match}"
+            throw new Error "Invalid Option: quoted_match must be a string or a regex, got #{JSON.stringify quoted_match}"
         # Backward compatibility
         options.cast.boolean = options.cast.bool if options.cast.bool
         # Custom cast
@@ -141,9 +141,14 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
           JSON.stringify value
         options.cast.string ?= (value) ->
           value
-        if options.record_delimiter is undefined or options.record_delimiter is null or options.record_delimiter is false
+        # Normalize option `record_delimiter`
+        if options.record_delimiter is undefined or options.record_delimiter is null
           options.record_delimiter ?= '\n'
-        else if typeof options.record_delimiter is 'string'
+        else
+          if Buffer.isBuffer options.record_delimiter
+            options.record_delimiter = options.record_delimiter.toString()
+          else if typeof options.record_delimiter isnt 'string'
+            throw new Error "Invalid Option: record_delimiter must be a buffer or a string, got #{JSON.stringify options.record_delimiter}"
           switch options.record_delimiter
             when 'auto'
               options.record_delimiter = null
@@ -157,10 +162,6 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
               options.record_delimiter = "\u001e"
             when 'unicode'
               options.record_delimiter = "\u2028"
-        else if Buffer.isBuffer options.record_delimiter
-          options.record_delimiter = options.record_delimiter.toString()
-        else
-          throw Error "Invalid Option: record_delimiter must be a string or a buffer, got #{JSON.stringify options.record_delimiter}"
         # Expose options
         @options = options
         # Internal state

@@ -10,9 +10,7 @@ declare function stringify(input: stringify.Input, callback?: stringify.Callback
 declare function stringify(input: stringify.Input, options?: stringify.Options, callback?: stringify.Callback): stringify.Stringifier
 declare namespace stringify {
     type Callback = (err?: null | Error, output?: string) => void
-
-    type RecordDelimiter = string | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
-
+    type RecordDelimiter = string | Buffer | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
     type Cast<T> = (value: T, context: CastingContext) => string
 
     type PlainObject<T> = Record<string, T>
