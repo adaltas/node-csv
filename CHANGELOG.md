@@ -6,7 +6,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.3.1
 
 Minor enhancements:
 * ts: distribute definitions with es5
