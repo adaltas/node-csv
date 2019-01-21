@@ -17,13 +17,18 @@
     "lodash.get": "~4.4.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.0",
-    "@babel/core": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.18",
+    "@types/should": "^13.0.0",
     "coffeescript": "~2.3.2",
     "csv-generate": "~3.2.0",
     "mocha": "~5.2.0",
-    "should": "~13.2.3"
+    "should": "~13.2.3",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.4"
   },
   "optionalDependencies": {},
   "main": "./lib",
@@ -34,8 +39,8 @@
     "patch": "npm version patch -m 'Bump to version %s'",
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
-    "coffee": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
-    "pretest": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
+    "coffee": "coffee -b -o lib src && cd lib && babel *.js -d es5 && cd ..",
+    "pretest": "coffee -b -o lib src && cd lib && babel *.js -d es5 && cd ..",
     "test": "mocha test/**/*.coffee"
   },
   "types": "./lib/index.d.ts"
