@@ -8,8 +8,12 @@
 
 ## Trunk
 
-* babel: include .babelrc to git
+Minor enhancements:
+* ts: distribute definitions with es5
 * ts: unused MatcherFunc type
+
+Project managements:
+* babel: include .babelrc to git
 
 ## Version 4.3.0
 
