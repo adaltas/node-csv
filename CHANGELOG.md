@@ -1,14 +1,17 @@
 
 # Changelog
 
+## Trunk
+
+New feature:
+* cast: overwrite options if value is an object
+
 ## Version 5.2.0
 
 Fix:
-
 * escape: enforce validation
 
 Project management:
-
 * babel: include .babelrc to git
 * ts: rename RowDelimiter to RecordDelimiter
 * ts: convert camel case to snake case
@@ -16,55 +19,45 @@ Project management:
 ## Version 5.1.2
 
 Fix:
-
 * write: immutable input chunks
 
 ## Version 5.1.1
 
 Fix:
-
 * ts: add casting context missing type
 
 ## Version 5.1.0
 
 Fix:
-
 * header: ensure column definition
 
-New features
-
+New features:
 * cast: pass context to functions
 
 Minor enhancements:
-
 * write: validate written records
 * src: extends stream class
 
 Project management:
-
 * package: latest dev dependencies
 
 ## Version 5.0.0
 
 Breaking changes:
-
 * `cast`: was `formatters`
 * `record_delimiter`: was `row_delimiter`
 * options: instance options stored in snake case
 * nodejs: drop support for version 7, use './lib/es5'
 
 New features:
-
 * `quoted_match`: new option
 * options: accept snake case and camel case
 
 Minor enhancements:
-
 * stream: pass all options to the transform stream
 * stream: use writableObjectMode
 
 Project management:
-
 * package: update license to MIT
 * travis: test agains Node.js 11
 * samples: improve some scripts
@@ -98,15 +91,12 @@ Project management:
 ## Version 4.0.0
 
 Backward incompatibilities:
-
 * `formatters`: rename bool to boolean
 
 New features:
-
 * `formatters`: handle number
 
 Cleanup
-
 * src: cache call to `typeof`
 * package: latest dependencies
 
