@@ -48,3 +48,18 @@ describe 'API events', ->
       next()
     parser.write chr for chr in data
     parser.end()
+
+  it 'emit error', (next) ->
+    parser = parse()
+    parser.on 'readable', ->
+      while @read() then true
+    parser.on 'end', ->
+      next Error 'End should not be fired'
+    parser.on 'error', (err) ->
+      err.message.should.eql 'Invalid Record Length: expect 3, got 2 on line 2'
+      next()
+    parser.write """
+    a,a,a
+    b,b
+    """
+    parser.end()
