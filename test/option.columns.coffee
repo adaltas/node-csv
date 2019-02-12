@@ -29,6 +29,15 @@ describe 'Option `columns`', ->
           { a: "5", c: "7" }
         ] unless err
         next err
+        
+    it 'dont mutate options', (next) ->
+      columns = ["a", false, "c", false]
+      parse """
+      1,2,3,4
+      5,6,7,8
+      """, columns: columns, (err, data) ->
+        columns.should.eql ["a", false, "c", false] unless err
+        next err
   
   describe 'boolean', ->
 
