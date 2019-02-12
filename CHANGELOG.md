@@ -6,6 +6,11 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+Fix:
+columns: fix es5 generation
+
 ## Version 4.3.2
 
 Fix:
