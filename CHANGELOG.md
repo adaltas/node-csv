@@ -6,6 +6,11 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+Fix:
+* columns: immutable option
+
 ## Version 4.3.1
 
 Minor enhancements:
@@ -18,11 +23,9 @@ Project managements:
 ## Version 4.3.0
 
 New features:
-
 * objname: accept a buffer
 
 Minor enhancements:
-
 * to_line: validation refinements
 * trim, ltrim, rtrim: validation refinements
 * to: validation refinements
@@ -41,19 +44,16 @@ Minor enhancements:
 ## Version 4.2.0
 
 Fix:
-
 * record_delimiter: fix multi bytes with skip_empty_lines and from_line
 * rtrim: accept tab
 
 ## Version 4.1.0
 
 New features:
-
 * options: accept snake case and camel case
 * cast: dont call cast for non column-mappable fields
 
 Fix:
-
 * cast: ensure column is a string and not an array
 * stream: handle empty input streams
 * cast: function may return non-string values
@@ -62,7 +62,6 @@ Fix:
 ## Version 4.0.1
 
 Fix:
-
 * relax_column_count: handle records with more columns
 
 ## Version 4.0.0
@@ -86,7 +85,6 @@ This is a complete rewrite based with a Buffer implementation. There are no majo
 * remove the `record` event, use the `readable` event and `this.read()` instead
 
 New features:
-
 * new options `info`, `from_line` and `to_line`
 * trim: respect `ltrim` and `rtrim` when defined
 * delimiter: may be a Buffer
@@ -98,7 +96,6 @@ New features:
 * callback: pass undefined instead of null
 
 API management
-
 * Multiple tests have been rewritten with easier data sample
 * Source code is now written in ES6 instead of CoffeeScript
 * package: switch to MIT license
@@ -139,11 +136,9 @@ API management
 ## Version 3.0.0
 
 Breaking changes:
-
 * columns: skip empty values when null, false or undefined
 
 Cleanup:
-
 * sync: refactor internal variables
 * index: use destructuring assignment for deps
 
