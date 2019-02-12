@@ -6,7 +6,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.3.2
 
 Fix:
 * columns: immutable option
