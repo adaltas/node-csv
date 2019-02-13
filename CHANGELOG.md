@@ -8,6 +8,10 @@ See the changelogs of our child projects:
 * [csv-stringify](https://github.com/adaltas/node-csv-stringify/blob/master/CHANGELOG.md)
 * [stream-transform](https://github.com/adaltas/node-stream-transform/blob/master/CHANGELOG.md)
 
+## Trunk
+
+* project: fix license in package.json
+
 ## Version 5.1.1
 
 * es5: fix modules to wrap es5 dependencies

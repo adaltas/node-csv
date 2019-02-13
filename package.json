@@ -17,7 +17,7 @@
   "contributors": [
     "David Worms <david@adaltas.com> (http://www.adaltas.com)"
   ],
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "engines": {
     "node": ">= 0.1.90"
   },
