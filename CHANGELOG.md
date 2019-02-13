@@ -10,7 +10,8 @@
 
 ## Trunk
 
-babel: include .babelrc to git
+* project: fix license in package.json
+* babel: include .babelrc to git
 
 ## Version 3.2.0
 

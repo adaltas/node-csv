@@ -8,7 +8,7 @@
     "csv",
     "object"
   ],
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "http://www.github.com/adaltas/node-csv-generate"
