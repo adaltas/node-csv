@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* project: fix license in package.json
 * babel: include .babelrc to git
 
 ## Version 1.0.8
