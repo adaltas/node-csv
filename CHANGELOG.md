@@ -3,8 +3,13 @@
 
 ## Todo
 
+* skip_lines_with_error: rename to skip_records_with_error
 * max_comment_size: new option
 * promise: new API module
+
+## Trunk
+
+* skip_lines_with_error: new sample
 
 ## Version 4.3.3
 
