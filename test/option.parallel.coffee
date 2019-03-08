@@ -23,14 +23,14 @@ describe 'option parallel', ->
         letters pad 3, g._.count_created, '0'
       (g) -> pad 3, g._.count_created-1, '0'
     ]
-    transformer = generator.pipe transform (row, next) ->
+    transformer = generator.pipe transform (record, next) ->
       count++
-      row[1] = letters count-1
+      record[1] = letters count-1
       running++
       running.should.be.below 6
       setTimeout ->
         running--
-        next null, "#{row[0]},#{row[1]}"
+        next null, "#{record[0]},#{record[1]}"
       , 1 + Math.ceil count % 5
     , parallel: 5
     transformer.on 'readable', ->
