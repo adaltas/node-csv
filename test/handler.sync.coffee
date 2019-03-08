@@ -37,9 +37,9 @@ describe 'sync', ->
       [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01' ]
       [ '28392898392','1974','8.8392926E7','DEF','23','2050-11-27' ]
       [ '83929843999','1944','8.8349294E2','HIJ','17','2060-08-28' ]
-    ], (row) ->
-      row.push row.shift()
-      row
+    ], (record) ->
+      record.push record.shift()
+      record
     , (err, data) ->
       return next err if err
       data.should.eql [
@@ -54,7 +54,7 @@ describe 'sync', ->
       [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01' ]
       [ '28392898392','1974','8.8392926E7','DEF','23','2050-11-27' ]
       [ '83929843999','1944','8.8349294E2','HIJ','17','2060-08-28' ]
-    ], (row) ->
+    ], (record) ->
       null
     , (err, data) ->
       return next err if err
@@ -68,9 +68,9 @@ describe 'sync', ->
       [ '28392898392','1974','8.8392926E7','DEF','23','2050-11-27' ]
       [ '83929843999','1944','8.8349294E2','HIJ','17','2060-08-28' ]
       [ '47191084482','1978','8.8392926E7','2FF','23','2064-02-15' ]
-    ], (row) ->
+    ], (record) ->
       index++
-      if index % 2 then row else null
+      if index % 2 then record else null
     , (err, data) ->
       return next err if err
       data.should.eql [
@@ -83,8 +83,8 @@ describe 'sync', ->
     transform [
       [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01' ]
       [ '28392898392','1974','8.8392926E7','DEF','23','2050-11-27' ]
-    ], (row) ->
-      field_1: row[4], field_2: row[3]
+    ], (record) ->
+      field_1: record[4], field_2: record[3]
     , (err, data) ->
       return next err if err
       data.should.eql [
@@ -98,9 +98,9 @@ describe 'sync', ->
     transform [
       [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01' ]
       [ '28392898392','1974','8.8392926E7','DEF','23','2050-11-27' ]
-    ], (row) ->
+    ], (record) ->
       index++
-      ( if index > 0 then ',' else '' ) + "#{row[4]}:#{row[3]}"
+      ( if index > 0 then ',' else '' ) + "#{record[4]}:#{record[3]}"
     , (err, data) ->
       return next err if err
       data.join('').should.eql '45:ABC,23:DEF'
@@ -112,7 +112,7 @@ describe 'sync', ->
       [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01' ]
       [ '28392898392','1974','8.8392926E7','DEF','23','2050-11-27' ]
       [ '83929843999','1944','8.8349294E2','HIJ','17','2060-08-28' ]
-    ], (row) ->
+    ], (record) ->
       index++
     , (err, data) ->
       return next err if err
@@ -124,9 +124,9 @@ describe 'sync', ->
       [ '20322051544','1979','8.8017226E7','2000-01-01' ]
       [ '28392898392','1974','8.8392926E7','2050-11-27' ]
       [ '83929843999','1944','8.8349294E2','2060-08-28' ]
-    ], (row) ->
-      [year, month, day] = row[3].split('-')
-      [parseInt(row[0]), parseFloat(row[2]) ,Date.UTC(year, month, day)]
+    ], (record) ->
+      [year, month, day] = record[3].split('-')
+      [parseInt(record[0]), parseFloat(record[2]) ,Date.UTC(year, month, day)]
     , (err, data) ->
       return next err if err
       data.should.eql [

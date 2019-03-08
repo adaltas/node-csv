@@ -10,7 +10,7 @@ describe 'option consume', ->
     data = []
     count = 0
     generator = generate length: 100000, objectMode: true
-    transformer = generator.pipe transform (row, callback) ->
+    transformer = generator.pipe transform (record, callback) ->
       count++
       setImmediate  -> callback null, ''
     , parallel: 7, consume: true
@@ -24,7 +24,7 @@ describe 'option consume', ->
     data = []
     count = 0
     generator = generate length: 100000, objectMode: true
-    transformer = generator.pipe transform (row) ->
+    transformer = generator.pipe transform (record) ->
       count++
       ''
     , parallel: 10, consume: true
@@ -40,7 +40,7 @@ describe 'sequential', ->
     data = []
     count = 0
     generator = generate length: 100000, objectMode: true
-    transformer = generator.pipe transform (row, callback) ->
+    transformer = generator.pipe transform (record, callback) ->
       count++
       setImmediate  -> callback null, ''
     , parallel: 1, consume: true
@@ -53,7 +53,7 @@ describe 'sequential', ->
     data = []
     count = 0
     generator = generate length: 100000, objectMode: true
-    transformer = generator.pipe transform (row) ->
+    transformer = generator.pipe transform (record) ->
       count++
       ''
     , parallel: 1, consume: true

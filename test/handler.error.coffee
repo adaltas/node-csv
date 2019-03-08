@@ -5,7 +5,7 @@ transform = require '../src'
 describe 'error', ->
 
   it 'catch using stream api', (next) ->
-      transformer = transform (row) ->
+      transformer = transform (record) ->
         throw new Error 'Custom Error'
       transformer.on 'error', (err) ->
         err.message.should.eql 'Custom Error'
@@ -16,7 +16,7 @@ describe 'error', ->
 
   it 'catch using pipe api', (next) ->
       generator = generate length: 1000, objectMode: true, seed: 1, headers: 2
-      transformer = generator.pipe transform (row) ->
+      transformer = generator.pipe transform (record) ->
         throw new Error 'Custom Error'
       transformer.on 'error', (err) ->
         err.message.should.eql 'Custom Error'
@@ -30,7 +30,7 @@ describe 'error', ->
       [ '20322051544' ]
       [ '28392898392' ]
       [ '83929843999' ]
-    ], (row) ->
+    ], (record) ->
       throw new Error 'Custom Error'
     , (err, data) ->
       # thrown multiple times for now
