@@ -12,7 +12,7 @@ describe 'Option `columns`', ->
         },{
           invalid: 'oh no'
         }], (->)
-      ).should.throw 'Invalid Option columns: property "name" is required at position 1'
+      ).should.throw 'Invalid Option columns: property "name" is required at position 1 when column is an object literal'
     
     it 'check the columns value', ->
       (->
