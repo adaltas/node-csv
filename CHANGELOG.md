@@ -9,6 +9,7 @@
 
 ## Trunk
 
+* cast: handle undefined columns
 * skip_lines_with_error: new sample
 
 ## Version 4.3.3
