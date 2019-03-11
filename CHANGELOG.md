@@ -9,6 +9,7 @@
 
 ## Trunk
 
+* columns: enrich error message when provided as literal object
 * cast: handle undefined columns
 * skip_lines_with_error: new sample
 
