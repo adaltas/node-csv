@@ -177,6 +177,45 @@ describe 'Option `cast`', ->
       , (err, records) ->
         next err
 
+    it 'filter columns if value is undefined', (next) ->
+      parse """
+      a,b,c,d
+      1,2,3,4
+      5,6,7,8
+      """,
+        columns: true,
+        cast: (value, context) ->
+          switch context.index
+            when 0 then if context.header then value else Number(value)
+            when 2 then value
+            else undefined
+      , (err, data) ->
+        data.should.eql [
+          'a': 1
+          'c': '3'
+        ,
+          'a': 5
+          'c': '7'
+        ] unless err
+        next err
+
+    it 'throw error if header is invalid', (next) ->
+      parse """
+      a,b,c,d
+      1,2,3,4
+      5,6,7,8
+      """,
+        columns: true,
+        cast: (value, context) ->
+          switch context.index
+            when 0 then if context.header then 'string' else value
+            when 1 then if context.header then undefined else value
+            when 2 then if context.header then null else value
+            when 3 then if context.header then 1234 else value
+      , (err, data) ->
+        err.message.should.eql('Invalid Option columns: expect a string or an object, got 1234 at position 3')
+        next()
+
   describe 'error', ->
     
     it 'catch error', (next) ->

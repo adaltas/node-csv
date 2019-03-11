@@ -4,7 +4,7 @@ parse = require '../lib'
 describe 'Option `columns`', ->
   
   describe 'validation', ->
-    
+        
     it 'check the columns value', ->
       (->
         parse "", columns: [{
@@ -48,19 +48,19 @@ describe 'Option `columns`', ->
       28392898392,1974,8.8392926E7,DEF,23,2050-11-27
       """, columns: true, (err, data) ->
         data.should.eql [
-          "FIELD_1":"20322051544"
-          "FIELD_2":"1979"
-          "FIELD_3":"8.8017226E7"
-          "FIELD_4":"ABC"
-          "FIELD_5":"45"
-          "FIELD_6":"2000-01-01"
+          'FIELD_1': '20322051544'
+          'FIELD_2': '1979'
+          'FIELD_3': '8.8017226E7'
+          'FIELD_4': 'ABC'
+          'FIELD_5': '45'
+          'FIELD_6': '2000-01-01'
         ,
-          "FIELD_1":"28392898392"
-          "FIELD_2":"1974"
-          "FIELD_3": "8.8392926E7"
-          "FIELD_4":"DEF"
-          "FIELD_5":"23"
-          "FIELD_6":"2050-11-27"
+          'FIELD_1': '28392898392'
+          'FIELD_2': '1974'
+          'FIELD_3':  '8.8392926E7'
+          'FIELD_4': 'DEF'
+          'FIELD_5': '23'
+          'FIELD_6': '2050-11-27'
         ] unless err
         next err
 
