@@ -7,7 +7,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.3.4
 
 * columns: enrich error message when provided as literal object
 * cast: handle undefined columns
