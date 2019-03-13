@@ -34,7 +34,7 @@ New features and bug fixes:
 * options: accept snake case and came case keys
 * eof: new option
 * row_delimiter: new option
-* travis: test agains Node.js 11
+* travis: test against Node.js 11
 
 ## Version 2.2.2
 
