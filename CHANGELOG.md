@@ -73,7 +73,7 @@ Minor enhancements:
 
 Project management:
 * package: update license to MIT
-* travis: test agains Node.js 11
+* travis: test against Node.js 11
 * samples: improve some scripts
 
 ## Version 4.3.1
