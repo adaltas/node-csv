@@ -120,7 +120,7 @@ API management
 * options: extract default options
 * package: add a few keywords
 * src: precompute escapeIsQuote
-* travis: test agains Node.js 11
+* travis: test against Node.js 11
 
 ## Version 3.1.3
 
@@ -200,7 +200,7 @@ Cleanup:
 
 ## Version 2.0.3
 
-* package: es5 backward compatiblity
+* package: es5 backward compatibility
 * package: ignore yarn lock file
 
 ## Version 2.0.2
