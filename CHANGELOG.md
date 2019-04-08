@@ -7,7 +7,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-# Trunk
+## Trunk
 
 New features:
 * options: new bom option
