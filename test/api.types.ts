@@ -12,7 +12,7 @@ describe('API Types', () => {
       const options: Options = parser.options
       const keys: any = Object.keys(options)
       keys.sort().should.eql([
-        'cast', 'cast_date', 'columns', 'comment', 'delimiter',
+        'bom', 'cast', 'cast_date', 'columns', 'comment', 'delimiter',
         'escape', 'from', 'from_line', 'info', 'ltrim', 'max_record_size',
         'objname', 'quote', 'raw', 'record_delimiter',
         'relax', 'relax_column_count', 'rtrim', 'skip_empty_lines',
