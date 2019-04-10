@@ -13,6 +13,17 @@ describe 'Option `bom`', ->
     parser.write Buffer.from "\ufeffa,b,c\n"
     parser.write Buffer.from 'd,e,f'
     parser.end()
+
+  it 'preserve BOM if false', (next) ->
+    parser = parse bom: false, (err, data) ->
+      data.should.eql [
+        ['\ufeffa', 'b', 'c']
+        ['d', 'e', 'f']
+      ]
+      next()
+    parser.write Buffer.from "\ufeffa,b,c\n"
+    parser.write Buffer.from 'd,e,f'
+    parser.end()
       
   it 'throw parsing error if quote follow bom', (next) ->
     parser = parse (err, data) ->
