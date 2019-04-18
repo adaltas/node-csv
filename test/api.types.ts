@@ -99,15 +99,15 @@ describe('API Types', () => {
       const options: Options = {}
       options.columns = true
       options.columns = []
-      options.columns = (record: string[]) => {
-        const val: boolean = record.length > 1
-        return val
-      }
+      options.columns = ['string', undefined, null, false, {name: 'column-name'}]
       options.columns = (record: string[]) => {
         const fields: string[] = record.map( (field: string) => {
           return field.toUpperCase()
         })
         return fields
+      }
+      options.columns = (record: string[]) => {
+        return ['string', undefined, null, false, {name: 'column-name'}]
       }
     })
       
