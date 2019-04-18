@@ -7,7 +7,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.4.1
 
 Fix:
 * columns: allows returning an array of string, undefined, null or false

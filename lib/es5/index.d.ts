@@ -43,6 +43,8 @@ declare namespace parse {
 
     type CastingDateFunction = (value: string, context: CastingContext) => Date;
 
+    type ColumnOption = string | undefined | null | false | { name: string };
+
     interface Options {
         /**
          * If true, the parser will attempt to convert read data types to native types.
@@ -74,7 +76,7 @@ declare namespace parse {
          * default to null,
          * affect the result data set in the sense that records will be objects instead of arrays.
          */
-        columns?: any[] | boolean | ((record: any) => boolean | string[]);
+        columns?: ColumnOption[] | boolean | ((record: any) => ColumnOption[]);
         /**
          * Treat all the characters after this one as a comment, default to '' (disabled).
          */
