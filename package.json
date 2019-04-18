@@ -16,6 +16,19 @@
   "homepage": "https://csv.js.org/generate/",
   "bugs": "https://github.com/adaltas/node-csv-generate/issues",
   "author": "David Worms <david@adaltas.com> (http://www.adaltas.com)",
+  "coffeelintConfig": {
+    "indentation": {
+      "level": "error",
+      "value": 2
+    },
+    "line_endings": {
+      "level": "error",
+      "value": "unix"
+    },
+    "max_line_length": {
+      "level": "ignore"
+    }
+  },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
     "@babel/core": "^7.1.0",
