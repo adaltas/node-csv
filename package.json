@@ -26,6 +26,19 @@
     "type": "git",
     "url": "https://github.com/adaltas/node-csv.git"
   },
+  "coffeelintConfig": {
+    "indentation": {
+      "level": "error",
+      "value": 2
+    },
+    "line_endings": {
+      "level": "error",
+      "value": "unix"
+    },
+    "max_line_length": {
+      "level": "ignore"
+    }
+  },
   "dependencies": {
     "csv-generate": "^3.2.0",
     "csv-parse": "^4.3.0",
