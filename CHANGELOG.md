@@ -3,7 +3,11 @@
 
 ## Trunk
 
-* state: isolate properties
+Breaking changes:
+* state: isolate properties into the "state" property
+
+Minor enhancements:
+* api: simplify argument discovery
 * project: fix license in package.json
 * babel: include .babelrc to git
 
