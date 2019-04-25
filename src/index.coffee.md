@@ -14,6 +14,7 @@ information.
 
     stream = require 'stream'
     util = require 'util'
+    {clone} = require 'mixme'
 
 ## Usage
 
@@ -34,7 +35,7 @@ Stream API, for maximum of power:
         if type is 'array'
           records = argument
         else if type is 'object'
-          for k, v of argument then options[k] = v
+          options = clone argument
         else if type is 'function'
           if handler and i is arguments.length - 1
           then callback = argument

@@ -60,5 +60,8 @@
     "./lib/es5/sync.d.ts",
     "./lib/index.d.ts",
     "./lib/sync.d.ts"
-  ]
+  ],
+  "dependencies": {
+    "mixme": "^0.3.1"
+  }
 }
