@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* state: isolate properties
 * project: fix license in package.json
 * babel: include .babelrc to git
 

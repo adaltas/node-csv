@@ -18,7 +18,7 @@ Provides a synchronous alternative to the CSV transformer.
         type = typeof argument
         if argument is null then type = 'null'
         else if type is 'object' and Array.isArray argument then type = 'array'
-        if i is 0 
+        if i is 0
           if type is 'function'
             handler = argument
           else if type isnt null
