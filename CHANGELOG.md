@@ -10,6 +10,7 @@ New Features:
 * typescript: new ts definitions
 
 Minor enhancements:
+* api: clone options
 * api: simplify argument discovery
 * project: fix license in package.json
 * babel: include .babelrc to git

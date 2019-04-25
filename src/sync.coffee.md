@@ -10,6 +10,7 @@ Provides a synchronous alternative to the CSV transformer.
 ## Source Code
 
     transform = require '.'
+    {clone} = require 'mixme'
 
     module.exports = ->
       # Import arguments normalization
@@ -21,7 +22,7 @@ Provides a synchronous alternative to the CSV transformer.
         if type is 'array'
           records = argument
         else if type is 'object'
-          for k, v of argument then options[k] = v
+          options = clone argument
         else if type is 'function'
           if handler and i is arguments.length - 1
           then callback = argument
