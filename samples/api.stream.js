@@ -13,7 +13,7 @@ transformer.on('readable', function(){
   }
 })
 transformer.on('error', function(err){
-  console.log(err.message)
+  console.error(err.message)
 })
 transformer.on('finish', function(){
   assert.deepEqual(output, [

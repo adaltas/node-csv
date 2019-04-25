@@ -16,7 +16,7 @@ transform([
   }
 })
 .on('error', function(err){
-  console.log(err.message)
+  console.error(err.message)
 })
 .on('finish', function(){
   assert.deepEqual(output, [
