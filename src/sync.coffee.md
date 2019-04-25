@@ -5,7 +5,7 @@ Provides a synchronous alternative to the CSV transformer.
 
 ## Usage  
 
-`const records = transform(records, [options])`  
+`const records = transform(records, [options], handler)`  
 
 ## Source Code
 

@@ -6,6 +6,9 @@
 Breaking changes:
 * state: isolate properties into the "state" property
 
+New Features:
+* typescript: new ts definitions
+
 Minor enhancements:
 * api: simplify argument discovery
 * project: fix license in package.json
