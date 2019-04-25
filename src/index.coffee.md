@@ -31,7 +31,7 @@ Stream API, for maximum of power:
         type = typeof argument
         if argument is null then type = 'null'
         else if type is 'object' and Array.isArray argument then type = 'array'
-        if i is 0 
+        if i is 0
           if type is 'function'
             handler = argument
           else if type isnt null
@@ -69,7 +69,7 @@ Stream API, for maximum of power:
 
 Options are documented [here](http://csv.js.org/transform/options/).
 
-    Transformer = (@options = {}, @transform) ->
+    Transformer = (@options = {}, @handler) ->
       @options.objectMode = true
       @options.parallel ?= 100
       stream.Transform.call @, @options
@@ -89,13 +89,13 @@ Options are documented [here](http://csv.js.org/transform/options/).
         cb()
         cb = null
       try
-        l = @transform.length
+        l = @handler.length
         l-- if @options.params?
         if l is 1 # sync
-          @__done null, [@transform.call @, chunk, @options.params], cb
+          @__done null, [@handler.call @, chunk, @options.params], cb
         else if l is 2 # async
           callback = (err, chunks...) => @__done err, chunks, cb
-          @transform.call @, chunk, callback, @options.params
+          @handler.call @, chunk, callback, @options.params
         else throw Error "Invalid handler arguments"
         return false
       catch err then @__done err
