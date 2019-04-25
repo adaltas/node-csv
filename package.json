@@ -31,16 +31,21 @@
     "@babel/cli": "^7.1.0",
     "@babel/core": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.13.0",
+    "@types/should": "^13.0.0",
     "coffeescript": "~2.3.2",
     "csv-generate": "~2.1.0",
     "mocha": "~5.2.0",
     "pad": "~2.2.1",
-    "should": "~13.2.3"
+    "should": "~13.2.3",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.4"
   },
   "optionalDependencies": {},
   "main": "./lib",
   "scripts": {
-    "preversion": "rm -rf lib && npm test && grep '## Trunk' CHANGELOG.md",
+    "preversion": "grep '## Trunk' CHANGELOG.md && npm test && cp lib/*.ts lib/es5 && git add lib/es5/*.ts",
     "version": "version=`grep '^  \"version\": ' package.json | sed 's/.*\"\\([0-9\\.]*\\)\".*/\\1/'` && sed -i \"s/## Trunk/## Version $version/\" CHANGELOG.md && git add CHANGELOG.md",
     "postversion": "git push && git push --tags && npm publish",
     "patch": "npm version patch -m 'Bump to version %s'",
@@ -48,6 +53,12 @@
     "major": "npm version major -m 'Bump to version %s'",
     "coffee": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
     "pretest": "coffee -b -o lib src && cd lib && babel *.js  -d es5 && cd ..",
-    "test": "mocha test/**/*.coffee"
-  }
+    "test": "mocha test/**/*.{coffee,ts}"
+  },
+  "types": [
+    "./lib/es5/index.d.ts",
+    "./lib/es5/sync.d.ts",
+    "./lib/index.d.ts",
+    "./lib/sync.d.ts"
+  ]
 }
