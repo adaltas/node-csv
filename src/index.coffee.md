@@ -6,7 +6,7 @@ Pass all elements of an array or a stream to transform, filter and add. Features
 *   Extends the Node.js "stream.Transform" API.   
 *   Both synchrounous and asynchronous support based and user callback 
     arguments signature.   
-*   Ability to skip data.   
+*   Ability to skip records.   
 *   Sequential and concurrent execution using the "parallel" options.
 
 Please look at the [README], the [samples] and the [tests] for additional
@@ -19,11 +19,11 @@ information.
 
 Callback approach, for ease of use:   
 
-`transform([data], handler, [options])`     
+`transform(records, [options], handler, callback)`     
 
 Stream API, for maximum of power:   
 
-`transform([data], [options], handler, [options], [callback])`   
+`transform([records], [options], handler, [callback])`   
 
     module.exports = ->
       options = {}
@@ -31,27 +31,23 @@ Stream API, for maximum of power:
         type = typeof argument
         if argument is null then type = 'null'
         else if type is 'object' and Array.isArray argument then type = 'array'
-        if i is 0
-          if type is 'function'
-            handler = argument
-          else if type isnt null
-            data = argument
-          continue
-        if type is 'object'
+        if type is 'array'
+          records = argument
+        else if type is 'object'
           for k, v of argument then options[k] = v
         else if type is 'function'
           if handler and i is arguments.length - 1
           then callback = argument
           else handler = argument
         else if type isnt 'null'
-          throw new Error 'Invalid arguments'
+          throw new Error "Invalid Arguments: got #{JSON.stringify argument} at position #{i}"
       transform = new Transformer options, handler
       error = false
-      if data
+      if records
         process.nextTick ->
-          for row in data
+          for record in records
             break if error
-            transform.write row
+            transform.write record
           transform.end()
       if callback or options.consume
         result = []
