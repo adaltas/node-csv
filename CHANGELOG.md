@@ -13,6 +13,7 @@ Minor enhancements:
 * api: simplify argument discovery
 * project: fix license in package.json
 * babel: include .babelrc to git
+* package: latest dependencies
 
 ## Version 1.0.8
 
