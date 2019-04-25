@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.0.0
 
 Breaking changes:
 * state: isolate properties into the "state" property
