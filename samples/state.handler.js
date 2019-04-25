@@ -9,7 +9,7 @@ let test_finished = 0
 // Execute the transformation
 transform(records, function(record, callback){
   setTimeout( () => {
-    const {running, started, finished} = this
+    const {running, started, finished} = this.state
     assert.equal(running, test_running--)
     assert.equal(started, test_started)
     assert.equal(finished, test_finished++)
@@ -19,7 +19,7 @@ transform(records, function(record, callback){
 // Get notify on error
 .on('end', function(){
   process.stdout.write('-------\n')
-  const {running, started, finished} = this
+  const {running, started, finished} = this.state
   process.stdout.write(`${running}_${started}_${finished}\n`)
 })
 // Print the transformed records to the standard output
