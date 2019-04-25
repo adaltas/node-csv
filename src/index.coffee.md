@@ -70,12 +70,14 @@ Stream API, for maximum of power:
 Options are documented [here](http://csv.js.org/transform/options/).
 
     Transformer = (@options = {}, @handler) ->
+      @options.consume ?= false
       @options.objectMode = true
       @options.parallel ?= 100
       stream.Transform.call @, @options
-      @running = 0
-      @started = 0
-      @finished = 0
+      @state =
+        running: 0
+        started: 0
+        finished: 0
       @
 
     util.inherits Transformer, stream.Transform
@@ -83,9 +85,9 @@ Options are documented [here](http://csv.js.org/transform/options/).
     module.exports.Transformer = Transformer
 
     Transformer.prototype._transform = (chunk, encoding, cb) ->
-      @started++
-      @running++
-      if @running < @options.parallel
+      @state.started++
+      @state.running++
+      if @state.running < @options.parallel
         cb()
         cb = null
       try
@@ -102,13 +104,13 @@ Options are documented [here](http://csv.js.org/transform/options/).
 
     Transformer.prototype._flush = (cb) ->
       @_ending = ->
-        cb() if @running is 0
+        cb() if @state.running is 0
       @_ending()
 
     Transformer.prototype.__done = (err, chunks, cb) ->
-      @running--
+      @state.running--
       return @emit 'error', err if err
-      @finished++
+      @state.finished++
       for chunk in chunks
         chunk = "#{chunk}" if typeof chunk is 'number'
         # We dont push empty string
