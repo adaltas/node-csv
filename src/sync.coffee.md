@@ -5,7 +5,7 @@ Provides a synchronous alternative to the CSV transformer.
 
 ## Usage  
 
-`const records = transform(data, [options])`  
+`const records = transform(records, [options])`  
 
 ## Source Code
 
@@ -18,20 +18,16 @@ Provides a synchronous alternative to the CSV transformer.
         type = typeof argument
         if argument is null then type = 'null'
         else if type is 'object' and Array.isArray argument then type = 'array'
-        if i is 0
-          if type is 'function'
-            handler = argument
-          else if type isnt null
-            data = argument
-          continue
-        if type is 'object'
+        if type is 'array'
+          records = argument
+        else if type is 'object'
           for k, v of argument then options[k] = v
         else if type is 'function'
           if handler and i is arguments.length - 1
           then callback = argument
           else handler = argument
         else if type isnt 'null'
-          throw new Error 'Invalid arguments'
+          throw new Error "Invalid Arguments: got #{JSON.stringify argument} at position #{i}"
       # Validate arguments
       expected_handler_length = 1
       expected_handler_length++ if options.params
@@ -41,7 +37,7 @@ Provides a synchronous alternative to the CSV transformer.
       transformer = new transform.Transformer options, handler
       transformer.push = (chunk) ->
         chunks.push chunk
-      for record in data
+      for record in records
         transformer._transform record, null, (->)
       chunks
       
