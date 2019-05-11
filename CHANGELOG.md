@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: replace npm ignore with file field
+
 ## Version 2.0.0
 
 Breaking changes:
