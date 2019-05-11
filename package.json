@@ -15,7 +15,8 @@
   "bugs": "https://github.com/adaltas/node-csv/issues",
   "author": "David Worms <david@adaltas.com> (http://www.adaltas.com)",
   "contributors": [
-    "David Worms <david@adaltas.com> (http://www.adaltas.com)"
+    "David Worms <david@adaltas.com> (http://www.adaltas.com)",
+    "Florian Keller <github@floriankeller.de>"
   ],
   "license": "MIT",
   "engines": {
@@ -26,19 +27,6 @@
     "type": "git",
     "url": "https://github.com/adaltas/node-csv.git"
   },
-  "coffeelintConfig": {
-    "indentation": {
-      "level": "error",
-      "value": 2
-    },
-    "line_endings": {
-      "level": "error",
-      "value": "unix"
-    },
-    "max_line_length": {
-      "level": "ignore"
-    }
-  },
   "dependencies": {
     "csv-generate": "^3.2.0",
     "csv-parse": "^4.3.0",
@@ -46,10 +34,12 @@
     "csv-stringify": "^5.1.2"
   },
   "devDependencies": {
-    "coffeescript": "~2.3.2",
     "mocha": "~5.2.0",
     "should": "~13.2.3"
   },
+  "files": [
+    "lib"
+  ],
   "optionalDependencies": {},
   "scripts": {
     "preversion": "grep '## Trunk' CHANGELOG.md",
@@ -58,6 +48,6 @@
     "patch": "npm version patch -m 'Bump to version %s'",
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
-    "test": "mocha test/**/*.coffee"
+    "test": "mocha test/**/*.js"
   }
 }
