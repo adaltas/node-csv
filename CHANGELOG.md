@@ -10,6 +10,7 @@
 
 ## Trunk
 
+* package: replace npm ignore with file field
 * project: fix license in package.json
 * babel: include .babelrc to git
 

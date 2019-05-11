@@ -42,6 +42,9 @@
     "ts-node": "^7.0.1",
     "typescript": "^3.1.6"
   },
+  "files": [
+    "./lib"
+  ],
   "main": "./lib",
   "scripts": {
     "preversion": "rm -rf lib/*.js && npm test && grep '## Trunk' CHANGELOG.md",
