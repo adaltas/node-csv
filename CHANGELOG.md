@@ -9,6 +9,7 @@
 
 ## Trunk
 
+* ts: add sync definition
 * package: replace npm ignore with file field
 
 ## Version 4.4.1
