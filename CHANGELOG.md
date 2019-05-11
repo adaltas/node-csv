@@ -10,6 +10,7 @@ See the changelogs of our child projects:
 
 ## Trunk
 
+* ts: new definition files
 * project: fix license in package.json
 
 ## Version 5.1.1
