@@ -68,8 +68,5 @@
     "major": "npm version major -m 'Bump to version %s'",
     "test": "mocha test/**/*.{coffee,ts}"
   },
-  "types": [
-    "./lib/index.d.ts",
-    "./lib/sync.d.ts"
-  ]
+  "types": "./lib/index.d.ts"
 }
