@@ -5,9 +5,9 @@ import * as transform from 'stream-transform/lib/index'
 import {Options, Transformer} from 'stream-transform/lib/index'
 
 describe('API Types', () => {
-  
+
   describe('Initialisation', () => {
-    
+
     it('stream', () => {
       // With handler
       const transformer: Transformer = transform( record => record )
@@ -23,5 +23,7 @@ describe('API Types', () => {
       // With records + options + handler + callback
       transform( ['record'], {consume: true}, record => record, (err, records) => err || records )
     })
-    
+
   })
+
+})
