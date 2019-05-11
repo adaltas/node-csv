@@ -79,5 +79,8 @@
     "pretest": "cd lib && babel *.js  -d es5 && cd ..",
     "test": "mocha test/**/*.{coffee,ts}"
   },
-  "types": "./lib/index.d.ts"
+  "types": [
+    "./lib/index.d.ts",
+    "./lib/sync.d.ts"
+  ]
 }
