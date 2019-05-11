@@ -7,6 +7,10 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+* package: replace npm ignore with file field
+
 ## Version 4.4.1
 
 Fix:
