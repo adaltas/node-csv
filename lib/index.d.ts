@@ -9,14 +9,12 @@ declare function generate(options?: generate.Options, callback?: generate.Callba
 declare function generate(callback?: generate.Callback): generate.Generator;
 declare namespace generate {
 
-    type Callback = (err: Error | undefined, records: any | undefined) => void;
+    type Callback = (err?: Error, records?: any) => void;
 
     type MatcherFunc = (value: any) => boolean;
 
-    interface Generator extends stream.Readable {}
-
-    class Generator {
-        constructor(options: Options);
+    class Generator extends stream.Readable {
+        constructor(options?: Options);
         
         readonly options: Options;
     }
