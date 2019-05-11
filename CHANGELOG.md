@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: replace npm ignore with file field
 * project: fix license in package.json
 
 ## Version 5.3.0
