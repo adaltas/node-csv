@@ -10,6 +10,7 @@
 
 ## Trunk
 
+* ts: declare options in typings as optional
 * package: replace npm ignore with file field
 * project: fix license in package.json
 * babel: include .babelrc to git
