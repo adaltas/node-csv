@@ -8,7 +8,7 @@
 * record_delimiter: rename from row_delimiter
 * internal: store options in snake case form
 
-## Trunk
+## Version 3.2.3
 
 * package: remove dot slash from files
 
