@@ -8,7 +8,7 @@
 * record_delimiter: rename from row_delimiter
 * internal: store options in snake case form
 
-## Trunk
+## Version 3.2.1
 
 * ts: declare options in typings as optional
 * package: replace npm ignore with file field
