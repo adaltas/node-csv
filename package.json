@@ -43,7 +43,7 @@
     "typescript": "^3.1.6"
   },
   "files": [
-    "./lib"
+    "lib"
   ],
   "main": "./lib",
   "scripts": {
@@ -53,8 +53,8 @@
     "patch": "npm version patch -m 'Bump to version %s'",
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
-    "coffee": "coffee -b -o lib src && cd lib && babel *.js -d es5 && cd ..",
-    "pretest": "coffee -b -o lib src && cd lib && babel *.js -d es5 && cd ..",
+    "build": "coffee -b -o lib src && cd lib && babel *.js -d es5 && cd ..",
+    "pretest": "npm run build",
     "test": "mocha test/**/*.{coffee,ts}"
   },
   "types": "./lib/index.d.ts"

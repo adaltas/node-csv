@@ -8,6 +8,10 @@
 * record_delimiter: rename from row_delimiter
 * internal: store options in snake case form
 
+## Trunk
+
+* package: remove dot slash from files
+
 ## Version 3.2.2
 
 * ts: place declaration files inside lib/es5 folder
