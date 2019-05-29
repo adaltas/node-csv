@@ -43,4 +43,16 @@ describe 'Option `bom`', ->
     parser.write Buffer.from "\ufeffa,b,c\n"
     parser.write Buffer.from 'd,e,f'
     parser.end()
+
+  it 'preserve data if BOM is true', (next) ->
+    parser = parse bom: true, (err, data) ->
+      data.should.eql [
+        ['a', 'b', 'c']
+        ['d', 'e', 'f']
+      ]
+      next()
+    parser.write Buffer.from "a,b,c\n"
+    parser.write Buffer.from 'd,e,f'
+    parser.end()
+
     
