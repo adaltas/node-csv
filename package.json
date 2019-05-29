@@ -65,7 +65,7 @@
     "typescript": "^3.4.2"
   },
   "files": [
-    "./lib"
+    "lib"
   ],
   "optionalDependencies": {},
   "main": "./lib",

@@ -7,6 +7,10 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+* package: fix files declaration
+
 ## Version 4.4.2
 
 * bom: parsing for BOM character #239
