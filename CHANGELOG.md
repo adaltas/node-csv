@@ -7,7 +7,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.4.2
 
 * bom: parsing for BOM character #239
 * ts: add sync definition
