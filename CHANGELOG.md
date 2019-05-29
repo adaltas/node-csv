@@ -9,6 +9,7 @@
 
 ## Trunk
 
+* bom: parsing for BOM character #239
 * ts: add sync definition
 * package: replace npm ignore with file field
 
