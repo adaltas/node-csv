@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: prefix file path with "/"
 * package: rename coffee cmd to build
 * handler: preserve ordering with sync handler
 * package: replace npm ignore with file field
