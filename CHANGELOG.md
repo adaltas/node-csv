@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.0.1
 
 * package: prefix file path with "/"
 * package: rename coffee cmd to build
