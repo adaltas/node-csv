@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* handler: preserve ordering with sync handler
 * package: replace npm ignore with file field
 
 ## Version 2.0.0

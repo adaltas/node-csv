@@ -45,7 +45,7 @@ Stream API, for maximum of power:
       transform = new Transformer options, handler
       error = false
       if records
-        process.nextTick ->
+        setImmediate ->
           for record in records
             break if error
             transform.write record
