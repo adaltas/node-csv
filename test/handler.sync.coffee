@@ -1,5 +1,6 @@
 
 transform = require '../src'
+generate = require 'csv-generate'
 
 describe 'sync', ->
 
@@ -135,3 +136,10 @@ describe 'sync', ->
         [ 83929843999, 883.49294, 2863555200000 ]
       ]
       next()
+
+  describe 'behavior', ->
+
+    it 'respect order', ->
+      generate length: 1000, objectMode: true, seed: 1, columns: 2, (err, source) ->
+        transform source, parralel: 1, ((record) -> record), (err, result) ->
+          result.should.eql source
