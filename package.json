@@ -43,7 +43,7 @@
     "typescript": "^3.1.6"
   },
   "files": [
-    "lib"
+    "/lib"
   ],
   "main": "./lib",
   "scripts": {
