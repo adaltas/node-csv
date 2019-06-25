@@ -6,6 +6,10 @@
 * package: replace npm ignore with file field
 * project: fix license in package.json
 
+## Trunk
+
+* package: simplify pretest comamnd
+
 ## Version 5.3.0
 
 New feature:
