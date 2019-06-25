@@ -44,7 +44,7 @@
     "typescript": "^3.2.4"
   },
   "files": [
-    "./lib"
+    "/lib"
   ],
   "optionalDependencies": {},
   "main": "./lib",
