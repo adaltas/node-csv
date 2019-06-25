@@ -7,6 +7,10 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+* package: update file path
+
 ## Version 4.4.3
 
 * package: fix files declaration
