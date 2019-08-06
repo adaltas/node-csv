@@ -3,10 +3,10 @@
 
 ## Version 5.3.1
 
-* pacakge: latest dependencies
+* package: latest dependencies
 * package: replace npm ignore with file field
 * project: fix license in package.json
-* package: simplify pretest comamnd
+* package: simplify pretest command
 
 ## Version 5.3.0
 
