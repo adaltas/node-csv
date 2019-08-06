@@ -48,20 +48,20 @@
   },
   "homepage": "https://csv.js.org/parse/",
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "@types/mocha": "^5.2.6",
-    "@types/node": "^11.13.0",
-    "coffeescript": "^2.4.0",
-    "csv-generate": "^3.2.0",
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.9",
+    "coffeescript": "^2.4.1",
+    "csv-generate": "^3.2.3",
     "csv-spectrum": "^1.0.0",
     "each": "^1.2.1",
-    "mocha": "^6.0.2",
+    "mocha": "^6.2.0",
     "should": "^13.2.3",
-    "stream-transform": "^1.0.8",
-    "ts-node": "^8.0.3",
-    "typescript": "^3.4.2"
+    "stream-transform": "^2.0.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   },
   "files": [
     "/lib"
