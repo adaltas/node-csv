@@ -30,18 +30,18 @@
     }
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^10.12.18",
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.6.9",
     "@types/should": "^13.0.0",
-    "coffeescript": "~2.3.2",
-    "csv-generate": "~3.2.0",
-    "mocha": "~5.2.0",
+    "coffeescript": "~2.4.1",
+    "csv-generate": "~3.2.3",
+    "mocha": "~6.2.0",
     "should": "~13.2.3",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.2.4"
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   },
   "files": [
     "/lib"
