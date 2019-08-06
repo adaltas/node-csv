@@ -9,6 +9,9 @@
 
 ## Trunk
 
+* package: latest dependencies
+* bom: detection when buffer smaller than bom
+* package: remove deprecated @types/should dependency
 * package: update file path
 
 ## Version 4.4.3
