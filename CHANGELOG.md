@@ -7,7 +7,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.4.4
 
 * package: latest dependencies
 * bom: detection when buffer smaller than bom
