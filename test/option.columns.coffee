@@ -52,6 +52,28 @@ describe 'Option `columns`', ->
       ], (err, records) ->
         records.should.eql "12,11\n22,21\n"
         next err
+          
+    it 'is an array of strings matching nested object', (next) ->
+      stringify [
+        {a: {a1: '1a1', a2: '1a2'}, b: '1b'}
+        {a: {a1: '2a1', a2: '2a2'}, b: '2b'}
+      ], columns: [
+        'b'
+        'a.a2'
+      ], (err, records) ->
+        records.should.eql "1b,1a2\n2b,2a2\n"
+        next err
+          
+    it 'is an array of strings matching nested [object]', (next) ->
+      stringify [
+        {a: [{}, {a1: '1a1', a2: '1a2'}], b: '1b'}
+        {a: [{}, {a1: '2a1', a2: '2a2'}], b: '2b'}
+      ], columns: [
+        'b'
+        'a[1].a2'
+      ], (err, records) ->
+        records.should.eql "1b,1a2\n2b,2a2\n"
+        next err
   
   describe 'input', ->
 
@@ -89,6 +111,14 @@ describe 'Option `columns`', ->
         {field1: 'val21', field2: 'val22', field3: 'val23'}
       ], header: true, columns: {field1: 'column1', field3: 'column3'}, (err, data) ->
         data.should.eql 'column1,column3\nval11,val13\nval21,val23\n' unless err
+        next err
+
+    it 'and nested properties', (next) ->
+      stringify [
+        {field1: {nested: 'val11'}, field2: 'val12', field3: 'val13'}
+        {field1: {}, field2: 'val22', field3: 'val23'}
+      ], header: true, columns: {'field1.nested': 'column1', field3: 'column3'}, (err, data) ->
+        data.should.eql 'column1,column3\nval11,val13\n,val23\n' unless err
         next err
 
     it 'should also work for nested properties', (next) ->

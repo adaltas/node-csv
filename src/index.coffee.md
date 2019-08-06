@@ -6,7 +6,6 @@ information.
 
     stream = require 'stream'
     util = require 'util'
-    get = require 'lodash.get'
 
 ## Usage
 
@@ -196,7 +195,7 @@ Implementation of the [transform._transform function](https://nodejs.org/api/str
         # Emit and stringify the record if an object or an array
         try
           @emit 'record', chunk, @info.records
-        catch e 
+        catch e
           @state.stop = true
           return @emit 'error', e
         # Convert the record into a string
@@ -293,11 +292,13 @@ Convert a line to a string. Line may be an object, an array or a string.
             quotedMatch = quotedMatch and quotedMatch.length > 0
             shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
             if shouldQuote and containsEscape
-              regexp = if escape is '\\' then new RegExp(escape + escape, 'g') else new RegExp(escape, 'g');
+              regexp = if escape is '\\'
+              then new RegExp escape + escape, 'g'
+              else new RegExp escape, 'g'
               value = value.replace(regexp, escape + escape)
             if containsQuote
-              regexp = new RegExp(quote,'g')
-              value = value.replace(regexp, escape + quote)
+              regexp = new RegExp quote,'g'
+              value = value.replace regexp, escape + quote
             if shouldQuote
               value = quote + value + quote
             csvrecord += value
@@ -372,3 +373,50 @@ Print the header line if the option "header" is "true".
     underscore = (str) ->
       str.replace /([A-Z])/g, (_, match, index) ->
         return '_' + match.toLowerCase()
+
+## Lodash implementation of `get`
+
+    charCodeOfDot = '.'.charCodeAt(0)
+    reEscapeChar = /\\(\\)?/g
+    rePropName = RegExp(
+      # Match anything that isn't a dot or bracket.
+      '[^.[\\]]+' + '|' +
+      # Or match property names within brackets.
+      '\\[(?:' +
+        # Match a non-string expression.
+        '([^"\'][^[]*)' + '|' +
+        # Or match strings (supports escaping characters).
+        '(["\'])((?:(?!\\2)[^\\\\]|\\\\.)*?)\\2' +
+      ')\\]'+ '|' +
+      # Or match "" as the space between consecutive dots or empty brackets.
+      '(?=(?:\\.|\\[\\])(?:\\.|\\[\\]|$))'
+    , 'g')
+    isSymbol = (value) ->
+      type = typeof value
+      type is 'symbol' or (type is 'object' and value isnt null and getTag(value) is '[object Symbol]')
+    castPath = (string) ->
+      result = []
+      if string.charCodeAt(0) is charCodeOfDot
+        result.push ''
+      string.replace rePropName, (match, expression, quote, subString) ->
+        key = match
+        if quote
+          key = subString.replace(reEscapeChar, '$1')
+        else if expression
+          key = expression.trim()
+        result.push key
+      result
+    toKey = (value) ->
+      if typeof value is 'string' or isSymbol value
+        return value
+      result = "#{value}"
+      return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result
+    get = (object, path) ->
+      path = if Array.isArray path
+      then path
+      else castPath path, object
+      index = 0
+      length = path.length
+      while object isnt null and index < length
+        object = object[toKey(path[index++])]
+      if index && index is length then object else undefined

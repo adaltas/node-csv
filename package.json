@@ -13,9 +13,6 @@
     "url": "http://www.github.com/adaltas/node-csv-stringify"
   },
   "homepage": "https://csv.js.org/stringify/",
-  "dependencies": {
-    "lodash.get": "~4.4.2"
-  },
   "coffeelintConfig": {
     "indentation": {
       "level": "error",
