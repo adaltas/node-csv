@@ -1,11 +1,12 @@
 
 [![Build Status](https://api.travis-ci.org/adaltas/node-csv-stringify.svg)](https://travis-ci.org/#!/adaltas/node-csv-stringify)
 
-This package is a stringifier converting records into a CSV text and implementing the
-Node.js [`stream.Transform` API](https://nodejs.org/api/stream.html). It also provides the easier synchronous and
-callback-based APIs for conveniency. It is both extremely easy to use and
-powerful. It was first released in 2010 and is tested against big data
-sets by a large community.
+This package is a stringifier converting records into a CSV text and
+implementing the Node.js [`stream.Transform`
+API](https://nodejs.org/api/stream.html). It also provides the easier
+synchronous and callback-based APIs for conveniency. It is both extremely easy
+to use and powerful. It was first released in 2010 and is tested against big
+data sets by a large community.
 
 ## Documentation
 
@@ -42,14 +43,18 @@ stringify(input, function(err, output){
 
 ## Development
 
-Tests are executed with mocha. To install it, run `npm install`
-followed by `npm test`. It will install mocha and its dependencies in your
-project "node_modules" directory and run the test suite. The tests run
-against the CoffeeScript source files.
+Tests are executed with mocha. To install it, run `npm install` followed by `npm
+test`. It will install mocha and its dependencies in your project "node_modules"
+directory and run the test suite. The tests run against the CoffeeScript source
+files.
 
 To generate the JavaScript files, run `npm run coffee`.
 
-The test suite is run online with [Travis](https://travis-ci.org/#!/adaltas/node-csv-stringify). See the [Travis definition file](https://github.com/adaltas/node-csv-stringify/blob/master/.travis.yml) to view the tested Node.js version.
+The test suite is run online with
+[Travis](https://travis-ci.org/#!/adaltas/node-csv-stringify). See the [Travis
+definition
+file](https://github.com/adaltas/node-csv-stringify/blob/master/.travis.yml) to
+view the tested Node.js version.
 
 ## Contributors
 
