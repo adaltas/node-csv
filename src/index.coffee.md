@@ -417,6 +417,6 @@ Print the header line if the option "header" is "true".
       else castPath path, object
       index = 0
       length = path.length
-      while object isnt null and index < length
+      while object and index < length
         object = object[toKey(path[index++])]
       if index && index is length then object else undefined
