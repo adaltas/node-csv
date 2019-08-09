@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.3.2
 
 * columns: get on undefined objects, fix #97
 
