@@ -74,6 +74,18 @@ describe 'Option `columns`', ->
       ], (err, records) ->
         records.should.eql "1b,1a2\n2b,2a2\n"
         next err
+          
+    it 'is an array of strings with parent key not matching a nested object', (next) ->
+      stringify [
+        {a: undefined, b: '1b'}
+        {a: null, b: '2b'}
+        {a: false, b: '3b'}
+      ], columns: [
+        'b'
+        'a.a2'
+      ], (err, records) ->
+        records.should.eql "1b,\n2b,\n3b,\n"
+        next err
   
   describe 'input', ->
 

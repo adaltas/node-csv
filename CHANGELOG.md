@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* columns: get on undefined objects, fix #97
+
 ## Version 5.3.1
 
 * package: latest dependencies
