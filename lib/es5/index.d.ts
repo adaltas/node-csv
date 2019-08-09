@@ -6,8 +6,8 @@ import * as stream from "stream";
 
 export = parse;
 
-declare function parse(input: string, options?: parse.Options, callback?: parse.Callback): parse.Parser;
-declare function parse(input: string, callback?: parse.Callback): parse.Parser;
+declare function parse(input: Buffer | string, options?: parse.Options, callback?: parse.Callback): parse.Parser;
+declare function parse(input: Buffer | string, callback?: parse.Callback): parse.Parser;
 declare function parse(options?: parse.Options, callback?: parse.Callback): parse.Parser;
 declare function parse(callback?: parse.Callback): parse.Parser;
 declare namespace parse {
