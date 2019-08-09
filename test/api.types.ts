@@ -7,6 +7,22 @@ describe('API Types', () => {
   
   describe('Parser', () => {
     
+    it('Respect parse signature', () =>{
+      // No argument
+      parse()
+      parse("")
+      parse("", () => {})
+      parse("", {})
+      parse("", {}, () => {})
+      parse(Buffer.from(""))
+      parse(Buffer.from(""), () => {})
+      parse(Buffer.from(""), {})
+      parse(Buffer.from(""), {}, () => {})
+      parse(() => {})
+      parse({})
+      parse({}, () => {})
+    })
+
     it('Expose options', () => {
       const parser: Parser = parse()
       const options: Options = parser.options
@@ -107,6 +123,7 @@ describe('API Types', () => {
         return fields
       }
       options.columns = (record: string[]) => {
+        record
         return ['string', undefined, null, false, {name: 'column-name'}]
       }
     })

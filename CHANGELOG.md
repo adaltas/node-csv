@@ -7,6 +7,10 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+* ts: add buffer as allowed type for input, fix #248
+
 ## Version 4.4.4
 
 * package: latest dependencies
