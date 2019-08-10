@@ -86,6 +86,14 @@ describe 'Option `columns`', ->
       ], (err, records) ->
         records.should.eql "1b,\n2b,\n3b,\n"
         next err
+          
+    it 'can still access fields with dots', (next) ->
+      stringify [
+        {'foo.bar': '1'}
+        {'foo.bar': '2'}
+      ], header: true, (err, records) ->
+        records.should.eql "foo.bar\n1\n2\n" unless err
+        next err
   
   describe 'input', ->
 
