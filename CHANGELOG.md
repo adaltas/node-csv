@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* columns: can still access fields with dots, fix #98
+
 ## Version 5.3.2
 
 * columns: get on undefined objects, fix #97

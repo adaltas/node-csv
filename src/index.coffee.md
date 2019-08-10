@@ -391,10 +391,21 @@ Print the header line if the option "header" is "true".
       # Or match "" as the space between consecutive dots or empty brackets.
       '(?=(?:\\.|\\[\\])(?:\\.|\\[\\]|$))'
     , 'g')
+    reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/
+    reIsPlainProp = /^\w*$/
+    getTag = (value) ->
+      if value?
+        if value is undefined then '[object Undefined]' else '[object Null]'
+      return Object.prototype.toString.call value
+    isKey = (value, object) ->
+      return false if Array.isArray value
+      type = typeof value
+      return true if type is 'number' or type is 'symbol' or type is 'boolean' or not value? or isSymbol(value)
+      return reIsPlainProp.test(value) or !reIsDeepProp.test(value) or (object? and value of Object(object))
     isSymbol = (value) ->
       type = typeof value
-      type is 'symbol' or (type is 'object' and value isnt null and getTag(value) is '[object Symbol]')
-    castPath = (string) ->
+      type is 'symbol' or (type is 'object' and value? and getTag(value) is '[object Symbol]')
+    stringToPath = (string) ->
       result = []
       if string.charCodeAt(0) is charCodeOfDot
         result.push ''
@@ -406,6 +417,13 @@ Print the header line if the option "header" is "true".
           key = expression.trim()
         result.push key
       result
+    castPath = (value, object) ->
+      if Array.isArray(value)
+      then value
+      else
+        if isKey(value, object)
+        then [value]
+        else stringToPath(value)
     toKey = (value) ->
       if typeof value is 'string' or isSymbol value
         return value
