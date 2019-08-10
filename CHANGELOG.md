@@ -10,6 +10,10 @@ See the changelogs of our child projects:
 
 ## Trunk
 
+* csv-generate: version 3.2.3
+* csv-parse: version 4.4.5
+* csv-stringify: version 5.3.3
+* stream-transform: version 2.0.1
 * ts: new definition files
 * project: fix license in package.json
 
