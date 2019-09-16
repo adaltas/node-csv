@@ -48,7 +48,7 @@ test`. It will install mocha and its dependencies in your project "node_modules"
 directory and run the test suite. The tests run against the CoffeeScript source
 files.
 
-To generate the JavaScript files, run `npm run coffee`.
+To generate the JavaScript files, run `npm run build`.
 
 The test suite is run online with
 [Travis](https://travis-ci.org/#!/adaltas/node-csv-stringify). See the [Travis
