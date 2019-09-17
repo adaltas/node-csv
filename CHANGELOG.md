@@ -7,7 +7,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.4.6
 
 * security: remove regexp vulnerable to DOS in cast option, npm report 69742
 
