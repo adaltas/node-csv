@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* quoted_match: ts types string or RegExp
+
 ## Version 5.3.3
 
 * columns: can still access fields with dots, fix #98
