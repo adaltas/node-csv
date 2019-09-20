@@ -10,6 +10,7 @@
 
 ## Trunk
 
+* src: minor code simplification
 * package: update file path
 
 ## Version 3.2.3
