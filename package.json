@@ -41,9 +41,9 @@
   },
   "dependencies": {
     "csv-generate": "^3.2.3",
-    "csv-parse": "^4.4.5",
-    "stream-transform": "^2.0.1",
-    "csv-stringify": "^5.3.3"
+    "csv-parse": "^4.4.6",
+    "csv-stringify": "^5.3.3",
+    "stream-transform": "^2.0.1"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
