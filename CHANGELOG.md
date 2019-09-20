@@ -7,6 +7,11 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+* travis: remove node.js 8 and add 12
+* destroy: test inside readable event
+
 ## Version 4.4.6
 
 * security: remove regexp vulnerable to DOS in cast option, npm report 69742
