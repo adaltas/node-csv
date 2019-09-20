@@ -27,7 +27,7 @@ Callback approach, for ease of use:
         if typeof arguments[0] is 'function'
           options = {}
           callback = arguments[0]
-        else 
+        else
           options = arguments[0]
       else if arguments.length is 0
         options = {}
@@ -131,11 +131,9 @@ Put new data into the read queue.
           if data.length
             if @options.objectMode
               for line in data
-                @_.count_written++
-                @push line
+                @__push line
             else
-              @_.count_written++
-              @push data.join('') + if @options.eof then @options.eof else ''
+              @__push data.join('') + if @options.eof then @options.eof else ''
           # Stop
           return @push null
         # Create the line
@@ -156,15 +154,13 @@ Put new data into the read queue.
           if @options.objectMode
             data.push line
             for line in data
-              @_.count_written++
               @__push line
           else
             if @options.fixedSize
-              @_.fixed_size_buffer = line.substr size - length 
+              @_.fixed_size_buffer = line.substr size - length
               data.push line.substr 0, size - length
             else
               data.push line
-            @_.count_written++
             @__push data.join ''
           break
         length += lineLength
@@ -175,6 +171,7 @@ Put new data into the read queue.
 Put new data into the read queue.
 
     Generator.prototype.__push = (record) ->
+      @_.count_written++
       if @options.sleep > 0
         setTimeout =>
           @push record
