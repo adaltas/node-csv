@@ -41,19 +41,19 @@
   },
   "dependencies": {
     "csv-generate": "^3.2.3",
-    "csv-parse": "^4.4.5",
+    "csv-parse": "^4.4.6",
     "stream-transform": "^2.0.1",
     "csv-stringify": "^5.3.3"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.1",
+    "@types/node": "^12.7.5",
     "@types/should": "^13.0.0",
     "coffeescript": "~2.4.1",
     "mocha": "~6.2.0",
     "should": "~13.2.3",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.3"
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
   },
   "optionalDependencies": {},
   "files": [
