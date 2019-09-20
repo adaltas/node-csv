@@ -27,18 +27,18 @@
     }
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.6.9",
+    "@types/node": "^12.7.5",
     "@types/should": "^13.0.0",
     "coffeescript": "~2.4.1",
     "csv-generate": "~3.2.3",
     "mocha": "~6.2.0",
     "should": "~13.2.3",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.3"
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
   },
   "files": [
     "/lib"
