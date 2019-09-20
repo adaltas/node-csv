@@ -10,6 +10,7 @@ See the changelogs of our child projects:
 
 ## Trunk
 
+* travis: add node.js 12
 * csv-parse: version 4.4.6
 
 ## Version 5.1.2
