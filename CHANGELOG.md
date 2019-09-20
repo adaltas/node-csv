@@ -10,6 +10,7 @@
 
 ## Trunk
 
+* travis: remove node.js 8 and add 12
 * src: minor code simplification
 * package: update file path
 
