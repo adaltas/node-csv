@@ -98,8 +98,8 @@ describe('API Types', () => {
     
     it('quoted_match', () => {
       const options: Options = {}
-      options.quoted_match = true
-      options.quoted_match = false
+      options.quoted_match = "\""
+      options.quoted_match = /\"/
     })
     
     it('quoted_string', () => {

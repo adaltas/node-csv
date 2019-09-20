@@ -76,9 +76,9 @@ declare namespace stringify {
          */
         quoted_empty?: boolean
         /**
-         * Boolean, default to false, quote all fields matching a regular expression.
+         * String or RegExp, no default, quote all fields matching a regular expression.
          */
-        quoted_match?: boolean
+        quoted_match?: string | RegExp
         /**
          * Boolean, default to false, quote all fields of type string even if not required.
          */
