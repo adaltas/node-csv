@@ -119,7 +119,7 @@ declare namespace parse {
         /**
          * Optional character surrounding a field, one character only, defaults to double quotes.
          */
-        quote?: string | boolean | Buffer;
+        quote?: string | boolean | Buffer | null;
         /**
          * Generate two properties raw and row where raw is the original CSV row content and row is the parsed array or object.
          */
