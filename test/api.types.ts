@@ -180,6 +180,7 @@ describe('API Types', () => {
       options.quote = '"'
       options.quote = true
       options.quote = Buffer.from('"')
+      options.quote = null
     })
     
     it('raw', () => {
