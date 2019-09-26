@@ -23,13 +23,13 @@ declare namespace parse {
         
         __write(chars: any, end: any, callback: any): any;
         
-        readonly options: Options;
+        readonly options: Options
         
         readonly info: Info;
     }
 
     interface CastingContext {
-        readonly column?: number | string;
+        readonly column: number | string;
         readonly empty_lines: number;
         readonly header: boolean;
         readonly index: number;
