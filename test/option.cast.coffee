@@ -89,6 +89,8 @@ describe 'Option `cast`', ->
         next err
 
     it 'dont call cast on unreferenced columns', (next) ->
+      # It doesn't make sense to cast value which cannot later be assigned
+      # to a column name in the returned object
       parse """
       1,2
       3,4,5,6
@@ -96,7 +98,7 @@ describe 'Option `cast`', ->
       """,
         columns: ['a', 'b']
         relax_column_count: true
-        cast: (value, {header, column}) ->
+        cast: (value, {column}) ->
           throw Error 'Oh no' if value > 4 and value < 7
       , (err, records) ->
         next err
