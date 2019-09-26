@@ -7,7 +7,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.4.7
 
 * travis: remove node.js 8 and add 12
 * destroy: test inside readable event
