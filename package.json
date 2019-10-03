@@ -81,5 +81,8 @@
   "types": [
     "./lib/index.d.ts",
     "./lib/sync.d.ts"
-  ]
+  ],
+  "dependencies": {
+    "pad": "^3.2.0"
+  }
 }
