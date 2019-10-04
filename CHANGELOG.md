@@ -9,6 +9,7 @@
 
 ## Trunk
 
+* tests: new error assertion framework
 * buffer: serialize to json as string
 
 ## Version 4.5.0
