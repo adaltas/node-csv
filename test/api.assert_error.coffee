@@ -21,7 +21,7 @@ module.exports = assert_error = (err, assert = {}, exhaustive = false) ->
     else if expect is null
       should(value).be.null()
     else
-      should.fail()
+      should(value).deepEqual expect
 
 describe 'API assert_error', ->
   
@@ -35,12 +35,13 @@ describe 'API assert_error', ->
       message: 'A message'
     ]
       
-  it 'detect a property not in assert', ->
+  it 'exhaustive detect a property not in assert', ->
     err = new CsvError 'A_MESSAGE', 'A message', a_key: 'a value'
     ( ->
       assert_error err,
         code: 'A_MESSAGE'
         message: 'A message'
+      , true
     ).should.throw /expected Object .* to have key a_key/
       
   it 'detect a property not in error', ->
