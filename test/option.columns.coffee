@@ -204,6 +204,19 @@ describe 'Option `columns`', ->
       hij,789,klm,0
       """, columns: (columns) ->
         throw Error 'Catchme'
-      , (err, data) ->
+      , (err) ->
         err.message.should.eql 'Catchme'
+        next()
+
+    it 'must return an array of headers', (next) ->
+      parse """
+      FIELD_1
+      abc
+      """, columns: (columns) ->
+        return {FIELD: true}
+      , (err) ->
+        err.message.should.eql 'Invalid Column Mapping: expect an array from column function, got {"FIELD":true}'
+        Object.keys(err).should.eql ['code', 'headers']
+        err.code.should.eql 'CSV_INVALID_COLUMN_MAPPING'
+        err.headers.should.eql FIELD: true
         next()
