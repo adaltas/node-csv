@@ -63,10 +63,10 @@ describe 'Option `relax`', ->
     parse """
     384682,"SAMAY" Hostel,Jiron Florida 285
     """, relax: false, (err, data) ->
-      err.message.should.eql 'Invalid Closing Quote: got " " at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
-      Object.keys(err).should.eql ['code']
-      err.code.should.eql 'CSV_INVALID_CLOSING_QUOTE'
-      next()
+      assert_error err,
+        message: 'Invalid Closing Quote: got " " at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+        code: 'CSV_INVALID_CLOSING_QUOTE'
+        next()
 
   it 'true with two invalid quotes on the left', (next) ->
     # try with relax true
@@ -88,9 +88,9 @@ describe 'Option `relax`', ->
       # data.should.eql [
       #   [ '384682', '"SAMAY" Hostel', 'Jiron Florida 285' ]
       # ] unless err
-      err.message.should.eql 'Invalid Closing Quote: got "S" at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
-      Object.keys(err).should.eql ['code']
-      err.code.should.eql 'CSV_INVALID_CLOSING_QUOTE'
+      assert_error err,
+        message: 'Invalid Closing Quote: got "S" at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+        code: 'CSV_INVALID_CLOSING_QUOTE'
       next()
 
   it 'true with invalid quotes on the right', (next) ->

@@ -132,18 +132,18 @@ describe 'Option `quote`', ->
       parse """
       "",1974,8.8392926E7,"","
       """, (err, data) ->
-        err.message.should.eql 'Quote Not Closed: the parsing is finished with an opening quote at line 1'
-        Object.keys(err).should.eql ['code']
-        err.code.should.eql 'CSV_QUOTE_NOT_CLOSED'
+        assert_error err,
+          message: 'Quote Not Closed: the parsing is finished with an opening quote at line 1'
+          code: 'CSV_QUOTE_NOT_CLOSED'
         next()
 
   describe 'error "Invalid Closing Quote"', ->
 
     it 'when followed by a character', (next) ->
       parse '""!', quote: '"', escape: '"', (err) ->
-        err.message.should.eql 'Invalid Closing Quote: got "!" at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
-        Object.keys(err).should.eql ['code']
-        err.code.should.eql 'CSV_INVALID_CLOSING_QUOTE'
+        assert_error err,
+          message: 'Invalid Closing Quote: got "!" at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+          code: 'CSV_INVALID_CLOSING_QUOTE'
         next()
 
     it 'no throw followed by a comment', (next) ->

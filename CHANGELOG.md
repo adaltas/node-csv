@@ -9,6 +9,7 @@
 
 ## Trunk
 
+* errors: add context information
 * tests: new error assertion framework
 * buffer: serialize to json as string
 * errors: expose INVALID_OPENING_QUOTE
