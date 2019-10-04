@@ -65,7 +65,9 @@ describe 'properties lines', ->
     "",1974,8.8392926E7,"","
     "",1974,8.8392926E7,"",""
     """, (err, data) ->
-      err.message.should.eql "Invalid Closing Quote: quote is not closed at line 5"
+      err.message.should.eql "Quote Not Closed: the parsing is finished with an opening quote at line 5"
+      Object.keys(err).should.eql ['code']
+      err.code.should.eql 'CSV_QUOTE_NOT_CLOSED'
       (data == undefined).should.be.true
       next()
     
@@ -78,6 +80,8 @@ describe 'properties lines', ->
       "  1974    8.8392926E7 "t ""
     """, quote: '"', escape: '"', delimiter: "\t", (err, data) ->
       err.message.should.eql 'Invalid Closing Quote: got " " at line 3 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+      Object.keys(err).should.eql ['code']
+      err.code.should.eql 'CSV_INVALID_CLOSING_QUOTE'
       (data == undefined).should.be.true
       next()
     
@@ -91,5 +95,7 @@ describe 'properties lines', ->
     "",1974,8.8392926E7,""t,""
     """, quote: '"', escape: '"', (err, data) ->
       err.message.should.eql 'Invalid Closing Quote: got "t" at line 2 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+      Object.keys(err).should.eql ['code']
+      err.code.should.eql 'CSV_INVALID_CLOSING_QUOTE'
       (data == undefined).should.be.true
       next()

@@ -7,6 +7,15 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+* errors: start normalizing errors with unique codes and context
+* errors: expose CSV_INVALID_CLOSING_QUOTE
+* errors: expose CSV_QUOTE_NOT_CLOSED
+* errors: expose CSV_INVALID_RECORD_LENGTH_DONT_PREVIOUS_RECORDS
+* errors: expose CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS
+* errors: expose CSV_INVALID_COLUMN_MAPPING
+
 ## Version 4.4.7
 
 * travis: remove node.js 8 and add 12
