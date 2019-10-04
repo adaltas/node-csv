@@ -9,6 +9,7 @@
 
 ## Trunk
 
+* skip_lines_with_empty_values: handle non string value
 * errors: add context information
 * tests: new error assertion framework
 * buffer: serialize to json as string

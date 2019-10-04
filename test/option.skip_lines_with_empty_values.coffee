@@ -56,3 +56,28 @@ describe 'Option `skip_lines_with_empty_values`', ->
         [ 'IJK', 'LMN' ]
       ]
       next()
+  
+  it 'handle value which are casted to another type than string', (next) ->
+    parse """
+    empty_buffer
+    boolean
+    integer
+    null
+    undefined
+    """,
+      skip_lines_with_empty_values: true
+      cast: (value) ->
+        switch value
+          when 'empty_buffer' then Buffer.from ''
+          when 'boolean' then true
+          when 'integer' then 0
+          when 'null' then null
+          when 'undefined' then undefined
+          else value
+    , (err, data) ->
+      return next err if err
+      data.should.eql [
+        [ true ]
+        [ 0 ]
+      ]
+      next()
