@@ -6,6 +6,7 @@
 * skip_lines_with_error: rename to skip_records_with_error
 * max_comment_size: new option
 * promise: new API module
+* errors: finish normalisation of all errors
 
 ## Version 4.6.0
 
