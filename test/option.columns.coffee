@@ -1,5 +1,6 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'Option `columns`', ->
   
@@ -215,8 +216,8 @@ describe 'Option `columns`', ->
       """, columns: (columns) ->
         return {FIELD: true}
       , (err) ->
-        err.message.should.eql 'Invalid Column Mapping: expect an array from column function, got {"FIELD":true}'
-        Object.keys(err).should.eql ['code', 'headers']
-        err.code.should.eql 'CSV_INVALID_COLUMN_MAPPING'
-        err.headers.should.eql FIELD: true
+        assert_error err,
+          message: 'Invalid Column Mapping: expect an array from column function, got {"FIELD":true}'
+          code: 'CSV_INVALID_COLUMN_MAPPING'
+          headers: FIELD: true
         next()

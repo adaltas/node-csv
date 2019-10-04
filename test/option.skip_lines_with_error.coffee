@@ -27,9 +27,9 @@ describe 'Option `skip_lines_with_error`', ->
       errors.should.eql 1
       next err
     parser.on 'skip', (err) ->
-      err.message.should.match 'Invalid Closing Quote: got " " at line 3 instead of delimiter, row delimiter, trimable character (if activated) or comment' unless err
-      Object.keys(err).should.eql ['code']
-      err.code.should.eql 'CSV_INVALID_CLOSING_QUOTE'
+      assert_error err,
+        message: 'Invalid Closing Quote: got " " at line 3 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+        code: 'CSV_INVALID_CLOSING_QUOTE'
       errors++
     parser.write '''
     "a","b","c"
@@ -75,9 +75,9 @@ describe 'Option `skip_lines_with_error`', ->
       errors.should.eql 1
       next err
     parser.on 'skip', (err) ->
-      err.message.should.match 'Quote Not Closed: the parsing is finished with an opening quote at line 2'
-      Object.keys(err).should.eql ['code']
-      err.code.should.eql 'CSV_QUOTE_NOT_CLOSED'
+      assert_error err,
+        message: 'Quote Not Closed: the parsing is finished with an opening quote at line 2'
+        code: 'CSV_QUOTE_NOT_CLOSED'
       errors++
     parser.write '''
       "a",b,"c",d
@@ -95,10 +95,10 @@ describe 'Option `skip_lines_with_error`', ->
       errors.should.eql 1
       next err
     parser.on 'skip', (err) ->
-      err.message.should.match 'Invalid Record Length: header length is 4, got 3 on line 1' unless err
-      Object.keys(err).should.eql ['code', 'record']
-      err.code.should.eql 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
-      err.record.should.eql ['1', '2', '3']
+      assert_error err,
+        message: 'Invalid Record Length: header length is 4, got 3 on line 1'
+        code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+        record: ['1', '2', '3']
       errors++
     parser.write '''
     1,2,3
@@ -118,10 +118,10 @@ describe 'Option `skip_lines_with_error`', ->
       errors.should.eql 1
       next err
     parser.on 'skip', (err) ->
-      err.message.should.match 'Invalid Record Length: expect 4, got 3 on line 2' unless err
-      Object.keys(err).should.eql ['code', 'record']
-      err.code.should.eql 'CSV_INVALID_RECORD_LENGTH_DONT_PREVIOUS_RECORDS'
-      err.record.should.eql ['1', '2', '3']
+      assert_error err,
+        message: 'Invalid Record Length: expect 4, got 3 on line 2'
+        code: 'CSV_INVALID_RECORD_LENGTH_DONT_PREVIOUS_RECORDS'
+        record: ['1', '2', '3']
       errors++
     parser.write '''
     a,b,c,d
