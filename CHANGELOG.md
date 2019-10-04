@@ -7,7 +7,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.6.0
 
 * skip_lines_with_empty_values: handle non string value
 * errors: add context information
