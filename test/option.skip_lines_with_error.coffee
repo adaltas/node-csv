@@ -1,5 +1,6 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'Option `skip_lines_with_error`', ->
   
@@ -39,17 +40,25 @@ describe 'Option `skip_lines_with_error`', ->
     parser.end()
 
   it 'handle "Invalid opening quote"', (next) ->
-    skip = null
+    errors = []
     parser = parse skip_lines_with_error: true, (err, data) ->
       data.should.eql [
         ["line","1"]
         ["line", "3"]
       ] unless err
-      skip.message.should.match 'Invalid opening quote at line 2' unless err
+      assert_error errors, [
+        message: 'Invalid Opening Quote: a quote is found inside a field at line 2'
+        code: 'INVALID_OPENING_QUOTE'
+        field: 'invalid h'
+      ,
+        message: 'Invalid Opening Quote: a quote is found inside a field at line 2'
+        code: 'INVALID_OPENING_QUOTE'
+        field: 'invalid h"ere'
+      ]
+      errors.length.should.eql 2
       next err
     parser.on 'skip', (err, context) ->
-      # console.log 'context', context
-      skip = err
+      errors.push err
     parser.write '''
     "line",1
     "line",invalid h"ere"
