@@ -8,7 +8,7 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
-## Trunk
+## Version 4.6.1
 
 * src: set const in for loop
 
