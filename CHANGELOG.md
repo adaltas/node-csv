@@ -8,6 +8,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* src: set const in for loop
+
 ## Version 4.6.0
 
 * skip_lines_with_empty_values: handle non string value
