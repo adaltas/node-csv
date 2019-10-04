@@ -2,11 +2,11 @@
 {CsvError} = require '..'
 ResizeableBuffer = require '../lib/ResizeableBuffer'
 
-module.exports = assert_error = (err, assert = {}) ->
+module.exports = assert_error = (err, assert = {}, exhaustive = false) ->
   if Array.isArray err
     assert_error e, assert[i] for e, i in err
     return
-  for key, value of err
+  if exhaustive then for key, value of err
     assert.should.have.keys(key)
   for key, expect of assert
     value = err[key]
