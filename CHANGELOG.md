@@ -7,7 +7,7 @@
 * max_comment_size: new option
 * promise: new API module
 
-## Trunk
+## Version 4.5.0
 
 * errors: start normalizing errors with unique codes and context
 * errors: expose CSV_INVALID_CLOSING_QUOTE
