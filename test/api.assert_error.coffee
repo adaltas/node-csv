@@ -79,6 +79,24 @@ describe 'API assert_error', ->
         message: undefined
     ).should.throw "expected 'A message' to be undefined"
         
+  it 'validate a boolean true value', ->
+    err = new CsvError 'A_MESSAGE', 'A message', a_boolean: true
+    assert_error err,
+      a_boolean: true
+    ( ->
+      assert_error err,
+        a_boolean: false
+    ).should.throw "expected true to equal false"
+        
+  it 'validate a boolean true value', ->
+    err = new CsvError 'A_MESSAGE', 'A message', a_boolean: false
+    assert_error err,
+      a_boolean: false
+    ( ->
+      assert_error err,
+        a_boolean: true
+    ).should.throw "expected false to equal true"
+        
   it 'validate a regexp value', ->
     err = new CsvError 'A_MESSAGE', 'A message'
     assert_error err,
