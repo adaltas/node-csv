@@ -1,5 +1,6 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'Option `quote`', ->
   
@@ -170,7 +171,10 @@ describe 'Option `quote`', ->
       this,"line",is,invalid h"ere"
       "and",valid,line,follows...
       """, (err, data) ->
-        err.message.should.eql 'Invalid opening quote at line 3'
+        assert_error err,
+          message: 'Invalid Opening Quote: a quote is found inside a field at line 3'
+          code: 'INVALID_OPENING_QUOTE'
+          field: 'invalid h'
         (data == undefined).should.be.true
         next()
       

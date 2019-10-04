@@ -1,5 +1,6 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'Option `ltrim`', ->
 
@@ -51,7 +52,10 @@ describe 'Option `ltrim`', ->
     x " e f", x  "   g h"
     '''
     parser = parse ltrim: true, (err, data) ->
-      err.message.should.eql 'Invalid opening quote at line 1'
+      assert_error err,
+        message: 'Invalid Opening Quote: a quote is found inside a field at line 1'
+        code: 'INVALID_OPENING_QUOTE'
+        field: 'x  '
       next()
     parser.write chr for chr in data
     parser.end()

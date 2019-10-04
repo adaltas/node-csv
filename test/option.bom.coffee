@@ -1,5 +1,6 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'Option `bom`', ->
 
@@ -27,7 +28,10 @@ describe 'Option `bom`', ->
 
   it 'throw parsing error if quote follow bom', (next) ->
     parser = parse (err, data) ->
-      err.message.should.eql 'Invalid opening quote at line 1'
+      assert_error err,
+        message: 'Invalid Opening Quote: a quote is found inside a field at line 1'
+        code: 'INVALID_OPENING_QUOTE'
+        field: '\ufeff'
       next()
     parser.write Buffer.from "\ufeff\"a\",b,c\n"
     parser.write Buffer.from 'd,e,f'

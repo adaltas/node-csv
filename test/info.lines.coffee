@@ -1,5 +1,6 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'properties lines', ->
   
@@ -41,7 +42,10 @@ describe 'properties lines', ->
     this,"line",is,"invalid",h"ere"
     "and",valid,line,follows...
     """, (err, data) ->
-      err.message.should.match /Invalid opening quote at line 3/
+      assert_error err,
+        message: 'Invalid Opening Quote: a quote is found inside a field at line 3'
+        code: 'INVALID_OPENING_QUOTE'
+        field: 'h'
       (data == undefined).should.be.true
       next()
   
@@ -53,7 +57,10 @@ describe 'properties lines', ->
     this,"line",is,invalid h"ere"
     "and",valid,line,follows...
     """, skip_empty_lines: true, (err, data) ->
-      err.message.should.match /Invalid opening quote at line 4/
+      assert_error err,
+        message: 'Invalid Opening Quote: a quote is found inside a field at line 4'
+        code: 'INVALID_OPENING_QUOTE'
+        field: 'invalid h'
       (data == undefined).should.be.true
       next()
 

@@ -11,6 +11,7 @@
 
 * tests: new error assertion framework
 * buffer: serialize to json as string
+* errors: expose INVALID_OPENING_QUOTE
 
 ## Version 4.5.0
 
