@@ -63,3 +63,10 @@ describe 'ResizeableBuffer', ->
       for i in [0...buf.length]
         rb.append(buf[i])
       rb.clone().toString().should.eql 'hij,klm;'
+        
+    describe 'toJSON', ->
+      rb = new ResizeableBuffer(5)
+      buf = Buffer.from 'abc,def;'
+      for i in [0...buf.length]
+        rb.append(buf[i])
+      rb.toJSON().should.eql 'abc,def;'

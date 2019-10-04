@@ -7,6 +7,10 @@
 * max_comment_size: new option
 * promise: new API module
 
+## Trunk
+
+* buffer: serialize to json as string
+
 ## Version 4.5.0
 
 * errors: start normalizing errors with unique codes and context
