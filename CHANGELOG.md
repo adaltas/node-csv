@@ -8,6 +8,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* lint: integrate eslint
+
 ## Version 4.6.2
 
 * context: null column when columns number inferieur to record length

@@ -57,6 +57,7 @@
     "csv-generate": "^3.2.3",
     "csv-spectrum": "^1.0.0",
     "each": "^1.2.1",
+    "eslint": "^6.5.1",
     "mocha": "^6.2.0",
     "should": "^13.2.3",
     "stream-transform": "^2.0.1",
@@ -76,7 +77,8 @@
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
     "pretest": "cd lib && babel *.js  -d es5 && cd ..",
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"strictNullChecks\":true}' mocha test/**/*.{coffee,ts}"
+    "lint": "eslint lib/*.js",
+    "test": "npm run lint && TS_NODE_COMPILER_OPTIONS='{\"strictNullChecks\":true}' mocha test/**/*.{coffee,ts}"
   },
   "types": [
     "./lib/index.d.ts",
