@@ -8,6 +8,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* context: null column when columns number inferieur to record length
+
 ## Version 4.6.1
 
 * src: set const in for loop

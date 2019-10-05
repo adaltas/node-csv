@@ -106,7 +106,9 @@ describe 'Option `columns`', ->
       4,5,6,x
       7,8,9,x
       """, columns: ["a", "b", "c", "d"], (err, data) ->
-        err.message.should.eql 'Invalid Record Length: header length is 4, got 3 on line 1'
+        assert_error
+          message: 'Invalid Record Length: header length is 4, got 3 on line 1'
+          code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
         next()
 
     it 'validate options column length on last line', (next) ->
@@ -115,7 +117,17 @@ describe 'Option `columns`', ->
       4,5,6,x
       7,8,9
       """, columns: ["a", "b", "c", "d"], (err, data) ->
-        err.message.should.eql 'Invalid Record Length: header length is 4, got 3 on line 3'
+        assert_error
+          message: 'Invalid Record Length: header length is 4, got 3 on line 3'
+          code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+        next()
+
+    it 'null context column when columns number inferieur to record length, fix regression #259', (next) ->
+      parse "a\nb,\n", columns: true, (err, data) ->
+        assert_error
+          message: 'Invalid Record Length: header length is 1, got 2 on line 2'
+          code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+          column: null
         next()
     
     it 'skips column names defined as undefined', (next) ->
