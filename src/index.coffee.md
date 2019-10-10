@@ -12,7 +12,7 @@ information.
 This module export a function as its main entry point and return a transform
 stream.
 
-Refers to the [official prject documentation](http://csv.adaltas.com/stringify/)
+Refers to the [official prject documentation](http://csv.js.org/stringify/)
 on how to call this function.
 
     module.exports = ->

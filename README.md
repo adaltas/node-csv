@@ -62,5 +62,5 @@ view the tested Node.js version.
 
 [csv_home]: https://github.com/adaltas/node-csv
 [stream_transform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
-[examples]: http://csv.adaltas.com/stringify/examples/
+[examples]: http://csv.js.org/stringify/examples/
 [csv]: https://github.com/adaltas/node-csv
