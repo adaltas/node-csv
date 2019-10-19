@@ -1,5 +1,6 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'Option `rtrim`', ->
 
@@ -57,12 +58,16 @@ describe 'Option `rtrim`', ->
     parser.end()
 
   it 'with char after whitespaces', (next) ->
-    data = '''
-    "a b " x  ,"c d   " x
-    "e f " x,"g h   "  x 
-    '''
+    data = [
+      '"a b " x  ,"c d   " x'
+      '"e f " x,"g h   "  x '
+    ].join '\n'
     parser = parse rtrim: true, (err, data) ->
-      err.message.should.eql 'Invalid Closing Quote: found non trimable byte after quote at line 1'
+      assert_error err,
+        message: 'Invalid Closing Quote: found non trimable byte after quote at line 1'
+        code: 'CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE'
+        column: 0, empty_lines: 0, header: false, index: 0, invalid_field_length: 0,
+        quoting: true, lines: 1, records: 0
       next()
     parser.write chr for chr in data
     parser.end()
