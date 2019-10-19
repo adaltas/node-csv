@@ -7,7 +7,7 @@ describe('API Types', () => {
   
   describe('Parser', () => {
     
-    it('Respect parse signature', () =>{
+    it('Respect parse signature', () => {
       // No argument
       parse()
       parse("")
