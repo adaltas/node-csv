@@ -8,6 +8,7 @@ module.exports = assert_error = (err, assert = {}, exhaustive = false) ->
     return
   if exhaustive then for key, value of err
     assert.should.have.keys(key)
+  err.should.be.an.Error()
   for key, expect of assert
     value = err[key]
     if typeof expect is 'string'

@@ -106,7 +106,7 @@ describe 'Option `columns`', ->
       4,5,6,x
       7,8,9,x
       """, columns: ["a", "b", "c", "d"], (err, data) ->
-        assert_error
+        assert_error err,
           message: 'Invalid Record Length: header length is 4, got 3 on line 1'
           code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
         next()
@@ -117,14 +117,26 @@ describe 'Option `columns`', ->
       4,5,6,x
       7,8,9
       """, columns: ["a", "b", "c", "d"], (err, data) ->
-        assert_error
+        assert_error err,
           message: 'Invalid Record Length: header length is 4, got 3 on line 3'
           code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
         next()
+    
+    it 'context column is null when cast force the context creation', (next) ->
+      # Trigger cast to force the creation of a context
+      parse "a\nb,\n",
+        columns: true
+        cast: (value) -> value
+      , (err, data) ->
+        assert_error err,
+          message: 'Invalid Record Length: header length is 1, got 2 on line 2'
+          code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+          column: null
+        next()
 
-    it 'null context column when columns number inferieur to record length, fix regression #259', (next) ->
+    it 'context column is null when columns number inferieur to record length, fix regression #259', (next) ->
       parse "a\nb,\n", columns: true, (err, data) ->
-        assert_error
+        assert_error err,
           message: 'Invalid Record Length: header length is 1, got 2 on line 2'
           code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
           column: null

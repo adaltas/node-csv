@@ -8,6 +8,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* context: column is null when cast force the context creation, fix #260
+
 ## Version 4.6.4
 
 * errors: don't stringify/parse undefined and null values
