@@ -8,7 +8,7 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
-## Trunk
+## Version 4.6.4
 
 * errors: don't stringify/parse undefined and null values
 * errors: expose CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE
