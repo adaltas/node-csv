@@ -8,6 +8,12 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* errors: don't stringify/parse undefined and null values
+* errors: expose CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE
+* errors: expose CSV_MAX_RECORD_SIZE
+
 ## Version 4.6.3
 
 * lint: integrate eslint

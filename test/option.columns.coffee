@@ -181,6 +181,19 @@ describe 'Option `columns`', ->
           { a: '3' }
         ] unless err
         next err
+    
+    it '', (next) ->
+      # Trigger a bug where error is try to stringify and parse an undefined
+      # value, conjointly triggered by a null column and a
+      # CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS error
+      parse """
+      col_a,col_b,col_c
+      foo,bar
+      foo,bar,baz
+      """
+      , columns: ['a', 'b', null], (err, data) ->
+        err.code.should.eql 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+        next()
 
   describe 'function', ->
   
