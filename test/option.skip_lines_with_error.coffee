@@ -46,6 +46,7 @@ describe 'Option `skip_lines_with_error`', ->
         ["line","1"]
         ["line", "3"]
       ] unless err
+      console.log errors
       assert_error errors, [
         message: 'Invalid Opening Quote: a quote is found inside a field at line 2'
         code: 'INVALID_OPENING_QUOTE'
