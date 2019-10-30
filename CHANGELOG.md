@@ -1,6 +1,11 @@
 
 # Changelog
 
+## Trunk
+
+* package: contributing
+* package: code of conduct
+
 ## Version 2.0.1
 
 * package: prefix file path with "/"
