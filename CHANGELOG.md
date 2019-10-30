@@ -10,6 +10,8 @@
 
 ## Trunk
 
+* package: contributing
+* package: code of conduct
 * error: fix call to supper
 
 ## Version 4.6.5
