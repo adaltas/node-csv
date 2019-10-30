@@ -8,6 +8,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* error: fix call to supper
+
 ## Version 4.6.5
 
 * context: column is null when cast force the context creation, fix #260
