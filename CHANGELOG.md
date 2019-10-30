@@ -3,6 +3,8 @@
 
 ## Trunk
 
+* package: contributing
+* package: code of conduct
 * quoted_match: ts types string or RegExp
 
 ## Version 5.3.3
