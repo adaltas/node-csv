@@ -10,10 +10,14 @@ describe 'Option `comment`', ->
     parse '', comment: '', (->)
     (->
       parse '', comment: true, (->)
-    ).should.throw 'Invalid Option: comment must be a buffer or a string, got true'
+    ).should.throw
+      message: 'Invalid option comment: comment must be a buffer or a string, got true'
+      code: 'CSV_INVALID_OPTION_COMMENT'
     (->
       parse '', comment: 2, (->)
-    ).should.throw 'Invalid Option: comment must be a buffer or a string, got 2'
+    ).should.throw
+      message: 'Invalid option comment: comment must be a buffer or a string, got 2'
+      code: 'CSV_INVALID_OPTION_COMMENT'
 
   it 'single comment line', (next) ->
     parse '# comment', comment: '#', (err, data) ->
