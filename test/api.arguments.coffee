@@ -1,6 +1,7 @@
 
 generate = require 'csv-generate'
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'API arguments', ->
 
@@ -79,22 +80,30 @@ describe 'API arguments', ->
     it 'data:undefined, options:object', ->
       (->
         parse undefined, {}
-      ).should.throw 'Invalid argument: got undefined at index 0'
+      ).should.throw
+        message: 'Invalid argument: got undefined at index 0'
+        code: 'CSV_INVALID_ARGUMENT'
 
     it 'data:undefined, callback:function', ->
       (->
         parse undefined, (->)
-      ).should.throw 'Invalid argument: got undefined at index 0'
+      ).should.throw
+        message: 'Invalid argument: got undefined at index 0'
+        code: 'CSV_INVALID_ARGUMENT'
 
     it 'data:array, callback:function', ->
       (->
         parse ['value a,value b', 'value 1,value 2'], (->)
-      ).should.throw 'Invalid argument: got ["value a,value b","value 1,value 2"] at index 0'
+      ).should.throw
+        message: 'Invalid argument: got ["value a,value b","value 1,value 2"] at index 0'
+        code: 'CSV_INVALID_ARGUMENT'
 
     it 'options:object, options:object', ->
       (->
         parse {}, {}
-      ).should.throw 'Invalid argument: got {} at index 1'
+      ).should.throw
+        message: 'Invalid argument: got {} at index 1'
+        code: 'CSV_INVALID_ARGUMENT'
 
   describe '3 args', ->
 
@@ -111,10 +120,14 @@ describe 'API arguments', ->
     it 'data:undefined, options:object, callback:function', ->
       (->
         parse undefined, columns: true, (->)
-      ).should.throw 'Invalid argument: got undefined at index 0'
+      ).should.throw
+        message: 'Invalid argument: got undefined at index 0'
+        code: 'CSV_INVALID_ARGUMENT'
 
     it 'data:string, options:object, callback:undefined', ->
       (->
         parse 'field_1,field_2\nvalue 1,value 2', columns: true, undefined
-      ).should.throw 'Invalid argument: got undefined at index 2'
+      ).should.throw
+        message: 'Invalid argument: got undefined at index 2'
+        code: 'CSV_INVALID_ARGUMENT'
       
