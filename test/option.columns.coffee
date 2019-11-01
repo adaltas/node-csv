@@ -18,7 +18,9 @@ describe 'Option `columns`', ->
     it 'check the columns value', ->
       (->
         parse "", columns: [{name: 'valid'}, true], (->)
-      ).should.throw 'Invalid Option columns: expect a string or an object, got true at position 1'
+      ).should.throw
+        message: 'Invalid column definition: expect a string or a literal object, got true at position 1'
+        code: 'CSV_INVALID_COLUMN_DEFINITION'
     
     it 'check the columns value', ->
       (->
