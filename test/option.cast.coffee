@@ -1,5 +1,6 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'Option `cast`', ->
   
@@ -228,7 +229,9 @@ describe 'Option `cast`', ->
             when 2 then if context.header then null else value
             when 3 then if context.header then 1234 else value
       , (err, data) ->
-        err.message.should.eql('Invalid Option columns: expect a string or an object, got 1234 at position 3')
+        assert_error err,
+          message: 'Invalid column definition: expect a string or a literal object, got 1234 at position 3'
+          code: 'CSV_INVALID_COLUMN_DEFINITION'
         next()
 
   describe 'error', ->
