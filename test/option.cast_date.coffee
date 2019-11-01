@@ -1,7 +1,15 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'Option `cast_date`', ->
+  
+  it 'validate', ->
+    (->
+      parse cast: true, cast_date: 'ohno', ( -> )
+    ).should.throw
+      message: 'Invalid option cast_date: cast_date must be true or a function, got "ohno"'
+      code: 'CSV_INVALID_OPTION_CAST_DATE'
   
   it 'true', (next) ->
     data = []
