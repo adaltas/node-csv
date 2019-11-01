@@ -3,6 +3,13 @@ parse = require '../lib'
 assert_error = require './api.assert_error'
 
 describe 'Option `bom`', ->
+  
+  it 'validate', ->
+    (->
+      parse bom: 'ohno', ( -> )
+    ).should.throw
+      message: 'Invalid option bom: bom must be true, got "ohno"'
+      code: 'CSV_INVALID_OPTION_BOM'
 
   it 'preserve bom if not defined', (next) ->
     parser = parse (err, data) ->
