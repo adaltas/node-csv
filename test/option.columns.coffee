@@ -13,7 +13,9 @@ describe 'Option `columns`', ->
         },{
           invalid: 'oh no'
         }], (->)
-      ).should.throw 'Invalid Option columns: property "name" is required at position 1 when column is an object literal'
+      ).should.throw
+        message: 'Option columns missing name: property "name" is required at position 1 when column is an object literal'
+        code: 'CSV_OPTION_COLUMNS_MISSING_NAME'
     
     it 'check the columns value', ->
       (->
