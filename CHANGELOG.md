@@ -11,6 +11,7 @@
 ## Trunk
 
 * errors: expose CSV_INVALID_OPTION_BOM
+* errors: expose CSV_INVALID_OPTION_CAST
 * errors: expose CSV_INVALID_OPTION_COMMENT
 * package: contributing
 * package: code of conduct

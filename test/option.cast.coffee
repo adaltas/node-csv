@@ -3,6 +3,13 @@ parse = require '../lib'
 
 describe 'Option `cast`', ->
   
+  it 'validate', ->
+    (->
+      parse cast: 'ohno', ( -> )
+    ).should.throw
+      message: 'Invalid option cast: cast must be true or a function, got "ohno"'
+      code: 'CSV_INVALID_OPTION_CAST'
+  
   describe 'boolean true', ->
   
     it 'all columns', (next) ->
