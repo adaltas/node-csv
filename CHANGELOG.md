@@ -10,6 +10,7 @@
 
 ## Trunk
 
+* errors: expose CSV_INVALID_OPTION_COMMENT
 * package: contributing
 * package: code of conduct
 * error: fix call to supper
