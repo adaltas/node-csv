@@ -10,6 +10,7 @@
 
 ## Trunk
 
+* from_line: new sample
 * errors: expose CSV_INVALID_ARGUMENT
 * errors: expose CSV_INVALID_COLUMN_DEFINITION
 * errors: expose CSV_OPTION_COLUMNS_MISSING_NAME
