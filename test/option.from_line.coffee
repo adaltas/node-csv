@@ -37,19 +37,16 @@ describe 'Option `from_line`', ->
         [ '7','8','9' ]
       ] unless err
       next err
-
-  it 'count headers', (next) ->
-    parse """
-    a,b,c
-    1,2,3
-    4,5,6
-    7,8,9
-    """, columns: true, from_line: 3, (err, data) ->
-      data.should.eql [
-        {a: '4',b: '5',c: '6'}
-        {a: '7',b: '8',c: '9'}
-      ] unless err
-      next err
+    
+    it 'handle lines with inconsistent number of fields', (next) ->
+      parse """
+      a
+      1,2,3
+      """, from_line: 2, (err, data) ->
+        data.should.eql [
+          ['1', '2', '3']
+        ] unless err
+        next err
 
   it 'records with quoted line at the begining of line', (next) ->
     parse """
@@ -104,4 +101,14 @@ describe 'Option `from_line`', ->
         [ 'c','d' ]
         [ 'e','f' ]
       ] unless err
+      next err
+  
+  it 'honors header', (next) ->
+    parse """
+    x,y,z
+    x,y,z
+    a,b,c
+    4,5,6
+    """, from_line: 3, columns: true, (err, data) ->
+      data.should.eql [{ a: '4', b: '5', c: '6' }] unless err
       next err
