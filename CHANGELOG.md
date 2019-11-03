@@ -20,6 +20,7 @@
 * errors: expose CSV_INVALID_OPTION_CAST_DATE
 * errors: expose CSV_INVALID_OPTION_COLUMNS
 * errors: expose CSV_INVALID_OPTION_COMMENT
+* errors: expose CSV_INVALID_OPTION_DELIMITER
 * package: contributing
 * package: code of conduct
 * error: fix call to supper

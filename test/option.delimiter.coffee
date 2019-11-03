@@ -8,13 +8,19 @@ describe 'Option `delimiter`', ->
     parse '', delimiter: Buffer.from(','), (->)
     (->
       parse '', delimiter: '', (->)
-    ).should.throw 'Invalid Option: delimiter must be a non empty string'
+    ).should.throw
+      message: 'Invalid option delimiter: delimiter must be a non empty string or buffer, got ""'
+      code: 'CSV_INVALID_OPTION_DELIMITER'
     (->
       parse '', delimiter: Buffer.from(''), (->)
-    ).should.throw 'Invalid Option: delimiter must be a non empty buffer'
+    ).should.throw
+      message: 'Invalid option delimiter: delimiter must be a non empty string or buffer, got {"type":"Buffer","data":[]}'
+      code: 'CSV_INVALID_OPTION_DELIMITER'
     (->
       parse '', delimiter: true, (->)
-    ).should.throw 'Invalid Option: delimiter must be a string or a buffer, got true'
+    ).should.throw
+      message: 'Invalid option delimiter: delimiter must be a non empty string or buffer, got true'
+      code: 'CSV_INVALID_OPTION_DELIMITER'
   
   it 'using default comma', (next) ->
     parse """
