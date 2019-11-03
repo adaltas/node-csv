@@ -10,6 +10,7 @@
 
 ## Trunk
 
+* from_line: honor inferred column names
 * from_line: new sample
 * errors: expose CSV_INVALID_ARGUMENT
 * errors: expose CSV_INVALID_COLUMN_DEFINITION
