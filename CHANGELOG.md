@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* test: ensure every sample is valid
 * package: contributing
 * package: code of conduct
 * quoted_match: ts types string or RegExp
