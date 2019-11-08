@@ -37,6 +37,7 @@
     "@types/node": "^10.12.10",
     "@types/should": "^13.0.0",
     "coffeescript": "~2.3.2",
+    "each": "^1.2.2",
     "mocha": "~5.2.0",
     "should": "~13.2.3",
     "ts-node": "^7.0.1",
