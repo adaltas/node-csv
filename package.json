@@ -36,6 +36,7 @@
     "@types/should": "^13.0.0",
     "coffeescript": "~2.4.1",
     "csv-generate": "~3.2.0",
+    "each": "^1.2.2",
     "mocha": "~6.1.4",
     "pad": "~2.3.0",
     "should": "~13.2.3",
