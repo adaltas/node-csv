@@ -10,6 +10,7 @@
 
 ## Trunk
 
+* test: ensure every sample is valid
 * from_line: honor inferred column names
 * from_line: new sample
 * errors: expose CSV_INVALID_ARGUMENT
