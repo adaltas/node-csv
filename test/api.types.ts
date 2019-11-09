@@ -30,7 +30,7 @@ describe('API Types', () => {
       keys.sort().should.eql([
         'bom', 'cast', 'cast_date', 'columns', 'comment', 'delimiter',
         'escape', 'from', 'from_line', 'info', 'ltrim', 'max_record_size',
-        'objname', 'quote', 'raw', 'record_delimiter',
+        'objname', 'on_record', 'quote', 'raw', 'record_delimiter',
         'relax', 'relax_column_count', 'rtrim', 'skip_empty_lines',
         'skip_lines_with_empty_values', 'skip_lines_with_error', 'to', 
         'to_line', 'trim'
@@ -173,6 +173,12 @@ describe('API Types', () => {
     it('objname', () => {
       const options: Options = {}
       options.objname = 'name'
+    })
+    
+    it('on_record', () => {
+      const options: Options = {}
+      options.on_record = (record, {lines}) =>
+        [lines, record[0]]
     })
     
     it('quote', () => {
