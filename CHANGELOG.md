@@ -10,8 +10,12 @@
 
 ## Trunk
 
+New Feature:
+* on_record: user function to alter and filter records
+
+Minor improvements:
 * test: ensure every sample is valid
-* from_line: honor inferred column names
+* from_line: honours inferred column names
 * from_line: new sample
 * errors: expose CSV_INVALID_ARGUMENT
 * errors: expose CSV_INVALID_COLUMN_DEFINITION
@@ -22,9 +26,11 @@
 * errors: expose CSV_INVALID_OPTION_COLUMNS
 * errors: expose CSV_INVALID_OPTION_COMMENT
 * errors: expose CSV_INVALID_OPTION_DELIMITER
+* error: fix call to supper
+
+Project management:
 * package: contributing
 * package: code of conduct
-* error: fix call to supper
 
 ## Version 4.6.5
 
@@ -127,7 +133,7 @@ Minor enhancements:
 * ts: distribute definitions with es5
 * ts: unused MatcherFunc type
 
-Project managements:
+Project management:
 * babel: include .babelrc to git
 
 ## Version 4.3.0
@@ -205,7 +211,7 @@ New features:
 * comment_lines: count the number of commented lines with no records
 * callback: pass undefined instead of null
 
-API management
+API management:
 * Multiple tests have been rewritten with easier data sample
 * Source code is now written in ES6 instead of CoffeeScript
 * package: switch to MIT license
