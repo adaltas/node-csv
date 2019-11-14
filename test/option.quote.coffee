@@ -126,6 +126,17 @@ describe 'Option `quote`', ->
         data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
         next err
 
+  describe 'with options', ->
+    
+    it 'columns', (next) ->
+      parse """
+      a,"b",c
+      1,"2",3
+      """, quote: true, columns: true, (err, data) ->
+        data.should.eql [ { a: '1', b: '2', c: '3' } ] unless err
+        next err
+      
+
   describe 'error "Quoted field not terminated"', ->
     
     it 'when unclosed', (next) ->
