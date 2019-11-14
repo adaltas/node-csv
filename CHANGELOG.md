@@ -8,7 +8,7 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
-## Trunk
+## Version 4.7.0
 
 New Feature:
 * on_record: user function to alter and filter records
