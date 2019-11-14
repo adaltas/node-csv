@@ -117,6 +117,10 @@ declare namespace parse {
          */
         objname?: string;
         /**
+         * Alter and filter records by executing a user defined function.
+         */
+        on_record?: (record: any, context: CastingContext) => any;
+        /**
          * Optional character surrounding a field, one character only, defaults to double quotes.
          */
         quote?: string | boolean | Buffer | null;
