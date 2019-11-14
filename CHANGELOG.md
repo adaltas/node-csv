@@ -3,10 +3,15 @@
 
 ## Todo
 
+* skip_lines_with_empty_values: rename to skip_records_with_empty_values
 * skip_lines_with_error: rename to skip_records_with_error
 * max_comment_size: new option
 * promise: new API module
 * errors: finish normalisation of all errors
+
+## Trunk
+
+* columns: skip empty records before detecting headers
 
 ## Version 4.7.0
 

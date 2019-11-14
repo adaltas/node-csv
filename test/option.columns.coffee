@@ -86,6 +86,28 @@ describe 'Option `columns`', ->
           ['d', 'e', 'f']
         ] unless err
         next err
+
+    it 'header detection honors skip_empty_lines', (next) ->
+      parse """
+      
+      a,b,c
+      1,2,3
+      """, columns: true, skip_empty_lines: true, (err, data) ->
+        data.should.eql [
+          {a: "1", b: "2", c: "3"}
+        ] unless err
+        next err
+
+    it 'header detection honors skip_lines_with_empty_values', (next) ->
+      parse """
+      ,,
+      a,b,c
+      1,2,3
+      """, columns: true, skip_lines_with_empty_values: true, (err, data) ->
+        data.should.eql [
+          {a: "1", b: "2", c: "3"}
+        ] unless err
+        next err
           
   describe 'boolean array', ->
 
