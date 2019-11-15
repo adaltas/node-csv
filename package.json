@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "csv-generate": "^3.2.3",
-    "csv-parse": "^4.7.0",
+    "csv-parse": "^4.8.0",
     "stream-transform": "^2.0.1",
     "csv-stringify": "^5.3.3"
   },
