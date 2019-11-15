@@ -12,7 +12,7 @@
 
 ## Version 4.8.1
 
-* package: move pad dependencyu to dev
+* package: move pad dependency to dev
 
 ## Version 4.8.0
 
