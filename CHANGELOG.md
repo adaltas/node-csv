@@ -10,7 +10,7 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
-## Trunk
+## Version 4.8.2
 
 * relax_column_count: ts definitions for less and more
 

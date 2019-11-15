@@ -137,6 +137,14 @@ declare namespace parse {
          */
         relax_column_count?: boolean;
         /**
+         * Discard inconsistent columns count when the record contains less fields than expected, default to false.
+         */
+        relax_column_count_less?: boolean;
+        /**
+         * Discard inconsistent columns count when the record contains more fields than expected, default to false.
+         */
+        relax_column_count_more?: boolean;
+        /**
          * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
          * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
          */
