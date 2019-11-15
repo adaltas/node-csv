@@ -140,8 +140,8 @@ describe 'Option `columns`', ->
       7,8,9,x
       """, columns: ["a", "b", "c", "d"], (err, data) ->
         assert_error err,
-          message: 'Invalid Record Length: header length is 4, got 3 on line 1'
-          code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+          message: 'Invalid Record Length: columns length is 4, got 3 on line 1'
+          code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
         next()
 
     it 'validate options column length on last line', (next) ->
@@ -151,8 +151,8 @@ describe 'Option `columns`', ->
       7,8,9
       """, columns: ["a", "b", "c", "d"], (err, data) ->
         assert_error err,
-          message: 'Invalid Record Length: header length is 4, got 3 on line 3'
-          code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+          message: 'Invalid Record Length: columns length is 4, got 3 on line 3'
+          code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
         next()
     
     it 'context column is null when cast force the context creation', (next) ->
@@ -162,16 +162,16 @@ describe 'Option `columns`', ->
         cast: (value) -> value
       , (err, data) ->
         assert_error err,
-          message: 'Invalid Record Length: header length is 1, got 2 on line 2'
-          code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+          message: 'Invalid Record Length: columns length is 1, got 2 on line 2'
+          code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
           column: null
         next()
 
     it 'context column is null when columns number inferieur to record length, fix regression #259', (next) ->
       parse "a\nb,\n", columns: true, (err, data) ->
         assert_error err,
-          message: 'Invalid Record Length: header length is 1, got 2 on line 2'
-          code: 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+          message: 'Invalid Record Length: columns length is 1, got 2 on line 2'
+          code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
           column: null
         next()
     
@@ -230,14 +230,14 @@ describe 'Option `columns`', ->
     it '', (next) ->
       # Trigger a bug where error is try to stringify and parse an undefined
       # value, conjointly triggered by a null column and a
-      # CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS error
+      # CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH error
       parse """
       col_a,col_b,col_c
       foo,bar
       foo,bar,baz
       """
       , columns: ['a', 'b', null], (err, data) ->
-        err.code.should.eql 'CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS'
+        err.code.should.eql 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
         next()
 
   describe 'function', ->
