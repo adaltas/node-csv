@@ -135,7 +135,6 @@ describe 'Option `quote`', ->
       """, quote: true, columns: true, (err, data) ->
         data.should.eql [ { a: '1', b: '2', c: '3' } ] unless err
         next err
-      
 
   describe 'error "Quoted field not terminated"', ->
     
