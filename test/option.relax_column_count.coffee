@@ -87,3 +87,51 @@ describe 'Option `relax_column_count`', ->
       ] unless err
       next err
   
+  describe 'relax_column_count_more', ->
+  
+    it 'when more', (next) ->
+      parse """
+      1,2,3
+      a,b,c,d
+      """, relax_column_count_more: true, (err, data) ->
+        data.should.eql [
+          ['1', '2', '3']
+          ['a', 'b', 'c', 'd']
+        ] unless err
+        next err
+
+    it 'when less', (next) ->
+      parse """
+      1,2,3
+      a,b
+      """, relax_column_count_more: true, (err, data) ->
+        assert_error err,
+          code: 'CSV_INCONSISTENT_RECORD_LENGTH'
+          message: 'Invalid Record Length: expect 3, got 2 on line 2'
+          record: ['a', 'b']
+        next()
+    
+  describe 'relax_column_count_less', ->
+  
+    it 'when less', (next) ->
+      parse """
+      1,2,3
+      a,b
+      """, relax_column_count_less: true, (err, data) ->
+        data.should.eql [
+          ['1', '2', '3']
+          ['a', 'b']
+        ] unless err
+        next err
+
+    it 'when more', (next) ->
+      parse """
+      1,2,3
+      a,b,c,d
+      """, relax_column_count_less: true, (err, data) ->
+        assert_error err,
+          code: 'CSV_INCONSISTENT_RECORD_LENGTH'
+          message: 'Invalid Record Length: expect 3, got 4 on line 2'
+          record: ['a', 'b', 'c', 'd']
+        next()
+      
