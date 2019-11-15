@@ -12,8 +12,10 @@
 
 ## Trunk
 
+* relax_column_count: new less and more options
 * columns: skip empty records before detecting headers
 * errors: rename CSV_INCONSISTENT_RECORD_LENGTH
+* errors: rename CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH
 
 ## Version 4.7.0
 
