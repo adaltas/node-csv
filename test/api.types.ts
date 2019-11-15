@@ -203,6 +203,8 @@ describe('API Types', () => {
     it('relax_column_count', () => {
       const options: Options = {}
       options.relax_column_count = true
+      options.relax_column_count_less = true
+      options.relax_column_count_more = true
     })
     
     it('record_delimiter', () => {
