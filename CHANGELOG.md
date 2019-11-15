@@ -13,6 +13,7 @@
 ## Trunk
 
 * columns: skip empty records before detecting headers
+* errors: rename CSV_INCONSISTENT_RECORD_LENGTH
 
 ## Version 4.7.0
 

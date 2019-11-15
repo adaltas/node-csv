@@ -1,5 +1,6 @@
 
 parse = require '../lib'
+assert_error = require './api.assert_error'
 
 describe 'Option `relax_column_count`', ->
   
@@ -20,7 +21,10 @@ describe 'Option `relax_column_count`', ->
     1,2,3
     4,5
     """, (err, data) ->
-      err.message.should.eql 'Invalid Record Length: expect 3, got 2 on line 2'
+      assert_error err,
+        code: 'CSV_INCONSISTENT_RECORD_LENGTH'
+        message: 'Invalid Record Length: expect 3, got 2 on line 2'
+        record: ['4', '5']
       next()
 
   it 'emit single error when column count is invalid on multiple lines', (next) ->
@@ -31,8 +35,11 @@ describe 'Option `relax_column_count`', ->
     5,6,7
     """
     , (err, data) ->
-      err.message.should.eql 'Invalid Record Length: expect 2, got 1 on line 2'
-      process.nextTick next
+      assert_error err,
+        code: 'CSV_INCONSISTENT_RECORD_LENGTH'
+        message: 'Invalid Record Length: expect 2, got 1 on line 2'
+        record: ['1']
+      next()
 
   it 'dont throw error if true', (next) ->
     parse """
@@ -79,3 +86,4 @@ describe 'Option `relax_column_count`', ->
         { "a":"9", "b":"10" }
       ] unless err
       next err
+  
