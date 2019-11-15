@@ -5,6 +5,7 @@
 
 * skip_lines_with_empty_values: rename to skip_records_with_empty_values
 * skip_lines_with_error: rename to skip_records_with_error
+* relax: rename to relax_quotes_when_unquoted
 * max_comment_size: new option
 * promise: new API module
 * errors: finish normalisation of all errors
