@@ -10,6 +10,7 @@ See the changelogs of our child projects:
 
 ## Trunk
 
+* csv-parse: version 4.7.0
 * package: contributing
 * package: code of conduct
 
