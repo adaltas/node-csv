@@ -10,7 +10,7 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
-## Trunk
+## Version 4.8.0
 
 * relax_column_count: new less and more options
 * columns: skip empty records before detecting headers
