@@ -10,6 +10,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* relax_column_count: ts definitions for less and more
+
 ## Version 4.8.1
 
 * package: move pad dependency to dev
