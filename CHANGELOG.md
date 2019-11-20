@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* src: strengthen conditions
 * test: ensure every sample is valid
 * package: contributing
 * package: code of conduct
