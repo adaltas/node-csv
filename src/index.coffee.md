@@ -289,20 +289,20 @@ Convert a line to a string. Line may be an object, an array or a string.
                 value.indexOf(quoted_match) isnt -1
               else
                 quoted_match.test value
-            quotedMatch = quotedMatch and quotedMatch.length > 0
-            shouldQuote = containsQuote or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
-            if shouldQuote and containsEscape
+            quotedMatch = quotedMatch is true and quotedMatch.length > 0
+            shouldQuote = containsQuote is true or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
+            if shouldQuote is true and containsEscape is true
               regexp = if escape is '\\'
               then new RegExp escape + escape, 'g'
               else new RegExp escape, 'g'
               value = value.replace(regexp, escape + escape)
-            if containsQuote
+            if containsQuote is true
               regexp = new RegExp quote,'g'
               value = value.replace regexp, escape + quote
-            if shouldQuote
+            if shouldQuote is true
               value = quote + value + quote
             csvrecord += value
-          else if quoted_empty or (not quoted_empty? and field is '' and quoted_string)
+          else if quoted_empty is true or (not quoted_empty? and field is '' and quoted_string isnt false)
             csvrecord += quote + quote
           if i isnt record.length - 1
             csvrecord += delimiter
