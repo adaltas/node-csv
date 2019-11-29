@@ -3,16 +3,16 @@
 
 ## Todo
 
-* skip_lines_with_empty_values: rename to skip_records_with_empty_values
-* skip_lines_with_error: rename to skip_records_with_error
-* relax: rename to relax_quotes_when_unquoted
-* max_comment_size: new option
+* `skip_lines_with_empty_values`: rename to skip_records_with_empty_values
+* `skip_lines_with_error`: rename to skip_records_with_error
+* `relax`: rename to relax_quotes_when_unquoted
+* `max_comment_size`: new option
 * promise: new API module
 * errors: finish normalisation of all errors
 
 ## Version 4.8.2
 
-* relax_column_count: ts definitions for less and more
+* `relax_column_count`: ts definitions for less and more
 
 ## Version 4.8.1
 
@@ -20,29 +20,29 @@
 
 ## Version 4.8.0
 
-* relax_column_count: new less and more options
+* `relax_column_count`: new less and more options
 * columns: skip empty records before detecting headers
-* errors: rename CSV_INCONSISTENT_RECORD_LENGTH
-* errors: rename CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH
+* errors: rename `CSV_INCONSISTENT_RECORD_LENGTH`
+* errors: rename `CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH`
 
 ## Version 4.7.0
 
 New Feature:
-* on_record: user function to alter and filter records
+* `on_record`: user function to alter and filter records
 
 Minor improvements:
 * test: ensure every sample is valid
-* from_line: honours inferred column names
-* from_line: new sample
-* errors: expose CSV_INVALID_ARGUMENT
-* errors: expose CSV_INVALID_COLUMN_DEFINITION
-* errors: expose CSV_OPTION_COLUMNS_MISSING_NAME
-* errors: expose CSV_INVALID_OPTION_BOM
-* errors: expose CSV_INVALID_OPTION_CAST
-* errors: expose CSV_INVALID_OPTION_CAST_DATE
-* errors: expose CSV_INVALID_OPTION_COLUMNS
-* errors: expose CSV_INVALID_OPTION_COMMENT
-* errors: expose CSV_INVALID_OPTION_DELIMITER
+* `from_line`: honours inferred column names
+* `from_line`: new sample
+* errors: expose `CSV_INVALID_ARGUMENT`
+* errors: expose `CSV_INVALID_COLUMN_DEFINITION`
+* errors: expose `CSV_OPTION_COLUMNS_MISSING_NAME`
+* errors: expose `CSV_INVALID_OPTION_BOM`
+* errors: expose `CSV_INVALID_OPTION_CAST`
+* errors: expose `CSV_INVALID_OPTION_CAST_DATE`
+* errors: expose `CSV_INVALID_OPTION_COLUMNS`
+* errors: expose `CSV_INVALID_OPTION_COMMENT`
+* errors: expose `CSV_INVALID_OPTION_DELIMITER`
 * error: fix call to supper
 
 Project management:
@@ -56,8 +56,8 @@ Project management:
 ## Version 4.6.4
 
 * errors: don't stringify/parse undefined and null values
-* errors: expose CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE
-* errors: expose CSV_MAX_RECORD_SIZE
+* errors: expose `CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE`
+* errors: expose `CSV_MAX_RECORD_SIZE`
 
 ## Version 4.6.3
 
@@ -65,7 +65,7 @@ Project management:
 
 ## Version 4.6.2
 
-* context: null column when columns number inferieur to record length
+* context: null column when columns number inferior to record length
 
 ## Version 4.6.1
 
@@ -73,20 +73,20 @@ Project management:
 
 ## Version 4.6.0
 
-* skip_lines_with_empty_values: handle non string value
+* `skip_lines_with_empty_values`: handle non string value
 * errors: add context information
 * tests: new error assertion framework
 * buffer: serialize to json as string
-* errors: expose INVALID_OPENING_QUOTE
+* errors: expose `INVALID_OPENING_QUOTE`
 
 ## Version 4.5.0
 
 * errors: start normalizing errors with unique codes and context
-* errors: expose CSV_INVALID_CLOSING_QUOTE
-* errors: expose CSV_QUOTE_NOT_CLOSED
-* errors: expose CSV_INVALID_RECORD_LENGTH_DONT_PREVIOUS_RECORDS
-* errors: expose CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS
-* errors: expose CSV_INVALID_COLUMN_MAPPING
+* errors: expose `CSV_INVALID_CLOSING_QUOTE`
+* errors: expose `CSV_QUOTE_NOT_CLOSED`
+* errors: expose `CSV_INVALID_RECORD_LENGTH_DONT_PREVIOUS_RECORDS`
+* errors: expose `CSV_INVALID_RECORD_LENGTH_DONT_MATCH_COLUMNS`
+* errors: expose `CSV_INVALID_COLUMN_MAPPING`
 
 ## Version 4.4.7
 
@@ -105,7 +105,7 @@ Project management:
 
 * package: latest dependencies
 * bom: detection when buffer smaller than bom
-* package: remove deprecated @types/should dependency
+* package: remove deprecated `@types/should` dependency
 * package: update file path
 
 ## Version 4.4.3
@@ -114,25 +114,25 @@ Project management:
 
 ## Version 4.4.2
 
-* bom: parsing for BOM character #239
+* `bom`: parsing for BOM character #239
 * ts: add sync definition
 * package: replace npm ignore with file field
 
 ## Version 4.4.1
 
 Fix:
-* columns: allows returning an array of string, undefined, null or false
+* `columns`: allows returning an array of string, undefined, null or false
 
 ## Version 4.4.0
 
 New features:
-* options: new bom option
+* options: new `bom` option
 
 ## Version 4.3.4
 
-* columns: enrich error message when provided as literal object
-* cast: handle undefined columns
-* skip_lines_with_error: new sample
+* `columns`: enrich error message when provided as literal object
+* `cast`: handle undefined columns
+* `skip_lines_with_error`: new sample
 
 ## Version 4.3.3
 
@@ -156,46 +156,46 @@ Project management:
 ## Version 4.3.0
 
 New features:
-* objname: accept a buffer
+* `objname`: accept a buffer
 
 Minor enhancements:
-* to_line: validation refinements
-* trim, ltrim, rtrim: validation refinements
-* to: validation refinements
-* from_line: validation refinements
-* objname: validation refinements
-* from: validation refinements
-* escape: validation refinements
-* skip_empty_lines: validation refinements
-* skip_lines_with_empty_values: validation refinements
-* skip_lines_with_error: validation refinements
-* relax_column_count: validation refinements
-* relax: validation refinements
-* delimiter: validation refinements
-* max_record_size: validation refinements
+* `to_line`: validation refinements
+* `trim`, ltrim, rtrim: validation refinements
+* `to`: validation refinements
+* `from_line`: validation refinements
+* `objname`: validation refinements
+* `from`: validation refinements
+* `escape`: validation refinements
+* `skip_empty_lines`: validation refinements
+* `skip_lines_with_empty_values`: validation refinements
+* `skip_lines_with_error`: validation refinements
+* `relax_column_count`: validation refinements
+* `relax`: validation refinements
+* `delimiter`: validation refinements
+* `max_record_size`: validation refinements
 
 ## Version 4.2.0
 
 Fix:
-* record_delimiter: fix multi bytes with skip_empty_lines and from_line
-* rtrim: accept tab
+* `record_delimiter`: fix multi bytes with `skip_empty_lines` and `from_line`
+* `rtrim`: accept tab
 
 ## Version 4.1.0
 
 New features:
 * options: accept snake case and camel case
-* cast: dont call cast for non column-mappable fields
+* `cast`: dont call cast for non column-mappable fields
 
 Fix:
-* cast: ensure column is a string and not an array
+* `cast`: ensure column is a string and not an array
 * stream: handle empty input streams
-* cast: function may return non-string values
+* `cast`: function may return non-string values
 * stream: pass stream options without modification
 
 ## Version 4.0.1
 
 Fix:
-* relax_column_count: handle records with more columns
+* `relax_column_count`: handle records with more columns
 
 ## Version 4.0.0
 
@@ -219,13 +219,13 @@ This is a complete rewrite based with a Buffer implementation. There are no majo
 
 New features:
 * new options `info`, `from_line` and `to_line`
-* trim: respect `ltrim` and `rtrim` when defined
-* delimiter: may be a Buffer
-* delimiter: handle multiple bytes/characters
+* `trim`: respect `ltrim` and `rtrim` when defined
+* `delimiter`: may be a Buffer
+* `delimiter`: handle multiple bytes/characters
 * callback: export info object as third argument
-* cast: catch error in user functions
+* `cast`: catch error in user functions
 * ts: mark info as readonly with required properties
-* comment_lines: count the number of commented lines with no records
+* `comment_lines`: count the number of commented lines with no records
 * callback: pass undefined instead of null
 
 API management:
@@ -235,7 +235,7 @@ API management:
 
 ## Version 3.2.0
 
-* max_limit_on_data_read: update error msg
+* `max_limit_on_data_read`: update error msg
 * src: simplify detection for more data
 * lines: test empty line account for 1 line
 * options: extract default options
@@ -245,8 +245,8 @@ API management:
 
 ## Version 3.1.3
 
-* rowDelimiter: fix overlap with delimiter
-* internal: rename rowDelimiterLength to rowDelimiterMaxLength
+* `rowDelimiter`: fix overlap with delimiter
+* internal: rename rowDelimiterLength to `rowDelimiterMaxLength`
 
 ## Version 3.1.2
 
@@ -269,7 +269,7 @@ API management:
 ## Version 3.0.0
 
 Breaking changes:
-* columns: skip empty values when null, false or undefined
+* `columns`: skip empty values when null, false or undefined
 
 Cleanup:
 * sync: refactor internal variables
@@ -281,31 +281,31 @@ Cleanup:
 
 ## Version 2.4.1
 
-* to: ignore future records when to is reached
+* `to`: ignore future records when to is reached
 
 ## Version 2.4.0
 
-* trim: after and before quote
+* `trim`: after and before quote
 * tests: compatibility with Node.js 10
-* trim: handle quote followed by escape
+* `trim`: handle quote followed by escape
 * parser: set nextChar to null instead of empty
 * travis: run against node 8 and 10
 
 ## Version 2.3.0
 
-* cast: pass the header property
-* auto_parse: deprecated message on tests
-* cast: inject lines property
+* `cast`: pass the header property
+* `auto_parse`: deprecated message on tests
+* `cast`: inject lines property
 
 ## Version 2.2.0
 
-* cast: deprecate auto_parse
-* auto_parse: function get context as second argument
+* `cast`: deprecate `auto_parse`
+* `auto_parse`: function get context as second argument
 
 ## Version 2.1.0
 
-* skip_lines_with_error: DRYed implementation
-* skip_lines_with_error: Go process the next line on error
+* `skip_lines_with_error`: DRYed implementation
+* `skip_lines_with_error`: Go process the next line on error
 * events: register and write not blocking
 * test: prefix names by group membership
 * events: emit record
@@ -353,15 +353,15 @@ Irrelevant release, forgot to generate the coffee files.
 
 ## v1.3.0
 
-* options: auto_parse as a user function
-* options: auto_parse_date as a user function
+* options: `auto_parse` as a user function
+* options: `auto_parse_date` as a user function
 * test: should require handled by mocha
 * package: coffeescript 2 and use semver tilde
 * options: ensure objectMode is cloned
 
 ## v1.2.4
 
-* relax_column_count: honors count while preserving skipped_line_count
+* `relax_column_count`: honors count while preserving skipped_line_count
 * api: improve argument validation 
 
 ## v1.2.3
@@ -386,7 +386,7 @@ Irrelevant release, forgot to generate the coffee files.
 ## v1.2.0
 
 * skip default row delimiters when quoted #58
-* auto_parse: cleaner implementation
+* `auto_parse`: cleaner implementation
 * src: isolate internal variables
 
 ## v1.1.12
@@ -395,7 +395,7 @@ Irrelevant release, forgot to generate the coffee files.
 
 ## v1.1.11
 
-* rowDelimiters: fix all last month issues
+* `rowDelimiters`: fix all last month issues
 
 ## v1.1.10
 
@@ -403,22 +403,22 @@ Irrelevant release, forgot to generate the coffee files.
 
 ## V1.1.9
 
-* rowDelimiter: simplification
+* `rowDelimiter`: simplification
 * fix regression when trim and skip_empty_lines activated #122
-* auto_parse = simplify internal function
+* `auto_parse` = simplify internal function
 
 ## V1.1.8
 
 * src: trailing whitespace and empty headers #120
-* rowDelimiter: adding support for multiple row delimiters #119
-* Remove unnecessary argument: Parser.prototype.\__write #114
+* `rowDelimiter`: adding support for multiple row delimiters #119
+* Remove unnecessary argument: `Parser.prototype.__write` #114
 
 ## v1.1.7
 
-* skip_lines_with_empty_values: support space and tabs #108
+* `skip_lines_with_empty_values`: support space and tabs #108
 * test: remove coverage support
 * test: group by api, options and properties
-* skip_lines_with_empty_values option
+* `skip_lines_with_empty_values` option
 * write test illustrating column function throwing an error #98
 * added ability to skip columns #50
 
@@ -429,17 +429,17 @@ Irrelevant release, forgot to generate the coffee files.
 
 ## v1.1.5
 
-* empty_line_count counter and renamed skipped to skipped_line_count
+* `empty_line_count` counter and renamed skipped to `skipped_line_count`
 * skipped line count
 
 ## v1.1.4
 
-* avoid deoptimization due to wrong charAt index #103
+* avoid de-optimisation due to wrong charAt index #103
 * parser writing before assigning listeners
 
 ## v1.1.3
 
-* column: stop on column count error #100
+* `columns`: stop on column count error #100
 
 ## v1.1.2
 
@@ -451,17 +451,17 @@ Irrelevant release, forgot to generate the coffee files.
 
 * stream: call end if data instance of buffer
 * travis: add nodejs 6
-* columns: fix line error #97
+* `columns`: fix line error #97
 
 ## v1.1.0
 
-* relax_column_count: default to false (strict)
+* `relax_column_count`: default to false (strict)
 
 ## v1.0.6
 
-* relax_column_count: backward compatibility for 1.0.x
-* relax_column_count: introduce new option
-* columns: detect column length and fix lines count
+* `relax_column_count`: backward compatibility for 1.0.x
+* `relax_column_count`: introduce new option
+* `columns`: detect column length and fix lines count
 
 ## v1.0.5
 
@@ -469,14 +469,14 @@ Irrelevant release, forgot to generate the coffee files.
 * add tests for inconsistent number of columns #73
 * throw an error when a column is missing #73
 * travis: test nodejs versions 4, 5
-* max_limit_on_data_read: new option
+* `max_limit_on_data_read`: new option
 * removing the duplicate files in test and samples #86
 * option argument to accept the number of bytes can be read #86
 * avoid unwanted parsing when there is wrong delimiter or row delimiter #86
 
 ## v1.0.4
 
-* sync: support objname
+* sync: support `objname`
 
 ## v1.0.3
 
@@ -496,5 +496,5 @@ Irrelevant release, forgot to generate the coffee files.
 
 ## v1.0.0
 
-* auto_parse: work on all fields, rename to “is_*”
-* auto_parse: simplify test
+* `auto_parse`: work on all fields, rename to “is_*”
+* `auto_parse`: simplify test
