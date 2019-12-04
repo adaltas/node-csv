@@ -23,8 +23,9 @@
       "level": "ignore"
     }
   },
+  "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "contributors": [
-    "David Worms <david@adaltas.com> (http://www.adaltas.com)",
+    "David Worms <david@adaltas.com> (https://www.adaltas.com)",
     "Will White (https://github.com/willwhite)",
     "Justin Latimer (https://github.com/justinlatimer)",
     "jonseymour (https://github.com/jonseymour)",
