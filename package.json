@@ -13,6 +13,7 @@
     "type": "git",
     "url": "http://www.github.com/adaltas/node-stream-transform"
   },
+  "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "homepage": "https://csv.js.org/transform/",
   "coffeelintConfig": {
     "indentation": {
