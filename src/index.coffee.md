@@ -289,7 +289,7 @@ Convert a line to a string. Line may be an object, an array or a string.
                 value.indexOf(quoted_match) isnt -1
               else
                 quoted_match.test value
-            quotedMatch = quotedMatch is true and quotedMatch.length > 0
+            quotedMatch = quotedMatch and quotedMatch.length > 0
             shouldQuote = containsQuote is true or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
             if shouldQuote is true and containsEscape is true
               regexp = if escape is '\\'
