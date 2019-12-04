@@ -40,20 +40,20 @@
     }
   },
   "dependencies": {
-    "csv-generate": "^3.2.3",
-    "csv-parse": "^4.8.0",
+    "csv-generate": "^3.2.4",
+    "csv-parse": "^4.8.2",
     "stream-transform": "^2.0.1",
-    "csv-stringify": "^5.3.3"
+    "csv-stringify": "^5.3.4"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.7",
+    "@types/node": "^12.12.14",
     "@types/should": "^13.0.0",
     "coffeescript": "~2.4.1",
     "mocha": "~6.2.2",
     "should": "~13.2.3",
-    "ts-node": "^8.5.2",
-    "typescript": "^3.7.2"
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.3"
   },
   "optionalDependencies": {},
   "files": [
