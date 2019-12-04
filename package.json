@@ -13,6 +13,7 @@
     "url": "http://www.github.com/adaltas/node-csv-stringify"
   },
   "homepage": "https://csv.js.org/stringify/",
+  "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "coffeelintConfig": {
     "indentation": {
       "level": "error",
