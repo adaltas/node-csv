@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.3.4
 
 * src: strengthen conditions
 * test: ensure every sample is valid
