@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.3.5
 
 * stream: passing options to parent constructor, fix #104
 
