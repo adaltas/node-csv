@@ -70,7 +70,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
     class Stringifier extends stream.Transform
       
       constructor: (opts = {}) ->
-        super {{writableObjectMode: true}..., options...}
+        super {{writableObjectMode: true}..., opts...}
         options = {}
         # Immutable options and camelcase conversion
         options[underscore k] = v for k, v of opts

@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* stream: passing options to parent constructor, fix #104
+
 ## Version 5.3.4
 
 * src: strengthen conditions
