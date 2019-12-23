@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* cast: fix header context property on first record
+
 ## Version 5.3.5
 
 * stream: passing options to parent constructor, fix #104
