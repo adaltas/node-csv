@@ -114,7 +114,21 @@ describe 'Option `cast`', ->
         data.trim().should.eql 'yes,no'
         next()
     
-  describe 'header', ->
+    it 'header', (next) ->
+      stringify [
+        ['value 1']
+        ['value 2']
+      ], header: true, columns: ['header'], cast: string: (value, context) ->
+        "#{value} | #{context.header}"
+      , (err, data) ->
+        data.trim().should.eql """
+        header | true
+        value 1 | false
+        value 2 | false
+        """
+        next err
+    
+  describe 'option header', ->
 
     it 'records with header and columns as array', (next) ->
       stringify [

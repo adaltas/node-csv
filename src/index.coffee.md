@@ -224,7 +224,7 @@ Implementation of the [transform._flush function](https://nodejs.org/api/stream.
 
 Convert a line to a string. Line may be an object, an array or a string.
 
-      stringify: (chunk) ->
+      stringify: (chunk, chunkIsHeader=false) ->
         return chunk if typeof chunk isnt 'object'
         {columns, header} = @options
         record = []
@@ -235,7 +235,7 @@ Convert a line to a string. Line may be an object, an array or a string.
           chunk.splice columns.length if columns
           # Cast record elements
           for field, i in chunk
-            [err, value] = @__cast field, index: i, column: i, records: @info.records, header: header and @info.records is 0
+            [err, value] = @__cast field, index: i, column: i, records: @info.records, header: chunkIsHeader
             if err
               @emit 'error', err
               return
@@ -245,7 +245,7 @@ Convert a line to a string. Line may be an object, an array or a string.
           if columns
             for i in [0...columns.length]
               field = get chunk, columns[i].key
-              [err, value] = @__cast field, index: i, column: columns[i].key, records: @info.records, header: header and @info.records is 0
+              [err, value] = @__cast field, index: i, column: columns[i].key, records: @info.records, header: chunkIsHeader
               if err
                 @emit 'error', err
                 return
@@ -253,7 +253,7 @@ Convert a line to a string. Line may be an object, an array or a string.
           else
             for column of chunk
               field = chunk[column]
-              [err, value] = @__cast field, index: i, column: columns[i].key, records: @info.records, header: header and @info.records is 0
+              [err, value] = @__cast field, index: i, column: columns[i].key, records: @info.records, header: chunkIsHeader
               if err
                 @emit 'error', err
                 return
@@ -317,7 +317,7 @@ Print the header line if the option "header" is "true".
         return unless @options.columns
         headers = @options.columns.map (column) -> column.header
         if @options.eof
-          headers = @stringify(headers) + @options.record_delimiter
+          headers = @stringify(headers, true) + @options.record_delimiter
         else
           headers = @stringify(headers)
         @push headers
