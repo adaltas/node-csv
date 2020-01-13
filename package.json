@@ -82,5 +82,5 @@
     "lint": "eslint lib/*.js",
     "test": "npm run lint && TS_NODE_COMPILER_OPTIONS='{\"strictNullChecks\":true}' mocha test/**/*.{coffee,ts}"
   },
-  "types": "./lib/sync.d.ts"
+  "types": "./lib/index.d.ts"
 }

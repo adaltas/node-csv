@@ -10,6 +10,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* ts: fix `types` declaration
+
 ## Version 4.8.4
 
 * ts: fix `types` declaration to a single file
