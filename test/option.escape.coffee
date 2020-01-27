@@ -35,6 +35,26 @@ describe 'Option `escape`', ->
       """
       next()
 
+  it 'escape delimiter', (next) ->
+    stringify [
+      [ 'a', 'b,c', 'd' ]
+    ], escape: '"', delimiter: ',', eof: false, (err, data) ->
+      return next err if err
+      data.should.eql """
+      a,"b,c",d
+      """
+      next()
+
+  it 'escape record_delimiter', (next) ->
+    stringify [
+      [ 'a', 'b\nc', 'd' ]
+    ], escape: '"', record_delimiter: '\n', eof: false, (err, data) ->
+      return next err if err
+      data.should.eql """
+      a,"b\nc",d
+      """
+      next()
+
   it 'should honor the backslash escape characters', (next) ->
     stringify [
       [ '1"2','3"4"5' ]

@@ -282,7 +282,7 @@ Convert a line to a string. Line may be an object, an array or a string.
             containsdelimiter = delimiter.length && value.indexOf(delimiter) >= 0
             containsQuote = (quote isnt '') and value.indexOf(quote) >= 0
             containsEscape = value.indexOf(escape) >= 0 and (escape isnt quote)
-            containsRowDelimiter = value.indexOf(record_delimiter) >= 0
+            containsRecordDelimiter = value.indexOf(record_delimiter) >= 0
             quotedString = quoted_string and typeof field is 'string'
             quotedMatch = quoted_match and typeof field is 'string' and quoted_match.filter (quoted_match) ->
               if typeof quoted_match is 'string'
@@ -290,7 +290,7 @@ Convert a line to a string. Line may be an object, an array or a string.
               else
                 quoted_match.test value
             quotedMatch = quotedMatch and quotedMatch.length > 0
-            shouldQuote = containsQuote is true or containsdelimiter or containsRowDelimiter or quoted or quotedString or quotedMatch
+            shouldQuote = containsQuote is true or containsdelimiter or containsRecordDelimiter or quoted or quotedString or quotedMatch
             if shouldQuote is true and containsEscape is true
               regexp = if escape is '\\'
               then new RegExp escape + escape, 'g'
