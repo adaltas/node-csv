@@ -10,6 +10,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* on_record: catch and handle user errors
+
 ## Version 4.8.5
 
 * ts: fix `types` declaration
