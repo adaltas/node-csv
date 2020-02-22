@@ -22,3 +22,11 @@ describe 'Option `on_record`', ->
       if lines is 2 then null else record
     , (err, records) ->
       records.should.eql [ ['a', 'b'], ['e', 'f'] ]
+        
+  it 'honors skip_lines_with_error', ->
+    parse "a,b\nc,d\ne,f",
+      on_record: (record, {lines}) ->
+        if lines is 2 then throw Error 'Error thrown on line 2' else record
+      skip_lines_with_error: true
+    , (err, records) ->
+      err.message.should.eql 'Error thrown on line 2'
