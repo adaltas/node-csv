@@ -1,5 +1,5 @@
 
-# Node.js CSV Parse
+# CSV Parser for Node.js
 
 [![Build Status](https://api.travis-ci.org/adaltas/node-csv-parse.svg)](https://travis-ci.org/#!/adaltas/node-csv-parse)
 
