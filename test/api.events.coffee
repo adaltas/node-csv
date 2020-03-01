@@ -67,3 +67,15 @@ describe 'API events', ->
     b,b
     """
     parser.end()
+
+  it 'emit error with data as argument', (next) ->
+    parser = parse """
+    a,a,a
+    b,b
+    c,c,c
+    """
+    parser.on 'end', ->
+      next Error 'End should not be fired'
+    parser.on 'error', (err) ->
+      err.message.should.eql 'Invalid Record Length: expect 3, got 2 on line 2'
+      next()
