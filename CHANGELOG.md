@@ -10,6 +10,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* api: fix input string with output stream
+
 ## Version 4.8.6
 
 * on_record: catch and handle user errors
