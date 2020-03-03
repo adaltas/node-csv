@@ -8,7 +8,7 @@ See the changelogs of our child projects:
 * [csv-stringify](https://github.com/adaltas/node-csv-stringify/blob/master/CHANGELOG.md)
 * [stream-transform](https://github.com/adaltas/node-stream-transform/blob/master/CHANGELOG.md)
 
-## Trunk
+## Version 5.3.2
 
 * package: update project description
 * csv-parse: 4.8.8
