@@ -10,6 +10,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* api: fix regression in browser environments
+
 ## Version 4.8.7
 
 * api: fix input string with output stream
