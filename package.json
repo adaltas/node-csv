@@ -1,7 +1,7 @@
 {
   "name": "csv",
   "version": "5.3.1",
-  "description": "CSV parser with simple api, full of options and tested against large datasets.",
+  "description": "A mature CSV toolset with simple api, full of options and tested against large datasets.",
   "keywords": [
     "node",
     "csv",
@@ -9,7 +9,11 @@
     "parser",
     "parse",
     "stringifier",
-    "stringify"
+    "stringify",
+    "transform",
+    "stream",
+    "generate",
+    "generation"
   ],
   "homepage": "https://csv.js.org/",
   "bugs": "https://github.com/adaltas/node-csv/issues",
@@ -41,19 +45,19 @@
   },
   "dependencies": {
     "csv-generate": "^3.2.4",
-    "csv-parse": "^4.8.2",
+    "csv-parse": "^4.8.8",
     "stream-transform": "^2.0.1",
-    "csv-stringify": "^5.3.4"
+    "csv-stringify": "^5.3.6"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.14",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.7.7",
     "@types/should": "^13.0.0",
-    "coffeescript": "~2.4.1",
-    "mocha": "~6.2.2",
+    "coffeescript": "~2.5.1",
+    "mocha": "~7.1.0",
     "should": "~13.2.3",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.3"
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.3"
   },
   "optionalDependencies": {},
   "files": [
