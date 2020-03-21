@@ -12,13 +12,19 @@
 
 ## Trunk
 
-* to_line: simple sample
-* trim: support form feed character
+Fix:
 * sync: disregard emitted null records
+
+New Feature:
+* trim: support form feed character
+
+Minor improvements:
+* src: cache length in loops
+* trim: new sample
+* to_line: simple sample
 * comment: simple sample
 * bom: sample with hidden bom
 * bom: test behavior with the column option
-* src: cache length in loops
 
 ## Version 4.8.8
 
