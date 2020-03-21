@@ -1,0 +1,16 @@
+
+const parse = require('../lib/sync')
+const assert = require('assert')
+
+const data = `
+# At the begening of a record
+"hello"
+"world"# At the end of a record
+`.trim()
+const records = parse(data, {
+  comment: "#"
+})
+assert.deepEqual(records, [
+  [ "hello" ],
+  [ "world" ]
+])

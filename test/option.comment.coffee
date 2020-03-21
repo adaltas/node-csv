@@ -26,7 +26,7 @@ describe 'Option `comment`', ->
 
   it 'single comment line with empty field', (next) ->
     parse '""# comment', comment: '#', (err, data) ->
-      data.length.should.eql 1
+      data.should.eql [['']]
       next err
 
   it 'skip line starting by single comment char', (next) ->
