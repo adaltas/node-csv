@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* trim: support form feed character
 * sync: disregard emitted null records
 * comment: simple sample
 * bom: sample with hidden bom
