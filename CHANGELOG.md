@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* to_line: simple sample
 * trim: support form feed character
 * sync: disregard emitted null records
 * comment: simple sample
