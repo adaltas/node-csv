@@ -10,6 +10,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* src: cache length in loops
+
 ## Version 4.8.8
 
 * api: fix regression in browser environments
