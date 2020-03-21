@@ -58,6 +58,18 @@ describe 'Option `trim`', ->
   it 'respect rtrim', ->
     parser = parse trim: true, rtrim: false
     parser.options.rtrim.should.be.false()
+  
+  it 'interpret whitespaces', (next) ->
+    parse [
+      String.fromCharCode 9  # Horizontal tab
+      String.fromCharCode 10 # NL line feed
+      String.fromCharCode 12 # NP Form feed
+      String.fromCharCode 13 # Carriage return
+      String.fromCharCode 32 # Space
+      'sth'
+    ].join(''), trim: true, record_delimiter: '|', (err, records) ->
+      records.should.eql [['sth']]
+      next()
 
   it 'should ignore the whitespaces immediately preceding and following the delimiter', (next) ->
     data = []
