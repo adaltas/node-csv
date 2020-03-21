@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* bom: sample with hidden bom
 * bom: test behavior with the column option
 * src: cache length in loops
 
