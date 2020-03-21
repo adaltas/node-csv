@@ -33,6 +33,26 @@ describe 'Option `bom`', ->
     parser.write Buffer.from 'd,e,f'
     parser.end()
 
+  it 'with column option with bom `true`', (next) ->
+    parser = parse
+      columns: true
+      bom: true
+    , (err, records) ->
+      records[0]['key'].should.eql 'value'
+      next()
+    parser.write Buffer.from "\ufeffkey\nvalue"
+    parser.end()
+
+  it 'with column option with bom `false`', (next) ->
+    parser = parse
+      columns: true
+      bom: false
+    , (err, records) ->
+      records[0]['\ufeffkey'].should.eql 'value'
+      next()
+    parser.write Buffer.from "\ufeffkey\nvalue"
+    parser.end()
+
   it 'throw parsing error if quote follow bom', (next) ->
     parser = parse (err, data) ->
       assert_error err,

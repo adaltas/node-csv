@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* bom: test behavior with the column option
 * src: cache length in loops
 
 ## Version 4.8.8
