@@ -22,6 +22,10 @@ describe 'API sync', ->
       'name 2': {'field_1': 'name 2', 'field_2': 'value 2'}
     }
   
+  it 'honors to_line', ->
+    data = parse '1\n2\n3\n4', to_line: 2
+    data.should.eql [ [ '1' ], [ '2' ] ]
+  
   it 'catch errors', ->
     try
       parse 'A,B\nB\nC,K', trim: true

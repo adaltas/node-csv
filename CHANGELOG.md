@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* sync: disregard emitted null records
 * comment: simple sample
 * bom: sample with hidden bom
 * bom: test behavior with the column option
