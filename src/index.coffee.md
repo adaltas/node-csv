@@ -6,6 +6,7 @@ information.
 
     stream = require 'stream'
     util = require 'util'
+    bom_utf8 = Buffer.from [239, 187, 191]
 
 ## Usage
 
@@ -74,6 +75,15 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
         options = {}
         # Immutable options and camelcase conversion
         options[underscore k] = v for k, v of opts
+        # Normalize option `bom`
+        unless options.bom?
+          options.bom = false
+        else unless typeof options.bom is 'boolean'
+          throw Error [
+            'OPTION_BOOLEAN_INVALID_TYPE:',
+            'option `bom` is optional and must be a boolean value,'
+            "got #{JSON.stringify options.bom}"
+          ].join ' '
         # Normalize option `delimiter`
         if options.delimiter is null or options.delimiter is undefined
           options.delimiter = ','
@@ -169,6 +179,7 @@ Options are documented [here](http://csv.adaltas.com/stringify/).
         # Information
         @info =
           records: 0
+        @push bom_utf8 if options.bom
         @
 
 ## `Stringifier.prototype._transform(chunk, encoding, callback)`
