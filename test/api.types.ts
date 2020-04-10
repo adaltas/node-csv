@@ -12,7 +12,7 @@ describe('API Types', () => {
       const options: Options = stringifier.options
       const keys: any = Object.keys(options)
       keys.sort().should.eql([
-        'cast', 'columns', 'delimiter', 'eof', 'escape',
+        'bom', 'cast', 'columns', 'delimiter', 'eof', 'escape',
         'header', 'quote', 'quoted', 'quoted_empty',
         'quoted_match', 'quoted_string', 'record_delimiter'
       ])
@@ -21,6 +21,15 @@ describe('API Types', () => {
   })
   
   describe('Options', () => {
+    
+    it('bom', () => {
+      const options: Options = {}
+      options.bom = {
+        boolean: (value: boolean) => {
+          return value ? 'true': 'false'
+        },
+      }
+    })
     
     it('cast', () => {
       const options: Options = {}
