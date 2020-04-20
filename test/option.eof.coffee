@@ -1,5 +1,5 @@
 
-stringify = require '../src'
+stringify = require '../lib'
 
 describe 'Option `eof`', ->
   

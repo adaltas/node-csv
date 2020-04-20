@@ -1,7 +1,7 @@
 
 fs = require 'fs'
 generate = require 'csv-generate'
-stringify = require '../src'
+stringify = require '../lib'
 
 describe 'API pipe', ->
 

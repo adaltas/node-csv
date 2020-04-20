@@ -1,6 +1,6 @@
 
 fs = require 'fs'
-stringify = require '../src'
+stringify = require '../lib'
 
 describe 'Option `quoted_match`', ->
   

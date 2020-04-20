@@ -1,5 +1,5 @@
 
-stringify = require '../src'
+stringify = require '../lib'
 
 describe 'Option `bom`', ->
   
@@ -7,7 +7,8 @@ describe 'Option `bom`', ->
     (->
       stringify [], bom: 'invalid', (->)
     ).should.throw
-      message: 'OPTION_BOOLEAN_INVALID_TYPE: option `bom` is optional and must be a boolean value, got "invalid"'
+      code: 'CSV_OPTION_BOOLEAN_INVALID_TYPE'
+      message: 'option `bom` is optional and must be a boolean value, got "invalid"'
 
   it 'value is `true`', (next) ->
     stringify [

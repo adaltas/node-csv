@@ -1,6 +1,6 @@
 
 fs = require 'fs'
-stringify = require '../src'
+stringify = require '../lib'
 
 describe 'Option `quote`', ->
   
@@ -13,7 +13,7 @@ describe 'Option `quote`', ->
     stringify [], quote: false
     ( ->
       stringify [], quote: 123
-    ).should.throw 'Invalid Option: quote must be a boolean, a buffer or a string, got 123'
+    ).should.throw 'option `quote` must be a boolean, a buffer or a string, got 123'
   
   it 'disabled if empty', (next) ->
     stringify [
