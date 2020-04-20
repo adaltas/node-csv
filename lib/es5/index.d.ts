@@ -25,6 +25,12 @@ declare namespace stringify {
     }
     interface Options {
         /**
+         * Prepend the byte order mark (BOM) to the output stream.
+         */
+        bom?: {
+            boolean?: Cast<boolean>
+        }
+        /**
          * Key-value object which defines custom cast for certain data types
          */
         cast?: {

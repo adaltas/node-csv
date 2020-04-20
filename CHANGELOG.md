@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.4.0
 
 * src: complete require in javascript
 * bom: new option
