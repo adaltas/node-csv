@@ -1,5 +1,5 @@
 
-stringify = require '../src'
+stringify = require '../lib'
 
 describe 'Option `cast`', ->
 
@@ -94,8 +94,8 @@ describe 'Option `cast`', ->
           context.column.should.equal 1
           'no'
       , (err, data) ->
-        data.trim().should.eql 'yes,no'
-        next()
+        data.trim().should.eql 'yes,no' unless err
+        next err
         
     it 'index and column on object', (next) ->
       stringify [
@@ -111,8 +111,8 @@ describe 'Option `cast`', ->
           context.column.should.equal 'is_false'
           'no'
       , (err, data) ->
-        data.trim().should.eql 'yes,no'
-        next()
+        data.trim().should.eql 'yes,no' unless err
+        next err
     
     it 'header', (next) ->
       stringify [

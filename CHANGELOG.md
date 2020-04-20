@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* src: complete require in javascript
 * bom: new option
 
 ## Version 5.3.6

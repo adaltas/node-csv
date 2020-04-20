@@ -1,5 +1,5 @@
 
-stringify = require '../src'
+stringify = require '../lib'
 
 describe 'Option `delimiter`', ->
   
@@ -10,13 +10,19 @@ describe 'Option `delimiter`', ->
     stringify [], delimiter: Buffer.from ','
     ( ->
       stringify [], delimiter: true
-    ).should.throw 'Invalid Option: delimiter must be a buffer or a string, got true'
+    ).should.throw
+      code: 'CSV_OPTION_DELIMITER_INVALID_TYPE'
+      message: 'option `delimiter` must be a buffer or a string, got true'
     ( ->
       stringify [], delimiter: false
-    ).should.throw 'Invalid Option: delimiter must be a buffer or a string, got false'
+    ).should.throw
+      code: 'CSV_OPTION_DELIMITER_INVALID_TYPE'
+      message: 'option `delimiter` must be a buffer or a string, got false'
     ( ->
       stringify [], delimiter: 123
-    ).should.throw 'Invalid Option: delimiter must be a buffer or a string, got 123'
+    ).should.throw
+      code: 'CSV_OPTION_DELIMITER_INVALID_TYPE'
+      message: 'option `delimiter` must be a buffer or a string, got 123'
   
   it 'with default value', (next) ->
     stringify [

@@ -1,5 +1,5 @@
 
-stringify = require '../src/sync'
+stringify = require '../lib/sync'
 
 describe 'sync', ->
   
