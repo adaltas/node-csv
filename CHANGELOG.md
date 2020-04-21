@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.4.2
 
 Fix:
 * quoted_match: apply on all types and not just string
