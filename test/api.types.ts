@@ -24,11 +24,7 @@ describe('API Types', () => {
     
     it('bom', () => {
       const options: Options = {}
-      options.bom = {
-        boolean: (value: boolean) => {
-          return value ? 'true': 'false'
-        },
-      }
+      options.bom = true
     })
     
     it('cast', () => {
