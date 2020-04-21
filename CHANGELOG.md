@@ -4,6 +4,7 @@
 ## Trunk
 
 Fix:
+* quoted_match: apply on all types and not just string
 * cast: validate and normalize local options
 
 Project management:
