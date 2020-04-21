@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* samples: add quoted examples
+
 ## Version 5.4.1
 
 * bom: fix ts definition
