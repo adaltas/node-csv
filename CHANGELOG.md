@@ -3,6 +3,10 @@
 
 ## Trunk
 
+Fix:
+* cast: validate and normalize local options
+
+Project management:
 * samples: add quoted examples
 
 ## Version 5.4.1

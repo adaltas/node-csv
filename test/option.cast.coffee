@@ -167,5 +167,14 @@ describe 'Option `cast`', ->
         "record #" 3"
         """
         next err
+        
+    it 'validate and normalize local options', (next) ->
+      stringify [
+        ['invalid cast']
+      ], eof: false, escape: '#', cast: string: (value) ->
+        value: value, quote: NaN
+      , (err) ->
+        err.code.should.eql 'CSV_OPTION_QUOTE_INVALID_TYPE'
+        next()
     
     
