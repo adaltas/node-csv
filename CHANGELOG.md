@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* bom: fix ts definition
+
 ## Version 5.4.0
 
 * src: complete require in javascript
