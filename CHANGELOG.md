@@ -1,6 +1,11 @@
 
 # Changelog
 
+## Trunk
+
+Fix:
+* utils: wrongly declared variable in isSymbol
+
 ## Version 5.4.2
 
 Fix:
