@@ -6,9 +6,9 @@ import {CastingContext, Info, Options, Parser} from '../lib/index'
 
 describe('API Types', () => {
   
-  describe('Parser', () => {
+  describe('stream/callback API', () => {
     
-    it('default API, respect parse signature', () => {
+    it('respect parse signature', () => {
       // No argument
       parse()
       parse("")
@@ -22,14 +22,6 @@ describe('API Types', () => {
       parse(() => {})
       parse({})
       parse({}, () => {})
-    })
-    
-    it('sync API, respect parse signature', () => {
-      // No argument
-      parse_sync("")
-      parse_sync("", {})
-      parse_sync(Buffer.from(""))
-      parse_sync(Buffer.from(""), {})
     })
 
     it('Expose options', () => {
@@ -65,6 +57,27 @@ describe('API Types', () => {
         }
         next(err)
       })
+    })
+    
+  })
+  
+  describe('sync api', () => {
+  
+    it('respect parse signature', () => {
+      // No argument
+      parse_sync("")
+      parse_sync("", {})
+      parse_sync(Buffer.from(""))
+      parse_sync(Buffer.from(""), {})
+    })
+    
+    it('return records', () => {
+      try {
+        const data: object = parse_sync("")
+        typeof data
+      }catch (err){
+        err.message
+      }
     })
     
   })
