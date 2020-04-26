@@ -10,6 +10,11 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+New Feature:
+* delimiter: accept multiple values
+
 ## Version 4.8.9
 
 Fix:
