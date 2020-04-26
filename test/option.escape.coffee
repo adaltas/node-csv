@@ -67,6 +67,16 @@ describe 'Option `escape`', ->
         ]
         next()
 
+    it 'does not apply to delimiter', (next) ->
+      parse '''
+      aa\\,bb
+      ''', escape: '\\', (err, data) ->
+        return next err if err
+        data.should.eql [
+          [ 'aa\\','bb' ]
+        ]
+        next()
+
     it 'handle non continuous chunks', (next) ->
       data = []
       parser = parse escape: '\\'
