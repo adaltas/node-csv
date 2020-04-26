@@ -1,13 +1,14 @@
 
 import 'should'
 import * as parse from '../lib/index'
+import * as parse_sync from '../lib/sync'
 import {CastingContext, Info, Options, Parser} from '../lib/index'
 
 describe('API Types', () => {
   
   describe('Parser', () => {
     
-    it('Respect parse signature', () => {
+    it('default API, respect parse signature', () => {
       // No argument
       parse()
       parse("")
@@ -22,11 +23,19 @@ describe('API Types', () => {
       parse({})
       parse({}, () => {})
     })
+    
+    it('sync API, respect parse signature', () => {
+      // No argument
+      parse_sync("")
+      parse_sync("", {})
+      parse_sync(Buffer.from(""))
+      parse_sync(Buffer.from(""), {})
+    })
 
     it('Expose options', () => {
       const parser: Parser = parse()
       const options: Options = parser.options
-      const keys: any = Object.keys(options)
+      const keys: string[] = Object.keys(options)
       keys.sort().should.eql([
         'bom', 'cast', 'cast_date', 'columns', 'comment', 'delimiter',
         'escape', 'from', 'from_line', 'info', 'ltrim', 'max_record_size',
@@ -41,7 +50,7 @@ describe('API Types', () => {
     it('Expose info', () => {
       const parser: Parser = parse()
       const info: Info = parser.info
-      const keys: any = Object.keys(info)
+      const keys: string[] = Object.keys(info)
       keys.sort().should.eql([
         'comment_lines', 'empty_lines',
         'invalid_field_length', 'lines', 'records'
