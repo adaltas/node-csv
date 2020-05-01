@@ -1,6 +1,11 @@
 
 # Changelog
 
+## Trunk
+
+Feature:
+* cast: support for BigInt
+
 ## Version 5.4.3
 
 Fix:
