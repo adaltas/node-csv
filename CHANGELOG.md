@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.5.0
 
 Feature:
 * cast: support for BigInt
