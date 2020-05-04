@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* handler: update Typescript signature
 * test: ensure every sample is valid
 * package: contributing
 * package: code of conduct
