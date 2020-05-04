@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.0.2
 
 * handler: update Typescript signature
 * test: ensure every sample is valid
