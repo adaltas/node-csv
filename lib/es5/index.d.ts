@@ -10,7 +10,7 @@ declare function transform(records: Array<any>, handler: transform.Handler, call
 declare function transform(options: transform.Options, handler: transform.Handler, callback?: transform.Callback): transform.Transformer
 declare function transform(records: Array<any>, options: transform.Options, handler: transform.Handler, callback?: transform.Callback): transform.Transformer
 declare namespace transform {
-    type Handler = (record: Array<any>, callback: HandlerCallback) => any
+    type Handler = (record: Array<any>, callback: HandlerCallback, params?: any) => any
     type HandlerCallback = (err?: null | Error, record?: any) => void
     type Callback = (err?: null | Error, output?: string) => void
     interface Options {
