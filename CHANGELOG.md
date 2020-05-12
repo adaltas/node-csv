@@ -13,6 +13,7 @@
 ## Trunk
 
 Minor improvements:
+* delimiter: update ts definition
 * delimiter: new sample
 
 ## Version 4.9.0

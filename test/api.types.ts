@@ -159,6 +159,7 @@ describe('API Types', () => {
     it('delimiter', () => {
       const options: Options = {}
       options.delimiter = ':'
+      options.delimiter = [':', ')']
       options.delimiter = Buffer.from(':')
     })
     
