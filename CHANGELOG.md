@@ -10,6 +10,11 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+Minor improvements:
+* delimiter: new sample
+
 ## Version 4.9.0
 
 New Feature:
