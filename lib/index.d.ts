@@ -84,7 +84,7 @@ declare namespace parse {
         /**
          * Set the field delimiter. One character only, defaults to comma.
          */
-        delimiter?: string | Buffer;
+        delimiter?: string | string[] | Buffer;
         /**
          * Set the escape character, one character only, defaults to double quotes.
          */
