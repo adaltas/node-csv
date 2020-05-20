@@ -12,6 +12,9 @@
 
 ## Trunk
 
+New feature:
+* columns_duplicates_to_array: new option
+
 Project management:
 * samples: new file recipie
 

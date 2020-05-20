@@ -75,19 +75,6 @@ describe 'Option `columns`', ->
           'FIELD_6': '2050-11-27'
         ] unless err
         next err
-    
-    it 'handle duplicate column names if true', (next) ->
-      parse """
-      FIELD_1,FIELD_1
-      ABC,DEF
-      GHI,JKL
-      """, columns: true, (err, data) ->
-        data.should.eql [
-          'FIELD_1': ['ABC', 'DEF']
-        ,
-          'FIELD_1': ['GHI', 'JKL']
-        ] unless err
-        next err
 
     it 'disabled if false', (next) ->
       parse """
