@@ -10,7 +10,7 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
-## Trunk
+## Version 4.10.0
 
 New feature:
 * columns_duplicates_to_array: new option
