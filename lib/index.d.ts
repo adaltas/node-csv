@@ -78,6 +78,11 @@ declare namespace parse {
          */
         columns?: ColumnOption[] | boolean | ((record: any) => ColumnOption[]);
         /**
+         * Convert values into an array of values when columns are activated and
+         * when multiple columns of the same name are found.
+         */
+        columns_duplicates_to_array?: boolean;
+        /**
          * Treat all the characters after this one as a comment, default to '' (disabled).
          */
         comment?: string;
