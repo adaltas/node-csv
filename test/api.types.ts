@@ -1,8 +1,6 @@
 
 import 'should'
-import * as csv from '../lib/index'
-import * as transform from 'stream-transform/lib/index'
-import {Options, Transformer} from 'stream-transform/lib/index'
+import {transform} from '../lib/index'
 
 describe('API Types', () => {
 
@@ -10,8 +8,8 @@ describe('API Types', () => {
 
     it('stream', () => {
       // With handler
-      const transformer: Transformer = transform( record => record )
-      transformer.should.be.an.Object()
+      const transformer = transform( record => record )
+      transformer.should.be.an.Object() // Disable unused variable warning
       // With handler + callback
       transform( record => record, (err, records) => err || records )
       // With records + handler
