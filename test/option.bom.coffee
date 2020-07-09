@@ -1,5 +1,6 @@
 
 stringify = require '../lib'
+stringifySync = require '../lib/sync'
 
 describe 'Option `bom`', ->
   
@@ -23,3 +24,23 @@ describe 'Option `bom`', ->
     ], bom: false, (err, data) ->
       data.should.eql 'ok\n'
       next()
+
+  describe 'sync ', ->
+    it 'validate', ->
+      (->
+        stringifySync [], bom: 'invalid'
+      ).should.throw
+        code: 'CSV_OPTION_BOOLEAN_INVALID_TYPE'
+        message: 'option `bom` is optional and must be a boolean value, got "invalid"'
+
+    it 'value is `true`', ->
+      res = stringifySync [
+        value: 'ok'
+      ], bom: true
+      res.should.eql '\ufeffok\n'
+
+    it 'value is `false`', ->
+      res = stringifySync [
+        value: 'ok'
+      ], bom: false
+      res.should.eql 'ok\n'
