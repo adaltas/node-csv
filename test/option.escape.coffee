@@ -2,19 +2,43 @@
 parse = require '../lib'
 
 describe 'Option `escape`', ->
+
+  describe 'normalisation, coercion & validation', ->
   
-  it 'validation', ->
-    parse '', escape: '\\', (->)
-    parse '', escape: Buffer.from('\\'), (->)
-    parse '', escape: null, (->)
-    parse '', escape: undefined, (->)
-    (->
-      parse '', escape: false, (->)
-    ).should.throw 'Invalid Option: escape must be a buffer or a string, got false'
-    (->
-      parse '', escape: true, (->)
-    ).should.throw 'Invalid Option: escape must be a buffer or a string, got true'
+    it 'default', ->
+      parse().options.escape.should.eql Buffer.from('"')[0]
+      parse(escape: undefined).options.escape.should.eql Buffer.from('"')[0]
+      parse(escape: true).options.escape.should.eql Buffer.from('"')[0]
   
+    it 'custom', ->
+      parse(escape: '\\').options.escape.should.eql Buffer.from('\\')[0]
+      parse(escape: Buffer.from('\\')).options.escape.should.eql Buffer.from('\\')[0]
+  
+    it 'disabled', ->
+      (parse(escape: null).options.escape is null).should.be.true()
+      (parse(escape: false).options.escape is null).should.be.true()
+  
+    it 'invalid', ->
+      (->
+        parse escape: 1
+      ).should.throw 'Invalid Option: escape must be a buffer, a string or a boolean, got 1'
+      (->
+        parse escape: 'abc'
+      ).should.throw 'Invalid Option Length: escape must be one character, got 3'
+  
+  describe 'disabled', ->
+
+    it 'when null', (next) ->
+      parse '''
+      a"b
+      '1"2'
+      ''', escape: null, quote: '\'', (err, data) ->
+        return next err if err
+        data.should.eql [
+          [ 'a"b' ],[ '1"2' ]
+        ]
+        next()
+      
   describe 'same as quote', ->
 
     it 'is same as quote', (next) ->
@@ -28,7 +52,7 @@ describe 'Option `escape`', ->
           [ 'f"g','h','i1"i2' ]
         ]
         next()
-          
+
   describe 'different than quote', ->
 
     it 'apply to quote char', (next) ->
