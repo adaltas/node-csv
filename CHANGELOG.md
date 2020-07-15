@@ -10,13 +10,18 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
-## Version 4.11.0
+## Trunk
 
 New feature:
 * escape: disabled when null or false
 
 Project management:
 * travis: test node version 14
+
+## Version 4.11
+
+Project management:
+* mistake in the release
 
 ## Version 4.10.1
 
