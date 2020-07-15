@@ -10,6 +10,11 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+Project management:
+* travis: test node version 14
+
 ## Version 4.10.1
 
 Minor improvements:
