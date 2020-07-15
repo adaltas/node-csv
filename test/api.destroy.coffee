@@ -51,9 +51,8 @@ describe 'API destroy', ->
     parser.on 'error', (err) ->
       err.message.should.eql 'Catch me'
       parser._readableState.destroyed.should.be.true()
-      # next()
+      next() if /^v(14)\./.test process.version
     parser.on 'end', ->
-      # next Error 'End event shouldnt be called'
       next()
     generate length: 2, seed: 1, columns: 2, fixed_size: true
     .pipe parser
