@@ -12,6 +12,9 @@
 
 ## Trunk
 
+New feature:
+* escape: disabled when null or false
+
 Project management:
 * travis: test node version 14
 
