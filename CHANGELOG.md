@@ -10,7 +10,7 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
-## Trunk
+## Version 4.11.0
 
 New feature:
 * escape: disabled when null or false
