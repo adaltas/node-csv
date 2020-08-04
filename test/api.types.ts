@@ -132,6 +132,7 @@ describe('API Types', () => {
     it('cast_date', () => {
       const options: Options = {}
       options.cast_date = true
+      options.castDate = true
     })
       
     it('columns', () => {
@@ -154,6 +155,7 @@ describe('API Types', () => {
     it('columns_duplicates_to_array', () => {
       const options: Options = {}
       options.columns_duplicates_to_array = true
+      options.columnsDuplicatesToArray = true
     })
       
     it('comment', () => {
@@ -182,6 +184,7 @@ describe('API Types', () => {
     it('from_line', () => {
       const options: Options = {}
       options.from_line = 10
+      options.fromLine = 10
     })
     
     it('info', () => {
@@ -197,6 +200,7 @@ describe('API Types', () => {
     it('max_record_size', () => {
       const options: Options = {}
       options.max_record_size = 100
+      options.maxRecordSize = 100
     })
     
     it('objname', () => {
@@ -207,6 +211,8 @@ describe('API Types', () => {
     it('on_record', () => {
       const options: Options = {}
       options.on_record = (record, {lines}) =>
+        [lines, record[0]]
+      options.onRecord = (record, {lines}) =>
         [lines, record[0]]
     })
     
@@ -231,8 +237,11 @@ describe('API Types', () => {
     it('relax_column_count', () => {
       const options: Options = {}
       options.relax_column_count = true
+      options.relaxColumnCount = true
       options.relax_column_count_less = true
+      options.relaxColumnCountLess = true
       options.relax_column_count_more = true
+      options.relaxColumnCountMore = true
     })
     
     it('record_delimiter', () => {
@@ -241,6 +250,7 @@ describe('API Types', () => {
       options.record_delimiter = ['\n']
       options.record_delimiter = Buffer.from('\n')
       options.record_delimiter = [Buffer.from('\n')]
+      options.recordDelimiter = '\n'
     })
     
     it('rtrim', () => {
@@ -251,21 +261,25 @@ describe('API Types', () => {
     it('skip_empty_lines', () => {
       const options: Options = {}
       options.skip_empty_lines = true
+      options.skipEmptyLines = true
     })
     
     it('skip_empty_lines', () => {
       const options: Options = {}
       options.skip_empty_lines = true
+      options.skipEmptyLines = true
     })
     
     it('skip_lines_with_empty_values', () => {
       const options: Options = {}
       options.skip_lines_with_empty_values = true
+      options.skipLinesWithEmptyValues = true
     })
     
     it('skip_lines_with_error', () => {
       const options: Options = {}
       options.skip_empty_lines = true
+      options.skipEmptyLines = true
     })
     
     it('to', () => {
@@ -276,6 +290,7 @@ describe('API Types', () => {
     it('to_line', () => {
       const options: Options = {}
       options.to_line = 10
+      options.toLine = 10
     })
     
     it('trim', () => {

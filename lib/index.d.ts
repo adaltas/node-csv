@@ -51,11 +51,13 @@ declare namespace parse {
          * @deprecated Use {@link cast}
          */
         auto_parse?: boolean | CastingFunction;
+        autoParse?: boolean | CastingFunction;
         /**
          * If true, the parser will attempt to convert read data types to dates. It requires the "auto_parse" option.
          * @deprecated Use {@link cast_date}
          */
         auto_parse_date?: boolean | CastingDateFunction;
+        autoParseDate?: boolean | CastingDateFunction;
         /**
          * If true, detect and exclude the byte order mark (BOM) from the CSV input if present.
          */
@@ -70,6 +72,7 @@ declare namespace parse {
          * If a function, receive the value as argument and return a new value. It requires the "auto_parse" option. Be careful, it relies on Date.parse.
          */
         cast_date?: boolean | CastingDateFunction;
+        castDate?: boolean | CastingDateFunction;
         /**
          * List of fields as an array,
          * a user defined callback accepting the first line and returning the column names or true if autodiscovered in the first CSV line,
@@ -82,6 +85,7 @@ declare namespace parse {
          * when multiple columns of the same name are found.
          */
         columns_duplicates_to_array?: boolean;
+        columnsDuplicatesToArray?: boolean;
         /**
          * Treat all the characters after this one as a comment, default to '' (disabled).
          */
@@ -102,6 +106,7 @@ declare namespace parse {
          * Start handling records from the requested line number.
          */
         from_line?: number;
+        fromLine?: number;
         /**
          * Generate two properties `info` and `record` where `info` is a snapshot of the info object at the time the record was created and `record` is the parsed array or object.
          */
@@ -117,6 +122,7 @@ declare namespace parse {
          * default to 128000 characters.
          */
         max_record_size?: number;
+        maxRecordSize?: number;
         /**
          * Name of header-record title to name objects by.
          */
@@ -125,6 +131,7 @@ declare namespace parse {
          * Alter and filter records by executing a user defined function.
          */
         on_record?: (record: any, context: CastingContext) => any;
+        onRecord?: (record: any, context: CastingContext) => any;
         /**
          * Optional character surrounding a field, one character only, defaults to double quotes.
          */
@@ -141,19 +148,23 @@ declare namespace parse {
          * Discard inconsistent columns count, default to false.
          */
         relax_column_count?: boolean;
+        relaxColumnCount?: boolean;
         /**
          * Discard inconsistent columns count when the record contains less fields than expected, default to false.
          */
         relax_column_count_less?: boolean;
+        relaxColumnCountLess?: boolean;
         /**
          * Discard inconsistent columns count when the record contains more fields than expected, default to false.
          */
         relax_column_count_more?: boolean;
+        relaxColumnCountMore?: boolean;
         /**
          * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
          * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
          */
         record_delimiter?: string | string[] | Buffer | Buffer[];
+        recordDelimiter?: string | string[] | Buffer | Buffer[];
         /**
          * If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
          * Does not remove whitespace in a quoted field.
@@ -164,14 +175,17 @@ declare namespace parse {
          * Defaults to false
          */
         skip_empty_lines?: boolean;
+        skipEmptyLines?: boolean;
         /**
          * Skip a line with error found inside and directly go process the next line.
          */
         skip_lines_with_error?: boolean;
+        skipLinesWithError?: boolean;
         /**
          * Don't generate records for lines containing empty column values (column matching /\s*\/), defaults to false.
          */
         skip_lines_with_empty_values?: boolean;
+        skipLinesWithEmptyValues?: boolean;
         /**
          * Stop handling records after the requested number of records.
          */
@@ -180,6 +194,7 @@ declare namespace parse {
          * Stop handling records after the requested line number.
          */
         to_line?: number;
+        toLine?: number;
         /**
          * If true, ignore whitespace immediately around the delimiter, defaults to false.
          * Does not remove whitespace in a quoted field.

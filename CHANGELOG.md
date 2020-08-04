@@ -10,6 +10,11 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+New feature:
+* ts: support camelcase options (fix #287)
+
 ## Version 4.11.1
 
 New feature:
