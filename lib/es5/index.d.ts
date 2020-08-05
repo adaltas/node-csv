@@ -209,4 +209,32 @@ declare namespace parse {
          */
         readonly invalid_field_length: number;
     }
+
+    class CsvError extends Error {
+        readonly code: CsvErrorCode;
+        [key: string]: any;
+    
+        constructor(code: CsvErrorCode, message: string | string[], ...contexts: any[]);
+    }
+    
+    type CsvErrorCode = 
+        'CSV_INVALID_OPTION_BOM'
+        | 'CSV_INVALID_OPTION_CAST'
+        | 'CSV_INVALID_OPTION_CAST_DATE'
+        | 'CSV_INVALID_OPTION_COLUMNS'
+        | 'CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY'
+        | 'CSV_INVALID_OPTION_COMMENT'
+        | 'CSV_INVALID_OPTION_DELIMITER'
+        | 'CSV_INVALID_OPTION_ON_RECORD'
+        | 'CSV_INVALID_CLOSING_QUOTE'
+        | 'INVALID_OPENING_QUOTE'
+        | 'CSV_INVALID_COLUMN_MAPPING'
+        | 'CSV_INVALID_ARGUMENT'
+        | 'CSV_INVALID_COLUMN_DEFINITION'
+        | 'CSV_MAX_RECORD_SIZE'
+        | 'CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE'
+        | 'CSV_QUOTE_NOT_CLOSED'
+        | 'CSV_INCONSISTENT_RECORD_LENGTH'
+        | 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
+        | 'CSV_OPTION_COLUMNS_MISSING_NAME'
 }
