@@ -13,6 +13,7 @@
 ## Trunk
 
 New feature:
+* ts: error types
 * ts: support camelcase options (fix #287)
 
 ## Version 4.11.1
