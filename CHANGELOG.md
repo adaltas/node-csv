@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.5.1
 
 Fix
 * bom: work with sync module, fix #115
