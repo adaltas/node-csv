@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* quote: support multiple characters
 * api: fix internal argument name
 
 ## Version 4.12.0
