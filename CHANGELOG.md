@@ -10,6 +10,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* api: fix internal argument name
+
 ## Version 4.12.0
 
 New feature:
