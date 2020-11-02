@@ -6,13 +6,13 @@ describe 'Option `escape`', ->
   describe 'normalisation, coercion & validation', ->
   
     it 'default', ->
-      parse().options.escape.should.eql Buffer.from('"')[0]
-      parse(escape: undefined).options.escape.should.eql Buffer.from('"')[0]
-      parse(escape: true).options.escape.should.eql Buffer.from('"')[0]
+      parse().options.escape.should.eql Buffer.from('"')
+      parse(escape: undefined).options.escape.should.eql Buffer.from('"')
+      parse(escape: true).options.escape.should.eql Buffer.from('"')
   
     it 'custom', ->
-      parse(escape: '\\').options.escape.should.eql Buffer.from('\\')[0]
-      parse(escape: Buffer.from('\\')).options.escape.should.eql Buffer.from('\\')[0]
+      parse(escape: '\\').options.escape.should.eql Buffer.from('\\')
+      parse(escape: Buffer.from('\\')).options.escape.should.eql Buffer.from('\\')
   
     it 'disabled', ->
       (parse(escape: null).options.escape is null).should.be.true()
@@ -22,9 +22,9 @@ describe 'Option `escape`', ->
       (->
         parse escape: 1
       ).should.throw 'Invalid Option: escape must be a buffer, a string or a boolean, got 1'
-      (->
-        parse escape: 'abc'
-      ).should.throw 'Invalid Option Length: escape must be one character, got 3'
+      # (->
+      #   parse escape: 'abc'
+      # ).should.throw 'Invalid Option Length: escape must be one character, got 3'
   
   describe 'disabled', ->
 
@@ -41,7 +41,7 @@ describe 'Option `escape`', ->
       
   describe 'same as quote', ->
 
-    it 'is same as quote', (next) ->
+    it 'length is 1 char', (next) ->
       parse '''
       aa,"b1""b2","c""d""e"
       "f""g",h,"i1""i2"
@@ -52,6 +52,18 @@ describe 'Option `escape`', ->
           [ 'f"g','h','i1"i2' ]
         ]
         next()
+  
+    it 'length is multiple char', (next) ->
+      parse '''
+      aa,$$b1$$$$b2$$,$$c$$$$d$$$$e$$
+      $$f$$$$g$$,h,$$i1$$$$i2$$
+      ''', escape: '$$', quote: '$$', (err, data) ->
+        return next err if err
+        data.should.eql [
+          [ 'aa','b1$$b2','c$$d$$e' ]
+          [ 'f$$g','h','i1$$i2' ]
+        ]
+        next()
 
   describe 'different than quote', ->
 
@@ -60,6 +72,18 @@ describe 'Option `escape`', ->
       aa,"b1\\"b2","c\\"d\\"e"
       "f\\"g",h,"i1\\"i2"
       ''', escape: '\\', (err, data) ->
+        return next err if err
+        data.should.eql [
+          [ 'aa','b1"b2','c"d"e' ]
+          [ 'f"g','h','i1"i2' ]
+        ]
+        next()
+
+    it 'apply to quote char', (next) ->
+      parse '''
+      aa,"b1$$"b2","c$$"d$$"e"
+      "f$$"g",h,"i1$$"i2"
+      ''', escape: '$$', (err, data) ->
         return next err if err
         data.should.eql [
           [ 'aa','b1"b2','c"d"e' ]
