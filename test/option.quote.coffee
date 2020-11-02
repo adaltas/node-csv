@@ -130,7 +130,7 @@ describe 'Option `quote`', ->
     
     it 'with multiple chars', (next) ->
       parse """
-      a,b,c
+      $$a$$,b,$$c$$
       1,$$2$$,3
       """, quote: '$$', (err, data) ->
         data.should.eql [['a','b','c'],['1','2','3']] unless err
