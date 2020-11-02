@@ -6,11 +6,11 @@ describe 'Option `quote`', ->
   
   it 'default', ->
     parser = parse()
-    parser.options.quote.should.eql Buffer.from('"')[0]
+    parser.options.quote.should.eql Buffer.from('"')
       
   it 'normalize', ->
     parser = parse quote: true
-    parser.options.quote.should.eql Buffer.from('"')[0]
+    parser.options.quote.should.eql Buffer.from('"')
     parser = parse quote: false
     (parser.options.quote is null).should.be.true()
     parser = parse quote: null
@@ -109,7 +109,7 @@ describe 'Option `quote`', ->
       """, quote: '', (err, data) ->
         data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
         next err
-          
+    
     it 'if null', (next) ->
       parse """
       a,b,c
@@ -117,7 +117,7 @@ describe 'Option `quote`', ->
       """, quote: null, (err, data) ->
         data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
         next err
-          
+    
     it 'if false', (next) ->
       parse """
       a,b,c
@@ -125,10 +125,18 @@ describe 'Option `quote`', ->
       """, quote: null, (err, data) ->
         data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
         next err
-
-  describe 'with options', ->
+  
+  describe 'options', ->
     
-    it 'columns', (next) ->
+    it 'with multiple chars', (next) ->
+      parse """
+      a,b,c
+      1,$$2$$,3
+      """, quote: '$$', (err, data) ->
+        data.should.eql [['a','b','c'],['1','2','3']] unless err
+        next err
+    
+    it 'with columns', (next) ->
       parse """
       a,"b",c
       1,"2",3
