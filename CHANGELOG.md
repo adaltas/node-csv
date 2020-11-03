@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* quote: compatibility with buffer size
 * api: partial cache for needMoreData 
 * encoding: auto-detect from the bom
 * bom: multi bom encoding

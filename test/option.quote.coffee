@@ -3,6 +3,19 @@ parse = require '../lib'
 assert_error = require './api.assert_error'
 
 describe 'Option `quote`', ->
+
+    it 'is compatible with buffer size', (next) ->
+      parser = parse escape: '$', quote: '::::::', (err, data) ->
+        data.should.eql [
+          [ '1', '2::::::2', '3' ]
+          [ 'b', 'c', 'd' ]
+        ]
+        next err
+      parser.write c for c in """
+      1,::::::2$::::::2::::::,3
+      b,c,d
+      """
+      parser.end()
   
   it 'default', ->
     parser = parse()
