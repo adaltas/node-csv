@@ -2,6 +2,20 @@
 parse = require '../lib'
 
 describe 'Option `record_delimiter`', ->
+  
+  describe 'validation', ->
+
+    it 'is compatible with buffer size', (next) ->
+      parser = parse record_delimiter: ['::::::'], (err, data) ->
+        data.should.eql [
+          [ '1', '2', '3' ]
+          [ 'b', 'c', 'd' ]
+        ]
+        next err
+      parser.write c for c in """
+      1,2,3::::::b,c,d
+      """
+      parser.end()
 
   it 'as a string', (next) ->
     parse """
