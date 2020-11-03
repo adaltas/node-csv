@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* encoding: auto-detect from the bom
 * bom: multi bom encoding
 * encoding: new feature
 * escape: support multiple characters
