@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* encoding: new feature
 * escape: support multiple characters
 * quote: support multiple characters
 * api: fix internal argument name

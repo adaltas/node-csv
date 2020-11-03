@@ -37,7 +37,7 @@ describe 'API assert_error', ->
     ]
       
   it 'exhaustive detect a property not in assert', ->
-    err = new CsvError 'A_MESSAGE', 'A message', a_key: 'a value'
+    err = new CsvError 'A_MESSAGE', 'A message', {}, a_key: 'a value'
     ( ->
       assert_error err,
         code: 'A_MESSAGE'
@@ -82,7 +82,7 @@ describe 'API assert_error', ->
     ).should.throw "expected 'A message' to be undefined"
         
   it 'validate a boolean true value', ->
-    err = new CsvError 'A_MESSAGE', 'A message', a_boolean: true
+    err = new CsvError 'A_MESSAGE', 'A message', {}, a_boolean: true
     assert_error err,
       a_boolean: true
     ( ->
@@ -91,7 +91,7 @@ describe 'API assert_error', ->
     ).should.throw "expected true to equal false"
         
   it 'validate a boolean true value', ->
-    err = new CsvError 'A_MESSAGE', 'A message', a_boolean: false
+    err = new CsvError 'A_MESSAGE', 'A message', {}, a_boolean: false
     assert_error err,
       a_boolean: false
     ( ->

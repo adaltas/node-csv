@@ -95,6 +95,10 @@ declare namespace parse {
          */
         delimiter?: string | string[] | Buffer;
         /**
+         * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
+         */
+        encoding?: string | null;
+        /**
          * Set the escape character, one character only, defaults to double quotes.
          */
         escape?: string | Buffer;
@@ -229,7 +233,7 @@ declare namespace parse {
         readonly code: CsvErrorCode;
         [key: string]: any;
     
-        constructor(code: CsvErrorCode, message: string | string[], ...contexts: any[]);
+        constructor(code: CsvErrorCode, message: string | string[], options?: Options, ...contexts: any[]);
     }
     
     type CsvErrorCode = 
