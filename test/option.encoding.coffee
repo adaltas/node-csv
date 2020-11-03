@@ -36,3 +36,29 @@ describe 'Option `encoding`', ->
         [ '1', '2 "3" 4', '5' ]
       ] unless err
       next err
+  
+  describe 'with bom', ->
+
+    it 'handle BOM with utf16le', (next) ->
+      parser = parse bom: true, encoding: 'utf16le', (err, data) ->
+        data.should.eql [
+          ['a', 'b', 'c']
+          ['d', 'e', 'f']
+        ]
+        next()
+      # parser.write Buffer.from Buffer.from([255, 254])
+      parser.write Buffer.from "\ufeffa,b,c\n", 'utf16le'
+      parser.write Buffer.from 'd,e,f', 'utf16le'
+      parser.end()
+
+    it 'is auto detected for utf16le', (next) ->
+      parser = parse bom: true, (err, data) ->
+        data.should.eql [
+          ['a', 'b', 'c']
+          ['d', 'e', 'f']
+        ] unless err
+        next err
+      # parser.write Buffer.from Buffer.from([255, 254])
+      parser.write Buffer.from "\ufeffa,b,c\n", 'utf16le'
+      parser.write Buffer.from 'd,e,f', 'utf16le'
+      parser.end()
