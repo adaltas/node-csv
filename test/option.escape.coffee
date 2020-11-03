@@ -25,6 +25,19 @@ describe 'Option `escape`', ->
       # (->
       #   parse escape: 'abc'
       # ).should.throw 'Invalid Option Length: escape must be one character, got 3'
+
+    it 'is compatible with buffer size', (next) ->
+      parser = parse escape: ':::', (err, data) ->
+        data.should.eql [
+          [ '1', '2"2', '3' ]
+          [ 'b', 'c', 'd' ]
+        ]
+        next err
+      parser.write c for c in """
+      1,"2:::"2",3
+      b,c,d
+      """
+      parser.end()
   
   describe 'disabled', ->
 
