@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* api: partial cache for needMoreData 
 * encoding: auto-detect from the bom
 * bom: multi bom encoding
 * encoding: new feature
