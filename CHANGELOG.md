@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* delimiter: fix buffer size computation
 * quote: compatibility with buffer size
 * api: partial cache for needMoreData 
 * encoding: auto-detect from the bom

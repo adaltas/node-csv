@@ -37,6 +37,19 @@ describe 'Option `delimiter`', ->
       message: 'Invalid option delimiter: delimiter must be a non empty string or buffer or array of string|buffer, got [",",""]'
       code: 'CSV_INVALID_OPTION_DELIMITER'
   
+  it 'is compatible with buffer size', (next) ->
+    parser = parse delimiter: [':::'], (err, data) ->
+      data.should.eql [
+        [ '1', '2', '3' ]
+        [ 'b', 'c', 'd' ]
+      ]
+      next err
+    parser.write c for c in """
+    1:::2:::3
+    b:::c:::d
+    """
+    parser.end()
+  
   it 'using default comma', (next) ->
     parse """
     abc,,123,
