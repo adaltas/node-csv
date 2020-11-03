@@ -12,6 +12,7 @@
 
 ## Trunk
 
+* bom: multi bom encoding
 * encoding: new feature
 * escape: support multiple characters
 * quote: support multiple characters
