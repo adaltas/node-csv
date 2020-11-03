@@ -30,7 +30,7 @@ describe('API Types', () => {
       const keys: string[] = Object.keys(options)
       keys.sort().should.eql([
         'bom', 'cast', 'cast_date', 'columns', 'columns_duplicates_to_array',
-        'comment', 'delimiter', 'escape', 'from', 'from_line', 'info', 'ltrim',
+        'comment', 'delimiter', 'encoding', 'escape', 'from', 'from_line', 'info', 'ltrim',
         'max_record_size', 'objname', 'on_record', 'quote', 'raw',
         'record_delimiter', 'relax', 'relax_column_count',
         'relax_column_count_less', 'relax_column_count_more', 'rtrim',
@@ -337,7 +337,7 @@ describe('API Types', () => {
       })
 
       it('Supports contexts', () => {
-        const error = new CsvError("CSV_INCONSISTENT_RECORD_LENGTH", "MESSAGE", { testContext: { testProp: "testValue" } })
+        const error = new CsvError("CSV_INCONSISTENT_RECORD_LENGTH", "MESSAGE", {}, { testContext: { testProp: "testValue" } })
 
         error.code.should.eql("CSV_INCONSISTENT_RECORD_LENGTH")
         error.message.should.eql("MESSAGE")
