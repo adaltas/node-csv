@@ -14,6 +14,7 @@ Please join and contribute:
 
 ## Trunk
 
+* encoding: support boolean values
 * api: remove commented code
 
 ## Version 4.13.0
