@@ -82,7 +82,7 @@ describe 'Option `quote`', ->
       ]
       next()
     
-  it 'values containing quotes and double quotes escape', (next) ->
+  it 'only containing quotes and double quotes escape', (next) ->
     data = '''
     """"
     """"
