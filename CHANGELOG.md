@@ -13,7 +13,7 @@ Please join and contribute:
 * errors: finish normalisation of all errors (easy)
 * encoding: new encoding_input and encoding_output options (medium)
 
-## Trunk
+## Version 4.13.1
 
 * encoding: buffer, detection and options samples
 * encoding: return buffer when null or false
