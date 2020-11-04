@@ -3,12 +3,14 @@
 
 ## Todo
 
-* `skip_lines_with_empty_values`: rename to skip_records_with_empty_values
-* `skip_lines_with_error`: rename to skip_records_with_error
-* `relax`: rename to relax_quotes_when_unquoted
-* `max_comment_size`: new option
-* promise: new API module
-* errors: finish normalisation of all errors
+Please join and contribute:
+
+* `skip_lines_with_empty_values`: rename to skip_records_with_empty_values (easy)
+* `skip_lines_with_error`: rename to skip_records_with_error (easy)
+* `relax`: rename to relax_quotes_when_unquoted (easy)
+* `max_comment_size`: new option (medium)
+* promise: new API module (medium)
+* errors: finish normalisation of all errors (easy)
 
 ## Trunk
 
