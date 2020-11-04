@@ -84,7 +84,7 @@ describe 'ResizeableBuffer', ->
         rb.append(chr.charCodeAt())
       rb.prepend(Buffer.from('abc'))
       rb.length.should.eql 6
-      rb.toString().should.eql 'abcdef'
+      rb.toString('utf8').should.eql 'abcdef'
 
     it 'throw invalid state if size equal buffer size', ->
       try
