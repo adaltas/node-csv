@@ -46,6 +46,16 @@ describe 'Option `encoding`', ->
           [ '1', '2 "3" 4', '5' ]
         ] unless err
         next err
+    
+    it 'null return buffer', (next) ->
+      parse Buffer.from( 'a,b\n1,2' ),
+        encoding: null
+      , (err, data) ->
+        data.should.eql [
+          [ Buffer.from('a'), Buffer.from('b') ]
+          [ Buffer.from('1'), Buffer.from('2') ]
+        ] unless err
+        next err
   
   describe 'with bom', ->
 
