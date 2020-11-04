@@ -12,12 +12,15 @@
 
 ## Trunk
 
+New features:
+* encoding: auto-detect from the bom
+* encoding: new option
+* bom: multi bom encoding
+
+Fixes & enhancements:
 * delimiter: fix buffer size computation
 * quote: compatibility with buffer size
-* api: partial cache for needMoreData 
-* encoding: auto-detect from the bom
-* bom: multi bom encoding
-* encoding: new feature
+* api: partial cache for needMoreData
 * escape: support multiple characters
 * quote: support multiple characters
 * api: fix internal argument name
