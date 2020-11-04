@@ -10,6 +10,10 @@
 * promise: new API module
 * errors: finish normalisation of all errors
 
+## Trunk
+
+* api: remove commented code
+
 ## Version 4.13.0
 
 New features:
