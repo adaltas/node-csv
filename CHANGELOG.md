@@ -12,9 +12,14 @@ Please join and contribute:
 * promise: new API module (medium)
 * errors: finish normalisation of all errors (easy)
 * encoding: new encoding_input and encoding_output options (medium)
+* context: isolate info properties at context root (easy)
+* context: merge record, raw, context, info, error into a single object (medium)
+* relax_column_count: rename INCONSISTENT_RECORD_LENGTH to RECORD_INCONSISTENT_FIELDS_LENGTH (easy)
+* relax_column_count: rename RECORD_DONT_MATCH_COLUMNS_LENGTH to RECORD_INCONSISTENT_COLUMNS (easy)
 
 ## Trunk
 
+* on_record: expose info.error when relax_column_count is activated
 * raw: move tests
 * package: latest dependencies
 

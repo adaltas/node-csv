@@ -134,4 +134,49 @@ describe 'Option `relax_column_count`', ->
           message: 'Invalid Record Length: expect 3, got 4 on line 2'
           record: ['a', 'b', 'c', 'd']
         next()
+    
+  describe 'with on_record', ->
+          
+    it 'and without columns', (next) ->
+      parse """
+      1,2
+      in:va:lid
+      3,4
+      """,
+        relax_column_count: true,
+        raw: true,
+        on_record: ({raw, record}, {error}) ->
+          if error?.code is 'CSV_INCONSISTENT_RECORD_LENGTH'
+            raw.trim().split ':'
+          else
+            record
+      , (err, data) ->
+        data.should.eql [
+          [ '1', '2' ]
+          [ 'in', 'va', 'lid' ]
+          [ '3', '4' ]
+        ]
+        next()
+          
+    it 'and with columns', (next) ->
+      parse """
+      1,2
+      in:va:lid
+      3,4
+      """,
+        columns: ['a', 'b'],
+        relax_column_count: true,
+        raw: true,
+        on_record: ({raw, record}, {error}) ->
+          if error?.code is 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
+            raw.trim().split ':'
+          else
+            record
+      , (err, data) ->
+        data.should.eql [
+          { a: '1', b: '2' }
+          [ 'in', 'va', 'lid' ]
+          { a: '3', b: '4' }
+        ]
+        next()
       

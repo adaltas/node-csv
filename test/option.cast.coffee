@@ -68,11 +68,11 @@ describe 'Option `cast`', ->
       , (err, records) ->
         records.should.eql [
           [ '2000-01-01T05:00:00.000Z', {
-            column: 1, empty_lines: 0, header: false, index: 1,
+            column: 1, empty_lines: 0, error: undefined, header: false, index: 1,
             invalid_field_length: 0, lines: 1, quoting: false, records: 0
           } ]
           [ '2050-11-27T05:00:00.000Z', {
-            column: 1, empty_lines: 0, header: false, index: 1,
+            column: 1, empty_lines: 0, error: undefined, header: false, index: 1,
             invalid_field_length: 0, lines: 2, quoting: false, records: 1
           } ]
         ] unless err
