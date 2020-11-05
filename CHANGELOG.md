@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: mocha inside package declaration
+
 ## Version 5.5.1
 
 Fix
