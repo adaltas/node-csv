@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: mocha inside package declaration
+
 ## Version 2.0.2
 
 * handler: update Typescript signature
