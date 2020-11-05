@@ -31,6 +31,7 @@ declare namespace parse {
     interface CastingContext {
         readonly column: number | string;
         readonly empty_lines: number;
+        readonly error: CsvError;
         readonly header: boolean;
         readonly index: number;
         readonly quoting: boolean;
