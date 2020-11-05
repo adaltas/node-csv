@@ -1,7 +1,7 @@
 
 parse = require '../lib'
 
-describe 'API raw', ->
+describe 'Option `raw`', ->
   
   it 'validation', ->
     parse '', raw: undefined, (->)

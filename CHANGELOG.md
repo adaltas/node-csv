@@ -15,6 +15,7 @@ Please join and contribute:
 
 ## Trunk
 
+* raw: move tests
 * package: latest dependencies
 
 ## Version 4.13.1
