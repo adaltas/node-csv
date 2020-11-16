@@ -50,9 +50,9 @@ describe('API Types', () => {
     })
     
     it('Receive Callback', (next) => {
-      parse('a\nb', function(err: Error, data: object, info: Info){
+      parse('a\nb', function(err: Error|undefined, records: object, info: Info){
         if(err !== undefined){
-          data.should.eql([['a'], ['b']])
+          records.should.eql([['a'], ['b']])
           info.records.should.eql(2)
         }
         next(err)
@@ -346,7 +346,7 @@ describe('API Types', () => {
     })
 
     it('Proper type is thrown when an error is encountered', () => {
-      parse(`a,b\nc`, function (e: Error) {
+      parse(`a,b\nc`, function (e: Error|undefined) {
         const isCsvError = e instanceof CsvError;
         isCsvError.should.be.true();
         (e as CsvError).code.should.eql('CSV_INCONSISTENT_RECORD_LENGTH');
