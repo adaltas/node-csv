@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* ts: callback argument simplification
+
 ## Version 5.5.2
 
 * package: latest dependencies

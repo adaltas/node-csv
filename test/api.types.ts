@@ -18,6 +18,15 @@ describe('API Types', () => {
       ])
     })
     
+    it('Receive Callback', (next) => {
+      stringify([['a'], ['b']], function(err: Error | undefined, output: string){
+        if(err !== undefined){
+          output.should.eql('a\nb')
+        }
+        next(err)
+      })
+    })
+    
   })
   
   describe('Options', () => {
