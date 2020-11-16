@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.5.2
 
 * package: latest dependencies
 * test: fix write null in node 14
