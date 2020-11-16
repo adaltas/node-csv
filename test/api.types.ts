@@ -125,7 +125,7 @@ describe('API Types', () => {
     
     it('all properties', () => {
       (context: CastingContext) => {
-        const column: number|string = context.column
+        const column: number|string|undefined = context.column
         const header: boolean = context.header
         const index: number = context.index
         const records: number = context.records

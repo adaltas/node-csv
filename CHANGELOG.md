@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* ts: enable strict mode
 * package: mocha inside package declaration
 
 ## Version 5.5.1
