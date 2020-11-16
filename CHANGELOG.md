@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.5.3
 
 * ts: callback argument simplification
 
