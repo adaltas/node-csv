@@ -9,7 +9,7 @@
 * record_delimiter: rename from row_delimiter
 * internal: store options in snake case form
 
-## Trunk
+## Version 3.3.0
 
 * package: latest dependencies
 * package: mocha inside package declaration
