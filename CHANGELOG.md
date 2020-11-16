@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* package: latest dependencies
 * ts: enable strict mode
 * package: mocha inside package declaration
 
