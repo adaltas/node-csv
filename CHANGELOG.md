@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: latest dependencies
 * test: fix write null in node 14
 * ts: enable strict mode
 * package: mocha inside package declaration
