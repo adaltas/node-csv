@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.0.3
 
 * package: latest dependencies
 * ts: enable strict mode
