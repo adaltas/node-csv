@@ -83,12 +83,18 @@ describe 'API write', ->
   it 'write invalid record null', (next) ->
     stringifier = stringify()
     stringifier.on 'error', (err) ->
+      # Until Node.js 13
       err.message.should.eql 'May not write null values to stream'
       next()
     stringifier.on 'end', ->
       next Error 'Oh no!'
-    stringifier.write null, 'utf8' , (e,d) ->
-      stringifier.end()
+    try
+      stringifier.write null, 'utf8' , (e,d) ->
+        stringifier.end()
+    catch err
+      # Since Node.js 14
+      err.message.should.eql 'May not write null values to stream'
+      next()
 
   it 'write invalid record true', (next) ->
     stringifier = stringify()
