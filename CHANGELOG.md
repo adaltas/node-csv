@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* sample: async iterator
 * sample: promises
 
 ## Version 4.14.1
