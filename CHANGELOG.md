@@ -17,6 +17,10 @@ Please join and contribute:
 * relax_column_count: rename INCONSISTENT_RECORD_LENGTH to RECORD_INCONSISTENT_FIELDS_LENGTH (easy)
 * relax_column_count: rename RECORD_DONT_MATCH_COLUMNS_LENGTH to RECORD_INCONSISTENT_COLUMNS (easy)
 
+## Trunk
+
+* sample: promises
+
 ## Version 4.14.1
 
 * package: latest dependencies
