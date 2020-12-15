@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.0.4
 
 * fix: add ts generics to handler
 
