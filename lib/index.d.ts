@@ -5,13 +5,13 @@ export = transform
 
 // transform([records], [options], handler, [callback])
 
-declare function transform(handler: transform.Handler, callback?: transform.Callback): transform.Transformer
-declare function transform(records: Array<any>, handler: transform.Handler, callback?: transform.Callback): transform.Transformer
-declare function transform(options: transform.Options, handler: transform.Handler, callback?: transform.Callback): transform.Transformer
-declare function transform(records: Array<any>, options: transform.Options, handler: transform.Handler, callback?: transform.Callback): transform.Transformer
+declare function transform<T = any, U = any>(handler: transform.Handler<T, U>, callback?: transform.Callback): transform.Transformer
+declare function transform<T = any, U = any>(records: Array<T>, handler: transform.Handler<T, U>, callback?: transform.Callback): transform.Transformer
+declare function transform<T = any, U = any>(options: transform.Options, handler: transform.Handler<T, U>, callback?: transform.Callback): transform.Transformer
+declare function transform<T = any, U = any>(records: Array<T>, options: transform.Options, handler: transform.Handler<T, U>, callback?: transform.Callback): transform.Transformer
 declare namespace transform {
-    type Handler = (record: Array<any>, callback: HandlerCallback, params?: any) => any
-    type HandlerCallback = (err?: null | Error, record?: any) => void
+    type Handler<T = any, U = any> = (record: T, callback: HandlerCallback, params?: any) => U
+    type HandlerCallback<T = any> = (err?: null | Error, record?: T) => void
     type Callback = (err?: null | Error, output?: string) => void
     interface Options {
         /**
@@ -28,9 +28,9 @@ declare namespace transform {
         params?: any
     }
     interface State {
-      finished: number
-      running: number
-      started: number
+        finished: number
+        running: number
+        started: number
     }
     class Transformer extends stream.Transform {
         constructor(options: Options)

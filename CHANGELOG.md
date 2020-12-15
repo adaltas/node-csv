@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* fix: add ts generics to handler
+
 ## Version 2.0.3
 
 * package: latest dependencies
