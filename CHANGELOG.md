@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* fix(skip_lines_with_error): work with relax_column_count (#303)
 * sample: async iterator
 * sample: promises
 

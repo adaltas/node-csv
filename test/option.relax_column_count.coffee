@@ -179,4 +179,20 @@ describe 'Option `relax_column_count`', ->
           { a: '3', b: '4' }
         ]
         next()
+    
+  describe 'with skip_lines_with_error', (next) ->
+
+    it 'dont skip records', ->
+      parse """
+      column_a
+      a,b
+      """,
+        skip_lines_with_error: true
+        relax_column_count: true
+      , (err, records) ->
+        records.should.eql [
+          [ 'column_a' ]
+          [ 'a', 'b' ]
+        ]
+
       
