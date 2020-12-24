@@ -37,6 +37,7 @@
     "coffeescript": "~2.5.1",
     "csv-generate": "~3.2.4",
     "each": "^1.2.2",
+    "express": "^4.17.1",
     "mocha": "~8.2.1",
     "should": "~13.2.3",
     "ts-node": "^9.0.0",
@@ -66,7 +67,9 @@
     "patch": "npm version patch -m 'Bump to version %s'",
     "minor": "npm version minor -m 'Bump to version %s'",
     "major": "npm version major -m 'Bump to version %s'",
-    "build": "cd lib && babel *.js -d es5 && cd ..",
+    "build_babel": "cd lib && babel *.js -d es5 && cd ..",
+    "build_browserify": "browserify lib/index.js --standalone stringify > lib/browser/index.js && browserify lib/sync.js --standalone stringify > lib/browser/sync.js",
+    "build": "npm run build_babel && npm run build_browserify",
     "pretest": "npm run build",
     "test": "mocha test/**/*.{coffee,ts}"
   },
