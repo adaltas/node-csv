@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* fix: add browserify dev dep
+
 ## Version 5.6.0
 
 * build: use browser compatible bundles, fix #122
