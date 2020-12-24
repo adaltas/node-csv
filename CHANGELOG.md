@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* build: use browser compatible bundles, fix #122
+
 ## Version 5.5.3
 
 * ts: callback argument simplification
