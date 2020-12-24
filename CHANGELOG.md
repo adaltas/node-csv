@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.6.0
 
 * build: use browser compatible bundles, fix #122
 
