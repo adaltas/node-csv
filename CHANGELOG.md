@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* refactor: remove unsused values
 * fix: add browserify dev dep
 
 ## Version 5.6.0
