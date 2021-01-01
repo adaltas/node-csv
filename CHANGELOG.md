@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* docs: comment about trimable chars
 * refactor: move isCharTrimable
 
 ## Version 4.14.2
