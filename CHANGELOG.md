@@ -17,6 +17,10 @@ Please join and contribute:
 * relax_column_count: rename INCONSISTENT_RECORD_LENGTH to RECORD_INCONSISTENT_FIELDS_LENGTH (easy)
 * relax_column_count: rename RECORD_DONT_MATCH_COLUMNS_LENGTH to RECORD_INCONSISTENT_COLUMNS (easy)
 
+## Trunk
+
+* refactor: move isCharTrimable
+
 ## Version 4.14.2
 
 * fix(skip_lines_with_error): work with relax_column_count (#303)
