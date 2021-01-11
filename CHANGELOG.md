@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* fix: memory leak in sync
 * refactor: remove unsused values
 * fix: add browserify dev dep
 
