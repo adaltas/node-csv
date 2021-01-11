@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.6.1
 
 * fix: memory leak in sync
 * refactor: remove unsused values
