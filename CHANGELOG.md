@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* build: rename build commands
+
 ## Version 5.6.1
 
 * fix: memory leak in sync
