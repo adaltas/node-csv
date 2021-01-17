@@ -173,7 +173,7 @@ describe 'Option `quote`', ->
     it 'when followed by a character', (next) ->
       parse '""!', quote: '"', escape: '"', (err) ->
         assert_error err,
-          message: 'Invalid Closing Quote: got "!" at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+          message: 'Invalid Closing Quote: got "!" at line 1 instead of delimiter, record delimiter, trimable character (if activated) or comment'
           code: 'CSV_INVALID_CLOSING_QUOTE'
         next()
 
@@ -185,7 +185,7 @@ describe 'Option `quote`', ->
       parse '""|BB', quote: '"', escape: '"', delimiter: '|', (err) ->
         next err
 
-    it 'no throw followed by a row delimiter', (next) ->
+    it 'no throw followed by a record delimiter', (next) ->
       parse '""|BB', quote: '"', escape: '"', record_delimiter: '|', (err) ->
         next err
 

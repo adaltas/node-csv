@@ -84,7 +84,7 @@ describe 'Option `to_line`', ->
       ] unless err
       next err
 
-  it 'not influenced by row delimiter', (next) ->
+  it 'not influenced by record delimiter', (next) ->
     parse """
     a,b,c:1,2,
     3:d,e,f:4,5,

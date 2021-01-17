@@ -25,7 +25,7 @@ describe 'Option `rtrim`', ->
 
   it 'quote followed by escape', (next) ->
     # 1st line: with field delimiter
-    # 2nd line: with row delimiter
+    # 2nd line: with record delimiter
     # 3rd line: with end of file
     parse """
     'a''' ,'b'''

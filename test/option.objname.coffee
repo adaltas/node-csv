@@ -55,7 +55,7 @@ describe 'Option `objname`', ->
       ) unless err
       next err
 
-  it 'should print object of objects with properties using value of given column from header row', (next) ->
+  it 'should print object of objects with properties using value of given column from header record', (next) ->
     parse """
     FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6
     20322051544,1979,8.8017226E7,ABC,45,2000-01-01

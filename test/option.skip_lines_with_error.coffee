@@ -28,7 +28,7 @@ describe 'Option `skip_lines_with_error`', ->
       next err
     parser.on 'skip', (err) ->
       assert_error err,
-        message: 'Invalid Closing Quote: got " " at line 3 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+        message: 'Invalid Closing Quote: got " " at line 3 instead of delimiter, record delimiter, trimable character (if activated) or comment'
         code: 'CSV_INVALID_CLOSING_QUOTE'
       errors++
     parser.write '''

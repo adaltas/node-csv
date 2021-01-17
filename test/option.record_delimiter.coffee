@@ -166,7 +166,7 @@ describe 'Option `record_delimiter`', ->
   
   describe 'auto', ->
     
-    it 'No rows', (next) ->
+    it 'No record', (next) ->
       # not sure if the current behavior is right,
       # the new behavior is proposing [['']]
       # which kind of look more appropriate
@@ -211,7 +211,7 @@ describe 'Option `record_delimiter`', ->
       parser.write 'def,456'
       parser.end()
 
-    it 'Test line ends with field delimiter and without row delimiter', (next) ->
+    it 'Test line ends with field delimiter and without record delimiter', (next) ->
       parse '"a","b","c",', delimiter: ',', (err, data) ->
         return next err if err
         data.should.eql [
@@ -239,7 +239,7 @@ describe 'Option `record_delimiter`', ->
       parser.write 'JKL,02\r\n'
       parser.end()
 
-    it 'skip default row delimiters when quoted', (next) ->
+    it 'skip default record delimiters when quoted', (next) ->
       parser = parse (err, data) -> # record_delimiter: '\r\n', 
         data.should.eql [
           ['1', '2', '\n']

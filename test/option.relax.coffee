@@ -57,7 +57,7 @@ describe 'Option `relax`', ->
     a,"b" c,d
     """, relax: false, (err, data) ->
       assert_error err,
-        message: 'Invalid Closing Quote: got " " at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+        message: 'Invalid Closing Quote: got " " at line 1 instead of delimiter, record delimiter, trimable character (if activated) or comment'
         code: 'CSV_INVALID_CLOSING_QUOTE'
         next()
 
@@ -82,7 +82,7 @@ describe 'Option `relax`', ->
       #   [ 'a', '"b" c', 'd' ]
       # ] unless err
       assert_error err,
-        message: 'Invalid Closing Quote: got "b" at line 1 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+        message: 'Invalid Closing Quote: got "b" at line 1 instead of delimiter, record delimiter, trimable character (if activated) or comment'
         code: 'CSV_INVALID_CLOSING_QUOTE'
       next()
 
