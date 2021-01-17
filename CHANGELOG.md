@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* refactor: rename raw to record
 * docs: comment about trimable chars
 * refactor: move isCharTrimable
 
