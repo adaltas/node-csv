@@ -87,7 +87,7 @@ describe 'properties lines', ->
       "  1974    8.8392926E7 "t ""
     """, quote: '"', escape: '"', delimiter: "\t", (err, data) ->
       assert_error err,
-        message: 'Invalid Closing Quote: got " " at line 3 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+        message: 'Invalid Closing Quote: got " " at line 3 instead of delimiter, record delimiter, trimable character (if activated) or comment'
         code: 'CSV_INVALID_CLOSING_QUOTE'
       (data == undefined).should.be.true
       next()
@@ -102,7 +102,7 @@ describe 'properties lines', ->
     "",1974,8.8392926E7,""t,""
     """, quote: '"', escape: '"', (err, data) ->
       assert_error err,
-        message: 'Invalid Closing Quote: got "t" at line 2 instead of delimiter, row delimiter, trimable character (if activated) or comment'
+        message: 'Invalid Closing Quote: got "t" at line 2 instead of delimiter, record delimiter, trimable character (if activated) or comment'
         code: 'CSV_INVALID_CLOSING_QUOTE'
       (data == undefined).should.be.true
       next()

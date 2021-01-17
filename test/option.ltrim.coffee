@@ -26,7 +26,7 @@ describe 'Option `ltrim`', ->
   it 'quote followed by escape', (next) ->
     # 1st line: with start of file
     # 2nd line: with field delimiter
-    # 3rd line: with row delimiter
+    # 3rd line: with record delimiter
     parse """
      '''a','''b'
     '''c', '''d'

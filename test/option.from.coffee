@@ -59,7 +59,7 @@ describe 'Option `from`', ->
       ] unless err
       next err
 
-  it 'not influenced by row delimiter', (next) ->
+  it 'not influenced by record delimiter', (next) ->
     parse """
     1,2,3:4,5,6:7,8,9
     """, from: 3, record_delimiter: ':', (err, data) ->
