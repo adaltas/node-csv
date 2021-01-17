@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* feat: generate browser compatible lib
 * refactor: rename raw to record
 * docs: comment about trimable chars
 * refactor: move isCharTrimable
