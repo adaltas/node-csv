@@ -1,6 +1,5 @@
 
 parse = require '../lib'
-{promises: fs} = require 'fs'
 
 describe 'Option `encoding`', ->
   
