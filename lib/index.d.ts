@@ -113,7 +113,7 @@ declare namespace parse {
         from_line?: number;
         fromLine?: number;
         /**
-         * Don't interpret delimiters as such in the last field according to the number of fields calculated from the number of columns, the option require the presence of the `column` option.
+         * Don't interpret delimiters as such in the last field according to the number of fields calculated from the number of columns, the option require the presence of the `column` option when `true`.
          */
         ignore_last_delimiters?: boolean | number;
         /**
