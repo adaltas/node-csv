@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* feat: new ignore_last_delimiters option, solve #193
 * feat: generate browser compatible lib
 * refactor: rename raw to record
 * docs: comment about trimable chars
