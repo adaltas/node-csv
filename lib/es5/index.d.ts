@@ -113,6 +113,10 @@ declare namespace parse {
         from_line?: number;
         fromLine?: number;
         /**
+         * Don't interpret delimiters as such in the last field according to the number of fields calculated from the number of columns, the option require the presence of the `column` option when `true`.
+         */
+        ignore_last_delimiters?: boolean | number;
+        /**
          * Generate two properties `info` and `record` where `info` is a snapshot of the info object at the time the record was created and `record` is the parsed array or object.
          */
         info?: boolean;
