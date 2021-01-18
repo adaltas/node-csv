@@ -12,8 +12,8 @@ describe 'Option `ignore_last_delimiters`', ->
       parse(ignore_last_delimiters: false, columns: true).options.ignore_last_delimiters.should.eql false
         
     it 'integer', ->
-      parse(ignore_last_delimiters: 1, columns: true).options.ignore_last_delimiters.should.eql true
-      parse(ignore_last_delimiters: 0, columns: true).options.ignore_last_delimiters.should.eql false
+      parse(ignore_last_delimiters: 1).options.ignore_last_delimiters.should.eql 1
+      parse(ignore_last_delimiters: 0).options.ignore_last_delimiters.should.eql false
     
     it 'throw error with invalid type', ->
       (->
@@ -38,7 +38,7 @@ describe 'Option `ignore_last_delimiters`', ->
     
   describe 'usage', ->
     
-    it 'dont interpret last delimiters', (next) ->
+    it 'if true, get field number from columns', (next) ->
       parse '''
       a,b,c
       1,2,3,4,5
@@ -47,5 +47,16 @@ describe 'Option `ignore_last_delimiters`', ->
         data.should.eql [
           {a: '1', b: '2', c: '3,4,5'}
           {a: '11', b: '22', c: '33,44'}
+        ] unless err
+        next err
+    
+    it 'if number, no need for columns', (next) ->
+      parse '''
+      1,2,3,4,5
+      11,22,33,44
+      ''', ignore_last_delimiters: 3, (err, data) ->
+        data.should.eql [
+          ['1','2','3,4,5']
+          ['11','22','33,44']
         ] unless err
         next err
