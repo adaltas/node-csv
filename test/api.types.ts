@@ -30,12 +30,13 @@ describe('API Types', () => {
       const keys: string[] = Object.keys(options)
       keys.sort().should.eql([
         'bom', 'cast', 'cast_date', 'columns', 'columns_duplicates_to_array',
-        'comment', 'delimiter', 'encoding', 'escape', 'from', 'from_line', 'info', 'ltrim',
-        'max_record_size', 'objname', 'on_record', 'quote', 'raw',
-        'record_delimiter', 'relax', 'relax_column_count',
-        'relax_column_count_less', 'relax_column_count_more', 'rtrim',
-        'skip_empty_lines', 'skip_lines_with_empty_values',
-        'skip_lines_with_error', 'to',  'to_line', 'trim'
+        'comment', 'delimiter', 'encoding', 'escape', 'from', 'from_line',
+        'ignore_last_delimiters', 'info', 'ltrim', 'max_record_size', 'objname',
+        'on_record', 'quote', 'raw', 'record_delimiter', 'relax',
+        'relax_column_count', 'relax_column_count_less',
+        'relax_column_count_more', 'rtrim', 'skip_empty_lines',
+        'skip_lines_with_empty_values', 'skip_lines_with_error', 'to',
+        'to_line', 'trim'
       ])
     })
       
@@ -185,6 +186,12 @@ describe('API Types', () => {
       const options: Options = {}
       options.from_line = 10
       options.fromLine = 10
+    })
+    
+    it('ignore_last_delimiters', () => {
+      const options: Options = {}
+      options.ignore_last_delimiters = true
+      options.ignore_last_delimiters = 1
     })
     
     it('info', () => {
