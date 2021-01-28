@@ -16,7 +16,7 @@ It has been tested and used by a large community over the years and should be
 considered reliable. It provides every option you would expect from an advanced
 CSV parser and stringifier.
 
-[![NPM](https://nodei.co/npm/csv.png?stars&downloads)](https://nodei.co/npm/csv/) [![NPM](https://nodei.co/npm-dl/csv.png)](https://nodei.co/npm/csv/)
+[![NPM](https://img.shields.io/npm/dm/csv)](https://www.npmjs.com/package/csv) [![NPM](https://img.shields.io/npm/v/csv)](https://www.npmjs.com/package/csv)
 
 The `csv` package is itself split into 4 packages:
 
