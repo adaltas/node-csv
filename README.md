@@ -1,5 +1,5 @@
 
-[![Build Status](https://api.travis-ci.org/adaltas/node-csv-generate.svg)](https://travis-ci.org/#!/adaltas/node-csv-generate)
+[![Build Status](https://api.travis-ci.org/adaltas/node-csv-generate.svg)](https://travis-ci.org/#!/adaltas/node-csv-generate) [![NPM](https://img.shields.io/npm/dm/csv-generate)](https://www.npmjs.com/package/csv-generate) [![NPM](https://img.shields.io/npm/v/csv-generate)](https://www.npmjs.com/package/csv-generate)
 
 # CSV and object generation
 
