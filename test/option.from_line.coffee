@@ -80,7 +80,7 @@ describe 'Option `from_line`', ->
       ] unless err
       next err
 
-  it 'not influenced by record delimiters', (next) ->
+  it 'not influenced by `record_delimiter` option', (next) ->
     parse """
     a,b,c:1,2,
     3:d,e,f:4,5,
