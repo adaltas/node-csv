@@ -17,6 +17,10 @@ Please join and contribute:
 * relax_column_count: rename INCONSISTENT_RECORD_LENGTH to RECORD_INCONSISTENT_FIELDS_LENGTH (easy)
 * relax_column_count: rename RECORD_DONT_MATCH_COLUMNS_LENGTH to RECORD_INCONSISTENT_COLUMNS (easy)
 
+## Trunk
+
+* fix: skip_empty_lines don't interfere with from_line
+
 ## Version 4.15.0
 
 * feat: new ignore_last_delimiters option, solve #193
