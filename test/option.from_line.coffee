@@ -38,15 +38,15 @@ describe 'Option `from_line`', ->
       ] unless err
       next err
     
-    it 'handle lines with inconsistent number of fields', (next) ->
-      parse """
-      a
-      1,2,3
-      """, from_line: 2, (err, data) ->
-        data.should.eql [
-          ['1', '2', '3']
-        ] unless err
-        next err
+  it 'handle lines with inconsistent number of fields', (next) ->
+    parse """
+    a
+    1,2,3
+    """, from_line: 2, (err, data) ->
+      data.should.eql [
+        ['1', '2', '3']
+      ] unless err
+      next err
 
   it 'records with quoted line at the begining of line', (next) ->
     parse """
@@ -90,6 +90,22 @@ describe 'Option `from_line`', ->
       data.should.eql [
         [ 'g','h','i' ]
         [ '7','8','\n9' ]
+      ] unless err
+      next err
+  
+  it 'no influenced by skip_empty_lines option', (next) ->
+    parse """
+    a,b,c
+    
+    1,2,3
+    
+    4,5,6
+    
+    7,8,9
+    """, from_line: 5, skip_empty_lines: true, (err, data) ->
+      data.should.eql [
+        ['4', '5', '6']
+        ['7', '8', '9']
       ] unless err
       next err
 
