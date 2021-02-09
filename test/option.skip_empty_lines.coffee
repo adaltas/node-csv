@@ -29,7 +29,7 @@ describe 'Option `skip_empty_lines`', ->
         ] unless err
         next err
 
-  describe 'true', ->
+  describe 'usage', ->
   
     it 'skip', (next) ->
       parse '''
@@ -37,6 +37,17 @@ describe 'Option `skip_empty_lines`', ->
       ''', skip_empty_lines: true, (err, data) ->
         data.should.eql [
           [ 'ABC' ]
+          [ 'DEF' ]
+        ] unless err
+        next err
+        
+    it 'quoted fields are not interpreted as empty', (next) ->
+      parse '''
+      ABC\n""\nDEF
+      ''', skip_empty_lines: true, (err, data) ->
+        data.should.eql [
+          [ 'ABC' ]
+          [ '' ]
           [ 'DEF' ]
         ] unless err
         next err
@@ -63,6 +74,8 @@ describe 'Option `skip_empty_lines`', ->
         ]
         next()
       parser.end()
+  
+  describe 'with other options', ->
     
     it 'used conjointly with trim to ignore whitespaces', (next) ->
       parse '''
