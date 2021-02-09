@@ -51,7 +51,8 @@ describe 'API destroy', ->
     parser.on 'error', (err) ->
       err.message.should.eql 'Catch me'
       parser._readableState.destroyed.should.be.true()
-      next() if /^v(14)\./.test process.version
+      version = parseInt /^v(\d+)/.exec(process.version)[1], 10
+      next() if version >= 14
     parser.on 'end', ->
       next()
     generate length: 2, seed: 1, columns: 2, fixed_size: true
