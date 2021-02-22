@@ -17,7 +17,7 @@ Please join and contribute:
 * relax_column_count: rename INCONSISTENT_RECORD_LENGTH to RECORD_INCONSISTENT_FIELDS_LENGTH (easy)
 * relax_column_count: rename RECORD_DONT_MATCH_COLUMNS_LENGTH to RECORD_INCONSISTENT_COLUMNS (easy)
 
-## Trunk
+## Version 4.15.2
 
 * docs: browser demo fix #302
 * fix: browserify export parse instead of stringify
