@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 5.6.2
 
 * build: rename build commands
 
