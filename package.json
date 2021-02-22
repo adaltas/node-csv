@@ -54,6 +54,7 @@
     "@babel/preset-env": "^7.12.1",
     "@types/mocha": "^8.0.4",
     "@types/node": "^14.14.7",
+    "babelify": "^10.0.0",
     "browserify": "^17.0.0",
     "coffeescript": "^2.5.1",
     "csv-generate": "^3.2.4",
@@ -71,7 +72,6 @@
   "files": [
     "/lib"
   ],
-  "optionalDependencies": {},
   "main": "./lib",
   "mocha": {
     "throw-deprecation": true,
@@ -87,7 +87,7 @@
   },
   "scripts": {
     "build:babel": "cd lib && babel *.js -d es5 && cd ..",
-    "build:browserify": "browserify lib/index.js --standalone parse > lib/browser/index.js && browserify lib/sync.js --standalone parse > lib/browser/sync.js",
+    "build:browserify": "browserify lib/index.js --transform babelify --standalone parse > lib/browser/index.js && browserify lib/sync.js --transform babelify --standalone parse > lib/browser/sync.js",
     "build": "npm run build:babel && npm run build:browserify",
     "preversion": "grep '## Trunk' CHANGELOG.md && npm test && cp lib/*.ts lib/es5 && git add lib/es5/*.ts",
     "version": "version=`grep '^  \"version\": ' package.json | sed 's/.*\"\\([0-9\\.]*\\)\".*/\\1/'` && sed -i \"s/## Trunk/## Version $version/\" CHANGELOG.md && git add CHANGELOG.md",
