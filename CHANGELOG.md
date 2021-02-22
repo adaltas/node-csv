@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* docs: browser demo fix #302
 * fix: browserify export parse instead of stringify
 
 ## Version 4.15.1
