@@ -44,20 +44,20 @@
     }
   },
   "dependencies": {
-    "csv-generate": "^3.2.4",
-    "csv-parse": "^4.8.8",
-    "stream-transform": "^2.0.1",
-    "csv-stringify": "^5.3.6"
+    "csv-generate": "^3.3.0",
+    "csv-parse": "^4.15.3",
+    "stream-transform": "^2.0.4",
+    "csv-stringify": "^5.6.2"
   },
   "devDependencies": {
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^13.7.7",
+    "@types/mocha": "^8.2.1",
+    "@types/node": "^14.14.33",
     "@types/should": "^13.0.0",
     "coffeescript": "~2.5.1",
-    "mocha": "~7.1.0",
+    "mocha": "~8.3.1",
     "should": "~13.2.3",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.8.3"
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
   "optionalDependencies": {},
   "files": [
