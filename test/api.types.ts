@@ -8,7 +8,7 @@ describe('API Types', () => {
 
     it('stringify', () => {
       // With handler
-      const stringifier = stringify( (err, data) => err || data )
+      const stringifier = stringify( (err: Error | undefined, output: string) => err || output )
       stringifier.should.be.an.Object() // Disable unused variable warning
     })
 
