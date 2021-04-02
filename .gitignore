@@ -2,6 +2,7 @@
 !/.babelrc
 !/.travis.yml
 !/.gitignore
+!/.github
 !/.npmignore
 /node_modules
 /package-lock.json
