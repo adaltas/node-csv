@@ -10,7 +10,7 @@ Lovelace,Ada,"Augusta Ada King, Countess of Lovelace"
   relax_column_count: true,
   columns: true
 }, function(err, records){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     records, [
       { lastname: 'Ritchie' },
       { lastname: 'Lovelace',

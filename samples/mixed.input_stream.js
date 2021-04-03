@@ -5,7 +5,7 @@ const assert = require('assert')
 const parser = parse({
   delimiter: ':'
 }, function(err, records){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     records,
     [
       [ 'root','x','0','0','root','/root','/bin/bash' ],

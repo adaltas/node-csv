@@ -8,7 +8,7 @@ a,b|1,2|3,4
   record_delimiter: '|',
   from: 2
 }, function(err, records){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     records, [{
       a: '3',
       b: '4'

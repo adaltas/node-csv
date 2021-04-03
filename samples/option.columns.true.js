@@ -8,7 +8,7 @@ parse(`
 `.trim(), {
   columns: true
 }, function(err, records){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     records, [{
       key_1: 'value 1',
       key_2: 'value 2'

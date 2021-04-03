@@ -7,7 +7,7 @@ const records = parse(data, {
   encoding: 'utf16le',
   delimiter: Buffer.from(':', 'utf16le')
 })
-assert.deepEqual(records, [
+assert.deepStrictEqual(records, [
   ['a', 'b'],
   ['1', '2']
 ])

@@ -12,7 +12,7 @@ const records = parse( '1,2\nin:va:lid\n3,4', {
     }
   }
 })
-assert.deepEqual(
+assert.deepStrictEqual(
   records, [
     [ '1', '2' ],
     [ 'in', 'va', 'lid' ],

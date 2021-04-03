@@ -7,7 +7,7 @@ const parse = require('..');
   // Initialise the parser by generating random records
   const parser = generate({
     high_water_mark: 64 * 64,
-    length: 1000
+    length: 100
   }).pipe(
     parse()
   )
@@ -25,5 +25,5 @@ const parse = require('..');
   // Report end
   process.stdout.write('...done\n')
   // Validation
-  assert.strictEqual(count, 10000)
+  assert.strictEqual(count, 100)
 })()

@@ -7,6 +7,6 @@ const records = parse(data, {
   delimiter: "=>",
   trim: true
 })
-assert.deepEqual(records, [
+assert.deepStrictEqual(records, [
   [ "a key", "a value" ]
 ])

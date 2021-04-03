@@ -19,7 +19,7 @@ parse(`
 })
 // When we are done, test that the parsed output matched what expected
 .on('end', function(){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     output,
     [
       [ '1','2','3' ],

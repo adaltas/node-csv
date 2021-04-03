@@ -10,7 +10,7 @@ porthos,d_artagnan,athos
   columns: true,
   columns_duplicates_to_array: true
 }, function(err, records){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     records, [{
       username: 'porthos',
       friend: ['athos', 'aramis']
