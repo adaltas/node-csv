@@ -1,7 +1,7 @@
 
 const parse = require('..');
 const fs = require('fs');
-const { finished } = require('stream/promises');
+const { finished } = require('stream');
  
 const processFile = async () => {
   records = []

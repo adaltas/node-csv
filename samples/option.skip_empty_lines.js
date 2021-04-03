@@ -9,7 +9,7 @@ const records = parse(`
   skip_empty_lines: true
 })
 
-assert.deepEqual(
+assert.deepStrictEqual(
   records, [
     ['a', 'b', 'c'],
     ['d', 'e', 'f']

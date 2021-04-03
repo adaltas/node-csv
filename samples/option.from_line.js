@@ -10,7 +10,7 @@ a,b
   columns: true,
   from_line: 2
 }, function(err, records){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     records, [{
       a: '1',
       b: '2'

@@ -9,7 +9,7 @@ b, 2
 `.trim(), {
   trim: true
 })
-assert.deepEqual(
+assert.deepStrictEqual(
   records, [
     [ 'a', '1' ],
     [ 'b', '2' ],

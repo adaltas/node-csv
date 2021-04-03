@@ -9,7 +9,7 @@ parse(`
   columns: header =>
     header.map( column => column.toUpperCase() )
 }, function(err, records){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     records, [{
       KEY_1: 'value 1',
       KEY_2: 'value 2'

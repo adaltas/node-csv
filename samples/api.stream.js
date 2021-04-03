@@ -20,7 +20,7 @@ parser.on('error', function(err){
 })
 // When we are done, test that the parsed output matched what expected
 parser.on('end', function(){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     output,
     [
       [ 'root','x','0','0','root','/root','/bin/bash' ],

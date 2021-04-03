@@ -9,7 +9,7 @@ parse(`
 `.trim(), {
   relax_column_count: true
 }, function(err, records){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     records, [
       ['a 1', 'a 2'],
       ['b 1'],

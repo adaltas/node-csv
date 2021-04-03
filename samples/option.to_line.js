@@ -8,7 +8,7 @@ x,x
 `.trim(), {
   to_line: 2
 })
-assert.deepEqual(
+assert.deepStrictEqual(
   records, [
     [ 'a', '1' ],
     [ 'b', '1' ]

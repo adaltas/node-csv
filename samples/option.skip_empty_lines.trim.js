@@ -10,7 +10,7 @@ const records = parse(`
   trim: true
 })
 
-assert.deepEqual(
+assert.deepStrictEqual(
   records, [
     ['a', 'b', 'c'],
     ['d', 'e', 'f']

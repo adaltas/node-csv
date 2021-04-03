@@ -6,7 +6,7 @@ const data = Buffer.from(`\uFEFFa,b,c\n1,2,3`, 'utf16le')
 const records = parse(data, {
   bom: true
 })
-assert.deepEqual(records, [
+assert.deepStrictEqual(records, [
   [ 'a', 'b', 'c' ],
   [ '1', '2', '3' ]
 ])

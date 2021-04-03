@@ -4,7 +4,7 @@ const assert = require('assert')
 parser = parse({
   skip_lines_with_error: true
 }, function(err, records){
-  assert.deepEqual(
+  assert.deepStrictEqual(
     records, [
       ['a', 'b', 'c'],
       ['d', 'e', 'f'],
