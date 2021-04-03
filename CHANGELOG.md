@@ -8,6 +8,10 @@ See the changelogs of our child projects:
 * [csv-stringify](https://github.com/adaltas/node-csv-stringify/blob/master/CHANGELOG.md)
 * [stream-transform](https://github.com/adaltas/node-stream-transform/blob/master/CHANGELOG.md)
 
+## Trunk
+
+feat: browersify
+
 ## Version 5.4.0
 
 * csv-generate: 3.3.0
