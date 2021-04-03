@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 2.1.0
 
 * chore: use browserify
 
