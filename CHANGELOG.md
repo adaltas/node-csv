@@ -9,6 +9,10 @@
 * record_delimiter: rename from row_delimiter
 * internal: store options in snake case form
 
+## Trunk
+
+* chore: integrate browserify
+
 ## Version 3.3.0
 
 * package: latest dependencies
