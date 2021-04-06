@@ -102,7 +102,7 @@ declare namespace parse {
         /**
          * Set the escape character, one character only, defaults to double quotes.
          */
-        escape?: string | Buffer;
+        escape?: string | null | false | Buffer;
         /**
          * Start handling records from the requested number of records.
          */
