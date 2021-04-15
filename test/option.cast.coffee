@@ -3,21 +3,21 @@ parse = require '../lib'
 assert_error = require './api.assert_error'
 
 describe 'Option `cast`', ->
-  
+
   it 'validate', ->
     (->
       parse cast: 'ohno', ( -> )
     ).should.throw
       message: 'Invalid option cast: cast must be true or a function, got "ohno"'
       code: 'CSV_INVALID_OPTION_CAST'
-  
+
   describe 'boolean true', ->
-  
+
     it 'all columns', (next) ->
       parse '1,2,3', cast: true, (err, data) ->
         data.should.eql [ [1, 2, 3] ]
         next()
-    
+
     it 'convert numbers', (next) ->
       data = []
       parser = parse({ cast: true })
@@ -53,7 +53,7 @@ describe 'Option `cast`', ->
       parse '123a,1.23,0.123,01.23,.123,123.', cast: true, (err, data) ->
         data.should.eql [ ['123a', 1.23, 0.123, 1.23, 0.123, 123] ]
         next()
-    
+
   describe 'function', ->
 
     it 'custom function', (next) ->
@@ -126,7 +126,7 @@ describe 'Option `cast`', ->
           [ false, true ]
         ] unless err
         next err
-      
+
       it 'return undefined', ->
 
     it 'accept all values', (next) ->
@@ -146,7 +146,7 @@ describe 'Option `cast`', ->
       , (err, records) ->
         records.shift().should.eql [undefined, false, null]
         next err
-    
+
   describe 'columns', ->
 
     it 'header is true on first line when columns is true', (next) ->
@@ -234,8 +234,27 @@ describe 'Option `cast`', ->
           code: 'CSV_INVALID_COLUMN_DEFINITION'
         next()
 
+  describe 'columns_duplicates_to_array', ->
+
+    it 'leading zeros are maintained when columns_duplicates_to_array is true', (next) ->
+      parse """
+      FIELD_1,FIELD_1,FIELD_1
+      0,2,3
+      0,0,4
+      """,
+        cast: true
+        columns: true
+        columns_duplicates_to_array: true
+      , (err, data) ->
+        data.should.eql [
+          'FIELD_1': [0, 2, 3]
+        ,
+          'FIELD_1': [0, 0, 4]
+        ] unless err
+        next err
+
   describe 'error', ->
-    
+
     it 'catch error', (next) ->
       parse """
       1,2,3
