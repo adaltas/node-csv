@@ -3,7 +3,7 @@ const parse = require('../lib/sync')
 const assert = require('assert')
 
 const data = `
-# At the begening of a record
+# At the beginning of a record
 "hello"
 "world"# At the end of a record
 `.trim()
