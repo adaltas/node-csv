@@ -109,7 +109,7 @@ describe 'Option `columns`', ->
         ] unless err
         next err
           
-  describe 'boolean array', ->
+  describe 'array', ->
 
     it 'enforced by user if array', (next) ->
       parse """
@@ -227,7 +227,7 @@ describe 'Option `columns`', ->
         ] unless err
         next err
     
-    it '', (next) ->
+    it 'last column value ignore when `null`', (next) ->
       # Trigger a bug where error is try to stringify and parse an undefined
       # value, conjointly triggered by a null column and a
       # CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH error
