@@ -7,10 +7,16 @@ const data = `
   2050-11-27,date2
 `.trim()
 const records = parse(data, {
+  // The cast option exect a function which 
+  // is called with two arguments,
+  // the parsed value and a context object
   cast: function(value, context){
+    // You can return any value
     if(context.index === 0){
+      // Such as a string
       return `${value}T05:00:00.000Z`
     }else{
+      // Or the `context` object literal
       return context
     }
   },
