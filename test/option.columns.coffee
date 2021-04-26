@@ -28,7 +28,7 @@ describe 'Option `columns`', ->
       (->
         parse "", columns: {}, (->)
       ).should.throw
-        message: 'Invalid option columns: expect an object, a function or true, got {}'
+        message: 'Invalid option columns: expect an array, a function or true, got {}'
         code: 'CSV_INVALID_OPTION_COLUMNS'
   
     it 'skip columns with false value', (next) ->

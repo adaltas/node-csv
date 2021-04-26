@@ -17,6 +17,10 @@ Please join and contribute:
 * relax_column_count: rename INCONSISTENT_RECORD_LENGTH to RECORD_INCONSISTENT_FIELDS_LENGTH (easy)
 * relax_column_count: rename RECORD_DONT_MATCH_COLUMNS_LENGTH to RECORD_INCONSISTENT_COLUMNS (easy)
 
+## Trunk
+
+* fix: update error message with invalid column type
+
 ## Version 4.15.4
 
 * fix: handle cast value 0 fix #315
