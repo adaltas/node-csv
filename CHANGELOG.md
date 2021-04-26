@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* fix: handle empty column names properly
 * feat: enforce usage of columns with columns_duplicates_to_array
 * fix: update error message with invalid column type
 
