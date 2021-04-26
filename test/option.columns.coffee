@@ -51,6 +51,32 @@ describe 'Option `columns`', ->
         columns.should.eql ["a", false, "c", false] unless err
         next err
   
+  describe 'duplicate column names', ->
+        
+    it 'with true', (next) ->
+      parse '''
+      a,b,a,c
+      1,2,3,4
+      5,6,7,8
+      ''', columns: true, (err, data) ->
+        data.should.eql [
+          {a: '3', b: '2', c: '4'}
+          {a: '7', b: '6', c: '8'}
+        ] unless err
+        next err
+        
+    it 'with array', (next) ->
+      columns = ['a', 'b', 'a', 'c']
+      parse '''
+      1,2,3,4
+      5,6,7,8
+      ''', columns: columns, (err, data) ->
+        data.should.eql [
+          {a: '3', b: '2', c: '4'}
+          {a: '7', b: '6', c: '8'}
+        ] unless err
+        next err
+  
   describe 'boolean', ->
 
     it 'read from first row if true', (next) ->
