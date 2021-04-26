@@ -10,10 +10,19 @@ describe 'Option `columns_duplicates_to_array`', ->
     ).should.throw
       code: 'CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY'
       message: [
-        'Invalid option columns_duplicates_to_array:',
+        'Invalid option columns_duplicates_to_array:'
         'expect an boolean, got "invalid"'
       ].join ' '
 
+  it 'require columns to be active', ->
+    (->
+      parse "", columns_duplicates_to_array: true
+    ).should.throw
+      code: 'CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY'
+      message: [
+        'Invalid option columns_duplicates_to_array:'
+        'the `columns` mode must be activated.'
+      ].join ' '
     
   it 'when false', (next) ->
     parse """

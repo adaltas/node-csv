@@ -19,6 +19,7 @@ Please join and contribute:
 
 ## Trunk
 
+* feat: enforce usage of columns with columns_duplicates_to_array
 * fix: update error message with invalid column type
 
 ## Version 4.15.4
