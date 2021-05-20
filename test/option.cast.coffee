@@ -65,8 +65,9 @@ describe 'Option `cast`', ->
       , (err, records) ->
         records.should.eql [
           [[
-            'column', 'comment_lines', 'empty_lines', 'error', 'header',
-            'index', 'invalid_field_length', 'lines', 'quoting', 'records'
+            'column', 'columns', 'comment_lines', 'empty_lines', 'error',
+            'header', 'index', 'invalid_field_length', 'lines', 'quoting',
+            'records'
           ]]
         ] unless err
         next err
@@ -83,12 +84,12 @@ describe 'Option `cast`', ->
       , (err, records) ->
         records.should.eql [
           [ '2000-01-01T05:00:00.000Z', {
-            column: 1, comment_lines: 0, empty_lines: 0, error: undefined,
+            column: 1, columns: false, comment_lines: 0, empty_lines: 0, error: undefined,
             header: false, index: 1, invalid_field_length: 0, lines: 1,
             quoting: false, records: 0
           } ]
           [ '2050-11-27T05:00:00.000Z', {
-            column: 1, comment_lines: 0, empty_lines: 0, error: undefined,
+            column: 1, columns: false, comment_lines: 0, empty_lines: 0, error: undefined,
             header: false, index: 1, invalid_field_length: 0, lines: 2,
             quoting: false, records: 1
           } ]

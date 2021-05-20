@@ -29,7 +29,7 @@ describe 'Option `info`', ->
       ''', info: true, (err, records) ->
         {info} = records[0]
         Object.keys(info).sort().should.eql [
-          'comment_lines', 'empty_lines', 'error', 'header',
+          'columns', 'comment_lines', 'empty_lines', 'error', 'header',
           'index', 'invalid_field_length', 'lines', 'records'
         ]
         next err

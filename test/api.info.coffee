@@ -9,6 +9,7 @@ describe 'API info', ->
     a,b,
     ''', (err, data, info) ->
       info.should.eql
+        columns: false
         comment_lines: 0
         empty_lines: 0
         invalid_field_length: 0
@@ -22,11 +23,30 @@ describe 'API info', ->
     a,b,c
     ''', (err, data, info) ->
       info.should.eql
+        columns: false
         comment_lines: 0
         empty_lines: 0
         invalid_field_length: 0
         lines: 2
         records: 2
+      next err
+
+  it 'discovered columns are included', (next) ->
+    parse '''
+    a,b,c
+    1,2,3
+    ''', columns: true, (err, data, info) ->
+      info.should.eql
+        comment_lines: 0
+        columns: [
+          { name: 'a' }
+          { name: 'b' }
+          { name: 'c' }
+        ]
+        empty_lines: 0
+        invalid_field_length: 0
+        lines: 2
+        records: 1
       next err
 
   it 'with multiline records', (next) ->
@@ -37,6 +57,7 @@ describe 'API info', ->
     g,h,i
     ''', (err, data, info) ->
       info.should.eql
+        columns: false
         comment_lines: 0
         empty_lines: 0
         invalid_field_length: 0
