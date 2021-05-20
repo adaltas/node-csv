@@ -28,3 +28,18 @@ describe 'API info', ->
         lines: 2
         records: 2
       next err
+
+  it 'with multiline records', (next) ->
+    parse '''
+    a,b,c
+    d,"e
+    ",f
+    g,h,i
+    ''', (err, data, info) ->
+      info.should.eql
+        comment_lines: 0
+        empty_lines: 0
+        invalid_field_length: 0
+        lines: 4
+        records: 3
+      next err

@@ -60,6 +60,6 @@ describe 'Option `info`', ->
       ''', info: true, (err, records) ->
         records.map(
           ({info}) -> info.lines
-        ).should.eql [1, 2, 4] unless err
+        ).should.eql [1, 3, 4] unless err
         next err
     
