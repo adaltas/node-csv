@@ -56,7 +56,22 @@ describe 'Option `cast`', ->
 
   describe 'function', ->
 
-    it 'custom function', (next) ->
+    it.only 'custom function', (next) ->
+      parse """
+      hello
+      """,
+        cast: (value, context) ->
+          Object.keys context
+      , (err, records) ->
+        records.should.eql [
+          [[
+            'column', 'empty_lines', 'error', 'header', 'index'
+            'invalid_field_length', 'quoting', 'lines', 'records'
+          ]]
+        ] unless err
+        next err
+
+    it 'return anything, eg a string or an object', (next) ->
       parse """
       2000-01-01,date1
       2050-11-27,date2
