@@ -3,7 +3,9 @@
 
 ## Todo
 
-Please join and contribute:
+Below is the list of upgrades we are considering for the next major release. The majority of them are just simple refactoring. They will however introduce backward incompatibilities.
+
+We invite you to join and contribute but create an issue before engaging any work. Some tasks are scheduled for another time or might depends on another one.
 
 * `skip_lines_with_empty_values`: rename to skip_records_with_empty_values (easy)
 * `skip_lines_with_error`: rename to skip_records_with_error (easy)
@@ -12,13 +14,16 @@ Please join and contribute:
 * promise: new API module (medium)
 * errors: finish normalisation of all errors (easy)
 * encoding: new encoding_input and encoding_output options (medium)
-* context: isolate info properties at context root (easy)
-* context: merge record, raw, context, info, error into a single object (medium)
-* relax_column_count: rename INCONSISTENT_RECORD_LENGTH to RECORD_INCONSISTENT_FIELDS_LENGTH (easy)
-* relax_column_count: rename RECORD_DONT_MATCH_COLUMNS_LENGTH to RECORD_INCONSISTENT_COLUMNS (easy)
+* `columns_duplicates_to_array`: this is just too long but I don't have much insipiration for a better name
+* `relax_column_count`: rename INCONSISTENT_RECORD_LENGTH to RECORD_INCONSISTENT_FIELDS_LENGTH (easy)
+* `relax_column_count`: rename RECORD_DONT_MATCH_COLUMNS_LENGTH to RECORD_INCONSISTENT_COLUMNS (easy)
+* `info`: remove the `parser.info` object and move its properties to `state`
+* `info`: rename the `info` related properties and functions to `context`
 
 ## Trunk
 
+* fix: info print the number of encountered line when emited
+* feat: cast expose context.empty_lines
 * fix: handle empty column names properly
 * feat: enforce usage of columns with columns_duplicates_to_array
 * fix: update error message with invalid column type
