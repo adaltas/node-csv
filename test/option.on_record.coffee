@@ -49,3 +49,14 @@ describe 'Option `on_record`', ->
     , (err, records) ->
       err.message.should.eql 'Error thrown on line 2'
       next()
+
+describe 'context', ->
+  
+  it 'properties', (next) ->
+    parse "a,b\nc,d",
+      on_record: (record, context) ->
+        context
+      skip_lines_with_error: true
+    , (err, records) ->
+      console.log records
+      next()

@@ -56,17 +56,17 @@ describe 'Option `cast`', ->
 
   describe 'function', ->
 
-    it.only 'custom function', (next) ->
+    it 'custom function', (next) ->
       parse """
       hello
       """,
         cast: (value, context) ->
-          Object.keys context
+          Object.keys(context).sort()
       , (err, records) ->
         records.should.eql [
           [[
-            'column', 'empty_lines', 'error', 'header', 'index'
-            'invalid_field_length', 'quoting', 'lines', 'records'
+            'column', 'comment_lines', 'empty_lines', 'error', 'header',
+            'index', 'invalid_field_length', 'lines', 'quoting', 'records'
           ]]
         ] unless err
         next err
@@ -83,12 +83,14 @@ describe 'Option `cast`', ->
       , (err, records) ->
         records.should.eql [
           [ '2000-01-01T05:00:00.000Z', {
-            column: 1, empty_lines: 0, error: undefined, header: false, index: 1,
-            invalid_field_length: 0, lines: 1, quoting: false, records: 0
+            column: 1, comment_lines: 0, empty_lines: 0, error: undefined,
+            header: false, index: 1, invalid_field_length: 0, lines: 1,
+            quoting: false, records: 0
           } ]
           [ '2050-11-27T05:00:00.000Z', {
-            column: 1, empty_lines: 0, error: undefined, header: false, index: 1,
-            invalid_field_length: 0, lines: 2, quoting: false, records: 1
+            column: 1, comment_lines: 0, empty_lines: 0, error: undefined,
+            header: false, index: 1, invalid_field_length: 0, lines: 2,
+            quoting: false, records: 1
           } ]
         ] unless err
         next err
