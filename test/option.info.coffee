@@ -18,6 +18,28 @@ describe 'Option `info`', ->
       d,e,f
       g,h,i
       ''', info: true, (err, records) ->
+        records.map ({record, info}) ->
+          should(record).be.an.Array()
+          should(info).be.an.Object()
+        next err
+          
+    it 'info properties', (next) ->
+      parse '''
+      a,b,c
+      ''', info: true, (err, records) ->
+        {info} = records[0]
+        Object.keys(info).sort().should.eql [
+          'comment_lines', 'empty_lines', 'error', 'header',
+          'index', 'invalid_field_length', 'lines', 'records'
+        ]
+        next err
+          
+    it 'validate the `lines` property', (next) ->
+      parse '''
+      a,b,c
+      d,e,f
+      g,h,i
+      ''', info: true, (err, records) ->
         records.map(
           ({info}) -> info.lines
         ).should.eql [1, 2, 3] unless err

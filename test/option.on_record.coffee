@@ -53,10 +53,28 @@ describe 'Option `on_record`', ->
 describe 'context', ->
   
   it 'properties', (next) ->
+    parse "a,b",
+      on_record: (record, context) ->
+        Object.keys(context).sort()
+      skip_lines_with_error: true
+    , (err, records) ->
+      records.should.eql [[
+        'comment_lines', 'empty_lines', 'error', 'header',
+        'index', 'invalid_field_length', 'lines', 'records'
+      ]]
+      next()
+        
+  it 'properties', (next) ->
     parse "a,b\nc,d",
       on_record: (record, context) ->
         context
       skip_lines_with_error: true
     , (err, records) ->
-      console.log records
+      records.should.eql [
+        comment_lines: 0, empty_lines: 0, error: undefined, header: false
+        index: 2, invalid_field_length: 0, lines: 1, records: 1
+      ,
+        comment_lines: 0, empty_lines: 0, error: undefined, header: false
+        index: 2, invalid_field_length: 0, lines: 2, records: 2
+      ]
       next()
