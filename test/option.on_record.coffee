@@ -61,6 +61,7 @@ describe 'Option `on_record`', ->
         skip_lines_with_error: true
       , (err, records) ->
         records.should.eql [[
+          'bytes',
           'columns', 'comment_lines', 'empty_lines', 'error', 'header',
           'index', 'invalid_field_length', 'lines', 'records'
         ]]
@@ -73,9 +74,11 @@ describe 'Option `on_record`', ->
         skip_lines_with_error: true
       , (err, records) ->
         records.should.eql [
+          bytes: 4,
           columns: false, comment_lines: 0, empty_lines: 0, error: undefined, header: false
           index: 2, invalid_field_length: 0, lines: 1, records: 1
         ,
+          bytes: 7,
           columns: false, comment_lines: 0, empty_lines: 0, error: undefined, header: false
           index: 2, invalid_field_length: 0, lines: 2, records: 2
         ]

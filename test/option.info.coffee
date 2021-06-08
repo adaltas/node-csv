@@ -29,23 +29,38 @@ describe 'Option `info`', ->
       ''', info: true, (err, records) ->
         {info} = records[0]
         Object.keys(info).sort().should.eql [
+          'bytes',
           'columns', 'comment_lines', 'empty_lines', 'error', 'header',
           'index', 'invalid_field_length', 'lines', 'records'
         ]
         next err
           
-    it 'validate the `lines` property', (next) ->
+    it 'validate the `lines` and `bytes` properties', (next) ->
+      console.log(">" + '''
+      a,b,c
+      d,e,f
+      g,h,i
+      ''' + "<")
       parse '''
       a,b,c
       d,e,f
       g,h,i
       ''', info: true, (err, records) ->
         records.map(
-          ({info}) -> info.lines
-        ).should.eql [1, 2, 3] unless err
+          ({info}) -> [info.lines, info.bytes]
+        ).should.eql [[1, 6], [2, 12], [3, 17]] unless err
         next err
           
     it 'with skip_empty_lines', (next) ->
+      console.log(">" + '''
+      
+      a,b,c
+      
+      d,e,f
+      
+      g,h,i
+      ''' + "<")
+
       parse '''
       
       a,b,c
@@ -55,11 +70,19 @@ describe 'Option `info`', ->
       g,h,i
       ''', info: true, skip_empty_lines: true, (err, records) ->
         records.map(
-          ({info}) -> info.lines
-        ).should.eql [2, 4, 6] unless err
+          ({info}) -> [info.lines, info.bytes]
+        ).should.eql [[2, 7], [4, 14], [6, 20]] unless err
         next err
           
     it 'with comment', (next) ->
+      console.log(">" + '''
+      # line 1
+      a,b,c
+      # line 2
+      d,e,f
+      # line 3
+      g,h,i
+      ''' + "<")
       parse '''
       # line 1
       a,b,c
@@ -69,8 +92,8 @@ describe 'Option `info`', ->
       g,h,i
       ''', info: true, comment: '#', (err, records) ->
         records.map(
-          ({info}) -> info.lines
-        ).should.eql [2, 4, 6] unless err
+          ({info}) -> [info.lines, info.bytes]
+        ).should.eql [[2, 15], [4, 30], [6, 44]] unless err
         next err
           
     it 'with multiline records', (next) ->
@@ -81,7 +104,7 @@ describe 'Option `info`', ->
       g,h,i
       ''', info: true, (err, records) ->
         records.map(
-          ({info}) -> info.lines
-        ).should.eql [1, 3, 4] unless err
+          ({info}) -> [info.lines, info.bytes]
+        ).should.eql [[1, 6], [3, 15], [4, 20]] unless err
         next err
     
