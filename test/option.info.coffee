@@ -36,11 +36,6 @@ describe 'Option `info`', ->
         next err
           
     it 'validate the `lines` and `bytes` properties', (next) ->
-      console.log(">" + '''
-      a,b,c
-      d,e,f
-      g,h,i
-      ''' + "<")
       parse '''
       a,b,c
       d,e,f
@@ -52,15 +47,6 @@ describe 'Option `info`', ->
         next err
           
     it 'with skip_empty_lines', (next) ->
-      console.log(">" + '''
-      
-      a,b,c
-      
-      d,e,f
-      
-      g,h,i
-      ''' + "<")
-
       parse '''
       
       a,b,c
@@ -75,14 +61,6 @@ describe 'Option `info`', ->
         next err
           
     it 'with comment', (next) ->
-      console.log(">" + '''
-      # line 1
-      a,b,c
-      # line 2
-      d,e,f
-      # line 3
-      g,h,i
-      ''' + "<")
       parse '''
       # line 1
       a,b,c

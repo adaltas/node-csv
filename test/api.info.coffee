@@ -9,6 +9,7 @@ describe 'API info', ->
     a,b,
     ''', (err, data, info) ->
       info.should.eql
+        bytes: 10
         columns: false
         comment_lines: 0
         empty_lines: 0
@@ -23,6 +24,7 @@ describe 'API info', ->
     a,b,c
     ''', (err, data, info) ->
       info.should.eql
+        bytes: 11
         columns: false
         comment_lines: 0
         empty_lines: 0
@@ -37,6 +39,7 @@ describe 'API info', ->
     1,2,3
     ''', columns: true, (err, data, info) ->
       info.should.eql
+        bytes: 11
         comment_lines: 0
         columns: [
           { name: 'a' }
@@ -57,6 +60,7 @@ describe 'API info', ->
     g,h,i
     ''', (err, data, info) ->
       info.should.eql
+        bytes: 20
         columns: false
         comment_lines: 0
         empty_lines: 0

@@ -45,6 +45,7 @@ describe('API Types', () => {
       const info: Info = parser.info
       const keys: string[] = Object.keys(info)
       keys.sort().should.eql([
+        'bytes',
         'comment_lines', 'empty_lines',
         'invalid_field_length', 'lines', 'records'
       ])
@@ -86,10 +87,17 @@ describe('API Types', () => {
   describe('Info', () => {
     
     const fakeinfo = {
+      bytes: 1,
       comment_lines: 1, empty_lines: 1,
       invalid_field_length: 1, lines: 1, records: 1
     }
     
+    it('bytes', () => {
+      const info: Info = fakeinfo
+      const bytes: number = info.bytes
+      bytes
+    })
+
     it('comment_lines', () => {
       const info: Info = fakeinfo
       const comment_lines: number = info.comment_lines

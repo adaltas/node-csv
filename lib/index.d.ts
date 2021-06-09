@@ -229,6 +229,10 @@ declare namespace parse {
          */
         readonly records: number;
         /**
+         * Count of the number of processed bytes.
+         */
+        readonly bytes: number;
+        /**
          * Number of non uniform records when `relax_column_count` is true.
          */
         readonly invalid_field_length: number;
