@@ -20,7 +20,7 @@ We invite you to join and contribute but create an issue before engaging any wor
 * `info`: remove the `parser.info` object and move its properties to `state`
 * `info`: rename the `info` related properties and functions to `context`
 
-## Trunk
+## Version 4.16.0
 
 * fix: info print the number of encountered line when emited
 * feat: cast expose context.empty_lines
