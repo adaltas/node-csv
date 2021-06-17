@@ -88,5 +88,9 @@
     "major": "npm version major -m 'Bump to version %s'",
     "test": "mocha test/**/*.{coffee,ts}"
   },
+  "exports": {
+    "import": "./lib/index.mjs",
+    "require": "./lib/index.js"
+  },
   "types": "./lib/index.d.ts"
 }
