@@ -23,7 +23,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">= 0.1.90"
+    "node": ">= 12.16.0"
   },
   "main": "./lib",
   "repository": {
@@ -89,8 +89,14 @@
     "test": "mocha test/**/*.{coffee,ts}"
   },
   "exports": {
-    "import": "./lib/index.mjs",
-    "require": "./lib/index.js"
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
+    },
+    "./sync": {
+      "import": "./lib/sync.mjs",
+      "require": "./lib/sync.js"
+    }
   },
   "types": "./lib/index.d.ts"
 }
