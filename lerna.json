@@ -1,0 +1,10 @@
+{
+  "command": {
+    "version": {
+      "message": "chore(release): publish"
+    }
+  },
+  "npmClient": "yarn",
+  "version": "independent",
+  "useWorkspaces": true
+}

@@ -1,0 +1,10 @@
+.*
+/node_modules
+/packages/*/node_modules
+!.github
+!.gitignore
+!.husky
+lerna-debug.log
+yarn.lock
+yarn-error.log
+package-lock.json

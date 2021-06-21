@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@commitlint/config-lerna-scopes": "^12.1.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^5.2.0",
+    "lerna": "^4.0.0"
+  },
+  "scripts": {
+    "build": "lerna run build",
+    "postinstall": "husky install",
+    "publish": "lerna publish from-git --yes",
+    "test": "lerna run test",
+    "version": "lerna version --conventional-commits"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/browserify",
+      "**/browserify/**"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}
