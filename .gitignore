@@ -1,0 +1,8 @@
+.*
+!/.babelrc
+!/.travis.yml
+!/.gitignore
+!/.npmignore
+/node_modules
+/package-lock.json
+/yarn.lock
