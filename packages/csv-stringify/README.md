@@ -33,12 +33,17 @@ simple callback API is also provided. To give you a quick look, here's an
 example of the callback API:
 
 ```javascript
-var stringify = require('csv-stringify');
+const stringify = require('csv-stringify')
+const assert = require('assert')
+// import stringify from 'csv-stringify'
+// import assert from 'assert/strict'
 
-input = [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ];
-stringify(input, function(err, output){
-  output.should.eql('1,2,3,4\na,b,c,d\n');
-});
+const input = [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]
+stringify(input, function(err, output) {
+  const expected = '1,2,3,4\na,b,c,d\n'
+  assert.strictEqual(output, expected, `output.should.eql ${expected}`)
+  console.log("Passed.", output)
+})
 ```
 
 ## Development
