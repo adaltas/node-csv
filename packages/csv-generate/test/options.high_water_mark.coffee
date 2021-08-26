@@ -1,5 +1,5 @@
 
-generate = require '../src'
+generate = require '../lib'
 
 describe 'option high_water_mark', ->
 

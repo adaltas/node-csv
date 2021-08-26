@@ -1,7 +1,7 @@
 
 stream = require 'stream'
 util = require 'util'
-generate = require '../src'
+generate = require '../lib'
 
 describe 'api pipe', ->
 

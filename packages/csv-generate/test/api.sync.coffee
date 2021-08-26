@@ -1,5 +1,5 @@
 
-generate = require '../src/sync'
+generate = require '../lib/sync'
 
 describe 'api sync', ->
 

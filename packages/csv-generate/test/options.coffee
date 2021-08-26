@@ -1,5 +1,5 @@
 
-generate = require '../src'
+generate = require '../lib'
 
 describe 'options', ->
 
