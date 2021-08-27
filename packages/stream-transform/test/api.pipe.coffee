@@ -1,9 +1,9 @@
 
 stream = require 'stream'
 generate = require 'csv-generate'
-transform = require '../src'
+transform = require '../lib'
 
-describe 'pipe', ->
+describe 'api.pipe', ->
 
   describe 'source', ->
 

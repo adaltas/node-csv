@@ -4,7 +4,7 @@ import * as transform from '../lib/index'
 import * as transformSync from '../lib/sync'
 import {Options, Transformer} from '../lib/index'
 
-describe('API Types', () => {
+describe('api.types', () => {
   
   describe('Initialisation', () => {
     

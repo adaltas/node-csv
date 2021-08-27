@@ -1,7 +1,7 @@
 
-transform = require '../src'
+transform = require '../lib'
 
-describe 'types', ->
+describe 'handler.types', ->
 
   it 'receive object and add new column', (next) ->
     transform [

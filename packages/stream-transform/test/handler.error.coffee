@@ -1,8 +1,8 @@
 
 generate = require 'csv-generate'
-transform = require '../src'
+transform = require '../lib'
 
-describe 'error', ->
+describe 'handler.error', ->
 
   it 'catch using stream api', (next) ->
       transformer = transform (record) ->

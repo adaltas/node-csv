@@ -1,5 +1,5 @@
 
-transform = require '../src'
+transform = require '../lib'
 
 describe 'state.finished', ->
   

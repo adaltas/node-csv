@@ -1,8 +1,8 @@
 
-transform = require '../src'
+transform = require '../lib'
 generate = require 'csv-generate'
 
-describe 'sync', ->
+describe 'handler.sync', ->
 
   describe 'api', ->
 

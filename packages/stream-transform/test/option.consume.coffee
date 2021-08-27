@@ -1,9 +1,9 @@
 
 pad = require 'pad'
 generate = require 'csv-generate'
-transform = require '../src'
+transform = require '../lib'
 
-describe 'option consume', ->
+describe 'option.consume', ->
 
   it 'async', (next) ->
     @timeout 0
@@ -33,31 +33,31 @@ describe 'option consume', ->
       count.should.eql 100000
       next()
 
-describe 'sequential', ->
+  describe 'sequential', ->
 
-  it 'async', (next) ->
-    @timeout 0
-    data = []
-    count = 0
-    generator = generate length: 100000, objectMode: true
-    transformer = generator.pipe transform (record, callback) ->
-      count++
-      setImmediate  -> callback null, ''
-    , parallel: 1, consume: true
-    transformer.on 'finish', ->
-      count.should.eql 100000
-      next()
+    it 'async', (next) ->
+      @timeout 0
+      data = []
+      count = 0
+      generator = generate length: 100000, objectMode: true
+      transformer = generator.pipe transform (record, callback) ->
+        count++
+        setImmediate  -> callback null, ''
+      , parallel: 1, consume: true
+      transformer.on 'finish', ->
+        count.should.eql 100000
+        next()
 
-  it 'sync', (next) ->
-    @timeout 0
-    data = []
-    count = 0
-    generator = generate length: 100000, objectMode: true
-    transformer = generator.pipe transform (record) ->
-      count++
-      ''
-    , parallel: 1, consume: true
-    transformer.on 'finish', ->
-      count.should.eql 100000
-      next()
-    
+    it 'sync', (next) ->
+      @timeout 0
+      data = []
+      count = 0
+      generator = generate length: 100000, objectMode: true
+      transformer = generator.pipe transform (record) ->
+        count++
+        ''
+      , parallel: 1, consume: true
+      transformer.on 'finish', ->
+        count.should.eql 100000
+        next()
+      

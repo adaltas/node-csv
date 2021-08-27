@@ -1,7 +1,7 @@
 
 pad = require 'pad'
 generate = require 'csv-generate'
-transform = require '../src'
+transform = require '../lib'
 
 letters = (number) ->
   text = "#{number}"
@@ -10,7 +10,7 @@ letters = (number) ->
     65 - 49 + 1 + c.charCodeAt 0
   String.fromCharCode text...
 
-describe 'option parallel', ->
+describe 'option.parallel', ->
 
   it 'respect running', (next) ->
     @timeout 0

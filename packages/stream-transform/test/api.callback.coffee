@@ -1,8 +1,8 @@
 
 generate = require 'csv-generate'
-transform = require '../src'
+transform = require '../lib'
 
-describe 'callback', ->
+describe 'api.callback', ->
 
   it 'input is data', (next) ->
     data = for i in [0...100] then i

@@ -1,8 +1,8 @@
 
 generate = require 'csv-generate'
-transform = require '../src'
+transform = require '../lib'
 
-describe 'option params', ->
+describe 'option.params', ->
 
   it 'sync', (next) ->
     generator = generate length: 100, objectMode: true, seed: 1

@@ -1,7 +1,7 @@
 
-transform = require '../src/sync'
+transform = require '../lib/sync'
 
-describe 'api sync', ->
+describe 'api.sync', ->
 
   it 'accept data and handler without options', ->
     data = transform [
