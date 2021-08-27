@@ -5,17 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 2.1.1 (2021-08-27)
 
-
 ### Bug Fixes
 
 * **stream-transform:** finish event call multiple times ([4f45103](https://github.com/adaltas/node-stream-transform/commit/4f451038ef083b65d58ccee6fe3d041b106cc1cf))
-
-
-
-
-
-
-# Changelog
 
 ## Version 2.1.0
 

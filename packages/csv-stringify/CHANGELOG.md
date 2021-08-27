@@ -7,13 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package csv-stringify
 
-
-
-
-
-
-# Changelog
-
 ## Version 5.6.2
 
 * build: rename build commands
