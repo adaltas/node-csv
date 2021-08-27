@@ -371,6 +371,7 @@ Transformer.prototype._transform = function (chunk, encoding, cb) {
 Transformer.prototype._flush = function (cb) {
   this._ending = function () {
     if (this.state.running === 0) {
+      this._ending = undefined;
       return cb();
     }
   };
