@@ -159,7 +159,7 @@ var Parser = /*#__PURE__*/function (_Transform) {
           var date = Date.parse(value);
           return !isNaN(date) ? new Date(date) : value;
         };
-      } else if (typeof options.cast_date !== 'function') {
+      } else {
         throw new CsvError('CSV_INVALID_OPTION_CAST_DATE', ['Invalid option cast_date:', 'cast_date must be true or a function,', "got ".concat(JSON.stringify(options.cast_date))], options);
       } // Normalize option `columns`
 
