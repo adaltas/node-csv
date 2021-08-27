@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "2.1.1",
   "name": "stream-transform",
   "description": "Object transformations implementing the Node.js `stream.Transform` API",
   "keywords": [
@@ -48,7 +48,6 @@
   "files": [
     "/lib"
   ],
-  "optionalDependencies": {},
   "main": "./lib",
   "mocha": {
     "throw-deprecation": true,

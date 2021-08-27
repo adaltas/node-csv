@@ -1,5 +1,5 @@
 {
-  "version": "3.4.0",
+  "version": "3.4.1",
   "name": "csv-generate",
   "description": "CSV and object generation implementing the Node.js `stream.Readable` API",
   "keywords": [
@@ -49,7 +49,6 @@
     "/lib"
   ],
   "main": "./lib",
-  "optionalDependencies": {},
   "mocha": {
     "throw-deprecation": true,
     "require": [
