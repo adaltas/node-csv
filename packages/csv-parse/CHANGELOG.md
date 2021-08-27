@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.16.2](https://github.com/wdavidw/node-csv-parse/compare/csv-parse@4.16.1...csv-parse@4.16.2) (2021-08-27)
+
+**Note:** Version bump only for package csv-parse
+
+
+
+
+
 ## 4.16.1 (2021-08-27)
 
 **Note:** Version bump only for package csv-parse

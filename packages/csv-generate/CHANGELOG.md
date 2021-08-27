@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.2](https://github.com/adaltas/node-csv-generate/compare/csv-generate@3.4.1...csv-generate@3.4.2) (2021-08-27)
+
+**Note:** Version bump only for package csv-generate
+
+
+
+
+
 ## 3.4.1 (2021-08-27)
 
 **Note:** Version bump only for package csv-generate

@@ -1,6 +1,6 @@
 {
   "name": "csv",
-  "version": "5.5.1",
+  "version": "5.5.2",
   "description": "A mature CSV toolset with simple api, full of options and tested against large datasets.",
   "keywords": [
     "node",
@@ -44,10 +44,10 @@
     }
   },
   "dependencies": {
-    "csv-generate": "^3.4.1",
-    "csv-parse": "^4.16.1",
-    "csv-stringify": "^5.6.3",
-    "stream-transform": "^2.1.1"
+    "csv-generate": "^3.4.2",
+    "csv-parse": "^4.16.2",
+    "csv-stringify": "^5.6.4",
+    "stream-transform": "^2.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
