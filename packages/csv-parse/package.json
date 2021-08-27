@@ -89,11 +89,7 @@
     "build:babel": "cd lib && babel *.js -d es5 && cd ..",
     "build:browserify": "browserify lib/index.js --transform babelify --standalone parse > lib/browser/index.js && browserify lib/sync.js --transform babelify --standalone parse > lib/browser/sync.js",
     "build": "npm run build:babel && npm run build:browserify",
-    "preversion": "npm test && cp lib/*.ts lib/es5 && git add lib/es5/*.ts",
-    "postversion": "git push && git push --tags && npm publish",
-    "patch": "npm version patch -m 'Bump to version %s'",
-    "minor": "npm version minor -m 'Bump to version %s'",
-    "major": "npm version major -m 'Bump to version %s'",
+    "preversion": "cp lib/*.ts lib/es5 && git add lib/es5/*.ts",
     "pretest": "npm run build",
     "lint": "eslint lib/*.js",
     "test": "npm run lint && TS_NODE_COMPILER_OPTIONS='{\"strictNullChecks\":true}' mocha test/**/*.{coffee,ts}"

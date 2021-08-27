@@ -80,11 +80,7 @@
   ],
   "scripts": {
     "build": "browserify lib/index.js --transform babelify --standalone parse > lib/browser/index.js && browserify lib/sync.js --transform babelify --standalone parse > lib/browser/sync.js",
-    "preversion": "npm test && cp lib/*.ts lib/es5 && git add lib/es5/*.ts",
-    "postversion": "git push && git push --tags && npm publish",
-    "patch": "npm version patch -m 'Bump to version %s'",
-    "minor": "npm version minor -m 'Bump to version %s'",
-    "major": "npm version major -m 'Bump to version %s'",
+    "preversion": "cp lib/*.ts lib/es5 && git add lib/es5/*.ts",
     "test": "mocha test/**/*.{coffee,ts}"
   },
   "types": "./lib/index.d.ts"
