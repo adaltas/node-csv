@@ -29,21 +29,21 @@
     }
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.14",
-    "@babel/core": "^7.13.14",
-    "@babel/preset-env": "^7.13.12",
-    "@types/mocha": "^8.2.2",
-    "@types/node": "^14.14.37",
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.7.8",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
     "coffeescript": "~2.5.1",
-    "csv-generate": "~3.3.0",
+    "csv-generate": "~3.4.2",
     "each": "^1.2.2",
-    "mocha": "~8.3.2",
+    "mocha": "~9.1.1",
     "pad": "~3.2.0",
     "should": "~13.2.3",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.3"
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
   },
   "files": [
     "/lib"
@@ -76,6 +76,6 @@
     "./lib/sync.d.ts"
   ],
   "dependencies": {
-    "mixme": "^0.5.0"
+    "mixme": "^0.5.1"
   }
 }

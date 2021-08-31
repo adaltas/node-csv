@@ -18,7 +18,7 @@ describe('API Types', () => {
     })
   
     it('Receive Callback', (next) => {
-      generate({length: 3}, function(err: Error, data: object){
+      generate({length: 3}, function(err: Error | undefined, data: object){
         if(err !== undefined){
           data.should.be.an.Object()
         }

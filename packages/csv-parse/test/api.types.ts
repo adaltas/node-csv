@@ -78,7 +78,9 @@ describe('API Types', () => {
         const data: object = parse_sync("")
         typeof data
       }catch (err){
-        err.message
+        if (err instanceof parse.CsvError){
+          err.message
+        }
       }
     })
     
