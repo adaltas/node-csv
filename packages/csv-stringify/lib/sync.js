@@ -1,8 +1,8 @@
 
-const stringify = require('.')
-const {StringDecoder} = require('string_decoder')
+import stringify from './index.js'
+import {StringDecoder} from 'string_decoder'
 
-module.exports = function(records, options={}){
+export default function(records, options={}){
   const data = []
   if(Buffer.isBuffer(records)){
     const decoder = new StringDecoder()

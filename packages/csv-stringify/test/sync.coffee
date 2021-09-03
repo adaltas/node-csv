@@ -1,5 +1,5 @@
 
-stringify = require '../lib/sync'
+import stringify from '../lib/sync.js'
 
 describe 'sync', ->
   

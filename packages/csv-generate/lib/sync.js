@@ -6,16 +6,16 @@ Please look at the [project documentation](https://csv.js.org/generate/) for
 additional information.
 */
 
-const generate = require('.')
+import Generator from './index.js'
 
-module.exports = function(options){
+export default function(options){
   if(typeof options === 'string' && /\d+/.test(options)){
     options = parseInt(options)
   }
   if(Number.isInteger(options)){
     options = {length: options}
   }else if(typeof options !== 'object' || options === null){
-    throw Error('Invalid Argument: options must be an o object or a integer')
+    throw Error('Invalid Argument: options must be an object or an integer')
   }
   if(!Number.isInteger(options.length)){
     throw Error('Invalid Argument: length is not defined')
@@ -24,7 +24,7 @@ module.exports = function(options){
   let work = true
   // See https://nodejs.org/api/stream.html#stream_new_stream_readable_options
   options.highWaterMark = options.objectMode ? 16 : 16384
-  const generator = new generate.Generator(options)
+  const generator = new Generator(options)
   generator.push = function(chunk){
     if(chunk === null){
       return work = false 

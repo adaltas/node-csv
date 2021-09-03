@@ -1,6 +1,7 @@
 
-const parse = require('../lib')
-const assert = require('assert')
+import assert from 'assert'
+import parse from '../lib/index.js'
+
 // Create the parser
 const parser = parse({
   delimiter: ':'

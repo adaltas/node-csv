@@ -1,7 +1,7 @@
 
-const os = require('os');
-const fs = require('fs').promises;
-const parse = require('../lib/sync');
+import fs from 'fs/promises'
+import os from 'os'
+import parse from '../lib/sync.js'
 
 (async function(){
   // Prepare the dataset
@@ -17,6 +17,6 @@ const parse = require('../lib/sync');
   // Print records to the console
   // records.map( record => console.log(record) )
   // Write a file with one JSON per line for each record
-  json = records.map( JSON.stringify ).join('\n')
+  const json = records.map( JSON.stringify ).join('\n')
   fs.writeFile(`${os.tmpdir()}/output.csv`, json)
 })()

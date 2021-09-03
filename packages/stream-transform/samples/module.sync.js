@@ -1,5 +1,5 @@
 
-const transform = require('..')
+import transform from '../lib/index.js'
 
 transform([
   ['1','2','3','4'],

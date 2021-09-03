@@ -1,7 +1,11 @@
 
-parse = require('..')
-fs = require('fs')
- 
+import fs from 'fs'
+import parse from '../lib/index.js'
+
+import { dirname } from 'path'
+import { fileURLToPath } from 'url';
+__dirname = dirname fileURLToPath `import.meta.url`
+
 processFile = () ->
   records = []
   parser = fs

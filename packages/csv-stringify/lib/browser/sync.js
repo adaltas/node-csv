@@ -2,6 +2,13 @@
 (function (Buffer,setImmediate){(function (){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.stringify = exports["default"] = void 0;
+
+var _stream = require("stream");
+
 function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
 
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
@@ -49,15 +56,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-/*
-CSV Stringify
-
-Please look at the [project documentation](https://csv.js.org/stringify/) for
-additional information.
-*/
-var _require = require('stream'),
-    Transform = _require.Transform;
 
 var bom_utf8 = Buffer.from([239, 187, 191]);
 
@@ -711,7 +709,7 @@ var Stringifier = /*#__PURE__*/function (_Transform) {
   }]);
 
   return Stringifier;
-}(Transform);
+}(_stream.Transform);
 
 var stringify = function stringify() {
   var data, options, callback;
@@ -793,6 +791,8 @@ var stringify = function stringify() {
   return stringifier;
 };
 
+exports.stringify = stringify;
+
 var CsvError = /*#__PURE__*/function (_Error) {
   _inherits(CsvError, _Error);
 
@@ -833,7 +833,8 @@ var CsvError = /*#__PURE__*/function (_Error) {
 
 stringify.Stringifier = Stringifier;
 stringify.CsvError = CsvError;
-module.exports = stringify;
+var _default = stringify;
+exports["default"] = _default;
 
 var isObject = function isObject(obj) {
   return _typeof(obj) === 'object' && obj !== null && !Array.isArray(obj);
@@ -934,23 +935,29 @@ var get = function get(object, path) {
 (function (Buffer){(function (){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = _default;
+
+var _index = _interopRequireDefault(require("./index.js"));
+
+var _string_decoder = require("string_decoder");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var stringify = require('.');
-
-var _require = require('string_decoder'),
-    StringDecoder = _require.StringDecoder;
-
-module.exports = function (records) {
+function _default(records) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var data = [];
 
   if (Buffer.isBuffer(records)) {
-    var decoder = new StringDecoder();
+    var decoder = new _string_decoder.StringDecoder();
     records = decoder.write(records);
   }
 
@@ -960,7 +967,7 @@ module.exports = function (records) {
     }
   }
 
-  var stringifier = new stringify.Stringifier(options);
+  var stringifier = new _index["default"].Stringifier(options);
   stringifier.on('data', onData);
 
   var _iterator = _createForOfIteratorHelper(records),
@@ -980,10 +987,10 @@ module.exports = function (records) {
   stringifier.end();
   stringifier.off('data', onData);
   return data.join('');
-};
+}
 
 }).call(this)}).call(this,{"isBuffer":require("../node_modules/is-buffer/index.js")})
-},{".":1,"../node_modules/is-buffer/index.js":9,"string_decoder":27}],3:[function(require,module,exports){
+},{"../node_modules/is-buffer/index.js":9,"./index.js":1,"string_decoder":27}],3:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength

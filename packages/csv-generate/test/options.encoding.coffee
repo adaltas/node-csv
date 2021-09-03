@@ -1,5 +1,5 @@
 
-generate = require '../lib'
+import generate from '../lib/index.js'
 
 describe 'Option encoding', ->
 

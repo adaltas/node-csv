@@ -1,7 +1,7 @@
 
-assert = require 'assert'
-generate = require 'csv-generate'
-parse = require '..'
+import assert from 'assert'
+import generate from 'csv-generate'
+import parse from '../lib/index.js'
 
 (() ->
   # Initialise the parser by generating random records

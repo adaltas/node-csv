@@ -1,5 +1,16 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CsvError = exports.Parser = exports.parse = exports["default"] = void 0;
+
+var _stream = require("stream");
+
+var _ResizeableBuffer = _interopRequireDefault(require("./ResizeableBuffer.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
 
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
@@ -54,21 +65,10 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-/*
-CSV Parse
-
-Please look at the [project documentation](https://csv.js.org/parse/) for
-additional information.
-*/
-var _require = require('stream'),
-    Transform = _require.Transform;
-
-var ResizeableBuffer = require('./ResizeableBuffer'); // white space characters
+// white space characters
 // https://en.wikipedia.org/wiki/Whitespace_character
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes#Types
 // \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff
-
-
 var tab = 9;
 var nl = 10; // \n, 0x0A in hexadecimal, 10 in decimal
 
@@ -516,7 +516,7 @@ var Parser = /*#__PURE__*/function (_Transform) {
         escapeIsQuote: Buffer.isBuffer(options.escape) && Buffer.isBuffer(options.quote) && Buffer.compare(options.escape, options.quote) === 0,
         // columns can be `false`, `true`, `Array`
         expectedRecordLength: Array.isArray(options.columns) ? options.columns.length : undefined,
-        field: new ResizeableBuffer(20),
+        field: new _ResizeableBuffer["default"](20),
         firstLineToHeaders: fnFirstLineToHeaders,
         needMoreDataSize: Math.max.apply(Math, [// Skip if the remaining buffer smaller than comment
         options.comment !== null ? options.comment.length : 0].concat(_toConsumableArray(options.delimiter.map(function (delimiter) {
@@ -526,7 +526,7 @@ var Parser = /*#__PURE__*/function (_Transform) {
         previousBuf: undefined,
         quoting: false,
         stop: false,
-        rawBuffer: new ResizeableBuffer(100),
+        rawBuffer: new _ResizeableBuffer["default"](100),
         record: [],
         recordHasError: false,
         record_length: 0,
@@ -1383,7 +1383,9 @@ var Parser = /*#__PURE__*/function (_Transform) {
   }]);
 
   return Parser;
-}(Transform);
+}(_stream.Transform);
+
+exports.Parser = Parser;
 
 var parse = function parse() {
   var data, options, callback;
@@ -1443,6 +1445,8 @@ var parse = function parse() {
   return parser;
 };
 
+exports.parse = parse;
+
 var CsvError = /*#__PURE__*/function (_Error) {
   _inherits(CsvError, _Error);
 
@@ -1481,9 +1485,9 @@ var CsvError = /*#__PURE__*/function (_Error) {
   return CsvError;
 }( /*#__PURE__*/_wrapNativeSuper(Error));
 
-parse.Parser = Parser;
-parse.CsvError = CsvError;
-module.exports = parse;
+exports.CsvError = CsvError;
+var _default = parse;
+exports["default"] = _default;
 
 var underscore = function underscore(str) {
   return str.replace(/([A-Z])/g, function (_, match) {

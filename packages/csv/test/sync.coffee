@@ -1,46 +1,25 @@
 
-csv = require '../lib/sync'
+import {generate, parse, transform, stringify} from '../lib/sync.js'
 
 describe 'api sync', ->
 
-  it 'expose generate', ->
-    csv
-    .generate length: 10, objectMode: true
-    .length.should.eql 10
+  it 'generate', ->
+    generate length: 1, columns: 1, seed: 1, objectMode: true
+    .should.eql [ [ 'OMH' ] ]
 
-  it 'expose parse', ->
-    csv
-    .parse """
-    a,b,c
-    1,2,3
-    """
-    .should.eql [
-      [ 'a', 'b', 'c' ]
-      [ '1', '2', '3' ]
-    ]
+  it 'parse', ->
+    parse 'abc,def'
+    .should.eql [ [ 'abc', 'def' ] ]
 
-  it 'expose transform', ->
-    csv
-    .transform [
-      [ 'a', 'b', 'c' ]
-      [ '1', '2', '3' ]
+  it 'transform', ->
+    transform [
+      [ 'abc', 'def' ]
     ], (record) ->
       record.push record.shift()
       record
-    .should.eql [
-      [ 'b', 'c', 'a' ]
-      [ '2', '3', '1' ]
-    ]
+    .should.eql [ [ 'def', 'abc' ] ]
 
-  it 'expose stringify', ->
-    csv
-    .stringify [
-      [ 'a', 'b', 'c' ]
-      [ '1', '2', '3' ]
-    ]
-    .should.eql """
-    a,b,c
-    1,2,3
-    
-    """
+  it 'stringify', ->
+    stringify [ [ 'abc', 'def' ] ]
+    .should.eql 'abc,def\n'
     

@@ -1,9 +1,9 @@
 
-// Alias to the ES6 modules exposing the stream and callback APIs
+// Alias to the modules exposing the stream and callback APIs
 
-module.exports = {
-  generate: require('csv-generate/lib'),
-  parse: require('csv-parse/lib'),
-  transform: require('stream-transform/lib'),
-  stringify: require('csv-stringify/lib')
-}
+import generate from 'csv-generate/lib/index.js'
+import parse from 'csv-parse/lib/index.js'
+import stringify from 'csv-stringify/lib/index.js'
+import transform from 'stream-transform/lib/index.js'
+
+export {generate, parse, stringify, transform}

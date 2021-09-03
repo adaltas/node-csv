@@ -1,6 +1,6 @@
 
 // Import the package main module
-const csv = require('..')
+import csv from '../lib/index.js'
 // Use the module
 csv
 // Generate 20 records

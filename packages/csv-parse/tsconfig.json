@@ -1,7 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "es6",
+    "esModuleInterop": true,
+    "module": "ES2020",
     "moduleResolution": "node",
     "strict": true,
   }

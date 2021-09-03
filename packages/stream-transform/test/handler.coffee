@@ -1,5 +1,5 @@
 
-transform = require '../lib'
+import transform from '../lib/index.js'
 
 describe 'handler', ->
 

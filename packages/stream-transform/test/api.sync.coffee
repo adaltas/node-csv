@@ -1,5 +1,5 @@
 
-transform = require '../lib/sync'
+import transform from '../lib/sync.js'
 
 describe 'api.sync', ->
 

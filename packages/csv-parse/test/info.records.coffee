@@ -1,5 +1,5 @@
 
-parse = require '../lib'
+import parse from '../lib/index.js'
 
 describe 'properties count records', ->
   

@@ -1,7 +1,7 @@
 
-const assert = require('assert');
-const generate = require('csv-generate');
-const parse = require('..');
+import assert from 'assert'
+import generate from 'csv-generate'
+import parse from '../lib/index.js'
 
 (async () => {
   // Initialise the parser by generating random records

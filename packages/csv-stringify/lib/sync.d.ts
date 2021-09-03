@@ -1,6 +1,6 @@
-import * as csvStringify from './index'
 
-export = stringify
+import {Input, Options} from './index'
 
-declare function stringify(input: csvStringify.Input, options?: csvStringify.Options): string
-declare namespace stringify {}
+declare function stringify(input: Input, options?: Options): string
+
+export default stringify

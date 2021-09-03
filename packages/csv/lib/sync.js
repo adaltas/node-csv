@@ -1,9 +1,9 @@
 
-// Alias to the ES6 modules exposing the sync API
+// Alias to the modules exposing the sync API
 
-module.exports = {
-  generate: require('csv-generate/lib/sync'),
-  parse: require('csv-parse/lib/sync'),
-  transform: require('stream-transform/lib/sync'),
-  stringify: require('csv-stringify/lib/sync')
-}
+import generate from 'csv-generate/lib/sync.js'
+import parse from 'csv-parse/lib/sync.js'
+import stringify from 'csv-stringify/lib/sync.js'
+import transform from 'stream-transform/lib/sync.js'
+
+export {generate, parse, stringify, transform}

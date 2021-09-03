@@ -1,8 +1,8 @@
 
-{CsvError} = require '..'
-ResizeableBuffer = require '../lib/ResizeableBuffer'
+import {CsvError} from '../lib/index.js'
+import ResizeableBuffer from '../lib/ResizeableBuffer.js'
 
-module.exports = assert_error = (err, assert = {}, exhaustive = false) ->
+export assert_error = (err, assert = {}, exhaustive = false) ->
   if Array.isArray err
     assert_error e, assert[i] for e, i in err
     return

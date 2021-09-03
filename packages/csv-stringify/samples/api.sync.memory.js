@@ -1,4 +1,5 @@
-const stringify = require('../lib/sync');
+
+import stringify from '../lib/sync.js'
 
 const r = v => (v / 1024 / 1024).toFixed(2);
 const printMemoryUsage = () => {

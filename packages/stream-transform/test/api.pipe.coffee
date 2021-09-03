@@ -1,7 +1,7 @@
 
-stream = require 'stream'
-generate = require 'csv-generate'
-transform = require '../lib'
+import stream from 'stream'
+import generate from 'csv-generate'
+import transform from '../lib/index.js'
 
 describe 'api.pipe', ->
 

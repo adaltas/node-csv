@@ -1,5 +1,5 @@
 
-var csv = require('..');
+import csv from '../lib/index.js'
 
 csv.generate({seed: 1, columns: 2, length: 20}, function(err, data){
   csv.parse(data, function(err, data){

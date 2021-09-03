@@ -1,6 +1,6 @@
 
-const transform = require('..')
-const assert = require('assert')
+import transform from '../lib/index.js'
+import assert from assert
 
 // Generate a dataset of 500 records
 const records = '.'.repeat(500).split('.').map( (_, i) => i )

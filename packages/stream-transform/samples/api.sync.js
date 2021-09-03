@@ -1,6 +1,6 @@
 
-const transform = require('../lib/sync')
-const assert = require('assert')
+import transform from '../lib/index.js'
+import assert from assert
 
 const records = transform([
   [ 'a', 'b', 'c', 'd' ],

@@ -6,14 +6,13 @@ Please look at the [project documentation](https://csv.js.org/transform/) for
 additional information.
 */
 
-const transform = require('.')
-const {clone} = require('mixme')
+import transform from './index.js'
 
-module.exports = function(){
+export default function(){
   // Import arguments normalization
-  let handler, callback
+  let handler, callback, records
   let options = {}
-  for(i in arguments){
+  for(const i in arguments){
     const argument = arguments[i]
     let type = typeof argument
     if(argument === null){
@@ -24,7 +23,7 @@ module.exports = function(){
     if(type === 'array'){
       records = argument
     }else if(type === 'object'){
-      options = clone(argument)
+      options = {...argument}
     }else if(type === 'function'){
       if(handler && i === arguments.length - 1){
         callback = argument

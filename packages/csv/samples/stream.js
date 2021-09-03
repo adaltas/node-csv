@@ -1,17 +1,18 @@
 
-var csv = require('..');
-var i = 0
+import * as csv from '../lib/index.js'
 
-var generator = csv.generate({seed: 1, columns: 2, length: 20});
-var parser = csv.parse();
-var transformer = csv.transform(function(data){
+let i = 0
+
+const generator = csv.generate({seed: 1, columns: 2, length: 20});
+const parser = csv.parse();
+const transformer = csv.transform(function(data){
   i++
   return data.map(function(value){return value.toUpperCase()});
 });
-var stringifier = csv.stringify();
+const stringifier = csv.stringify();
 
 generator.on('readable', function(){
-  while(data = generator.read()){
+  let data; while(data = generator.read()){
     parser.write(data);
   }
 });
@@ -20,7 +21,7 @@ generator.on('end', function(){
 });
 
 parser.on('readable', function(){
-  while(data = parser.read()){
+  let data; while(data = parser.read()){
     transformer.write(data);
   }
 });
@@ -29,7 +30,7 @@ parser.on('end', function(){
 });
 
 transformer.on('readable', function(){
-  while(data = transformer.read()){
+  let data; while(data = transformer.read()){
     stringifier.write(data);
   }
 });
@@ -38,12 +39,10 @@ transformer.on('end', function(){
 });
 
 stringifier.on('readable', function(){
-  while(data = stringifier.read()){
+  let data; while(data = stringifier.read()){
     process.stdout.write(data);
   }
 });
 generator.on('end', function(){
   process.stdout.write('=> ' + i + ' records\n');
 });
-
-

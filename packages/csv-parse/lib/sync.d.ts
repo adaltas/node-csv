@@ -1,6 +1,6 @@
-import * as csvParse from './index';
 
-export = parse;
+import {Options} from './index';
 
-declare function parse(input: Buffer | string, options?: csvParse.Options): any;
-declare namespace parse {}
+declare function parse(input: Buffer | string, options?: Options): any;
+
+export default parse;

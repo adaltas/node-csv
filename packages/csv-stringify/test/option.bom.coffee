@@ -1,6 +1,6 @@
 
-stringify = require '../lib'
-stringifySync = require '../lib/sync'
+import stringify from '../lib/index.js'
+import stringifySync from '../lib/sync.js'
 
 describe 'Option `bom`', ->
   

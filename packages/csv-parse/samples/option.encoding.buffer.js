@@ -1,6 +1,6 @@
 
-const parse = require('../lib/sync')
-const assert = require('assert')
+import assert from 'assert'
+import parse from '../lib/index.js'
 
 const data = Buffer.from(`a,b\n1,2`)
 const records = parse(data, {

@@ -1,7 +1,7 @@
 
-stream = require 'stream'
-util = require 'util'
-generate = require '../lib'
+import stream from 'stream'
+import util from 'util'
+import generate from '../lib/index.js'
 
 describe 'api pipe', ->
 

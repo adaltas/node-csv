@@ -1,8 +1,13 @@
 "use strict";
 
-var parse = require('.');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = _default;
 
-module.exports = function (data) {
+var _index = require("./index.js");
+
+function _default(data) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   if (typeof data === 'string') {
@@ -10,7 +15,7 @@ module.exports = function (data) {
   }
 
   var records = options && options.objname ? {} : [];
-  var parser = new parse.Parser(options);
+  var parser = new _index.Parser(options);
 
   parser.push = function (record) {
     if (record === null) {
@@ -30,4 +35,4 @@ module.exports = function (data) {
 
   if (err2 !== undefined) throw err2;
   return records;
-};
+}

@@ -1,9 +1,39 @@
 
 import 'should'
-import * as generate from '../lib/index'
-import {Options, Generator} from '../lib/index'
+import generate, {Options, Generator} from '../lib/index.js'
+import generateSync from '../lib/sync.js'
 
 describe('API Types', () => {
+  
+  describe('Initialisation', () => {
+    
+    it('stream', () => {
+      // With callback
+      const generator: Generator = generate()
+      generator.destroy()
+      generator.should.be.an.Object()
+      // With callback
+      generate( (err, records) => err || records ).destroy()
+      // With options + callback
+      generate( {length: 1}, (err, records) => err || records )
+    })
+    
+    it('sync with options as number', () => {
+      const generator: string = generateSync(1)
+      generator.should.be.a.String()
+    })
+    
+    it('sync with options in string mode', () => {
+      const generator: string = generateSync({length: 1})
+      generator.should.be.a.String()
+    })
+    
+    it('sync with options in object mode', () => {
+      const generator: Array<Array<string>> = generateSync({length: 1, objectMode: true})
+      generator.should.be.an.Array()
+    })
+    
+  })
   
   describe('Generator', () => {
   

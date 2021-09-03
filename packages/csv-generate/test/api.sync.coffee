@@ -1,13 +1,13 @@
 
-generate = require '../lib/sync'
+import generate from '../lib/sync.js'
 
 describe 'api sync', ->
 
   it 'throw error if options isnt provided', ->
-    (-> generate()).should.throw 'Invalid Argument: options must be an o object or a integer'
-    (-> generate 3.14).should.throw 'Invalid Argument: options must be an o object or a integer'
+    (-> generate()).should.throw 'Invalid Argument: options must be an object or an integer'
+    (-> generate 3.14).should.throw 'Invalid Argument: options must be an object or an integer'
 
-  it.only 'throw error if length isnt provided', ->
+  it 'throw error if length isnt provided', ->
     (-> generate({})).should.throw 'Invalid Argument: length is not defined'
 
   it 'accept length as an integer', ->

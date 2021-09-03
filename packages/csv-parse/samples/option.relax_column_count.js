@@ -1,6 +1,6 @@
 
-const parse = require('../lib')
-const assert = require('assert')
+import assert from 'assert'
+import parse from '../lib/index.js'
 
 parse(`
 "a 1","a 2"

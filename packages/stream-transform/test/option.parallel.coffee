@@ -1,7 +1,7 @@
 
-pad = require 'pad'
-generate = require 'csv-generate'
-transform = require '../lib'
+import pad from 'pad'
+import generate from 'csv-generate'
+import transform from '../lib/index.js'
 
 letters = (number) ->
   text = "#{number}"

@@ -1,15 +1,24 @@
 
 import 'should'
-import {stringify, transform} from '../lib/index'
+import {generate, parse, stringify, transform} from '../lib/index.js'
 
 describe('API Types', () => {
 
   describe('Initialisation', () => {
 
+    it('generate', () => {
+      // with options + handler
+      generate({length: 1}, (err: Error | undefined, records: Array<Array<string>>) => err || records)
+    })
+
+    it('parse', () => {
+      // With input + handler
+      parse('abc,def', (err: Error | undefined, records: Array<Array<string>>) => err || records)
+    })
+
     it('stringify', () => {
       // With handler
-      const stringifier = stringify( (err: Error | undefined, output: string) => err || output )
-      stringifier.should.be.an.Object() // Disable unused variable warning
+      stringify( (err: Error | undefined, output: string) => err || output )
     })
 
     it('transform', () => {
