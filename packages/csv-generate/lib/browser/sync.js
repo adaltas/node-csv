@@ -357,8 +357,6 @@ additional information.
 var generate = require('.');
 
 module.exports = function (options) {
-  var _options;
-
   if (typeof options === 'string' && /\d+/.test(options)) {
     options = parseInt(options);
   }
@@ -369,7 +367,7 @@ module.exports = function (options) {
     };
   }
 
-  if (!Number.isInteger((_options = options) === null || _options === void 0 ? void 0 : _options.length)) {
+  if (!Number.isInteger(options.length)) {
     throw Error('Invalid Argument: length is not defined');
   }
 

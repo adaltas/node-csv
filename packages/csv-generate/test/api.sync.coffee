@@ -3,9 +3,12 @@ generate = require '../lib/sync'
 
 describe 'api sync', ->
 
-  it 'throw error if length is not provided', ->
-    (-> generate()).should.throw 'Invalid Argument: length is not defined'
-    (-> generate 3.14).should.throw 'Invalid Argument: length is not defined'
+  it 'throw error if options isnt provided', ->
+    (-> generate()).should.throw 'Invalid Argument: options must be an o object or a integer'
+    (-> generate 3.14).should.throw 'Invalid Argument: options must be an o object or a integer'
+
+  it.only 'throw error if length isnt provided', ->
+    (-> generate({})).should.throw 'Invalid Argument: length is not defined'
 
   it 'accept length as an integer', ->
     data = generate 1000

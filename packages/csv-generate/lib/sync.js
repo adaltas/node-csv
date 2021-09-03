@@ -14,8 +14,10 @@ module.exports = function(options){
   }
   if(Number.isInteger(options)){
     options = {length: options}
+  }else if(typeof options !== 'object' || options === null){
+    throw Error('Invalid Argument: options must be an o object or a integer')
   }
-  if(!Number.isInteger(options?.length)){
+  if(!Number.isInteger(options.length)){
     throw Error('Invalid Argument: length is not defined')
   }
   const chunks = []
