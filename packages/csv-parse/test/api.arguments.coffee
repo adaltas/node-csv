@@ -1,12 +1,12 @@
 
-generate = require 'csv-generate'
-parse = require '../lib'
-assert_error = require './api.assert_error'
+import generate from 'csv-generate'
+import parse, {Parser} from '../lib/index.js'
+import {assert_error} from './api.assert_error.coffee'
 
 describe 'API arguments', ->
 
   it 'exports Parser class', ->
-    parse.Parser.should.be.a.Function
+    Parser.should.be.a.Function
   
   describe '0 arg', ->
 

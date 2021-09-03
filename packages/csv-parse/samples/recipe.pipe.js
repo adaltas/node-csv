@@ -1,7 +1,7 @@
 
-const parse = require('..')
-const generate = require('csv-generate')
-const transform = require('stream-transform')
+import parse from '../lib/index.js'
+import generate from 'csv-generate'
+import transform from 'csv-transform'
 
 const generator = generate({
   length: 20

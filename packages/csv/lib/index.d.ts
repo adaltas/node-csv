@@ -1,13 +1,9 @@
-// Alias to the ES6 modules exposing the stream and callback APIs
 
-import * as generateImport from 'csv-generate';
-import * as parseImport from 'csv-parse';
-import * as transformImport from 'stream-transform';
-import * as stringifyImport from 'csv-stringify';
+// Alias to the modules exposing the stream and callback APIs
 
-export var generate: typeof generateImport;
-export var parse: typeof parseImport;
-export var transform: typeof transformImport;
-export var stringify: typeof stringifyImport;
+import generate from 'csv-generate/lib/index.js';
+import parse from 'csv-parse/lib/index.js';
+import transform from 'stream-transform/lib/index.js';
+import stringify from 'csv-stringify/lib/index.js';
 
-export as namespace csv;
+export {generate, parse, transform, stringify}

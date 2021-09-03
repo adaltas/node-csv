@@ -1,6 +1,6 @@
 
-const stringify = require('../lib')
-const generate = require('csv-generate')
+import stringify from '../lib/index.js'
+import generate from 'csv-generate'
 
 generate({
   objectMode: true,

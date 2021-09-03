@@ -1,5 +1,5 @@
 
-ResizeableBuffer = require('../lib/ResizeableBuffer')
+import ResizeableBuffer from '../lib/ResizeableBuffer.js'
 
 describe 'ResizeableBuffer', ->
   

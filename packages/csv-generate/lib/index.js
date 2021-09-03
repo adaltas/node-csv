@@ -6,50 +6,10 @@ Please look at the [project documentation](https://csv.js.org/generate/) for
 additional information.
 */
 
-const stream = require('stream')
-const util = require('util')
+import stream from 'stream'
+import util from 'util'
 
-module.exports = function(){
-  let options
-  let callback
-  if(arguments.length === 2){
-    options = arguments[0]
-    callback = arguments[1]
-  }else if(arguments.length === 1){
-    if(typeof arguments[0] === 'function'){
-      options = {}
-      callback = arguments[0]
-    }else{
-      options = arguments[0]
-    }
-  }else if(arguments.length === 0){
-    options = {}
-  }
-  const generator = new Generator(options)
-  if(callback){
-    const data = []
-    generator.on('readable', function(){
-      let d; while(d = generator.read()){
-        data.push(d)
-      }
-    })
-    generator.on('error', callback)
-    generator.on('end', function(){
-      if(generator.options.objectMode){
-        callback(null, data)
-      }else{
-        if(generator.options.encoding){
-          callback(null, data.join(''))
-        }else{
-          callback(null, Buffer.concat(data))
-        }
-      }
-    })
-  }
-  return generator
-}
-
-Generator = function(options = {}){
+const Generator = function(options = {}){
   // Convert Stream Readable options if underscored
   if(options.high_water_mark){
     options.highWaterMark = options.high_water_mark
@@ -111,8 +71,7 @@ Generator = function(options = {}){
   return this
 }
 util.inherits(Generator, stream.Readable)
-// Export the class
-module.exports.Generator = Generator
+
 // Generate a random number between 0 and 1 with 2 decimals. The function is idempotent if it detect the "seed" option.
 Generator.prototype.random = function(){
   if(this.options.seed){
@@ -227,3 +186,46 @@ Generator.camelize = function(str){
     return match.toUpperCase()
   })
 }
+
+const generate = function(){
+  let options
+  let callback
+  if(arguments.length === 2){
+    options = arguments[0]
+    callback = arguments[1]
+  }else if(arguments.length === 1){
+    if(typeof arguments[0] === 'function'){
+      options = {}
+      callback = arguments[0]
+    }else{
+      options = arguments[0]
+    }
+  }else if(arguments.length === 0){
+    options = {}
+  }
+  const generator = new Generator(options)
+  if(callback){
+    const data = []
+    generator.on('readable', function(){
+      let d; while(d = generator.read()){
+        data.push(d)
+      }
+    })
+    generator.on('error', callback)
+    generator.on('end', function(){
+      if(generator.options.objectMode){
+        callback(null, data)
+      }else{
+        if(generator.options.encoding){
+          callback(null, data.join(''))
+        }else{
+          callback(null, Buffer.concat(data))
+        }
+      }
+    })
+  }
+  return generator
+}
+
+export default generate
+export {generate, Generator}

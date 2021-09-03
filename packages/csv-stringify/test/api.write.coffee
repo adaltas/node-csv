@@ -1,5 +1,5 @@
 
-stringify = require '../lib'
+import stringify from '../lib/index.js'
 
 describe 'API write', ->
   

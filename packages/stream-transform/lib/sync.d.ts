@@ -1,11 +1,9 @@
 /// <reference types="node" />
 
-import * as streamTransform from './index';
-export = transform
+import {Options} from './index';
 
-// transform(records, [options], handler)
+export type Handler<T = any, U = any> = (record: T) => U
+export function transform<T = any, U = any>(records: Array<T>, handler: Handler<T, U>): Array<U>
+export function transform<T = any, U = any>(records: Array<T>, options: Options, handler: Handler<T, U>): Array<U>
 
-type Handler<T = any, U = any> = (record: T) => U
-declare function transform<T = any, U = any>(records: Array<T>, handler: Handler<T, U>): Array<U>
-declare function transform<T = any, U = any>(records: Array<T>, options: streamTransform.Options, handler: Handler<T, U>): Array<U>
-declare namespace transform { }
+export default transform;

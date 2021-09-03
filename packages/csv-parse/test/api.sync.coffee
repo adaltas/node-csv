@@ -1,5 +1,5 @@
 
-parse = require '../lib/sync'
+import parse from '../lib/sync.js'
 
 describe 'API sync', ->
   

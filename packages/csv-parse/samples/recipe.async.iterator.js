@@ -1,9 +1,13 @@
 
-const parse = require('..');
-const fs = require('fs');
- 
+import fs from 'fs'
+import parse from '../lib/index.js'
+
+import { dirname } from 'path'
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
 const processFile = async () => {
-  records = []
+  const records = []
   const parser = fs
   .createReadStream(`${__dirname}/fs_read.csv`)
   .pipe(parse({

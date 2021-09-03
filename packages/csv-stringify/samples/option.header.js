@@ -3,8 +3,8 @@
 // birthYear,phone
 // OMH,ONKCHhJmjadoA
 
-const stringify = require('../lib')
-const assert = require('assert')
+import stringify from '../lib/index.js'
+import assert from 'assert'
 
 stringify([
   { year: 'XXXX', phone: 'XXX XXXX' },

@@ -63,16 +63,15 @@
     "typescript": "^4.4.2"
   },
   "mocha": {
-    "throw-deprecation": true,
-    "require": [
-      "should",
-      "coffeescript/register",
-      "ts-node/register"
-    ],
     "inline-diffs": true,
-    "timeout": 40000,
+    "loader": "./test/loaders/all.mjs",
+    "recursive": true,
     "reporter": "spec",
-    "recursive": true
+    "require": [
+      "should"
+    ],
+    "throw-deprecation": true,
+    "timeout": 40000
   },
   "files": [
     "lib"
@@ -82,5 +81,6 @@
     "preversion": "cp lib/*.ts lib/es5 && git add lib/es5/*.ts",
     "test": "mocha test/**/*.{coffee,ts}"
   },
+  "type": "module",
   "types": "./lib/index.d.ts"
 }

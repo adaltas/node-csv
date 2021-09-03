@@ -1,8 +1,8 @@
 
-parse = require '../lib'
-generate = require 'csv-generate'
-fs = require 'fs'
-os = require 'os'
+import fs from 'fs'
+import os from 'os'
+import generate from 'csv-generate'
+import parse from '../lib/index.js'
 
 describe 'API destroy', ->
   

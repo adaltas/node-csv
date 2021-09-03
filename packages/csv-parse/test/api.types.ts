@@ -1,8 +1,7 @@
 
 import 'should'
-import * as parse from '../lib/index'
-import * as parse_sync from '../lib/sync'
-import {CastingContext, Info, Options, Parser, CsvError} from '../lib/index'
+import parse, {CastingContext, Info, Options, Parser, CsvError} from '../lib/index.js'
+import parse_sync from '../lib/sync.js'
 
 describe('API Types', () => {
   
@@ -78,7 +77,7 @@ describe('API Types', () => {
         const data: object = parse_sync("")
         typeof data
       }catch (err){
-        if (err instanceof parse.CsvError){
+        if (err instanceof CsvError){
           err.message
         }
       }

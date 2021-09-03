@@ -1,6 +1,6 @@
 
-parse = require '../lib'
-assert_error = require './api.assert_error'
+import parse from '../lib/index.js'
+import {assert_error} from './api.assert_error.coffee'
 
 describe 'Option `max_record_size`', ->
   

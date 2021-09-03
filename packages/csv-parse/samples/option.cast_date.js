@@ -1,6 +1,6 @@
 
-const parse = require('../lib/sync')
-const assert = require('assert')
+import assert from 'assert'
+import parse from '../lib/index.js'
 
 const data = `
 2000-01-01,date1

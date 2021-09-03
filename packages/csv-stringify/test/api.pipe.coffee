@@ -1,7 +1,7 @@
 
-fs = require 'fs'
-generate = require 'csv-generate'
-stringify = require '../lib'
+import fs from 'fs'
+import generate from 'csv-generate'
+import stringify from '../lib/index.js'
 
 describe 'API pipe', ->
 

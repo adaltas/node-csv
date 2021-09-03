@@ -1,15 +1,15 @@
 
-// The package "should" must be installed:   
-// `npm install should`
-
-var parse = require('..');
-require('should');
+import assert from 'assert'
+import parse from '../lib/index.js'
 
 parse(
   'ColumnOne,ColumnTwo\nfirst,Data\nsecond,MoreData',
   {'columns':true, 'objname': "ColumnOne"},
   function(err, data){
     if(err) throw err;
+    assert.deepStrictEqual({
+      
+    })
     data.should.eql({
       first: { ColumnOne: 'first', ColumnTwo: 'Data' },
       second: { ColumnOne: 'second', ColumnTwo: 'MoreData' } 

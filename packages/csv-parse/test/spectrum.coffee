@@ -1,7 +1,7 @@
 
-spectrum = require 'csv-spectrum'
-each = require 'each'
-parse = require '../lib'
+import {default as spectrum} from 'csv-spectrum'
+import {default as each} from 'each'
+import parse from '../lib/index.js'
 
 describe 'spectrum', ->
 

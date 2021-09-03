@@ -1,12 +1,12 @@
 
-const parse = require('.')
+import {Parser} from './index.js'
 
-module.exports = function(data, options={}){
+export default function(data, options={}){
   if(typeof data === 'string'){
     data = Buffer.from(data)
   }
   const records = options && options.objname ? {} : []
-  const parser = new parse.Parser(options)
+  const parser = new Parser(options)
   parser.push = function(record){
     if(record === null){
       return

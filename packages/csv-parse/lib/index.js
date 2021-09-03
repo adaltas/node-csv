@@ -6,8 +6,8 @@ Please look at the [project documentation](https://csv.js.org/parse/) for
 additional information.
 */
 
-const { Transform } = require('stream')
-const ResizeableBuffer = require('./ResizeableBuffer')
+import { Transform } from 'stream'
+import ResizeableBuffer from './ResizeableBuffer.js'
 
 // white space characters
 // https://en.wikipedia.org/wiki/Whitespace_character
@@ -786,7 +786,7 @@ class Parser extends Transform {
         ], this.options, this.__infoField(), {
           record: record,
         })
-      :
+        :
         // Todo: rename CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH to
         // CSV_RECORD_INCONSISTENT_COLUMNS
         new CsvError('CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH', [
@@ -1219,11 +1219,8 @@ class CsvError extends Error {
   }
 }
 
-parse.Parser = Parser
-
-parse.CsvError = CsvError
-
-module.exports = parse
+export default parse
+export {parse, Parser, CsvError}
 
 const underscore = function(str){
   return str.replace(/([A-Z])/g, function(_, match){

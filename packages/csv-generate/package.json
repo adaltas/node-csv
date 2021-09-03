@@ -50,16 +50,15 @@
   ],
   "main": "./lib",
   "mocha": {
-    "throw-deprecation": true,
-    "require": [
-      "should",
-      "coffeescript/register",
-      "ts-node/register"
-    ],
     "inline-diffs": true,
-    "timeout": 40000,
+    "loader": "./test/loaders/all.mjs",
+    "recursive": true,
     "reporter": "spec",
-    "recursive": true
+    "require": [
+      "should"
+    ],
+    "throw-deprecation": true,
+    "timeout": 40000
   },
   "scripts": {
     "build:babel": "cd lib && babel *.js -d es5 && cd ..",
@@ -69,5 +68,6 @@
     "pretest": "npm run build",
     "test": "mocha test/**/*.{coffee,ts}"
   },
+  "type": "module",
   "types": "./lib/index.d.ts"
 }

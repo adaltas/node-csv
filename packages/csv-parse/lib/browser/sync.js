@@ -2,6 +2,11 @@
 (function (Buffer){(function (){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -101,12 +106,24 @@ var ResizeableBuffer = /*#__PURE__*/function () {
   return ResizeableBuffer;
 }();
 
-module.exports = ResizeableBuffer;
+var _default = ResizeableBuffer;
+exports["default"] = _default;
 
 }).call(this)}).call(this,require("buffer").Buffer)
 },{"buffer":6}],2:[function(require,module,exports){
 (function (Buffer,setImmediate){(function (){
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CsvError = exports.Parser = exports.parse = exports["default"] = void 0;
+
+var _stream = require("stream");
+
+var _ResizeableBuffer = _interopRequireDefault(require("./ResizeableBuffer.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
 
@@ -162,21 +179,10 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-/*
-CSV Parse
-
-Please look at the [project documentation](https://csv.js.org/parse/) for
-additional information.
-*/
-var _require = require('stream'),
-    Transform = _require.Transform;
-
-var ResizeableBuffer = require('./ResizeableBuffer'); // white space characters
+// white space characters
 // https://en.wikipedia.org/wiki/Whitespace_character
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes#Types
 // \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff
-
-
 var tab = 9;
 var nl = 10; // \n, 0x0A in hexadecimal, 10 in decimal
 
@@ -624,7 +630,7 @@ var Parser = /*#__PURE__*/function (_Transform) {
         escapeIsQuote: Buffer.isBuffer(options.escape) && Buffer.isBuffer(options.quote) && Buffer.compare(options.escape, options.quote) === 0,
         // columns can be `false`, `true`, `Array`
         expectedRecordLength: Array.isArray(options.columns) ? options.columns.length : undefined,
-        field: new ResizeableBuffer(20),
+        field: new _ResizeableBuffer["default"](20),
         firstLineToHeaders: fnFirstLineToHeaders,
         needMoreDataSize: Math.max.apply(Math, [// Skip if the remaining buffer smaller than comment
         options.comment !== null ? options.comment.length : 0].concat(_toConsumableArray(options.delimiter.map(function (delimiter) {
@@ -634,7 +640,7 @@ var Parser = /*#__PURE__*/function (_Transform) {
         previousBuf: undefined,
         quoting: false,
         stop: false,
-        rawBuffer: new ResizeableBuffer(100),
+        rawBuffer: new _ResizeableBuffer["default"](100),
         record: [],
         recordHasError: false,
         record_length: 0,
@@ -1491,7 +1497,9 @@ var Parser = /*#__PURE__*/function (_Transform) {
   }]);
 
   return Parser;
-}(Transform);
+}(_stream.Transform);
+
+exports.Parser = Parser;
 
 var parse = function parse() {
   var data, options, callback;
@@ -1551,6 +1559,8 @@ var parse = function parse() {
   return parser;
 };
 
+exports.parse = parse;
+
 var CsvError = /*#__PURE__*/function (_Error) {
   _inherits(CsvError, _Error);
 
@@ -1589,9 +1599,9 @@ var CsvError = /*#__PURE__*/function (_Error) {
   return CsvError;
 }( /*#__PURE__*/_wrapNativeSuper(Error));
 
-parse.Parser = Parser;
-parse.CsvError = CsvError;
-module.exports = parse;
+exports.CsvError = CsvError;
+var _default = parse;
+exports["default"] = _default;
 
 var underscore = function underscore(str) {
   return str.replace(/([A-Z])/g, function (_, match) {
@@ -1638,13 +1648,18 @@ var normalizeColumnsArray = function normalizeColumnsArray(columns) {
 };
 
 }).call(this)}).call(this,require("buffer").Buffer,require("timers").setImmediate)
-},{"./ResizeableBuffer":1,"buffer":6,"stream":12,"timers":28}],3:[function(require,module,exports){
+},{"./ResizeableBuffer.js":1,"buffer":6,"stream":12,"timers":28}],3:[function(require,module,exports){
 (function (Buffer){(function (){
 "use strict";
 
-var parse = require('.');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = _default;
 
-module.exports = function (data) {
+var _index = require("./index.js");
+
+function _default(data) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   if (typeof data === 'string') {
@@ -1652,7 +1667,7 @@ module.exports = function (data) {
   }
 
   var records = options && options.objname ? {} : [];
-  var parser = new parse.Parser(options);
+  var parser = new _index.Parser(options);
 
   parser.push = function (record) {
     if (record === null) {
@@ -1672,10 +1687,10 @@ module.exports = function (data) {
 
   if (err2 !== undefined) throw err2;
   return records;
-};
+}
 
 }).call(this)}).call(this,require("buffer").Buffer)
-},{".":2,"buffer":6}],4:[function(require,module,exports){
+},{"./index.js":2,"buffer":6}],4:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength

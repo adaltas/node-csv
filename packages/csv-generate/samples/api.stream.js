@@ -1,6 +1,7 @@
 
-const generate = require('../lib')
-const assert = require('assert')
+import generate from '../lib/index.js'
+import assert from 'assert'
+
 const records = []
 generate({
   seed: 1,

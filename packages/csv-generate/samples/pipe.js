@@ -1,5 +1,5 @@
 
-const generate = require('../lib')
+import generate from '../lib/index.js'
 
 generate({
   columns: ['int', 'bool'],

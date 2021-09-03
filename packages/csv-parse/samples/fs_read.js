@@ -1,6 +1,10 @@
 
-var fs = require('fs');
-var parse = require('..');
+import fs from 'fs'
+import parse from '../lib/index.js'
+
+import { dirname } from 'path'
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 var parser = parse({delimiter: ';'}, function(err, data){
   console.log(data);

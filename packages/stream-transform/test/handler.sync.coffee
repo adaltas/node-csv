@@ -1,6 +1,6 @@
 
-transform = require '../lib'
-generate = require 'csv-generate'
+import generate from 'csv-generate'
+import transform from '../lib/index.js'
 
 describe 'handler.sync', ->
 

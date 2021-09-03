@@ -1,6 +1,6 @@
 
-generate = require 'csv-generate'
-transform = require '../lib'
+import generate from 'csv-generate'
+import transform from '../lib/index.js'
 
 describe 'option.params', ->
 

@@ -1,6 +1,7 @@
 
-const transform = require('..')
-const assert = require('assert')
+import transform from '../lib/index.js'
+import assert from assert
+
 // Generate a dataset of 5 records
 const records = 'record\n'.repeat(5).trim().split('\n')
 let test_running = records.length

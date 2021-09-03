@@ -62,4 +62,4 @@ class ResizeableBuffer{
   }
 }
 
-module.exports = ResizeableBuffer
+export default ResizeableBuffer

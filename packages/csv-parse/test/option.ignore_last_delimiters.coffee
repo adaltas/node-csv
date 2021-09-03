@@ -1,4 +1,5 @@
-parse = require '../lib'
+
+import parse from '../lib/index.js'
 
 describe 'Option `ignore_last_delimiters`', ->
   

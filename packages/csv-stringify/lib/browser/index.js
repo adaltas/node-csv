@@ -2,6 +2,13 @@
 (function (Buffer,setImmediate){(function (){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.stringify = exports["default"] = void 0;
+
+var _stream = require("stream");
+
 function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
 
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
@@ -49,15 +56,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-/*
-CSV Stringify
-
-Please look at the [project documentation](https://csv.js.org/stringify/) for
-additional information.
-*/
-var _require = require('stream'),
-    Transform = _require.Transform;
 
 var bom_utf8 = Buffer.from([239, 187, 191]);
 
@@ -711,7 +709,7 @@ var Stringifier = /*#__PURE__*/function (_Transform) {
   }]);
 
   return Stringifier;
-}(Transform);
+}(_stream.Transform);
 
 var stringify = function stringify() {
   var data, options, callback;
@@ -793,6 +791,8 @@ var stringify = function stringify() {
   return stringifier;
 };
 
+exports.stringify = stringify;
+
 var CsvError = /*#__PURE__*/function (_Error) {
   _inherits(CsvError, _Error);
 
@@ -833,7 +833,8 @@ var CsvError = /*#__PURE__*/function (_Error) {
 
 stringify.Stringifier = Stringifier;
 stringify.CsvError = CsvError;
-module.exports = stringify;
+var _default = stringify;
+exports["default"] = _default;
 
 var isObject = function isObject(obj) {
   return _typeof(obj) === 'object' && obj !== null && !Array.isArray(obj);

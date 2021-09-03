@@ -1,5 +1,6 @@
-const parse = require('..')
-const assert = require('assert')
+
+import assert from 'assert'
+import parse from '../lib/index.js'
 
 parser = parse({
   skip_lines_with_error: true

@@ -1,6 +1,6 @@
 
-const parse = require('../lib/sync')
-const assert = require('assert')
+import assert from 'assert'
+import parse from '../lib/index.js'
 
 const data = `
 # At the beginning of a record

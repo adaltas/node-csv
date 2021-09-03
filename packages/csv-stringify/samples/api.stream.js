@@ -1,6 +1,6 @@
 
-const stringify = require('../lib')
-const assert = require('assert')
+import stringify from '../lib/index.js'
+import assert from 'assert'
 
 const data = []
 const stringifier = stringify({

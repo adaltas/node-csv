@@ -1,8 +1,7 @@
 
 import 'should'
-import * as transform from '../lib/index'
-import * as transformSync from '../lib/sync'
-import {Options, Transformer} from '../lib/index'
+import transform, {Options, Transformer} from '../lib/index.js'
+import transformSync from '../lib/sync.js'
 
 describe('api.types', () => {
   
@@ -41,7 +40,7 @@ describe('api.types', () => {
       const options: Options = transformer.options
       const keys: any = Object.keys(options)
       keys.sort().should.eql([
-        'consume', 'objectMode', 'parallel'
+        'consume', 'objectMode', 'parallel', 'params'
       ])
     })
   

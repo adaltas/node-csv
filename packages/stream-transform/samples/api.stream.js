@@ -1,6 +1,6 @@
 
-const transform = require('..')
-const assert = require('assert')
+import transform from '../lib/index.js'
+import assert from assert
 
 const output = []
 const transformer = transform(function(data){

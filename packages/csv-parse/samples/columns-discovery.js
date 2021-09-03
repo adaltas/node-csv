@@ -1,13 +1,14 @@
 
-// The package "should" must be installed:   
-// `npm install should`
+import fs from 'fs'
+import parse from '../lib/index.js'
 
-fs = require('fs');
-parse = require('..');
+import { dirname } from 'path'
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // Using the first line of the CSV data to discover the column names
-rs = fs.createReadStream(__dirname+'/columns-discovery.in');
-parser = parse({columns: true}, function(err, data){
+const rs = fs.createReadStream(__dirname+'/columns-discovery.in');
+const parser = parse({columns: true}, function(err, data){
   console.log(data);
 })
 rs.pipe(parser);

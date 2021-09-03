@@ -1,5 +1,5 @@
 
-parse = require '../lib'
+import parse from '../lib/index.js'
 
 describe 'Option `skip_lines_with_empty_values`', ->
   

@@ -1,6 +1,5 @@
 
-fs = require 'fs'
-stringify = require '../lib'
+import stringify from '../lib/index.js'
 
 describe 'Option `quoted_string`', ->
   

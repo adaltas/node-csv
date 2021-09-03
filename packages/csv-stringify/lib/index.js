@@ -6,7 +6,7 @@ Please look at the [project documentation](https://csv.js.org/stringify/) for
 additional information.
 */
 
-const { Transform } = require('stream')
+import { Transform } from 'stream'
 const bom_utf8 = Buffer.from([239, 187, 191])
 
 class Stringifier extends Transform {
@@ -536,10 +536,10 @@ class CsvError extends Error {
 }
 
 stringify.Stringifier = Stringifier
-
 stringify.CsvError = CsvError
 
-module.exports = stringify
+export default stringify
+export {stringify}
 
 const isObject = function(obj){
   return typeof obj === 'object' && obj !== null && ! Array.isArray(obj)

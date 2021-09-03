@@ -2,6 +2,17 @@
 (function (Buffer){(function (){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Generator = exports.generate = exports["default"] = void 0;
+
+var _stream = _interopRequireDefault(require("stream"));
+
+var _util = _interopRequireDefault(require("util"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -10,73 +21,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-/*
-CSV Generate - main module
-
-Please look at the [project documentation](https://csv.js.org/generate/) for
-additional information.
-*/
-var stream = require('stream');
-
-var util = require('util');
-
-module.exports = function () {
-  var options;
-  var callback;
-
-  if (arguments.length === 2) {
-    options = arguments[0];
-    callback = arguments[1];
-  } else if (arguments.length === 1) {
-    if (typeof arguments[0] === 'function') {
-      options = {};
-      callback = arguments[0];
-    } else {
-      options = arguments[0];
-    }
-  } else if (arguments.length === 0) {
-    options = {};
-  }
-
-  var generator = new Generator(options);
-
-  if (callback) {
-    var data = [];
-    generator.on('readable', function () {
-      var d;
-
-      while (d = generator.read()) {
-        data.push(d);
-      }
-    });
-    generator.on('error', callback);
-    generator.on('end', function () {
-      if (generator.options.objectMode) {
-        callback(null, data);
-      } else {
-        if (generator.options.encoding) {
-          callback(null, data.join(''));
-        } else {
-          callback(null, Buffer.concat(data));
-        }
-      }
-    });
-  }
-
-  return generator;
-};
-
-Generator = function (_Generator) {
-  function Generator() {
-    return _Generator.apply(this, arguments);
-  }
-
-  Generator.toString = function () {
-    return _Generator.toString();
-  };
-
-  return Generator;
-}(function () {
+var Generator = function Generator() {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   // Convert Stream Readable options if underscored
@@ -89,7 +34,8 @@ Generator = function (_Generator) {
   } // Call parent constructor
 
 
-  stream.Readable.call(this, options); // Clone and camelize options
+  _stream["default"].Readable.call(this, options); // Clone and camelize options
+
 
   this.options = {};
 
@@ -153,11 +99,12 @@ Generator = function (_Generator) {
   }
 
   return this;
-});
+};
 
-util.inherits(Generator, stream.Readable); // Export the class
+exports.Generator = Generator;
 
-module.exports.Generator = Generator; // Generate a random number between 0 and 1 with 2 decimals. The function is idempotent if it detect the "seed" option.
+_util["default"].inherits(Generator, _stream["default"].Readable); // Generate a random number between 0 and 1 with 2 decimals. The function is idempotent if it detect the "seed" option.
+
 
 Generator.prototype.random = function () {
   if (this.options.seed) {
@@ -343,6 +290,56 @@ Generator.camelize = function (str) {
     return match.toUpperCase();
   });
 };
+
+var generate = function generate() {
+  var options;
+  var callback;
+
+  if (arguments.length === 2) {
+    options = arguments[0];
+    callback = arguments[1];
+  } else if (arguments.length === 1) {
+    if (typeof arguments[0] === 'function') {
+      options = {};
+      callback = arguments[0];
+    } else {
+      options = arguments[0];
+    }
+  } else if (arguments.length === 0) {
+    options = {};
+  }
+
+  var generator = new Generator(options);
+
+  if (callback) {
+    var data = [];
+    generator.on('readable', function () {
+      var d;
+
+      while (d = generator.read()) {
+        data.push(d);
+      }
+    });
+    generator.on('error', callback);
+    generator.on('end', function () {
+      if (generator.options.objectMode) {
+        callback(null, data);
+      } else {
+        if (generator.options.encoding) {
+          callback(null, data.join(''));
+        } else {
+          callback(null, Buffer.concat(data));
+        }
+      }
+    });
+  }
+
+  return generator;
+};
+
+exports.generate = generate;
+var _default = generate;
+exports["default"] = _default;
 
 }).call(this)}).call(this,require("buffer").Buffer)
 },{"buffer":5,"stream":24,"util":43}],2:[function(require,module,exports){

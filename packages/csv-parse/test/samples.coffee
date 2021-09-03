@@ -1,17 +1,15 @@
 
-fs = require('fs').promises
-path = require 'path'
-{exec} = require 'child_process'
+import fs from 'fs'
+import path from 'path'
+import {exec} from 'child_process'
 
-# `describe` label doesnt print because the code inside calling `it` is asynchronous.
-# From Mocha.js doc
-# https://mochajs.org/#dynamically-generating-tests
-# With top-level await you can collect your test data in a dynamic and asynchronous way while the test file is being loaded
+import { fileURLToPath } from 'url';
+__dirname = path.dirname fileURLToPath `import.meta.url`
+dir = path.resolve __dirname, '../samples'
+samples = fs.readdirSync dir
 
 describe 'Samples', ->
 
-  dir = path.resolve __dirname, '../samples'
-  samples = await fs.readdir dir
   for sample in samples
     continue unless /\.js$/.test sample
     it "Sample #{sample}", (callback) -> 
