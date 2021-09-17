@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: CSV Documentation
+    url: https://csv.js.org/
+    about: Check out the CSV documentation for answers to common questions

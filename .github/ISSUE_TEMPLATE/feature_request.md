@@ -4,20 +4,23 @@ about: Suggest an idea for this project
 title: ''
 labels: enhancement
 assignees: ''
-
 ---
 
-**Is your feature request related to a problem? Please describe.**
+**Summary**
 
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+A clear and concise description of what the feature is.
 
-**Describe the solution you'd like**
+**Motivation**
 
-A clear and concise description of what you want to happen.
+If the feature is related to a problem, describe it. Add any other context explaining why this feature is of interest to you and the community.
 
-**Describe alternatives you've considered**
+**Alternative**
 
-A clear and concise description of any alternative solutions or features you've considered.
+A clear and concise description of alternative solutions or features you've considered.
+
+**Draft**
+
+Write a proposal for the feature, how it works, its expected coverage, a sample code or unit test. If the feature is related to a documentation or article, write the content or the table of content you expect.
 
 **Additional context**
 
