@@ -1,4 +1,6 @@
 // Alias to the ES6 modules exposing the sync API
+// Manually managed, not generated
+
 module.exports = {
   generate: require('csv-generate/lib/sync'),
   parse: require('csv-parse/lib/sync'),

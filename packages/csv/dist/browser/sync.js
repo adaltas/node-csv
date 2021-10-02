@@ -51,7 +51,10 @@ exports.mutate = function mutate() {
       }
 
       for (name in source) {
-        if (name === '__proto__') {
+        if (/__proto__|constructor|prototype|eval|function|\*|\+|;|\s|\(|\)|!/.test(name)) {
+          // See
+          // https://github.com/adaltas/node-mixme/issues/1
+          // https://github.com/adaltas/node-mixme/issues/2
           continue;
         }
 
@@ -431,8 +434,10 @@ module.exports = function(options){
   }
   if(Number.isInteger(options)){
     options = {length: options}
+  }else if(typeof options !== 'object' || options === null){
+    throw Error('Invalid Argument: options must be an o object or a integer')
   }
-  if(!Number.isInteger(options?.length)){
+  if(!Number.isInteger(options.length)){
     throw Error('Invalid Argument: length is not defined')
   }
   const chunks = []
@@ -619,7 +624,7 @@ class Parser extends Transform {
         const date = Date.parse(value)
         return !isNaN(date) ? new Date(date) : value
       }
-    }else if(typeof options.cast_date !== 'function'){
+    }else{
       throw new CsvError('CSV_INVALID_OPTION_CAST_DATE', [
         'Invalid option cast_date:', 'cast_date must be true or a function,',
         `got ${JSON.stringify(options.cast_date)}`
@@ -2493,6 +2498,8 @@ module.exports = function(records, options={}){
 
 }).call(this)}).call(this,{"isBuffer":require("../../../packages/csv/node_modules/is-buffer/index.js")})
 },{".":7,"../../../packages/csv/node_modules/is-buffer/index.js":28,"string_decoder":48}],9:[function(require,module,exports){
+"use strict";
+
 // Alias to the ES6 modules exposing the sync API
 module.exports = {
   generate: require('csv-generate/lib/sync'),

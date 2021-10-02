@@ -77,8 +77,10 @@
     "lib"
   ],
   "scripts": {
-    "build": "browserify lib/index.js --transform babelify --standalone parse > lib/browser/index.js && browserify lib/sync.js --transform babelify --standalone parse > lib/browser/sync.js",
-    "preversion": "cp lib/*.ts lib/es5 && git add lib/es5/*.ts",
+    "build:browser": "browserify lib/index.js --transform babelify --standalone parse > dist/browser/index.js && browserify lib/sync.js --transform babelify --standalone parse > dist/browser/sync.js",
+    "build:ts": "cp lib/*.ts dist/es5 && git add dist/es5/*.ts",
+    "build": "npm run build:browser && npm run build:ts",
+    "preversion": "npm run build",
     "test": "mocha test/**/*.{coffee,ts}"
   },
   "type": "module",
