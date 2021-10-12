@@ -29,18 +29,17 @@
     }
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.8",
-    "@babel/core": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
+    "@rollup/plugin-node-resolve": "^13.0.5",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.7.8",
-    "babelify": "^10.0.0",
-    "browserify": "^17.0.0",
     "coffeescript": "~2.5.1",
     "csv-generate": "^3.4.3",
     "each": "^1.2.2",
     "mocha": "~9.1.1",
     "pad": "~3.2.0",
+    "rollup": "^2.58.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
     "should": "~13.2.3",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
@@ -48,9 +47,11 @@
   "exports": {
     ".": {
       "import": "./lib/index.js",
+      "require": "./dist/cjs/index.js"
     },
     "./sync": {
       "import": "./lib/sync.js",
+      "require": "./dist/cjs/sync.js"
     }
   },
   "files": [
@@ -69,17 +70,17 @@
     "timeout": 40000
   },
   "scripts": {
-    "build:babel": "cd lib && babel *.js -d es5 && cd ..",
-    "build:browserify": "browserify lib/index.js --transform babelify --standalone parse > lib/browser/index.js && browserify lib/sync.js --transform babelify --standalone parse > lib/browser/sync.js",
-    "build": "npm run build:babel && npm run build:browserify",
-    "preversion": "cp lib/*.ts lib/es5 && git add lib/es5/*.ts",
+    "build:rollup": "npx rollup -c",
+    "build:ts": "cp lib/*.ts dist/cjs && cp lib/*.ts dist/esm",
+    "build": "npm run build:rollup && npm run build:ts",
+    "preversion": "npm run build && git add dist",
     "pretest": "npm run build",
     "test": "mocha test/**/*.{coffee,ts}"
   },
   "type": "module",
   "types": [
-    "./lib/es5/index.d.ts",
-    "./lib/es5/sync.d.ts",
+    "./dist/cjs/index.d.ts",
+    "./dist/cjs/sync.d.ts",
     "./lib/index.d.ts",
     "./lib/sync.d.ts"
   ]
