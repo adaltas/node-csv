@@ -1,7 +1,7 @@
 
 import stream from 'stream'
-import generate from 'csv-generate'
-import transform from '../lib/index.js'
+import { generate } from 'csv-generate'
+import { transform } from '../lib/index.js'
 
 describe 'api.pipe', ->
 

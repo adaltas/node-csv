@@ -1,7 +1,7 @@
 
 import 'should'
-import generate, {Options, Generator} from '../lib/index.js'
-import generateSync from '../lib/sync.js'
+import { generate, Options, Generator } from '../lib/index.js'
+import { generate as generateSync } from '../lib/sync.js'
 
 describe('API Types', () => {
   

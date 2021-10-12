@@ -1,6 +1,6 @@
 
 // Import the package main module
-import csv from '../lib/index.js'
+import * as csv from '../lib/index.js'
 // Use the module
 csv
 // Generate 20 records

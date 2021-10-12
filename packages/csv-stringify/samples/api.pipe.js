@@ -1,6 +1,6 @@
 
-import stringify from '../lib/index.js'
-import generate from 'csv-generate'
+import { stringify } from 'csv-stringify'
+import { generate } from 'csv-generate'
 
 generate({
   objectMode: true,

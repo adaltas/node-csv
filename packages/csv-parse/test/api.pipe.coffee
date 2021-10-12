@@ -1,8 +1,8 @@
 
 import fs from 'fs'
 import { Readable } from 'stream'
-import generate from 'csv-generate'
-import parse from '../lib/index.js'
+import { generate } from 'csv-generate'
+import { parse } from '../lib/index.js'
 
 describe 'API pipe', ->
 

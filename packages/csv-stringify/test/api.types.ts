@@ -1,6 +1,6 @@
 
 import 'should'
-import stringify, {CastingContext, Options, Stringifier} from '../lib/index.js'
+import { stringify, CastingContext, Options, Stringifier } from '../lib/index.js'
 
 describe('API Types', () => {
   

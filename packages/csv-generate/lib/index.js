@@ -227,5 +227,5 @@ const generate = function(){
   return generator
 }
 
-export default generate
+// export default generate
 export {generate, Generator}

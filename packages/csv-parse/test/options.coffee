@@ -1,5 +1,5 @@
 
-import parse from '../lib/index.js'
+import { parse } from '../lib/index.js'
 
 describe 'Options', ->
 

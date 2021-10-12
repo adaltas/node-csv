@@ -1,6 +1,6 @@
 
 import fs from 'fs'
-import parse from '../lib/index.js'
+import { parse } from 'csv-parse'
 
 import { dirname } from 'path'
 import { fileURLToPath } from 'url';

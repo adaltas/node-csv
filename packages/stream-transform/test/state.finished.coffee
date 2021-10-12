@@ -1,5 +1,5 @@
 
-import transform from '../lib/index.js'
+import { transform } from '../lib/index.js'
 
 describe 'state.finished', ->
   

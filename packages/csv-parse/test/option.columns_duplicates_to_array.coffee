@@ -1,6 +1,6 @@
 
-import parse from '../lib/index.js'
-import {assert_error} from './api.assert_error.coffee'
+import { parse } from '../lib/index.js'
+import { assert_error } from './api.assert_error.coffee'
 
 describe 'Option `columns_duplicates_to_array`', ->
   

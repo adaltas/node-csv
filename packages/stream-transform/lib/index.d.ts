@@ -37,5 +37,4 @@ declare function transform<T = any, U = any>(options: Options, handler: Handler<
 declare function transform<T = any, U = any>(records: Array<T>, options: Options, handler: Handler<T, U>, callback?: Callback): Transformer
 
 export default transform;
-export {transform}
-// export = transform
+export { transform }

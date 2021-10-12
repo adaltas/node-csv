@@ -1,5 +1,5 @@
 
-import stringify from '../lib/index.js'
+import { stringify } from '../lib/index.js'
 
 describe 'Option `delimiter`', ->
   

@@ -1,7 +1,7 @@
 
 import 'should'
-import parse, {CastingContext, Info, Options, Parser, CsvError} from '../lib/index.js'
-import parse_sync from '../lib/sync.js'
+import { parse, CastingContext, Info, Options, Parser, CsvError } from '../lib/index.js'
+import { parse as parse_sync } from '../lib/sync.js'
 
 describe('API Types', () => {
   

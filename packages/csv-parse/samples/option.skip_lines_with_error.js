@@ -1,6 +1,6 @@
 
 import assert from 'assert'
-import parse from '../lib/index.js'
+import { parse } from 'csv-parse'
 
 parser = parse({
   skip_lines_with_error: true

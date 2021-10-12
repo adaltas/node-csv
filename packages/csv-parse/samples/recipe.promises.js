@@ -1,6 +1,8 @@
 
 import fs from 'fs'
-import parse from '../lib/index.js'
+import { parse } from 'csv-parse'
+// Note, the `stream/promises` module is only available
+// starting with Node.js version 16
 import { finished } from 'stream/promises'
 
 import { dirname } from 'path'

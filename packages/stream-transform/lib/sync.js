@@ -6,9 +6,9 @@ Please look at the [project documentation](https://csv.js.org/transform/) for
 additional information.
 */
 
-import transform from './index.js'
+import {Transformer} from './index.js'
 
-export default function(){
+const transform = function(){
   // Import arguments normalization
   let handler, callback, records
   let options = {}
@@ -44,7 +44,7 @@ export default function(){
   }
   // Start transformation
   const chunks = []
-  const transformer = new transform.Transformer(options, handler)
+  const transformer = new Transformer(options, handler)
   transformer.push = function(chunk){
     chunks.push(chunk)
   }
@@ -53,3 +53,6 @@ export default function(){
   }
   return chunks  
 }
+
+// export default transform
+export { transform }

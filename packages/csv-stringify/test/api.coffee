@@ -1,7 +1,7 @@
 
 import fs from 'fs'
-import generate from 'csv-generate'
-import stringify from '../lib/index.js'
+import { generate } from 'csv-generate'
+import { stringify } from '../lib/index.js'
 
 describe 'API', ->
 

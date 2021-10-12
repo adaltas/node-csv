@@ -1,6 +1,6 @@
 
-import parse, {CsvError} from '../lib/index.js'
-import {assert_error} from './api.assert_error.coffee'
+import { parse, CsvError } from '../lib/index.js'
+import { assert_error } from './api.assert_error.coffee'
 
 describe 'API error', ->
   

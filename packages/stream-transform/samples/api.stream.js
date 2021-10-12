@@ -1,6 +1,6 @@
 
-import transform from '../lib/index.js'
-import assert from assert
+import { transform } from 'stream-transform'
+import assert from 'assert'
 
 const output = []
 const transformer = transform(function(data){
@@ -8,7 +8,7 @@ const transformer = transform(function(data){
   return data
 })
 transformer.on('readable', function(){
-  while(row = transformer.read()){
+  let row; while(row = transformer.read()){
     output.push(row)
   }
 })

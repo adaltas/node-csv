@@ -45,6 +45,14 @@
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
   },
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+    },
+    "./sync": {
+      "import": "./lib/sync.js",
+    }
+  },
   "files": [
     "/lib"
   ],

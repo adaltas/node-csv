@@ -73,6 +73,14 @@
     "throw-deprecation": true,
     "timeout": 40000
   },
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+    },
+    "./sync": {
+      "import": "./lib/sync.js",
+    }
+  },
   "files": [
     "lib"
   ],

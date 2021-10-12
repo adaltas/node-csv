@@ -1,5 +1,5 @@
 
-import transform from '../lib/sync.js'
+import { transform } from '../lib/sync.js'
 
 describe 'api.sync', ->
 

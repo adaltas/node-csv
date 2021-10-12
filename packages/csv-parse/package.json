@@ -42,6 +42,14 @@
     "Joe Eaves (https://github.com/Joeasaurus)",
     "Mark Stosberg (https://github.com/markstos)"
   ],
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+    },
+    "./sync": {
+      "import": "./lib/sync.js",
+    }
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

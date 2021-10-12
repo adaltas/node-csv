@@ -1,6 +1,6 @@
 
 import assert from 'assert'
-import parse from '../lib/index.js'
+import { parse } from 'csv-parse/sync'
 
 const data = "\ufeffkey\nvalue"
 const records = parse(data, {

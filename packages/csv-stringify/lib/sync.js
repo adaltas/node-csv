@@ -1,8 +1,8 @@
 
-import stringify from './index.js'
-import {StringDecoder} from 'string_decoder'
+import { Stringifier } from './index.js'
+import { StringDecoder } from 'string_decoder'
 
-export default function(records, options={}){
+const stringify = function(records, options={}){
   const data = []
   if(Buffer.isBuffer(records)){
     const decoder = new StringDecoder()
@@ -13,7 +13,7 @@ export default function(records, options={}){
       data.push(record.toString())
     }
   }
-  let stringifier = new stringify.Stringifier(options)
+  let stringifier = new Stringifier(options)
   stringifier.on('data', onData);
   for(let record of records){
     stringifier.write(record) 
@@ -22,3 +22,6 @@ export default function(records, options={}){
   stringifier.off('data', onData);
   return data.join('')
 }
+
+// export default stringify
+export { stringify }

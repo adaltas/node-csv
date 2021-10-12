@@ -1,5 +1,5 @@
 
-import parse from '../lib/index.js'
+import { parse } from '../lib/index.js'
 
 describe 'Option `skip_lines_with_empty_values`', ->
   

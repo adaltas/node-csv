@@ -535,11 +535,8 @@ class CsvError extends Error {
   }
 }
 
-stringify.Stringifier = Stringifier
-stringify.CsvError = CsvError
-
-export default stringify
-export {stringify}
+// export default stringify
+export { stringify, CsvError, Stringifier }
 
 const isObject = function(obj){
   return typeof obj === 'object' && obj !== null && ! Array.isArray(obj)

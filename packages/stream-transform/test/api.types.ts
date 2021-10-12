@@ -1,7 +1,7 @@
 
 import 'should'
-import transform, {Options, Transformer} from '../lib/index.js'
-import transformSync from '../lib/sync.js'
+import { transform, Options, Transformer } from '../lib/index.js'
+import { transform as transformSync } from '../lib/sync.js'
 
 describe('api.types', () => {
   

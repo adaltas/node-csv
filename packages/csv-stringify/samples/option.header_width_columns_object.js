@@ -1,5 +1,5 @@
 
-import stringify from '../lib/index.js'
+import { stringify } from 'csv-stringify'
 import assert from 'assert'
 
 stringify( [

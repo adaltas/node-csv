@@ -1,5 +1,5 @@
 
-import transform from '../lib/index.js'
+import { transform } from 'stream-transform'
 
 // Generate a dataset of 5 records
 const records = 'record\n'.repeat(5).trim().split('\n')

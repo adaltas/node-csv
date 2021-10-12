@@ -1,5 +1,5 @@
 
-import generate from '../lib/index.js'
+import { generate } from 'csv-generate'
 
 generate({
   columns: ['int', 'bool'],

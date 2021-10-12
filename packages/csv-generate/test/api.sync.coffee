@@ -1,5 +1,5 @@
 
-import generate from '../lib/sync.js'
+import {generate} from '../lib/sync.js'
 
 describe 'api sync', ->
 

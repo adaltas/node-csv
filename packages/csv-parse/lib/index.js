@@ -1219,8 +1219,8 @@ class CsvError extends Error {
   }
 }
 
-export default parse
-export {parse, Parser, CsvError}
+// export default parse
+export { parse, Parser, CsvError }
 
 const underscore = function(str){
   return str.replace(/([A-Z])/g, function(_, match){

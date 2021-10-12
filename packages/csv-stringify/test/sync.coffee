@@ -1,5 +1,5 @@
 
-import stringify from '../lib/sync.js'
+import { stringify } from '../lib/sync.js'
 
 describe 'sync', ->
   

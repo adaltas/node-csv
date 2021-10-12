@@ -1,7 +1,7 @@
 
-import parse from '../lib/index.js'
-import generate from 'csv-generate'
-import transform from 'csv-transform'
+import { parse } from 'csv-parse'
+import { generate } from 'csv-generate'
+import { transform } from 'stream-transform'
 
 const generator = generate({
   length: 20

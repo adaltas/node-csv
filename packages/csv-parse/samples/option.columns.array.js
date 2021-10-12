@@ -1,6 +1,6 @@
 
 import assert from 'assert'
-import parse from '../lib/index.js'
+import { parse } from 'csv-parse'
 
 parse(`
 "value 1","value 2"

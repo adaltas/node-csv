@@ -1,5 +1,5 @@
 
-import generate from '../lib/index.js'
+import { generate } from '../lib/index.js'
 
 describe 'option high_water_mark', ->
 

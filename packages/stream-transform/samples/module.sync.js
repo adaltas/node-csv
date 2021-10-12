@@ -1,5 +1,5 @@
 
-import transform from '../lib/index.js'
+import { transform } from 'stream-transform'
 
 transform([
   ['1','2','3','4'],

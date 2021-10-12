@@ -1,6 +1,6 @@
 
-import transform from '../lib/index.js'
-import assert from assert
+import { transform } from 'stream-transform'
+import assert from 'assert'
 
 // Generate a dataset of 5 records
 const records = 'record\n'.repeat(5).trim().split('\n')

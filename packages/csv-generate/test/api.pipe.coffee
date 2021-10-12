@@ -1,7 +1,7 @@
 
 import stream from 'stream'
 import util from 'util'
-import generate from '../lib/index.js'
+import { generate } from '../lib/index.js'
 
 describe 'api pipe', ->
 

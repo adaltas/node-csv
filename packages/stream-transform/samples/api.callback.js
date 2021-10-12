@@ -1,6 +1,6 @@
 
-import transform from '../lib/index.js'
-import assert from assert
+import { transform } from 'stream-transform'
+import assert from 'assert'
 
 transform([
   ['1','2','3','4'],

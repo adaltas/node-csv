@@ -1,6 +1,6 @@
 
 import assert from 'assert'
-import parse from '../lib/index.js'
+import { parse } from 'csv-parse'
 
 parse( "1	2	3\ra	b	c", {delimiter: '\t'}, function(err, data){
   if(err) throw err;

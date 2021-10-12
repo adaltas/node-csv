@@ -1,7 +1,7 @@
 
-import {Parser} from './index.js'
+import { Parser } from './index.js'
 
-export default function(data, options={}){
+const parse = function(data, options={}){
   if(typeof data === 'string'){
     data = Buffer.from(data)
   }
@@ -23,3 +23,6 @@ export default function(data, options={}){
   if(err2 !== undefined) throw err2
   return records
 }
+
+// export default parse
+export { parse }

@@ -6,9 +6,9 @@ Please look at the [project documentation](https://csv.js.org/generate/) for
 additional information.
 */
 
-import Generator from './index.js'
+import { Generator } from './index.js'
 
-export default function(options){
+const generate = function(options){
   if(typeof options === 'string' && /\d+/.test(options)){
     options = parseInt(options)
   }
@@ -44,3 +44,6 @@ export default function(options){
     return chunks
   }
 }
+
+// export default generate
+export {generate}

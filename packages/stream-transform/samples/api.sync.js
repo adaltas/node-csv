@@ -1,6 +1,6 @@
 
-import transform from '../lib/index.js'
-import assert from assert
+import { transform } from 'stream-transform/sync'
+import assert from 'assert'
 
 const records = transform([
   [ 'a', 'b', 'c', 'd' ],

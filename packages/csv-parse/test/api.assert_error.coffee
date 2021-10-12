@@ -1,5 +1,5 @@
 
-import {CsvError} from '../lib/index.js'
+import { CsvError } from '../lib/index.js'
 import ResizeableBuffer from '../lib/ResizeableBuffer.js'
 
 export assert_error = (err, assert = {}, exhaustive = false) ->

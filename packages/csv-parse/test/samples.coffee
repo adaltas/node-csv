@@ -1,7 +1,7 @@
 
 import fs from 'fs'
 import path from 'path'
-import {exec} from 'child_process'
+import { exec } from 'child_process'
 
 import { fileURLToPath } from 'url';
 __dirname = path.dirname fileURLToPath `import.meta.url`

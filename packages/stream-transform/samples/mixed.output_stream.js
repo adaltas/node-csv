@@ -1,6 +1,6 @@
 
-import transform from '../lib/index.js'
-import assert from assert
+import { transform } from 'stream-transform'
+import assert from 'assert'
 
 const output = []
 transform([
@@ -11,7 +11,7 @@ transform([
   return data
 })
 .on('readable', function(){
-  while(row = this.read()){
+  let row; while(row = this.read()){
     output.push(row)
   }
 })

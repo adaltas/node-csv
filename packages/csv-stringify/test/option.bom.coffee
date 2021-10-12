@@ -1,6 +1,6 @@
 
-import stringify from '../lib/index.js'
-import stringifySync from '../lib/sync.js'
+import { stringify } from '../lib/index.js'
+import { stringify as stringifySync } from '../lib/sync.js'
 
 describe 'Option `bom`', ->
   

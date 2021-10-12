@@ -264,6 +264,5 @@ declare function parse(input: Buffer | string, callback?: Callback): Parser;
 declare function parse(options?: Options, callback?: Callback): Parser;
 declare function parse(callback?: Callback): Parser;
 
-export default parse;
-export {parse}
-// export = parse;
+// export default parse;
+export { parse }

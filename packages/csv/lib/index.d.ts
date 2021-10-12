@@ -1,9 +1,9 @@
 
 // Alias to the modules exposing the stream and callback APIs
 
-import generate from 'csv-generate/lib/index.js';
-import parse from 'csv-parse/lib/index.js';
-import transform from 'stream-transform/lib/index.js';
-import stringify from 'csv-stringify/lib/index.js';
+import { generate } from 'csv-generate';
+import { parse } from 'csv-parse';
+import { transform } from 'stream-transform';
+import { stringify } from 'csv-stringify';
 
-export {generate, parse, transform, stringify}
+export { generate, parse, transform, stringify }

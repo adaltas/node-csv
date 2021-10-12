@@ -99,5 +99,5 @@ declare function stringify(options: Options, callback?: Callback): Stringifier
 declare function stringify(input: Input, callback?: Callback): Stringifier
 declare function stringify(input: Input, options?: Options, callback?: Callback): Stringifier
 
-export default stringify
-export {stringify}
+// export default stringify
+export { stringify }

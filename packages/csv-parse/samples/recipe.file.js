@@ -1,7 +1,7 @@
 
 import fs from 'fs/promises'
 import os from 'os'
-import parse from '../lib/sync.js'
+import { parse } from '../lib/sync.js'
 
 (async function(){
   // Prepare the dataset

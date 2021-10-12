@@ -1,7 +1,7 @@
 
 import assert from 'assert'
-import generate from 'csv-generate'
-import parse from '../lib/index.js'
+import {generate} from 'csv-generate'
+import { parse } from 'csv-parse'
 
 (() ->
   # Initialise the parser by generating random records

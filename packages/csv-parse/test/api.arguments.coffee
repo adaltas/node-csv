@@ -1,7 +1,7 @@
 
-import generate from 'csv-generate'
-import parse, {Parser} from '../lib/index.js'
-import {assert_error} from './api.assert_error.coffee'
+import { generate } from 'csv-generate'
+import { parse, Parser } from '../lib/index.js'
+import { assert_error } from './api.assert_error.coffee'
 
 describe 'API arguments', ->
 

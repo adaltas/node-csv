@@ -174,7 +174,5 @@ const transform = function(){
   return transformer
 }
 
-transform.Transformer = Transformer
-
-export default transform
-export {transform}
+// export default transform
+export { transform, Transformer }
