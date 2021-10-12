@@ -10,8 +10,8 @@ samples = fs.readdirSync dir
 
 describe 'Samples', ->
 
-  for sample in samples
-    continue unless /\.js$/.test sample
-    it "Sample #{sample}", (callback) -> 
+  samples.map (sample) ->
+    return unless /\.js$/.test sample
+    it "Sample #{sample}", (callback) ->
       exec "node #{path.resolve dir, sample}", (err) ->
         callback err
