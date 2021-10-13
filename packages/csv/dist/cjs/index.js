@@ -6607,39 +6607,14 @@ Transformer.prototype._transform = function(chunk, encoding, cb){
   }
 };
 Transformer.prototype._flush = function(cb){
-  this._ending = function(){
-    if(this.state.running === 0){
+  if(this.state.running === 0){
+    cb();
+  }else {
+    this._ending = function(){
       cb();
-    }
-  };
-  this._ending();
+    };
+  }
 };
-
-// Transformer.prototype.__done = function(err, chunks, cb) {
-//   var chunk, j, len;
-//   this.state.running--;
-//   if (err) {
-//     return this.emit('error', err);
-//   }
-//   this.state.finished++;
-//   for (j = 0, len = chunks.length; j < len; j++) {
-//     chunk = chunks[j];
-//     if (typeof chunk === 'number') {
-//       chunk = `${chunk}`;
-//     }
-//     if ((chunk != null) && chunk !== '') {
-//       // We dont push empty string
-//       // See https://nodejs.org/api/stream.html#stream_readable_push
-//       this.push(chunk);
-//     }
-//   }
-//   if (cb) {
-//     cb();
-//   }
-//   if (this._ending) {
-//     return this._ending();
-//   }
-// };
 Transformer.prototype.__done = function(err, chunks, cb){
   this.state.running--;
   if(err){
@@ -6659,7 +6634,7 @@ Transformer.prototype.__done = function(err, chunks, cb){
   if(cb){
     cb();
   }
-  if(this._ending){
+  if(this._ending && this.state.running === 0){
     this._ending();
   }
 };
