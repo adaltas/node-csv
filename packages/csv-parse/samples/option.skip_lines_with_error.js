@@ -2,7 +2,7 @@
 import assert from 'assert'
 import { parse } from 'csv-parse'
 
-parser = parse({
+const parser = parse({
   skip_lines_with_error: true
 }, function(err, records){
   assert.deepStrictEqual(

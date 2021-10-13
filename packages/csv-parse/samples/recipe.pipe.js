@@ -9,8 +9,8 @@ const generator = generate({
 const parser = parse({
   delimiter: ':'
 })
-const transformer = transform(function(record, callback){
-  setTimeout(function(){
+const transformer = transform((record, callback) => {
+  setTimeout(() => {
     callback(null, record.join(' ')+'\n')
   }, 500)
 }, {

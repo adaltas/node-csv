@@ -40,7 +40,7 @@ YYYY,YYY YYYY
         const outputEl = document.getElementById('output')
         convertEl.onclick = (e) => {
           let input;
-          parse(inputEl.value, {
+          csv_parse.parse(inputEl.value, {
             columns: true
           }, function(err, data){
             if(err){
