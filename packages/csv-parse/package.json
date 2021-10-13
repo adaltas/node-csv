@@ -39,8 +39,6 @@
       "require": "./dist/cjs/sync.js"
     }
   },
-  "license": "MIT",
-  "homepage": "https://csv.js.org/parse/",
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",
     "@rollup/plugin-node-resolve": "^13.0.5",
@@ -64,9 +62,12 @@
     "typescript": "^4.4.4"
   },
   "files": [
-    "/lib"
+    "dist",
+    "samples"
   ],
-  "main": "./lib",
+  "homepage": "https://csv.js.org/parse/",
+  "license": "MIT",
+  "main": "./dist/cjs",
   "mocha": {
     "inline-diffs": true,
     "loader": "./test/loaders/all.mjs",

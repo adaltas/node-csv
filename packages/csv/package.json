@@ -15,17 +15,11 @@
     "generate",
     "generation"
   ],
-  "homepage": "https://csv.js.org/",
   "bugs": "https://github.com/adaltas/node-csv/issues",
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "contributors": [
     "David Worms <david@adaltas.com> (https://www.adaltas.com)"
   ],
-  "license": "MIT",
-  "engines": {
-    "node": ">= 0.1.90"
-  },
-  "main": "./lib",
   "dependencies": {
     "csv-generate": "^3.4.3",
     "csv-parse": "^4.16.3",
@@ -48,6 +42,26 @@
     "ts-node": "^10.3.0",
     "typescript": "^4.4.4"
   },
+  "engines": {
+    "node": ">= 0.1.90"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./sync": {
+      "import": "./dist/esm/sync.js",
+      "require": "./dist/cjs/sync.js"
+    }
+  },
+  "homepage": "https://csv.js.org/",
+  "files": [
+    "dist",
+    "samples"
+  ],
+  "license": "MIT",
+  "main": "./dist/cjs",
   "mocha": {
     "inline-diffs": true,
     "loader": "./test/loaders/all.mjs",
@@ -59,20 +73,6 @@
     "throw-deprecation": true,
     "timeout": 40000
   },
-  "exports": {
-    ".": {
-      "import": "./lib/index.js",
-      "require": "./dist/cjs/index.js"
-    },
-    "./sync": {
-      "import": "./lib/sync.js",
-      "require": "./dist/cjs/sync.js"
-    }
-  },
-  "files": [
-    "dist",
-    "lib"
-  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/adaltas/node-csv.git",

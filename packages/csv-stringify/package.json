@@ -7,8 +7,6 @@
     "stringify",
     "stringifier"
   ],
-  "license": "MIT",
-  "homepage": "https://csv.js.org/stringify/",
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",
@@ -40,9 +38,12 @@
     }
   },
   "files": [
-    "/lib"
+    "dist",
+    "samples"
   ],
-  "main": "./lib",
+  "homepage": "https://csv.js.org/stringify/",
+  "license": "MIT",
+  "main": "./dist/cjs",
   "mocha": {
     "inline-diffs": true,
     "loader": "./test/loaders/all.mjs",

@@ -8,9 +8,7 @@
     "csv",
     "object"
   ],
-  "license": "MIT",
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
-  "homepage": "https://csv.js.org/transform/",
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",
     "@rollup/plugin-node-resolve": "^13.0.5",
@@ -40,9 +38,12 @@
     }
   },
   "files": [
-    "/lib"
+    "dist",
+    "samples"
   ],
-  "main": "./lib",
+  "homepage": "https://csv.js.org/transform/",
+  "license": "MIT",
+  "main": "./dist/cjs",
   "mocha": {
     "inline-diffs": true,
     "loader": "./test/loaders/all.mjs",

@@ -8,8 +8,6 @@
     "csv",
     "object"
   ],
-  "license": "MIT",
-  "homepage": "https://csv.js.org/generate/",
   "bugs": "https://github.com/adaltas/node-csv-generate/issues",
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "devDependencies": {
@@ -40,9 +38,12 @@
     }
   },
   "files": [
-    "/lib"
+    "dist",
+    "samples"
   ],
-  "main": "./lib",
+  "homepage": "https://csv.js.org/generate/",
+  "license": "MIT",
+  "main": "./dist/cjs",
   "mocha": {
     "inline-diffs": true,
     "loader": "./test/loaders/all.mjs",
