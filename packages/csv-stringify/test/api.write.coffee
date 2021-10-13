@@ -76,9 +76,9 @@ describe 'API write', ->
   it 'accepts full write API', (next) ->
     stringifier = stringify()
     stringifier.on 'finish', ->
-        next()
+      next()
     stringifier.write ['abc','123'], 'utf8' , (e,d) ->
-        stringifier.end()
+      stringifier.end()
 
   it 'write invalid record null', (next) ->
     stringifier = stringify()

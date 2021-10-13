@@ -84,11 +84,11 @@ describe 'Option `trim`', ->
         [ '28392898392','1974','8.8392926E7','DEF','23','2050-11-27' ]
       ]
       next()
-    parser.write """
-      FIELD 1  ,  FIELD 2 , FIELD 3,FIELD 4 , FIELD 5,FIELD 6   
-    20322051544,1979  ,8.8017226E7,ABC  , 45 ,    2000-01-01
-      28392898392,    1974,8.8392926E7,DEF   ,  23 , 2050-11-27
-    """
+    parser.write [
+      '  FIELD 1  ,  FIELD 2 , FIELD 3,FIELD 4 , FIELD 5,FIELD 6   '
+      '20322051544,1979  ,8.8017226E7,ABC  , 45 ,    2000-01-01'
+      '  28392898392,    1974,8.8392926E7,DEF   ,  23 , 2050-11-27'
+    ].join('\n')
     parser.end()
 
   it 'should preserve whitespace inside text if there are quotes or not', (next) ->
@@ -112,7 +112,7 @@ describe 'Option `trim`', ->
     parser.end()
 
   it 'with columns and last field is a space', (next) ->
-    parse 'h1,h2,h3, \n1,2,3, \n4,5,6, ', 
+    parse 'h1,h2,h3, \n1,2,3, \n4,5,6, ',
       delimiter: ','
       columns: true
       trim: true
@@ -192,9 +192,9 @@ describe 'no trim', ->
         [ '  28392898392','    1974','8.8392926E7','D EF   ','  23 ',' 2050-11-27' ]
       ]
       next()
-    parser.write """
-      FIELD 1  ,  FIELD 2 , FIELD 3,FIELD 4 , FIELD 5,FIELD 6   
-    20322051544,1979  ,8.8017226E7,AB C  , 45 ,   2000-01-01
-      28392898392,    1974,8.8392926E7,D EF   ,  23 , 2050-11-27
-    """
+    parser.write [
+      '  FIELD 1  ,  FIELD 2 , FIELD 3,FIELD 4 , FIELD 5,FIELD 6   '
+      '20322051544,1979  ,8.8017226E7,AB C  , 45 ,   2000-01-01'
+      '  28392898392,    1974,8.8392926E7,D EF   ,  23 , 2050-11-27'
+    ].join('\n')
     parser.end()

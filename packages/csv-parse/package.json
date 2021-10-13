@@ -10,19 +10,6 @@
     "tsv",
     "stream"
   ],
-  "coffeelintConfig": {
-    "indentation": {
-      "level": "error",
-      "value": 2
-    },
-    "line_endings": {
-      "level": "error",
-      "value": "unix"
-    },
-    "max_line_length": {
-      "level": "ignore"
-    }
-  },
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "contributors": [
     "David Worms <david@adaltas.com> (https://www.adaltas.com)",
@@ -63,6 +50,7 @@
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.10.8",
+    "coffeelint": "^2.1.0",
     "coffeescript": "^2.6.1",
     "csv-generate": "^3.4.3",
     "csv-spectrum": "^1.0.0",
@@ -95,13 +83,15 @@
     "timeout": 40000
   },
   "scripts": {
-    "build:lint": "eslint lib/*.js",
+    "build": "npm run build:rollup && npm run build:ts",
     "build:rollup": "npx rollup -c",
     "build:ts": "cp lib/*.ts dist/cjs && cp lib/*.ts dist/esm",
-    "build": "npm run build:rollup && npm run build:ts",
+    "lint": "npm run lint:coffee && npm run lint:js",
+    "lint:coffee": "coffeelint test/*.coffee",
+    "lint:js": "eslint lib/*.js",
     "preversion": "npm run build && git add dist",
     "pretest": "npm run build",
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"strictNullChecks\":true}' mocha test/**/*.{coffee,ts}"
+    "test": "mocha 'test/**/*.{coffee,ts}'"
   },
   "type": "module",
   "types": "./lib/index.d.ts"

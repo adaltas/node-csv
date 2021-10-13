@@ -240,7 +240,7 @@ describe 'Option `record_delimiter`', ->
       parser.end()
 
     it 'skip default record delimiters when quoted', (next) ->
-      parser = parse (err, data) -> # record_delimiter: '\r\n', 
+      parser = parse (err, data) ->
         data.should.eql [
           ['1', '2', '\n']
           ['3', '4', '']
