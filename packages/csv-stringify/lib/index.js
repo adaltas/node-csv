@@ -207,12 +207,12 @@ class Stringifier extends Transform {
     // Detect columns from the first record
     if(this.info.records === 0){
       if(Array.isArray(chunk)){
-        if(this.options.header === true && !this.options.columns){
-          this.state.stop = true
-          return callback(Error('Undiscoverable Columns: header option requires column option or object records'))
+        if(this.options.header === true && this.options.columns === undefined){
+          this.state.stop = true;
+          return callback(Error('Undiscoverable Columns: header option requires column option or object records'));
         }
-      }else if(this.options.columns === undefined || this.options.columns === null){
-        this.options.columns = this.normalize_columns(Object.keys(chunk))
+      }else if(this.options.columns === undefined){
+        this.options.columns = this.normalize_columns(Object.keys(chunk));
       }
     }
     // Emit the header
@@ -284,31 +284,18 @@ class Stringifier extends Transform {
         record[i] = [value, field]
       }
     // Record is a literal object
+    // `columns` is always defined: it is either provided or discovered.
     }else{
-      if(columns){
-        for(let i=0; i<columns.length; i++){
-          const field = get(chunk, columns[i].key)
-          const [err, value] = this.__cast(field, {
-            index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
-          })
-          if(err){
-            this.emit('error', err)
-            return
-          }
-          record[i] = [value, field]
+      for(let i=0; i<columns.length; i++){
+        const field = get(chunk, columns[i].key);
+        const [err, value] = this.__cast(field, {
+          index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
+        });
+        if(err){
+          this.emit('error', err);
+          return;
         }
-      }else{
-        for(let column of chunk){
-          const field = chunk[column]
-          const [err, value] = this.__cast(field, {
-            index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
-          })
-          if(err){
-            this.emit('error', err)
-            return
-          }
-          record.push([value, field])
-        }
+        record[i] = [value, field];
       }
     }
     let csvrecord = ''
