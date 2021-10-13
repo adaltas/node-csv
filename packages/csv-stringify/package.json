@@ -8,10 +8,6 @@
     "stringifier"
   ],
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "http://www.github.com/adaltas/node-csv-stringify"
-  },
   "homepage": "https://csv.js.org/stringify/",
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "devDependencies": {
@@ -57,6 +53,11 @@
     ],
     "throw-deprecation": true,
     "timeout": 40000
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adaltas/node-csv.git",
+    "directory": "packages/csv-stringify"
   },
   "scripts": {
     "build": "npm run build:rollup && npm run build:ts",

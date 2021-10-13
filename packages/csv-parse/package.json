@@ -40,10 +40,6 @@
     }
   },
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/adaltas/node-csv-parse"
-  },
   "homepage": "https://csv.js.org/parse/",
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",
@@ -81,6 +77,11 @@
     ],
     "throw-deprecation": true,
     "timeout": 40000
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adaltas/node-csv.git",
+    "directory": "packages/csv-parse"
   },
   "scripts": {
     "build": "npm run build:rollup && npm run build:ts",

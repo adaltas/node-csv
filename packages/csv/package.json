@@ -26,10 +26,6 @@
     "node": ">= 0.1.90"
   },
   "main": "./lib",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/adaltas/node-csv.git"
-  },
   "dependencies": {
     "csv-generate": "^3.4.3",
     "csv-parse": "^4.16.3",
@@ -77,6 +73,11 @@
     "dist",
     "lib"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adaltas/node-csv.git",
+    "directory": "packages/csv"
+  },
   "scripts": {
     "build": "npm run build:rollup && npm run build:ts",
     "build:rollup": "npx rollup -c",

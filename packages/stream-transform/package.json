@@ -9,10 +9,6 @@
     "object"
   ],
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "http://www.github.com/adaltas/node-stream-transform"
-  },
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "homepage": "https://csv.js.org/transform/",
   "devDependencies": {
@@ -57,6 +53,11 @@
     ],
     "throw-deprecation": true,
     "timeout": 40000
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adaltas/node-csv.git",
+    "directory": "packages/stream-transform"
   },
   "scripts": {
     "build": "npm run build:rollup && npm run build:ts",

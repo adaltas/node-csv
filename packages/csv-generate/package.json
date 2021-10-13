@@ -9,10 +9,6 @@
     "object"
   ],
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "http://www.github.com/adaltas/node-csv-generate"
-  },
   "homepage": "https://csv.js.org/generate/",
   "bugs": "https://github.com/adaltas/node-csv-generate/issues",
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
@@ -57,6 +53,11 @@
     ],
     "throw-deprecation": true,
     "timeout": 40000
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adaltas/node-csv.git",
+    "directory": "packages/csv-generate"
   },
   "scripts": {
     "build": "npm run build:rollup && npm run build:ts",
