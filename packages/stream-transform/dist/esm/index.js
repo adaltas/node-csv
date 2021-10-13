@@ -5055,7 +5055,7 @@ const Transformer = function(options = {}, handler){
     started: 0,
     finished: 0
   };
-  return this
+  return this;
 };
 
 util.inherits(Transformer, Stream.Transform);
@@ -5079,9 +5079,9 @@ Transformer.prototype._transform = function(chunk, encoding, cb){
         this.__done(err, chunks, cb);
       this.handler.call(this, chunk, callback, this.options.params);
     }else {
-      throw Error('Invalid handler arguments')
+      throw Error('Invalid handler arguments');
     }
-    return false
+    return false;
   }
   catch (err) {
     this.__done(err);
@@ -5124,7 +5124,7 @@ Transformer.prototype._flush = function(cb){
 Transformer.prototype.__done = function(err, chunks, cb){
   this.state.running--;
   if(err){
-    return this.emit('error', err)
+    return this.emit('error', err);
   }
   this.state.finished++;
   for(let chunk of chunks){
@@ -5166,15 +5166,15 @@ const transform = function(){
         handler = argument;
       }
     }else if(type !== 'null'){
-      throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`)
+      throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`);
     }
   }
   const transformer = new Transformer(options, handler);
   let error = false;
   if (records) {
     setImmediate(function(){
-      for(let record of records){
-        if(error) break
+      for(const record of records){
+        if(error) break;
         transformer.write(record);
       }
       transformer.end();
@@ -5182,23 +5182,22 @@ const transform = function(){
   }
   if(callback || options.consume) {
     const result = [];
-    transformer.on( 'readable', function(){
-      let record;
-      while(record = transformer.read()){
+    transformer.on('readable', function(){
+      let record; while((record = transformer.read()) !== null){
         if(callback){
           result.push(record);
         }
       }
     });
-    transformer.on( 'error', function(err){
+    transformer.on('error', function(err){
       error = true;
       if (callback) callback(err);
     });
-    transformer.on( 'end', function(){
+    transformer.on('end', function(){
       if (callback && !error) callback(null, result);
     });
   }
-  return transformer
+  return transformer;
 };
 
 export { Transformer, transform };

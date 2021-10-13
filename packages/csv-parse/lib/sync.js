@@ -1,28 +1,28 @@
 
-import { Parser } from './index.js'
+import { Parser } from './index.js';
 
 const parse = function(data, options={}){
   if(typeof data === 'string'){
-    data = Buffer.from(data)
+    data = Buffer.from(data);
   }
-  const records = options && options.objname ? {} : []
-  const parser = new Parser(options)
+  const records = options && options.objname ? {} : [];
+  const parser = new Parser(options);
   parser.push = function(record){
     if(record === null){
-      return
+      return;
     }
     if(options.objname === undefined)
-      records.push(record)
+      records.push(record);
     else{
-      records[record[0]] = record[1]
+      records[record[0]] = record[1];
     }
-  }
-  const err1 = parser.__parse(data, false)
-  if(err1 !== undefined) throw err1
-  const err2 = parser.__parse(undefined, true)
-  if(err2 !== undefined) throw err2
-  return records
-}
+  };
+  const err1 = parser.__parse(data, false);
+  if(err1 !== undefined) throw err1;
+  const err2 = parser.__parse(undefined, true);
+  if(err2 !== undefined) throw err2;
+  return records;
+};
 
 // export default parse
-export { parse }
+export { parse };

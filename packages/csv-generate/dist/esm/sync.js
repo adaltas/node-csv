@@ -5048,7 +5048,7 @@ const Generator = function(options = {}){
   Stream.Readable.call(this, options);
   // Clone and camelize options
   this.options = {};
-  for(let k in options){
+  for(const k in options){
     this.options[Generator.camelize(k)] = options[k];
   }
   // Normalize options
@@ -5085,26 +5085,26 @@ const Generator = function(options = {}){
   if(typeof this.options.columns === 'number'){
     this.options.columns = new Array(this.options.columns);
   }
-  const accepted_header_types = Object.keys(Generator).filter( (t) => ( !['super_', 'camelize'].includes(t) ));
+  const accepted_header_types = Object.keys(Generator).filter((t) => (!['super_', 'camelize'].includes(t)));
   for(let i = 0; i < this.options.columns.length; i++){
     const v = this.options.columns[i] || 'ascii';
     if(typeof v === 'string'){
       if(!accepted_header_types.includes(v)){
-        throw Error(`Invalid column type: got "${v}", default values are ${JSON.stringify(accepted_header_types)}`)
+        throw Error(`Invalid column type: got "${v}", default values are ${JSON.stringify(accepted_header_types)}`);
       }
       this.options.columns[i] = Generator[v];
     }
   }
-  return this
+  return this;
 };
 util.inherits(Generator, Stream.Readable);
 
 // Generate a random number between 0 and 1 with 2 decimals. The function is idempotent if it detect the "seed" option.
 Generator.prototype.random = function(){
   if(this.options.seed){
-    return this.options.seed = this.options.seed * Math.PI * 100 % 100 / 100
+    return this.options.seed = this.options.seed * Math.PI * 100 % 100 / 100;
   }else {
-    return Math.random()
+    return Math.random();
   }
 };
 // Stop the generation.
@@ -5119,9 +5119,10 @@ Generator.prototype._read = function(size){
   if(length !== 0){
     data.push(this._.fixed_size_buffer);
   }
+  // eslint-disable-next-line
   while(true){
     // Time for some rest: flush first and stop later
-    if( (this._.count_created === this.options.length) || (this.options.end && Date.now() > this.options.end) || (this.options.duration && Date.now() > this._.start_time + this.options.duration) ){
+    if((this._.count_created === this.options.length) || (this.options.end && Date.now() > this.options.end) || (this.options.duration && Date.now() > this._.start_time + this.options.duration)){
       // Flush
       if(data.length){
         if(this.options.objectMode){
@@ -5133,7 +5134,7 @@ Generator.prototype._read = function(size){
         }
       }
       // Stop
-      return this.push(null)
+      return this.push(null);
     }
     // Create the line
     let line = [];
@@ -5171,7 +5172,7 @@ Generator.prototype._read = function(size){
         }
         this.__push(data.join(''));
       }
-      return
+      return;
     }
     length += lineLength;
     data.push(line);
@@ -5181,7 +5182,7 @@ Generator.prototype._read = function(size){
 Generator.prototype.__push = function(record){
   this._.count_written++;
   if(this.options.sleep > 0){
-    setTimeout( () => {
+    setTimeout(() => {
       this.push(record);
     }, this.options.sleep);
   }else {
@@ -5197,21 +5198,21 @@ Generator.ascii = function(gen){
     const char = Math.floor(gen.random() * 32);
     column.push(String.fromCharCode(char + (char < 16 ? 65 : 97 - 16)));
   }
-  return column.join('')
+  return column.join('');
 };
 // Generate an integer value.
 Generator.int = function(gen){
-  return Math.floor(gen.random() * Math.pow(2, 52))
+  return Math.floor(gen.random() * Math.pow(2, 52));
 };
 // Generate an boolean value.
 Generator.bool = function(gen){
-  return Math.floor(gen.random() * 2)
+  return Math.floor(gen.random() * 2);
 };
 // Camelize option properties
 Generator.camelize = function(str){
-  return str.replace(/_([a-z])/gi, function(_, match, index){
-    return match.toUpperCase()
-  })
+  return str.replace(/_([a-z])/gi, function(_, match){
+    return match.toUpperCase();
+  });
 };
 
 const generate = function(options){
@@ -5221,10 +5222,10 @@ const generate = function(options){
   if(Number.isInteger(options)){
     options = {length: options};
   }else if(typeof options !== 'object' || options === null){
-    throw Error('Invalid Argument: options must be an object or an integer')
+    throw Error('Invalid Argument: options must be an object or an integer');
   }
   if(!Number.isInteger(options.length)){
-    throw Error('Invalid Argument: length is not defined')
+    throw Error('Invalid Argument: length is not defined');
   }
   const chunks = [];
   let work = true;
@@ -5233,7 +5234,7 @@ const generate = function(options){
   const generator = new Generator(options);
   generator.push = function(chunk){
     if(chunk === null){
-      return work = false 
+      return work = false; 
     }
     if(options.objectMode){
       chunks.push(chunk);
@@ -5245,9 +5246,9 @@ const generate = function(options){
     generator._read(options.highWaterMark);
   }
   if(!options.objectMode){
-    return chunks.join('')
+    return chunks.join('');
   }else {
-    return chunks
+    return chunks;
   }
 };
 

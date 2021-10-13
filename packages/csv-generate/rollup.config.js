@@ -2,6 +2,7 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import globals from 'rollup-plugin-node-globals';
 import builtins from 'rollup-plugin-node-builtins';
+import eslint from '@rollup/plugin-eslint';
 
 export default [{
   onwarn: function(warning, rollupWarn) {
@@ -32,7 +33,9 @@ export default [{
       name: 'csv_generate'
     },
   ],
-  plugins: [globals(), builtins(), nodeResolve()],
+  plugins: [eslint({
+    fix: true,
+  }), globals(), builtins(), nodeResolve()],
 }, {
   onwarn: function(warning, rollupWarn) {
     if (warning.code === 'CIRCULAR_DEPENDENCY') return;
@@ -59,5 +62,7 @@ export default [{
       name: 'csv_generate_sync'
     },
   ],
-  plugins: [globals(), builtins(), nodeResolve()],
+  plugins: [eslint({
+    fix: true,
+  }), globals(), builtins(), nodeResolve()],
 }];

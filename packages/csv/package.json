@@ -50,6 +50,7 @@
     "stream-transform": "^2.1.3"
   },
   "devDependencies": {
+    "@rollup/plugin-eslint": "^8.0.1",
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.7.8",
@@ -89,6 +90,7 @@
     "lib"
   ],
   "scripts": {
+    "build:lint": "eslint lib/*.js",
     "build:rollup": "npx rollup -c",
     "build:ts": "cp lib/*.ts dist/cjs && cp lib/*.ts dist/esm",
     "build": "npm run build:rollup && npm run build:ts",

@@ -5055,7 +5055,7 @@ const Transformer = function(options = {}, handler){
     started: 0,
     finished: 0
   };
-  return this
+  return this;
 };
 
 util.inherits(Transformer, Stream.Transform);
@@ -5079,9 +5079,9 @@ Transformer.prototype._transform = function(chunk, encoding, cb){
         this.__done(err, chunks, cb);
       this.handler.call(this, chunk, callback, this.options.params);
     }else {
-      throw Error('Invalid handler arguments')
+      throw Error('Invalid handler arguments');
     }
-    return false
+    return false;
   }
   catch (err) {
     this.__done(err);
@@ -5124,7 +5124,7 @@ Transformer.prototype._flush = function(cb){
 Transformer.prototype.__done = function(err, chunks, cb){
   this.state.running--;
   if(err){
-    return this.emit('error', err)
+    return this.emit('error', err);
   }
   this.state.finished++;
   for(let chunk of chunks){
@@ -5162,11 +5162,9 @@ const transform = function(){
     }else if(type === 'object'){
       options = {...argument};
     }else if(type === 'function'){
-      if(handler && i === arguments.length - 1);else {
-        handler = argument;
-      }
+      handler = argument;
     }else if(type !== 'null'){
-      throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`)
+      throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`);
     }
   }
   // Validate arguments
@@ -5175,7 +5173,7 @@ const transform = function(){
     expected_handler_length++;
   }
   if(handler.length > expected_handler_length){
-    throw Error('Invalid Handler: only synchonous handlers are supported')
+    throw Error('Invalid Handler: only synchonous handlers are supported');
   }
   // Start transformation
   const chunks = [];
@@ -5186,7 +5184,7 @@ const transform = function(){
   for(const record of records){
     transformer._transform(record, null, function(){});
   }
-  return chunks  
+  return chunks;  
 };
 
 export { transform };

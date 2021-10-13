@@ -5058,7 +5058,7 @@ var stream_transform_sync = (function (exports) {
       started: 0,
       finished: 0
     };
-    return this
+    return this;
   };
 
   util.inherits(Transformer, Stream.Transform);
@@ -5082,9 +5082,9 @@ var stream_transform_sync = (function (exports) {
           this.__done(err, chunks, cb);
         this.handler.call(this, chunk, callback, this.options.params);
       }else {
-        throw Error('Invalid handler arguments')
+        throw Error('Invalid handler arguments');
       }
-      return false
+      return false;
     }
     catch (err) {
       this.__done(err);
@@ -5127,7 +5127,7 @@ var stream_transform_sync = (function (exports) {
   Transformer.prototype.__done = function(err, chunks, cb){
     this.state.running--;
     if(err){
-      return this.emit('error', err)
+      return this.emit('error', err);
     }
     this.state.finished++;
     for(let chunk of chunks){
@@ -5165,11 +5165,9 @@ var stream_transform_sync = (function (exports) {
       }else if(type === 'object'){
         options = {...argument};
       }else if(type === 'function'){
-        if(handler && i === arguments.length - 1);else {
-          handler = argument;
-        }
+        handler = argument;
       }else if(type !== 'null'){
-        throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`)
+        throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`);
       }
     }
     // Validate arguments
@@ -5178,7 +5176,7 @@ var stream_transform_sync = (function (exports) {
       expected_handler_length++;
     }
     if(handler.length > expected_handler_length){
-      throw Error('Invalid Handler: only synchonous handlers are supported')
+      throw Error('Invalid Handler: only synchonous handlers are supported');
     }
     // Start transformation
     const chunks = [];
@@ -5189,7 +5187,7 @@ var stream_transform_sync = (function (exports) {
     for(const record of records){
       transformer._transform(record, null, function(){});
     }
-    return chunks  
+    return chunks;  
   };
 
   exports.transform = transform;

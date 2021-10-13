@@ -6,68 +6,68 @@ Please look at the [project documentation](https://csv.js.org/transform/) for
 additional information.
 */
 
-import stream from 'stream'
-import util from 'util'
+import stream from 'stream';
+import util from 'util';
 
 const Transformer = function(options = {}, handler){
-  this.options = options
+  this.options = options;
   if(options.consume === undefined || options.consume === null){
-    this.options.consume = false
+    this.options.consume = false;
   }
-  this.options.objectMode = true
+  this.options.objectMode = true;
   if(options.parallel === undefined || options.parallel === null){
-    this.options.parallel = 100
+    this.options.parallel = 100;
   }
   if(options.params === undefined || options.params === null){
-    options.params = null
+    options.params = null;
   }
-  this.handler = handler
-  stream.Transform.call(this, this.options)
+  this.handler = handler;
+  stream.Transform.call(this, this.options);
   this.state = {
     running: 0,
     started: 0,
     finished: 0
-  }
-  return this
-}
+  };
+  return this;
+};
 
-util.inherits(Transformer, stream.Transform)
+util.inherits(Transformer, stream.Transform);
 
 Transformer.prototype._transform = function(chunk, encoding, cb){
-  this.state.started++
-  this.state.running++
+  this.state.started++;
+  this.state.running++;
   if(this.state.running < this.options.parallel){
-    cb()
-    cb = null // Cancel further callback execution
+    cb();
+    cb = null; // Cancel further callback execution
   }
   try {
-    let l = this.handler.length
+    let l = this.handler.length;
     if(this.options.params !== null){  
-      l--
+      l--;
     }
     if(l === 1){ // sync
-      this.__done(null, [this.handler.call(this, chunk, this.options.params)], cb)
+      this.__done(null, [this.handler.call(this, chunk, this.options.params)], cb);
     }else if(l === 2){ // async
       const callback = (err, ...chunks) =>
-        this.__done(err, chunks, cb)
-      this.handler.call(this, chunk, callback, this.options.params)
+        this.__done(err, chunks, cb);
+      this.handler.call(this, chunk, callback, this.options.params);
     }else{
-      throw Error('Invalid handler arguments')
+      throw Error('Invalid handler arguments');
     }
-    return false
+    return false;
   }
   catch (err) {
-    this.__done(err)
+    this.__done(err);
   }
-}
+};
 Transformer.prototype._flush = function(cb){
   this._ending = function(){
     if(this.state.running === 0){
-      cb()
+      cb();
     }
-  }
-  this._ending()
-}
+  };
+  this._ending();
+};
 
 // Transformer.prototype.__done = function(err, chunks, cb) {
 //   var chunk, j, len;
@@ -95,84 +95,83 @@ Transformer.prototype._flush = function(cb){
 //   }
 // };
 Transformer.prototype.__done = function(err, chunks, cb){
-  this.state.running--
+  this.state.running--;
   if(err){
-    return this.emit('error', err)
+    return this.emit('error', err);
   }
-  this.state.finished++
+  this.state.finished++;
   for(let chunk of chunks){
     if (typeof chunk === 'number'){
-      chunk = `${chunk}`
+      chunk = `${chunk}`;
     }
     // We dont push empty string
     // See https://nodejs.org/api/stream.html#stream_readable_push
     if(chunk !== undefined && chunk !== null && chunk !== ''){
-      this.push(chunk)
+      this.push(chunk);
     }
   }
   if(cb){
-    cb()
+    cb();
   }
   if(this._ending){
-    this._ending()
+    this._ending();
   }
-}
+};
 const transform = function(){
-  let options = {}
-  let callback, handler, records
+  let options = {};
+  let callback, handler, records;
   for(let i = 0; i< arguments.length; i++){
-    const argument = arguments[i]
-    let type = typeof argument
+    const argument = arguments[i];
+    let type = typeof argument;
     if(argument === null){
-      type = 'null'
+      type = 'null';
     }else if(type === 'object' && Array.isArray(argument)){
-      type = 'array'
+      type = 'array';
     }
     if(type === 'array'){
-      records = argument
+      records = argument;
     }else if(type === 'object'){
-      options = {...argument}
+      options = {...argument};
     }else if(type === 'function'){
       if (handler && i === arguments.length - 1) {
-        callback = argument
+        callback = argument;
       } else {
-        handler = argument
+        handler = argument;
       }
     }else if(type !== 'null'){
-      throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`)
+      throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`);
     }
   }
-  const transformer = new Transformer(options, handler)
-  let error = false
+  const transformer = new Transformer(options, handler);
+  let error = false;
   if (records) {
     setImmediate(function(){
-      for(let record of records){
-        if(error) break
-        transformer.write(record)
+      for(const record of records){
+        if(error) break;
+        transformer.write(record);
       }
-      transformer.end()
-    })
+      transformer.end();
+    });
   }
   if(callback || options.consume) {
-    const result = []
-    transformer.on( 'readable', function(){
-      let record
-      while(record = transformer.read()){
+    const result = [];
+    transformer.on('readable', function(){
+      let record; while((record = transformer.read()) !== null){
         if(callback){
-          result.push(record)
+          result.push(record);
         }
       }
-    })
-    transformer.on( 'error', function(err){
-      error = true
-      if (callback) callback(err)
-    })
-    transformer.on( 'end', function(){
-      if (callback && !error) callback(null, result)
-    })
+    });
+    transformer.on('error', function(err){
+      error = true;
+      if (callback) callback(err);
+    });
+    transformer.on('end', function(){
+      if (callback && !error) callback(null, result);
+    });
   }
-  return transformer
-}
+  return transformer;
+};
 
 // export default transform
-export { transform, Transformer }
+export { transform, Transformer };

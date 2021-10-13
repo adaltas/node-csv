@@ -4968,35 +4968,139 @@ Stream.prototype.pipe = function(dest, options) {
 
 const bom_utf8 = Buffer.from([239, 187, 191]);
 
+class CsvError extends Error {
+  constructor(code, message, ...contexts) {
+    if(Array.isArray(message)) message = message.join(' ');
+    super(message);
+    if(Error.captureStackTrace !== undefined){
+      Error.captureStackTrace(this, CsvError);
+    }
+    this.code = code;
+    for(const context of contexts){
+      for(const key in context){
+        const value = context[key];
+        this[key] = isBuffer(value) ? value.toString() : value == null ? value : JSON.parse(JSON.stringify(value));
+      }
+    }
+  }
+}
+
+const isObject = function(obj){
+  return typeof obj === 'object' && obj !== null && ! Array.isArray(obj);
+};
+
+const underscore = function(str){
+  return str.replace(/([A-Z])/g, function(_, match){
+    return '_' + match.toLowerCase();
+  });
+};
+
+// Lodash implementation of `get`
+
+const charCodeOfDot = '.'.charCodeAt(0);
+const reEscapeChar = /\\(\\)?/g;
+const rePropName = RegExp(
+  // Match anything that isn't a dot or bracket.
+  '[^.[\\]]+' + '|' +
+  // Or match property names within brackets.
+  '\\[(?:' +
+    // Match a non-string expression.
+    '([^"\'][^[]*)' + '|' +
+    // Or match strings (supports escaping characters).
+    '(["\'])((?:(?!\\2)[^\\\\]|\\\\.)*?)\\2' +
+  ')\\]'+ '|' +
+  // Or match "" as the space between consecutive dots or empty brackets.
+  '(?=(?:\\.|\\[\\])(?:\\.|\\[\\]|$))'
+  , 'g');
+const reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
+const reIsPlainProp = /^\w*$/;
+const getTag = function(value){
+  return Object.prototype.toString.call(value);
+};
+const isSymbol = function(value){
+  const type = typeof value;
+  return type === 'symbol' || (type === 'object' && value && getTag(value) === '[object Symbol]');
+};
+const isKey = function(value, object){
+  if(Array.isArray(value)){
+    return false;
+  }
+  const type = typeof value;
+  if(type === 'number' || type === 'symbol' || type === 'boolean' || !value || isSymbol(value)){
+    return true;
+  }
+  return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+    (object != null && value in Object(object));
+};
+const stringToPath = function(string){
+  const result = [];
+  if(string.charCodeAt(0) === charCodeOfDot){
+    result.push('');
+  }
+  string.replace(rePropName, function(match, expression, quote, subString){
+    let key = match;
+    if(quote){
+      key = subString.replace(reEscapeChar, '$1');
+    }else if(expression){
+      key = expression.trim();
+    }
+    result.push(key);
+  });
+  return result;
+};
+const castPath = function(value, object){
+  if(Array.isArray(value)){
+    return value;
+  } else {
+    return isKey(value, object) ? [value] : stringToPath(value);
+  }
+};
+const toKey = function(value){
+  if(typeof value === 'string' || isSymbol(value))
+    return value;
+  const result = `${value}`;
+  // eslint-disable-next-line
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+};
+const get = function(object, path){
+  path = castPath(path, object);
+  let index = 0;
+  const length = path.length;
+  while(object != null && index < length){
+    object = object[toKey(path[index++])];
+  }
+  return (index && index === length) ? object : undefined;
+};
+
 class Stringifier extends Transform {
   constructor(opts = {}){
     super({...{writableObjectMode: true}, ...opts});
     const options = {};
     let err;
     // Merge with user options
-    for(let opt in opts){
+    for(const opt in opts){
       options[underscore(opt)] = opts[opt];
     }
-    if(err = this.normalize(options)) throw err
+    if((err = this.normalize(options)) !== undefined) throw err;
     switch(options.record_delimiter){
-      case 'auto':
-        options.record_delimiter = null;
-        break
-      case 'unix':
-        options.record_delimiter = "\n";
-        break
-      case 'mac':
-        options.record_delimiter = "\r";
-        break
-      case 'windows':
-        options.record_delimiter = "\r\n";
-        break
-      case 'ascii':
-        options.record_delimiter = "\u001e";
-        break
-      case 'unicode':
-        options.record_delimiter = "\u2028";
-        break
+    case 'auto':
+      options.record_delimiter = null;
+      break;
+    case 'unix':
+      options.record_delimiter = "\n";
+      break;
+    case 'mac':
+      options.record_delimiter = "\r";
+      break;
+    case 'windows':
+      options.record_delimiter = "\r\n";
+      break;
+    case 'ascii':
+      options.record_delimiter = "\u001e";
+      break;
+    case 'unicode':
+      options.record_delimiter = "\u2028";
+      break;
     }
     // Expose options
     this.options = options;
@@ -5017,7 +5121,7 @@ class Stringifier extends Transform {
       return new CsvError('CSV_OPTION_BOOLEAN_INVALID_TYPE', [
         'option `bom` is optional and must be a boolean value,',
         `got ${JSON.stringify(options.bom)}`
-      ])
+      ]);
     }
     // Normalize option `delimiter`
     if(options.delimiter === undefined || options.delimiter === null){
@@ -5028,7 +5132,7 @@ class Stringifier extends Transform {
       return new CsvError('CSV_OPTION_DELIMITER_INVALID_TYPE', [
         'option `delimiter` must be a buffer or a string,',
         `got ${JSON.stringify(options.delimiter)}`
-      ])
+      ]);
     }
     // Normalize option `quote`
     if(options.quote === undefined || options.quote === null){
@@ -5043,7 +5147,7 @@ class Stringifier extends Transform {
       return new CsvError('CSV_OPTION_QUOTE_INVALID_TYPE', [
         'option `quote` must be a boolean, a buffer or a string,',
         `got ${JSON.stringify(options.quote)}`
-      ])
+      ]);
     }
     // Normalize option `quoted`
     if(options.quoted === undefined || options.quoted === null){
@@ -5060,11 +5164,11 @@ class Stringifier extends Transform {
       options.quoted_match = [options.quoted_match];
     }
     if(options.quoted_match){
-      for(let quoted_match of options.quoted_match){
+      for(const quoted_match of options.quoted_match){
         const isString = typeof quoted_match === 'string';
         const isRegExp = quoted_match instanceof RegExp;
         if(!isString && !isRegExp){
-          return Error(`Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`)
+          return Error(`Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`);
         }
       }
     }
@@ -5082,10 +5186,10 @@ class Stringifier extends Transform {
     }else if(isBuffer(options.escape)){
       options.escape = options.escape.toString();
     }else if(typeof options.escape !== 'string'){
-      return Error(`Invalid Option: escape must be a buffer or a string, got ${JSON.stringify(options.escape)}`)
+      return Error(`Invalid Option: escape must be a buffer or a string, got ${JSON.stringify(options.escape)}`);
     }
     if (options.escape.length > 1){
-      return Error(`Invalid Option: escape must be one character, got ${options.escape.length} characters`)
+      return Error(`Invalid Option: escape must be one character, got ${options.escape.length} characters`);
     }
     // Normalize option `header`
     if(options.header === undefined || options.header === null){
@@ -5129,7 +5233,7 @@ class Stringifier extends Transform {
     // Normalize option cast.string
     if(options.cast.string === undefined || options.cast.string === null){
       // Leave string untouched
-      options.cast.string = function(value){return value};
+      options.cast.string = function(value){return value;};
     }
     // Normalize option `record_delimiter`
     if(options.record_delimiter === undefined || options.record_delimiter === null){
@@ -5137,26 +5241,26 @@ class Stringifier extends Transform {
     }else if(isBuffer(options.record_delimiter)){
       options.record_delimiter = options.record_delimiter.toString();
     }else if(typeof options.record_delimiter !== 'string'){
-      return Error(`Invalid Option: record_delimiter must be a buffer or a string, got ${JSON.stringify(options.record_delimiter)}`)
+      return Error(`Invalid Option: record_delimiter must be a buffer or a string, got ${JSON.stringify(options.record_delimiter)}`);
     }
   }
   _transform(chunk, encoding, callback){
     if(this.state.stop === true){
-      return
+      return;
     }
     // Chunk validation
     if(!Array.isArray(chunk) && typeof chunk !== 'object'){
       this.state.stop = true;
-      return callback(Error(`Invalid Record: expect an array or an object, got ${JSON.stringify(chunk)}`))
+      return callback(Error(`Invalid Record: expect an array or an object, got ${JSON.stringify(chunk)}`));
     }
     // Detect columns from the first record
     if(this.info.records === 0){
       if(Array.isArray(chunk)){
-        if(this.options.header === true && !this.options.columns){
+        if(this.options.header === true && this.options.columns === undefined){
           this.state.stop = true;
-          return callback(Error('Undiscoverable Columns: header option requires column option or object records'))
+          return callback(Error('Undiscoverable Columns: header option requires column option or object records'));
         }
-      }else if(this.options.columns === undefined || this.options.columns === null){
+      }else if(this.options.columns === undefined){
         this.options.columns = this.normalize_columns(Object.keys(chunk));
       }
     }
@@ -5170,21 +5274,21 @@ class Stringifier extends Transform {
       this.emit('record', chunk, this.info.records);
     }catch(err){
       this.state.stop = true;
-      return this.emit('error', err)
+      return this.emit('error', err);
     }
     // Convert the record into a string
     let chunk_string;
     if(this.options.eof){
       chunk_string = this.stringify(chunk);
       if(chunk_string === undefined){
-        return
+        return;
       }else {
         chunk_string = chunk_string + this.options.record_delimiter;
       }
     }else {
       chunk_string = this.stringify(chunk);
       if(chunk_string === undefined){
-        return
+        return;
       }else {
         if(this.options.header || this.info.records){
           chunk_string = this.options.record_delimiter + chunk_string;
@@ -5205,9 +5309,9 @@ class Stringifier extends Transform {
   }
   stringify(chunk, chunkIsHeader=false){
     if(typeof chunk !== 'object'){
-      return chunk
+      return chunk;
     }
-    const {columns, header} = this.options;
+    const {columns} = this.options;
     const record = [];
     // Record is an array
     if(Array.isArray(chunk)){
@@ -5224,41 +5328,29 @@ class Stringifier extends Transform {
         });
         if(err){
           this.emit('error', err);
-          return
+          return;
         }
         record[i] = [value, field];
       }
     // Record is a literal object
+    // `columns` is always defined: it is either provided or discovered.
     }else {
-      if(columns){
-        for(let i=0; i<columns.length; i++){
-          const field = get(chunk, columns[i].key);
-          const [err, value] = this.__cast(field, {
-            index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
-          });
-          if(err){
-            this.emit('error', err);
-            return
-          }
-          record[i] = [value, field];
+      for(let i=0; i<columns.length; i++){
+        const field = get(chunk, columns[i].key);
+        const [err, value] = this.__cast(field, {
+          index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
+        });
+        if(err){
+          this.emit('error', err);
+          return;
         }
-      }else {
-        for(let column of chunk){
-          const field = chunk[column];
-          const [err, value] = this.__cast(field, {
-            index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
-          });
-          if(err){
-            this.emit('error', err);
-            return
-          }
-          record.push([value, field]);
-        }
+        record[i] = [value, field];
       }
     }
     let csvrecord = '';
     for(let i=0; i<record.length; i++){
       let options, err;
+      // eslint-disable-next-line
       let [value, field] = record[i];
       if(typeof value === "string"){
         options = this.options;
@@ -5269,43 +5361,43 @@ class Stringifier extends Transform {
         delete options.value;
         if(typeof value !== "string" && value !== undefined && value !== null){
           this.emit("error", Error(`Invalid Casting Value: returned value must return a string, null or undefined, got ${JSON.stringify(value)}`));
-          return
+          return;
         }
         options = {...this.options, ...options};
-        if(err = this.normalize(options)){
+        if((err = this.normalize(options)) !== undefined){
           this.emit("error", err);
-          return
+          return;
         }
       }else if(value === undefined || value === null){
         options = this.options;
       }else {
         this.emit("error", Error(`Invalid Casting Value: returned value must return a string, an object, null or undefined, got ${JSON.stringify(value)}`));
-        return
+        return;
       }
       const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter} = options;
       if(value){
         if(typeof value !== 'string'){
           this.emit("error", Error(`Formatter must return a string, null or undefined, got ${JSON.stringify(value)}`));
-          return null
+          return null;
         }
         const containsdelimiter = delimiter.length && value.indexOf(delimiter) >= 0;
         const containsQuote = (quote !== '') && value.indexOf(quote) >= 0;
         const containsEscape = value.indexOf(escape) >= 0 && (escape !== quote);
         const containsRecordDelimiter = value.indexOf(record_delimiter) >= 0;
         const quotedString = quoted_string && typeof field === 'string';
-        let quotedMatch = quoted_match && quoted_match.filter( quoted_match => {
+        let quotedMatch = quoted_match && quoted_match.filter(quoted_match => {
           if(typeof quoted_match === 'string'){
-            return value.indexOf(quoted_match) !== -1
+            return value.indexOf(quoted_match) !== -1;
           }else {
-            return quoted_match.test(value)
+            return quoted_match.test(value);
           }
         });
         quotedMatch = quotedMatch && quotedMatch.length > 0;
         const shouldQuote = containsQuote === true || containsdelimiter || containsRecordDelimiter || quoted || quotedString || quotedMatch;
         if(shouldQuote === true && containsEscape === true){
           const regexp = escape === '\\'
-          ? new RegExp(escape + escape, 'g')
-          : new RegExp(escape, 'g');
+            ? new RegExp(escape + escape, 'g')
+            : new RegExp(escape, 'g');
           value = value.replace(regexp, escape + escape);
         }
         if(containsQuote === true){
@@ -5323,20 +5415,20 @@ class Stringifier extends Transform {
         csvrecord += delimiter;
       }
     }
-    return csvrecord
+    return csvrecord;
   }
   bom(){
     if(this.options.bom !== true){
-      return
+      return;
     }
     this.push(bom_utf8);
   }
   headers(){
     if(this.options.header === false){
-      return
+      return;
     }
     if(this.options.columns === undefined){
-      return
+      return;
     }
     let headers = this.options.columns.map(column => column.header);
     if(this.options.eof){
@@ -5350,34 +5442,34 @@ class Stringifier extends Transform {
     const type = typeof value;
     try{
       if(type === 'string'){ // Fine for 99% of the cases
-        return [undefined, this.options.cast.string(value, context)]
+        return [undefined, this.options.cast.string(value, context)];
       }else if(type === 'bigint'){
-        return [undefined, this.options.cast.bigint(value, context)]
+        return [undefined, this.options.cast.bigint(value, context)];
       }else if(type === 'number'){
-        return [undefined, this.options.cast.number(value, context)]
+        return [undefined, this.options.cast.number(value, context)];
       }else if(type === 'boolean'){
-        return [undefined, this.options.cast.boolean(value, context)]
+        return [undefined, this.options.cast.boolean(value, context)];
       }else if(value instanceof Date){
-        return [undefined, this.options.cast.date(value, context)]
+        return [undefined, this.options.cast.date(value, context)];
       }else if(type === 'object' && value !== null){
-        return [undefined, this.options.cast.object(value, context)]
+        return [undefined, this.options.cast.object(value, context)];
       }else {
-        return [undefined, value, value]
+        return [undefined, value, value];
       }
     }catch(err){
-      return [err]
+      return [err];
     }
   }
   normalize_columns(columns){
     if(columns === undefined || columns === null){
-      return undefined
+      return undefined;
     }
     if(typeof columns !== 'object'){
-      throw Error('Invalid option "columns": expect an array or an object')
+      throw Error('Invalid option "columns": expect an array or an object');
     }
     if(!Array.isArray(columns)){
       const newcolumns = [];
-      for(let k in columns){
+      for(const k in columns){
         newcolumns.push({
           key: k,
           header: columns[k]
@@ -5386,7 +5478,7 @@ class Stringifier extends Transform {
       columns = newcolumns;
     }else {
       const newcolumns = [];
-      for(let column of columns){
+      for(const column of columns){
         if(typeof column === 'string'){
           newcolumns.push({
             key: column,
@@ -5394,124 +5486,21 @@ class Stringifier extends Transform {
           });
         }else if(typeof column === 'object' && column !== undefined && !Array.isArray(column)){
           if(!column.key){
-            throw Error('Invalid column definition: property "key" is required')
+            throw Error('Invalid column definition: property "key" is required');
           }
           if(column.header === undefined){
             column.header = column.key;
           }
           newcolumns.push(column);
         }else {
-          throw Error('Invalid column definition: expect a string or an object')
+          throw Error('Invalid column definition: expect a string or an object');
         }
       }
       columns = newcolumns;
     }
-    return columns
+    return columns;
   }
 }
-
-class CsvError extends Error {
-  constructor(code, message, ...contexts) {
-    if(Array.isArray(message)) message = message.join(' ');
-    super(message);
-    if(Error.captureStackTrace !== undefined){
-      Error.captureStackTrace(this, CsvError);
-    }
-    this.code = code;
-    for(const context of contexts){
-      for(const key in context){
-        const value = context[key];
-        this[key] = isBuffer(value) ? value.toString() : value == null ? value : JSON.parse(JSON.stringify(value));
-      }
-    }
-  }
-}
-
-const isObject = function(obj){
-  return typeof obj === 'object' && obj !== null && ! Array.isArray(obj)
-};
-
-const underscore = function(str){
-  return str.replace(/([A-Z])/g, function(_, match){
-    return '_' + match.toLowerCase()
-  })
-};
-
-// Lodash implementation of `get`
-
-const charCodeOfDot = '.'.charCodeAt(0);
-const reEscapeChar = /\\(\\)?/g;
-const rePropName = RegExp(
-  // Match anything that isn't a dot or bracket.
-  '[^.[\\]]+' + '|' +
-  // Or match property names within brackets.
-  '\\[(?:' +
-    // Match a non-string expression.
-    '([^"\'][^[]*)' + '|' +
-    // Or match strings (supports escaping characters).
-    '(["\'])((?:(?!\\2)[^\\\\]|\\\\.)*?)\\2' +
-  ')\\]'+ '|' +
-  // Or match "" as the space between consecutive dots or empty brackets.
-  '(?=(?:\\.|\\[\\])(?:\\.|\\[\\]|$))'
-, 'g');
-const reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
-const reIsPlainProp = /^\w*$/;
-const getTag = function(value){
-  return Object.prototype.toString.call(value)
-};
-const isKey = function(value, object){
-  if(Array.isArray(value)){
-    return false
-  }
-  const type = typeof value;
-  if(type === 'number' || type === 'symbol' || type === 'boolean' || !value || isSymbol(value)){
-    return true
-  }
-  return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
-    (object != null && value in Object(object))
-};
-const isSymbol = function(value){
-  const type = typeof value;
-  return type === 'symbol' || (type === 'object' && value && getTag(value) === '[object Symbol]')
-};
-const stringToPath = function(string){
-  const result = [];
-  if(string.charCodeAt(0) === charCodeOfDot){
-    result.push('');
-  }
-  string.replace(rePropName, function(match, expression, quote, subString){
-    let key = match;
-    if(quote){
-      key = subString.replace(reEscapeChar, '$1');
-    }else if(expression){
-      key = expression.trim();
-    }
-    result.push(key);
-  });
-  return result
-};
-const castPath = function(value, object){
-  if(Array.isArray(value)){
-    return value
-  } else {
-    return isKey(value, object) ? [value] : stringToPath(value)
-  }
-};
-const toKey = function(value){
-  if(typeof value === 'string' || isSymbol(value))
-    return value
-  const result = `${value}`;
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result
-};
-const get = function(object, path){
-  path = castPath(path, object);
-  let index = 0;
-  const length = path.length;
-  while(object != null && index < length){
-    object = object[toKey(path[index++])];
-  }
-  return (index && index === length) ? object : undefined
-};
 
 const stringify = function(records, options={}){
   const data = [];
@@ -5524,14 +5513,14 @@ const stringify = function(records, options={}){
       data.push(record.toString());
     }
   }
-  let stringifier = new Stringifier(options);
+  const stringifier = new Stringifier(options);
   stringifier.on('data', onData);
-  for(let record of records){
+  for(const record of records){
     stringifier.write(record); 
   }
   stringifier.end();
   stringifier.off('data', onData);
-  return data.join('')
+  return data.join('');
 };
 
 export { stringify };

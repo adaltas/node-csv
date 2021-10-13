@@ -5054,7 +5054,7 @@
               Stream.Readable.call(this, options);
               // Clone and camelize options
               this.options = {};
-              for(let k in options){
+              for(const k in options){
                 this.options[Generator.camelize(k)] = options[k];
               }
               // Normalize options
@@ -5091,26 +5091,26 @@
               if(typeof this.options.columns === 'number'){
                 this.options.columns = new Array(this.options.columns);
               }
-              const accepted_header_types = Object.keys(Generator).filter( (t) => ( !['super_', 'camelize'].includes(t) ));
+              const accepted_header_types = Object.keys(Generator).filter((t) => (!['super_', 'camelize'].includes(t)));
               for(let i = 0; i < this.options.columns.length; i++){
                 const v = this.options.columns[i] || 'ascii';
                 if(typeof v === 'string'){
                   if(!accepted_header_types.includes(v)){
-                    throw Error(`Invalid column type: got "${v}", default values are ${JSON.stringify(accepted_header_types)}`)
+                    throw Error(`Invalid column type: got "${v}", default values are ${JSON.stringify(accepted_header_types)}`);
                   }
                   this.options.columns[i] = Generator[v];
                 }
               }
-              return this
+              return this;
             };
             util.inherits(Generator, Stream.Readable);
 
             // Generate a random number between 0 and 1 with 2 decimals. The function is idempotent if it detect the "seed" option.
             Generator.prototype.random = function(){
               if(this.options.seed){
-                return this.options.seed = this.options.seed * Math.PI * 100 % 100 / 100
+                return this.options.seed = this.options.seed * Math.PI * 100 % 100 / 100;
               }else {
-                return Math.random()
+                return Math.random();
               }
             };
             // Stop the generation.
@@ -5125,9 +5125,10 @@
               if(length !== 0){
                 data.push(this._.fixed_size_buffer);
               }
+              // eslint-disable-next-line
               while(true){
                 // Time for some rest: flush first and stop later
-                if( (this._.count_created === this.options.length) || (this.options.end && Date.now() > this.options.end) || (this.options.duration && Date.now() > this._.start_time + this.options.duration) ){
+                if((this._.count_created === this.options.length) || (this.options.end && Date.now() > this.options.end) || (this.options.duration && Date.now() > this._.start_time + this.options.duration)){
                   // Flush
                   if(data.length){
                     if(this.options.objectMode){
@@ -5139,7 +5140,7 @@
                     }
                   }
                   // Stop
-                  return this.push(null)
+                  return this.push(null);
                 }
                 // Create the line
                 let line = [];
@@ -5177,7 +5178,7 @@
                     }
                     this.__push(data.join(''));
                   }
-                  return
+                  return;
                 }
                 length += lineLength;
                 data.push(line);
@@ -5187,7 +5188,7 @@
             Generator.prototype.__push = function(record){
               this._.count_written++;
               if(this.options.sleep > 0){
-                setTimeout( () => {
+                setTimeout(() => {
                   this.push(record);
                 }, this.options.sleep);
               }else {
@@ -5203,21 +5204,21 @@
                 const char = Math.floor(gen.random() * 32);
                 column.push(String.fromCharCode(char + (char < 16 ? 65 : 97 - 16)));
               }
-              return column.join('')
+              return column.join('');
             };
             // Generate an integer value.
             Generator.int = function(gen){
-              return Math.floor(gen.random() * Math.pow(2, 52))
+              return Math.floor(gen.random() * Math.pow(2, 52));
             };
             // Generate an boolean value.
             Generator.bool = function(gen){
-              return Math.floor(gen.random() * 2)
+              return Math.floor(gen.random() * 2);
             };
             // Camelize option properties
             Generator.camelize = function(str){
-              return str.replace(/_([a-z])/gi, function(_, match, index){
-                return match.toUpperCase()
-              })
+              return str.replace(/_([a-z])/gi, function(_, match){
+                return match.toUpperCase();
+              });
             };
 
             const generate = function(options){
@@ -5227,10 +5228,10 @@
               if(Number.isInteger(options)){
                 options = {length: options};
               }else if(typeof options !== 'object' || options === null){
-                throw Error('Invalid Argument: options must be an object or an integer')
+                throw Error('Invalid Argument: options must be an object or an integer');
               }
               if(!Number.isInteger(options.length)){
-                throw Error('Invalid Argument: length is not defined')
+                throw Error('Invalid Argument: length is not defined');
               }
               const chunks = [];
               let work = true;
@@ -5239,7 +5240,7 @@
               const generator = new Generator(options);
               generator.push = function(chunk){
                 if(chunk === null){
-                  return work = false 
+                  return work = false; 
                 }
                 if(options.objectMode){
                   chunks.push(chunk);
@@ -5251,9 +5252,9 @@
                 generator._read(options.highWaterMark);
               }
               if(!options.objectMode){
-                return chunks.join('')
+                return chunks.join('');
               }else {
-                return chunks
+                return chunks;
               }
             };
 
@@ -5269,7 +5270,7 @@
                   if(length >= this.size){
                     this.resize();
                     if(length >= this.size){
-                      throw Error('INVALID_BUFFER_STATE')
+                      throw Error('INVALID_BUFFER_STATE');
                     }
                   }
                   const buf = this.buf;
@@ -5295,7 +5296,7 @@
                 this.buf[length] = val;
               }
               clone(){
-                return Buffer.from(this.buf.slice(0, this.length))
+                return Buffer.from(this.buf.slice(0, this.length));
               }
               resize(){
                 const length = this.length;
@@ -5306,13 +5307,13 @@
               }
               toString(encoding){
                 if(encoding){
-                  return this.buf.slice(0, this.length).toString(encoding)
+                  return this.buf.slice(0, this.length).toString(encoding);
                 }else {
-                  return Uint8Array.prototype.slice.call(this.buf.slice(0, this.length))
+                  return Uint8Array.prototype.slice.call(this.buf.slice(0, this.length));
                 }
               }
               toJSON(){
-                return this.toString('utf8')
+                return this.toString('utf8');
               }
               reset(){
                 this.length = 0;
@@ -5340,6 +5341,65 @@
               'utf16le': Buffer.from([255, 254])
             };
 
+            class CsvError$1 extends Error {
+              constructor(code, message, options, ...contexts) {
+                if(Array.isArray(message)) message = message.join(' ');
+                super(message);
+                if(Error.captureStackTrace !== undefined){
+                  Error.captureStackTrace(this, CsvError$1);
+                }
+                this.code = code;
+                for(const context of contexts){
+                  for(const key in context){
+                    const value = context[key];
+                    this[key] = isBuffer$1(value) ? value.toString(options.encoding) : value == null ? value : JSON.parse(JSON.stringify(value));
+                  }
+                }
+              }
+            }
+
+            const underscore$1 = function(str){
+              return str.replace(/([A-Z])/g, function(_, match){
+                return '_' + match.toLowerCase();
+              });
+            };
+
+            const isObject$1 = function(obj){
+              return (typeof obj === 'object' && obj !== null && !Array.isArray(obj));
+            };
+
+            const isRecordEmpty = function(record){
+              return record.every((field) => field == null || field.toString && field.toString().trim() === '');
+            };
+
+            const normalizeColumnsArray = function(columns){
+              const normalizedColumns = [];
+              for(let i = 0, l = columns.length; i < l; i++){
+                const column = columns[i];
+                if(column === undefined || column === null || column === false){
+                  normalizedColumns[i] = { disabled: true };
+                }else if(typeof column === 'string'){
+                  normalizedColumns[i] = { name: column };
+                }else if(isObject$1(column)){
+                  if(typeof column.name !== 'string'){
+                    throw new CsvError$1('CSV_OPTION_COLUMNS_MISSING_NAME', [
+                      'Option columns missing name:',
+                      `property "name" is required at position ${i}`,
+                      'when column is an object literal'
+                    ]);
+                  }
+                  normalizedColumns[i] = column;
+                }else {
+                  throw new CsvError$1('CSV_INVALID_COLUMN_DEFINITION', [
+                    'Invalid column definition:',
+                    'expect a string or a literal object,',
+                    `got ${JSON.stringify(column)} at position ${i}`
+                  ]);
+                }
+              }
+              return normalizedColumns;
+            };
+
             class Parser extends Transform {
               constructor(opts = {}){
                 super({...{readableObjectMode: true}, ...opts, encoding: null});
@@ -5349,7 +5409,7 @@
               __normalizeOptions(opts){
                 const options = {};
                 // Merge with user options
-                for(let opt in opts){
+                for(const opt in opts){
                   options[underscore$1(opt)] = opts[opt];
                 }
                 // Normalize option `encoding`
@@ -5364,7 +5424,7 @@
                     'Invalid option encoding:',
                     'encoding must be a string or null to return a buffer,',
                     `got ${JSON.stringify(options.encoding)}`
-                  ], options)
+                  ], options);
                 }
                 // Normalize option `bom`
                 if(options.bom === undefined || options.bom === null || options.bom === false){
@@ -5373,7 +5433,7 @@
                   throw new CsvError$1('CSV_INVALID_OPTION_BOM', [
                     'Invalid option bom:', 'bom must be true,',
                     `got ${JSON.stringify(options.bom)}`
-                  ], options)
+                  ], options);
                 }
                 // Normalize option `cast`
                 let fnCastField = null;
@@ -5386,7 +5446,7 @@
                   throw new CsvError$1('CSV_INVALID_OPTION_CAST', [
                     'Invalid option cast:', 'cast must be true or a function,',
                     `got ${JSON.stringify(options.cast)}`
-                  ], options)
+                  ], options);
                 }
                 // Normalize option `cast_date`
                 if(options.cast_date === undefined || options.cast_date === null || options.cast_date === false || options.cast_date === ''){
@@ -5394,13 +5454,13 @@
                 }else if(options.cast_date === true){
                   options.cast_date = function(value){
                     const date = Date.parse(value);
-                    return !isNaN(date) ? new Date(date) : value
+                    return !isNaN(date) ? new Date(date) : value;
                   };
                 }else {
                   throw new CsvError$1('CSV_INVALID_OPTION_CAST_DATE', [
                     'Invalid option cast_date:', 'cast_date must be true or a function,',
                     `got ${JSON.stringify(options.cast_date)}`
-                  ], options)
+                  ], options);
                 }
                 // Normalize option `columns`
                 let fnFirstLineToHeaders = null;
@@ -5419,7 +5479,7 @@
                     'Invalid option columns:',
                     'expect an array, a function or true,',
                     `got ${JSON.stringify(options.columns)}`
-                  ], options)
+                  ], options);
                 }
                 // Normalize option `columns_duplicates_to_array`
                 if(options.columns_duplicates_to_array === undefined || options.columns_duplicates_to_array === null || options.columns_duplicates_to_array === false){
@@ -5429,12 +5489,12 @@
                     'Invalid option columns_duplicates_to_array:',
                     'expect an boolean,',
                     `got ${JSON.stringify(options.columns_duplicates_to_array)}`
-                  ], options)
+                  ], options);
                 }else if(options.columns === false){
                   throw new CsvError$1('CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY', [
                     'Invalid option columns_duplicates_to_array:',
                     'the `columns` mode must be activated.'
-                  ], options)
+                  ], options);
                 }
                 // Normalize option `comment`
                 if(options.comment === undefined || options.comment === null || options.comment === false || options.comment === ''){
@@ -5448,7 +5508,7 @@
                       'Invalid option comment:',
                       'comment must be a buffer or a string,',
                       `got ${JSON.stringify(options.comment)}`
-                    ], options)
+                    ], options);
                   }
                 }
                 // Normalize option `delimiter`
@@ -5459,23 +5519,23 @@
                     'Invalid option delimiter:',
                     'delimiter must be a non empty string or buffer or array of string|buffer,',
                     `got ${delimiter_json}`
-                  ], options)
+                  ], options);
                 }
                 options.delimiter = options.delimiter.map(function(delimiter){
                   if(delimiter === undefined || delimiter === null || delimiter === false){
-                    return Buffer.from(',', options.encoding)
+                    return Buffer.from(',', options.encoding);
                   }
                   if(typeof delimiter === 'string'){
                     delimiter = Buffer.from(delimiter, options.encoding);
                   }
-                  if( !isBuffer$1(delimiter) || delimiter.length === 0){
+                  if(!isBuffer$1(delimiter) || delimiter.length === 0){
                     throw new CsvError$1('CSV_INVALID_OPTION_DELIMITER', [
                       'Invalid option delimiter:',
                       'delimiter must be a non empty string or buffer or array of string|buffer,',
                       `got ${delimiter_json}`
-                    ], options)
+                    ], options);
                   }
-                  return delimiter
+                  return delimiter;
                 });
                 // Normalize option `escape`
                 if(options.escape === undefined || options.escape === true){
@@ -5487,7 +5547,7 @@
                 }
                 if(options.escape !== null){
                   if(!isBuffer$1(options.escape)){
-                    throw new Error(`Invalid Option: escape must be a buffer, a string or a boolean, got ${JSON.stringify(options.escape)}`)
+                    throw new Error(`Invalid Option: escape must be a buffer, a string or a boolean, got ${JSON.stringify(options.escape)}`);
                   }
                 }
                 // Normalize option `from`
@@ -5499,10 +5559,10 @@
                   }
                   if(Number.isInteger(options.from)){
                     if(options.from < 0){
-                      throw new Error(`Invalid Option: from must be a positive integer, got ${JSON.stringify(opts.from)}`)
+                      throw new Error(`Invalid Option: from must be a positive integer, got ${JSON.stringify(opts.from)}`);
                     }
                   }else {
-                    throw new Error(`Invalid Option: from must be an integer, got ${JSON.stringify(options.from)}`)
+                    throw new Error(`Invalid Option: from must be an integer, got ${JSON.stringify(options.from)}`);
                   }
                 }
                 // Normalize option `from_line`
@@ -5514,10 +5574,10 @@
                   }
                   if(Number.isInteger(options.from_line)){
                     if(options.from_line <= 0){
-                      throw new Error(`Invalid Option: from_line must be a positive integer greater than 0, got ${JSON.stringify(opts.from_line)}`)
+                      throw new Error(`Invalid Option: from_line must be a positive integer greater than 0, got ${JSON.stringify(opts.from_line)}`);
                     }
                   }else {
-                    throw new Error(`Invalid Option: from_line must be an integer, got ${JSON.stringify(opts.from_line)}`)
+                    throw new Error(`Invalid Option: from_line must be an integer, got ${JSON.stringify(opts.from_line)}`);
                   }
                 }
                 // Normalize options `ignore_last_delimiters`
@@ -5533,19 +5593,19 @@
                     'Invalid option `ignore_last_delimiters`:',
                     'the value must be a boolean value or an integer,',
                     `got ${JSON.stringify(options.ignore_last_delimiters)}`
-                  ], options)
+                  ], options);
                 }
                 if(options.ignore_last_delimiters === true && options.columns === false){
                   throw new CsvError$1('CSV_IGNORE_LAST_DELIMITERS_REQUIRES_COLUMNS', [
                     'The option `ignore_last_delimiters`',
                     'requires the activation of the `columns` option'
-                  ], options)
+                  ], options);
                 }
                 // Normalize option `info`
                 if(options.info === undefined || options.info === null || options.info === false){
                   options.info = false;
                 }else if(options.info !== true){
-                  throw new Error(`Invalid Option: info must be true, got ${JSON.stringify(options.info)}`)
+                  throw new Error(`Invalid Option: info must be true, got ${JSON.stringify(options.info)}`);
                 }
                 // Normalize option `max_record_size`
                 if(options.max_record_size === undefined || options.max_record_size === null || options.max_record_size === false){
@@ -5553,25 +5613,25 @@
                 }else if(Number.isInteger(options.max_record_size) && options.max_record_size >= 0);else if(typeof options.max_record_size === 'string' && /\d+/.test(options.max_record_size)){
                   options.max_record_size = parseInt(options.max_record_size);
                 }else {
-                  throw new Error(`Invalid Option: max_record_size must be a positive integer, got ${JSON.stringify(options.max_record_size)}`)
+                  throw new Error(`Invalid Option: max_record_size must be a positive integer, got ${JSON.stringify(options.max_record_size)}`);
                 }
                 // Normalize option `objname`
                 if(options.objname === undefined || options.objname === null || options.objname === false){
                   options.objname = undefined;
                 }else if(isBuffer$1(options.objname)){
                   if(options.objname.length === 0){
-                    throw new Error(`Invalid Option: objname must be a non empty buffer`)
+                    throw new Error(`Invalid Option: objname must be a non empty buffer`);
                   }
                   if(options.encoding === null);else {
                     options.objname = options.objname.toString(options.encoding);
                   }
                 }else if(typeof options.objname === 'string'){
                   if(options.objname.length === 0){
-                    throw new Error(`Invalid Option: objname must be a non empty string`)
+                    throw new Error(`Invalid Option: objname must be a non empty string`);
                   }
                   // Great, nothing to do
                 }else {
-                  throw new Error(`Invalid Option: objname must be a string or a buffer, got ${options.objname}`)
+                  throw new Error(`Invalid Option: objname must be a string or a buffer, got ${options.objname}`);
                 }
                 // Normalize option `on_record`
                 if(options.on_record === undefined || options.on_record === null){
@@ -5581,7 +5641,7 @@
                     'Invalid option `on_record`:',
                     'expect a function,',
                     `got ${JSON.stringify(options.on_record)}`
-                  ], options)
+                  ], options);
                 }
                 // Normalize option `quote`
                 if(options.quote === null || options.quote === false || options.quote === ''){
@@ -5593,14 +5653,14 @@
                     options.quote = Buffer.from(options.quote, options.encoding);
                   }
                   if(!isBuffer$1(options.quote)){
-                    throw new Error(`Invalid Option: quote must be a buffer or a string, got ${JSON.stringify(options.quote)}`)
+                    throw new Error(`Invalid Option: quote must be a buffer or a string, got ${JSON.stringify(options.quote)}`);
                   }
                 }
                 // Normalize option `raw`
                 if(options.raw === undefined || options.raw === null || options.raw === false){
                   options.raw = false;
                 }else if(options.raw !== true){
-                  throw new Error(`Invalid Option: raw must be true, got ${JSON.stringify(options.raw)}`)
+                  throw new Error(`Invalid Option: raw must be true, got ${JSON.stringify(options.raw)}`);
                 }
                 // Normalize option `record_delimiter`
                 if(!options.record_delimiter){
@@ -5608,69 +5668,69 @@
                 }else if(!Array.isArray(options.record_delimiter)){
                   options.record_delimiter = [options.record_delimiter];
                 }
-                options.record_delimiter = options.record_delimiter.map( function(rd){
+                options.record_delimiter = options.record_delimiter.map(function(rd){
                   if(typeof rd === 'string'){
                     rd = Buffer.from(rd, options.encoding);
                   }
-                  return rd
+                  return rd;
                 });
                 // Normalize option `relax`
                 if(typeof options.relax === 'boolean');else if(options.relax === undefined || options.relax === null){
                   options.relax = false;
                 }else {
-                  throw new Error(`Invalid Option: relax must be a boolean, got ${JSON.stringify(options.relax)}`)
+                  throw new Error(`Invalid Option: relax must be a boolean, got ${JSON.stringify(options.relax)}`);
                 }
                 // Normalize option `relax_column_count`
                 if(typeof options.relax_column_count === 'boolean');else if(options.relax_column_count === undefined || options.relax_column_count === null){
                   options.relax_column_count = false;
                 }else {
-                  throw new Error(`Invalid Option: relax_column_count must be a boolean, got ${JSON.stringify(options.relax_column_count)}`)
+                  throw new Error(`Invalid Option: relax_column_count must be a boolean, got ${JSON.stringify(options.relax_column_count)}`);
                 }
                 if(typeof options.relax_column_count_less === 'boolean');else if(options.relax_column_count_less === undefined || options.relax_column_count_less === null){
                   options.relax_column_count_less = false;
                 }else {
-                  throw new Error(`Invalid Option: relax_column_count_less must be a boolean, got ${JSON.stringify(options.relax_column_count_less)}`)
+                  throw new Error(`Invalid Option: relax_column_count_less must be a boolean, got ${JSON.stringify(options.relax_column_count_less)}`);
                 }
                 if(typeof options.relax_column_count_more === 'boolean');else if(options.relax_column_count_more === undefined || options.relax_column_count_more === null){
                   options.relax_column_count_more = false;
                 }else {
-                  throw new Error(`Invalid Option: relax_column_count_more must be a boolean, got ${JSON.stringify(options.relax_column_count_more)}`)
+                  throw new Error(`Invalid Option: relax_column_count_more must be a boolean, got ${JSON.stringify(options.relax_column_count_more)}`);
                 }
                 // Normalize option `skip_empty_lines`
                 if(typeof options.skip_empty_lines === 'boolean');else if(options.skip_empty_lines === undefined || options.skip_empty_lines === null){
                   options.skip_empty_lines = false;
                 }else {
-                  throw new Error(`Invalid Option: skip_empty_lines must be a boolean, got ${JSON.stringify(options.skip_empty_lines)}`)
+                  throw new Error(`Invalid Option: skip_empty_lines must be a boolean, got ${JSON.stringify(options.skip_empty_lines)}`);
                 }
                 // Normalize option `skip_lines_with_empty_values`
                 if(typeof options.skip_lines_with_empty_values === 'boolean');else if(options.skip_lines_with_empty_values === undefined || options.skip_lines_with_empty_values === null){
                   options.skip_lines_with_empty_values = false;
                 }else {
-                  throw new Error(`Invalid Option: skip_lines_with_empty_values must be a boolean, got ${JSON.stringify(options.skip_lines_with_empty_values)}`)
+                  throw new Error(`Invalid Option: skip_lines_with_empty_values must be a boolean, got ${JSON.stringify(options.skip_lines_with_empty_values)}`);
                 }
                 // Normalize option `skip_lines_with_error`
                 if(typeof options.skip_lines_with_error === 'boolean');else if(options.skip_lines_with_error === undefined || options.skip_lines_with_error === null){
                   options.skip_lines_with_error = false;
                 }else {
-                  throw new Error(`Invalid Option: skip_lines_with_error must be a boolean, got ${JSON.stringify(options.skip_lines_with_error)}`)
+                  throw new Error(`Invalid Option: skip_lines_with_error must be a boolean, got ${JSON.stringify(options.skip_lines_with_error)}`);
                 }
                 // Normalize option `rtrim`
                 if(options.rtrim === undefined || options.rtrim === null || options.rtrim === false){
                   options.rtrim = false;
                 }else if(options.rtrim !== true){
-                  throw new Error(`Invalid Option: rtrim must be a boolean, got ${JSON.stringify(options.rtrim)}`)
+                  throw new Error(`Invalid Option: rtrim must be a boolean, got ${JSON.stringify(options.rtrim)}`);
                 }
                 // Normalize option `ltrim`
                 if(options.ltrim === undefined || options.ltrim === null || options.ltrim === false){
                   options.ltrim = false;
                 }else if(options.ltrim !== true){
-                  throw new Error(`Invalid Option: ltrim must be a boolean, got ${JSON.stringify(options.ltrim)}`)
+                  throw new Error(`Invalid Option: ltrim must be a boolean, got ${JSON.stringify(options.ltrim)}`);
                 }
                 // Normalize option `trim`
                 if(options.trim === undefined || options.trim === null || options.trim === false){
                   options.trim = false;
                 }else if(options.trim !== true){
-                  throw new Error(`Invalid Option: trim must be a boolean, got ${JSON.stringify(options.trim)}`)
+                  throw new Error(`Invalid Option: trim must be a boolean, got ${JSON.stringify(options.trim)}`);
                 }
                 // Normalize options `trim`, `ltrim` and `rtrim`
                 if(options.trim === true && opts.ltrim !== false){
@@ -5692,10 +5752,10 @@
                   }
                   if(Number.isInteger(options.to)){
                     if(options.to <= 0){
-                      throw new Error(`Invalid Option: to must be a positive integer greater than 0, got ${JSON.stringify(opts.to)}`)
+                      throw new Error(`Invalid Option: to must be a positive integer greater than 0, got ${JSON.stringify(opts.to)}`);
                     }
                   }else {
-                    throw new Error(`Invalid Option: to must be an integer, got ${JSON.stringify(opts.to)}`)
+                    throw new Error(`Invalid Option: to must be an integer, got ${JSON.stringify(opts.to)}`);
                   }
                 }
                 // Normalize option `to_line`
@@ -5707,10 +5767,10 @@
                   }
                   if(Number.isInteger(options.to_line)){
                     if(options.to_line <= 0){
-                      throw new Error(`Invalid Option: to_line must be a positive integer greater than 0, got ${JSON.stringify(opts.to_line)}`)
+                      throw new Error(`Invalid Option: to_line must be a positive integer greater than 0, got ${JSON.stringify(opts.to_line)}`);
                     }
                   }else {
-                    throw new Error(`Invalid Option: to_line must be an integer, got ${JSON.stringify(opts.to_line)}`)
+                    throw new Error(`Invalid Option: to_line must be an integer, got ${JSON.stringify(opts.to_line)}`);
                   }
                 }
                 this.info = {
@@ -5741,7 +5801,7 @@
                     // Skip if the remaining buffer smaller than comment
                     options.comment !== null ? options.comment.length : 0,
                     // Skip if the remaining buffer can be delimiter
-                    ...options.delimiter.map( (delimiter) => delimiter.length),
+                    ...options.delimiter.map((delimiter) => delimiter.length),
                     // Skip if the remaining buffer can be escape sequence
                     options.quote !== null ? options.quote.length : 0,
                   ),
@@ -5752,7 +5812,7 @@
                   record: [],
                   recordHasError: false,
                   record_length: 0,
-                  recordDelimiterMaxLength: options.record_delimiter.length === 0 ? 2 : Math.max(...options.record_delimiter.map( (v) => v.length)),
+                  recordDelimiterMaxLength: options.record_delimiter.length === 0 ? 2 : Math.max(...options.record_delimiter.map((v) => v.length)),
                   trimChars: [Buffer.from(' ', options.encoding)[0], Buffer.from('\t', options.encoding)[0]],
                   wasQuoting: false,
                   wasRowDelimiter: false
@@ -5761,7 +5821,7 @@
               // Implementation of `Transform._transform`
               _transform(buf, encoding, callback){
                 if(this.state.stop === true){
-                  return
+                  return;
                 }
                 const err = this.__parse(buf, false);
                 if(err !== undefined){
@@ -5772,7 +5832,7 @@
               // Implementation of `Transform._flush`
               _flush(callback){
                 if(this.state.stop === true){
-                  return
+                  return;
                 }
                 const err = this.__parse(undefined, true);
                 callback(err);
@@ -5787,7 +5847,7 @@
                   if(nextBuf === undefined){
                     // Handle empty string
                     this.push(null);
-                    return
+                    return;
                   }else {
                     buf = nextBuf;
                   }
@@ -5805,18 +5865,18 @@
                     if(end === false){
                       // Wait for more data
                       this.state.previousBuf = buf;
-                      return
+                      return;
                     }
                   }else {
-                    for(let encoding in boms){
+                    for(const encoding in boms){
                       if(boms[encoding].compare(buf, 0, boms[encoding].length) === 0){
                         // Skip BOM
-                        let bomLength = boms[encoding].length;
+                        const bomLength = boms[encoding].length;
                         this.state.bufBytesStart += bomLength;
                         buf = buf.slice(bomLength);
                         // Renormalize original options with the new encoding
                         this.__normalizeOptions({...this.__originalOptions, encoding: encoding});
-                        break
+                        break;
                       }
                     }
                     this.state.bomSkipped = true;
@@ -5828,7 +5888,7 @@
                   // Ensure we get enough space to look ahead
                   // There should be a way to move this out of the loop
                   if(this.__needMoreData(pos, bufLen, end)){
-                    break
+                    break;
                   }
                   if(this.state.wasRowDelimiter === true){
                     this.info.lines++;
@@ -5837,7 +5897,7 @@
                   if(to_line !== -1 && this.info.lines > to_line){
                     this.state.stop = true;
                     this.push(null);
-                    return
+                    return;
                   }
                   // Auto discovery of record_delimiter, unix, mac and windows supported
                   if(this.state.quoting === false && record_delimiter.length === 0){
@@ -5850,7 +5910,7 @@
                   if(raw === true){
                     rawBuffer.append(chr);
                   }
-                  if((chr === cr || chr === nl) && this.state.wasRowDelimiter === false ){
+                  if((chr === cr || chr === nl) && this.state.wasRowDelimiter === false){
                     this.state.wasRowDelimiter = true;
                   }
                   // Previous char was a valid escape char
@@ -5866,12 +5926,12 @@
                         if(this.__isQuote(buf, pos+escape.length)){
                           this.state.escaping = true;
                           pos += escape.length - 1;
-                          continue
+                          continue;
                         }
                       }else {
                         this.state.escaping = true;
                         pos += escape.length - 1;
-                        continue
+                        continue;
                       }
                     }
                     // Not currently escaping and chr is a quote
@@ -5891,7 +5951,7 @@
                           this.state.quoting = false;
                           this.state.wasQuoting = true;
                           pos += quote.length - 1;
-                          continue
+                          continue;
                         }else if(relax === false){
                           const err = this.__error(
                             new CsvError$1('CSV_INVALID_CLOSING_QUOTE', [
@@ -5902,7 +5962,7 @@
                               '(if activated) or comment',
                             ], this.options, this.__infoField())
                           );
-                          if(err !== undefined) return err
+                          if(err !== undefined) return err;
                         }else {
                           this.state.quoting = false;
                           this.state.wasQuoting = true;
@@ -5912,7 +5972,7 @@
                       }else {
                         if(this.state.field.length !== 0){
                           // In relax mode, treat opening quote preceded by chrs as regular
-                          if( relax === false ){
+                          if(relax === false){
                             const err = this.__error(
                               new CsvError$1('INVALID_OPENING_QUOTE', [
                                 'Invalid Opening Quote:',
@@ -5921,17 +5981,17 @@
                                 field: this.state.field,
                               })
                             );
-                            if(err !== undefined) return err
+                            if(err !== undefined) return err;
                           }
                         }else {
                           this.state.quoting = true;
                           pos += quote.length - 1;
-                          continue
+                          continue;
                         }
                       }
                     }
                     if(this.state.quoting === false){
-                      let recordDelimiterLength = this.__isRecordDelimiter(chr, buf, pos);
+                      const recordDelimiterLength = this.__isRecordDelimiter(chr, buf, pos);
                       if(recordDelimiterLength !== 0){
                         // Do not emit comments which take a full line
                         const skipCommentLine = this.state.commenting && (this.state.wasQuoting === false && this.state.record.length === 0 && this.state.field.length === 0);
@@ -5945,45 +6005,45 @@
                             this.__resetField();
                             this.__resetRecord();
                             pos += recordDelimiterLength - 1;
-                            continue
+                            continue;
                           }
                           // Skip if line is empty and skip_empty_lines activated
                           if(skip_empty_lines === true && this.state.wasQuoting === false && this.state.record.length === 0 && this.state.field.length === 0){
                             this.info.empty_lines++;
                             pos += recordDelimiterLength - 1;
-                            continue
+                            continue;
                           }
                           this.info.bytes = this.state.bufBytesStart + pos;
                           const errField = this.__onField();
-                          if(errField !== undefined) return errField
+                          if(errField !== undefined) return errField;
                           this.info.bytes = this.state.bufBytesStart + pos + recordDelimiterLength;
                           const errRecord = this.__onRecord();
-                          if(errRecord !== undefined) return errRecord
+                          if(errRecord !== undefined) return errRecord;
                           if(to !== -1 && this.info.records >= to){
                             this.state.stop = true;
                             this.push(null);
-                            return
+                            return;
                           }
                         }
                         this.state.commenting = false;
                         pos += recordDelimiterLength - 1;
-                        continue
+                        continue;
                       }
                       if(this.state.commenting){
-                        continue
+                        continue;
                       }
                       const commentCount = comment === null ? 0 : this.__compareBytes(comment, buf, pos, chr);
                       if(commentCount !== 0){
                         this.state.commenting = true;
-                        continue
+                        continue;
                       }
-                      let delimiterLength = this.__isDelimiter(buf, pos, chr);
+                      const delimiterLength = this.__isDelimiter(buf, pos, chr);
                       if(delimiterLength !== 0){
                         this.info.bytes = this.state.bufBytesStart + pos;
                         const errField = this.__onField();
-                        if(errField !== undefined) return errField
+                        if(errField !== undefined) return errField;
                         pos += delimiterLength - 1;
-                        continue
+                        continue;
                       }
                     }
                   }
@@ -5997,13 +6057,13 @@
                           `at line ${this.info.lines}`,
                         ], this.options, this.__infoField())
                       );
-                      if(err !== undefined) return err
+                      if(err !== undefined) return err;
                     }
                   }
                   const lappend = ltrim === false || this.state.quoting === true || this.state.field.length !== 0 || !this.__isCharTrimable(chr);
                   // rtrim in non quoting is handle in __onField
                   const rappend = rtrim === false || this.state.wasQuoting === false;
-                  if( lappend === true && rappend === true ){
+                  if(lappend === true && rappend === true){
                     this.state.field.append(chr);
                   }else if(rtrim === true && !this.__isCharTrimable(chr)){
                     const err = this.__error(
@@ -6013,7 +6073,7 @@
                         `at line ${this.info.lines}`,
                       ], this.options, this.__infoField())
                     );
-                    if(err !== undefined) return err
+                    if(err !== undefined) return err;
                   }
                 }
                 if(end === true){
@@ -6025,15 +6085,15 @@
                         `the parsing is finished with an opening quote at line ${this.info.lines}`,
                       ], this.options, this.__infoField())
                     );
-                    if(err !== undefined) return err
+                    if(err !== undefined) return err;
                   }else {
                     // Skip last line if it has no characters
                     if(this.state.wasQuoting === true || this.state.record.length !== 0 || this.state.field.length !== 0){
                       this.info.bytes = this.state.bufBytesStart + pos;
                       const errField = this.__onField();
-                      if(errField !== undefined) return errField
+                      if(errField !== undefined) return errField;
                       const errRecord = this.__onRecord();
-                      if(errRecord !== undefined) return errRecord
+                      if(errRecord !== undefined) return errRecord;
                     }else if(this.state.wasRowDelimiter === true){
                       this.info.empty_lines++;
                     }else if(this.state.commenting === true){
@@ -6053,16 +6113,16 @@
                 const {columns, columns_duplicates_to_array, encoding, info, from, relax_column_count, relax_column_count_less, relax_column_count_more, raw, skip_lines_with_empty_values} = this.options;
                 const {enabled, record} = this.state;
                 if(enabled === false){
-                  return this.__resetRecord()
+                  return this.__resetRecord();
                 }
                 // Convert the first line into column names
                 const recordLength = record.length;
                 if(columns === true){
                   if(skip_lines_with_empty_values === true && isRecordEmpty(record)){
                     this.__resetRecord();
-                    return
+                    return;
                   }
-                  return this.__firstLineToColumns(record)
+                  return this.__firstLineToColumns(record);
                 }
                 if(columns === false && this.info.records === 0){
                   this.state.expectedRecordLength = recordLength;
@@ -6090,23 +6150,23 @@
                     });
                   if(relax_column_count === true ||
                     (relax_column_count_less === true && recordLength < this.state.expectedRecordLength) ||
-                    (relax_column_count_more === true && recordLength > this.state.expectedRecordLength) ){
+                    (relax_column_count_more === true && recordLength > this.state.expectedRecordLength)){
                     this.info.invalid_field_length++;
                     this.state.error = err;
                   // Error is undefined with skip_lines_with_error
                   }else {
                     const finalErr = this.__error(err);
-                    if(finalErr) return finalErr
+                    if(finalErr) return finalErr;
                   }
                 }
                 if(skip_lines_with_empty_values === true && isRecordEmpty(record)){
                   this.__resetRecord();
-                  return
+                  return;
                 }
                 if(this.state.recordHasError === true){
                   this.__resetRecord();
                   this.state.recordHasError = false;
-                  return
+                  return;
                 }
                 this.info.records++;
                 if(from === 1 || this.info.records >= from){
@@ -6115,7 +6175,7 @@
                     const obj = {};
                     // Transform record array to an object
                     for(let i = 0, l = record.length; i < l; i++){
-                      if(columns[i] === undefined || columns[i].disabled) continue
+                      if(columns[i] === undefined || columns[i].disabled) continue;
                       // Turn duplicate columns into an array
                       if (columns_duplicates_to_array === true && obj[columns[i].name] !== undefined) {
                         if (Array.isArray(obj[columns[i].name])) {
@@ -6137,12 +6197,12 @@
                           (info === true ? {info: this.__infoRecord()}: {})
                         ));
                         if(err){
-                          return err
+                          return err;
                         }
                       }else {
                         const err = this.__push(obj);
                         if(err){
-                          return err
+                          return err;
                         }
                       }
                     // With objname (default)
@@ -6154,12 +6214,12 @@
                           info === true ? {info: this.__infoRecord()}: {}
                         ));
                         if(err){
-                          return err
+                          return err;
                         }
                       }else {
                         const err = this.__push([obj[objname], obj]);
                         if(err){
-                          return err
+                          return err;
                         }
                       }
                     }
@@ -6172,12 +6232,12 @@
                         info === true ? {info: this.__infoRecord()}: {}
                       ));
                       if(err){
-                        return err
+                        return err;
                       }
                     }else {
                       const err = this.__push(record);
                       if(err){
-                        return err
+                        return err;
                       }
                     }
                   }
@@ -6197,15 +6257,15 @@
                       ], this.options, this.__infoField(), {
                         headers: headers,
                       })
-                    )
+                    );
                   }
                   const normalizedHeaders = normalizeColumnsArray(headers);
                   this.state.expectedRecordLength = normalizedHeaders.length;
                   this.options.columns = normalizedHeaders;
                   this.__resetRecord();
-                  return
+                  return;
                 }catch(err){
-                  return err
+                  return err;
                 }
               }
               __resetRecord(){
@@ -6221,7 +6281,7 @@
                 const {enabled, wasQuoting} = this.state;
                 // Short circuit for the from_line options
                 if(enabled === false){
-                  return this.__resetField()
+                  return this.__resetField();
                 }
                 let field = this.state.field.toString(encoding);
                 if(rtrim === true && wasQuoting === false){
@@ -6229,7 +6289,7 @@
                 }
                 if(cast === true){
                   const [err, f] = this.__cast(field);
-                  if(err !== undefined) return err
+                  if(err !== undefined) return err;
                   field = f;
                 }
                 this.state.record.push(field);
@@ -6250,9 +6310,9 @@
                   try{
                     record = on_record.call(null, record, info);
                   }catch(err){
-                    return err
+                    return err;
                   }
-                  if(record === undefined || record === null){ return }
+                  if(record === undefined || record === null){ return; }
                 }
                 this.push(record);
               }
@@ -6263,28 +6323,28 @@
                 // Dont loose time calling cast
                 // because the final record is an object
                 // and this field can't be associated to a key present in columns
-                if( isColumns === true && relax_column_count && this.options.columns.length <= this.state.record.length ){
-                  return [undefined, undefined]
+                if(isColumns === true && relax_column_count && this.options.columns.length <= this.state.record.length){
+                  return [undefined, undefined];
                 }
                 if(this.state.castField !== null){
                   try{
                     const info = this.__infoField();
-                    return [undefined, this.state.castField.call(null, field, info)]
+                    return [undefined, this.state.castField.call(null, field, info)];
                   }catch(err){
-                    return [err]
+                    return [err];
                   }
                 }
                 if(this.__isFloat(field)){
-                  return [undefined, parseFloat(field)]
+                  return [undefined, parseFloat(field)];
                 }else if(this.options.cast_date !== false){
                   const info = this.__infoField();
-                  return [undefined, this.options.cast_date.call(null, field, info)]
+                  return [undefined, this.options.cast_date.call(null, field, info)];
                 }
-                return [undefined, field]
+                return [undefined, field];
               }
               // Helper to test if a character is a space or a line delimiter
               __isCharTrimable(chr){
-                return chr === space || chr === tab || chr === cr || chr === nl || chr === np
+                return chr === space || chr === tab || chr === cr || chr === nl || chr === np;
               }
               // Keep it in case we implement the `cast_int` option
               // __isInt(value){
@@ -6293,18 +6353,18 @@
               //   return /^(\-|\+)?[1-9][0-9]*$/.test(value)
               // }
               __isFloat(value){
-                return (value - parseFloat( value ) + 1) >= 0 // Borrowed from jquery
+                return (value - parseFloat(value) + 1) >= 0; // Borrowed from jquery
               }
               __compareBytes(sourceBuf, targetBuf, targetPos, firstByte){
-                if(sourceBuf[0] !== firstByte) return 0
+                if(sourceBuf[0] !== firstByte) return 0;
                 const sourceLength = sourceBuf.length;
                 for(let i = 1; i < sourceLength; i++){
-                  if(sourceBuf[i] !== targetBuf[targetPos+i]) return 0
+                  if(sourceBuf[i] !== targetBuf[targetPos+i]) return 0;
                 }
-                return sourceLength
+                return sourceLength;
               }
               __needMoreData(i, bufLen, end){
-                if(end) return false
+                if(end) return false;
                 const {quote} = this.options;
                 const {quoting, needMoreDataSize, recordDelimiterMaxLength} = this.state;
                 const numOfCharLeft = bufLen - i - 1;
@@ -6316,25 +6376,25 @@
                   // 1 is for quote.length
                   quoting ? (quote.length + recordDelimiterMaxLength) : 0,
                 );
-                return numOfCharLeft < requiredLength
+                return numOfCharLeft < requiredLength;
               }
               __isDelimiter(buf, pos, chr){
                 const {delimiter, ignore_last_delimiters} = this.options;
                 if(ignore_last_delimiters === true && this.state.record.length === this.options.columns.length - 1){
-                  return 0
+                  return 0;
                 }else if(ignore_last_delimiters !== false && typeof ignore_last_delimiters === 'number' && this.state.record.length === ignore_last_delimiters - 1){
-                  return 0
+                  return 0;
                 }
                 loop1: for(let i = 0; i < delimiter.length; i++){
                   const del = delimiter[i];
                   if(del[0] === chr){
                     for(let j = 1; j < del.length; j++){
-                      if(del[j] !== buf[pos+j]) continue loop1
+                      if(del[j] !== buf[pos+j]) continue loop1;
                     }
-                    return del.length
+                    return del.length;
                   }
                 }
-                return 0
+                return 0;
               }
               __isRecordDelimiter(chr, buf, pos){
                 const {record_delimiter} = this.options;
@@ -6343,41 +6403,41 @@
                   const rd = record_delimiter[i];
                   const rdLength = rd.length;
                   if(rd[0] !== chr){
-                    continue
+                    continue;
                   }
                   for(let j = 1; j < rdLength; j++){
                     if(rd[j] !== buf[pos+j]){
-                      continue loop1
+                      continue loop1;
                     }
                   }
-                  return rd.length
+                  return rd.length;
                 }
-                return 0
+                return 0;
               }
               __isEscape(buf, pos, chr){
                 const {escape} = this.options;
-                if(escape === null) return false
+                if(escape === null) return false;
                 const l = escape.length;
                 if(escape[0] === chr){
                   for(let i = 0; i < l; i++){
                     if(escape[i] !== buf[pos+i]){
-                      return false
+                      return false;
                     }
                   }
-                  return true
+                  return true;
                 }
-                return false
+                return false;
               }
               __isQuote(buf, pos){
                 const {quote} = this.options;
-                if(quote === null) return false
+                if(quote === null) return false;
                 const l = quote.length;
                 for(let i = 0; i < l; i++){
                   if(quote[i] !== buf[pos+i]){
-                    return false
+                    return false;
                   }
                 }
-                return true
+                return true;
               }
               __autoDiscoverRecordDelimiter(buf, pos){
                 const {encoding} = this.options;
@@ -6386,18 +6446,18 @@
                   if(buf[pos+1] === nl){
                     this.options.record_delimiter.push(Buffer.from('\r\n', encoding));
                     this.state.recordDelimiterMaxLength = 2;
-                    return 2
+                    return 2;
                   }else {
                     this.options.record_delimiter.push(Buffer.from('\r', encoding));
                     this.state.recordDelimiterMaxLength = 1;
-                    return 1
+                    return 1;
                   }
                 }else if(chr === nl){
                   this.options.record_delimiter.push(Buffer.from('\n', encoding));
                   this.state.recordDelimiterMaxLength = 1;
-                  return 1
+                  return 1;
                 }
-                return 0
+                return 0;
               }
               __error(msg){
                 const {skip_lines_with_error} = this.options;
@@ -6405,16 +6465,16 @@
                 if(skip_lines_with_error){
                   this.state.recordHasError = true;
                   this.emit('skip', err);
-                  return undefined
+                  return undefined;
                 }else {
-                  return err
+                  return err;
                 }
               }
               __infoDataSet(){
                 return {
                   ...this.info,
                   columns: this.options.columns
-                }
+                };
               }
               __infoRecord(){
                 const {columns} = this.options;
@@ -6423,7 +6483,7 @@
                   error: this.state.error,
                   header: columns === true,
                   index: this.state.record.length,
-                }
+                };
               }
               __infoField(){
                 const {columns} = this.options;
@@ -6431,74 +6491,15 @@
                 return {
                   ...this.__infoRecord(),
                   column: isColumns === true ?
-                    ( columns.length > this.state.record.length ?
+                    (columns.length > this.state.record.length ?
                       columns[this.state.record.length].name :
                       null
                     ) :
                     this.state.record.length,
                   quoting: this.state.wasQuoting,
-                }
+                };
               }
             }
-
-            class CsvError$1 extends Error {
-              constructor(code, message, options, ...contexts) {
-                if(Array.isArray(message)) message = message.join(' ');
-                super(message);
-                if(Error.captureStackTrace !== undefined){
-                  Error.captureStackTrace(this, CsvError$1);
-                }
-                this.code = code;
-                for(const context of contexts){
-                  for(const key in context){
-                    const value = context[key];
-                    this[key] = isBuffer$1(value) ? value.toString(options.encoding) : value == null ? value : JSON.parse(JSON.stringify(value));
-                  }
-                }
-              }
-            }
-
-            const underscore$1 = function(str){
-              return str.replace(/([A-Z])/g, function(_, match){
-                return '_' + match.toLowerCase()
-              })
-            };
-
-            const isObject$1 = function(obj){
-              return (typeof obj === 'object' && obj !== null && !Array.isArray(obj))
-            };
-
-            const isRecordEmpty = function(record){
-              return record.every( (field) => field == null || field.toString && field.toString().trim() === '' )
-            };
-
-            const normalizeColumnsArray = function(columns){
-              const normalizedColumns = [];
-              for(let i = 0, l = columns.length; i < l; i++){
-                const column = columns[i];
-                if(column === undefined || column === null || column === false){
-                  normalizedColumns[i] = { disabled: true };
-                }else if(typeof column === 'string'){
-                  normalizedColumns[i] = { name: column };
-                }else if(isObject$1(column)){
-                  if(typeof column.name !== 'string'){
-                    throw new CsvError$1('CSV_OPTION_COLUMNS_MISSING_NAME', [
-                      'Option columns missing name:',
-                      `property "name" is required at position ${i}`,
-                      'when column is an object literal'
-                    ])
-                  }
-                  normalizedColumns[i] = column;
-                }else {
-                  throw new CsvError$1('CSV_INVALID_COLUMN_DEFINITION', [
-                    'Invalid column definition:',
-                    'expect a string or a literal object,',
-                    `got ${JSON.stringify(column)} at position ${i}`
-                  ])
-                }
-              }
-              return normalizedColumns;
-            };
 
             const parse = function(data, options={}){
               if(typeof data === 'string'){
@@ -6508,7 +6509,7 @@
               const parser = new Parser(options);
               parser.push = function(record){
                 if(record === null){
-                  return
+                  return;
                 }
                 if(options.objname === undefined)
                   records.push(record);
@@ -6517,13 +6518,117 @@
                 }
               };
               const err1 = parser.__parse(data, false);
-              if(err1 !== undefined) throw err1
+              if(err1 !== undefined) throw err1;
               const err2 = parser.__parse(undefined, true);
-              if(err2 !== undefined) throw err2
-              return records
+              if(err2 !== undefined) throw err2;
+              return records;
             };
 
             const bom_utf8 = Buffer.from([239, 187, 191]);
+
+            class CsvError extends Error {
+              constructor(code, message, ...contexts) {
+                if(Array.isArray(message)) message = message.join(' ');
+                super(message);
+                if(Error.captureStackTrace !== undefined){
+                  Error.captureStackTrace(this, CsvError);
+                }
+                this.code = code;
+                for(const context of contexts){
+                  for(const key in context){
+                    const value = context[key];
+                    this[key] = isBuffer$1(value) ? value.toString() : value == null ? value : JSON.parse(JSON.stringify(value));
+                  }
+                }
+              }
+            }
+
+            const isObject = function(obj){
+              return typeof obj === 'object' && obj !== null && ! Array.isArray(obj);
+            };
+
+            const underscore = function(str){
+              return str.replace(/([A-Z])/g, function(_, match){
+                return '_' + match.toLowerCase();
+              });
+            };
+
+            // Lodash implementation of `get`
+
+            const charCodeOfDot = '.'.charCodeAt(0);
+            const reEscapeChar = /\\(\\)?/g;
+            const rePropName = RegExp(
+              // Match anything that isn't a dot or bracket.
+              '[^.[\\]]+' + '|' +
+              // Or match property names within brackets.
+              '\\[(?:' +
+                // Match a non-string expression.
+                '([^"\'][^[]*)' + '|' +
+                // Or match strings (supports escaping characters).
+                '(["\'])((?:(?!\\2)[^\\\\]|\\\\.)*?)\\2' +
+              ')\\]'+ '|' +
+              // Or match "" as the space between consecutive dots or empty brackets.
+              '(?=(?:\\.|\\[\\])(?:\\.|\\[\\]|$))'
+              , 'g');
+            const reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
+            const reIsPlainProp = /^\w*$/;
+            const getTag = function(value){
+              return Object.prototype.toString.call(value);
+            };
+            const isSymbol = function(value){
+              const type = typeof value;
+              return type === 'symbol' || (type === 'object' && value && getTag(value) === '[object Symbol]');
+            };
+            const isKey = function(value, object){
+              if(Array.isArray(value)){
+                return false;
+              }
+              const type = typeof value;
+              if(type === 'number' || type === 'symbol' || type === 'boolean' || !value || isSymbol(value)){
+                return true;
+              }
+              return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+                (object != null && value in Object(object));
+            };
+            const stringToPath = function(string){
+              const result = [];
+              if(string.charCodeAt(0) === charCodeOfDot){
+                result.push('');
+              }
+              string.replace(rePropName, function(match, expression, quote, subString){
+                let key = match;
+                if(quote){
+                  key = subString.replace(reEscapeChar, '$1');
+                }else if(expression){
+                  key = expression.trim();
+                }
+                result.push(key);
+              });
+              return result;
+            };
+            const castPath = function(value, object){
+              if(Array.isArray(value)){
+                return value;
+              } else {
+                return isKey(value, object) ? [value] : stringToPath(value);
+              }
+            };
+            const toKey = function(value){
+              if(typeof value === 'string' || isSymbol(value))
+                return value;
+              const result = `${value}`;
+              // eslint-disable-next-line
+              return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+            };
+            const get = function(object, path){
+              path = castPath(path, object);
+              let index = 0;
+              const length = path.length;
+              while(object != null && index < length){
+                object = object[toKey(path[index++])];
+              }
+              return (index && index === length) ? object : undefined;
+            };
 
             class Stringifier extends Transform {
               constructor(opts = {}){
@@ -6531,29 +6636,29 @@
                 const options = {};
                 let err;
                 // Merge with user options
-                for(let opt in opts){
+                for(const opt in opts){
                   options[underscore(opt)] = opts[opt];
                 }
-                if(err = this.normalize(options)) throw err
+                if((err = this.normalize(options)) !== undefined) throw err;
                 switch(options.record_delimiter){
-                  case 'auto':
-                    options.record_delimiter = null;
-                    break
-                  case 'unix':
-                    options.record_delimiter = "\n";
-                    break
-                  case 'mac':
-                    options.record_delimiter = "\r";
-                    break
-                  case 'windows':
-                    options.record_delimiter = "\r\n";
-                    break
-                  case 'ascii':
-                    options.record_delimiter = "\u001e";
-                    break
-                  case 'unicode':
-                    options.record_delimiter = "\u2028";
-                    break
+                case 'auto':
+                  options.record_delimiter = null;
+                  break;
+                case 'unix':
+                  options.record_delimiter = "\n";
+                  break;
+                case 'mac':
+                  options.record_delimiter = "\r";
+                  break;
+                case 'windows':
+                  options.record_delimiter = "\r\n";
+                  break;
+                case 'ascii':
+                  options.record_delimiter = "\u001e";
+                  break;
+                case 'unicode':
+                  options.record_delimiter = "\u2028";
+                  break;
                 }
                 // Expose options
                 this.options = options;
@@ -6574,7 +6679,7 @@
                   return new CsvError('CSV_OPTION_BOOLEAN_INVALID_TYPE', [
                     'option `bom` is optional and must be a boolean value,',
                     `got ${JSON.stringify(options.bom)}`
-                  ])
+                  ]);
                 }
                 // Normalize option `delimiter`
                 if(options.delimiter === undefined || options.delimiter === null){
@@ -6585,7 +6690,7 @@
                   return new CsvError('CSV_OPTION_DELIMITER_INVALID_TYPE', [
                     'option `delimiter` must be a buffer or a string,',
                     `got ${JSON.stringify(options.delimiter)}`
-                  ])
+                  ]);
                 }
                 // Normalize option `quote`
                 if(options.quote === undefined || options.quote === null){
@@ -6600,7 +6705,7 @@
                   return new CsvError('CSV_OPTION_QUOTE_INVALID_TYPE', [
                     'option `quote` must be a boolean, a buffer or a string,',
                     `got ${JSON.stringify(options.quote)}`
-                  ])
+                  ]);
                 }
                 // Normalize option `quoted`
                 if(options.quoted === undefined || options.quoted === null){
@@ -6617,11 +6722,11 @@
                   options.quoted_match = [options.quoted_match];
                 }
                 if(options.quoted_match){
-                  for(let quoted_match of options.quoted_match){
+                  for(const quoted_match of options.quoted_match){
                     const isString = typeof quoted_match === 'string';
                     const isRegExp = quoted_match instanceof RegExp;
                     if(!isString && !isRegExp){
-                      return Error(`Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`)
+                      return Error(`Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`);
                     }
                   }
                 }
@@ -6639,10 +6744,10 @@
                 }else if(isBuffer$1(options.escape)){
                   options.escape = options.escape.toString();
                 }else if(typeof options.escape !== 'string'){
-                  return Error(`Invalid Option: escape must be a buffer or a string, got ${JSON.stringify(options.escape)}`)
+                  return Error(`Invalid Option: escape must be a buffer or a string, got ${JSON.stringify(options.escape)}`);
                 }
                 if (options.escape.length > 1){
-                  return Error(`Invalid Option: escape must be one character, got ${options.escape.length} characters`)
+                  return Error(`Invalid Option: escape must be one character, got ${options.escape.length} characters`);
                 }
                 // Normalize option `header`
                 if(options.header === undefined || options.header === null){
@@ -6686,7 +6791,7 @@
                 // Normalize option cast.string
                 if(options.cast.string === undefined || options.cast.string === null){
                   // Leave string untouched
-                  options.cast.string = function(value){return value};
+                  options.cast.string = function(value){return value;};
                 }
                 // Normalize option `record_delimiter`
                 if(options.record_delimiter === undefined || options.record_delimiter === null){
@@ -6694,26 +6799,26 @@
                 }else if(isBuffer$1(options.record_delimiter)){
                   options.record_delimiter = options.record_delimiter.toString();
                 }else if(typeof options.record_delimiter !== 'string'){
-                  return Error(`Invalid Option: record_delimiter must be a buffer or a string, got ${JSON.stringify(options.record_delimiter)}`)
+                  return Error(`Invalid Option: record_delimiter must be a buffer or a string, got ${JSON.stringify(options.record_delimiter)}`);
                 }
               }
               _transform(chunk, encoding, callback){
                 if(this.state.stop === true){
-                  return
+                  return;
                 }
                 // Chunk validation
                 if(!Array.isArray(chunk) && typeof chunk !== 'object'){
                   this.state.stop = true;
-                  return callback(Error(`Invalid Record: expect an array or an object, got ${JSON.stringify(chunk)}`))
+                  return callback(Error(`Invalid Record: expect an array or an object, got ${JSON.stringify(chunk)}`));
                 }
                 // Detect columns from the first record
                 if(this.info.records === 0){
                   if(Array.isArray(chunk)){
-                    if(this.options.header === true && !this.options.columns){
+                    if(this.options.header === true && this.options.columns === undefined){
                       this.state.stop = true;
-                      return callback(Error('Undiscoverable Columns: header option requires column option or object records'))
+                      return callback(Error('Undiscoverable Columns: header option requires column option or object records'));
                     }
-                  }else if(this.options.columns === undefined || this.options.columns === null){
+                  }else if(this.options.columns === undefined){
                     this.options.columns = this.normalize_columns(Object.keys(chunk));
                   }
                 }
@@ -6727,21 +6832,21 @@
                   this.emit('record', chunk, this.info.records);
                 }catch(err){
                   this.state.stop = true;
-                  return this.emit('error', err)
+                  return this.emit('error', err);
                 }
                 // Convert the record into a string
                 let chunk_string;
                 if(this.options.eof){
                   chunk_string = this.stringify(chunk);
                   if(chunk_string === undefined){
-                    return
+                    return;
                   }else {
                     chunk_string = chunk_string + this.options.record_delimiter;
                   }
                 }else {
                   chunk_string = this.stringify(chunk);
                   if(chunk_string === undefined){
-                    return
+                    return;
                   }else {
                     if(this.options.header || this.info.records){
                       chunk_string = this.options.record_delimiter + chunk_string;
@@ -6762,9 +6867,9 @@
               }
               stringify(chunk, chunkIsHeader=false){
                 if(typeof chunk !== 'object'){
-                  return chunk
+                  return chunk;
                 }
-                const {columns, header} = this.options;
+                const {columns} = this.options;
                 const record = [];
                 // Record is an array
                 if(Array.isArray(chunk)){
@@ -6781,41 +6886,29 @@
                     });
                     if(err){
                       this.emit('error', err);
-                      return
+                      return;
                     }
                     record[i] = [value, field];
                   }
                 // Record is a literal object
+                // `columns` is always defined: it is either provided or discovered.
                 }else {
-                  if(columns){
-                    for(let i=0; i<columns.length; i++){
-                      const field = get(chunk, columns[i].key);
-                      const [err, value] = this.__cast(field, {
-                        index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
-                      });
-                      if(err){
-                        this.emit('error', err);
-                        return
-                      }
-                      record[i] = [value, field];
+                  for(let i=0; i<columns.length; i++){
+                    const field = get(chunk, columns[i].key);
+                    const [err, value] = this.__cast(field, {
+                      index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
+                    });
+                    if(err){
+                      this.emit('error', err);
+                      return;
                     }
-                  }else {
-                    for(let column of chunk){
-                      const field = chunk[column];
-                      const [err, value] = this.__cast(field, {
-                        index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
-                      });
-                      if(err){
-                        this.emit('error', err);
-                        return
-                      }
-                      record.push([value, field]);
-                    }
+                    record[i] = [value, field];
                   }
                 }
                 let csvrecord = '';
                 for(let i=0; i<record.length; i++){
                   let options, err;
+                  // eslint-disable-next-line
                   let [value, field] = record[i];
                   if(typeof value === "string"){
                     options = this.options;
@@ -6826,43 +6919,43 @@
                     delete options.value;
                     if(typeof value !== "string" && value !== undefined && value !== null){
                       this.emit("error", Error(`Invalid Casting Value: returned value must return a string, null or undefined, got ${JSON.stringify(value)}`));
-                      return
+                      return;
                     }
                     options = {...this.options, ...options};
-                    if(err = this.normalize(options)){
+                    if((err = this.normalize(options)) !== undefined){
                       this.emit("error", err);
-                      return
+                      return;
                     }
                   }else if(value === undefined || value === null){
                     options = this.options;
                   }else {
                     this.emit("error", Error(`Invalid Casting Value: returned value must return a string, an object, null or undefined, got ${JSON.stringify(value)}`));
-                    return
+                    return;
                   }
                   const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter} = options;
                   if(value){
                     if(typeof value !== 'string'){
                       this.emit("error", Error(`Formatter must return a string, null or undefined, got ${JSON.stringify(value)}`));
-                      return null
+                      return null;
                     }
                     const containsdelimiter = delimiter.length && value.indexOf(delimiter) >= 0;
                     const containsQuote = (quote !== '') && value.indexOf(quote) >= 0;
                     const containsEscape = value.indexOf(escape) >= 0 && (escape !== quote);
                     const containsRecordDelimiter = value.indexOf(record_delimiter) >= 0;
                     const quotedString = quoted_string && typeof field === 'string';
-                    let quotedMatch = quoted_match && quoted_match.filter( quoted_match => {
+                    let quotedMatch = quoted_match && quoted_match.filter(quoted_match => {
                       if(typeof quoted_match === 'string'){
-                        return value.indexOf(quoted_match) !== -1
+                        return value.indexOf(quoted_match) !== -1;
                       }else {
-                        return quoted_match.test(value)
+                        return quoted_match.test(value);
                       }
                     });
                     quotedMatch = quotedMatch && quotedMatch.length > 0;
                     const shouldQuote = containsQuote === true || containsdelimiter || containsRecordDelimiter || quoted || quotedString || quotedMatch;
                     if(shouldQuote === true && containsEscape === true){
                       const regexp = escape === '\\'
-                      ? new RegExp(escape + escape, 'g')
-                      : new RegExp(escape, 'g');
+                        ? new RegExp(escape + escape, 'g')
+                        : new RegExp(escape, 'g');
                       value = value.replace(regexp, escape + escape);
                     }
                     if(containsQuote === true){
@@ -6880,20 +6973,20 @@
                     csvrecord += delimiter;
                   }
                 }
-                return csvrecord
+                return csvrecord;
               }
               bom(){
                 if(this.options.bom !== true){
-                  return
+                  return;
                 }
                 this.push(bom_utf8);
               }
               headers(){
                 if(this.options.header === false){
-                  return
+                  return;
                 }
                 if(this.options.columns === undefined){
-                  return
+                  return;
                 }
                 let headers = this.options.columns.map(column => column.header);
                 if(this.options.eof){
@@ -6907,34 +7000,34 @@
                 const type = typeof value;
                 try{
                   if(type === 'string'){ // Fine for 99% of the cases
-                    return [undefined, this.options.cast.string(value, context)]
+                    return [undefined, this.options.cast.string(value, context)];
                   }else if(type === 'bigint'){
-                    return [undefined, this.options.cast.bigint(value, context)]
+                    return [undefined, this.options.cast.bigint(value, context)];
                   }else if(type === 'number'){
-                    return [undefined, this.options.cast.number(value, context)]
+                    return [undefined, this.options.cast.number(value, context)];
                   }else if(type === 'boolean'){
-                    return [undefined, this.options.cast.boolean(value, context)]
+                    return [undefined, this.options.cast.boolean(value, context)];
                   }else if(value instanceof Date){
-                    return [undefined, this.options.cast.date(value, context)]
+                    return [undefined, this.options.cast.date(value, context)];
                   }else if(type === 'object' && value !== null){
-                    return [undefined, this.options.cast.object(value, context)]
+                    return [undefined, this.options.cast.object(value, context)];
                   }else {
-                    return [undefined, value, value]
+                    return [undefined, value, value];
                   }
                 }catch(err){
-                  return [err]
+                  return [err];
                 }
               }
               normalize_columns(columns){
                 if(columns === undefined || columns === null){
-                  return undefined
+                  return undefined;
                 }
                 if(typeof columns !== 'object'){
-                  throw Error('Invalid option "columns": expect an array or an object')
+                  throw Error('Invalid option "columns": expect an array or an object');
                 }
                 if(!Array.isArray(columns)){
                   const newcolumns = [];
-                  for(let k in columns){
+                  for(const k in columns){
                     newcolumns.push({
                       key: k,
                       header: columns[k]
@@ -6943,7 +7036,7 @@
                   columns = newcolumns;
                 }else {
                   const newcolumns = [];
-                  for(let column of columns){
+                  for(const column of columns){
                     if(typeof column === 'string'){
                       newcolumns.push({
                         key: column,
@@ -6951,124 +7044,21 @@
                       });
                     }else if(typeof column === 'object' && column !== undefined && !Array.isArray(column)){
                       if(!column.key){
-                        throw Error('Invalid column definition: property "key" is required')
+                        throw Error('Invalid column definition: property "key" is required');
                       }
                       if(column.header === undefined){
                         column.header = column.key;
                       }
                       newcolumns.push(column);
                     }else {
-                      throw Error('Invalid column definition: expect a string or an object')
+                      throw Error('Invalid column definition: expect a string or an object');
                     }
                   }
                   columns = newcolumns;
                 }
-                return columns
+                return columns;
               }
             }
-
-            class CsvError extends Error {
-              constructor(code, message, ...contexts) {
-                if(Array.isArray(message)) message = message.join(' ');
-                super(message);
-                if(Error.captureStackTrace !== undefined){
-                  Error.captureStackTrace(this, CsvError);
-                }
-                this.code = code;
-                for(const context of contexts){
-                  for(const key in context){
-                    const value = context[key];
-                    this[key] = isBuffer$1(value) ? value.toString() : value == null ? value : JSON.parse(JSON.stringify(value));
-                  }
-                }
-              }
-            }
-
-            const isObject = function(obj){
-              return typeof obj === 'object' && obj !== null && ! Array.isArray(obj)
-            };
-
-            const underscore = function(str){
-              return str.replace(/([A-Z])/g, function(_, match){
-                return '_' + match.toLowerCase()
-              })
-            };
-
-            // Lodash implementation of `get`
-
-            const charCodeOfDot = '.'.charCodeAt(0);
-            const reEscapeChar = /\\(\\)?/g;
-            const rePropName = RegExp(
-              // Match anything that isn't a dot or bracket.
-              '[^.[\\]]+' + '|' +
-              // Or match property names within brackets.
-              '\\[(?:' +
-                // Match a non-string expression.
-                '([^"\'][^[]*)' + '|' +
-                // Or match strings (supports escaping characters).
-                '(["\'])((?:(?!\\2)[^\\\\]|\\\\.)*?)\\2' +
-              ')\\]'+ '|' +
-              // Or match "" as the space between consecutive dots or empty brackets.
-              '(?=(?:\\.|\\[\\])(?:\\.|\\[\\]|$))'
-            , 'g');
-            const reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
-            const reIsPlainProp = /^\w*$/;
-            const getTag = function(value){
-              return Object.prototype.toString.call(value)
-            };
-            const isKey = function(value, object){
-              if(Array.isArray(value)){
-                return false
-              }
-              const type = typeof value;
-              if(type === 'number' || type === 'symbol' || type === 'boolean' || !value || isSymbol(value)){
-                return true
-              }
-              return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
-                (object != null && value in Object(object))
-            };
-            const isSymbol = function(value){
-              const type = typeof value;
-              return type === 'symbol' || (type === 'object' && value && getTag(value) === '[object Symbol]')
-            };
-            const stringToPath = function(string){
-              const result = [];
-              if(string.charCodeAt(0) === charCodeOfDot){
-                result.push('');
-              }
-              string.replace(rePropName, function(match, expression, quote, subString){
-                let key = match;
-                if(quote){
-                  key = subString.replace(reEscapeChar, '$1');
-                }else if(expression){
-                  key = expression.trim();
-                }
-                result.push(key);
-              });
-              return result
-            };
-            const castPath = function(value, object){
-              if(Array.isArray(value)){
-                return value
-              } else {
-                return isKey(value, object) ? [value] : stringToPath(value)
-              }
-            };
-            const toKey = function(value){
-              if(typeof value === 'string' || isSymbol(value))
-                return value
-              const result = `${value}`;
-              return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result
-            };
-            const get = function(object, path){
-              path = castPath(path, object);
-              let index = 0;
-              const length = path.length;
-              while(object != null && index < length){
-                object = object[toKey(path[index++])];
-              }
-              return (index && index === length) ? object : undefined
-            };
 
             const stringify = function(records, options={}){
               const data = [];
@@ -7081,14 +7071,14 @@
                   data.push(record.toString());
                 }
               }
-              let stringifier = new Stringifier(options);
+              const stringifier = new Stringifier(options);
               stringifier.on('data', onData);
-              for(let record of records){
+              for(const record of records){
                 stringifier.write(record); 
               }
               stringifier.end();
               stringifier.off('data', onData);
-              return data.join('')
+              return data.join('');
             };
 
             const Transformer = function(options = {}, handler){
@@ -7110,7 +7100,7 @@
                 started: 0,
                 finished: 0
               };
-              return this
+              return this;
             };
 
             util.inherits(Transformer, Stream.Transform);
@@ -7134,9 +7124,9 @@
                     this.__done(err, chunks, cb);
                   this.handler.call(this, chunk, callback, this.options.params);
                 }else {
-                  throw Error('Invalid handler arguments')
+                  throw Error('Invalid handler arguments');
                 }
-                return false
+                return false;
               }
               catch (err) {
                 this.__done(err);
@@ -7179,7 +7169,7 @@
             Transformer.prototype.__done = function(err, chunks, cb){
               this.state.running--;
               if(err){
-                return this.emit('error', err)
+                return this.emit('error', err);
               }
               this.state.finished++;
               for(let chunk of chunks){
@@ -7217,11 +7207,9 @@
                 }else if(type === 'object'){
                   options = {...argument};
                 }else if(type === 'function'){
-                  if(handler && i === arguments.length - 1);else {
-                    handler = argument;
-                  }
+                  handler = argument;
                 }else if(type !== 'null'){
-                  throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`)
+                  throw new Error(`Invalid Arguments: got ${JSON.stringify(argument)} at position ${i}`);
                 }
               }
               // Validate arguments
@@ -7230,7 +7218,7 @@
                 expected_handler_length++;
               }
               if(handler.length > expected_handler_length){
-                throw Error('Invalid Handler: only synchonous handlers are supported')
+                throw Error('Invalid Handler: only synchonous handlers are supported');
               }
               // Start transformation
               const chunks = [];
@@ -7241,7 +7229,7 @@
               for(const record of records){
                 transformer._transform(record, null, function(){});
               }
-              return chunks  
+              return chunks;  
             };
 
             exports.generate = generate;
