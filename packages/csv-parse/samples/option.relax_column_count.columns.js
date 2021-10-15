@@ -1,6 +1,6 @@
 
-import assert from 'assert'
-import { parse } from 'csv-parse'
+import assert from 'assert';
+import { parse } from 'csv-parse';
 
 parse(`
 lastname,firstname,fullname
@@ -17,5 +17,5 @@ Lovelace,Ada,"Augusta Ada King, Countess of Lovelace"
         firstname: 'Ada',
         fullname: 'Augusta Ada King, Countess of Lovelace' }
     ]
-  )
-})
+  );
+});

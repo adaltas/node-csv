@@ -1,6 +1,6 @@
 
-import assert from 'assert'
-import { parse } from 'csv-parse'
+import assert from 'assert';
+import { parse } from 'csv-parse';
 
 parse(`
 "key_1","key_2"
@@ -13,5 +13,5 @@ parse(`
       key_1: 'value 1',
       key_2: 'value 2'
     }]
-  )
-})
+  );
+});

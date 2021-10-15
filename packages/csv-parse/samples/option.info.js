@@ -1,11 +1,11 @@
 
-import assert from 'assert'
-import { parse } from 'csv-parse/sync'
+import assert from 'assert';
+import { parse } from 'csv-parse/sync';
 
-const data = "a,b,c"
+const data = "a,b,c";
 const records = parse(data, {
   info: true
-})
+});
 assert.deepStrictEqual(records, [{
   info: {
     bytes: 5,
@@ -20,4 +20,4 @@ assert.deepStrictEqual(records, [{
     index: 3
   },
   record: [ 'a', 'b', 'c' ]
-}])
+}]);

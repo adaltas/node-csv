@@ -1,6 +1,6 @@
 
-import assert from 'assert'
-import { parse } from 'csv-parse'
+import assert from 'assert';
+import { parse } from 'csv-parse';
 
 const parser = parse({
   skip_lines_with_error: true
@@ -11,15 +11,15 @@ const parser = parse({
       ['d', 'e', 'f'],
       ['h', 'i', 'j']
     ]
-  )
-})
-parser.on( 'skip', function(err){
-  assert(/^Invalid Closing Quote/.test(err.message))
-})
+  );
+});
+parser.on('skip', function(err){
+  assert(/^Invalid Closing Quote/.test(err.message));
+});
 parser.write(`
 "a","b","c"
 "d","e","f"
 "invalid"," " ","record"
 "h","i","j"
-`.trim())
-parser.end()
+`.trim());
+parser.end();

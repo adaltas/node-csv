@@ -1,6 +1,6 @@
 
-import assert from 'assert'
-import { parse } from 'csv-parse'
+import assert from 'assert';
+import { parse } from 'csv-parse';
 
 parse(`
 format;description
@@ -13,14 +13,14 @@ ASS;Advanced SubStation Alpha (ASS), technically SSA v4+, is a script for more a
   ignore_last_delimiters: 10
 }, function(err, records){
   assert.deepStrictEqual(records, [{
-      format: 'CSV',
-      description: 'CSV delimited text file that uses a comma, by default, to separate values.'
-    },{
-      format: 'SSA',
-      description: 'SSA is a subtitle file format that allows for more advanced subtitles than the conventional SRT and similar formats.'
-    },{
-      format: 'ASS',
-      description: 'Advanced SubStation Alpha (ASS), technically SSA v4+, is a script for more advanced subtitles than SSA.'
-    }
-  ])
-})
+    format: 'CSV',
+    description: 'CSV delimited text file that uses a comma, by default, to separate values.'
+  },{
+    format: 'SSA',
+    description: 'SSA is a subtitle file format that allows for more advanced subtitles than the conventional SRT and similar formats.'
+  },{
+    format: 'ASS',
+    description: 'Advanced SubStation Alpha (ASS), technically SSA v4+, is a script for more advanced subtitles than SSA.'
+  }
+  ]);
+});

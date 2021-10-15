@@ -1,6 +1,6 @@
 
-import assert from 'assert'
-import { parse } from 'csv-parse'
+import assert from 'assert';
+import { parse } from 'csv-parse';
 
 parse(`
 friend,username,friend
@@ -18,5 +18,5 @@ porthos,d_artagnan,athos
       username: 'd_artagnan',
       friend: ['porthos', 'athos']
     }]
-  )
-})
+  );
+});

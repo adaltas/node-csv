@@ -1,12 +1,12 @@
 
-import assert from 'assert'
-import { parse } from 'csv-parse/sync'
+import assert from 'assert';
+import { parse } from 'csv-parse/sync';
 
-const data = Buffer.from(`a,b\n1,2`)
+const data = Buffer.from(`a,b\n1,2`);
 const records = parse(data, {
   encoding: null
-})
+});
 assert.deepStrictEqual(records, [
   [ Buffer.from('a'), Buffer.from('b') ],
   [ Buffer.from('1'), Buffer.from('2') ]
-])
+]);

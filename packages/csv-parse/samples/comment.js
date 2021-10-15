@@ -1,6 +1,6 @@
 
-import assert from 'assert'
-import { parse } from 'csv-parse'
+import assert from 'assert';
+import { parse } from 'csv-parse';
 
 parse(
   '#Welcome\n"1","2","3","4"\n"a","b","c","d"',
@@ -9,6 +9,6 @@ parse(
     assert.deepStrictEqual(
       data,
       [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]
-    )
+    );
   }
 );

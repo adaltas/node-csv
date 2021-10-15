@@ -1,19 +1,19 @@
 
-import assert from 'assert'
-import { parse } from 'csv-parse/sync'
+import assert from 'assert';
+import { parse } from 'csv-parse/sync';
 
 const data = [
   'a ,1',
   'b, 2 ',
   ' c,3'
-].join('\n')
+].join('\n');
 const records = parse(data, {
   rtrim: true
-})
+});
 assert.deepStrictEqual(
   records, [
     [ 'a', '1' ],
     [ 'b', ' 2' ],
     [ ' c', '3' ]
   ]
-)
+);
