@@ -1,6 +1,6 @@
 
-import { stringify } from 'csv-stringify'
-import { generate } from 'csv-generate'
+import { stringify } from 'csv-stringify';
+import { generate } from 'csv-generate';
 
 generate({
   objectMode: true,
@@ -8,11 +8,11 @@ generate({
   headers: 2,
   duration: 400
 })
-.pipe(stringify({
-  header: true,
-  columns: {
-   year: 'birthYear',
-   phone: 'phone'
-  }
-}))
-.pipe(process.stdout)
+  .pipe(stringify({
+    header: true,
+    columns: {
+      year: 'birthYear',
+      phone: 'phone'
+    }
+  }))
+  .pipe(process.stdout);

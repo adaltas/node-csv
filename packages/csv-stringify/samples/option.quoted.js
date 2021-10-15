@@ -1,6 +1,6 @@
 
-import { stringify } from 'csv-stringify'
-import assert from 'assert'
+import { stringify } from 'csv-stringify';
+import assert from 'assert';
 
 stringify([
   ['1', ''],
@@ -10,5 +10,5 @@ stringify([
 ], {
   quoted: true
 }, function(err, records){
-  assert.equal(records, '"1",\n,"2"\n"3",\n,"4"\n')
-})
+  assert.equal(records, '"1",\n,"2"\n"3",\n,"4"\n');
+});

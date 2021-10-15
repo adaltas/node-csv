@@ -1,6 +1,6 @@
 
-import { stringify } from 'csv-stringify'
-import assert from 'assert'
+import { stringify } from 'csv-stringify';
+import assert from 'assert';
 
 stringify([{
   name: 'foo',
@@ -11,7 +11,7 @@ stringify([{
 }],{
   cast: {
     date: function(value) {
-      return value.toISOString()
+      return value.toISOString();
     }
   }
 }, function(err, data) {
@@ -19,5 +19,5 @@ stringify([{
     data,
     "foo,1969-12-31T23:00:00.000Z\n" +
     "bar,1970-12-31T23:00:00.000Z\n"
-  )
-})
+  );
+});

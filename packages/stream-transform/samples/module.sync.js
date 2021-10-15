@@ -1,14 +1,14 @@
 
-import { transform } from 'stream-transform'
+import { transform } from 'stream-transform';
 
 transform([
   ['1','2','3','4'],
   ['a','b','c','d']
 ], function(data){
-  data.push(data.shift())
-  return data.join(',')+'\n'
+  data.push(data.shift());
+  return data.join(',')+'\n';
 })
-.pipe(process.stdout)
+  .pipe(process.stdout);
 
 // Output:
 // 2,3,4,1

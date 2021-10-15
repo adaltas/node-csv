@@ -1,6 +1,6 @@
 
-import { stringify } from 'csv-stringify'
-import assert from 'assert'
+import { stringify } from 'csv-stringify';
+import assert from 'assert';
 
 stringify([
   { year: 'XXXX', phone: 'XXX XXXX', nocolumn: 'XXX' },
@@ -12,5 +12,5 @@ stringify([
     data,
     "XXX XXXX,XXXX,\n" +
     "YYY YYYY,YYYY,\n"
-  )
-})
+  );
+});

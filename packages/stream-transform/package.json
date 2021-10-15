@@ -64,9 +64,10 @@
     "build": "npm run build:rollup && npm run build:ts",
     "build:rollup": "npx rollup -c",
     "build:ts": "cp lib/*.ts dist/cjs && cp lib/*.ts dist/esm",
-    "lint": "npm run lint:coffee && npm run lint:js",
-    "lint:coffee": "coffeelint test/*.coffee",
-    "lint:js": "eslint lib/*.js",
+    "lint": "npm run lint:test && npm run lint:lib && npm run lint:samples",
+    "lint:test": "coffeelint test/*.coffee",
+    "lint:lib": "eslint lib/*.js",
+    "lint:samples": "eslint samples/*.js",
     "preversion": "npm run build && git add dist",
     "pretest": "npm run build",
     "test": "mocha 'test/**/*.{coffee,ts}'"

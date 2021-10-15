@@ -3,8 +3,8 @@
 // birthYear,phone
 // OMH,ONKCHhJmjadoA
 
-import { stringify } from 'csv-stringify'
-import assert from 'assert'
+import { stringify } from 'csv-stringify';
+import assert from 'assert';
 
 stringify([
   { year: 'XXXX', phone: 'XXX XXXX' },
@@ -17,5 +17,5 @@ stringify([
     "year,phone\n" +
     "XXXX,XXX XXXX\n" +
     "YYYY,YYY YYYY\n"
-  )
-})
+  );
+});
