@@ -11,38 +11,46 @@ const transformer = csv.transform(function(data){
 });
 const stringifier = csv.stringify();
 
+// Read generated CSV data and send it to the parser
 generator.on('readable', function(){
   let data; while(data = generator.read()){
     parser.write(data);
   }
 });
+// When generation is over, close the parser
 generator.on('end', function(){
   parser.end()
 });
 
+// Read parsed records and send them to the transformer
 parser.on('readable', function(){
   let data; while(data = parser.read()){
     transformer.write(data);
   }
 });
+// When parsing is over, close the transformer
 parser.on('end', function(){
   transformer.end()
 });
 
+// Read transformed records and send them to the stringifier
 transformer.on('readable', function(){
   let data; while(data = transformer.read()){
     stringifier.write(data);
   }
 });
+// When transformation is over, close the stringifier
 transformer.on('end', function(){
   stringifier.end();
 });
 
+// Read CSV data and print it to stdout
 stringifier.on('readable', function(){
   let data; while(data = stringifier.read()){
     process.stdout.write(data);
   }
 });
+// When stringifying is over, print a summary to stderr
 generator.on('end', function(){
-  process.stdout.write('=> ' + i + ' records\n');
+  process.stderr.write('=> ' + i + ' records\n');
 });

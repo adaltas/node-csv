@@ -3,11 +3,11 @@ import assert from 'assert';
 import { parse } from 'csv-parse';
 
 const records = [];
-// Create the parser
+// Initialize the parser
 const parser = parse({
   delimiter: ':'
 });
-// Use the readable stream api
+// Use the readable stream api to consume records
 parser.on('readable', function(){
   let record;
   while ((record = parser.read()) !== null) {
@@ -18,7 +18,7 @@ parser.on('readable', function(){
 parser.on('error', function(err){
   console.error(err.message);
 });
-// When we are done, test that the parsed records matched what expected
+// Test that the parsed records matched the expected records
 parser.on('end', function(){
   assert.deepStrictEqual(
     records,
