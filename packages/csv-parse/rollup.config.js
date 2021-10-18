@@ -15,7 +15,7 @@ export default [{
   input: 'lib/index.js',
   output: [
     {
-      file: `dist/cjs/index.js`,
+      file: `dist/cjs/index.cjs`,
       format: 'cjs'
     },
     {
@@ -44,7 +44,7 @@ export default [{
   input: 'lib/sync.js',
   output: [
     {
-      file: `dist/cjs/sync.js`,
+      file: `dist/cjs/sync.cjs`,
       format: 'cjs'
     },
     {

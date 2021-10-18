@@ -48,11 +48,11 @@
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.cjs"
     },
     "./sync": {
       "import": "./dist/esm/sync.js",
-      "require": "./dist/cjs/sync.js"
+      "require": "./dist/cjs/sync.cjs"
     }
   },
   "homepage": "https://csv.js.org/",
