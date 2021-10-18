@@ -73,10 +73,10 @@
     "test": "mocha 'test/**/*.{coffee,ts}'"
   },
   "type": "module",
-  "types": [
-    "./dist/cjs/index.d.ts",
-    "./dist/cjs/sync.d.ts",
-    "./lib/index.d.ts",
-    "./lib/sync.d.ts"
-  ]
+  "typesVersions": {
+    "*": {
+      ".": ["dist/esm/index.d.ts"],
+      "sync": ["dist/esm/sync.d.ts"]
+    }
+  }
 }
