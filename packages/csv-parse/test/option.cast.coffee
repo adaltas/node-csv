@@ -68,7 +68,7 @@ describe 'Option `cast`', ->
             'bytes',
             'column', 'columns', 'comment_lines', 'empty_lines', 'error',
             'header', 'index', 'invalid_field_length', 'lines', 'quoting',
-            'records'
+            'raw', 'records'
           ]]
         ] unless err
         next err
@@ -88,13 +88,13 @@ describe 'Option `cast`', ->
             bytes: 16,
             column: 1, columns: false, comment_lines: 0, empty_lines: 0, error: undefined,
             header: false, index: 1, invalid_field_length: 0, lines: 1,
-            quoting: false, records: 0
+            quoting: false, raw: undefined, records: 0
           } ]
           [ '2050-11-27T05:00:00.000Z', {
             bytes: 33,
             column: 1, columns: false, comment_lines: 0, empty_lines: 0, error: undefined,
             header: false, index: 1, invalid_field_length: 0, lines: 2,
-            quoting: false, records: 1
+            quoting: false, raw: undefined, records: 1
           } ]
         ] unless err
         next err

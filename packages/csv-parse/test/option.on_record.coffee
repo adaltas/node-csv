@@ -63,7 +63,7 @@ describe 'Option `on_record`', ->
         records.should.eql [[
           'bytes',
           'columns', 'comment_lines', 'empty_lines', 'error', 'header',
-          'index', 'invalid_field_length', 'lines', 'records'
+          'index', 'invalid_field_length', 'lines', 'raw', 'records'
         ]]
         next()
           
@@ -76,10 +76,10 @@ describe 'Option `on_record`', ->
         records.should.eql [
           bytes: 4,
           columns: false, comment_lines: 0, empty_lines: 0, error: undefined, header: false
-          index: 2, invalid_field_length: 0, lines: 1, records: 1
+          index: 2, invalid_field_length: 0, lines: 1, raw: undefined, records: 1
         ,
           bytes: 7,
           columns: false, comment_lines: 0, empty_lines: 0, error: undefined, header: false
-          index: 2, invalid_field_length: 0, lines: 2, records: 2
+          index: 2, invalid_field_length: 0, lines: 2, raw: undefined, records: 2
         ]
         next()

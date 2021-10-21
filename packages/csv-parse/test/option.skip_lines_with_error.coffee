@@ -129,3 +129,24 @@ describe 'Option `skip_lines_with_error`', ->
     e,f,g,h
     '''
     parser.end()
+  
+  describe 'with `raw` option', ->
+    
+    it 'print raw record', (next) ->
+      errors = 0
+      parser = parse '''
+        "a","b","c"
+        "one","two","three"
+        "four"," " ","six"
+        "seven","eight","nine"
+        '''
+      ,
+        skip_lines_with_error: true
+        raw: true
+      , (err, data) ->
+        errors.should.eql 1
+        next err
+      parser.on 'skip', (err, raw) ->
+        err.raw.should.eql '"four"," "'
+        raw.should.eql '"four"," "'
+        errors++

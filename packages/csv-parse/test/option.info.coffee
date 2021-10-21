@@ -31,7 +31,7 @@ describe 'Option `info`', ->
         Object.keys(info).sort().should.eql [
           'bytes',
           'columns', 'comment_lines', 'empty_lines', 'error', 'header',
-          'index', 'invalid_field_length', 'lines', 'records'
+          'index', 'invalid_field_length', 'lines', 'raw', 'records'
         ]
         next err
           
