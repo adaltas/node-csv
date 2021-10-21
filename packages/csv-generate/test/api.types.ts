@@ -1,7 +1,6 @@
 
 import 'should'
 import { generate, Options, Generator } from '../lib/index.js'
-import { generate as generateSync } from '../lib/sync.js'
 
 describe('API Types', () => {
   
@@ -16,21 +15,6 @@ describe('API Types', () => {
       generate( (err, records) => err || records ).destroy()
       // With options + callback
       generate( {length: 1}, (err, records) => err || records )
-    })
-    
-    it('sync with options as number', () => {
-      const generator: string = generateSync(1)
-      generator.should.be.a.String()
-    })
-    
-    it('sync with options in string mode', () => {
-      const generator: string = generateSync({length: 1})
-      generator.should.be.a.String()
-    })
-    
-    it('sync with options in object mode', () => {
-      const generator: Array<Array<string>> = generateSync({length: 1, objectMode: true})
-      generator.should.be.an.Array()
     })
     
   })

@@ -230,7 +230,6 @@ export interface Info {
     readonly invalid_field_length: number;
 }
 
-
 export type CsvErrorCode = 
     'CSV_INVALID_OPTION_BOM'
     | 'CSV_INVALID_OPTION_CAST'

@@ -7075,7 +7075,7 @@ const stringify = function(records, options={}){
     stringifier.write(record); 
   }
   stringifier.end();
-  stringifier.off('data', onData);
+  stringifier.removeListener('data', onData);
   return data.join('');
 };
 

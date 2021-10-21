@@ -1,6 +1,6 @@
 
 import 'should'
-import {generate, parse, stringify, transform} from '../lib/index.js'
+import {generate, parse, parser, stringify, transform} from '../lib/index.js'
 
 describe('API Types', () => {
 

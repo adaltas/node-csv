@@ -1,7 +1,6 @@
 
 import 'should'
 import { transform, Options, Transformer } from '../lib/index.js'
-import { transform as transformSync } from '../lib/sync.js'
 
 describe('api.types', () => {
   
@@ -21,14 +20,6 @@ describe('api.types', () => {
       transform( ['record'], {consume: true}, record => record )
       // With records + options + handler + callback
       transform( ['record'], {consume: true}, record => record, (err, records) => err || records )
-    })
-      
-    it('sync', () => {
-      // With records + handler
-      const transformer: Array<any> = transformSync( ['record'], record => record )
-      transformer.should.be.an.Array()
-      // With records + options + handler
-      transformSync( ['record'], {consume: true}, record => record )
     })
     
   })
