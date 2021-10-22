@@ -1,0 +1,9 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "strict": true,
+  }
+}
