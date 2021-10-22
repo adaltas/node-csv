@@ -12,7 +12,9 @@ A clear and concise description of what the bug is, the CSV package version you 
 
 **To Reproduce**
 
-Please provide us with a unit test, an example code or even pseudo-code. It could be written in JavaScript or CoffeeScript, it doesn't matter. What's important is to limit the data to the minimum as well as to strip down the number of options to the only ones with an impact.
+Please provide us with a unit test, an example code or even pseudo-code. It could be written in JavaScript or CoffeeScript, but not in TypeScript unless the bug is related to TypeScript.
+
+What's important is to **limit the data** to the minimum as well as to **strip down the number of options** to the relevant ones with an impact. Do not reference an external file.
 
 **Additional context**
 
