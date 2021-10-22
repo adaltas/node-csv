@@ -1,0 +1,9 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "target": "ES2018",
+    "strict": true,
+  }
+}
