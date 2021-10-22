@@ -67,7 +67,7 @@
   ],
   "homepage": "https://csv.js.org/parse/",
   "license": "MIT",
-  "main": "./dist/cjs",
+  "main": "./dist/cjs/index.cjs",
   "mocha": {
     "inline-diffs": true,
     "loader": "./test/loaders/all.mjs",
@@ -97,6 +97,7 @@
     "test": "mocha 'test/**/*.{coffee,ts}'"
   },
   "type": "module",
+  "types": "dist/esm/index.d.ts",
   "typesVersions": {
     "*": {
       ".": ["dist/esm/index.d.ts"],
