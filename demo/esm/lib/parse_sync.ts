@@ -8,7 +8,7 @@ const records: [] = parse([
   "1:2:3\n"
 ].join(''), {
   delimiter: ':'
-})
+});
 // Test that the parsed records matched what's expected
 assert.deepStrictEqual(
   records,
@@ -16,4 +16,4 @@ assert.deepStrictEqual(
     [ 'a','b','c' ],
     [ '1','2','3' ]
   ]
-)
+);
