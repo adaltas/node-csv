@@ -1,6 +1,6 @@
 
-import { generate } from 'csv-generate'
-import assert from 'assert'
+import { generate } from 'csv-generate';
+import assert from 'assert';
 
 generate({
   seed: 1,
@@ -8,11 +8,10 @@ generate({
   columns: 2,
   length: 1
 })
-.on('readable', function(){
-  let record
-  while(record = this.read()){
-    assert.deepEqual(record, [
-      'OMH', 'ONKCHhJmjadoA'
-    ])
-  }
-})
+  .on('readable', function(){
+    let record; while((record = this.read()) !== null){
+      assert.deepEqual(record, [
+        'OMH', 'ONKCHhJmjadoA'
+      ]);
+    }
+  });

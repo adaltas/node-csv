@@ -1,6 +1,6 @@
 
-import { generate } from 'csv-generate'
-import assert from 'assert'
+import { generate } from 'csv-generate';
+import assert from 'assert';
 
 generate({
   seed: 1,
@@ -11,5 +11,5 @@ generate({
   assert.deepEqual(records, [
     [ 'OMH', 'ONKCHhJmjadoA' ],
     [ 'D', 'GeACHiN' ]
-  ])
-})
+  ]);
+});
