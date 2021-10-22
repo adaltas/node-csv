@@ -6457,11 +6457,11 @@ var csv = (function (exports) {
                 return 0;
               }
               __error(msg){
-                const {skip_lines_with_error} = this.options;
+                const {encoding, raw, skip_lines_with_error} = this.options;
                 const err = typeof msg === 'string' ? new Error(msg) : msg;
                 if(skip_lines_with_error){
                   this.state.recordHasError = true;
-                  this.emit('skip', err);
+                  this.emit('skip', err, raw ? this.state.rawBuffer.toString(encoding) : undefined);
                   return undefined;
                 }else {
                   return err;
@@ -6474,12 +6474,13 @@ var csv = (function (exports) {
                 };
               }
               __infoRecord(){
-                const {columns} = this.options;
+                const {columns, raw, encoding} = this.options;
                 return {
                   ...this.__infoDataSet(),
                   error: this.state.error,
                   header: columns === true,
                   index: this.state.record.length,
+                  raw: raw ? this.state.rawBuffer.toString(encoding) : undefined
                 };
               }
               __infoField(){
