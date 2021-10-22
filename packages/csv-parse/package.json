@@ -31,11 +31,11 @@
   ],
   "exports": {
     ".": {
-      "import": "./lib/index.js",
+      "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.cjs"
     },
     "./sync": {
-      "import": "./lib/sync.js",
+      "import": "./dist/esm/sync.js",
       "require": "./dist/cjs/sync.cjs"
     }
   },

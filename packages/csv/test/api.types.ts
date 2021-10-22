@@ -1,6 +1,6 @@
 
 import 'should'
-import {generate, parse, parser, stringify, transform} from '../lib/index.js'
+import {generate, parse, stringify, transform} from '../lib/index.js'
 
 describe('API Types', () => {
 
@@ -13,7 +13,7 @@ describe('API Types', () => {
 
     it('parse', () => {
       // With input + handler
-      parse('abc,def', (err: Error | undefined, records: Array<Array<string>>) => err || records)
+      parse('abc,def', {}, (err: Error | undefined, records: Array<Array<string>>) => err?.message || records)
     })
 
     it('stringify', () => {
