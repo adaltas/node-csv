@@ -6237,4 +6237,5 @@ const parse = function(data, options={}){
   return records;
 };
 
+exports.CsvError = CsvError;
 exports.parse = parse;

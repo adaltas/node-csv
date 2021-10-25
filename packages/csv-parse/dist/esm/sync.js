@@ -6233,4 +6233,4 @@ const parse = function(data, options={}){
   return records;
 };
 
-export { parse };
+export { CsvError, parse };

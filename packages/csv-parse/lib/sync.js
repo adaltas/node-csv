@@ -26,3 +26,4 @@ const parse = function(data, options={}){
 
 // export default parse
 export { parse };
+export { CsvError } from './index.js';

@@ -6236,6 +6236,7 @@ var csv_parse_sync = (function (exports) {
               return records;
             };
 
+            exports.CsvError = CsvError;
             exports.parse = parse;
 
             Object.defineProperty(exports, '__esModule', { value: true });
