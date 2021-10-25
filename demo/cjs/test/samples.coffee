@@ -18,8 +18,6 @@ describe 'Samples', ->
         when '.js'
           'node'
         when '.ts'
-          'ts-node'
-          # Note, also works with:
-          # 'node --loader ts-node/esm'
+          'ts-node' # Also works with:  `node --loader ts-node/esm`
       exec "#{bin} #{path.resolve dir, sample}", (err, stdout, stderr) ->
         callback err

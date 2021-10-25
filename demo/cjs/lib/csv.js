@@ -21,7 +21,8 @@ csv
 }))
 // Convert objects into a stream
 .pipe(csv.stringify({
-  quoted: true
+  quoted: true,
+  encoding: 'utf8' // Support for Node.js 8
 }))
 // Print the CSV stream to stdout
 .pipe(process.stdout)

@@ -61,9 +61,10 @@
     "directory": "packages/stream-transform"
   },
   "scripts": {
-    "build": "npm run build:rollup && npm run build:ts",
+    "build": "npm run build:rollup && npm run build:ts && npm run build:node8",
     "build:rollup": "npx rollup -c",
     "build:ts": "cp lib/*.ts dist/cjs && cp lib/*.ts dist/esm",
+    "build:node8": "cp dist/cjs/sync.cjs dist/cjs/sync.js",
     "lint": "npm run lint:lib && npm run lint:samples && npm run lint:test",
     "lint:lib": "eslint --fix lib/*.js",
     "lint:samples": "eslint --fix samples/*.js",

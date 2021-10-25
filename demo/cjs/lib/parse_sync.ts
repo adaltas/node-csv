@@ -1,6 +1,9 @@
 
 import assert from 'assert'
-import { parse } from 'csv-parse/sync'
+// Node.js >= 14
+// import { parse } from 'csv-parse/sync'
+// Node.js < 14
+import { parse } from 'csv-parse/dist/cjs/sync'
 
 // Create the parser
 const records: [] = parse([

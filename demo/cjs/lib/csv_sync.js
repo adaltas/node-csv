@@ -1,6 +1,9 @@
 
 // Import the package sync module
-const csv = require('csv/sync');
+const version = parseInt(/^v(\d+)/.exec(process.version)[1], 10)
+const csv = require(
+  version >= 14 ? 'csv/sync' : 'csv/dist/cjs/sync.cjs'
+);
 
 // Generate 20 records
 const input = csv.generate({

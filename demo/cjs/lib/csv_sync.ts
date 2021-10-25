@@ -1,6 +1,9 @@
 
 // Import the package sync module
-import * as csv from 'csv/sync';
+// Node.js >= 14
+// import * as csv from 'csv/sync';
+// Node.js < 14
+import * as csv from 'csv/dist/cjs/sync';
 
 // Generate 20 records
 const input: string = csv.generate({
