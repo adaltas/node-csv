@@ -7,24 +7,24 @@ describe('API Types', () => {
   describe('usage', () => {
   
     it('sync with options as number', () => {
-      const generator: string = generateSync(1)
+      const generator: string = generate(1)
       generator.should.be.a.String()
     })
     
     it('sync with options in string mode', () => {
-      const generator: string = generateSync({length: 1})
+      const generator: string = generate({length: 1})
       generator.should.be.a.String()
     })
     
     it('sync with options in object mode', () => {
-      const generator: Array<Array<string>> = generateSync({length: 1, objectMode: true})
+      const generator: Array<Array<string>> = generate({length: 1, objectMode: true})
       generator.should.be.an.Array()
     })
   })
 
   describe('types', () => {
     it('generate', () => {
-      const generator: string = generateSync(1)
+      const generator: string = generate(1)
       return generator;
     })
     it('Options', () => {
