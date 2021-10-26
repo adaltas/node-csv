@@ -58,6 +58,7 @@
   "homepage": "https://csv.js.org/",
   "files": [
     "dist",
+    "lib",
     "samples"
   ],
   "license": "MIT",

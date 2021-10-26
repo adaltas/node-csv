@@ -63,6 +63,7 @@
   },
   "files": [
     "dist",
+    "lib",
     "samples"
   ],
   "homepage": "https://csv.js.org/parse/",
