@@ -19,7 +19,9 @@ const records = parse(content, {
   encoding: 'utf16le'
 });
 // Validate the records
-assert.deepStrictEqual(records, [
+assert.deepStrictEqual(
+  records
+, [
   [ '﻿a', 'b', 'c' ],
   [ 'd', 'e', 'f' ]
 ])
