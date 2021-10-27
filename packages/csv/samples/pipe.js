@@ -1,5 +1,5 @@
 
-// Import the package main module
+// Import the package
 import * as csv from '../lib/index.js';
 
 // Run the pipeline

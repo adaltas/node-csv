@@ -1,15 +1,16 @@
 
-import * as csv from '../lib/index.js';
+// Import the package
+import {generate, parse, transform, stringify} from 'csv';
 
 let i = 0;
 
-const generator = csv.generate({seed: 1, columns: 2, length: 20});
-const parser = csv.parse();
-const transformer = csv.transform(function(data){
+const generator = generate({seed: 1, columns: 2, length: 20});
+const parser = parse();
+const transformer = transform(function(data){
   i++;
   return data.map(function(value){return value.toUpperCase();});
 });
-const stringifier = csv.stringify();
+const stringifier = stringify();
 
 // Read generated CSV data and send it to the parser
 generator.on('readable', function(){
@@ -51,6 +52,6 @@ stringifier.on('readable', function(){
   }
 });
 // When stringifying is over, print a summary to stderr
-generator.on('end', function(){
+generator.on('close', function(){
   process.stderr.write('=> ' + i + ' records\n');
 });
