@@ -7,6 +7,8 @@ import { parse } from 'csv-parse';
 // starting with Node.js version 16
 import { finished } from 'stream/promises';
 
+/* hide-next-line */
+(async() => {
 // Prepare the dataset
 await fs.promises.writeFile(`${os.tmpdir()}/input.csv`, [
   'a,b,c',
@@ -18,11 +20,11 @@ const processFile = async () => {
   const parser = fs
     .createReadStream(`${os.tmpdir()}/input.csv`)
     .pipe(parse({
-      // CSV options if any
+    // CSV options if any
     }));
   parser.on('readable', function(){
     let record; while ((record = parser.read()) !== null) {
-      // Work with each record
+    // Work with each record
       records.push(record);
     }
   });
@@ -35,4 +37,6 @@ const records = await processFile();
 assert.deepStrictEqual(records, [
   [ 'a', 'b', 'c' ],
   [ '1', '2', '3' ]
-])
+]);
+/* hide-next-line */
+})();

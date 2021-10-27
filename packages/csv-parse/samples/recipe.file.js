@@ -4,6 +4,8 @@ import fs from 'fs/promises';
 import os from 'os';
 import { parse } from '../lib/sync.js';
 
+/* hide-next-line */
+(async() => {
 // Prepare the dataset
 await fs.writeFile(`${os.tmpdir()}/input.csv`, [
   '\ufeff', // BOM
@@ -18,4 +20,6 @@ const records = parse(content);
 assert.deepStrictEqual(records, [
   [ '﻿a', '1' ],
   [ 'b', '2' ]
-])
+]);
+/* hide-next-line */
+})();
