@@ -5,6 +5,8 @@ import os from 'os';
 import { parse } from '../lib/sync.js';
 
 /* hide-next-line */
+/* eslint-disable indent */
+/* hide-next-line */
 (async() => {
 // Prepare the dataset
 await fs.writeFile(`${os.tmpdir()}/input.csv`, [

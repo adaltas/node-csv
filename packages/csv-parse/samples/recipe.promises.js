@@ -8,6 +8,8 @@ import { parse } from 'csv-parse';
 import { finished } from 'stream/promises';
 
 /* hide-next-line */
+/* eslint-disable indent */
+/* hide-next-line */
 (async() => {
 // Prepare the dataset
 await fs.promises.writeFile(`${os.tmpdir()}/input.csv`, [
