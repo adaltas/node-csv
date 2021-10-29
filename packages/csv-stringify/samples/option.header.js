@@ -1,8 +1,4 @@
 
-// Output looks like:
-// birthYear,phone
-// OMH,ONKCHhJmjadoA
-
 import { stringify } from 'csv-stringify';
 import assert from 'assert';
 
