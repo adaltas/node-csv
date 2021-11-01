@@ -4,7 +4,7 @@
 
 import * as stream from "stream";
 
-export type Callback = (err: Error | undefined, records: any | undefined, info: Info) => void;
+export type Callback = (err: CsvError | undefined, records: any | undefined, info: Info) => void;
 
 export interface Parser extends stream.Transform {}
 
