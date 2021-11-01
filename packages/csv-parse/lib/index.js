@@ -1248,15 +1248,15 @@ const parse = function(){
     });
   }
   if(data !== undefined){
-    // Give a chance for events to be registered later
-    if(typeof setImmediate === 'function'){
-      setImmediate(function(){
-        parser.write(data);
-        parser.end();
-      });
-    }else{
+    const writer = function(){
       parser.write(data);
       parser.end();
+    };
+    // Support Deno, Rollup doesnt provide a shim for setImmediate
+    if(typeof setImmediate === 'function'){
+      setImmediate(writer);
+    }else{
+      setTimeout(writer, 0);
     }
   }
   return parser;

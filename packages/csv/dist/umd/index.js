@@ -6544,15 +6544,15 @@
                 });
               }
               if(data !== undefined){
-                // Give a chance for events to be registered later
-                if(typeof setImmediate === 'function'){
-                  setImmediate(function(){
-                    parser.write(data);
-                    parser.end();
-                  });
-                }else {
+                const writer = function(){
                   parser.write(data);
                   parser.end();
+                };
+                // Support Deno, Rollup doesnt provide a shim for setImmediate
+                if(typeof setImmediate === 'function'){
+                  setImmediate(writer);
+                }else {
+                  setTimeout(writer, 0);
                 }
               }
               return parser;
@@ -6669,13 +6669,19 @@
               const transformer = new Transformer(options, handler);
               let error = false;
               if (records) {
-                setImmediate(function(){
+                const writer = function(){
                   for(const record of records){
                     if(error) break;
                     transformer.write(record);
                   }
                   transformer.end();
-                });
+                };
+                // Support Deno, Rollup doesnt provide a shim for setImmediate
+                if(typeof setImmediate === 'function'){
+                  setImmediate(writer);
+                }else {
+                  setTimeout(writer, 0);
+                }
               }
               if(callback || options.consume) {
                 const result = [];
@@ -7268,19 +7274,17 @@
                 });
               }
               if(data !== undefined){
-                // Give a chance for events to be registered later
-                if(typeof setImmediate === 'function'){
-                  setImmediate(function(){
-                    for(const record of data){
-                      stringifier.write(record);
-                    }
-                    stringifier.end();
-                  });
-                }else {
+                const writer = function(){
                   for(const record of data){
                     stringifier.write(record);
                   }
                   stringifier.end();
+                };
+                // Support Deno, Rollup doesnt provide a shim for setImmediate
+                if(typeof setImmediate === 'function'){
+                  setImmediate(writer);
+                }else {
+                  setTimeout(writer, 0);
                 }
               }
               return stringifier;

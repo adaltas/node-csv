@@ -5541,19 +5541,17 @@ const stringify = function(){
     });
   }
   if(data !== undefined){
-    // Give a chance for events to be registered later
-    if(typeof setImmediate === 'function'){
-      setImmediate(function(){
-        for(const record of data){
-          stringifier.write(record);
-        }
-        stringifier.end();
-      });
-    }else {
+    const writer = function(){
       for(const record of data){
         stringifier.write(record);
       }
       stringifier.end();
+    };
+    // Support Deno, Rollup doesnt provide a shim for setImmediate
+    if(typeof setImmediate === 'function'){
+      setImmediate(writer);
+    }else {
+      setTimeout(writer, 0);
     }
   }
   return stringifier;

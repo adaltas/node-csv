@@ -5153,13 +5153,19 @@
     const transformer = new Transformer(options, handler);
     let error = false;
     if (records) {
-      setImmediate(function(){
+      const writer = function(){
         for(const record of records){
           if(error) break;
           transformer.write(record);
         }
         transformer.end();
-      });
+      };
+      // Support Deno, Rollup doesnt provide a shim for setImmediate
+      if(typeof setImmediate === 'function'){
+        setImmediate(writer);
+      }else {
+        setTimeout(writer, 0);
+      }
     }
     if(callback || options.consume) {
       const result = [];
