@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>CSV generate demo</title>
-    <script src="lib/generate/index.js"></script>
     <style>
       div {
         width: 60%;
@@ -30,7 +29,8 @@
       <textarea id="options"></textarea>
       <input id="convert" type="submit" value="convert" />
       <pre><code id="output"></code></pre>
-      <script>
+      <script type="module">
+        import {generate} from '/lib/esm/generate/index.js';
         const convertEl = document.getElementById('convert');
         const optionsEl = document.getElementById('options');
         optionsEl.innerHTML = JSON.stringify({
@@ -43,7 +43,7 @@
           const options = JSON.parse(optionsEl.value);
           const records = [];
           // Initialize the generator
-          csv_generate.generate({
+          generate({
             ...options
           })
           // Use the readable stream api to consume generated records

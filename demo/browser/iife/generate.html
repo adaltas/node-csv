@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSV generate demo</title>
+    <script src="/lib/iife/generate/index.js"></script>
+    <style>
+      div {
+        width: 60%;
+        margin: 5rem auto;
+        text-align: center;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+      }
+      input {
+        margin: 1rem;
+      }
+      pre {
+        text-align: left;
+        padding: 2rem;
+        border: 1px solid black;
+      }
+    </style>  
+  </head>
+  <body>
+    <div>
+      <h1>CSV generate demo</h1>
+      <label for="options">JSON options:</label>
+      <textarea id="options"></textarea>
+      <input id="convert" type="submit" value="convert" />
+      <pre><code id="output"></code></pre>
+      <script>
+        const convertEl = document.getElementById('convert');
+        const optionsEl = document.getElementById('options');
+        optionsEl.innerHTML = JSON.stringify({
+          "length": 100,
+          "objectMode": true,
+          "sleep": 1000
+        }, null, 2);
+        const outputEl = document.getElementById('output');
+        convertEl.onclick = (e) => {
+          const options = JSON.parse(optionsEl.value);
+          const records = [];
+          // Initialize the generator
+          csv_generate.generate({
+            ...options
+          })
+          // Use the readable stream api to consume generated records
+            .on('readable', function(){
+              let record; while((record = this.read()) !== null){
+                records.push(record);
+                outputEl.innerHTML = outputEl.innerHTML+'\n'+JSON.stringify(record)
+              }
+            })
+          // Catch any error
+            .on('error', function(err){
+              console.error(err);
+            })
+          // Test that the generated records matched the expected records
+            .on('end', function(){
+              console.log(records)
+            });
+        };
+      </script>
+    <div>
+  </body>
+</html> 

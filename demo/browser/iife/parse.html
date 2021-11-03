@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CSV stringify demo</title>
-    <script src="lib/stringify/index.js"></script>
+    <title>CSV parse demo</title>
+    <script src="/lib/iife/parse/index.js"></script>
     <style>
       div {
         width: 60%;
@@ -25,7 +25,7 @@
   </head>
   <body>
     <div>
-      <h1>CSV stringify demo</h1>
+      <h1>CSV parse demo</h1>
       <label for="input">JSON input:</label>
       <textarea id="input"></textarea>
       <label for="options">Options:</label>
@@ -35,25 +35,25 @@
       <script>
         const convertEl = document.getElementById('convert');
         const inputEl = document.getElementById('input');
-        inputEl.innerHTML = JSON.stringify([{
-          "year": "XXXX",
-          "phone": "XXX XXXX"
-        }, {
-          "year": "YYYY",
-          "phone": "YYY YYYY"
-        }], null, 2);
+        inputEl.innerHTML = [
+          'year,phone',
+          'XXXX,XXX XXXX',
+          'YYYY,YYY YYYY'
+        ].join('\n');
         const optionsEl = document.getElementById('options');
-        optionsEl.innerHTML = JSON.stringify({}, null, 2);
+        optionsEl.innerHTML = JSON.stringify({
+          columns: true
+        }, null, 2);
         const outputEl = document.getElementById('output');
         convertEl.onclick = (e) => {
-          const input = JSON.parse(inputEl.value);
+          const input = inputEl.value;
           const options = JSON.parse(optionsEl.value);
-          csv_stringify.stringify(input, options, function(err, data){
+          csv_parse.parse(input, options, function(err, data){
             if(err){
               return alert('Invalid CSV: '+err.message);
             }
             outputEl.innerHTML = JSON.stringify(data, null, 2);
-          })
+          });
         };
       </script>
     <div>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSV stringify demo</title>
+    <style>
+      div {
+        width: 60%;
+        margin: 5rem auto;
+        text-align: center;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+      }
+      input {
+        margin: 1rem;
+      }
+      pre {
+        text-align: left;
+        padding: 2rem;
+        border: 1px solid black;
+      }
+    </style>  
+  </head>
+  <body>
+    <div>
+      <h1>CSV stringify demo</h1>
+      <label for="input">JSON input:</label>
+      <textarea id="input"></textarea>
+      <label for="options">Options:</label>
+      <textarea id="options"></textarea>
+      <input id="convert" type="submit" value="convert" />
+      <pre><code id="output"></code></pre>
+      <script type="module">
+        import {stringify} from '/lib/esm/stringify/index.js';
+        const convertEl = document.getElementById('convert');
+        const inputEl = document.getElementById('input');
+        inputEl.innerHTML = JSON.stringify([{
+          "year": "XXXX",
+          "phone": "XXX XXXX"
+        }, {
+          "year": "YYYY",
+          "phone": "YYY YYYY"
+        }], null, 2);
+        const optionsEl = document.getElementById('options');
+        optionsEl.innerHTML = JSON.stringify({}, null, 2);
+        const outputEl = document.getElementById('output');
+        convertEl.onclick = (e) => {
+          const input = JSON.parse(inputEl.value);
+          const options = JSON.parse(optionsEl.value);
+          stringify(input, options, function(err, data){
+            if(err){
+              return alert('Invalid CSV: '+err.message);
+            }
+            outputEl.innerHTML = JSON.stringify(data, null, 2);
+          })
+        };
+      </script>
+    <div>
+  </body>
+</html> 
