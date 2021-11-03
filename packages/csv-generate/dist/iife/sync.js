@@ -5127,6 +5127,7 @@ var csv_generate_sync = (function (exports) {
                 // Time for some rest: flush first and stop later
                 if((this._.count_created === this.options.length) || (this.options.end && Date.now() > this.options.end) || (this.options.duration && Date.now() > this._.start_time + this.options.duration)){
                   // Flush
+                  this._.end = true;
                   if(data.length){
                     if(this.options.objectMode){
                       for(const line of data){
@@ -5135,9 +5136,10 @@ var csv_generate_sync = (function (exports) {
                     }else {
                       this.__push(data.join('') + (this.options.eof ? this.options.eof : ''));
                     }
+                  }else {
+                    this.push(null);
                   }
-                  // Stop
-                  return this.push(null);
+                  return;
                 }
                 // Create the line
                 let line = [];
@@ -5145,10 +5147,6 @@ var csv_generate_sync = (function (exports) {
                 this.options.columns.forEach((fn) => {
                   line.push(fn(this));
                 });
-                // for(const header in this.options.columns){
-                //   // Create the field
-                //   line.push(header(this))
-                // }
                 // Obtain line length
                 if(this.options.objectMode){
                   lineLength = 0;
@@ -5183,14 +5181,14 @@ var csv_generate_sync = (function (exports) {
             };
             // Put new data into the read queue.
             Generator.prototype.__push = function(record){
-              this._.count_written++;
-              if(this.options.sleep > 0){
-                setTimeout(() => {
-                  this.push(record);
-                }, this.options.sleep);
-              }else {
+              const push = () => {
+                this._.count_written++;
                 this.push(record);
-              }
+                if(this._.end === true){
+                  return this.push(null);
+                }
+              };
+              this.options.sleep > 0 ? setTimeout(push, this.options.sleep) : push();
             };
             // Generate an ASCII value.
             Generator.ascii = function(gen){
