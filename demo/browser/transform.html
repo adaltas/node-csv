@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CSV parse demo</title>
-    <script src="lib/parse/index.js"></script>
+    <title>CSV transform demo</title>
+    <script src="lib/transform/index.js"></script>
     <style>
       div {
         width: 60%;
@@ -25,9 +25,11 @@
   </head>
   <body>
     <div>
-      <h1>CSV parse demo</h1>
+      <h1>CSV transform demo</h1>
       <label for="input">JSON input:</label>
       <textarea id="input"></textarea>
+      <label for="transform">Transform function:</label>
+      <textarea id="transform"></textarea>
       <label for="options">Options:</label>
       <textarea id="options"></textarea>
       <input id="convert" type="submit" value="convert" />
@@ -35,25 +37,38 @@
       <script>
         const convertEl = document.getElementById('convert');
         const inputEl = document.getElementById('input');
-        inputEl.innerHTML = [
-          'year,phone',
-          'XXXX,XXX XXXX',
-          'YYYY,YYY YYYY'
+        inputEl.innerHTML = JSON.stringify([{
+          "year": "XXXX",
+          "phone": "XXX XXXX"
+        }, {
+          "year": "YYYY",
+          "phone": "YYY YYYY"
+        }], null, 2);
+        const transformEl = document.getElementById('transform');
+        transformEl.innerHTML = [
+          'function(record, params){',
+          '  record.phone = params.country_code + " " + record.phone',
+          '  return record;',
+          '}'
         ].join('\n');
         const optionsEl = document.getElementById('options');
         optionsEl.innerHTML = JSON.stringify({
-          columns: true
+          params: {
+            country_code: "+AA"
+          }
         }, null, 2);
         const outputEl = document.getElementById('output');
         convertEl.onclick = (e) => {
-          const input = inputEl.value;
+          const input = JSON.parse(inputEl.value);
+          const transform= {};
+          eval(`transform.value = ${transformEl.value}`);
           const options = JSON.parse(optionsEl.value);
-          csv_parse.parse(input, options, function(err, data){
+          stream_transform.transform(input, transform.value, options, function(err, data){
             if(err){
               return alert('Invalid CSV: '+err.message);
             }
             outputEl.innerHTML = JSON.stringify(data, null, 2);
-          });
+          })
         };
       </script>
     <div>
