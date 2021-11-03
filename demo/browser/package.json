@@ -1,0 +1,25 @@
+{
+  "name": "csv_demo_cjs",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "mocha": {
+    "inline-diffs": true,
+    "loader": "./test/loaders/all.mjs",
+    "recursive": true,
+    "reporter": "spec",
+    "require": [
+      "should"
+    ],
+    "throw-deprecation": true,
+    "timeout": 40000
+  },
+  "scripts": {
+    "test": "mocha 'test/**/*.coffee'"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

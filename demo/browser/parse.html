@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Page Title</title>
-    <script src="lib/index.js"></script>
+    <title>CSV parse demo</title>
+    <script src="lib/parse/index.js"></script>
     <style>
       div {
         width: 60%;
@@ -27,29 +27,29 @@
     <div>
       <h1>CSV parse demo</h1>
       <label for="input">JSON input:</label>
-<textarea id="input">
-year,phone
-XXXX,XXX XXXX
-YYYY,YYY YYYY
-</textarea>
+      <textarea id="input"></textarea>
       <input id="convert" type="submit" value="convert" />
       <pre><code id="output"></code></pre>
       <script>
-        const convertEl = document.getElementById('convert')
-        const inputEl = document.getElementById('input')
-        const outputEl = document.getElementById('output')
+        const convertEl = document.getElementById('convert');
+        const inputEl = document.getElementById('input');
+        inputEl.innerHTML = [
+          'year,phone',
+          'XXXX,XXX XXXX',
+          'YYYY,YYY YYYY'
+        ].join('\n');
+        const outputEl = document.getElementById('output');
         convertEl.onclick = (e) => {
           let input;
           csv_parse.parse(inputEl.value, {
             columns: true
           }, function(err, data){
             if(err){
-              return alert('Invalid CSV: '+err.message)
+              return alert('Invalid CSV: '+err.message);
             }
-            console.log(data)
-            outputEl.innerHTML = JSON.stringify(data, null, 2)
-          })
-        }
+            outputEl.innerHTML = JSON.stringify(data, null, 2);
+          });
+        };
       </script>
     <div>
   </body>
