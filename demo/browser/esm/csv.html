@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSV parse demo</title>
+    <style>
+      div {
+        width: 60%;
+        margin: 5rem auto;
+        text-align: center;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+      }
+      input {
+        margin: 1rem;
+      }
+      pre {
+        text-align: left;
+        padding: 2rem;
+        border: 1px solid black;
+      }
+    </style>  
+  </head>
+  <body>
+    <div>
+      <h1>CSV parse demo</h1>
+      <label for="generateOptions">Generate options:</label>
+      <textarea id="generateOptions"></textarea>
+      <label for="parseOptions">Parse options:</label>
+      <textarea id="parseOptions"></textarea>
+      <label for="transformOptions">Transform handler:</label>
+      <textarea id="transformOptions"></textarea>
+      <label for="stringifyOptions">Stringify options:</label>
+      <textarea id="stringifyOptions"></textarea>
+      <input id="run" type="submit" value="run" />
+      <pre><code id="output"></code></pre>
+      <script type="module">
+        import * as csv from '/lib/esm/csv/index.js';
+        const runEl = document.getElementById('run');
+        const generateOptionsEl = document.getElementById('generateOptions');
+        generateOptionsEl.innerHTML = JSON.stringify({
+          delimiter: '|',
+          length: 10
+        }, null, 2);
+        const parseOptionsEl = document.getElementById('parseOptions');
+        parseOptionsEl.innerHTML = JSON.stringify({
+          delimiter: '|'
+        }, null, 2);
+        const transformOptionsEl = document.getElementById('transformOptions');
+        transformOptionsEl.innerHTML = [
+          'function(record){',
+          '  return record;',
+          '}'
+        ].join('\n');
+        const stringifyOptionsEl = document.getElementById('stringifyOptions');
+        stringifyOptionsEl.innerHTML = JSON.stringify({
+          quoted: true
+        }, null, 2);
+        const outputEl = document.getElementById('output');
+        runEl.onclick = (e) => {
+          try{
+            const generateOptions = JSON.parse(generateOptionsEl.value);
+            const parseOptions = JSON.parse(parseOptionsEl.value);
+            const transform = {};
+            eval(`transform.handler = ${transformOptionsEl.value}`);
+            const stringifyOptions = JSON.parse(stringifyOptionsEl.value);
+            // Run the pipeline
+            csv
+            // Generate 20 records
+            .generate(generateOptions)
+            // Transform CSV data into records
+            .pipe(csv.parse({
+              delimiter: '|'
+            }))
+            // Transform each value into uppercase
+            .pipe(csv.transform(transform.handler))
+            // Convert objects into a stream
+            .pipe(csv.stringify(stringifyOptions))
+            // Print the CSV stream to stdout
+            .on('readable', function () {
+              let chunck; while(chunck = this.read()){
+                outputEl.innerHTML = outputEl.innerHTML + chunck.toString()
+              }
+            })
+            .on('error', function (err) {
+              outputEl.innerHTML = 'Error: ' + err.message;
+            });
+          }catch(err){
+            outputEl.innerHTML = 'Error: ' + err.message;
+          }
+        };
+      </script>
+    <div>
+  </body>
+</html> 

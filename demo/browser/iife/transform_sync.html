@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>CSV transform demo</title>
-    <script src="/lib/iife/transform/index.js"></script>
+    <script src="/lib/iife/transform/sync.js"></script>
     <style>
       div {
         width: 60%;
@@ -63,12 +63,12 @@
           const transform= {};
           eval(`transform.handler = ${handlerEl.value}`);
           const options = JSON.parse(optionsEl.value);
-          stream_transform.transform(input, transform.handler, options, (err, data) => {
-            if(err){
-              return alert('Invalid CSV: '+err.message);
-            }
+          try{
+            const data = stream_transform_sync.transform(input, transform.handler, options);
             outputEl.innerHTML = JSON.stringify(data, null, 2);
-          });
+          }catch(err){
+            return alert('Invalid CSV: '+err.message);
+          }
         };
       </script>
     <div>
