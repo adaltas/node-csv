@@ -25,4 +25,4 @@ csv
   encoding: 'utf8' // Support for Node.js 8
 }))
 // Print the CSV stream to stdout
-.pipe(process.stdout)
+.pipe(process.stdout, {end: false})
