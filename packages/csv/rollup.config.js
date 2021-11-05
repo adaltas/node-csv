@@ -54,12 +54,12 @@ export default [{
     {
       file: `dist/iife/sync.js`,
       format: 'iife',
-      name: 'csv'
+      name: 'csv_sync'
     },
     {
       file: `dist/umd/sync.js`,
       format: 'umd',
-      name: 'csv'
+      name: 'csv_sync'
     },
   ],
   plugins: [eslint({

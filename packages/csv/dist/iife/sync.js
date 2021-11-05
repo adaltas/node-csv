@@ -1,4 +1,4 @@
-var csv = (function (exports) {
+var csv_sync = (function (exports) {
             'use strict';
 
             var global$1 = (typeof global !== "undefined" ? global :
