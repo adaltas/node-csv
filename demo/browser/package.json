@@ -17,7 +17,7 @@
     "timeout": 40000
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "test": "mocha 'test/**/*.coffee'"
   },
   "dependencies": {
