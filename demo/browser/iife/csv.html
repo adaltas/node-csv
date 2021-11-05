@@ -2,7 +2,9 @@
 <html>
   <head>
     <title>CSV parse demo</title>
+    <!-- start-snippet{test} -->
     <script src="/lib/iife/csv/index.js"></script>
+    <!-- end-snippet{test} -->
     <style>
       div {
         width: 60%;
@@ -25,7 +27,8 @@
   </head>
   <body>
     <div>
-      <h1>CSV parse demo</h1>
+      <h1>CSV demo</h1>
+      <p><a href="/">back</a></p>
       <label for="generateOptions">Generate options:</label>
       <textarea id="generateOptions"></textarea>
       <label for="parseOptions">Parse options:</label>
@@ -66,7 +69,6 @@
             eval(`transform.handler = ${transformOptionsEl.value}`);
             const stringifyOptions = JSON.parse(stringifyOptionsEl.value);
             // Run the pipeline
-            console.log(csv, transform.handler)
             csv
             // Generate 20 records
             .generate(generateOptions)
@@ -92,6 +94,6 @@
           }
         };
       </script>
-    <div>
+    </div>
   </body>
 </html> 

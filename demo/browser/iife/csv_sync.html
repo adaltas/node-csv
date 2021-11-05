@@ -2,6 +2,9 @@
 <html>
   <head>
     <title>CSV parse demo</title>
+    <!-- start-snippet{test} -->
+    <script src="/lib/iife/csv/sync.js"></script>
+    <!-- end-snippet{test} -->
     <style>
       div {
         width: 60%;
@@ -37,7 +40,6 @@
       <input id="run" type="submit" value="run" />
       <pre><code id="output"></code></pre>
       <script type="module">
-        import * as csv from '/lib/esm/csv/sync.js';
         const runEl = document.getElementById('run');
         const generateOptionsEl = document.getElementById('generateOptions');
         generateOptionsEl.innerHTML = JSON.stringify({
@@ -67,26 +69,11 @@
             eval(`transform.handler = ${transformOptionsEl.value}`);
             const stringifyOptions = JSON.parse(stringifyOptionsEl.value);
             // Run the pipeline
-            csv
-            // Generate 20 records
-            .generate(generateOptions)
-            // Transform CSV data into records
-            .pipe(csv.parse({
-              delimiter: '|'
-            }))
-            // Transform each value into uppercase
-            .pipe(csv.transform(transform.handler))
-            // Convert objects into a stream
-            .pipe(csv.stringify(stringifyOptions))
-            // Print the CSV stream to stdout
-            .on('readable', function () {
-              let chunck; while(chunck = this.read()){
-                outputEl.innerHTML = outputEl.innerHTML + chunck.toString()
-              }
-            })
-            .on('error', function (err) {
-              outputEl.innerHTML = 'Error: ' + err.message;
-            });
+            const input = csv_sync.generate(generateOptions);
+            const rawRecords = csv_sync.parse(input, parseOptions);
+            const refinedRecords = csv_sync.transform(rawRecords, transform.handler);
+            const output = csv_sync.stringify(refinedRecords, stringifyOptions);
+            outputEl.innerHTML = output;
           }catch(err){
             outputEl.innerHTML = 'Error: ' + err.message;
           }

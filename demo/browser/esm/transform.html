@@ -25,6 +25,7 @@
   <body>
     <div>
       <h1>CSV transform demo</h1>
+      <p><a href="/">back</a></p>
       <label for="input">JSON input:</label>
       <textarea id="input"></textarea>
       <label for="handler">Transform function:</label>
@@ -60,10 +61,10 @@
         const outputEl = document.getElementById('output');
         convertEl.onclick = (e) => {
           const input = JSON.parse(inputEl.value);
-          const transform = {};
-          eval(`transform.handler = ${handlerEl.value}`);
+          const transformCtx = {};
+          eval(`transformCtx.handler = ${handlerEl.value}`);
           const options = JSON.parse(optionsEl.value);
-          transform(input, transform.handler, options, (err, data) => {
+          transform(input, transformCtx.handler, options, (err, data) => {
             if(err){
               return alert('Invalid CSV: '+err.message);
             }
@@ -71,6 +72,6 @@
           });
         };
       </script>
-    <div>
+    </div>
   </body>
 </html> 

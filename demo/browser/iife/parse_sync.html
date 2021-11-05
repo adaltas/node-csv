@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CSV transform demo</title>
-    <script src="/lib/iife/transform/sync.js"></script>
+    <title>CSV parse demo</title>
+    <script src="/lib/iife/parse/sync.js"></script>
     <style>
       div {
         width: 60%;
@@ -25,12 +25,10 @@
   </head>
   <body>
     <div>
-      <h1>CSV transform demo</h1>
+      <h1>CSV parse demo</h1>
       <p><a href="/">back</a></p>
       <label for="input">JSON input:</label>
       <textarea id="input"></textarea>
-      <label for="handler">Transform function:</label>
-      <textarea id="handler"></textarea>
       <label for="options">Options:</label>
       <textarea id="options"></textarea>
       <input id="convert" type="submit" value="convert" />
@@ -38,34 +36,22 @@
       <script>
         const convertEl = document.getElementById('convert');
         const inputEl = document.getElementById('input');
-        inputEl.innerHTML = JSON.stringify([{
-          "year": "XXXX",
-          "phone": "XXX XXXX"
-        }, {
-          "year": "YYYY",
-          "phone": "YYY YYYY"
-        }], null, 2);
-        const handlerEl = document.getElementById('handler');
-        handlerEl.innerHTML = [
-          'function(record, params){',
-          '  record.phone = params.country_code + " " + record.phone',
-          '  return record;',
-          '}'
+        inputEl.innerHTML = [
+          'year,phone',
+          'XXXX,XXX XXXX',
+          'YYYY,YYY YYYY'
         ].join('\n');
         const optionsEl = document.getElementById('options');
         optionsEl.innerHTML = JSON.stringify({
-          params: {
-            country_code: "+AA"
-          }
+          columns: true
         }, null, 2);
         const outputEl = document.getElementById('output');
         convertEl.onclick = (e) => {
-          const input = JSON.parse(inputEl.value);
-          const transformCtx = {};
-          eval(`transformCtx.handler = ${handlerEl.value}`);
+          const input = inputEl.value;
           const options = JSON.parse(optionsEl.value);
+          // Start parsing
           try{
-            const data = stream_transform_sync.transform(input, transformCtx.handler, options);
+            const data = csv_parse_sync.parse(input, options);
             outputEl.innerHTML = JSON.stringify(data, null, 2);
           }catch(err){
             return alert('Invalid CSV: '+err.message);

@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>CSV transform demo</title>
-    <script src="/lib/iife/transform/sync.js"></script>
     <style>
       div {
         width: 60%;
@@ -35,7 +34,8 @@
       <textarea id="options"></textarea>
       <input id="convert" type="submit" value="convert" />
       <pre><code id="output"></code></pre>
-      <script>
+      <script type="module">
+        import {transform} from '/lib/esm/transform/sync.js';
         const convertEl = document.getElementById('convert');
         const inputEl = document.getElementById('input');
         inputEl.innerHTML = JSON.stringify([{
@@ -65,10 +65,10 @@
           eval(`transformCtx.handler = ${handlerEl.value}`);
           const options = JSON.parse(optionsEl.value);
           try{
-            const data = stream_transform_sync.transform(input, transformCtx.handler, options);
+            const data = transform(input, transformCtx.handler, options);
             outputEl.innerHTML = JSON.stringify(data, null, 2);
           }catch(err){
-            return alert('Invalid CSV: '+err.message);
+            alert('Invalid CSV: '+err.message);
           }
         };
       </script>

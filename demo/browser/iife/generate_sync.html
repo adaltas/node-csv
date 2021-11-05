@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>CSV generate demo</title>
-    <script src="/lib/iife/generate/index.js"></script>
+    <script src="/lib/iife/generate/sync.js"></script>
     <style>
       div {
         width: 60%;
@@ -36,30 +36,14 @@
         const optionsEl = document.getElementById('options');
         optionsEl.innerHTML = JSON.stringify({
           "length": 10,
-          "objectMode": true,
-          "sleep": 1000
+          "objectMode": true
         }, null, 2);
         const outputEl = document.getElementById('output');
         convertEl.onclick = (e) => {
           const options = JSON.parse(optionsEl.value);
-          const records = [];
           // Initialize the generator
-          csv_generate.generate(options)
-          // Use the readable stream api to consume generated records
-            .on('readable', function(){
-              let record; while((record = this.read()) !== null){
-                records.push(record);
-                outputEl.innerHTML = outputEl.innerHTML+'\n'+JSON.stringify(record)
-              }
-            })
-          // Catch any error
-            .on('error', function(err){
-              console.error(err);
-            })
-          // Test that the generated records matched the expected records
-            .on('end', function(){
-              console.log(records)
-            });
+          const records = csv_generate_sync.generate(options)
+          outputEl.innerHTML = JSON.stringify(records, null, 2)
         };
       </script>
     </div>

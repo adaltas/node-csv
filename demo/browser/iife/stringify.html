@@ -26,6 +26,7 @@
   <body>
     <div>
       <h1>CSV stringify demo</h1>
+      <p><a href="/">back</a></p>
       <label for="input">JSON input:</label>
       <textarea id="input"></textarea>
       <label for="options">Options:</label>
@@ -48,6 +49,7 @@
         convertEl.onclick = (e) => {
           const input = JSON.parse(inputEl.value);
           const options = JSON.parse(optionsEl.value);
+          // Start stringifying
           csv_stringify.stringify(input, options, function(err, data){
             if(err){
               return alert('Invalid CSV: '+err.message);
@@ -56,6 +58,6 @@
           })
         };
       </script>
-    <div>
+    </div>
   </body>
 </html> 

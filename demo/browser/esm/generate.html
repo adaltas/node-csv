@@ -25,6 +25,7 @@
   <body>
     <div>
       <h1>CSV generate demo</h1>
+      <p><a href="/">back</a></p>
       <label for="options">JSON options:</label>
       <textarea id="options"></textarea>
       <input id="convert" type="submit" value="convert" />
@@ -34,7 +35,7 @@
         const convertEl = document.getElementById('convert');
         const optionsEl = document.getElementById('options');
         optionsEl.innerHTML = JSON.stringify({
-          "length": 100,
+          "length": 10,
           "objectMode": true,
           "sleep": 1000
         }, null, 2);
@@ -43,9 +44,7 @@
           const options = JSON.parse(optionsEl.value);
           const records = [];
           // Initialize the generator
-          generate({
-            ...options
-          })
+          generate(options)
           // Use the readable stream api to consume generated records
             .on('readable', function(){
               let record; while((record = this.read()) !== null){
@@ -63,6 +62,6 @@
             });
         };
       </script>
-    <div>
+    </div>
   </body>
 </html> 
