@@ -323,8 +323,24 @@ class Parser extends Transform {
         throw new Error(`Invalid Option: objname must be a non empty string`);
       }
       // Great, nothing to do
+    }else if(typeof options.objname === 'number'){
+      // if(options.objname.length === 0){
+      //   throw new Error(`Invalid Option: objname must be a non empty string`);
+      // }
+      // Great, nothing to do
     }else{
       throw new Error(`Invalid Option: objname must be a string or a buffer, got ${options.objname}`);
+    }
+    if(options.objname !== undefined){
+      if(typeof options.objname === 'number'){
+        if(options.columns !== false){
+          throw Error('Invalid Option: objname index cannot be combined with columns or be defined as a field');
+        }
+      }else{ // A string or a buffer
+        if(options.columns === false){
+          throw Error('Invalid Option: objname field must be combined with columns or be defined as an index');
+        }
+      }
     }
     // Normalize option `on_record`
     if(options.on_record === undefined || options.on_record === null){
@@ -877,6 +893,7 @@ class Parser extends Transform {
     }
     this.info.records++;
     if(from === 1 || this.info.records >= from){
+      const {objname} = this.options;
       // With columns, records are object
       if(columns !== false){
         const obj = {};
@@ -894,55 +911,45 @@ class Parser extends Transform {
             obj[columns[i].name] = record[i];
           }
         }
-        const {objname} = this.options;
         // Without objname (default)
-        if(objname === undefined){
-          if(raw === true || info === true){
-            const err = this.__push(Object.assign(
-              {record: obj},
-              (raw === true ? {raw: this.state.rawBuffer.toString(encoding)}: {}),
-              (info === true ? {info: this.__infoRecord()}: {})
-            ));
-            if(err){
-              return err;
-            }
-          }else{
-            const err = this.__push(obj);
-            if(err){
-              return err;
-            }
+        if(raw === true || info === true){
+          const extRecord = Object.assign(
+            {record: obj},
+            (raw === true ? {raw: this.state.rawBuffer.toString(encoding)}: {}),
+            (info === true ? {info: this.__infoRecord()}: {})
+          );
+          const err = this.__push(
+            objname === undefined ? extRecord : [obj[objname], extRecord]
+          );
+          if(err){
+            return err;
           }
-        // With objname (default)
         }else{
-          if(raw === true || info === true){
-            const err = this.__push(Object.assign(
-              {record: [obj[objname], obj]},
-              raw === true ? {raw: this.state.rawBuffer.toString(encoding)}: {},
-              info === true ? {info: this.__infoRecord()}: {}
-            ));
-            if(err){
-              return err;
-            }
-          }else{
-            const err = this.__push([obj[objname], obj]);
-            if(err){
-              return err;
-            }
+          const err = this.__push(
+            objname === undefined ? obj : [obj[objname], obj]
+          );
+          if(err){
+            return err;
           }
         }
       // Without columns, records are array
       }else{
         if(raw === true || info === true){
-          const err = this.__push(Object.assign(
+          const extRecord = Object.assign(
             {record: record},
             raw === true ? {raw: this.state.rawBuffer.toString(encoding)}: {},
             info === true ? {info: this.__infoRecord()}: {}
-          ));
+          );
+          const err = this.__push(
+            objname === undefined ? extRecord : [record[objname], extRecord]
+          );
           if(err){
             return err;
           }
         }else{
-          const err = this.__push(record);
+          const err = this.__push(
+            objname === undefined ? record : [record[objname], record]
+          );
           if(err){
             return err;
           }
