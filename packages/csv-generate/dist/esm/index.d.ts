@@ -11,7 +11,7 @@ export class Generator extends stream.Readable {
     readonly options: Options;
 }
 
-export interface Options {
+export interface Options extends stream.ReadableOptions {
     /**
      * Define the number of generated fields and the generation method.
      */
@@ -27,7 +27,7 @@ export interface Options {
     /**
      * If specified, then buffers will be decoded to strings using the specified encoding.
      */
-    encoding?: string;
+    encoding?: BufferEncoding | undefined;
     /**
      * When to stop the generation.
      */
