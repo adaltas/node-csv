@@ -72,7 +72,7 @@ describe('API Types', () => {
   })
   
   it('CsvErrorCode', () => {
-    const err = new CsvError('CSV_INCONSISTENT_RECORD_LENGTH', 'error');
+    const err = new CsvError('CSV_RECORD_INCONSISTENT_FIELDS_LENGTH', 'error');
     const code: CsvErrorCode = err.code;
     return code;
   })

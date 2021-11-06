@@ -340,23 +340,23 @@ describe('API Types', () => {
   describe('CsvError', () => {
     describe('Typescript definition is accurate', () => {
       it('Minimum', () => {
-        const error = new CsvError("CSV_INCONSISTENT_RECORD_LENGTH", "MESSAGE");
+        const error = new CsvError("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH", "MESSAGE");
         
-        error.code.should.eql("CSV_INCONSISTENT_RECORD_LENGTH")
+        error.code.should.eql("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH")
         error.message.should.eql("MESSAGE")
       })
 
       it('Multiple messages', () => {
-        const error = new CsvError("CSV_INCONSISTENT_RECORD_LENGTH", ["MESSAGE1", "MESSAGE2"])
+        const error = new CsvError("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH", ["MESSAGE1", "MESSAGE2"])
 
-        error.code.should.eql("CSV_INCONSISTENT_RECORD_LENGTH")
+        error.code.should.eql("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH")
         error.message.should.eql("MESSAGE1 MESSAGE2")
       })
 
       it('Supports contexts', () => {
-        const error = new CsvError("CSV_INCONSISTENT_RECORD_LENGTH", "MESSAGE", {}, { testContext: { testProp: "testValue" } })
+        const error = new CsvError("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH", "MESSAGE", {}, { testContext: { testProp: "testValue" } })
 
-        error.code.should.eql("CSV_INCONSISTENT_RECORD_LENGTH")
+        error.code.should.eql("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH")
         error.message.should.eql("MESSAGE")
         error.should.have.key("testContext").and.eql({ testProp: "testValue" })
       })
@@ -366,7 +366,7 @@ describe('API Types', () => {
       parse(`a,b\nc`, function (e: Error|undefined) {
         const isCsvError = e instanceof CsvError;
         isCsvError.should.be.true();
-        (e as CsvError).code.should.eql('CSV_INCONSISTENT_RECORD_LENGTH');
+        (e as CsvError).code.should.eql('CSV_RECORD_INCONSISTENT_FIELDS_LENGTH');
       })
     })
   })

@@ -6,7 +6,7 @@ const records = parse('1,2\nin:va:lid\n3,4', {
   relax_column_count: true,
   raw: true,
   on_record: ({raw, record}, {error}) => {
-    if(error && error.code === 'CSV_INCONSISTENT_RECORD_LENGTH'){
+    if(error && error.code === 'CSV_RECORD_INCONSISTENT_FIELDS_LENGTH'){
       return raw.trim().split(':');
     } else {
       return record;

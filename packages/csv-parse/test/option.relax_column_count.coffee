@@ -22,7 +22,7 @@ describe 'Option `relax_column_count`', ->
     4,5
     """, (err) ->
       assert_error err,
-        code: 'CSV_INCONSISTENT_RECORD_LENGTH'
+        code: 'CSV_RECORD_INCONSISTENT_FIELDS_LENGTH'
         message: 'Invalid Record Length: expect 3, got 2 on line 2'
         record: ['4', '5']
       next()
@@ -36,7 +36,7 @@ describe 'Option `relax_column_count`', ->
     """
     , (err) ->
       assert_error err,
-        code: 'CSV_INCONSISTENT_RECORD_LENGTH'
+        code: 'CSV_RECORD_INCONSISTENT_FIELDS_LENGTH'
         message: 'Invalid Record Length: expect 2, got 1 on line 2'
         record: ['1']
       next()
@@ -106,7 +106,7 @@ describe 'Option `relax_column_count`', ->
       a,b
       """, relax_column_count_more: true, (err) ->
         assert_error err,
-          code: 'CSV_INCONSISTENT_RECORD_LENGTH'
+          code: 'CSV_RECORD_INCONSISTENT_FIELDS_LENGTH'
           message: 'Invalid Record Length: expect 3, got 2 on line 2'
           record: ['a', 'b']
         next()
@@ -130,7 +130,7 @@ describe 'Option `relax_column_count`', ->
       a,b,c,d
       """, relax_column_count_less: true, (err) ->
         assert_error err,
-          code: 'CSV_INCONSISTENT_RECORD_LENGTH'
+          code: 'CSV_RECORD_INCONSISTENT_FIELDS_LENGTH'
           message: 'Invalid Record Length: expect 3, got 4 on line 2'
           record: ['a', 'b', 'c', 'd']
         next()
@@ -146,7 +146,7 @@ describe 'Option `relax_column_count`', ->
         relax_column_count: true,
         raw: true,
         on_record: ({raw, record}, {error}) ->
-          if error?.code is 'CSV_INCONSISTENT_RECORD_LENGTH'
+          if error?.code is 'CSV_RECORD_INCONSISTENT_FIELDS_LENGTH'
             raw.trim().split ':'
           else
             record

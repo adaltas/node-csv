@@ -5878,9 +5878,7 @@ var csv_parse_sync = (function (exports) {
                 }
                 if(recordLength !== this.state.expectedRecordLength){
                   const err = columns === false ?
-                    // Todo: rename CSV_INCONSISTENT_RECORD_LENGTH to
-                    // CSV_RECORD_INCONSISTENT_FIELDS_LENGTH
-                    new CsvError('CSV_INCONSISTENT_RECORD_LENGTH', [
+                    new CsvError('CSV_RECORD_INCONSISTENT_FIELDS_LENGTH', [
                       'Invalid Record Length:',
                       `expect ${this.state.expectedRecordLength},`,
                       `got ${recordLength} on line ${this.info.lines}`,

@@ -108,7 +108,7 @@ describe 'Option `skip_records_with_error`', ->
     parser.end()
     
 
-  it 'handle "CSV_INCONSISTENT_RECORD_LENGTH"', (next) ->
+  it 'handle "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH"', (next) ->
     errors = 0
     parser = parse skip_records_with_error: true, (err, records) ->
       records.should.eql [
@@ -120,7 +120,7 @@ describe 'Option `skip_records_with_error`', ->
     parser.on 'skip', (err) ->
       assert_error err,
         message: 'Invalid Record Length: expect 4, got 3 on line 2'
-        code: 'CSV_INCONSISTENT_RECORD_LENGTH'
+        code: 'CSV_RECORD_INCONSISTENT_FIELDS_LENGTH'
         record: ['1', '2', '3']
       errors++
     parser.write '''
