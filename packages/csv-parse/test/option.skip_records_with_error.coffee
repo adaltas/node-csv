@@ -2,23 +2,23 @@
 import { parse } from '../lib/index.js'
 import { assert_error } from './api.assert_error.coffee'
 
-describe 'Option `skip_lines_with_error`', ->
+describe 'Option `skip_records_with_error`', ->
   
   it 'validation', ->
-    parse '', skip_lines_with_error: true, (->)
-    parse '', skip_lines_with_error: false, (->)
-    parse '', skip_lines_with_error: null, (->)
-    parse '', skip_lines_with_error: undefined, (->)
+    parse '', skip_records_with_error: true, (->)
+    parse '', skip_records_with_error: false, (->)
+    parse '', skip_records_with_error: null, (->)
+    parse '', skip_records_with_error: undefined, (->)
     (->
-      parse '', skip_lines_with_error: 1, (->)
-    ).should.throw 'Invalid Option: skip_lines_with_error must be a boolean, got 1'
+      parse '', skip_records_with_error: 1, (->)
+    ).should.throw 'Invalid Option: skip_records_with_error must be a boolean, got 1'
     (->
-      parse '', skip_lines_with_error: 'oh no', (->)
-    ).should.throw 'Invalid Option: skip_lines_with_error must be a boolean, got "oh no"'
+      parse '', skip_records_with_error: 'oh no', (->)
+    ).should.throw 'Invalid Option: skip_records_with_error must be a boolean, got "oh no"'
   
   it 'handle "Invalid closing quote"', (next) ->
     errors = 0
-    parser = parse skip_lines_with_error: true, (err, records) ->
+    parser = parse skip_records_with_error: true, (err, records) ->
       records.should.eql [
         ["a","b","c"]
         ["one","two","three"]
@@ -41,7 +41,7 @@ describe 'Option `skip_lines_with_error`', ->
 
   it 'handle "Invalid opening quote"', (next) ->
     errors = []
-    parser = parse skip_lines_with_error: true, (err, records) ->
+    parser = parse skip_records_with_error: true, (err, records) ->
       records.should.eql [
         ["line","1"]
         ["line", "3"]
@@ -68,7 +68,7 @@ describe 'Option `skip_lines_with_error`', ->
   
   it 'handle "Quoted field not terminated"', (next) ->
     errors = 0
-    parser = parse skip_lines_with_error: true, (err, records) ->
+    parser = parse skip_records_with_error: true, (err, records) ->
       records.should.eql [
         ['a', 'b', 'c', 'd']
       ] unless err
@@ -87,7 +87,7 @@ describe 'Option `skip_lines_with_error`', ->
 
   it 'handle "CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH"', (next) ->
     errors = 0
-    parser = parse skip_lines_with_error: true, columns: ["a", "b", "c", "d"], (err, records) ->
+    parser = parse skip_records_with_error: true, columns: ["a", "b", "c", "d"], (err, records) ->
       records.should.eql [
         { a: '4', b: '5', c: '6', d: 'x'}
         { a: '7', b: '8', c: '9', d: 'y'}
@@ -110,7 +110,7 @@ describe 'Option `skip_lines_with_error`', ->
 
   it 'handle "CSV_INCONSISTENT_RECORD_LENGTH"', (next) ->
     errors = 0
-    parser = parse skip_lines_with_error: true, (err, records) ->
+    parser = parse skip_records_with_error: true, (err, records) ->
       records.should.eql [
         ['a', 'b', 'c', 'd']
         ['e', 'f', 'g', 'h']
@@ -141,7 +141,7 @@ describe 'Option `skip_lines_with_error`', ->
         "seven","eight","nine"
         '''
       ,
-        skip_lines_with_error: true
+        skip_records_with_error: true
         raw: true
       , (err) ->
         errors.should.eql 1

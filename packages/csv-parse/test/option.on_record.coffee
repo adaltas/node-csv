@@ -43,11 +43,11 @@ describe 'Option `on_record`', ->
       parser.on 'end', () ->
         next Error 'Should not be called'
           
-    it 'errors not handled by skip_lines_with_error', (next) ->
+    it 'errors not handled by skip_records_with_error', (next) ->
       parse "a,b\nc,d\ne,f",
         on_record: (record, {lines}) ->
           if lines is 2 then throw Error 'Error thrown on line 2' else record
-        skip_lines_with_error: true
+        skip_records_with_error: true
       , (err, records) ->
         err.message.should.eql 'Error thrown on line 2'
         next()
@@ -58,7 +58,7 @@ describe 'Option `on_record`', ->
       parse "a,b",
         on_record: (record, context) ->
           Object.keys(context).sort()
-        skip_lines_with_error: true
+        skip_records_with_error: true
       , (err, records) ->
         records.should.eql [[
           'bytes',
@@ -71,7 +71,7 @@ describe 'Option `on_record`', ->
       parse "a,b\nc,d",
         on_record: (record, context) ->
           context
-        skip_lines_with_error: true
+        skip_records_with_error: true
       , (err, records) ->
         records.should.eql [
           bytes: 4,

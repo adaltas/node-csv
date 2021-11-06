@@ -186,8 +186,8 @@ export interface Options {
     /**
      * Skip a line with error found inside and directly go process the next line.
      */
-    skip_lines_with_error?: boolean;
-    skipLinesWithError?: boolean;
+    skip_records_with_error?: boolean;
+    skipRecordsWithError?: boolean;
     /**
      * Don't generate records for lines containing empty column values (column matching /\s*\/), defaults to false.
      */

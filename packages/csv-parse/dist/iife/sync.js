@@ -5458,11 +5458,11 @@ var csv_parse_sync = (function (exports) {
                 }else {
                   throw new Error(`Invalid Option: skip_records_with_empty_values must be a boolean, got ${JSON.stringify(options.skip_records_with_empty_values)}`);
                 }
-                // Normalize option `skip_lines_with_error`
-                if(typeof options.skip_lines_with_error === 'boolean');else if(options.skip_lines_with_error === undefined || options.skip_lines_with_error === null){
-                  options.skip_lines_with_error = false;
+                // Normalize option `skip_records_with_error`
+                if(typeof options.skip_records_with_error === 'boolean');else if(options.skip_records_with_error === undefined || options.skip_records_with_error === null){
+                  options.skip_records_with_error = false;
                 }else {
-                  throw new Error(`Invalid Option: skip_lines_with_error must be a boolean, got ${JSON.stringify(options.skip_lines_with_error)}`);
+                  throw new Error(`Invalid Option: skip_records_with_error must be a boolean, got ${JSON.stringify(options.skip_records_with_error)}`);
                 }
                 // Normalize option `rtrim`
                 if(options.rtrim === undefined || options.rtrim === null || options.rtrim === false){
@@ -5902,7 +5902,7 @@ var csv_parse_sync = (function (exports) {
                     (relax_column_count_more === true && recordLength > this.state.expectedRecordLength)){
                     this.info.invalid_field_length++;
                     this.state.error = err;
-                  // Error is undefined with skip_lines_with_error
+                  // Error is undefined with skip_records_with_error
                   }else {
                     const finalErr = this.__error(err);
                     if(finalErr) return finalErr;
@@ -6200,9 +6200,9 @@ var csv_parse_sync = (function (exports) {
                 return 0;
               }
               __error(msg){
-                const {encoding, raw, skip_lines_with_error} = this.options;
+                const {encoding, raw, skip_records_with_error} = this.options;
                 const err = typeof msg === 'string' ? new Error(msg) : msg;
-                if(skip_lines_with_error){
+                if(skip_records_with_error){
                   this.state.recordHasError = true;
                   this.emit('skip', err, raw ? this.state.rawBuffer.toString(encoding) : undefined);
                   return undefined;

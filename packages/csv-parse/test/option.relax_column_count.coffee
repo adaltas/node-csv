@@ -180,14 +180,14 @@ describe 'Option `relax_column_count`', ->
         ]
         next()
     
-  describe 'with skip_lines_with_error', (next) ->
+  describe 'with skip_records_with_error', (next) ->
 
     it 'dont skip records', ->
       parse """
       column_a
       a,b
       """,
-        skip_lines_with_error: true
+        skip_records_with_error: true
         relax_column_count: true
       , (err, records) ->
         records.should.eql [
