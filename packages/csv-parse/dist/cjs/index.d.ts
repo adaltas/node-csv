@@ -38,6 +38,11 @@ export type CastingDateFunction = (value: string, context: CastingContext) => Da
 
 export type ColumnOption = string | undefined | null | false | { name: string };
 
+/*
+Note, could not `extends stream.TransformOptions` because encoding can be
+BufferEncoding and undefined as well as null which is not defined in the
+extended type.
+*/
 export interface Options {
     /**
      * If true, the parser will attempt to convert read data types to native types.
@@ -90,7 +95,7 @@ export interface Options {
     /**
      * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
      */
-    encoding?: string | null;
+    encoding?: BufferEncoding | undefined;
     /**
      * Set the escape character, one character only, defaults to double quotes.
      */
