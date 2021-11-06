@@ -20,9 +20,9 @@ describe 'Option `relax`', ->
     # try with relax true
     parse """
     384682,the "SAMAY" Hostel,Jiron Florida 285
-    """, relax: true, (err, data) ->
+    """, relax: true, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ '384682', 'the "SAMAY" Hostel', 'Jiron Florida 285' ]
       ]
       next()
@@ -31,7 +31,7 @@ describe 'Option `relax`', ->
     # try with relax false
     parse """
     384682,the "SAMAY" Hostel,Jiron Florida 285
-    """, relax: false, (err, data) ->
+    """, relax: false, (err) ->
       assert_error err,
         message: 'Invalid Opening Quote: a quote is found inside a field at line 1'
         code: 'INVALID_OPENING_QUOTE'
@@ -42,9 +42,9 @@ describe 'Option `relax`', ->
     parse """
     a,"b" c,d
     a,""b" c,d
-    """, relax: true, (err, data) ->
+    """, relax: true, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'a', '"b" c', 'd' ]
         [ 'a', '""b" c', 'd' ]
       ]
@@ -55,7 +55,7 @@ describe 'Option `relax`', ->
     i = 0
     parse """
     a,"b" c,d
-    """, relax: false, (err, data) ->
+    """, relax: false, (err) ->
       assert_error err,
         message: 'Invalid Closing Quote: got " " at line 1 instead of delimiter, record delimiter, trimable character (if activated) or comment'
         code: 'CSV_INVALID_CLOSING_QUOTE'
@@ -65,9 +65,9 @@ describe 'Option `relax`', ->
     # try with relax true
     parse """
     a,""b"" c,d
-    """, relax: true, (err, data) ->
+    """, relax: true, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'a', '""b"" c', 'd' ]
       ] unless err
       next err
@@ -76,9 +76,9 @@ describe 'Option `relax`', ->
     # try with relax false
     parse """
     a,""b"" c,d
-    """, relax: false, (err, data) ->
+    """, relax: false, (err) ->
       # Change of implementation in version 4, was
-      # data.should.eql [
+      # records.should.eql [
       #   [ 'a', '"b" c', 'd' ]
       # ] unless err
       assert_error err,
@@ -91,9 +91,9 @@ describe 'Option `relax`', ->
     parse """
     a,b "c",d
     Bob"","23",e
-    """, relax: true, (err, data) ->
+    """, relax: true, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'a', 'b "c"', 'd' ]
         [ 'Bob""', '23','e' ]
       ]
@@ -103,7 +103,7 @@ describe 'Option `relax`', ->
     # transform is throwing instead of emiting error, skipping for now
     parse """
     a,b "c"
-    """, relax: false, (err, data) ->
+    """, relax: false, (err) ->
       assert_error err,
         message: 'Invalid Opening Quote: a quote is found inside a field at line 1'
         code: 'INVALID_OPENING_QUOTE'

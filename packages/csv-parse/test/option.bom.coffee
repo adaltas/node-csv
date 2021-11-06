@@ -12,8 +12,8 @@ describe 'Option `bom`', ->
       code: 'CSV_INVALID_OPTION_BOM'
 
   it 'preserve bom if not defined', (next) ->
-    parser = parse (err, data) ->
-      data.should.eql [
+    parser = parse (err, records) ->
+      records.should.eql [
         ['\ufeffa', 'b', 'c']
         ['d', 'e', 'f']
       ]
@@ -23,8 +23,8 @@ describe 'Option `bom`', ->
     parser.end()
 
   it 'preserve BOM if false', (next) ->
-    parser = parse bom: false, (err, data) ->
-      data.should.eql [
+    parser = parse bom: false, (err, records) ->
+      records.should.eql [
         ['\ufeffa', 'b', 'c']
         ['d', 'e', 'f']
       ]
@@ -54,7 +54,7 @@ describe 'Option `bom`', ->
     parser.end()
 
   it 'throw parsing error if quote follow bom', (next) ->
-    parser = parse (err, data) ->
+    parser = parse (err) ->
       assert_error err,
         message: 'Invalid Opening Quote: a quote is found inside a field at line 1'
         code: 'INVALID_OPENING_QUOTE'
@@ -65,8 +65,8 @@ describe 'Option `bom`', ->
     parser.end()
 
   it 'handle BOM with utf8 (default)', (next) ->
-    parser = parse bom: true, (err, data) ->
-      data.should.eql [
+    parser = parse bom: true, (err, records) ->
+      records.should.eql [
         ['a', 'b', 'c']
         ['d', 'e', 'f']
       ]
@@ -76,8 +76,8 @@ describe 'Option `bom`', ->
     parser.end()
 
   it 'preserve data if BOM is true', (next) ->
-    parser = parse bom: true, (err, data) ->
-      data.should.eql [
+    parser = parse bom: true, (err, records) ->
+      records.should.eql [
         ['a', 'b', 'c']
         ['d', 'e', 'f']
       ]
@@ -87,8 +87,8 @@ describe 'Option `bom`', ->
     parser.end()
 
   it 'handle BOM even if no enough data in the first package', (next) ->
-    parser = parse bom: true, (err, data) ->
-      data.should.eql [
+    parser = parse bom: true, (err, records) ->
+      records.should.eql [
         ['a', 'b', 'c']
         ['d', 'e', 'f']
       ]
@@ -101,8 +101,8 @@ describe 'Option `bom`', ->
     parser.end()
 
   it 'preserve data if no enough data to detect BOM', (next) ->
-    parser = parse bom: true, (err, data) ->
-      data.should.eql [
+    parser = parse bom: true, (err, records) ->
+      records.should.eql [
         ['\ufffd']
       ]
       next()

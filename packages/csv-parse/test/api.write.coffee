@@ -4,13 +4,13 @@ import { parse } from '../lib/index.js'
 describe 'API write', ->
 
   it 'string randomly splited', (next) ->
-    data = []
+    records = []
     parser = parse()
     parser.on 'readable', ->
       while(d = parser.read())
-        data.push d
+        records.push d
     parser.on 'end', ->
-      data.should.eql [
+      records.should.eql [
         [ 'Test 0', '0', '"' ]
         [ 'Test 1', '1', '"' ]
         [ 'Test 2', '2', '"' ]
@@ -42,8 +42,8 @@ describe 'API write', ->
     parser.write 'def,456'
   
   it 'support multi-bytes utf8 encoded characters', (next) ->
-    parser = parse (err, data) ->
-      data[0][0].should.eql '€'
+    parser = parse (err, records) ->
+      records[0][0].should.eql '€'
       next()
     parser.write Buffer.from [0xE2]
     parser.write Buffer.from [0x82]

@@ -10,8 +10,8 @@ describe 'spectrum', ->
       each tests
       .call (test, next) ->
         return next() if test.name is 'simple' # See https://github.com/maxogden/csv-spectrum/commit/ec45e96a79661d7bd87f6becbb845b30f11accde
-        parse test.csv.toString(), columns: true, (err, data) ->
+        parse test.csv.toString(), columns: true, (err, records) ->
           return next err if err
-          data.should.eql JSON.parse test.json.toString()
+          records.should.eql JSON.parse test.json.toString()
           next()
       .next next

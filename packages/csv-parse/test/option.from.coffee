@@ -27,8 +27,8 @@ describe 'Option `from`', ->
     1,2,3
     4,5,6
     7,8,9
-    """, from: 3, (err, data) ->
-      data.should.eql [
+    """, from: 3, (err, records) ->
+      records.should.eql [
         [ '7','8','9' ]
       ] unless err
       next err
@@ -39,8 +39,8 @@ describe 'Option `from`', ->
     1,2,3
     4,5,6
     7,8,9
-    """, columns: true, from: 3, (err, data) ->
-      data.should.eql [
+    """, columns: true, from: 3, (err, records) ->
+      records.should.eql [
         {a:'7',b:'8',c:'9'}
       ] unless err
       next err
@@ -53,8 +53,8 @@ describe 'Option `from`', ->
     6"
     7,8,"
     9"
-    """, from: 3, (err, data) ->
-      data.should.eql [
+    """, from: 3, (err, records) ->
+      records.should.eql [
         [ '7','8','\n9' ]
       ] unless err
       next err
@@ -62,8 +62,8 @@ describe 'Option `from`', ->
   it 'not influenced by record delimiter', (next) ->
     parse """
     1,2,3:4,5,6:7,8,9
-    """, from: 3, record_delimiter: ':', (err, data) ->
-      data.should.eql [
+    """, from: 3, record_delimiter: ':', (err, records) ->
+      records.should.eql [
         [ '7','8','9' ]
       ] unless err
       next err

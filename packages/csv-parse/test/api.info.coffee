@@ -7,7 +7,7 @@ describe 'API info', ->
     parse '''
     1,2,3
     a,b,
-    ''', (err, data, info) ->
+    ''', (err, records, info) ->
       info.should.eql
         bytes: 10
         columns: false
@@ -22,7 +22,7 @@ describe 'API info', ->
     parse '''
     1,2,3
     a,b,c
-    ''', (err, data, info) ->
+    ''', (err, records, info) ->
       info.should.eql
         bytes: 11
         columns: false
@@ -37,7 +37,7 @@ describe 'API info', ->
     parse '''
     a,b,c
     1,2,3
-    ''', columns: true, (err, data, info) ->
+    ''', columns: true, (err, records, info) ->
       info.should.eql
         bytes: 11
         comment_lines: 0
@@ -58,7 +58,7 @@ describe 'API info', ->
     d,"e
     ",f
     g,h,i
-    ''', (err, data, info) ->
+    ''', (err, records, info) ->
       info.should.eql
         bytes: 20
         columns: false

@@ -9,7 +9,7 @@ describe 'Options', ->
     FIELD_1,FIELD_2
     20322051544,1979
     28392898392,1974
-    """, options, (err, data) ->
+    """, options, (err) ->
       return next err if err
       (options.quote is false).should.be.true()
       next()

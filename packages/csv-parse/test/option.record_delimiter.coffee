@@ -6,8 +6,8 @@ describe 'Option `record_delimiter`', ->
   describe 'validation', ->
 
     it 'is compatible with buffer size', (next) ->
-      parser = parse record_delimiter: ['::::::'], (err, data) ->
-        data.should.eql [
+      parser = parse record_delimiter: ['::::::'], (err, records) ->
+        records.should.eql [
           [ '1', '2', '3' ]
           [ 'b', 'c', 'd' ]
         ]
@@ -20,9 +20,9 @@ describe 'Option `record_delimiter`', ->
   it 'as a string', (next) ->
     parse """
     ABC,45::DEF,23
-    """, record_delimiter: '::', (err, data) ->
+    """, record_delimiter: '::', (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
       ]
@@ -31,9 +31,9 @@ describe 'Option `record_delimiter`', ->
   it 'as an array', (next) ->
     parse """
     ABC,45::DEF,23\n50,60
-    """, record_delimiter: ['::','\n'], (err, data) ->
+    """, record_delimiter: ['::','\n'], (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
         [ '50', '60']
@@ -49,8 +49,8 @@ describe 'Option `record_delimiter`', ->
     """,
       delimiter: ';'
       record_delimiter: [';\n', '\n']
-    , (err, data) ->
-      data.should.eql [
+    , (err, records) ->
+      records.should.eql [
         [ 'a', 'b' ]
         [ '11', '22' ]
         [ '33', '33' ]
@@ -60,9 +60,9 @@ describe 'Option `record_delimiter`', ->
   it 'handle new line preceded by a quote when record_delimiter is a string', (next) ->
     parse """
     "ABC","45"::"DEF","23"::"GHI","94"
-    """, record_delimiter: '::', (err, data) ->
+    """, record_delimiter: '::', (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
         [ 'GHI','94' ]
@@ -72,9 +72,9 @@ describe 'Option `record_delimiter`', ->
   it 'handle new line preceded by a quote when record_delimiter is an array', (next) ->
     parse """
     "ABC","45"::"DEF","23"::"GHI","94"\r\n"JKL","13"
-    """, record_delimiter: ['::', '\r\n'], (err, data) ->
+    """, record_delimiter: ['::', '\r\n'], (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
         [ 'GHI','94' ]
@@ -83,13 +83,13 @@ describe 'Option `record_delimiter`', ->
       next()
 
   it 'handle chunks of multiple chars when record_delimiter is a string', (next) ->
-    data = []
+    records = []
     parser = parse record_delimiter: '::'
     parser.on 'readable', ->
       while d = parser.read()
-        data.push d
+        records.push d
     parser.on 'end', ->
-      data.should.eql [
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
         [ 'GHI','94' ]
@@ -103,13 +103,13 @@ describe 'Option `record_delimiter`', ->
     parser.end()
 
   it 'handle chunks of multiple chars when record_delimiter is an array', (next) ->
-    data = []
+    records = []
     parser = parse record_delimiter: ['::', '\r']
     parser.on 'readable', ->
       while d = parser.read()
-        data.push d
+        records.push d
     parser.on 'end', ->
-      data.should.eql [
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
         [ 'GHI','94' ]
@@ -125,13 +125,13 @@ describe 'Option `record_delimiter`', ->
     parser.end()
 
   it 'handle chunks of multiple chars without quotes when record_delimiter is a string', (next) ->
-    data = []
+    records = []
     parser = parse record_delimiter: '::'
     parser.on 'readable', ->
       while d = parser.read()
-        data.push d
+        records.push d
     parser.on 'end', ->
-      data.should.eql [
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
         [ 'GHI','94' ]
@@ -145,13 +145,13 @@ describe 'Option `record_delimiter`', ->
     parser.end()
 
   it 'handle chunks of multiple chars without quotes when record_delimiter is an array', (next) ->
-    data = []
+    records = []
     parser = parse record_delimiter: ['::','\n','\r\n']
     parser.on 'readable', ->
       while d = parser.read()
-        data.push d
+        records.push d
     parser.on 'end', ->
-      data.should.eql [
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
         [ 'GHI','94' ]
@@ -170,18 +170,18 @@ describe 'Option `record_delimiter`', ->
       # not sure if the current behavior is right,
       # the new behavior is proposing [['']]
       # which kind of look more appropriate
-      parse "", (err, data) ->
-        data.should.eql [] unless err
+      parse "", (err, records) ->
+        records.should.eql [] unless err
         next err
 
     it 'handle chunks in autodiscovery', (next) ->
-      data = []
+      records = []
       parser = parse()
       parser.on 'readable', ->
         while d = parser.read()
-          data.push d
+          records.push d
       parser.on 'end', ->
-        data.should.eql [
+        records.should.eql [
           [ 'ABC','45' ]
           [ 'DEF','23' ]
           [ 'GHI','94' ]
@@ -195,13 +195,13 @@ describe 'Option `record_delimiter`', ->
       parser.end()
     
     it 'write aggressively', (next) ->
-      data = []
+      records = []
       parser = parse()
       parser.on 'readable', ->
         while(d = parser.read())
-          data.push d
+          records.push d
       parser.on 'end', ->
-        data.should.eql [
+        records.should.eql [
           [ 'abc', '123' ]
           [ 'def', '456' ]
         ]
@@ -212,21 +212,21 @@ describe 'Option `record_delimiter`', ->
       parser.end()
 
     it 'Test line ends with field delimiter and without record delimiter', (next) ->
-      parse '"a","b","c",', delimiter: ',', (err, data) ->
+      parse '"a","b","c",', delimiter: ',', (err, records) ->
         return next err if err
-        data.should.eql [
+        records.should.eql [
           [ 'a','b','c','' ]
         ]
         next()
 
     it 'ensure autodiscovery support chunck between lines', (next) ->
-      data = []
+      records = []
       parser = parse()
       parser.on 'readable', ->
         while d = parser.read()
-          data.push d
+          records.push d
       parser.on 'end', ->
-        data.should.eql [
+        records.should.eql [
           [ 'ABC','45' ]
           [ 'DEF','23' ]
           [ 'GHI','94' ]
@@ -240,8 +240,8 @@ describe 'Option `record_delimiter`', ->
       parser.end()
 
     it 'skip default record delimiters when quoted', (next) ->
-      parser = parse (err, data) ->
-        data.should.eql [
+      parser = parse (err, records) ->
+        records.should.eql [
           ['1', '2', '\n']
           ['3', '4', '']
         ] unless err
@@ -252,8 +252,8 @@ describe 'Option `record_delimiter`', ->
     it 'with skip empty lines', (next) ->
       parse """
       ABC\r\n\r\nDEF\r\n\r\n
-      """, skip_empty_lines: true, (err, data) ->
-        data.should.eql [
+      """, skip_empty_lines: true, (err, records) ->
+        records.should.eql [
           [ 'ABC' ]
           [ 'DEF' ]
         ] unless err

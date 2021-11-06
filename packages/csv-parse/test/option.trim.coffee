@@ -72,13 +72,13 @@ describe 'Option `trim`', ->
       next()
 
   it 'should ignore the whitespaces immediately preceding and following the delimiter', (next) ->
-    data = []
+    records = []
     parser = parse trim: true
     parser.on 'readable', ->
       while d = parser.read()
-        data.push d
+        records.push d
     parser.on 'end', ->
-      data.should.eql [
+      records.should.eql [
         [ 'FIELD 1','FIELD 2','FIELD 3','FIELD 4','FIELD 5','FIELD 6' ]
         [ '20322051544','1979','8.8017226E7','ABC','45','2000-01-01' ]
         [ '28392898392','1974','8.8392926E7','DEF','23','2050-11-27' ]
@@ -92,13 +92,13 @@ describe 'Option `trim`', ->
     parser.end()
 
   it 'should preserve whitespace inside text if there are quotes or not', (next) ->
-    data = []
+    records = []
     parser = parse trim: true
     parser.on 'readable', ->
       while d = parser.read()
-        data.push d
+        records.push d
     parser.on 'end', ->
-      data.should.eql [
+      records.should.eql [
         [ 'FIELD 1','FIELD 2','FIELD 3','FIELD 4','FIELD 5','FIELD 6' ]
         [ '20322051544','1979','8.8017226E7','ABC DEF','45','2000-01-01' ]
         [ '28392898392','1974','8.8392926E7',' ABC DEF ','23','2050-11-27' ]
@@ -116,8 +116,8 @@ describe 'Option `trim`', ->
       delimiter: ','
       columns: true
       trim: true
-    , (err, data) ->
-      data.should.eql [
+    , (err, records) ->
+      records.should.eql [
         { h1: '1', h2: '2', h3: '3', '': '' }
         { h1: '4', h2: '5', h3: '6', '': '' }
       ] unless err
@@ -133,9 +133,9 @@ describe 'Option `trim`', ->
       columns: true
       skip_empty_lines: true
       trim: true
-    , (err, data) ->
+    , (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         { letter: 'a', number: '1' }
         { letter: 'b', number: '2' }
         { letter: 'c', number: '3' }
@@ -180,13 +180,13 @@ describe 'Option `trim`', ->
 describe 'no trim', ->
 
   it 'should preserve surrounding whitespaces', (next) ->
-    data = []
+    records = []
     parser = parse()
     parser.on 'readable', ->
       while d = parser.read()
-        data.push d
+        records.push d
     parser.on 'end', ->
-      data.should.eql [
+      records.should.eql [
         [ '  FIELD 1  ','  FIELD 2 ',' FIELD 3','FIELD 4 ',' FIELD 5','FIELD 6   ' ]
         [ '20322051544','1979  ','8.8017226E7','AB C  ',' 45 ','   2000-01-01' ]
         [ '  28392898392','    1974','8.8392926E7','D EF   ','  23 ',' 2050-11-27' ]

@@ -28,8 +28,8 @@ describe 'Option `encoding`', ->
       parse Buffer.from('x:x', 'utf16le'),
         delimiter: ':'
         encoding: 'utf16le'
-      , (err, data) ->
-        data.should.eql [['x', 'x']] unless err
+      , (err, records) ->
+        records.should.eql [['x', 'x']] unless err
         next err
     
     it 'with escape equals quote', (next) ->
@@ -39,8 +39,8 @@ describe 'Option `encoding`', ->
         """, 'utf16le'
       ),
         encoding: 'utf16le'
-      , (err, data) ->
-        data.should.eql [
+      , (err, records) ->
+        records.should.eql [
           [ 'a', 'b', 'c' ]
           [ '1', '2 "3" 4', '5' ]
         ] unless err
@@ -49,8 +49,8 @@ describe 'Option `encoding`', ->
     it 'null return buffer', (next) ->
       parse Buffer.from( 'a,b\n1,2' ),
         encoding: null
-      , (err, data) ->
-        data.should.eql [
+      , (err, records) ->
+        records.should.eql [
           [ Buffer.from('a'), Buffer.from('b') ]
           [ Buffer.from('1'), Buffer.from('2') ]
         ] unless err
@@ -59,8 +59,8 @@ describe 'Option `encoding`', ->
   describe 'with bom', ->
 
     it 'handle BOM with utf16le', (next) ->
-      parser = parse bom: true, encoding: 'utf16le', (err, data) ->
-        data.should.eql [
+      parser = parse bom: true, encoding: 'utf16le', (err, records) ->
+        records.should.eql [
           ['a', 'b', 'c']
           ['d', 'e', 'f']
         ]
@@ -71,8 +71,8 @@ describe 'Option `encoding`', ->
       parser.end()
 
     it 'is auto detected for utf16le', (next) ->
-      parser = parse bom: true, (err, data) ->
-        data.should.eql [
+      parser = parse bom: true, (err, records) ->
+        records.should.eql [
           ['a', 'b', 'c']
           ['d', 'e', 'f']
         ] unless err

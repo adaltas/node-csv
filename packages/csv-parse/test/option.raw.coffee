@@ -18,9 +18,9 @@ describe 'Option `raw`', ->
     str = """
     "hello""world",LOL
     """
-    parse str, raw: true, escape: '"', (err, data) ->
-      data[0].raw.should.eql str unless err
-      data[0].record.should.eql [ 'hello"world', 'LOL' ] unless err
+    parse str, raw: true, escape: '"', (err, records) ->
+      records[0].raw.should.eql str unless err
+      records[0].record.should.eql [ 'hello"world', 'LOL' ] unless err
       next err
 
   it 'includes line breaks', (next) ->
@@ -28,8 +28,8 @@ describe 'Option `raw`', ->
     hello
     my
     friend
-    """, raw: true, escape: '"', (err, data) ->
-      data[1].raw.should.match /\n$/ unless err
+    """, raw: true, escape: '"', (err, records) ->
+      records[1].raw.should.match /\n$/ unless err
       next err
 
   it 'has the inner line breaks', (next) ->
@@ -38,17 +38,17 @@ describe 'Option `raw`', ->
     a
     r"
     """
-    parse str, raw: true, escape: '"', (err, data) ->
-      data[0].raw.should.eql str unless err
+    parse str, raw: true, escape: '"', (err, records) ->
+      records[0].raw.should.eql str unless err
       next err
 
   it 'preserve columns', (next) ->
     parse """
     name,last name
     Boudreau,Jonathan
-    """, raw: true, columns: ['FIELD_1', false], (err, data) ->
-      data[0].raw.should.eql 'name,last name\n' unless err
-      data[0].record.should.eql FIELD_1: 'name' unless err
+    """, raw: true, columns: ['FIELD_1', false], (err, records) ->
+      records[0].raw.should.eql 'name,last name\n' unless err
+      records[0].record.should.eql FIELD_1: 'name' unless err
       next err
     
 

@@ -14,12 +14,12 @@ describe 'Option `cast`', ->
   describe 'boolean true', ->
 
     it 'all columns', (next) ->
-      parse '1,2,3', cast: true, (err, data) ->
-        data.should.eql [ [1, 2, 3] ]
+      parse '1,2,3', cast: true, (err, records) ->
+        records.should.eql [ [1, 2, 3] ]
         next()
 
     it 'convert numbers', (next) ->
-      data = []
+      records = []
       parser = parse({ cast: true })
       parser.write """
       20322051544,1979,8.8017226E7,8e2,ABC,45,2000-01-01
@@ -27,11 +27,11 @@ describe 'Option `cast`', ->
       """
       parser.on 'readable', ->
         while d = parser.read()
-          data.push d
+          records.push d
       parser.on 'error', (err) ->
         next err
       parser.on 'end', ->
-        data.should.eql [
+        records.should.eql [
           [20322051544, 1979, 8.8017226e7, 800, 'ABC', 45, '2000-01-01']
           [28392898392, 1974, 8.8392926e7, 800, 'DEF', 23, '2050-11-27']
         ]
@@ -39,19 +39,19 @@ describe 'Option `cast`', ->
       parser.end()
 
     it 'ints', (next) ->
-      parse '123a,123,+123,-123,0123,+0123,-0123,', cast: true, (err, data) ->
-        data.should.eql [ ['123a', 123, 123, -123, 123, 123, -123, ''] ]
+      parse '123a,123,+123,-123,0123,+0123,-0123,', cast: true, (err, records) ->
+        records.should.eql [ ['123a', 123, 123, -123, 123, 123, -123, ''] ]
         next()
 
     it 'ints isnt exposed to DOS vulnerabilities, npm security issue 69742', (next) ->
       data = Array.from( length: 3000000 ).map( (x) -> '1' ).join('') + '!'
-      parse data, cast: true, (err, data) ->
-        data[0][0].length.should.eql 3000001
+      parse data, cast: true, (err, records) ->
+        records[0][0].length.should.eql 3000001
         next()
 
     it 'float', (next) ->
-      parse '123a,1.23,0.123,01.23,.123,123.', cast: true, (err, data) ->
-        data.should.eql [ ['123a', 1.23, 0.123, 1.23, 0.123, 123] ]
+      parse '123a,1.23,0.123,01.23,.123,123.', cast: true, (err, records) ->
+        records.should.eql [ ['123a', 1.23, 0.123, 1.23, 0.123, 123] ]
         next()
 
   describe 'function', ->
@@ -226,8 +226,8 @@ describe 'Option `cast`', ->
             when 0 then if context.header then value else Number(value)
             when 2 then value
             else undefined
-      , (err, data) ->
-        data.should.eql [
+      , (err, records) ->
+        records.should.eql [
           'a': 1
           'c': '3'
         ,
@@ -249,7 +249,7 @@ describe 'Option `cast`', ->
             when 1 then if context.header then undefined else value
             when 2 then if context.header then null else value
             when 3 then if context.header then 1234 else value
-      , (err, data) ->
+      , (err) ->
         assert_error err,
           message: 'Invalid column definition: expect a string or a literal object, got 1234 at position 3'
           code: 'CSV_INVALID_COLUMN_DEFINITION'
@@ -266,8 +266,8 @@ describe 'Option `cast`', ->
         cast: true
         columns: true
         columns_duplicates_to_array: true
-      , (err, data) ->
-        data.should.eql [
+      , (err, records) ->
+        records.should.eql [
           'FIELD_1': [0, 2, 3]
         ,
           'FIELD_1': [0, 0, 4]

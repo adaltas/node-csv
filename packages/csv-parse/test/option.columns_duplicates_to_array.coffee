@@ -29,8 +29,8 @@ describe 'Option `columns_duplicates_to_array`', ->
     FIELD_1,FIELD_1
     ABC,DEF
     GHI,JKL
-    """, columns: true, columns_duplicates_to_array: false, (err, data) ->
-      data.should.eql [
+    """, columns: true, columns_duplicates_to_array: false, (err, records) ->
+      records.should.eql [
         'FIELD_1': 'DEF'
       ,
         'FIELD_1': 'JKL'
@@ -42,8 +42,8 @@ describe 'Option `columns_duplicates_to_array`', ->
     FIELD_1,FIELD_1
     ABC,DEF
     GHI,JKL
-    """, columns: true, columns_duplicates_to_array: true, (err, data) ->
-      data.should.eql [
+    """, columns: true, columns_duplicates_to_array: true, (err, records) ->
+      records.should.eql [
         'FIELD_1': ['ABC', 'DEF']
       ,
         'FIELD_1': ['GHI', 'JKL']

@@ -44,8 +44,8 @@ describe 'Option `objname`', ->
     it 'convert a buffer to a column name', (next) ->
       parse '''
       a,b,c
-      ''', objname: Buffer.from('h1'), columns: ['h1', 'h2', 'h3'], (err, data) ->
-        data.should.eql(
+      ''', objname: Buffer.from('h1'), columns: ['h1', 'h2', 'h3'], (err, records) ->
+        records.should.eql(
           'a':
             'h1': 'a'
             'h2': 'b'
@@ -57,9 +57,9 @@ describe 'Option `objname`', ->
       parse '''
       a,b,c
       d,e,f
-      ''', objname: "FIELD_1", columns: ['FIELD_1', 'FIELD_2', 'FIELD_3'], (err, data) ->
+      ''', objname: "FIELD_1", columns: ['FIELD_1', 'FIELD_2', 'FIELD_3'], (err, records) ->
         return next err if err
-        data.should.eql
+        records.should.eql
           'a':
             'FIELD_1': 'a'
             'FIELD_2': 'b'
@@ -75,9 +75,9 @@ describe 'Option `objname`', ->
       FIELD_1,FIELD_2,FIELD_3
       a,b,c
       d,e,f
-      ''', objname: "FIELD_1", columns: true, (err, data) ->
+      ''', objname: "FIELD_1", columns: true, (err, records) ->
         return next err if err
-        data.should.eql
+        records.should.eql
           'a':
             'FIELD_1': 'a'
             'FIELD_2': 'b'
@@ -93,9 +93,9 @@ describe 'Option `objname`', ->
       FIELD_1,FIELD_2,FIELD_3
       a,b,c
       d,e,f
-      ''', objname: 'FIELD_2', columns: true, info: true, (err, data) ->
+      ''', objname: 'FIELD_2', columns: true, info: true, (err, records) ->
         return next err if err
-        data.should.match
+        records.should.match
           'b':
             record:
               'FIELD_1': 'a'
@@ -120,9 +120,9 @@ describe 'Option `objname`', ->
       parse '''
       a,b,c
       d,e,f
-      ''', objname: 1, (err, data) ->
+      ''', objname: 1, (err, records) ->
         return next err if err
-        data.should.eql
+        records.should.eql
           'b': [ 'a', 'b', 'c' ]
           'e': [ 'd', 'e', 'f' ]
         next()
@@ -131,9 +131,9 @@ describe 'Option `objname`', ->
       parse '''
       a,b,c
       d,e,f
-      ''', objname: 1, info: true, (err, data) ->
+      ''', objname: 1, info: true, (err, records) ->
         return next err if err
-        data.should.match
+        records.should.match
           'b':
             record: [ 'a', 'b', 'c' ]
             info:

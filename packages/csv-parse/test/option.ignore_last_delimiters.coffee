@@ -44,8 +44,8 @@ describe 'Option `ignore_last_delimiters`', ->
       a,b,c
       1,2,3,4,5
       11,22,33,44
-      ''', ignore_last_delimiters: true, columns: true, (err, data) ->
-        data.should.eql [
+      ''', ignore_last_delimiters: true, columns: true, (err, records) ->
+        records.should.eql [
           {a: '1', b: '2', c: '3,4,5'}
           {a: '11', b: '22', c: '33,44'}
         ] unless err
@@ -55,8 +55,8 @@ describe 'Option `ignore_last_delimiters`', ->
       parse '''
       1,2,3,4,5
       11,22,33,44
-      ''', ignore_last_delimiters: 3, (err, data) ->
-        data.should.eql [
+      ''', ignore_last_delimiters: 3, (err, records) ->
+        records.should.eql [
           ['1','2','3,4,5']
           ['11','22','33,44']
         ] unless err

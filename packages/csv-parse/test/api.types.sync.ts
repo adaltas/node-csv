@@ -18,8 +18,8 @@ describe('API Types', () => {
   
   it('return records', () => {
     try {
-      const data: object = parse("")
-      typeof data
+      const records: object = parse("")
+      typeof records
     }catch (err){
       if (err instanceof CsvError){
         err.message

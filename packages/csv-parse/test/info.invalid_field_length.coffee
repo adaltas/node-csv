@@ -11,8 +11,8 @@ describe 'info invalid_field_length', ->
     i,j
     ''',
       relax_column_count: true
-    , (err, data, {invalid_field_length}) ->
-      data.length.should.eql 4
+    , (err, records, {invalid_field_length}) ->
+      records.length.should.eql 4
       invalid_field_length.should.eql 2
       next()
 

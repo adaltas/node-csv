@@ -44,7 +44,7 @@ describe 'API events', ->
      x  " a b",x "   c d"
     x " e f", x  "   g h"
     '''
-    parser = parse (err, data) ->
+    parser = parse (err) ->
       assert_error err,
         message: 'Invalid Opening Quote: a quote is found inside a field at line 1'
         code: 'INVALID_OPENING_QUOTE'

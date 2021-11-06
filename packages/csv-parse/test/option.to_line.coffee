@@ -32,8 +32,8 @@ describe 'Option `to_line`', ->
     1,2,3
     4,5,6
     7,8,9
-    """, to_line: 2, (err, data) ->
-      data.should.eql [
+    """, to_line: 2, (err, records) ->
+      records.should.eql [
         [ '1','2','3' ]
         [ '4','5','6' ]
       ] unless err
@@ -45,8 +45,8 @@ describe 'Option `to_line`', ->
     1,2,3
     4,5,6
     7,8,9
-    """, columns: true, to_line: 3, (err, data) ->
-      data.should.eql [
+    """, columns: true, to_line: 3, (err, records) ->
+      records.should.eql [
         {a: '1',b: '2',c: '3'}
         {a: '4',b: '5',c: '6'}
       ] unless err
@@ -61,8 +61,8 @@ describe 'Option `to_line`', ->
     6"
     7,8,"
     9"
-    """, to_line: 5, (err, data) ->
-      data.should.eql [
+    """, to_line: 5, (err, records) ->
+      records.should.eql [
         [ '1','2','\n\n3' ]
         [ '4','5','\n6' ]
       ] unless err
@@ -77,8 +77,8 @@ describe 'Option `to_line`', ->
     6"
     7,8,"
     9"
-    """, to_line: 6, (err, data) ->
-      data.should.eql [
+    """, to_line: 6, (err, records) ->
+      records.should.eql [
         [ '1','2','\n\n3' ]
         [ '4','5','\n6' ]
       ] unless err
@@ -90,8 +90,8 @@ describe 'Option `to_line`', ->
     3:d,e,f:4,5,
     6:g,h,i:7,8,
     9
-    """, to_line: 2, record_delimiter: ':', (err, data) ->
-      data.should.eql [
+    """, to_line: 2, record_delimiter: ':', (err, records) ->
+      records.should.eql [
         [ 'a','b','c' ]
         [ '1','2','\n3' ]
         [ 'd','e','f' ]

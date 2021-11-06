@@ -27,8 +27,8 @@ describe 'Option `escape`', ->
       # ).should.throw 'Invalid Option Length: escape must be one character, got 3'
 
     it 'is compatible with buffer size', (next) ->
-      parser = parse escape: ':::', (err, data) ->
-        data.should.eql [
+      parser = parse escape: ':::', (err, records) ->
+        records.should.eql [
           [ '1', '2"2', '3' ]
           [ 'b', 'c', 'd' ]
         ]
@@ -45,9 +45,9 @@ describe 'Option `escape`', ->
       parse '''
       a"b
       '1"2'
-      ''', escape: null, quote: '\'', (err, data) ->
+      ''', escape: null, quote: '\'', (err, records) ->
         return next err if err
-        data.should.eql [
+        records.should.eql [
           [ 'a"b' ],[ '1"2' ]
         ]
         next()
@@ -58,9 +58,9 @@ describe 'Option `escape`', ->
       parse '''
       aa,"b1""b2","c""d""e"
       "f""g",h,"i1""i2"
-      ''', escape: '"', (err, data) ->
+      ''', escape: '"', (err, records) ->
         return next err if err
-        data.should.eql [
+        records.should.eql [
           [ 'aa','b1"b2','c"d"e' ]
           [ 'f"g','h','i1"i2' ]
         ]
@@ -70,9 +70,9 @@ describe 'Option `escape`', ->
       parse '''
       aa,$$b1$$$$b2$$,$$c$$$$d$$$$e$$
       $$f$$$$g$$,h,$$i1$$$$i2$$
-      ''', escape: '$$', quote: '$$', (err, data) ->
+      ''', escape: '$$', quote: '$$', (err, records) ->
         return next err if err
-        data.should.eql [
+        records.should.eql [
           [ 'aa','b1$$b2','c$$d$$e' ]
           [ 'f$$g','h','i1$$i2' ]
         ]
@@ -84,9 +84,9 @@ describe 'Option `escape`', ->
       parse '''
       aa,"b1\\"b2","c\\"d\\"e"
       "f\\"g",h,"i1\\"i2"
-      ''', escape: '\\', (err, data) ->
+      ''', escape: '\\', (err, records) ->
         return next err if err
-        data.should.eql [
+        records.should.eql [
           [ 'aa','b1"b2','c"d"e' ]
           [ 'f"g','h','i1"i2' ]
         ]
@@ -96,9 +96,9 @@ describe 'Option `escape`', ->
       parse '''
       aa,"b1$$"b2","c$$"d$$"e"
       "f$$"g",h,"i1$$"i2"
-      ''', escape: '$$', (err, data) ->
+      ''', escape: '$$', (err, records) ->
         return next err if err
-        data.should.eql [
+        records.should.eql [
           [ 'aa','b1"b2','c"d"e' ]
           [ 'f"g','h','i1"i2' ]
         ]
@@ -108,9 +108,9 @@ describe 'Option `escape`', ->
       parse '''
       aa,"b1\\\\b2","c\\\\d\\\\e"
       "f\\\\g",h,"i1\\\\i2"
-      ''', escape: '\\', (err, data) ->
+      ''', escape: '\\', (err, records) ->
         return next err if err
-        data.should.eql [
+        records.should.eql [
           [ 'aa','b1\\b2','c\\d\\e' ]
           [ 'f\\g','h','i1\\i2' ]
         ]
@@ -120,9 +120,9 @@ describe 'Option `escape`', ->
       parse '''
       aa,b1\\\\b2,c\\\\d\\\\e
       f\\\\g,h,i1\\\\i2
-      ''', escape: '\\', (err, data) ->
+      ''', escape: '\\', (err, records) ->
         return next err if err
-        data.should.eql [
+        records.should.eql [
           [ 'aa','b1\\\\b2','c\\\\d\\\\e' ]
           [ 'f\\\\g','h','i1\\\\i2' ]
         ]
@@ -131,21 +131,21 @@ describe 'Option `escape`', ->
     it 'does not apply to delimiter', (next) ->
       parse '''
       aa\\,bb
-      ''', escape: '\\', (err, data) ->
+      ''', escape: '\\', (err, records) ->
         return next err if err
-        data.should.eql [
+        records.should.eql [
           [ 'aa\\','bb' ]
         ]
         next()
 
     it 'handle non continuous chunks', (next) ->
-      data = []
+      records = []
       parser = parse escape: '\\'
       parser.on 'readable', ->
         while d = parser.read()
-          data.push d
+          records.push d
       parser.on 'end', ->
-        data.should.eql [
+        records.should.eql [
           [ 'abc " def' ]
         ]
         next()

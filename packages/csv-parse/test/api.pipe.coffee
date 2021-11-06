@@ -9,16 +9,16 @@ describe 'API pipe', ->
   it 'piping in and reading out', (next) ->
     finished = false
     parser = parse()
-    data = []
+    records = []
     generator = generate length: 2, seed: 1, columns: 2, fixed_size: true
     parser.on 'readable', ->
       while d = parser.read()
-        data.push d
+        records.push d
     parser.on 'end', ->
       finished = true
     parser.on 'end', ->
       finished.should.be.ok
-      data.should.eql [
+      records.should.eql [
         [ 'OMH', 'ONKCHhJmjadoA' ]
         [ 'D', 'GeACHiN' ]
       ]
@@ -27,8 +27,8 @@ describe 'API pipe', ->
 
   it 'piping in and callback out', (next) ->
     generator = generate length: 2, seed: 1, columns: 2, fixed_size: true
-    generator.pipe parse (err, data) ->
-      data.should.eql [
+    generator.pipe parse (err, records) ->
+      records.should.eql [
         [ 'OMH', 'ONKCHhJmjadoA' ]
         [ 'D', 'GeACHiN' ]
       ]

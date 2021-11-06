@@ -30,9 +30,9 @@ describe 'Option `to`', ->
     1,2,3
     4,5,6
     7,8,9
-    """, to: 2, (err, data) ->
+    """, to: 2, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ '1','2','3' ]
         [ '4','5','6' ]
       ]
@@ -44,9 +44,9 @@ describe 'Option `to`', ->
     1,2,3
     4,5,6
     7,8,9
-    """, columns: true, to: 2, (err, data) ->
+    """, columns: true, to: 2, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         {a:'1',b:'2',c:'3'}
         {a:'4',b:'5',c:'6'}
       ]
@@ -57,9 +57,9 @@ describe 'Option `to`', ->
     1,2,3
     4,5,6
     7,8
-    """, to: 2, (err, data) ->
+    """, to: 2, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ '1','2','3' ]
         [ '4','5','6' ]
       ]
@@ -73,8 +73,8 @@ describe 'Option `to`', ->
     6"
     7,8,"
     9"
-    """, to: 2, (err, data) ->
-      data.should.eql [
+    """, to: 2, (err, records) ->
+      records.should.eql [
         [ '1','2','\n3' ]
         [ '4','5','\n6' ]
       ] unless err
@@ -83,8 +83,8 @@ describe 'Option `to`', ->
   it 'not influenced by record delimiter', (next) ->
     parse """
     1,2,3:4,5,6:7,8,9
-    """, to: 2, record_delimiter: ':', (err, data) ->
-      data.should.eql [
+    """, to: 2, record_delimiter: ':', (err, records) ->
+      records.should.eql [
         [ '1','2','3' ]
         [ '4','5','6' ]
       ] unless err

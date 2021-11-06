@@ -9,8 +9,8 @@ describe 'Option `rtrim`', ->
     parse """
     a b ,c d 
     e f ,g h 
-    """, quote: "'", escape: "'", trim: true, (err, data) ->
-      data.should.eql [['a b', 'c d'],['e f', 'g h']] unless err
+    """, quote: "'", escape: "'", trim: true, (err, records) ->
+      records.should.eql [['a b', 'c d'],['e f', 'g h']] unless err
       next err
     # coffeelint: enable=no_trailing_whitespace
 
@@ -21,8 +21,8 @@ describe 'Option `rtrim`', ->
     'c' ,'d' 
     '''
     # coffeelint: enable=no_trailing_whitespace
-    parser = parse quote: "'", escape: "'", trim: true, (err, data) ->
-      data.should.eql [["a", "b"],["c", "d"]] unless err
+    parser = parse quote: "'", escape: "'", trim: true, (err, records) ->
+      records.should.eql [["a", "b"],["c", "d"]] unless err
       next err
     parser.write chr for chr in data
     parser.end()
@@ -36,8 +36,8 @@ describe 'Option `rtrim`', ->
     'a''' ,'b'''
     'c''','d''' 
     'e''','f''' 
-    """, quote: "'", escape: "'", trim: true, (err, data) ->
-      data.should.eql [["a'", "b'"],["c'", "d'"],["e'", "f'"]] unless err
+    """, quote: "'", escape: "'", trim: true, (err, records) ->
+      records.should.eql [["a'", "b'"],["c'", "d'"],["e'", "f'"]] unless err
       next err
     # coffeelint: enable=no_trailing_whitespace
   
@@ -48,8 +48,8 @@ describe 'Option `rtrim`', ->
     "e f " ,"g h   "   
     '''
     # coffeelint: enable=no_trailing_whitespace
-    parser = parse rtrim: true, (err, data) ->
-      data.should.eql [['a b ', 'c d   '],['e f ', 'g h   ']] unless err
+    parser = parse rtrim: true, (err, records) ->
+      records.should.eql [['a b ', 'c d   '],['e f ', 'g h   ']] unless err
       next err
     parser.write chr for chr in data
     parser.end()
@@ -59,8 +59,8 @@ describe 'Option `rtrim`', ->
     "a\tb\t"\t\t\t,"c\td\t\t\t"\t
     "e\tf\t"\t,"g\th\t\t\t"\t\t\t
     '''
-    parser = parse rtrim: true, (err, data) ->
-      data.should.eql [['a\tb\t', 'c\td\t\t\t'],['e\tf\t', 'g\th\t\t\t']] unless err
+    parser = parse rtrim: true, (err, records) ->
+      records.should.eql [['a\tb\t', 'c\td\t\t\t'],['e\tf\t', 'g\th\t\t\t']] unless err
       next err
     parser.write chr for chr in data
     parser.end()
@@ -70,7 +70,7 @@ describe 'Option `rtrim`', ->
       '"a b " x  ,"c d   " x'
       '"e f " x,"g h   "  x '
     ].join '\n'
-    parser = parse rtrim: true, (err, data) ->
+    parser = parse rtrim: true, (err) ->
       assert_error err,
         message: 'Invalid Closing Quote: found non trimable byte after quote at line 1'
         code: 'CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE'

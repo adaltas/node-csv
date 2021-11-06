@@ -74,8 +74,8 @@ describe('API Types', () => {
     
     it('return records', () => {
       try {
-        const data: object = parse_sync("")
-        typeof data
+        const records: object = parse_sync("")
+        typeof records
       }catch (err){
         if (err instanceof CsvError){
           err.message

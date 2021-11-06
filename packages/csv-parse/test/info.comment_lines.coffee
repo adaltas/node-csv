@@ -7,7 +7,7 @@ describe 'info comment_lines', ->
     parse '''
     a,b,c
     d,e,f
-    ''', comment: '#', (err, data, {comment_lines}) ->
+    ''', comment: '#', (err, records, {comment_lines}) ->
       comment_lines.should.eql 0 unless err
       next err
 
@@ -16,17 +16,17 @@ describe 'info comment_lines', ->
     a,b,c
     d,e,f # comment
     h,i,j
-    ''', comment: '#', (err, data, {comment_lines}) ->
+    ''', comment: '#', (err, records, {comment_lines}) ->
       comment_lines.should.eql 0 unless err
       next err
 
   it 'single comment line', (next) ->
-    parse '# comment', comment: '#', (err, data, {comment_lines}) ->
+    parse '# comment', comment: '#', (err, records, {comment_lines}) ->
       comment_lines.should.eql 1 unless err
       next err
 
   it 'single comment line with empty field', (next) ->
-    parse '""# comment', comment: '#', (err, data, {comment_lines}) ->
+    parse '""# comment', comment: '#', (err, records, {comment_lines}) ->
       comment_lines.should.eql 0 unless err
       next err
 
@@ -36,7 +36,7 @@ describe 'info comment_lines', ->
     # comment 1
     # comment 2
     d,e,f
-    ''', comment: '#', skip_empty_lines: true, (err, data, {comment_lines}) ->
+    ''', comment: '#', skip_empty_lines: true, (err, records, {comment_lines}) ->
       comment_lines.should.eql 2 unless err
       next err
 
@@ -45,7 +45,7 @@ describe 'info comment_lines', ->
     a,b,c
     d,e,f
     # comment
-    ''', comment: '#', (err, data, {comment_lines}) ->
+    ''', comment: '#', (err, records, {comment_lines}) ->
       comment_lines.should.eql 1 unless err
       next err
 
@@ -54,6 +54,6 @@ describe 'info comment_lines', ->
     # comment
     a,b,c
     d,e,f
-    ''', comment: '#', (err, data, {comment_lines}) ->
+    ''', comment: '#', (err, records, {comment_lines}) ->
       comment_lines.should.eql 1 unless err
       next err

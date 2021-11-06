@@ -20,9 +20,8 @@ describe 'Option `skip_empty_lines`', ->
     it 'dont skip by default', (next) ->
       parse '''
       ABC\n\nDEF
-      ''', (err, data) ->
-        
-        data.should.eql [
+      ''', (err, records) ->
+        records.should.eql [
           [ 'ABC' ]
           [ '' ]
           [ 'DEF' ]
@@ -34,8 +33,8 @@ describe 'Option `skip_empty_lines`', ->
     it 'skip', (next) ->
       parse '''
       ABC\n\nDEF
-      ''', skip_empty_lines: true, (err, data) ->
-        data.should.eql [
+      ''', skip_empty_lines: true, (err, records) ->
+        records.should.eql [
           [ 'ABC' ]
           [ 'DEF' ]
         ] unless err
@@ -44,8 +43,8 @@ describe 'Option `skip_empty_lines`', ->
     it 'quoted fields are not interpreted as empty', (next) ->
       parse '''
       ABC\n""\nDEF
-      ''', skip_empty_lines: true, (err, data) ->
-        data.should.eql [
+      ''', skip_empty_lines: true, (err, records) ->
+        records.should.eql [
           [ 'ABC' ]
           [ '' ]
           [ 'DEF' ]
@@ -53,7 +52,7 @@ describe 'Option `skip_empty_lines`', ->
         next err
 
     it 'skip respect parser.read', (next) ->
-      data = []
+      records = []
       parser = parse skip_empty_lines: true
       parser.write '''
       
@@ -64,11 +63,11 @@ describe 'Option `skip_empty_lines`', ->
       '''
       parser.on 'readable', ->
         while(d = parser.read())
-          data.push d
+          records.push d
       parser.on 'error', (err) ->
         next err
       parser.on 'end', ->
-        data.should.eql [
+        records.should.eql [
           ['20322051544', '1979', '8.8017226E7', 'ABC', '45', '2000-01-01']
           ['28392898392', '1974', '8.8392926E7', 'DEF', '23', '2050-11-27']
         ]

@@ -32,8 +32,8 @@ describe 'Option `from_line`', ->
     1,2,3
     4,5,6
     7,8,9
-    """, from_line: 3, (err, data) ->
-      data.should.eql [
+    """, from_line: 3, (err, records) ->
+      records.should.eql [
         [ '7','8','9' ]
       ] unless err
       next err
@@ -42,8 +42,8 @@ describe 'Option `from_line`', ->
     parse """
     a
     1,2,3
-    """, from_line: 2, (err, data) ->
-      data.should.eql [
+    """, from_line: 2, (err, records) ->
+      records.should.eql [
         ['1', '2', '3']
       ] unless err
       next err
@@ -57,8 +57,8 @@ describe 'Option `from_line`', ->
     6"
     7,8,"
     9"
-    """, from_line: 4, (err, data) ->
-      data.should.eql [
+    """, from_line: 4, (err, records) ->
+      records.should.eql [
         [ '4','5','\n6' ]
         [ '7','8','\n9' ]
       ] unless err
@@ -73,8 +73,8 @@ describe 'Option `from_line`', ->
     6"
     7,8,"
     9"
-    """, from_line: 2, (err, data) ->
-      data.should.eql [
+    """, from_line: 2, (err, records) ->
+      records.should.eql [
         [ '4','5','\n6' ]
         [ '7','8','\n9' ]
       ] unless err
@@ -86,8 +86,8 @@ describe 'Option `from_line`', ->
     3:d,e,f:4,5,
     6:g,h,i:7,8,
     9
-    """, from_line: 3, record_delimiter: ':', (err, data) ->
-      data.should.eql [
+    """, from_line: 3, record_delimiter: ':', (err, records) ->
+      records.should.eql [
         [ 'g','h','i' ]
         [ '7','8','\n9' ]
       ] unless err
@@ -102,8 +102,8 @@ describe 'Option `from_line`', ->
     4,5,6
     
     7,8,9
-    """, from_line: 5, skip_empty_lines: true, (err, data) ->
-      data.should.eql [
+    """, from_line: 5, skip_empty_lines: true, (err, records) ->
+      records.should.eql [
         ['4', '5', '6']
         ['7', '8', '9']
       ] unless err
@@ -112,8 +112,8 @@ describe 'Option `from_line`', ->
   it 'handle multiple bytes record delimiters', (next) ->
     parse """
     a,b\r\nc,d\r\ne,f
-    """, from_line: 2, (err, data) ->
-      data.should.eql [
+    """, from_line: 2, (err, records) ->
+      records.should.eql [
         [ 'c','d' ]
         [ 'e','f' ]
       ] unless err
@@ -125,6 +125,6 @@ describe 'Option `from_line`', ->
     x,y,z
     a,b,c
     4,5,6
-    """, from_line: 3, columns: true, (err, data) ->
-      data.should.eql [{ a: '4', b: '5', c: '6' }] unless err
+    """, from_line: 3, columns: true, (err, records) ->
+      records.should.eql [{ a: '4', b: '5', c: '6' }] unless err
       next err

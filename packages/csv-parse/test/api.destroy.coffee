@@ -30,7 +30,7 @@ describe 'API destroy', ->
       return next err if err
       parser = parse()
       parser.on 'readable', ->
-        while data = this.read()
+        while record = this.read()
           parser.destroy(Error 'Catch me')
       parser.on 'error', (err) ->
         err.message.should.eql 'Catch me'
@@ -46,7 +46,7 @@ describe 'API destroy', ->
     # csv-generate emit data synchronously, it cant detect error on time
     parser = parse()
     parser.on 'readable', ->
-      while data = this.read()
+      while record = this.read()
         parser.destroy(Error 'Catch me')
     parser.on 'error', (err) ->
       err.message.should.eql 'Catch me'

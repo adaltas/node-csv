@@ -4,7 +4,7 @@ import { parse } from '../lib/index.js'
 describe 'info empty_lines', ->
 
   it 'no lines', (next) ->
-    parse '', (err, data, {empty_lines}) ->
+    parse '', (err, records, {empty_lines}) ->
       empty_lines.should.eql 0
       next()
 
@@ -12,7 +12,7 @@ describe 'info empty_lines', ->
     parse '''
     a,b,c
     d,e,f
-    ''', (err, data, {empty_lines}) ->
+    ''', (err, records, {empty_lines}) ->
       empty_lines.should.eql 0
       next()
 
@@ -21,7 +21,7 @@ describe 'info empty_lines', ->
     a,b,c
     
     d,e,f
-    ''', skip_empty_lines: true, (err, data, {empty_lines}) ->
+    ''', skip_empty_lines: true, (err, records, {empty_lines}) ->
       empty_lines.should.eql 1
       next()
 
@@ -30,7 +30,7 @@ describe 'info empty_lines', ->
     a,b,c
     d,e,f
     
-    ''', (err, data, {empty_lines}) ->
+    ''', (err, records, {empty_lines}) ->
       empty_lines.should.eql 1
       next()
 
@@ -39,7 +39,7 @@ describe 'info empty_lines', ->
     
     a,b,c
     d,e,f
-    ''', (err, data, {empty_lines}) ->
+    ''', (err, records, {empty_lines}) ->
       err.message.should.eql 'Invalid Record Length: expect 1, got 3 on line 2'
       empty_lines.should.eql 0
       next()
@@ -49,6 +49,6 @@ describe 'info empty_lines', ->
     a,b,c
     d,e,f
     # comment
-    ''', (err, data, {empty_lines}) ->
+    ''', (err, records, {empty_lines}) ->
       empty_lines.should.eql 0
       next()

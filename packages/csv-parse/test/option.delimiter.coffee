@@ -38,8 +38,8 @@ describe 'Option `delimiter`', ->
       code: 'CSV_INVALID_OPTION_DELIMITER'
   
   it 'is compatible with buffer size', (next) ->
-    parser = parse delimiter: [':::'], (err, data) ->
-      data.should.eql [
+    parser = parse delimiter: [':::'], (err, records) ->
+      records.should.eql [
         [ '1', '2', '3' ]
         [ 'b', 'c', 'd' ]
       ]
@@ -54,9 +54,9 @@ describe 'Option `delimiter`', ->
     parse """
     abc,,123,
     ,def,,
-    """, (err, data) ->
+    """, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'abc','','123','']
         [ '','def','','']
       ]
@@ -66,9 +66,9 @@ describe 'Option `delimiter`', ->
     parse """
     abc\t\tde\tf\t
     \thij\tklm\t\t
-    """, delimiter: '\t', (err, data) ->
+    """, delimiter: '\t', (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'abc','','de','f','']
         [ '','hij','klm','','']
       ]
@@ -78,9 +78,9 @@ describe 'Option `delimiter`', ->
     parse """
     !#
     !#
-    """, delimiter: '!#', (err, data) ->
+    """, delimiter: '!#', (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ '', '']
         [ '', '']
       ]
@@ -90,9 +90,9 @@ describe 'Option `delimiter`', ->
     parse """
     20322051544!#!#8.8017226E7!#45!#
     !#1974!#8.8392926E7!#!#
-    """, delimiter: '!#', (err, data) ->
+    """, delimiter: '!#', (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ '20322051544','','8.8017226E7','45','']
         [ '','1974','8.8392926E7','','']
       ]
@@ -102,9 +102,9 @@ describe 'Option `delimiter`', ->
     parse """
     abc,,123,
     ,def,,
-    """, delimiter: [','], (err, data) ->
+    """, delimiter: [','], (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'abc','','123','']
         [ '','def','','']
       ]
@@ -114,9 +114,9 @@ describe 'Option `delimiter`', ->
     parse """
     !#
     !#
-    """, delimiter: ['!#'], (err, data) ->
+    """, delimiter: ['!#'], (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ '', '']
         [ '', '']
       ]
@@ -126,9 +126,9 @@ describe 'Option `delimiter`', ->
     parse """
     abc,;;123;;
     ;;def;;,
-    """, delimiter: [',', ';;'], (err, data) ->
+    """, delimiter: [',', ';;'], (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'abc','','123','']
         [ '','def','','']
       ]

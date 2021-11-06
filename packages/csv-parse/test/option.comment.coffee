@@ -20,13 +20,13 @@ describe 'Option `comment`', ->
       code: 'CSV_INVALID_OPTION_COMMENT'
 
   it 'single comment line', (next) ->
-    parse '# comment', comment: '#', (err, data) ->
-      data.length.should.eql 0
+    parse '# comment', comment: '#', (err, records) ->
+      records.length.should.eql 0
       next err
 
   it 'single comment line with empty field', (next) ->
-    parse '""# comment', comment: '#', (err, data) ->
-      data.should.eql [['']]
+    parse '""# comment', comment: '#', (err, records) ->
+      records.should.eql [['']]
       next err
 
   it 'skip line starting by single comment char', (next) ->
@@ -37,8 +37,8 @@ describe 'Option `comment`', ->
     # and this
     "GHI","94"
     # as well as that
-    """, comment: '#', (err, data) ->
-      data.should.eql [
+    """, comment: '#', (err, records) ->
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'DEF','23' ]
         [ 'GHI','94' ]
@@ -50,8 +50,8 @@ describe 'Option `comment`', ->
       "ABC","45"
       "D#noEF","23"#yes
       "GHI","94"
-      """, comment: '#', (err, data) ->
-      data.should.eql [
+      """, comment: '#', (err, records) ->
+      records.should.eql [
         [ 'ABC','45' ]
         [ 'D#noEF','23' ]
         [ 'GHI','94' ]
@@ -62,8 +62,8 @@ describe 'Option `comment`', ->
     parse """
     abc,#,def
     1,2,3
-    """, comment: '', (err, data) ->
-      data.should.eql [
+    """, comment: '', (err, records) ->
+      records.should.eql [
         [ 'abc','#','def' ]
         [ '1','2', '3' ]
       ]
@@ -73,16 +73,16 @@ describe 'Option `comment`', ->
     parse """
     abc,#,def
     1,2,3
-    """, (err, data) ->
-      data.should.eql [
+    """, (err, records) ->
+      records.should.eql [
         [ 'abc','#','def' ]
         [ '1','2', '3' ]
       ]
       next()
   
   it 'accept multiple characters', (next) ->
-    parser = parse comment: '//', (err, data) ->
-      data.should.eql [
+    parser = parse comment: '//', (err, records) ->
+      records.should.eql [
         [ 'abc','def' ]
         [ '1','2' ]
       ]

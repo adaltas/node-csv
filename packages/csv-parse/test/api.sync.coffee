@@ -4,27 +4,27 @@ import { parse } from '../lib/sync.js'
 describe 'API sync', ->
   
   it 'take a string and return records', ->
-    data = parse 'field_1,field_2\nvalue 1,value 2'
-    data.should.eql [ [ 'field_1', 'field_2' ], [ 'value 1', 'value 2' ] ]
+    records = parse 'field_1,field_2\nvalue 1,value 2'
+    records.should.eql [ [ 'field_1', 'field_2' ], [ 'value 1', 'value 2' ] ]
   
   it 'take a buffer and return records', ->
-    data = parse Buffer.from 'field_1,field_2\nvalue 1,value 2'
-    data.should.eql [ [ 'field_1', 'field_2' ], [ 'value 1', 'value 2' ] ]
+    records = parse Buffer.from 'field_1,field_2\nvalue 1,value 2'
+    records.should.eql [ [ 'field_1', 'field_2' ], [ 'value 1', 'value 2' ] ]
   
   it 'honors columns option', ->
-    data = parse 'field_1,field_2\nvalue 1,value 2', columns: true
-    data.should.eql [ 'field_1': 'value 1', 'field_2': 'value 2' ]
+    records = parse 'field_1,field_2\nvalue 1,value 2', columns: true
+    records.should.eql [ 'field_1': 'value 1', 'field_2': 'value 2' ]
   
   it 'honors objname option', ->
-    data = parse 'field_1,field_2\nname 1,value 1\nname 2,value 2', objname: 'field_1', columns: true
-    data.should.eql {
+    records = parse 'field_1,field_2\nname 1,value 1\nname 2,value 2', objname: 'field_1', columns: true
+    records.should.eql {
       'name 1': {'field_1': 'name 1', 'field_2': 'value 1'},
       'name 2': {'field_1': 'name 2', 'field_2': 'value 2'}
     }
   
   it 'honors to_line', ->
-    data = parse '1\n2\n3\n4', to_line: 2
-    data.should.eql [ [ '1' ], [ '2' ] ]
+    records = parse '1\n2\n3\n4', to_line: 2
+    records.should.eql [ [ '1' ], [ '2' ] ]
   
   it 'catch errors', ->
     try

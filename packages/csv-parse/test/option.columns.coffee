@@ -35,8 +35,8 @@ describe 'Option `columns`', ->
       parse """
       1,2,3,4
       5,6,7,8
-      """, columns: ["a", false, "c", false], (err, data) ->
-        data.should.eql [
+      """, columns: ["a", false, "c", false], (err, records) ->
+        records.should.eql [
           { a: "1", c: "3" }
           { a: "5", c: "7" }
         ] unless err
@@ -47,7 +47,7 @@ describe 'Option `columns`', ->
       parse """
       1,2,3,4
       5,6,7,8
-      """, columns: columns, (err, data) ->
+      """, columns: columns, (err) ->
         columns.should.eql ["a", false, "c", false] unless err
         next err
   
@@ -58,8 +58,8 @@ describe 'Option `columns`', ->
       a,b,a,c
       1,2,3,4
       5,6,7,8
-      ''', columns: true, (err, data) ->
-        data.should.eql [
+      ''', columns: true, (err, records) ->
+        records.should.eql [
           {a: '3', b: '2', c: '4'}
           {a: '7', b: '6', c: '8'}
         ] unless err
@@ -70,8 +70,8 @@ describe 'Option `columns`', ->
       parse '''
       1,2,3,4
       5,6,7,8
-      ''', columns: columns, (err, data) ->
-        data.should.eql [
+      ''', columns: columns, (err, records) ->
+        records.should.eql [
           {a: '3', b: '2', c: '4'}
           {a: '7', b: '6', c: '8'}
         ] unless err
@@ -82,8 +82,8 @@ describe 'Option `columns`', ->
       ,,,
       1,2,3,4
       5,6,7,8
-      ''', columns: true, (err, data) ->
-        data.should.eql [
+      ''', columns: true, (err, records) ->
+        records.should.eql [
           {'': '4'}
           {'': '8'}
         ] unless err
@@ -96,8 +96,8 @@ describe 'Option `columns`', ->
       FIELD_1,FIELD_2,FIELD_3,FIELD_4,FIELD_5,FIELD_6
       20322051544,1979,8.8017226E7,ABC,45,2000-01-01
       28392898392,1974,8.8392926E7,DEF,23,2050-11-27
-      """, columns: true, (err, data) ->
-        data.should.eql [
+      """, columns: true, (err, records) ->
+        records.should.eql [
           'FIELD_1': '20322051544'
           'FIELD_2': '1979'
           'FIELD_3': '8.8017226E7'
@@ -118,8 +118,8 @@ describe 'Option `columns`', ->
       parse """
       a,b,c
       d,e,f
-      """, columns: false, (err, data) ->
-        data.should.eql [
+      """, columns: false, (err, records) ->
+        records.should.eql [
           ['a', 'b', 'c']
           ['d', 'e', 'f']
         ] unless err
@@ -130,8 +130,8 @@ describe 'Option `columns`', ->
       
       a,b,c
       1,2,3
-      """, columns: true, skip_empty_lines: true, (err, data) ->
-        data.should.eql [
+      """, columns: true, skip_empty_lines: true, (err, records) ->
+        records.should.eql [
           {a: "1", b: "2", c: "3"}
         ] unless err
         next err
@@ -141,8 +141,8 @@ describe 'Option `columns`', ->
       ,,
       a,b,c
       1,2,3
-      """, columns: true, skip_lines_with_empty_values: true, (err, data) ->
-        data.should.eql [
+      """, columns: true, skip_lines_with_empty_values: true, (err, records) ->
+        records.should.eql [
           {a: "1", b: "2", c: "3"}
         ] unless err
         next err
@@ -153,8 +153,8 @@ describe 'Option `columns`', ->
       parse """
       20322051544,1979,8.8017226E7,ABC,45,2000-01-01
       28392898392,1974,8.8392926E7,DEF,23,2050-11-27
-      """, columns: ["FIELD_1", "FIELD_2", "FIELD_3", "FIELD_4", "FIELD_5", "FIELD_6"], (err, data) ->
-        data.should.eql [
+      """, columns: ["FIELD_1", "FIELD_2", "FIELD_3", "FIELD_4", "FIELD_5", "FIELD_6"], (err, records) ->
+        records.should.eql [
           "FIELD_1":"20322051544"
           "FIELD_2":"1979"
           "FIELD_3":"8.8017226E7"
@@ -176,7 +176,7 @@ describe 'Option `columns`', ->
       1,2,3
       4,5,6,x
       7,8,9,x
-      """, columns: ["a", "b", "c", "d"], (err, data) ->
+      """, columns: ["a", "b", "c", "d"], (err) ->
         assert_error err,
           message: 'Invalid Record Length: columns length is 4, got 3 on line 1'
           code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
@@ -187,7 +187,7 @@ describe 'Option `columns`', ->
       1,2,3,x
       4,5,6,x
       7,8,9
-      """, columns: ["a", "b", "c", "d"], (err, data) ->
+      """, columns: ["a", "b", "c", "d"], (err) ->
         assert_error err,
           message: 'Invalid Record Length: columns length is 4, got 3 on line 3'
           code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
@@ -198,7 +198,7 @@ describe 'Option `columns`', ->
       parse "a\nb,\n",
         columns: true
         cast: (value) -> value
-      , (err, data) ->
+      , (err) ->
         assert_error err,
           message: 'Invalid Record Length: columns length is 1, got 2 on line 2'
           code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
@@ -206,7 +206,7 @@ describe 'Option `columns`', ->
         next()
 
     it 'context column is null when columns number inferieur to record length, fix regression #259', (next) ->
-      parse "a\nb,\n", columns: true, (err, data) ->
+      parse "a\nb,\n", columns: true, (err) ->
         assert_error err,
           message: 'Invalid Record Length: columns length is 1, got 2 on line 2'
           code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
@@ -217,8 +217,8 @@ describe 'Option `columns`', ->
       parse """
       0,1,2,3,4
       5,6,7,8,9
-      """, columns: ['a',,,, 'b'], (err, data) ->
-        data.should.eql [
+      """, columns: ['a',,,, 'b'], (err, records) ->
+        records.should.eql [
           {a: '0', b: '4'}
           {a: '5', b: '9'}
         ] unless err
@@ -228,8 +228,8 @@ describe 'Option `columns`', ->
       parse """
       0,1,2,3,4
       5,6,7,8,9
-      """, columns: ['a',false,false,false, 'b'], (err, data) ->
-        data.should.eql [
+      """, columns: ['a',false,false,false, 'b'], (err, records) ->
+        records.should.eql [
           {a: '0', b: '4'}
           {a: '5', b: '9'}
         ] unless err
@@ -244,8 +244,8 @@ describe 'Option `columns`', ->
       parse """
       0,1,2
       3,4,5
-      """, columns: ['a',null,null], (err, data) ->
-        data.should.eql [
+      """, columns: ['a',null,null], (err, records) ->
+        records.should.eql [
           { a: '0' }
           { a: '3' }
         ] unless err
@@ -258,8 +258,8 @@ describe 'Option `columns`', ->
       parse """
       0,1,2
       3,4,5
-      """, columns: ['a',,,], (err, data) ->
-        data.should.eql [
+      """, columns: ['a',,,], (err, records) ->
+        records.should.eql [
           { a: '0' }
           { a: '3' }
         ] unless err
@@ -274,7 +274,7 @@ describe 'Option `columns`', ->
       foo,bar
       foo,bar,baz
       """
-      , columns: ['a', 'b', null], (err, data) ->
+      , columns: ['a', 'b', null], (err) ->
         err.code.should.eql 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
         next()
 
@@ -288,8 +288,8 @@ describe 'Option `columns`', ->
       """, columns: (record) ->
         for column in record
           column.toLowerCase()
-      , (err, data) ->
-        data.should.eql [
+      , (err, records) ->
+        records.should.eql [
           "field_1":"20322051544"
           "field_2":"1979"
           "field_3":"8.8017226E7"

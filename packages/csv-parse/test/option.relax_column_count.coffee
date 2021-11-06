@@ -20,7 +20,7 @@ describe 'Option `relax_column_count`', ->
     parse """
     1,2,3
     4,5
-    """, (err, data) ->
+    """, (err) ->
       assert_error err,
         code: 'CSV_INCONSISTENT_RECORD_LENGTH'
         message: 'Invalid Record Length: expect 3, got 2 on line 2'
@@ -34,7 +34,7 @@ describe 'Option `relax_column_count`', ->
     3,4
     5,6,7
     """
-    , (err, data) ->
+    , (err) ->
       assert_error err,
         code: 'CSV_INCONSISTENT_RECORD_LENGTH'
         message: 'Invalid Record Length: expect 2, got 1 on line 2'
@@ -45,8 +45,8 @@ describe 'Option `relax_column_count`', ->
     parse """
     1,2,3
     4,5
-    """, relax_column_count: true, (err, data) ->
-      data.should.eql [
+    """, relax_column_count: true, (err, records) ->
+      records.should.eql [
         [ '1', '2', '3' ]
         [ '4', '5' ]
       ] unless err
@@ -56,8 +56,8 @@ describe 'Option `relax_column_count`', ->
     parse """
     1,2,3
     4,5
-    """, columns: ['a','b','c','d'], relax_column_count: true, (err, data) ->
-      data.should.eql [
+    """, columns: ['a','b','c','d'], relax_column_count: true, (err, records) ->
+      records.should.eql [
         { "a":"1", "b":"2", "c":"3" }
         { "a":"4", "b":"5" }
       ] unless err
@@ -67,8 +67,8 @@ describe 'Option `relax_column_count`', ->
     parse """
     1,2,3,4
     5,6,7
-    """, columns: ['a','b','c'], relax_column_count: true, (err, data) ->
-      data.should.eql [
+    """, columns: ['a','b','c'], relax_column_count: true, (err, records) ->
+      records.should.eql [
         { a: '1', b: '2', c: '3' }
         { a: '5', b: '6', c: '7'}
       ] unless err
@@ -80,8 +80,8 @@ describe 'Option `relax_column_count`', ->
     4,5
     6,7,8
     9,10
-    """, relax_column_count: true, columns: ['a','b','c','d'], from: 3, (err, data) ->
-      data.should.eql [
+    """, relax_column_count: true, columns: ['a','b','c','d'], from: 3, (err, records) ->
+      records.should.eql [
         { "a":"6", "b":"7", "c":"8" }
         { "a":"9", "b":"10" }
       ] unless err
@@ -93,8 +93,8 @@ describe 'Option `relax_column_count`', ->
       parse """
       1,2,3
       a,b,c,d
-      """, relax_column_count_more: true, (err, data) ->
-        data.should.eql [
+      """, relax_column_count_more: true, (err, records) ->
+        records.should.eql [
           ['1', '2', '3']
           ['a', 'b', 'c', 'd']
         ] unless err
@@ -104,7 +104,7 @@ describe 'Option `relax_column_count`', ->
       parse """
       1,2,3
       a,b
-      """, relax_column_count_more: true, (err, data) ->
+      """, relax_column_count_more: true, (err) ->
         assert_error err,
           code: 'CSV_INCONSISTENT_RECORD_LENGTH'
           message: 'Invalid Record Length: expect 3, got 2 on line 2'
@@ -117,8 +117,8 @@ describe 'Option `relax_column_count`', ->
       parse """
       1,2,3
       a,b
-      """, relax_column_count_less: true, (err, data) ->
-        data.should.eql [
+      """, relax_column_count_less: true, (err, records) ->
+        records.should.eql [
           ['1', '2', '3']
           ['a', 'b']
         ] unless err
@@ -128,7 +128,7 @@ describe 'Option `relax_column_count`', ->
       parse """
       1,2,3
       a,b,c,d
-      """, relax_column_count_less: true, (err, data) ->
+      """, relax_column_count_less: true, (err) ->
         assert_error err,
           code: 'CSV_INCONSISTENT_RECORD_LENGTH'
           message: 'Invalid Record Length: expect 3, got 4 on line 2'
@@ -150,8 +150,8 @@ describe 'Option `relax_column_count`', ->
             raw.trim().split ':'
           else
             record
-      , (err, data) ->
-        data.should.eql [
+      , (err, records) ->
+        records.should.eql [
           [ '1', '2' ]
           [ 'in', 'va', 'lid' ]
           [ '3', '4' ]
@@ -172,8 +172,8 @@ describe 'Option `relax_column_count`', ->
             raw.trim().split ':'
           else
             record
-      , (err, data) ->
-        data.should.eql [
+      , (err, records) ->
+        records.should.eql [
           { a: '1', b: '2' }
           [ 'in', 'va', 'lid' ]
           { a: '3', b: '4' }

@@ -34,9 +34,9 @@ describe 'Option `quote`', ->
     abc,"123",def,"456"
     hij,klm,"789",nop
     '''
-    parser = parse (err, data) ->
+    parser = parse (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'abc','123','def','456' ]
         [ 'hij','klm','789','nop' ]
       ]
@@ -49,9 +49,9 @@ describe 'Option `quote`', ->
     20322051544,",1979.0,8.8017226E7,ABC,45,2000-01-01",1,2,3,4
     28392898392,1974.0,8.8392926E7,DEF,23,2050-11-27
     "28392898392,1974.0","8.8392926E7","DEF,23,2050-11-27,",4,5,6
-    """, (err, data) ->
+    """, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ '20322051544',',1979.0,8.8017226E7,ABC,45,2000-01-01','1','2','3','4' ]
         [ '28392898392','1974.0','8.8392926E7','DEF','23','2050-11-27' ]
         [ '28392898392,1974.0','8.8392926E7','DEF,23,2050-11-27,','4','5','6' ]
@@ -62,9 +62,9 @@ describe 'Option `quote`', ->
     parse """
     20322051544,"",8.8017226E7,45,""
     "",1974,8.8392926E7,"",""
-    """, (err, data) ->
+    """, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ '20322051544','','8.8017226E7','45','' ]
         [ '','1974','8.8392926E7','','' ]
       ]
@@ -74,9 +74,9 @@ describe 'Option `quote`', ->
     parse '''
     AB,"""",CD,"""hi"""
     "",JK,"",""
-    ''', (err, data) ->
+    ''', (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'AB','"','CD','"hi"' ]
         [ '','JK','','' ]
       ]
@@ -87,9 +87,9 @@ describe 'Option `quote`', ->
     """"
     """"
     '''
-    parser = parse (err, data) ->
+    parser = parse (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ '"' ]
         [ '"' ]
       ]
@@ -106,8 +106,8 @@ describe 'Option `quote`', ->
     "
     ",1974,8.8392926E7,"","
     "
-    """, (err, data) ->
-      data.should.eql [
+    """, (err, records) ->
+      records.should.eql [
         [ '20322051544','\n','8.8017226E7','45','\nok\n' ]
         [ '\n','1974','8.8392926E7','','\n' ]
       ] unless err
@@ -119,24 +119,24 @@ describe 'Option `quote`', ->
       parse """
       a,b,c
       1,r"2"d"2",3
-      """, quote: '', (err, data) ->
-        data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
+      """, quote: '', (err, records) ->
+        records.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
         next err
     
     it 'if null', (next) ->
       parse """
       a,b,c
       1,r"2"d"2",3
-      """, quote: null, (err, data) ->
-        data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
+      """, quote: null, (err, records) ->
+        records.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
         next err
     
     it 'if false', (next) ->
       parse """
       a,b,c
       1,r"2"d"2",3
-      """, quote: null, (err, data) ->
-        data.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
+      """, quote: null, (err, records) ->
+        records.should.eql [['a','b','c'],['1','r"2"d"2"','3']] unless err
         next err
   
   describe 'options', ->
@@ -145,16 +145,16 @@ describe 'Option `quote`', ->
       parse """
       $$a$$,b,$$c$$
       1,$$2$$,3
-      """, quote: '$$', (err, data) ->
-        data.should.eql [['a','b','c'],['1','2','3']] unless err
+      """, quote: '$$', (err, records) ->
+        records.should.eql [['a','b','c'],['1','2','3']] unless err
         next err
     
     it 'with columns', (next) ->
       parse """
       a,"b",c
       1,"2",3
-      """, quote: true, columns: true, (err, data) ->
-        data.should.eql [ { a: '1', b: '2', c: '3' } ] unless err
+      """, quote: true, columns: true, (err, records) ->
+        records.should.eql [ { a: '1', b: '2', c: '3' } ] unless err
         next err
 
   describe 'error "Quoted field not terminated"', ->
@@ -162,7 +162,7 @@ describe 'Option `quote`', ->
     it 'when unclosed', (next) ->
       parse """
       "",1974,8.8392926E7,"","
-      """, (err, data) ->
+      """, (err) ->
         assert_error err,
           message: 'Quote Not Closed: the parsing is finished with an opening quote at line 1'
           code: 'CSV_QUOTE_NOT_CLOSED'
@@ -201,11 +201,11 @@ describe 'Option `quote`', ->
       "this","line",is,"also,valid"
       this,"line",is,invalid h"ere"
       "and",valid,line,follows...
-      """, (err, data) ->
+      """, (err, records) ->
         assert_error err,
           message: 'Invalid Opening Quote: a quote is found inside a field at line 3'
           code: 'INVALID_OPENING_QUOTE'
           field: 'invalid h'
-        (data == undefined).should.be.true
+        (records == undefined).should.be.true
         next()
       

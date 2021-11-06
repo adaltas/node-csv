@@ -12,7 +12,6 @@ describe 'Option `cast_date`', ->
       code: 'CSV_INVALID_OPTION_CAST_DATE'
   
   it 'true', (next) ->
-    data = []
     parser = parse """
     2000-01-01,date1
     2050-11-27,date2

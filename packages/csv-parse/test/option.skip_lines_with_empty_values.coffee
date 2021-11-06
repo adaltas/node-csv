@@ -20,9 +20,9 @@ describe 'Option `skip_lines_with_empty_values`', ->
     ABC,DEF
     ,
     IJK,LMN
-    """, (err, data) ->
+    """, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'ABC', 'DEF' ]
         [ '', '' ]
         [ 'IJK', 'LMN' ]
@@ -35,9 +35,9 @@ describe 'Option `skip_lines_with_empty_values`', ->
     ,
     IJK,LMN
     ,
-    """, skip_lines_with_empty_values: true, (err, data) ->
+    """, skip_lines_with_empty_values: true, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'ABC', 'DEF' ]
         [ 'IJK', 'LMN' ]
       ]
@@ -49,9 +49,9 @@ describe 'Option `skip_lines_with_empty_values`', ->
     \t , \t
     IJK,LMN
     \t , \t
-    """, skip_lines_with_empty_values: true, (err, data) ->
+    """, skip_lines_with_empty_values: true, (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ 'ABC', 'DEF' ]
         [ 'IJK', 'LMN' ]
       ]
@@ -74,9 +74,9 @@ describe 'Option `skip_lines_with_empty_values`', ->
           when 'null' then null
           when 'undefined' then undefined
           else value
-    , (err, data) ->
+    , (err, records) ->
       return next err if err
-      data.should.eql [
+      records.should.eql [
         [ true ]
         [ 0 ]
       ]

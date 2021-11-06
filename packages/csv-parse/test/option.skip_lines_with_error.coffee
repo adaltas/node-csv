@@ -18,8 +18,8 @@ describe 'Option `skip_lines_with_error`', ->
   
   it 'handle "Invalid closing quote"', (next) ->
     errors = 0
-    parser = parse skip_lines_with_error: true, (err, data) ->
-      data.should.eql [
+    parser = parse skip_lines_with_error: true, (err, records) ->
+      records.should.eql [
         ["a","b","c"]
         ["one","two","three"]
         ["seven","eight","nine"]
@@ -41,8 +41,8 @@ describe 'Option `skip_lines_with_error`', ->
 
   it 'handle "Invalid opening quote"', (next) ->
     errors = []
-    parser = parse skip_lines_with_error: true, (err, data) ->
-      data.should.eql [
+    parser = parse skip_lines_with_error: true, (err, records) ->
+      records.should.eql [
         ["line","1"]
         ["line", "3"]
       ] unless err
@@ -68,8 +68,8 @@ describe 'Option `skip_lines_with_error`', ->
   
   it 'handle "Quoted field not terminated"', (next) ->
     errors = 0
-    parser = parse skip_lines_with_error: true, (err, data) ->
-      data.should.eql [
+    parser = parse skip_lines_with_error: true, (err, records) ->
+      records.should.eql [
         ['a', 'b', 'c', 'd']
       ] unless err
       errors.should.eql 1
@@ -87,8 +87,8 @@ describe 'Option `skip_lines_with_error`', ->
 
   it 'handle "CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH"', (next) ->
     errors = 0
-    parser = parse skip_lines_with_error: true, columns: ["a", "b", "c", "d"], (err, data) ->
-      data.should.eql [
+    parser = parse skip_lines_with_error: true, columns: ["a", "b", "c", "d"], (err, records) ->
+      records.should.eql [
         { a: '4', b: '5', c: '6', d: 'x'}
         { a: '7', b: '8', c: '9', d: 'y'}
       ] unless err
@@ -110,8 +110,8 @@ describe 'Option `skip_lines_with_error`', ->
 
   it 'handle "CSV_INCONSISTENT_RECORD_LENGTH"', (next) ->
     errors = 0
-    parser = parse skip_lines_with_error: true, (err, data) ->
-      data.should.eql [
+    parser = parse skip_lines_with_error: true, (err, records) ->
+      records.should.eql [
         ['a', 'b', 'c', 'd']
         ['e', 'f', 'g', 'h']
       ] unless err
@@ -143,7 +143,7 @@ describe 'Option `skip_lines_with_error`', ->
       ,
         skip_lines_with_error: true
         raw: true
-      , (err, data) ->
+      , (err) ->
         errors.should.eql 1
         next err
       parser.on 'skip', (err, raw) ->

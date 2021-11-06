@@ -8,7 +8,7 @@ describe 'properties count records', ->
     a,b,c
     d,e,f
     g,h,i
-    """, (err, data) ->
+    """, (err) ->
       parser.info.records.should.eql 3 unless err
       next err
   
@@ -19,7 +19,7 @@ describe 'properties count records', ->
     g,h,i
     j,k,l
     m,n,o
-    """, columns: true, (err, data) ->
+    """, columns: true, (err) ->
       parser.info.records.should.eql 4 unless err
       next err
   
