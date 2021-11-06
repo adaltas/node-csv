@@ -5385,12 +5385,40 @@ var csv_parse = (function (exports) {
                   throw new Error(`Invalid Option: raw must be true, got ${JSON.stringify(options.raw)}`);
                 }
                 // Normalize option `record_delimiter`
-                if(!options.record_delimiter){
+                if(options.record_delimiter === undefined){
                   options.record_delimiter = [];
-                }else if(!Array.isArray(options.record_delimiter)){
+                }else if(typeof options.record_delimiter === 'string' || isBuffer(options.record_delimiter) ){
+                  if(options.record_delimiter.length === 0){
+                    throw new CsvError('CSV_INVALID_OPTION_RECORD_DELIMITER', [
+                      'Invalid option `record_delimiter`:',
+                      'value must be a non empty string or buffer,',
+                      `got ${JSON.stringify(options.record_delimiter)}`
+                    ], options);
+                  }
                   options.record_delimiter = [options.record_delimiter];
+                }else if(!Array.isArray(options.record_delimiter)){
+                  throw new CsvError('CSV_INVALID_OPTION_RECORD_DELIMITER', [
+                    'Invalid option `record_delimiter`:',
+                    'value must be a string, a buffer or array of string|buffer,',
+                    `got ${JSON.stringify(options.record_delimiter)}`
+                  ], options);
                 }
-                options.record_delimiter = options.record_delimiter.map(function(rd){
+                options.record_delimiter = options.record_delimiter.map(function(rd, i){
+                  if(typeof rd !== 'string' && ! isBuffer(rd) ){
+                    throw new CsvError('CSV_INVALID_OPTION_RECORD_DELIMITER', [
+                      'Invalid option `record_delimiter`:',
+                      'value must be a string, a buffer or array of string|buffer',
+                      `at index ${i},`,
+                      `got ${JSON.stringify(rd)}`
+                    ], options);
+                  }else if(rd.length === 0){
+                    throw new CsvError('CSV_INVALID_OPTION_RECORD_DELIMITER', [
+                      'Invalid option `record_delimiter`:',
+                      'value must be a non empty string or buffer',
+                      `at index ${i},`,
+                      `got ${JSON.stringify(rd)}`
+                    ], options);
+                  }
                   if(typeof rd === 'string'){
                     rd = Buffer.from(rd, options.encoding);
                   }
