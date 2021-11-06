@@ -5516,7 +5516,6 @@
                   error: undefined,
                   enabled: options.from_line === 1,
                   escaping: false,
-                  // escapeIsQuote: options.escape === options.quote,
                   escapeIsQuote: isBuffer(options.escape) && isBuffer(options.quote) && Buffer.compare(options.escape, options.quote) === 0,
                   // columns can be `false`, `true`, `Array`
                   expectedRecordLength: Array.isArray(options.columns) ? options.columns.length : undefined,
