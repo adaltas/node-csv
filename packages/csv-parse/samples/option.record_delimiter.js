@@ -2,11 +2,11 @@
 import assert from 'assert';
 import { parse } from 'csv-parse/sync';
 
-const data = 'a key => a value';
+const data = 'a,b,c&&d,e,f';
 const records = parse(data, {
-  delimiter: '=>',
-  trim: true
+  record_delimiter: '&&'
 });
 assert.deepStrictEqual(records, [
-  [ 'a key', 'a value' ]
+  [ 'a', 'b', 'c' ],
+  [ 'd', 'e', 'f' ]
 ]);
