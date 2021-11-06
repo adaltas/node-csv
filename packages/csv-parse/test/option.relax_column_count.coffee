@@ -168,7 +168,7 @@ describe 'Option `relax_column_count`', ->
         relax_column_count: true,
         raw: true,
         on_record: ({raw, record}, {error}) ->
-          if error?.code is 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
+          if error?.code is 'CSV_RECORD_INCONSISTENT_COLUMNS'
             raw.trim().split ':'
           else
             record

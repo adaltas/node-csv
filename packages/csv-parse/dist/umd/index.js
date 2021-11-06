@@ -5891,9 +5891,7 @@
                       record: record,
                     })
                     :
-                    // Todo: rename CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH to
-                    // CSV_RECORD_INCONSISTENT_COLUMNS
-                    new CsvError('CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH', [
+                    new CsvError('CSV_RECORD_INCONSISTENT_COLUMNS', [
                       'Invalid Record Length:',
                       `columns length is ${columns.length},`, // rename columns
                       `got ${recordLength} on line ${this.info.lines}`,

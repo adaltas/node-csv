@@ -179,7 +179,7 @@ describe 'Option `columns`', ->
       """, columns: ["a", "b", "c", "d"], (err) ->
         assert_error err,
           message: 'Invalid Record Length: columns length is 4, got 3 on line 1'
-          code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
+          code: 'CSV_RECORD_INCONSISTENT_COLUMNS'
         next()
 
     it 'validate options column length on last line', (next) ->
@@ -190,7 +190,7 @@ describe 'Option `columns`', ->
       """, columns: ["a", "b", "c", "d"], (err) ->
         assert_error err,
           message: 'Invalid Record Length: columns length is 4, got 3 on line 3'
-          code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
+          code: 'CSV_RECORD_INCONSISTENT_COLUMNS'
         next()
     
     it 'context column is null when cast force the context creation', (next) ->
@@ -201,7 +201,7 @@ describe 'Option `columns`', ->
       , (err) ->
         assert_error err,
           message: 'Invalid Record Length: columns length is 1, got 2 on line 2'
-          code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
+          code: 'CSV_RECORD_INCONSISTENT_COLUMNS'
           column: null
         next()
 
@@ -209,7 +209,7 @@ describe 'Option `columns`', ->
       parse "a\nb,\n", columns: true, (err) ->
         assert_error err,
           message: 'Invalid Record Length: columns length is 1, got 2 on line 2'
-          code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
+          code: 'CSV_RECORD_INCONSISTENT_COLUMNS'
           column: null
         next()
     
@@ -268,14 +268,14 @@ describe 'Option `columns`', ->
     it 'last column value ignore when `null`', (next) ->
       # Trigger a bug where error is try to stringify and parse an undefined
       # value, conjointly triggered by a null column and a
-      # CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH error
+      # CSV_RECORD_INCONSISTENT_COLUMNS error
       parse """
       col_a,col_b,col_c
       foo,bar
       foo,bar,baz
       """
       , columns: ['a', 'b', null], (err) ->
-        err.code.should.eql 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
+        err.code.should.eql 'CSV_RECORD_INCONSISTENT_COLUMNS'
         next()
 
   describe 'function', ->

@@ -85,7 +85,7 @@ describe 'Option `skip_records_with_error`', ->
       '''
     parser.end()
 
-  it 'handle "CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH"', (next) ->
+  it 'handle "CSV_RECORD_INCONSISTENT_COLUMNS"', (next) ->
     errors = 0
     parser = parse skip_records_with_error: true, columns: ["a", "b", "c", "d"], (err, records) ->
       records.should.eql [
@@ -97,7 +97,7 @@ describe 'Option `skip_records_with_error`', ->
     parser.on 'skip', (err) ->
       assert_error err,
         message: 'Invalid Record Length: columns length is 4, got 3 on line 1'
-        code: 'CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH'
+        code: 'CSV_RECORD_INCONSISTENT_COLUMNS'
         record: ['1', '2', '3']
       errors++
     parser.write '''
