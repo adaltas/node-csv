@@ -7,7 +7,7 @@ a,b,c
 , ,\t
 d,e,f
 `.trim(), {
-  skip_lines_with_empty_values: true
+  skip_records_with_empty_values: true
 }, (err, records) => {
   assert.deepStrictEqual(records, [
     ['a', 'b', 'c'],

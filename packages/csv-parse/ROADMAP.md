@@ -4,7 +4,6 @@ Below is the list of upgrades we are considering for the next major release. The
 
 We invite you to join and contribute but create an issue before engaging any work. Some tasks are scheduled for another time or might depends on another one.
 
-* `skip_lines_with_empty_values`: rename to skip_records_with_empty_values (easy)
 * `skip_lines_with_error`: rename to skip_records_with_error (easy)
 * `max_comment_size`: new option (medium)
 * promise: new API module (medium)

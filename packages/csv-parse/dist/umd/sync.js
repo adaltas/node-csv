@@ -5455,11 +5455,11 @@
                 }else {
                   throw new Error(`Invalid Option: skip_empty_lines must be a boolean, got ${JSON.stringify(options.skip_empty_lines)}`);
                 }
-                // Normalize option `skip_lines_with_empty_values`
-                if(typeof options.skip_lines_with_empty_values === 'boolean');else if(options.skip_lines_with_empty_values === undefined || options.skip_lines_with_empty_values === null){
-                  options.skip_lines_with_empty_values = false;
+                // Normalize option `skip_records_with_empty_values`
+                if(typeof options.skip_records_with_empty_values === 'boolean');else if(options.skip_records_with_empty_values === undefined || options.skip_records_with_empty_values === null){
+                  options.skip_records_with_empty_values = false;
                 }else {
-                  throw new Error(`Invalid Option: skip_lines_with_empty_values must be a boolean, got ${JSON.stringify(options.skip_lines_with_empty_values)}`);
+                  throw new Error(`Invalid Option: skip_records_with_empty_values must be a boolean, got ${JSON.stringify(options.skip_records_with_empty_values)}`);
                 }
                 // Normalize option `skip_lines_with_error`
                 if(typeof options.skip_lines_with_error === 'boolean');else if(options.skip_lines_with_error === undefined || options.skip_lines_with_error === null){
@@ -5862,7 +5862,7 @@
                 }
               }
               __onRecord(){
-                const {columns, columns_duplicates_to_array, encoding, info, from, relax_column_count, relax_column_count_less, relax_column_count_more, raw, skip_lines_with_empty_values} = this.options;
+                const {columns, columns_duplicates_to_array, encoding, info, from, relax_column_count, relax_column_count_less, relax_column_count_more, raw, skip_records_with_empty_values} = this.options;
                 const {enabled, record} = this.state;
                 if(enabled === false){
                   return this.__resetRecord();
@@ -5870,7 +5870,7 @@
                 // Convert the first line into column names
                 const recordLength = record.length;
                 if(columns === true){
-                  if(skip_lines_with_empty_values === true && isRecordEmpty(record)){
+                  if(skip_records_with_empty_values === true && isRecordEmpty(record)){
                     this.__resetRecord();
                     return;
                   }
@@ -5911,7 +5911,7 @@
                     if(finalErr) return finalErr;
                   }
                 }
-                if(skip_lines_with_empty_values === true && isRecordEmpty(record)){
+                if(skip_records_with_empty_values === true && isRecordEmpty(record)){
                   this.__resetRecord();
                   return;
                 }

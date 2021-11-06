@@ -34,7 +34,7 @@ describe('API Types', () => {
         'on_record', 'quote', 'raw', 'record_delimiter',
         'relax_column_count', 'relax_column_count_less',
         'relax_column_count_more', 'relax_quotes', 'rtrim', 'skip_empty_lines',
-        'skip_lines_with_empty_values', 'skip_lines_with_error', 'to',
+        'skip_records_with_empty_values', 'skip_lines_with_error', 'to',
         'to_line', 'trim'
       ])
     })
@@ -287,10 +287,10 @@ describe('API Types', () => {
       options.skipEmptyLines = true
     })
     
-    it('skip_lines_with_empty_values', () => {
+    it('skip_records_with_empty_values', () => {
       const options: Options = {}
-      options.skip_lines_with_empty_values = true
-      options.skipLinesWithEmptyValues = true
+      options.skip_records_with_empty_values = true
+      options.skipRecordsWithEmptyValues = true
     })
     
     it('skip_lines_with_error', () => {

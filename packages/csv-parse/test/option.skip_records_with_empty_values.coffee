@@ -1,19 +1,19 @@
 
 import { parse } from '../lib/index.js'
 
-describe 'Option `skip_lines_with_empty_values`', ->
+describe 'Option `skip_records_with_empty_values`', ->
   
   it 'validation', ->
-    parse '', skip_lines_with_empty_values: true, (->)
-    parse '', skip_lines_with_empty_values: false, (->)
-    parse '', skip_lines_with_empty_values: null, (->)
-    parse '', skip_lines_with_empty_values: undefined, (->)
+    parse '', skip_records_with_empty_values: true, (->)
+    parse '', skip_records_with_empty_values: false, (->)
+    parse '', skip_records_with_empty_values: null, (->)
+    parse '', skip_records_with_empty_values: undefined, (->)
     (->
-      parse '', skip_lines_with_empty_values: 1, (->)
-    ).should.throw 'Invalid Option: skip_lines_with_empty_values must be a boolean, got 1'
+      parse '', skip_records_with_empty_values: 1, (->)
+    ).should.throw 'Invalid Option: skip_records_with_empty_values must be a boolean, got 1'
     (->
-      parse '', skip_lines_with_empty_values: 'oh no', (->)
-    ).should.throw 'Invalid Option: skip_lines_with_empty_values must be a boolean, got "oh no"'
+      parse '', skip_records_with_empty_values: 'oh no', (->)
+    ).should.throw 'Invalid Option: skip_records_with_empty_values must be a boolean, got "oh no"'
   
   it 'dont skip by default', (next) ->
     parse """
@@ -35,7 +35,7 @@ describe 'Option `skip_lines_with_empty_values`', ->
     ,
     IJK,LMN
     ,
-    """, skip_lines_with_empty_values: true, (err, records) ->
+    """, skip_records_with_empty_values: true, (err, records) ->
       return next err if err
       records.should.eql [
         [ 'ABC', 'DEF' ]
@@ -49,7 +49,7 @@ describe 'Option `skip_lines_with_empty_values`', ->
     \t , \t
     IJK,LMN
     \t , \t
-    """, skip_lines_with_empty_values: true, (err, records) ->
+    """, skip_records_with_empty_values: true, (err, records) ->
       return next err if err
       records.should.eql [
         [ 'ABC', 'DEF' ]
@@ -65,7 +65,7 @@ describe 'Option `skip_lines_with_empty_values`', ->
     null
     undefined
     """,
-      skip_lines_with_empty_values: true
+      skip_records_with_empty_values: true
       cast: (value) ->
         switch value
           when 'empty_buffer' then Buffer.from ''

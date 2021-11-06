@@ -191,8 +191,8 @@ export interface Options {
     /**
      * Don't generate records for lines containing empty column values (column matching /\s*\/), defaults to false.
      */
-    skip_lines_with_empty_values?: boolean;
-    skipLinesWithEmptyValues?: boolean;
+    skip_records_with_empty_values?: boolean;
+    skipRecordsWithEmptyValues?: boolean;
     /**
      * Stop handling records after the requested number of records.
      */
