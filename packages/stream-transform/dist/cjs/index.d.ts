@@ -6,7 +6,7 @@ export type Handler<T = any, U = any> = (record: T, callback: HandlerCallback, p
 export type HandlerCallback<T = any> = (err?: null | Error, record?: T) => void
 export type Callback = (err?: null | Error, output?: string) => void
 
-export interface Options {
+export interface Options extends stream.TransformOptions {
     /**
      * In the absence of a consumer, like a `stream.Readable`, trigger the consumption of the stream.
      */
