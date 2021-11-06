@@ -17,7 +17,7 @@ export interface CastingContext {
     readonly index: number;
     readonly records: number;
 }
-export interface Options {
+interface Options extends stream.TransformOptions {
     /**
      * Prepend the byte order mark (BOM) to the output stream.
      */
