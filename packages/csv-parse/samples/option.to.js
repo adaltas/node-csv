@@ -9,15 +9,16 @@ a,b
 5,6
 `.trim(), {
   columns: true,
-  from: 2
+  to: 2
 }, function(err, records){
+  console.log(err, records)
   assert.deepStrictEqual(
     records, [{
+      a: '1',
+      b: '2'
+    }, {
       a: '3',
       b: '4'
-    }, {
-      a: '5',
-      b: '6'
     }]
   );
 });
