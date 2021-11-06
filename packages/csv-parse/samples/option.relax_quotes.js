@@ -5,7 +5,7 @@ import { parse } from 'csv-parse';
 parse(`
 a,some"text,c
 `.trim(), {
-  relax: true
+  relax_quotes: true
 }, (err, records) => {
   assert.deepStrictEqual(records, [
     ['a', 'some"text', 'c']

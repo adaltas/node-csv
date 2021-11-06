@@ -5425,12 +5425,6 @@ class Parser extends Transform {
       }
       return rd;
     });
-    // Normalize option `relax`
-    if(typeof options.relax === 'boolean');else if(options.relax === undefined || options.relax === null){
-      options.relax = false;
-    }else {
-      throw new Error(`Invalid Option: relax must be a boolean, got ${JSON.stringify(options.relax)}`);
-    }
     // Normalize option `relax_column_count`
     if(typeof options.relax_column_count === 'boolean');else if(options.relax_column_count === undefined || options.relax_column_count === null){
       options.relax_column_count = false;
@@ -5446,6 +5440,12 @@ class Parser extends Transform {
       options.relax_column_count_more = false;
     }else {
       throw new Error(`Invalid Option: relax_column_count_more must be a boolean, got ${JSON.stringify(options.relax_column_count_more)}`);
+    }
+    // Normalize option `relax_quotes`
+    if(typeof options.relax_quotes === 'boolean');else if(options.relax_quotes === undefined || options.relax_quotes === null){
+      options.relax_quotes = false;
+    }else {
+      throw new Error(`Invalid Option: relax_quotes must be a boolean, got ${JSON.stringify(options.relax_quotes)}`);
     }
     // Normalize option `skip_empty_lines`
     if(typeof options.skip_empty_lines === 'boolean');else if(options.skip_empty_lines === undefined || options.skip_empty_lines === null){
@@ -5589,7 +5589,7 @@ class Parser extends Transform {
   }
   // Central parser implementation
   __parse(nextBuf, end){
-    const {bom, comment, escape, from_line, ltrim, max_record_size, quote, raw, relax, rtrim, skip_empty_lines, to, to_line} = this.options;
+    const {bom, comment, escape, from_line, ltrim, max_record_size, quote, raw, relax_quotes, rtrim, skip_empty_lines, to, to_line} = this.options;
     let {record_delimiter} = this.options;
     const {bomSkipped, previousBuf, rawBuffer, escapeIsQuote} = this.state;
     let buf;
@@ -5702,7 +5702,7 @@ class Parser extends Transform {
               this.state.wasQuoting = true;
               pos += quote.length - 1;
               continue;
-            }else if(relax === false){
+            }else if(relax_quotes === false){
               const err = this.__error(
                 new CsvError('CSV_INVALID_CLOSING_QUOTE', [
                   'Invalid Closing Quote:',
@@ -5721,8 +5721,8 @@ class Parser extends Transform {
             }
           }else {
             if(this.state.field.length !== 0){
-              // In relax mode, treat opening quote preceded by chrs as regular
-              if(relax === false){
+              // In relax_quotes mode, treat opening quote preceded by chrs as regular
+              if(relax_quotes === false){
                 const err = this.__error(
                   new CsvError('INVALID_OPENING_QUOTE', [
                     'Invalid Opening Quote:',

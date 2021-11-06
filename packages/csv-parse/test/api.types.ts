@@ -31,9 +31,9 @@ describe('API Types', () => {
         'bom', 'cast', 'cast_date', 'columns', 'columns_duplicates_to_array',
         'comment', 'delimiter', 'encoding', 'escape', 'from', 'from_line',
         'ignore_last_delimiters', 'info', 'ltrim', 'max_record_size', 'objname',
-        'on_record', 'quote', 'raw', 'record_delimiter', 'relax',
+        'on_record', 'quote', 'raw', 'record_delimiter',
         'relax_column_count', 'relax_column_count_less',
-        'relax_column_count_more', 'rtrim', 'skip_empty_lines',
+        'relax_column_count_more', 'relax_quotes', 'rtrim', 'skip_empty_lines',
         'skip_lines_with_empty_values', 'skip_lines_with_error', 'to',
         'to_line', 'trim'
       ])
@@ -245,11 +245,6 @@ describe('API Types', () => {
       options.raw = true
     })
     
-    it('relax', () => {
-      const options: Options = {}
-      options.relax = true
-    })
-    
     it('relax_column_count', () => {
       const options: Options = {}
       options.relax_column_count = true
@@ -258,6 +253,12 @@ describe('API Types', () => {
       options.relaxColumnCountLess = true
       options.relax_column_count_more = true
       options.relaxColumnCountMore = true
+    })
+    
+    it('relax_quotes', () => {
+      const options: Options = {}
+      options.relax_quotes = true
+      options.relaxQuotes = true
     })
     
     it('record_delimiter', () => {

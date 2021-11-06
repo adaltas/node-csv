@@ -147,10 +147,6 @@ export interface Options {
      */
     raw?: boolean;
     /**
-     * Preserve quotes inside unquoted field.
-     */
-    relax?: boolean;
-    /**
      * Discard inconsistent columns count, default to false.
      */
     relax_column_count?: boolean;
@@ -165,6 +161,11 @@ export interface Options {
      */
     relax_column_count_more?: boolean;
     relaxColumnCountMore?: boolean;
+    /**
+     * Preserve quotes inside unquoted field.
+     */
+    relax_quotes?: boolean;
+    relaxQuotes?: boolean;
     /**
      * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
      * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
