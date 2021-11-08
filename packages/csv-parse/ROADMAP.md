@@ -8,5 +8,3 @@ We invite you to join and contribute but create an issue before engaging any wor
 * promise: new API module (medium)
 * errors: finish normalisation of all errors (easy)
 * encoding: new encoding_input and encoding_output options (medium)
-* `info`: remove the `parser.info` object and move its properties to `state`
-* `info`: rename the `info` related properties and functions to `context`
