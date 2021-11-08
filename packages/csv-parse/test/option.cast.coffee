@@ -255,9 +255,9 @@ describe 'Option `cast`', ->
           code: 'CSV_INVALID_COLUMN_DEFINITION'
         next()
 
-  describe 'columns_duplicates_to_array', ->
+  describe 'group_columns_by_name', ->
 
-    it 'leading zeros are maintained when columns_duplicates_to_array is true', (next) ->
+    it 'leading zeros are maintained when group_columns_by_name is true', (next) ->
       parse """
       FIELD_1,FIELD_1,FIELD_1
       0,2,3
@@ -265,7 +265,7 @@ describe 'Option `cast`', ->
       """,
         cast: true
         columns: true
-        columns_duplicates_to_array: true
+        group_columns_by_name: true
       , (err, records) ->
         records.should.eql [
           'FIELD_1': [0, 2, 3]

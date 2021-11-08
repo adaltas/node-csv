@@ -82,8 +82,8 @@ export interface Options {
      * Convert values into an array of values when columns are activated and
      * when multiple columns of the same name are found.
      */
-    columns_duplicates_to_array?: boolean;
-    columnsDuplicatesToArray?: boolean;
+    group_columns_by_name?: boolean;
+    groupColumnsByName?: boolean;
     /**
      * Treat all the characters after this one as a comment, default to '' (disabled).
      */
@@ -241,7 +241,7 @@ export type CsvErrorCode =
     | 'CSV_INVALID_OPTION_CAST'
     | 'CSV_INVALID_OPTION_CAST_DATE'
     | 'CSV_INVALID_OPTION_COLUMNS'
-    | 'CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY'
+    | 'CSV_INVALID_OPTION_GROUP_COLUMNS_BY_NAME'
     | 'CSV_INVALID_OPTION_COMMENT'
     | 'CSV_INVALID_OPTION_DELIMITER'
     | 'CSV_INVALID_OPTION_ON_RECORD'

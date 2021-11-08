@@ -28,8 +28,8 @@ describe('API Types', () => {
       const options: Options = parser.options
       const keys: string[] = Object.keys(options)
       keys.sort().should.eql([
-        'bom', 'cast', 'cast_date', 'columns', 'columns_duplicates_to_array',
-        'comment', 'delimiter', 'encoding', 'escape', 'from', 'from_line',
+        'bom', 'cast', 'cast_date', 'columns', 'comment', 'delimiter',
+        'encoding', 'escape', 'from', 'from_line', 'group_columns_by_name',
         'ignore_last_delimiters', 'info', 'ltrim', 'max_record_size', 'objname',
         'on_record', 'quote', 'raw', 'record_delimiter',
         'relax_column_count', 'relax_column_count_less',
@@ -162,10 +162,10 @@ describe('API Types', () => {
       }
     })
       
-    it('columns_duplicates_to_array', () => {
+    it('group_columns_by_name', () => {
       const options: Options = {}
-      options.columns_duplicates_to_array = true
-      options.columnsDuplicatesToArray = true
+      options.group_columns_by_name = true
+      options.groupColumnsByName = true
     })
       
     it('comment', () => {

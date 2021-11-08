@@ -5195,18 +5195,18 @@
                     `got ${JSON.stringify(options.columns)}`
                   ], options);
                 }
-                // Normalize option `columns_duplicates_to_array`
-                if(options.columns_duplicates_to_array === undefined || options.columns_duplicates_to_array === null || options.columns_duplicates_to_array === false){
-                  options.columns_duplicates_to_array = false;
-                }else if(options.columns_duplicates_to_array !== true){
-                  throw new CsvError('CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY', [
-                    'Invalid option columns_duplicates_to_array:',
+                // Normalize option `group_columns_by_name`
+                if(options.group_columns_by_name === undefined || options.group_columns_by_name === null || options.group_columns_by_name === false){
+                  options.group_columns_by_name = false;
+                }else if(options.group_columns_by_name !== true){
+                  throw new CsvError('CSV_INVALID_OPTION_GROUP_COLUMNS_BY_NAME', [
+                    'Invalid option group_columns_by_name:',
                     'expect an boolean,',
-                    `got ${JSON.stringify(options.columns_duplicates_to_array)}`
+                    `got ${JSON.stringify(options.group_columns_by_name)}`
                   ], options);
                 }else if(options.columns === false){
-                  throw new CsvError('CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY', [
-                    'Invalid option columns_duplicates_to_array:',
+                  throw new CsvError('CSV_INVALID_OPTION_GROUP_COLUMNS_BY_NAME', [
+                    'Invalid option group_columns_by_name:',
                     'the `columns` mode must be activated.'
                   ], options);
                 }
@@ -5862,7 +5862,7 @@
                 }
               }
               __onRecord(){
-                const {columns, columns_duplicates_to_array, encoding, info, from, relax_column_count, relax_column_count_less, relax_column_count_more, raw, skip_records_with_empty_values} = this.options;
+                const {columns, group_columns_by_name, encoding, info, from, relax_column_count, relax_column_count_less, relax_column_count_more, raw, skip_records_with_empty_values} = this.options;
                 const {enabled, record} = this.state;
                 if(enabled === false){
                   return this.__resetRecord();
@@ -5926,7 +5926,7 @@
                     for(let i = 0, l = record.length; i < l; i++){
                       if(columns[i] === undefined || columns[i].disabled) continue;
                       // Turn duplicate columns into an array
-                      if (columns_duplicates_to_array === true && obj[columns[i].name] !== undefined) {
+                      if (group_columns_by_name === true && obj[columns[i].name] !== undefined) {
                         if (Array.isArray(obj[columns[i].name])) {
                           obj[columns[i].name] = obj[columns[i].name].concat(record[i]);
                         } else {

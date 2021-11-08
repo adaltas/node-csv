@@ -8,6 +8,5 @@ We invite you to join and contribute but create an issue before engaging any wor
 * promise: new API module (medium)
 * errors: finish normalisation of all errors (easy)
 * encoding: new encoding_input and encoding_output options (medium)
-* `columns_duplicates_to_array`: this is just too long but I don't have much insipiration for a better name
 * `info`: remove the `parser.info` object and move its properties to `state`
 * `info`: rename the `info` related properties and functions to `context`

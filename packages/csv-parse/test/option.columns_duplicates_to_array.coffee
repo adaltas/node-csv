@@ -2,25 +2,25 @@
 import { parse } from '../lib/index.js'
 import { assert_error } from './api.assert_error.coffee'
 
-describe 'Option `columns_duplicates_to_array`', ->
+describe 'Option `group_columns_by_name`', ->
   
   it 'validate', ->
     (->
-      parse "", columns_duplicates_to_array: 'invalid'
+      parse "", group_columns_by_name: 'invalid'
     ).should.throw
-      code: 'CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY'
+      code: 'CSV_INVALID_OPTION_GROUP_COLUMNS_BY_NAME'
       message: [
-        'Invalid option columns_duplicates_to_array:'
+        'Invalid option group_columns_by_name:'
         'expect an boolean, got "invalid"'
       ].join ' '
 
   it 'require columns to be active', ->
     (->
-      parse "", columns_duplicates_to_array: true
+      parse "", group_columns_by_name: true
     ).should.throw
-      code: 'CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY'
+      code: 'CSV_INVALID_OPTION_GROUP_COLUMNS_BY_NAME'
       message: [
-        'Invalid option columns_duplicates_to_array:'
+        'Invalid option group_columns_by_name:'
         'the `columns` mode must be activated.'
       ].join ' '
     
@@ -29,7 +29,7 @@ describe 'Option `columns_duplicates_to_array`', ->
     FIELD_1,FIELD_1
     ABC,DEF
     GHI,JKL
-    """, columns: true, columns_duplicates_to_array: false, (err, records) ->
+    """, columns: true, group_columns_by_name: false, (err, records) ->
       records.should.eql [
         'FIELD_1': 'DEF'
       ,
@@ -42,7 +42,7 @@ describe 'Option `columns_duplicates_to_array`', ->
     FIELD_1,FIELD_1
     ABC,DEF
     GHI,JKL
-    """, columns: true, columns_duplicates_to_array: true, (err, records) ->
+    """, columns: true, group_columns_by_name: true, (err, records) ->
       records.should.eql [
         'FIELD_1': ['ABC', 'DEF']
       ,

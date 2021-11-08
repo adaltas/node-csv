@@ -8,7 +8,7 @@ athos,porthos,aramis
 porthos,d_artagnan,athos
 `.trim(), {
   columns: true,
-  columns_duplicates_to_array: true
+  group_columns_by_name: true
 }, function(err, records){
   assert.deepStrictEqual(
     records, [{
