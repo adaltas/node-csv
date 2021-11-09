@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'api end', ->
+describe 'event end', ->
 
   it 'with fixed_size', (next) ->
     count = 0
