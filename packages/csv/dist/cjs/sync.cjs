@@ -5128,56 +5128,58 @@ Generator.prototype._read = function(size){
     // Time for some rest: flush first and stop later
     if((this._.count_created === this.options.length) || (this.options.end && Date.now() > this.options.end) || (this.options.duration && Date.now() > this._.start_time + this.options.duration)){
       // Flush
-      this._.end = true;
       if(data.length){
         if(this.options.objectMode){
-          for(const line of data){
-            this.__push(line);
+          for(const record of data){
+            this.__push(record);
           }
         }else {
           this.__push(data.join('') + (this.options.eof ? this.options.eof : ''));
         }
+        this._.end = true;
       }else {
         this.push(null);
       }
       return;
     }
-    // Create the line
-    let line = [];
-    let lineLength;
+    // Create the record
+    let record = [];
+    let recordLength;
     this.options.columns.forEach((fn) => {
-      line.push(fn(this));
+      record.push(fn(this));
     });
-    // Obtain line length
+    // Obtain record length
     if(this.options.objectMode){
-      lineLength = 0;
-      for(const column of line)
-        lineLength += column.length;
+      recordLength = 0;
+      // recordLength is currently equal to the number of columns
+      // This is wrong and shall equal to 1 record only
+      for(const column of record)
+        recordLength += column.length;
     }else {
-      // Stringify the line
-      line = (this._.count_created === 0 ? '' : this.options.rowDelimiter)+line.join(this.options.delimiter);
-      lineLength = line.length;
+      // Stringify the record
+      record = (this._.count_created === 0 ? '' : this.options.rowDelimiter)+record.join(this.options.delimiter);
+      recordLength = record.length;
     }
     this._.count_created++;
-    if(length + lineLength > size){
+    if(length + recordLength > size){
       if(this.options.objectMode){
-        data.push(line);
-        for(const line of data){
-          this.__push(line);
+        data.push(record);
+        for(const record of data){
+          this.__push(record);
         }
       }else {
         if(this.options.fixedSize){
-          this._.fixed_size_buffer = line.substr(size - length);
-          data.push(line.substr(0, size - length));
+          this._.fixed_size_buffer = record.substr(size - length);
+          data.push(record.substr(0, size - length));
         }else {
-          data.push(line);
+          data.push(record);
         }
         this.__push(data.join(''));
       }
       return;
     }
-    length += lineLength;
-    data.push(line);
+    length += recordLength;
+    data.push(record);
   }
 };
 // Put new data into the read queue.
@@ -5477,18 +5479,18 @@ class Parser extends Transform {
         `got ${JSON.stringify(options.columns)}`
       ], options);
     }
-    // Normalize option `columns_duplicates_to_array`
-    if(options.columns_duplicates_to_array === undefined || options.columns_duplicates_to_array === null || options.columns_duplicates_to_array === false){
-      options.columns_duplicates_to_array = false;
-    }else if(options.columns_duplicates_to_array !== true){
-      throw new CsvError$1('CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY', [
-        'Invalid option columns_duplicates_to_array:',
+    // Normalize option `group_columns_by_name`
+    if(options.group_columns_by_name === undefined || options.group_columns_by_name === null || options.group_columns_by_name === false){
+      options.group_columns_by_name = false;
+    }else if(options.group_columns_by_name !== true){
+      throw new CsvError$1('CSV_INVALID_OPTION_GROUP_COLUMNS_BY_NAME', [
+        'Invalid option group_columns_by_name:',
         'expect an boolean,',
-        `got ${JSON.stringify(options.columns_duplicates_to_array)}`
+        `got ${JSON.stringify(options.group_columns_by_name)}`
       ], options);
     }else if(options.columns === false){
-      throw new CsvError$1('CSV_INVALID_OPTION_COLUMNS_DUPLICATES_TO_ARRAY', [
-        'Invalid option columns_duplicates_to_array:',
+      throw new CsvError$1('CSV_INVALID_OPTION_GROUP_COLUMNS_BY_NAME', [
+        'Invalid option group_columns_by_name:',
         'the `columns` mode must be activated.'
       ], options);
     }
@@ -5670,23 +5672,45 @@ class Parser extends Transform {
       throw new Error(`Invalid Option: raw must be true, got ${JSON.stringify(options.raw)}`);
     }
     // Normalize option `record_delimiter`
-    if(!options.record_delimiter){
+    if(options.record_delimiter === undefined){
       options.record_delimiter = [];
-    }else if(!Array.isArray(options.record_delimiter)){
+    }else if(typeof options.record_delimiter === 'string' || isBuffer$1(options.record_delimiter)){
+      if(options.record_delimiter.length === 0){
+        throw new CsvError$1('CSV_INVALID_OPTION_RECORD_DELIMITER', [
+          'Invalid option `record_delimiter`:',
+          'value must be a non empty string or buffer,',
+          `got ${JSON.stringify(options.record_delimiter)}`
+        ], options);
+      }
       options.record_delimiter = [options.record_delimiter];
+    }else if(!Array.isArray(options.record_delimiter)){
+      throw new CsvError$1('CSV_INVALID_OPTION_RECORD_DELIMITER', [
+        'Invalid option `record_delimiter`:',
+        'value must be a string, a buffer or array of string|buffer,',
+        `got ${JSON.stringify(options.record_delimiter)}`
+      ], options);
     }
-    options.record_delimiter = options.record_delimiter.map(function(rd){
+    options.record_delimiter = options.record_delimiter.map(function(rd, i){
+      if(typeof rd !== 'string' && ! isBuffer$1(rd)){
+        throw new CsvError$1('CSV_INVALID_OPTION_RECORD_DELIMITER', [
+          'Invalid option `record_delimiter`:',
+          'value must be a string, a buffer or array of string|buffer',
+          `at index ${i},`,
+          `got ${JSON.stringify(rd)}`
+        ], options);
+      }else if(rd.length === 0){
+        throw new CsvError$1('CSV_INVALID_OPTION_RECORD_DELIMITER', [
+          'Invalid option `record_delimiter`:',
+          'value must be a non empty string or buffer',
+          `at index ${i},`,
+          `got ${JSON.stringify(rd)}`
+        ], options);
+      }
       if(typeof rd === 'string'){
         rd = Buffer.from(rd, options.encoding);
       }
       return rd;
     });
-    // Normalize option `relax`
-    if(typeof options.relax === 'boolean');else if(options.relax === undefined || options.relax === null){
-      options.relax = false;
-    }else {
-      throw new Error(`Invalid Option: relax must be a boolean, got ${JSON.stringify(options.relax)}`);
-    }
     // Normalize option `relax_column_count`
     if(typeof options.relax_column_count === 'boolean');else if(options.relax_column_count === undefined || options.relax_column_count === null){
       options.relax_column_count = false;
@@ -5703,23 +5727,29 @@ class Parser extends Transform {
     }else {
       throw new Error(`Invalid Option: relax_column_count_more must be a boolean, got ${JSON.stringify(options.relax_column_count_more)}`);
     }
+    // Normalize option `relax_quotes`
+    if(typeof options.relax_quotes === 'boolean');else if(options.relax_quotes === undefined || options.relax_quotes === null){
+      options.relax_quotes = false;
+    }else {
+      throw new Error(`Invalid Option: relax_quotes must be a boolean, got ${JSON.stringify(options.relax_quotes)}`);
+    }
     // Normalize option `skip_empty_lines`
     if(typeof options.skip_empty_lines === 'boolean');else if(options.skip_empty_lines === undefined || options.skip_empty_lines === null){
       options.skip_empty_lines = false;
     }else {
       throw new Error(`Invalid Option: skip_empty_lines must be a boolean, got ${JSON.stringify(options.skip_empty_lines)}`);
     }
-    // Normalize option `skip_lines_with_empty_values`
-    if(typeof options.skip_lines_with_empty_values === 'boolean');else if(options.skip_lines_with_empty_values === undefined || options.skip_lines_with_empty_values === null){
-      options.skip_lines_with_empty_values = false;
+    // Normalize option `skip_records_with_empty_values`
+    if(typeof options.skip_records_with_empty_values === 'boolean');else if(options.skip_records_with_empty_values === undefined || options.skip_records_with_empty_values === null){
+      options.skip_records_with_empty_values = false;
     }else {
-      throw new Error(`Invalid Option: skip_lines_with_empty_values must be a boolean, got ${JSON.stringify(options.skip_lines_with_empty_values)}`);
+      throw new Error(`Invalid Option: skip_records_with_empty_values must be a boolean, got ${JSON.stringify(options.skip_records_with_empty_values)}`);
     }
-    // Normalize option `skip_lines_with_error`
-    if(typeof options.skip_lines_with_error === 'boolean');else if(options.skip_lines_with_error === undefined || options.skip_lines_with_error === null){
-      options.skip_lines_with_error = false;
+    // Normalize option `skip_records_with_error`
+    if(typeof options.skip_records_with_error === 'boolean');else if(options.skip_records_with_error === undefined || options.skip_records_with_error === null){
+      options.skip_records_with_error = false;
     }else {
-      throw new Error(`Invalid Option: skip_lines_with_error must be a boolean, got ${JSON.stringify(options.skip_lines_with_error)}`);
+      throw new Error(`Invalid Option: skip_records_with_error must be a boolean, got ${JSON.stringify(options.skip_records_with_error)}`);
     }
     // Normalize option `rtrim`
     if(options.rtrim === undefined || options.rtrim === null || options.rtrim === false){
@@ -5845,7 +5875,7 @@ class Parser extends Transform {
   }
   // Central parser implementation
   __parse(nextBuf, end){
-    const {bom, comment, escape, from_line, ltrim, max_record_size, quote, raw, relax, rtrim, skip_empty_lines, to, to_line} = this.options;
+    const {bom, comment, escape, from_line, ltrim, max_record_size, quote, raw, relax_quotes, rtrim, skip_empty_lines, to, to_line} = this.options;
     let {record_delimiter} = this.options;
     const {bomSkipped, previousBuf, rawBuffer, escapeIsQuote} = this.state;
     let buf;
@@ -5958,7 +5988,7 @@ class Parser extends Transform {
               this.state.wasQuoting = true;
               pos += quote.length - 1;
               continue;
-            }else if(relax === false){
+            }else if(relax_quotes === false){
               const err = this.__error(
                 new CsvError$1('CSV_INVALID_CLOSING_QUOTE', [
                   'Invalid Closing Quote:',
@@ -5977,8 +6007,8 @@ class Parser extends Transform {
             }
           }else {
             if(this.state.field.length !== 0){
-              // In relax mode, treat opening quote preceded by chrs as regular
-              if(relax === false){
+              // In relax_quotes mode, treat opening quote preceded by chrs as regular
+              if(relax_quotes === false){
                 const err = this.__error(
                   new CsvError$1('INVALID_OPENING_QUOTE', [
                     'Invalid Opening Quote:',
@@ -6116,7 +6146,7 @@ class Parser extends Transform {
     }
   }
   __onRecord(){
-    const {columns, columns_duplicates_to_array, encoding, info, from, relax_column_count, relax_column_count_less, relax_column_count_more, raw, skip_lines_with_empty_values} = this.options;
+    const {columns, group_columns_by_name, encoding, info, from, relax_column_count, relax_column_count_less, relax_column_count_more, raw, skip_records_with_empty_values} = this.options;
     const {enabled, record} = this.state;
     if(enabled === false){
       return this.__resetRecord();
@@ -6124,7 +6154,7 @@ class Parser extends Transform {
     // Convert the first line into column names
     const recordLength = record.length;
     if(columns === true){
-      if(skip_lines_with_empty_values === true && isRecordEmpty(record)){
+      if(skip_records_with_empty_values === true && isRecordEmpty(record)){
         this.__resetRecord();
         return;
       }
@@ -6135,9 +6165,7 @@ class Parser extends Transform {
     }
     if(recordLength !== this.state.expectedRecordLength){
       const err = columns === false ?
-        // Todo: rename CSV_INCONSISTENT_RECORD_LENGTH to
-        // CSV_RECORD_INCONSISTENT_FIELDS_LENGTH
-        new CsvError$1('CSV_INCONSISTENT_RECORD_LENGTH', [
+        new CsvError$1('CSV_RECORD_INCONSISTENT_FIELDS_LENGTH', [
           'Invalid Record Length:',
           `expect ${this.state.expectedRecordLength},`,
           `got ${recordLength} on line ${this.info.lines}`,
@@ -6145,9 +6173,7 @@ class Parser extends Transform {
           record: record,
         })
         :
-        // Todo: rename CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH to
-        // CSV_RECORD_INCONSISTENT_COLUMNS
-        new CsvError$1('CSV_RECORD_DONT_MATCH_COLUMNS_LENGTH', [
+        new CsvError$1('CSV_RECORD_INCONSISTENT_COLUMNS', [
           'Invalid Record Length:',
           `columns length is ${columns.length},`, // rename columns
           `got ${recordLength} on line ${this.info.lines}`,
@@ -6159,13 +6185,13 @@ class Parser extends Transform {
         (relax_column_count_more === true && recordLength > this.state.expectedRecordLength)){
         this.info.invalid_field_length++;
         this.state.error = err;
-      // Error is undefined with skip_lines_with_error
+      // Error is undefined with skip_records_with_error
       }else {
         const finalErr = this.__error(err);
         if(finalErr) return finalErr;
       }
     }
-    if(skip_lines_with_empty_values === true && isRecordEmpty(record)){
+    if(skip_records_with_empty_values === true && isRecordEmpty(record)){
       this.__resetRecord();
       return;
     }
@@ -6184,7 +6210,7 @@ class Parser extends Transform {
         for(let i = 0, l = record.length; i < l; i++){
           if(columns[i] === undefined || columns[i].disabled) continue;
           // Turn duplicate columns into an array
-          if (columns_duplicates_to_array === true && obj[columns[i].name] !== undefined) {
+          if (group_columns_by_name === true && obj[columns[i].name] !== undefined) {
             if (Array.isArray(obj[columns[i].name])) {
               obj[columns[i].name] = obj[columns[i].name].concat(record[i]);
             } else {
@@ -6457,9 +6483,9 @@ class Parser extends Transform {
     return 0;
   }
   __error(msg){
-    const {encoding, raw, skip_lines_with_error} = this.options;
+    const {encoding, raw, skip_records_with_error} = this.options;
     const err = typeof msg === 'string' ? new Error(msg) : msg;
-    if(skip_lines_with_error){
+    if(skip_records_with_error){
       this.state.recordHasError = true;
       this.emit('skip', err, raw ? this.state.rawBuffer.toString(encoding) : undefined);
       return undefined;
