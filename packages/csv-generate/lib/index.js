@@ -97,7 +97,6 @@ Generator.prototype._read = function(size){
     // Time for some rest: flush first and stop later
     if((this._.count_created === this.options.length) || (this.options.end && Date.now() > this.options.end) || (this.options.duration && Date.now() > this._.start_time + this.options.duration)){
       // Flush
-      this._.end = true;
       if(data.length){
         if(this.options.objectMode){
           for(const record of data){
@@ -106,6 +105,7 @@ Generator.prototype._read = function(size){
         }else{
           this.__push(data.join('') + (this.options.eof ? this.options.eof : ''));
         }
+        this._.end = true;
       }else{
         this.push(null);
       }
@@ -120,6 +120,8 @@ Generator.prototype._read = function(size){
     // Obtain record length
     if(this.options.objectMode){
       recordLength = 0;
+      // recordLength is currently equal to the number of columns
+      // This is wrong and shall equal to 1 record only
       for(const column of record)
         recordLength += column.length;
     }else{
