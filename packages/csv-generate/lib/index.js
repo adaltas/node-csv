@@ -100,8 +100,8 @@ Generator.prototype._read = function(size){
       this._.end = true;
       if(data.length){
         if(this.options.objectMode){
-          for(const line of data){
-            this.__push(line);
+          for(const record of data){
+            this.__push(record);
           }
         }else{
           this.__push(data.join('') + (this.options.eof ? this.options.eof : ''));
@@ -111,42 +111,42 @@ Generator.prototype._read = function(size){
       }
       return;
     }
-    // Create the line
-    let line = [];
-    let lineLength;
+    // Create the record
+    let record = [];
+    let recordLength;
     this.options.columns.forEach((fn) => {
-      line.push(fn(this));
+      record.push(fn(this));
     });
-    // Obtain line length
+    // Obtain record length
     if(this.options.objectMode){
-      lineLength = 0;
-      for(const column of line)
-        lineLength += column.length;
+      recordLength = 0;
+      for(const column of record)
+        recordLength += column.length;
     }else{
-      // Stringify the line
-      line = (this._.count_created === 0 ? '' : this.options.rowDelimiter)+line.join(this.options.delimiter);
-      lineLength = line.length;
+      // Stringify the record
+      record = (this._.count_created === 0 ? '' : this.options.rowDelimiter)+record.join(this.options.delimiter);
+      recordLength = record.length;
     }
     this._.count_created++;
-    if(length + lineLength > size){
+    if(length + recordLength > size){
       if(this.options.objectMode){
-        data.push(line);
-        for(const line of data){
-          this.__push(line);
+        data.push(record);
+        for(const record of data){
+          this.__push(record);
         }
       }else{
         if(this.options.fixedSize){
-          this._.fixed_size_buffer = line.substr(size - length);
-          data.push(line.substr(0, size - length));
+          this._.fixed_size_buffer = record.substr(size - length);
+          data.push(record.substr(0, size - length));
         }else{
-          data.push(line);
+          data.push(record);
         }
         this.__push(data.join(''));
       }
       return;
     }
-    length += lineLength;
-    data.push(line);
+    length += recordLength;
+    data.push(record);
   }
 };
 // Put new data into the read queue.
