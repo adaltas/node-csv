@@ -14,37 +14,23 @@ export function resolve(specifier, context, defaultResolve) {
   // specifiers ending in the CoffeeScript file extensions.
   if (extensionsRegex.test(specifier)) {
     return {
-      url: new URL(specifier, parentURL).href,
-      stop: true
+      url: new URL(specifier, parentURL).href
     };
   }
-  // Let Node.js handle all other specifiers.
   return defaultResolve(specifier, context, defaultResolve);
 }
 
-export function getFormat(url, context, defaultGetFormat) {
-  // Now that we patched resolve to let CoffeeScript URLs through, we need to
-  // tell Node.js what format such URLs should be interpreted as. For the
-  // purposes of this loader, all CoffeeScript URLs are ES modules.
+export async function load(url, context, defaultLoad) {
   if (extensionsRegex.test(url)) {
+    const format = 'module'
+    const { source: rawSource } = await defaultLoad(url, { format });
     return {
       format: 'module',
-      stop: true
+      source: CoffeeScript.compile(rawSource.toString(), {
+        bare: true,
+        filename: url,
+      })
     };
   }
-  // Let Node.js handle all other URLs.
-  return defaultGetFormat(url, context, defaultGetFormat);
-}
-
-export function transformSource(source, context, defaultTransformSource) {
-  const { url, format } = context;
-
-  if (extensionsRegex.test(url)) {
-    return {
-      source: CoffeeScript.compile(String(source), { bare: true })
-    };
-  }
-
-  // Let Node.js handle all other sources.
-  return defaultTransformSource(source, context, defaultTransformSource);
+  return defaultLoad(url, context, defaultLoad);
 }
