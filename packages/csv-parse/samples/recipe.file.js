@@ -1,6 +1,6 @@
 
 import assert from 'assert';
-import fs from 'fs/promises';
+import {promises as fs} from 'fs'; // 'fs/promises' not available in node 12
 import os from 'os';
 import { parse } from '../lib/sync.js';
 
