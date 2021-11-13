@@ -16,6 +16,7 @@ It has been tested and used by a large community over the years and should be
 considered reliable. It provides every option you would expect from an advanced
 CSV parser and stringifier.
 
+[![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/csv)](https://www.npmjs.com/package/csv) [![NPM](https://img.shields.io/npm/v/csv)](https://www.npmjs.com/package/csv)
 
 The `csv` package is itself split into 4 packages:

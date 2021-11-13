@@ -1,5 +1,7 @@
 
-[![Build Status](https://api.travis-ci.org/adaltas/node-csv-stringify.svg)](https://travis-ci.org/#!/adaltas/node-csv-stringify) [![NPM](https://img.shields.io/npm/dm/csv-stringify)](https://www.npmjs.com/package/csv-stringify) [![NPM](https://img.shields.io/npm/v/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
+[![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
+[![NPM](https://img.shields.io/npm/dm/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
+[![NPM](https://img.shields.io/npm/v/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
 
 This package is a stringifier converting records into a CSV text and
 implementing the Node.js [`stream.Transform`
