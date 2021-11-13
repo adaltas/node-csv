@@ -1,21 +1,20 @@
 
+# CSV generator for Node.js and the web - `csv-generate` package
+
 [![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/csv-generate)](https://www.npmjs.com/package/csv-generate)
 [![NPM](https://img.shields.io/npm/v/csv-generate)](https://www.npmjs.com/package/csv-generate)
 
-# CSV and object generation
-
-This package provides a flexible generator of CSV strings and Javascript objects
-implementing the Node.js `stream.Readable` API.
+This package provides a flexible generator of random CSV strings and Javascript objects implementing the Node.js `stream.Readable` API.
 
 [Documentation for the "csv-generate" package is available here](https://csv.js.org/generate/).
 
 ## Documentation
 
-* [Project homepage](http://csv.js.org/generate/)
-* [API](http://csv.js.org/generate/api/)
-* [Options](http://csv.js.org/generate/options/)
-* [Examples](http://csv.js.org/generate/examples/)
+* [Project homepage](https://csv.js.org/generate/)
+* [API](https://csv.js.org/generate/api/)
+* [Options](https://csv.js.org/generate/options/)
+* [Examples](https://csv.js.org/generate/examples/)
 
 ## Main features
 
@@ -30,7 +29,42 @@ implementing the Node.js `stream.Readable` API.
 
 Run `npm install csv` to install the full csv module or run `npm install csv-generate` if you are only interested by the CSV generator.
 
-Use the callback style API for simplicity or the stream based API for scalability.
+Use the callback and sync APIs for simplicity or the stream based API for scalability.
+
+## Example
+
+The [API](https://csv.js.org/generate/api/) is available in multiple flavors. This example illustrates the stream API.
+
+```js
+import { generate } from 'csv-generate';
+import assert from 'assert';
+
+const records = [];
+// Initialize the generator
+generate({
+  seed: 1,
+  objectMode: true,
+  columns: 2,
+  length: 2
+})
+// Use the readable stream api to consume generated records
+  .on('readable', function(){
+    let record; while((record = this.read()) !== null){
+      records.push(record);
+    }
+  })
+// Catch any error
+  .on('error', function(err){
+    console.error(err);
+  })
+// Test that the generated records matched the expected records
+  .on('end', function(){
+    assert.deepEqual(records, [
+      [ 'OMH', 'ONKCHhJmjadoA' ],
+      [ 'D', 'GeACHiN' ]
+    ]);
+  });
+```
 
 ## Development
 

@@ -1,13 +1,8 @@
 
-<pre>
-     _   _           _        _____  _______      __
-    | \ | |         | |      / ____|/ ____\ \    / /
-    |  \| | ___   __| | ___ | |    | (___  \ \  / /
-    | . ` |/ _ \ / _` |/ _ \| |     \___ \  \ \/ /
-    | |\  | (_) | (_| |  __/| |____ ____) |  \  /
-    |_| \_|\___/ \__,_|\___| \_____|_____/    \/     MIT License
+# CSV for Node.js and the web - `csv` package
 
-</pre>
+[![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
+[![NPM](https://img.shields.io/npm/dm/csv)](https://www.npmjs.com/package/csv) [![NPM](https://img.shields.io/npm/v/csv)](https://www.npmjs.com/package/csv)
 
 This project provides CSV generation, parsing, transformation and serialization
 for Node.js.
@@ -16,23 +11,24 @@ It has been tested and used by a large community over the years and should be
 considered reliable. It provides every option you would expect from an advanced
 CSV parser and stringifier.
 
-[![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
-[![NPM](https://img.shields.io/npm/dm/csv)](https://www.npmjs.com/package/csv) [![NPM](https://img.shields.io/npm/v/csv)](https://www.npmjs.com/package/csv)
+The `csv` package exposes 4 packages:
 
-The `csv` package is itself split into 4 packages:
-
-*   [`csv-generate`](https://csv.js.org/generate/),
-    a flexible generator of CSV string and Javascript objects. 
-    [![Build Status](https://secure.travis-ci.org/adaltas/node-csv-generate.svg?branch=master)][travis-csv-generate]
-*   [`csv-parse`](https://csv.js.org/parse/),
-    a parser converting CSV text into arrays or objects. 
-    [![Build Status](https://secure.travis-ci.org/adaltas/node-csv-parse.svg?branch=master)][travis-csv-parse]
-*   [`stream-transform`](https://csv.js.org/transform/),
-    a transformation framework.
-    [![Build Status](https://secure.travis-ci.org/adaltas/node-stream-transform.svg?branch=master)][travis-stream-transform]
-*   [`csv-stringify`](https://csv.js.org/stringify/), 
-    a stringifier converting records into a CSV text. 
-    [![Build Status](https://secure.travis-ci.org/adaltas/node-csv-stringify.svg?branch=master)][travis-csv-stringify]
+*   [`csv-generate`](https://csv.js.org/generate/)   
+    A flexible generator of CSV string and Javascript objects.   
+    [![NPM](https://img.shields.io/npm/dm/csv-generate)](https://www.npmjs.com/package/csv-generate) 
+    [![NPM](https://img.shields.io/npm/v/csv-generate)](https://www.npmjs.com/package/csv-generate)
+*   [`csv-parse`](https://csv.js.org/parse/)   
+    A parser converting CSV text into arrays or objects.   
+    [![NPM](https://img.shields.io/npm/dm/csv-parse)](https://www.npmjs.com/package/csv-parse)
+    [![NPM](https://img.shields.io/npm/v/csv-parse)](https://www.npmjs.com/package/csv-parse)
+*   [`stream-transform`](https://csv.js.org/transform/)   
+    A transformation framework.   
+    [![NPM](https://img.shields.io/npm/dm/stream-transform)](https://www.npmjs.com/package/stream-transform) 
+    [![NPM](https://img.shields.io/npm/v/stream-transform)](https://www.npmjs.com/package/stream-transform)
+*   [`csv-stringify`](https://csv.js.org/stringify/)   
+    A stringifier converting records into a CSV text.   
+    [![NPM](https://img.shields.io/npm/dm/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
+    [![NPM](https://img.shields.io/npm/v/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
 
 ## Documentation
 
@@ -44,6 +40,39 @@ Installation command is `npm install csv`.
 
 Each package is fully compatible with the stream 2 and 3 specifications.
 Also, a simple callback-based API is always provided for convenience.
+
+## Sample
+
+This example uses the Stream API to create a processing pipeline.
+
+```js
+// Import the package
+import * as csv from '../lib/index.js';
+
+// Run the pipeline
+csv
+// Generate 20 records
+  .generate({
+    delimiter: '|',
+    length: 20
+  })
+// Transform CSV data into records
+  .pipe(csv.parse({
+    delimiter: '|'
+  }))
+// Transform each value into uppercase
+  .pipe(csv.transform((record) => {
+    return record.map((value) => {
+      return value.toUpperCase();
+    });
+  }))
+// Convert objects into a stream
+  .pipe(csv.stringify({
+    quoted: true
+  }))
+// Print the CSV stream to stdout
+  .pipe(process.stdout);
+```
 
 ## Development
 

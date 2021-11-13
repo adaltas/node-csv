@@ -1,4 +1,6 @@
 
+# CSV stringifier for Node.js and the web - `csv-stringify` package
+
 [![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
 [![NPM](https://img.shields.io/npm/v/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
@@ -12,10 +14,10 @@ data sets by a large community.
 
 ## Documentation
 
-* [Project homepage](http://csv.js.org/stringify/)
-* [API](http://csv.js.org/stringify/api/)
-* [Options](http://csv.js.org/stringify/options/)
-* [Examples](http://csv.js.org/stringify/examples/)
+* [Project homepage](https://csv.js.org/stringify/)
+* [API](https://csv.js.org/stringify/api/)
+* [Options](https://csv.js.org/stringify/options/)
+* [Examples](https://csv.js.org/stringify/examples/)
 
 ## Main features
 
@@ -30,22 +32,24 @@ data sets by a large community.
 
 ## Usage
 
-The module is built on the Node.js Stream API. For the sake of simplicity, a
-simple callback API is also provided. To give you a quick look, here's an
-example of the callback API:
+Run `npm install csv` to install the full csv module or run `npm install csv-stringify` if you are only interested by the CSV stringifier.
 
-```javascript
-const stringify = require('csv-stringify')
-const assert = require('assert')
-// import stringify from 'csv-stringify'
-// import assert from 'assert/strict'
+The module is built on the Node.js Stream API. Use the callback and sync APIs for simplicity or the stream based API for scalability.
 
-const input = [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ]
-stringify(input, function(err, output) {
-  const expected = '1,2,3,4\na,b,c,d\n'
-  assert.strictEqual(output, expected, `output.should.eql ${expected}`)
-  console.log("Passed.", output)
-})
+## Example
+
+The [API](https://csv.js.org/stringify/api/) is available in multiple flavors. This example illustrates the sync API.
+
+```js
+import { stringify } from 'csv-stringify/sync';
+import assert from 'assert';
+
+const output = stringify([
+  [ '1', '2', '3', '4' ],
+  [ 'a', 'b', 'c', 'd' ]
+]);
+
+assert.equal(output, '1,2,3,4\na,b,c,d\n');
 ```
 
 ## Development
@@ -71,5 +75,5 @@ The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data cons
 
 [csv_home]: https://github.com/adaltas/node-csv
 [stream_transform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
-[examples]: http://csv.js.org/stringify/examples/
+[examples]: https://csv.js.org/stringify/examples/
 [csv]: https://github.com/adaltas/node-csv

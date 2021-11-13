@@ -1,22 +1,22 @@
 
+# Stream transformation for Node.js and the web - `stream-transform` package
 
 [![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/stream-transform)](https://www.npmjs.com/package/stream-transform)
 [![NPM](https://img.shields.io/npm/v/stream-transform)](https://www.npmjs.com/package/stream-transform)
 
-
 Part of the [CSV module](https://csv.js.org/), this project is a simple object transformation framework. It implements the Node.js [`stream.Transform` API](http://nodejs.org/api/stream.html#stream_class_stream_transform). It also provides a simple callback-based API for convenience. It is both extremely easy to use and powerful.
 
 ## Documentation
 
-* [Project homepage](http://csv.js.org/transform/)
-* [API](http://csv.js.org/transform/api/)
-* [Options](http://csv.js.org/transform/options/)
-* [Handler](http://csv.js.org/transform/handler/)
-* [State properties](http://csv.js.org/transform/state/)
-* [Examples](http://csv.js.org/transform/examples/)
+* [Project homepage](https://csv.js.org/transform/)
+* [API](https://csv.js.org/transform/api/)
+* [Options](https://csv.js.org/transform/options/)
+* [Handler](https://csv.js.org/transform/handler/)
+* [State properties](https://csv.js.org/transform/state/)
+* [Examples](https://csv.js.org/transform/examples/)
 
-## Features
+## Main features
 
 * Extends the native Node.js [transform stream API](http://nodejs.org/api/stream.html#stream_class_stream_transform)
 * Simplicity with the optional callback and sync API
@@ -31,18 +31,30 @@ Part of the [CSV module](https://csv.js.org/), this project is a simple object t
 
 ## Usage
 
-The module is built on the Node.js Stream API. For the sake of simplify, a simple callback API is also provided. To give you a quick look, here's an example of the callback API:
+Run `npm install csv` to install the full csv module or run `npm install csv-transform` if you are only interested by the CSV stringifier.
 
-```javascript
-var transform = require('stream-transform');
+The module is built on the Node.js Stream API. Use the callback and sync APIs for simplicity or the stream based API for scalability.
 
-input = [ [ '1', '2', '3', '4' ], [ 'a', 'b', 'c', 'd' ] ];
-transform(input, function(data){
-  data.push(data.shift());
-  return data.join(',')+'\n';
-}, function(err, output){
-  output.should.eql([ '2,3,4,1\n', 'b,c,d,a\n' ]);
+## Example
+
+The [API](https://csv.js.org/transform/api/) is available in multiple flavors. This example illustrates the sync API.
+
+```js
+import { transform } from 'stream-transform/sync';
+import assert from 'assert';
+
+const records = transform([
+  [ 'a', 'b', 'c', 'd' ],
+  [ '1', '2', '3', '4' ]
+], function(record){
+  record.push(record.shift());
+  return record;
 });
+
+assert.deepEqual(records, [
+  [ 'b', 'c', 'd', 'a' ],
+  [ '2', '3', '4', '1' ]
+]);
 ```
 
 ## Development
