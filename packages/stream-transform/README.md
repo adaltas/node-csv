@@ -52,3 +52,9 @@ Tests are executed with mocha. To install it, simple run `npm install` followed 
 To generate the JavaScript files, run `npm run coffee`.
 
 The test suite is run online with [Travis](http://travis-ci.org/wdavidw/node-stream-transform). See the [Travis definition file](https://github.com/adaltas/node-stream-transform/blob/master/.travis.yml) to view the tested Node.js version.
+
+## Contributors
+
+The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
+
+*   David Worms: <https://github.com/wdavidw>

@@ -65,6 +65,8 @@ view the tested Node.js version.
 
 ## Contributors
 
+The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
+
 *   David Worms: <https://github.com/wdavidw>
 
 [csv_home]: https://github.com/adaltas/node-csv

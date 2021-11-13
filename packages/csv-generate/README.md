@@ -42,4 +42,6 @@ The test suite is run online with [Travis](https://travis-ci.org/#!/adaltas/node
 
 ## Contributors
 
+The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
+
 *   David Worms: <https://github.com/wdavidw>

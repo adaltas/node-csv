@@ -52,6 +52,12 @@ tests to its child projects.
 
 Read the documentation of the child projects for additional information.
 
+## Contributors
+
+The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
+
+*   David Worms: <https://github.com/wdavidw>
+
 ## Related projects
 
 *   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>

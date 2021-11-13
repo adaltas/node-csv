@@ -27,3 +27,9 @@ Part of the [CSV module](https://csv.js.org/), this project is a parser converti
 *   No external dependencies
 *   Work nicely with the [csv-generate](https://csv.js.org/generate/), [stream-transform](https://csv.js.org/transform/) and [csv-stringify](https://csv.js.org/stringify/) packages
 *   MIT License
+
+## Contributors
+
+The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
+
+*   David Worms: <https://github.com/wdavidw>
