@@ -19,15 +19,20 @@ It has been tested and used by a large community over the years and should be co
 
 This repository is a monorepo managed using [Lerna](https://github.com/lerna/lerna). There are 5 packages managed in this codebase, even though we publish them to NPM as separate packages:
 
-* [`csv`](packages/csv/),
+* [`csv`](https://csv.js.org/)
+  ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv)),
   an umbrella which is itself split into 4 packages.
-* [`csv-generate`](packages/csv-generate/),
+* [`csv-generate`](https://csv.js.org/generate/)
+  ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-generate)),
   a flexible generator of CSV string and Javascript objects.
-* [`csv-parse`](packages/csv-parse/),
+* [`csv-parse`](https://csv.js.org/parse/)
+  ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse)),
   a parser converting CSV text into arrays or objects.
-* [`csv-stringify`](packages/csv-stringify/),
+* [`csv-stringify`](https://csv.js.org/stringify/)
+  ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-stringify)),
   a stringifier converting records into a CSV text.
-* [`stream-transform`](packages/stream-transform/),
+* [`stream-transform`](https://csv.js.org/transform/)
+  ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/stream-transform)),
   a transformation framework.
 
 ## Documentation

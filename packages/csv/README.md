@@ -13,22 +13,18 @@ CSV parser and stringifier.
 
 The `csv` package exposes 4 packages:
 
-*   [`csv-generate`](https://csv.js.org/generate/)   
-    A flexible generator of CSV string and Javascript objects.   
-    [![NPM](https://img.shields.io/npm/dm/csv-generate)](https://www.npmjs.com/package/csv-generate) 
-    [![NPM](https://img.shields.io/npm/v/csv-generate)](https://www.npmjs.com/package/csv-generate)
-*   [`csv-parse`](https://csv.js.org/parse/)   
-    A parser converting CSV text into arrays or objects.   
-    [![NPM](https://img.shields.io/npm/dm/csv-parse)](https://www.npmjs.com/package/csv-parse)
-    [![NPM](https://img.shields.io/npm/v/csv-parse)](https://www.npmjs.com/package/csv-parse)
-*   [`stream-transform`](https://csv.js.org/transform/)   
-    A transformation framework.   
-    [![NPM](https://img.shields.io/npm/dm/stream-transform)](https://www.npmjs.com/package/stream-transform) 
-    [![NPM](https://img.shields.io/npm/v/stream-transform)](https://www.npmjs.com/package/stream-transform)
-*   [`csv-stringify`](https://csv.js.org/stringify/)   
-    A stringifier converting records into a CSV text.   
-    [![NPM](https://img.shields.io/npm/dm/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
-    [![NPM](https://img.shields.io/npm/v/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
+* [`csv-generate`](https://csv.js.org/generate/)
+  ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-generate)),
+  a flexible generator of CSV string and Javascript objects.
+* [`csv-parse`](https://csv.js.org/parse/)
+  ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse)),
+  a parser converting CSV text into arrays or objects.
+* [`csv-stringify`](https://csv.js.org/stringify/)
+  ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-stringify)),
+  a stringifier converting records into a CSV text.
+* [`stream-transform`](https://csv.js.org/transform/)
+  ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/stream-transform)),
+  a transformation framework.
 
 ## Documentation
 
