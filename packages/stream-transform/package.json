@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.0.1",
   "name": "stream-transform",
   "description": "Object transformations implementing the Node.js `stream.Transform` API",
   "keywords": [
@@ -15,7 +15,7 @@
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.11.7",
     "coffeescript": "~2.6.1",
-    "csv-generate": "^4.0.0",
+    "csv-generate": "^4.0.1",
     "each": "^1.2.2",
     "eslint": "^8.2.0",
     "mocha": "~9.1.3",
