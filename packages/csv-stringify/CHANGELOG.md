@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/adaltas/node-csv/compare/csv-stringify@5.6.5...csv-stringify@6.0.0) (2021-11-15)
+
+
+### Bug Fixes
+
+* **csv-stringify:** use removeListener instead of off ([2c2623f](https://github.com/adaltas/node-csv/commit/2c2623f01a4985c5d248e1557a32a70350e825f6))
+* export original lib esm modules ([be25349](https://github.com/adaltas/node-csv/commit/be2534928ba21156e9cde1e15d2e8593d62ffe71))
+* fallback to setTimeout is setImmediate is undefined ([3d6a2d0](https://github.com/adaltas/node-csv/commit/3d6a2d0a655af342f28456b46db7ccfe7ee9d664))
+* refer to esm files in dist ([b780fbd](https://github.com/adaltas/node-csv/commit/b780fbd26f5e54494e511eb2e004d3cdedee3593))
+
+
+### Features
+
+* backport support for node 14 ([dbfeb78](https://github.com/adaltas/node-csv/commit/dbfeb78f61ed36f02936d63a53345708ca213e45))
+* backward support for node 8 ([496231d](https://github.com/adaltas/node-csv/commit/496231dfd838f0a6a72269a5a2390a4c637cef95))
+* **csv-stringify:** ts extends options with stream.TransformOptions ([#301](https://github.com/adaltas/node-csv/issues/301)) ([cc30d66](https://github.com/adaltas/node-csv/commit/cc30d66e0f07686d2c42670ead10246ebcf37a67))
+* esm migration ([b5c0d4b](https://github.com/adaltas/node-csv/commit/b5c0d4b191c8b57397808c0922a3f08248506a9f))
+* export ts types in sync ([890bf8d](https://github.com/adaltas/node-csv/commit/890bf8d950c18a05cab5e35a461d0847d9425156))
+* replace ts types with typesVersions ([acb41d5](https://github.com/adaltas/node-csv/commit/acb41d5031669f2d582e40da1c80f5fd4738fee4))
+
+
+
+
+
 ## [5.6.4](https://github.com/adaltas/node-csv-stringify/compare/csv-stringify@5.6.3...csv-stringify@5.6.4) (2021-08-27)
 
 **Note:** Version bump only for package csv-stringify

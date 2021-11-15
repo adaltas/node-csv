@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/adaltas/node-csv/compare/csv-parse@4.16.3...csv-parse@5.0.0) (2021-11-15)
+
+
+### Bug Fixes
+
+* **csv-parse:** export csv error class in sync ([fc89380](https://github.com/adaltas/node-csv/commit/fc8938090141861dcbcae214f64e52a0aa6cc691))
+* **csv-parse:** ts callback CsvError argument ([899dc67](https://github.com/adaltas/node-csv/commit/899dc67ed6256478e8eecbcc5b925f238ce367d5))
+* export original lib esm modules ([be25349](https://github.com/adaltas/node-csv/commit/be2534928ba21156e9cde1e15d2e8593d62ffe71))
+* fallback to setTimeout is setImmediate is undefined ([3d6a2d0](https://github.com/adaltas/node-csv/commit/3d6a2d0a655af342f28456b46db7ccfe7ee9d664))
+* refer to esm files in dist ([b780fbd](https://github.com/adaltas/node-csv/commit/b780fbd26f5e54494e511eb2e004d3cdedee3593))
+
+
+### Features
+
+* backport support for node 14 ([dbfeb78](https://github.com/adaltas/node-csv/commit/dbfeb78f61ed36f02936d63a53345708ca213e45))
+* backward support for node 8 ([496231d](https://github.com/adaltas/node-csv/commit/496231dfd838f0a6a72269a5a2390a4c637cef95))
+* **csv-parse:** improve record_delimiter validation ([67b7da8](https://github.com/adaltas/node-csv/commit/67b7da892db7f0f426b9f0fa12063e81eafe8a9b))
+* **csv-parse:** objname index ([015b936](https://github.com/adaltas/node-csv/commit/015b936ea42026efa52263a7687f886463263ed8))
+* **csv-parse:** skip_line_with_errors used with raw print current buffer (fix [#292](https://github.com/adaltas/node-csv/issues/292)) ([2741990](https://github.com/adaltas/node-csv/commit/27419908b9ce5319307bb6647335d5c07cd1e3a4))
+* **csv-parse:** ts type encoding with BufferEncoding ([39a4388](https://github.com/adaltas/node-csv/commit/39a43886904801d47a92a3cb5722409f36020534))
+* esm migration ([b5c0d4b](https://github.com/adaltas/node-csv/commit/b5c0d4b191c8b57397808c0922a3f08248506a9f))
+* export ts types in sync ([890bf8d](https://github.com/adaltas/node-csv/commit/890bf8d950c18a05cab5e35a461d0847d9425156))
+* replace ts types with typesVersions ([acb41d5](https://github.com/adaltas/node-csv/commit/acb41d5031669f2d582e40da1c80f5fd4738fee4))
+
+
+
+
+
 ## [4.16.2](https://github.com/wdavidw/node-csv-parse/compare/csv-parse@4.16.1...csv-parse@4.16.2) (2021-08-27)
 
 **Note:** Version bump only for package csv-parse
