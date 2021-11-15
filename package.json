@@ -8,6 +8,10 @@
     "husky": "^5.2.0",
     "lerna": "^4.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adaltas/node-csv.git"
+  },
   "scripts": {
     "build": "lerna run build",
     "postinstall": "husky install",
