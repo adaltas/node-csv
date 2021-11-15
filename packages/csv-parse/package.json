@@ -62,8 +62,7 @@
   },
   "files": [
     "dist",
-    "lib",
-    "samples"
+    "lib"
   ],
   "homepage": "https://csv.js.org/parse/",
   "license": "MIT",

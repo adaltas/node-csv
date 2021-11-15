@@ -39,8 +39,7 @@
   },
   "files": [
     "dist",
-    "lib",
-    "samples"
+    "lib"
   ],
   "homepage": "https://csv.js.org/generate/",
   "license": "MIT",
