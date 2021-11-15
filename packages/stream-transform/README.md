@@ -1,11 +1,13 @@
 
-# Stream transformation for Node.js and the web - `stream-transform` package
+# Stream transformation for Node.js and the web
 
 [![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/stream-transform)](https://www.npmjs.com/package/stream-transform)
 [![NPM](https://img.shields.io/npm/v/stream-transform)](https://www.npmjs.com/package/stream-transform)
 
-Part of the [CSV module](https://csv.js.org/), this project is a simple object transformation framework. It implements the Node.js [`stream.Transform` API](http://nodejs.org/api/stream.html#stream_class_stream_transform). It also provides a simple callback-based API for convenience. It is both extremely easy to use and powerful.
+The [`stream-transform` project](https://csv.js.org/transform/) is a simple object transformation framework. It is part of the [CSV project](https://csv.js.org/).
+
+The Node.js [`stream.Transform` API](http://nodejs.org/api/stream.html#stream_class_stream_transform) is implemented for scalability. The callback-based and sync APIs are also available for convenience. It is both easy to use and powerful.
 
 ## Documentation
 

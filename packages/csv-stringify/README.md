@@ -1,11 +1,11 @@
 
-# CSV stringifier for Node.js and the web - `csv-stringify` package
+# CSV stringifier for Node.js and the web
 
 [![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
 [![NPM](https://img.shields.io/npm/v/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
 
-This package is a stringifier converting records into a CSV text and
+The [`csv-stringify` package](https://csv.js.org/stringify/) is a stringifier converting records into a CSV text and
 implementing the Node.js [`stream.Transform`
 API](https://nodejs.org/api/stream.html). It also provides the easier
 synchronous and callback-based APIs for conveniency. It is both extremely easy

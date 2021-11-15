@@ -1,13 +1,11 @@
 
-# CSV generator for Node.js and the web - `csv-generate` package
+# CSV generator for Node.js and the web
 
 [![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/csv-generate)](https://www.npmjs.com/package/csv-generate)
 [![NPM](https://img.shields.io/npm/v/csv-generate)](https://www.npmjs.com/package/csv-generate)
 
-This package provides a flexible generator of random CSV strings and Javascript objects implementing the Node.js `stream.Readable` API.
-
-[Documentation for the "csv-generate" package is available here](https://csv.js.org/generate/).
+The [`csv-generate` package](https://csv.js.org/generate/) provides a flexible generator of random CSV strings and Javascript objects implementing the Node.js `stream.Readable` API. It is part of the [CSV project](https://csv.js.org/).
 
 ## Documentation
 

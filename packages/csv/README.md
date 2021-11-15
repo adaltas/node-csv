@@ -1,17 +1,17 @@
 
-# CSV for Node.js and the web - `csv` package
+# CSV for Node.js and the web
 
 [![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/csv)](https://www.npmjs.com/package/csv) [![NPM](https://img.shields.io/npm/v/csv)](https://www.npmjs.com/package/csv)
 
-This project provides CSV generation, parsing, transformation and serialization
+The `csv` project provides CSV generation, parsing, transformation and serialization
 for Node.js.
 
 It has been tested and used by a large community over the years and should be
 considered reliable. It provides every option you would expect from an advanced
 CSV parser and stringifier.
 
-The `csv` package exposes 4 packages:
+This package exposes 4 packages:
 
 * [`csv-generate`](https://csv.js.org/generate/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-generate)),
