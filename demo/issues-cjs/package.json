@@ -1,5 +1,5 @@
 {
-  "name": "csv_issues_cjs",
+  "name": "csv-issues-cjs",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -11,11 +11,11 @@
   },
   "mocha": {
     "inline-diffs": true,
-    "loader": "./test/loaders/all.mjs",
     "recursive": true,
     "reporter": "spec",
     "require": [
-      "should"
+      "should",
+      "coffeescript/register"
     ],
     "throw-deprecation": true,
     "timeout": 40000
