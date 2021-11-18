@@ -22,7 +22,8 @@
   },
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "demo/*"
     ],
     "nohoist": [
       "**/browserify",
