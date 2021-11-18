@@ -22,6 +22,7 @@
     "timeout": 40000
   },
   "scripts": {
-    "test": "mocha 'test/**/*.coffee'"
+    "test": "mocha 'test/**/*.coffee'",
+    "test:legacy": "mocha --loader=./test/loaders/legacy/all.mjs 'test/**/*.{coffee,ts}'"
   }
 }
