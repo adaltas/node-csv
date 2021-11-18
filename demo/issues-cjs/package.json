@@ -1,9 +1,8 @@
 {
-  "name": "csv_issues_esm",
+  "name": "csv_issues_cjs",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module",
   "private": true,
   "devDependencies": {
     "coffeescript": "^2.6.1",

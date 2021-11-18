@@ -15,10 +15,6 @@ export default [{
   input: 'lib/index.js',
   output: [
     {
-      file: `dist/cjs/index.cjs`,
-      format: 'cjs'
-    },
-    {
       file: `dist/esm/index.js`,
       format: 'esm'
     },
@@ -37,16 +33,23 @@ export default [{
     fix: true,
   }), globals(), builtins(), nodeResolve()],
 }, {
+  input: 'lib/index.js',
+  output: [
+    {
+      file: `dist/cjs/index.cjs`,
+      format: 'cjs'
+    },
+  ],
+  plugins: [eslint({
+    fix: true,
+  }), nodeResolve()],
+}, {
   onwarn: function(warning, rollupWarn) {
     if (warning.code === 'CIRCULAR_DEPENDENCY') return;
     rollupWarn(warning);
   },
   input: 'lib/sync.js',
   output: [
-    {
-      file: `dist/cjs/sync.cjs`,
-      format: 'cjs'
-    },
     {
       file: `dist/esm/sync.js`,
       format: 'esm'
@@ -65,4 +68,15 @@ export default [{
   plugins: [eslint({
     fix: true,
   }), globals(), builtins(), nodeResolve()],
+}, {
+  input: 'lib/sync.js',
+  output: [
+    {
+      file: `dist/cjs/sync.cjs`,
+      format: 'cjs'
+    },
+  ],
+  plugins: [eslint({
+    fix: true,
+  }), nodeResolve()],
 }];
