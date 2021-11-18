@@ -1,5 +1,5 @@
 {
-  "name": "csv_demo_cjs",
+  "name": "csv-demo-browser",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -17,8 +17,7 @@
     "timeout": 40000
   },
   "scripts": {
-    "start": "node server.js",
-    "test": "mocha 'test/**/*.coffee'"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.17.1"
