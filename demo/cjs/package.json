@@ -1,5 +1,5 @@
 {
-  "name": "csv_demo_cjs",
+  "name": "csv-demo-cjs",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -14,15 +14,15 @@
     "typescript": "^4.4.4"
   },
   "mocha": {
-    "throw-deprecation": true,
+    "inline-diffs": true,
+    "recursive": true,
+    "reporter": "spec",
     "require": [
       "should",
       "coffeescript/register"
     ],
-    "inline-diffs": true,
-    "timeout": 40000,
-    "reporter": "spec",
-    "recursive": true
+    "throw-deprecation": true,
+    "timeout": 40000
   },
   "scripts": {
     "test": "mocha 'test/**/*.coffee'"
