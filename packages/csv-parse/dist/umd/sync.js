@@ -4976,7 +4976,7 @@
               constructor(size=100){
                 this.size = size;
                 this.length = 0;
-                this.buf = Buffer.alloc(size);
+                this.buf = Buffer.allocUnsafe(size);
               }
               prepend(val){
                 if(isBuffer(val)){
@@ -4988,7 +4988,7 @@
                     }
                   }
                   const buf = this.buf;
-                  this.buf = Buffer.alloc(this.size);
+                  this.buf = Buffer.allocUnsafe(this.size);
                   val.copy(this.buf, 0);
                   buf.copy(this.buf, val.length);
                   this.length += val.length;
@@ -5015,7 +5015,7 @@
               resize(){
                 const length = this.length;
                 this.size = this.size * 2;
-                const buf = Buffer.alloc(this.size);
+                const buf = Buffer.allocUnsafe(this.size);
                 this.buf.copy(buf,0, 0, length);
                 this.buf = buf;
               }
