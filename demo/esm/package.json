@@ -1,5 +1,5 @@
 {
-  "name": "csv_demo_cjs",
+  "name": "csv-demo-esm",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
