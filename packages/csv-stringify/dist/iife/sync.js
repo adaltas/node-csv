@@ -5260,6 +5260,11 @@ var csv_stringify_sync = (function (exports) {
                 callback(err);
               }
               _flush(callback){
+                if(this.state.stop === true){
+                  // Note, Node.js 12 call flush even after an error, we must prevent
+                  // `callback` from being called in flush without any error.
+                  return;
+                }
                 if(this.info.records === 0){
                   this.bom();
                   const err = this.headers();
