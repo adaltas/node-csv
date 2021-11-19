@@ -73,9 +73,7 @@
             // Generate 20 records
             .generate(generateOptions)
             // Transform CSV data into records
-            .pipe(csv.parse({
-              delimiter: '|'
-            }))
+            .pipe(csv.parse(parseOptions))
             // Transform each value into uppercase
             .pipe(csv.transform(transform.handler))
             // Convert objects into a stream
