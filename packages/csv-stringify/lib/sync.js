@@ -8,18 +8,17 @@ const stringify = function(records, options={}){
     const decoder = new StringDecoder();
     records = decoder.write(records);
   }
-  function onData(record){
-    if(record){
-      data.push(record.toString());
-    }
-  }
   const stringifier = new Stringifier(options);
-  stringifier.on('data', onData);
+  stringifier.push = function(record){
+    if(record === null){
+      return;
+    }
+    data.push(record.toString());
+  };
   for(const record of records){
-    stringifier.write(record); 
+    const err = stringifier.__transform(record, null);
+    if(err !== undefined) throw err;
   }
-  stringifier.end();
-  stringifier.removeListener('data', onData);
   return data.join('');
 };
 
