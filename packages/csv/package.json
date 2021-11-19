@@ -1,6 +1,6 @@
 {
   "name": "csv",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "A mature CSV toolset with simple api, full of options and tested against large datasets.",
   "keywords": [
     "node",
@@ -21,10 +21,10 @@
     "David Worms <david@adaltas.com> (https://www.adaltas.com)"
   ],
   "dependencies": {
-    "csv-generate": "^4.0.2",
-    "csv-parse": "^5.0.2",
-    "csv-stringify": "^6.0.2",
-    "stream-transform": "^3.0.2"
+    "csv-generate": "^4.0.3",
+    "csv-parse": "^5.0.3",
+    "csv-stringify": "^6.0.3",
+    "stream-transform": "^3.0.3"
   },
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",

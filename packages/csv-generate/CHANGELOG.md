@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.3](https://github.com/adaltas/node-csv/compare/csv-generate@4.0.2...csv-generate@4.0.3) (2021-11-19)
+
+
+### Bug Fixes
+
+* expose browser esm modules ([eb87355](https://github.com/adaltas/node-csv/commit/eb873557c65912f065d2581d30a17a96b0bfd2d6))
+
+
+
+
+
 ## [4.0.2](https://github.com/adaltas/node-csv/compare/csv-generate@4.0.1...csv-generate@4.0.2) (2021-11-18)
 
 
