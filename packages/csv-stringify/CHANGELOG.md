@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.4](https://github.com/adaltas/node-csv/compare/csv-stringify@6.0.3...csv-stringify@6.0.4) (2021-11-19)
+
+
+### Bug Fixes
+
+* **csv-stringify:** catch error with sync api, fix [#296](https://github.com/adaltas/node-csv/issues/296) ([e157f40](https://github.com/adaltas/node-csv/commit/e157f407eeffe5bcfb179cb20476169037bfb4f1))
+* **csv-stringify:** node 12 compatibility in flush ([9145b75](https://github.com/adaltas/node-csv/commit/9145b75012ec71a0b4152036af2275bf28c460e0))
+
+
+
+
+
 ## [6.0.3](https://github.com/adaltas/node-csv/compare/csv-stringify@6.0.2...csv-stringify@6.0.3) (2021-11-19)
 
 
