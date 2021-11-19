@@ -3,7 +3,6 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var stream = require('stream');
-var string_decoder = require('string_decoder');
 
 const bom_utf8 = Buffer.from([239, 187, 191]);
 
@@ -546,10 +545,6 @@ class Stringifier extends stream.Transform {
 
 const stringify = function(records, options={}){
   const data = [];
-  if(Buffer.isBuffer(records)){
-    const decoder = new string_decoder.StringDecoder();
-    records = decoder.write(records);
-  }
   const stringifier = new Stringifier(options);
   stringifier.push = function(record){
     if(record === null){

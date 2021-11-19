@@ -5513,10 +5513,6 @@
 
             const stringify = function(records, options={}){
               const data = [];
-              if(isBuffer(records)){
-                const decoder = new StringDecoder();
-                records = decoder.write(records);
-              }
               const stringifier = new Stringifier(options);
               stringifier.push = function(record){
                 if(record === null){

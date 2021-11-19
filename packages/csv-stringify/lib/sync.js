@@ -1,13 +1,8 @@
 
 import { Stringifier } from './index.js';
-import { StringDecoder } from 'string_decoder';
 
 const stringify = function(records, options={}){
   const data = [];
-  if(Buffer.isBuffer(records)){
-    const decoder = new StringDecoder();
-    records = decoder.write(records);
-  }
   const stringifier = new Stringifier(options);
   stringifier.push = function(record){
     if(record === null){

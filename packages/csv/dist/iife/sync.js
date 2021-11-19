@@ -6777,7 +6777,9 @@ var csv_sync = (function (exports) {
                   options.header = false;
                 }
                 // Normalize option `columns`
-                options.columns = this.normalize_columns(options.columns);
+                const [err, columns] = this.normalize_columns(options.columns);
+                if(err) return err;
+                options.columns = columns;
                 // Normalize option `quoted`
                 if(options.quoted === undefined || options.quoted === null){
                   options.quoted = false;
@@ -6829,45 +6831,62 @@ var csv_sync = (function (exports) {
                 if(this.state.stop === true){
                   return;
                 }
+                const err = this.__transform(chunk);
+                if(err !== undefined){
+                  this.state.stop = true;
+                }
+                callback(err);
+              }
+              _flush(callback){
+                if(this.info.records === 0){
+                  this.bom();
+                  const err = this.headers();
+                  if(err) callback(err);
+                }
+                callback();
+              }
+              __transform(chunk){
                 // Chunk validation
                 if(!Array.isArray(chunk) && typeof chunk !== 'object'){
-                  this.state.stop = true;
-                  return callback(Error(`Invalid Record: expect an array or an object, got ${JSON.stringify(chunk)}`));
+                  return Error(`Invalid Record: expect an array or an object, got ${JSON.stringify(chunk)}`);
                 }
                 // Detect columns from the first record
                 if(this.info.records === 0){
                   if(Array.isArray(chunk)){
                     if(this.options.header === true && this.options.columns === undefined){
-                      this.state.stop = true;
-                      return callback(Error('Undiscoverable Columns: header option requires column option or object records'));
+                      return Error('Undiscoverable Columns: header option requires column option or object records');
                     }
                   }else if(this.options.columns === undefined){
-                    this.options.columns = this.normalize_columns(Object.keys(chunk));
+                    const [err, columns] = this.normalize_columns(Object.keys(chunk));
+                    if(err) return;
+                    this.options.columns = columns;
                   }
                 }
                 // Emit the header
                 if(this.info.records === 0){
                   this.bom();
-                  this.headers();
+                  const err = this.headers();
+                  if(err) return err;
                 }
                 // Emit and stringify the record if an object or an array
                 try{
                   this.emit('record', chunk, this.info.records);
                 }catch(err){
-                  this.state.stop = true;
-                  return this.emit('error', err);
+                  return err;
                 }
                 // Convert the record into a string
-                let chunk_string;
+                let err, chunk_string;
                 if(this.options.eof){
-                  chunk_string = this.stringify(chunk);
+                  [err, chunk_string] = this.stringify(chunk);
+                  if(err) return err;
                   if(chunk_string === undefined){
                     return;
                   }else {
                     chunk_string = chunk_string + this.options.record_delimiter;
                   }
                 }else {
-                  chunk_string = this.stringify(chunk);
+                  [err, chunk_string] = this.stringify(chunk);
+                  if(err) return err;
                   if(chunk_string === undefined){
                     return;
                   }else {
@@ -6879,18 +6898,10 @@ var csv_sync = (function (exports) {
                 // Emit the csv
                 this.info.records++;
                 this.push(chunk_string);
-                callback();
-              }
-              _flush(callback){
-                if(this.info.records === 0){
-                  this.bom();
-                  this.headers();
-                }
-                callback();
               }
               stringify(chunk, chunkIsHeader=false){
                 if(typeof chunk !== 'object'){
-                  return chunk;
+                  return [undefined, chunk];
                 }
                 const {columns} = this.options;
                 const record = [];
@@ -6907,10 +6918,7 @@ var csv_sync = (function (exports) {
                     const [err, value] = this.__cast(field, {
                       index: i, column: i, records: this.info.records, header: chunkIsHeader
                     });
-                    if(err){
-                      this.emit('error', err);
-                      return;
-                    }
+                    if(err) return [err];
                     record[i] = [value, field];
                   }
                 // Record is a literal object
@@ -6921,10 +6929,7 @@ var csv_sync = (function (exports) {
                     const [err, value] = this.__cast(field, {
                       index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
                     });
-                    if(err){
-                      this.emit('error', err);
-                      return;
-                    }
+                    if(err) return [err];
                     record[i] = [value, field];
                   }
                 }
@@ -6936,30 +6941,25 @@ var csv_sync = (function (exports) {
                   if(typeof value === "string"){
                     options = this.options;
                   }else if(isObject(value)){
-                    // let { value, ...options } = value
                     options = value;
                     value = options.value;
                     delete options.value;
                     if(typeof value !== "string" && value !== undefined && value !== null){
-                      this.emit("error", Error(`Invalid Casting Value: returned value must return a string, null or undefined, got ${JSON.stringify(value)}`));
-                      return;
+                      if(err) return [Error(`Invalid Casting Value: returned value must return a string, null or undefined, got ${JSON.stringify(value)}`)];
                     }
                     options = {...this.options, ...options};
                     if((err = this.normalize(options)) !== undefined){
-                      this.emit("error", err);
-                      return;
+                      return [err];
                     }
                   }else if(value === undefined || value === null){
                     options = this.options;
                   }else {
-                    this.emit("error", Error(`Invalid Casting Value: returned value must return a string, an object, null or undefined, got ${JSON.stringify(value)}`));
-                    return;
+                    return [Error(`Invalid Casting Value: returned value must return a string, an object, null or undefined, got ${JSON.stringify(value)}`)];
                   }
                   const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter} = options;
                   if(value){
                     if(typeof value !== 'string'){
-                      this.emit("error", Error(`Formatter must return a string, null or undefined, got ${JSON.stringify(value)}`));
-                      return null;
+                      return [Error(`Formatter must return a string, null or undefined, got ${JSON.stringify(value)}`)];
                     }
                     const containsdelimiter = delimiter.length && value.indexOf(delimiter) >= 0;
                     const containsQuote = (quote !== '') && value.indexOf(quote) >= 0;
@@ -6996,7 +6996,7 @@ var csv_sync = (function (exports) {
                     csvrecord += delimiter;
                   }
                 }
-                return csvrecord;
+                return [undefined, csvrecord];
               }
               bom(){
                 if(this.options.bom !== true){
@@ -7011,12 +7011,15 @@ var csv_sync = (function (exports) {
                 if(this.options.columns === undefined){
                   return;
                 }
+                let err;
                 let headers = this.options.columns.map(column => column.header);
                 if(this.options.eof){
-                  headers = this.stringify(headers, true) + this.options.record_delimiter;
+                  [err, headers] = this.stringify(headers, true);
+                  headers += this.options.record_delimiter;
                 }else {
-                  headers = this.stringify(headers);
+                  [err, headers] = this.stringify(headers);
                 }
+                if(err) return err;
                 this.push(headers);
               }
               __cast(value, context){
@@ -7043,10 +7046,10 @@ var csv_sync = (function (exports) {
               }
               normalize_columns(columns){
                 if(columns === undefined || columns === null){
-                  return undefined;
+                  return [];
                 }
                 if(typeof columns !== 'object'){
-                  throw Error('Invalid option "columns": expect an array or an object');
+                  return [Error('Invalid option "columns": expect an array or an object')];
                 }
                 if(!Array.isArray(columns)){
                   const newcolumns = [];
@@ -7067,40 +7070,35 @@ var csv_sync = (function (exports) {
                       });
                     }else if(typeof column === 'object' && column !== undefined && !Array.isArray(column)){
                       if(!column.key){
-                        throw Error('Invalid column definition: property "key" is required');
+                        return [Error('Invalid column definition: property "key" is required')];
                       }
                       if(column.header === undefined){
                         column.header = column.key;
                       }
                       newcolumns.push(column);
                     }else {
-                      throw Error('Invalid column definition: expect a string or an object');
+                      return [Error('Invalid column definition: expect a string or an object')];
                     }
                   }
                   columns = newcolumns;
                 }
-                return columns;
+                return [undefined, columns];
               }
             }
 
             const stringify = function(records, options={}){
               const data = [];
-              if(isBuffer$1(records)){
-                const decoder = new StringDecoder();
-                records = decoder.write(records);
-              }
-              function onData(record){
-                if(record){
-                  data.push(record.toString());
-                }
-              }
               const stringifier = new Stringifier(options);
-              stringifier.on('data', onData);
+              stringifier.push = function(record){
+                if(record === null){
+                  return;
+                }
+                data.push(record.toString());
+              };
               for(const record of records){
-                stringifier.write(record); 
+                const err = stringifier.__transform(record, null);
+                if(err !== undefined) throw err;
               }
-              stringifier.end();
-              stringifier.removeListener('data', onData);
               return data.join('');
             };
 
