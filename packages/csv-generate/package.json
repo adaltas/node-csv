@@ -35,7 +35,8 @@
     "./sync": {
       "import": "./lib/sync.js",
       "require": "./dist/cjs/sync.cjs"
-    }
+    },
+    "./browser/esm/": "./dist/esm/"
   },
   "files": [
     "dist",
