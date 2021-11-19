@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = [
+  // start-snippet{csv}
   {
     entry: './src/csv.js',
     mode: 'development',
@@ -17,6 +18,8 @@ module.exports = [
       path: path.resolve(__dirname, 'dist'),
     }
   },
+  // end-snippet{csv}
+  // start-snippet{generate}
   {
     entry: './src/generate.js',
     mode: 'development',
@@ -33,6 +36,8 @@ module.exports = [
       path: path.resolve(__dirname, 'dist'),
     }
   },
+  // end-snippet{generate}
+  // start-snippet{parse}
   {
     entry: './src/parse.js',
     mode: 'development',
@@ -49,6 +54,8 @@ module.exports = [
       path: path.resolve(__dirname, 'dist'),
     }
   },
+  // end-snippet{parse}
+  // start-snippet{transform}
   {
     entry: './src/transform.js',
     mode: 'development',
@@ -65,6 +72,8 @@ module.exports = [
       path: path.resolve(__dirname, 'dist'),
     }
   },
+  // end-snippet{transform}
+  // start-snippet{stringify}
   {
     entry: './src/stringify.js',
     mode: 'development',

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
     "start": "http-server ./dist -p 8080",
-    "test": "npm run build"
+    "test": "npm run build >/dev/null"
   },
   "keywords": [],
   "author": "",
