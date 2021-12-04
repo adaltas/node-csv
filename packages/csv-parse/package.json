@@ -38,7 +38,7 @@
       "import": "./lib/sync.js",
       "require": "./dist/cjs/sync.cjs"
     },
-    "./browser/esm/": "./dist/esm/"
+    "./browser/esm/*": "./dist/esm/*.js"
   },
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",
