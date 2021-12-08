@@ -64,6 +64,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * esm migration ([b5c0d4b](https://github.com/adaltas/node-csv/commit/b5c0d4b191c8b57397808c0922a3f08248506a9f))
 * export ts types in sync ([890bf8d](https://github.com/adaltas/node-csv/commit/890bf8d950c18a05cab5e35a461d0847d9425156))
 * replace ts types with typesVersions ([acb41d5](https://github.com/adaltas/node-csv/commit/acb41d5031669f2d582e40da1c80f5fd4738fee4))
+* refactor: rename skip_lines_with_empty_values to skip_records_with_empty_values [aa432c1](https://github.com/adaltas/node-csv/commit/aa432c1251327b579ee7f71bd9fd776021ac1f1e)
+* refactor: rename skip_lines_with_error to skip_records_with_error [aa432c1](https://github.com/adaltas/node-csv/commit/aa432c1251327b579ee7f71bd9fd776021ac1f1e)
 
 
 
