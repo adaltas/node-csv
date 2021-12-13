@@ -37,3 +37,7 @@ npx http-server ./dist -p 8080
 ```
 
 The web application is now accessible on [`https://localhost:8080`](https://localhost:8080).
+
+## Testing
+
+The test suite consists in building the code with webpack. We don't check if the code is working.
