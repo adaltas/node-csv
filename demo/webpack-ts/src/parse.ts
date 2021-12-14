@@ -1,5 +1,5 @@
 
-import { parse, CsvError } from 'csv-parse'
+import { parse, CsvError } from 'csv-parse/browser/esm/index.js'
 
 window.onload = () => {
   const runEl = document.getElementById('run');

@@ -1,10 +1,8 @@
 const path = require('path');
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 
 const config = (mod, fallbacks={}) => ({
     entry: `./src/${mod}.ts`,
     mode: 'development',
-    plugins: [new NodePolyfillPlugin()],
     module: {
       rules: [
         {
@@ -16,13 +14,6 @@ const config = (mod, fallbacks={}) => ({
     },
     resolve: {
       extensions: ['.ts', '.js'],
-      // fallback: {
-      //   // ...{
-      //   //   "stream": require.resolve("stream-browserify"),
-      //   //   "buffer": false,
-      //   // },
-      //   // ...fallbacks
-      // }
     },
     output: {
       filename: `${mod}.js`,
@@ -31,18 +22,8 @@ const config = (mod, fallbacks={}) => ({
   })
 
 module.exports = [
-  config('generate', {
-    // "util": require.resolve("util"),
-    "util": false,
-  }),
-  config('parse', {
-    // "buffer": require.resolve("buffer/"),
-    "buffer": false,
-  }),
-  config('stringify', {
-  }),
-  config('transform', {
-    // "util": require.resolve("util/"),
-    "util": false,
-  }),
+  config('generate'),
+  config('parse'),
+  config('stringify'),
+  config('transform'),
 ];
