@@ -106,6 +106,9 @@
       ],
       "sync": [
         "dist/esm/sync.d.ts"
+      ],
+      "browser/esm/*": [
+        "dist/esm/*"
       ]
     }
   }
