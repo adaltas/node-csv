@@ -1,5 +1,5 @@
 
-import {transform} from 'stream-transform/browser/esm/index.js';
+import {transform} from 'stream-transform/browser/esm';
 
 window.onload = () => {
   const runEl = document.getElementById('run');

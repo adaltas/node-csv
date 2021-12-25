@@ -1,5 +1,5 @@
 
-import * as csv from 'csv/browser/esm/index.js';
+import * as csv from 'csv/browser/esm';
 
 window.onload = () => {
   const runEl = document.getElementById('run');
