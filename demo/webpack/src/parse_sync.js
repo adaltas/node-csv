@@ -1,5 +1,5 @@
 
-import {parse} from 'csv-parse/browser/esm/sync.js';
+import {parse} from 'csv-parse/browser/esm/sync';
 
 window.onload = () => {
   const runEl = document.getElementById('run');

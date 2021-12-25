@@ -1,5 +1,5 @@
 
-import {transform} from 'stream-transform/browser/esm/sync.js';
+import {transform} from 'stream-transform/browser/esm/sync';
 
 window.onload = () => {
   const runEl = document.getElementById('run');
