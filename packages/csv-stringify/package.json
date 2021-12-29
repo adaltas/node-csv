@@ -1,5 +1,5 @@
 {
-  "version": "6.0.4",
+  "version": "6.0.5",
   "name": "csv-stringify",
   "description": "CSV stringifier implementing the Node.js `stream.Transform` API",
   "keywords": [
@@ -15,7 +15,7 @@
     "@types/node": "^16.11.7",
     "@types/should": "^13.0.0",
     "coffeescript": "~2.6.1",
-    "csv-generate": "^4.0.3",
+    "csv-generate": "^4.0.4",
     "each": "^1.2.2",
     "eslint": "^8.2.0",
     "express": "^4.17.1",
@@ -79,10 +79,18 @@
   "types": "dist/esm/index.d.ts",
   "typesVersions": {
     "*": {
-      ".": ["dist/esm/index.d.ts"],
-      "sync": ["dist/esm/sync.d.ts"],
-      "browser/esm": ["dist/esm/index.d.ts"],
-      "browser/esm/sync": ["dist/esm/sync.d.ts"]
+      ".": [
+        "dist/esm/index.d.ts"
+      ],
+      "sync": [
+        "dist/esm/sync.d.ts"
+      ],
+      "browser/esm": [
+        "dist/esm/index.d.ts"
+      ],
+      "browser/esm/sync": [
+        "dist/esm/sync.d.ts"
+      ]
     }
   }
 }

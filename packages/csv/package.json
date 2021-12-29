@@ -1,6 +1,6 @@
 {
   "name": "csv",
-  "version": "6.0.4",
+  "version": "6.0.5",
   "description": "A mature CSV toolset with simple api, full of options and tested against large datasets.",
   "keywords": [
     "node",
@@ -21,10 +21,10 @@
     "David Worms <david@adaltas.com> (https://www.adaltas.com)"
   ],
   "dependencies": {
-    "csv-generate": "^4.0.3",
-    "csv-parse": "^5.0.3",
-    "csv-stringify": "^6.0.4",
-    "stream-transform": "^3.0.3"
+    "csv-generate": "^4.0.4",
+    "csv-parse": "^5.0.4",
+    "csv-stringify": "^6.0.5",
+    "stream-transform": "^3.0.4"
   },
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",
@@ -97,10 +97,18 @@
   "types": "dist/esm/index.d.ts",
   "typesVersions": {
     "*": {
-      ".": ["dist/esm/index.d.ts"],
-      "sync": ["dist/esm/sync.d.ts"],
-      "browser/esm": ["dist/esm/index.d.ts"],
-      "browser/esm/sync": ["dist/esm/sync.d.ts"]
+      ".": [
+        "dist/esm/index.d.ts"
+      ],
+      "sync": [
+        "dist/esm/sync.d.ts"
+      ],
+      "browser/esm": [
+        "dist/esm/index.d.ts"
+      ],
+      "browser/esm/sync": [
+        "dist/esm/sync.d.ts"
+      ]
     }
   }
 }

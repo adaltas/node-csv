@@ -1,5 +1,5 @@
 {
-  "version": "4.0.3",
+  "version": "4.0.4",
   "name": "csv-generate",
   "description": "CSV and object generation implementing the Node.js `stream.Readable` API",
   "keywords": [
@@ -79,10 +79,18 @@
   "types": "dist/esm/index.d.ts",
   "typesVersions": {
     "*": {
-      ".": ["dist/esm/index.d.ts"],
-      "sync": ["dist/esm/sync.d.ts"],
-      "browser/esm": ["dist/esm/index.d.ts"],
-      "browser/esm/sync": ["dist/esm/sync.d.ts"]
+      ".": [
+        "dist/esm/index.d.ts"
+      ],
+      "sync": [
+        "dist/esm/sync.d.ts"
+      ],
+      "browser/esm": [
+        "dist/esm/index.d.ts"
+      ],
+      "browser/esm/sync": [
+        "dist/esm/sync.d.ts"
+      ]
     }
   }
 }
