@@ -234,6 +234,10 @@ export interface Info {
      * Number of non uniform records when `relax_column_count` is true.
      */
     readonly invalid_field_length: number;
+    /**
+     * List of fields as an array.
+     */
+    readonly columns: ColumnOption[];
 }
 
 export type CsvErrorCode = 
