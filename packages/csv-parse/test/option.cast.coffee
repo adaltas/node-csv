@@ -15,7 +15,7 @@ describe 'Option `cast`', ->
 
     it 'all columns', (next) ->
       parse '1,2,3', cast: true, (err, records) ->
-        records.should.eql [ [1, 2, 3] ]
+        records.should.eql [ [1, 2, 3] ] unless err
         next()
 
     it 'convert numbers', (next) ->

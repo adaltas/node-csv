@@ -1,17 +1,29 @@
 
-import { Stringifier } from './index.js';
+import { stringifier } from './api/index.js';
+import { normalize_options } from './api/normalize_options.js';
 
-const stringify = function(records, options={}){
+const stringify = function(records, opts={}){
   const data = [];
-  const stringifier = new Stringifier(options);
-  stringifier.push = function(record){
-    if(record === null){
-      return;
-    }
-    data.push(record.toString());
+  const [err, options] = normalize_options(opts);
+  if(err !== undefined) throw err;
+  const state = {
+    stop: false
   };
+  // Information
+  const info = {
+    records: 0
+  };
+  const api = stringifier(options, state, info);
+  // stringifier.push = function(record){
+  //   if(record === null){
+  //     return;
+  //   }
+  //   data.push(record.toString());
+  // };
   for(const record of records){
-    const err = stringifier.__transform(record, null);
+    const err = api.__transform(record, function(record){
+      data.push(record);
+    });
     if(err !== undefined) throw err;
   }
   return data.join('');

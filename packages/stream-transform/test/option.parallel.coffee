@@ -20,8 +20,8 @@ describe 'option.parallel', ->
     headers = -1
     generator = generate length: 1000, objectMode: true, highWaterMark: 40, headers: 2, seed: 1, columns: [
       (g) ->
-        letters pad 3, g._.count_created, '0'
-      (g) -> pad 3, g._.count_created-1, '0'
+        letters pad 3, g.state.count_created, '0'
+      (g) -> pad 3, g.state.count_created-1, '0'
     ]
     transformer = generator.pipe transform (record, next) ->
       count++

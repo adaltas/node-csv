@@ -1,5 +1,4 @@
 
-
 class ResizeableBuffer{
   constructor(size=100){
     this.size = size;

@@ -1,25 +1,26 @@
 
 import { generate } from '../lib/index.js'
+import { random } from '../lib/api/random.js'
 
 describe 'option seed', ->
 
   describe 'without seed', ->
 
     it 'generate different values', ->
-      generate().random().should.not.equal generate().random()
+      random(generate().options).should.not.equal random(generate().options)
 
     it 'generate between 0 and 1', ->
-      generate().random().should.be.above 0
-      generate().random().should.be.below 1
+      random(generate().options).should.be.above 0
+      random(generate().options).should.be.below 1
 
   describe 'with seed', ->
 
     it 'generate same values', ->
-      generate(seed: 1).random().should.equal generate(seed: 1).random()
+      random(generate(seed: 1).options).should.equal random(generate(seed: 1).options)
 
     it 'generate between 0 and 1', ->
-      generate(seed: 1).random().should.be.above 0
-      generate(seed: 1).random().should.be.below 1
+      random(generate(seed: 1).options).should.be.above 0
+      random(generate(seed: 1).options).should.be.below 1
 
     it 'generate data with highWaterMark', (next) ->
       @timeout 1000000

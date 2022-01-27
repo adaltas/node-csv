@@ -1,3 +1,469 @@
+var domain;
+
+// This constructor is used to store event handlers. Instantiating this is
+// faster than explicitly calling `Object.create(null)` to get a "clean" empty
+// object (tested with v8 v4.9).
+function EventHandlers() {}
+EventHandlers.prototype = Object.create(null);
+
+function EventEmitter() {
+  EventEmitter.init.call(this);
+}
+
+// nodejs oddity
+// require('events') === require('events').EventEmitter
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.usingDomains = false;
+
+EventEmitter.prototype.domain = undefined;
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+EventEmitter.init = function() {
+  this.domain = null;
+  if (EventEmitter.usingDomains) {
+    // if there is an active domain, then attach to it.
+    if (domain.active ) ;
+  }
+
+  if (!this._events || this._events === Object.getPrototypeOf(this)._events) {
+    this._events = new EventHandlers();
+    this._eventsCount = 0;
+  }
+
+  this._maxListeners = this._maxListeners || undefined;
+};
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
+  if (typeof n !== 'number' || n < 0 || isNaN(n))
+    throw new TypeError('"n" argument must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+function $getMaxListeners(that) {
+  if (that._maxListeners === undefined)
+    return EventEmitter.defaultMaxListeners;
+  return that._maxListeners;
+}
+
+EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
+  return $getMaxListeners(this);
+};
+
+// These standalone emit* functions are used to optimize calling of event
+// handlers for fast cases because emit() itself often has a variable number of
+// arguments and can be deoptimized because of that. These functions always have
+// the same number of arguments and thus do not get deoptimized, so the code
+// inside them can execute faster.
+function emitNone(handler, isFn, self) {
+  if (isFn)
+    handler.call(self);
+  else {
+    var len = handler.length;
+    var listeners = arrayClone(handler, len);
+    for (var i = 0; i < len; ++i)
+      listeners[i].call(self);
+  }
+}
+function emitOne(handler, isFn, self, arg1) {
+  if (isFn)
+    handler.call(self, arg1);
+  else {
+    var len = handler.length;
+    var listeners = arrayClone(handler, len);
+    for (var i = 0; i < len; ++i)
+      listeners[i].call(self, arg1);
+  }
+}
+function emitTwo(handler, isFn, self, arg1, arg2) {
+  if (isFn)
+    handler.call(self, arg1, arg2);
+  else {
+    var len = handler.length;
+    var listeners = arrayClone(handler, len);
+    for (var i = 0; i < len; ++i)
+      listeners[i].call(self, arg1, arg2);
+  }
+}
+function emitThree(handler, isFn, self, arg1, arg2, arg3) {
+  if (isFn)
+    handler.call(self, arg1, arg2, arg3);
+  else {
+    var len = handler.length;
+    var listeners = arrayClone(handler, len);
+    for (var i = 0; i < len; ++i)
+      listeners[i].call(self, arg1, arg2, arg3);
+  }
+}
+
+function emitMany(handler, isFn, self, args) {
+  if (isFn)
+    handler.apply(self, args);
+  else {
+    var len = handler.length;
+    var listeners = arrayClone(handler, len);
+    for (var i = 0; i < len; ++i)
+      listeners[i].apply(self, args);
+  }
+}
+
+EventEmitter.prototype.emit = function emit(type) {
+  var er, handler, len, args, i, events, domain;
+  var doError = (type === 'error');
+
+  events = this._events;
+  if (events)
+    doError = (doError && events.error == null);
+  else if (!doError)
+    return false;
+
+  domain = this.domain;
+
+  // If there is no 'error' event listener then throw.
+  if (doError) {
+    er = arguments[1];
+    if (domain) {
+      if (!er)
+        er = new Error('Uncaught, unspecified "error" event');
+      er.domainEmitter = this;
+      er.domain = domain;
+      er.domainThrown = false;
+      domain.emit('error', er);
+    } else if (er instanceof Error) {
+      throw er; // Unhandled 'error' event
+    } else {
+      // At least give some kind of context to the user
+      var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+      err.context = er;
+      throw err;
+    }
+    return false;
+  }
+
+  handler = events[type];
+
+  if (!handler)
+    return false;
+
+  var isFn = typeof handler === 'function';
+  len = arguments.length;
+  switch (len) {
+    // fast cases
+    case 1:
+      emitNone(handler, isFn, this);
+      break;
+    case 2:
+      emitOne(handler, isFn, this, arguments[1]);
+      break;
+    case 3:
+      emitTwo(handler, isFn, this, arguments[1], arguments[2]);
+      break;
+    case 4:
+      emitThree(handler, isFn, this, arguments[1], arguments[2], arguments[3]);
+      break;
+    // slower
+    default:
+      args = new Array(len - 1);
+      for (i = 1; i < len; i++)
+        args[i - 1] = arguments[i];
+      emitMany(handler, isFn, this, args);
+  }
+
+  return true;
+};
+
+function _addListener(target, type, listener, prepend) {
+  var m;
+  var events;
+  var existing;
+
+  if (typeof listener !== 'function')
+    throw new TypeError('"listener" argument must be a function');
+
+  events = target._events;
+  if (!events) {
+    events = target._events = new EventHandlers();
+    target._eventsCount = 0;
+  } else {
+    // To avoid recursion in the case that type === "newListener"! Before
+    // adding it to the listeners, first emit "newListener".
+    if (events.newListener) {
+      target.emit('newListener', type,
+                  listener.listener ? listener.listener : listener);
+
+      // Re-assign `events` because a newListener handler could have caused the
+      // this._events to be assigned to a new object
+      events = target._events;
+    }
+    existing = events[type];
+  }
+
+  if (!existing) {
+    // Optimize the case of one listener. Don't need the extra array object.
+    existing = events[type] = listener;
+    ++target._eventsCount;
+  } else {
+    if (typeof existing === 'function') {
+      // Adding the second element, need to change to array.
+      existing = events[type] = prepend ? [listener, existing] :
+                                          [existing, listener];
+    } else {
+      // If we've already got an array, just append.
+      if (prepend) {
+        existing.unshift(listener);
+      } else {
+        existing.push(listener);
+      }
+    }
+
+    // Check for listener leak
+    if (!existing.warned) {
+      m = $getMaxListeners(target);
+      if (m && m > 0 && existing.length > m) {
+        existing.warned = true;
+        var w = new Error('Possible EventEmitter memory leak detected. ' +
+                            existing.length + ' ' + type + ' listeners added. ' +
+                            'Use emitter.setMaxListeners() to increase limit');
+        w.name = 'MaxListenersExceededWarning';
+        w.emitter = target;
+        w.type = type;
+        w.count = existing.length;
+        emitWarning(w);
+      }
+    }
+  }
+
+  return target;
+}
+function emitWarning(e) {
+  typeof console.warn === 'function' ? console.warn(e) : console.log(e);
+}
+EventEmitter.prototype.addListener = function addListener(type, listener) {
+  return _addListener(this, type, listener, false);
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.prependListener =
+    function prependListener(type, listener) {
+      return _addListener(this, type, listener, true);
+    };
+
+function _onceWrap(target, type, listener) {
+  var fired = false;
+  function g() {
+    target.removeListener(type, g);
+    if (!fired) {
+      fired = true;
+      listener.apply(target, arguments);
+    }
+  }
+  g.listener = listener;
+  return g;
+}
+
+EventEmitter.prototype.once = function once(type, listener) {
+  if (typeof listener !== 'function')
+    throw new TypeError('"listener" argument must be a function');
+  this.on(type, _onceWrap(this, type, listener));
+  return this;
+};
+
+EventEmitter.prototype.prependOnceListener =
+    function prependOnceListener(type, listener) {
+      if (typeof listener !== 'function')
+        throw new TypeError('"listener" argument must be a function');
+      this.prependListener(type, _onceWrap(this, type, listener));
+      return this;
+    };
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener =
+    function removeListener(type, listener) {
+      var list, events, position, i, originalListener;
+
+      if (typeof listener !== 'function')
+        throw new TypeError('"listener" argument must be a function');
+
+      events = this._events;
+      if (!events)
+        return this;
+
+      list = events[type];
+      if (!list)
+        return this;
+
+      if (list === listener || (list.listener && list.listener === listener)) {
+        if (--this._eventsCount === 0)
+          this._events = new EventHandlers();
+        else {
+          delete events[type];
+          if (events.removeListener)
+            this.emit('removeListener', type, list.listener || listener);
+        }
+      } else if (typeof list !== 'function') {
+        position = -1;
+
+        for (i = list.length; i-- > 0;) {
+          if (list[i] === listener ||
+              (list[i].listener && list[i].listener === listener)) {
+            originalListener = list[i].listener;
+            position = i;
+            break;
+          }
+        }
+
+        if (position < 0)
+          return this;
+
+        if (list.length === 1) {
+          list[0] = undefined;
+          if (--this._eventsCount === 0) {
+            this._events = new EventHandlers();
+            return this;
+          } else {
+            delete events[type];
+          }
+        } else {
+          spliceOne(list, position);
+        }
+
+        if (events.removeListener)
+          this.emit('removeListener', type, originalListener || listener);
+      }
+
+      return this;
+    };
+
+EventEmitter.prototype.removeAllListeners =
+    function removeAllListeners(type) {
+      var listeners, events;
+
+      events = this._events;
+      if (!events)
+        return this;
+
+      // not listening for removeListener, no need to emit
+      if (!events.removeListener) {
+        if (arguments.length === 0) {
+          this._events = new EventHandlers();
+          this._eventsCount = 0;
+        } else if (events[type]) {
+          if (--this._eventsCount === 0)
+            this._events = new EventHandlers();
+          else
+            delete events[type];
+        }
+        return this;
+      }
+
+      // emit removeListener for all listeners on all events
+      if (arguments.length === 0) {
+        var keys = Object.keys(events);
+        for (var i = 0, key; i < keys.length; ++i) {
+          key = keys[i];
+          if (key === 'removeListener') continue;
+          this.removeAllListeners(key);
+        }
+        this.removeAllListeners('removeListener');
+        this._events = new EventHandlers();
+        this._eventsCount = 0;
+        return this;
+      }
+
+      listeners = events[type];
+
+      if (typeof listeners === 'function') {
+        this.removeListener(type, listeners);
+      } else if (listeners) {
+        // LIFO order
+        do {
+          this.removeListener(type, listeners[listeners.length - 1]);
+        } while (listeners[0]);
+      }
+
+      return this;
+    };
+
+EventEmitter.prototype.listeners = function listeners(type) {
+  var evlistener;
+  var ret;
+  var events = this._events;
+
+  if (!events)
+    ret = [];
+  else {
+    evlistener = events[type];
+    if (!evlistener)
+      ret = [];
+    else if (typeof evlistener === 'function')
+      ret = [evlistener.listener || evlistener];
+    else
+      ret = unwrapListeners(evlistener);
+  }
+
+  return ret;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  if (typeof emitter.listenerCount === 'function') {
+    return emitter.listenerCount(type);
+  } else {
+    return listenerCount$1.call(emitter, type);
+  }
+};
+
+EventEmitter.prototype.listenerCount = listenerCount$1;
+function listenerCount$1(type) {
+  var events = this._events;
+
+  if (events) {
+    var evlistener = events[type];
+
+    if (typeof evlistener === 'function') {
+      return 1;
+    } else if (evlistener) {
+      return evlistener.length;
+    }
+  }
+
+  return 0;
+}
+
+EventEmitter.prototype.eventNames = function eventNames() {
+  return this._eventsCount > 0 ? Reflect.ownKeys(this._events) : [];
+};
+
+// About 1.5x faster than the two-arg version of Array#splice().
+function spliceOne(list, index) {
+  for (var i = index, k = i + 1, n = list.length; k < n; i += 1, k += 1)
+    list[i] = list[k];
+  list.pop();
+}
+
+function arrayClone(arr, i) {
+  var copy = new Array(i);
+  while (i--)
+    copy[i] = arr[i];
+  return copy;
+}
+
+function unwrapListeners(arr) {
+  var ret = new Array(arr.length);
+  for (var i = 0; i < ret.length; ++i) {
+    ret[i] = arr[i].listener || arr[i];
+  }
+  return ret;
+}
+
 var global$1 = (typeof global !== "undefined" ? global :
             typeof self !== "undefined" ? self :
             typeof window !== "undefined" ? window : {});
@@ -1963,472 +2429,6 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isFastBuffer(obj.slice(0, 0))
 }
 
-var domain;
-
-// This constructor is used to store event handlers. Instantiating this is
-// faster than explicitly calling `Object.create(null)` to get a "clean" empty
-// object (tested with v8 v4.9).
-function EventHandlers() {}
-EventHandlers.prototype = Object.create(null);
-
-function EventEmitter() {
-  EventEmitter.init.call(this);
-}
-
-// nodejs oddity
-// require('events') === require('events').EventEmitter
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.usingDomains = false;
-
-EventEmitter.prototype.domain = undefined;
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
-
-// By default EventEmitters will print a warning if more than 10 listeners are
-// added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
-
-EventEmitter.init = function() {
-  this.domain = null;
-  if (EventEmitter.usingDomains) {
-    // if there is an active domain, then attach to it.
-    if (domain.active ) ;
-  }
-
-  if (!this._events || this._events === Object.getPrototypeOf(this)._events) {
-    this._events = new EventHandlers();
-    this._eventsCount = 0;
-  }
-
-  this._maxListeners = this._maxListeners || undefined;
-};
-
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
-  if (typeof n !== 'number' || n < 0 || isNaN(n))
-    throw new TypeError('"n" argument must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
-
-function $getMaxListeners(that) {
-  if (that._maxListeners === undefined)
-    return EventEmitter.defaultMaxListeners;
-  return that._maxListeners;
-}
-
-EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
-  return $getMaxListeners(this);
-};
-
-// These standalone emit* functions are used to optimize calling of event
-// handlers for fast cases because emit() itself often has a variable number of
-// arguments and can be deoptimized because of that. These functions always have
-// the same number of arguments and thus do not get deoptimized, so the code
-// inside them can execute faster.
-function emitNone(handler, isFn, self) {
-  if (isFn)
-    handler.call(self);
-  else {
-    var len = handler.length;
-    var listeners = arrayClone(handler, len);
-    for (var i = 0; i < len; ++i)
-      listeners[i].call(self);
-  }
-}
-function emitOne(handler, isFn, self, arg1) {
-  if (isFn)
-    handler.call(self, arg1);
-  else {
-    var len = handler.length;
-    var listeners = arrayClone(handler, len);
-    for (var i = 0; i < len; ++i)
-      listeners[i].call(self, arg1);
-  }
-}
-function emitTwo(handler, isFn, self, arg1, arg2) {
-  if (isFn)
-    handler.call(self, arg1, arg2);
-  else {
-    var len = handler.length;
-    var listeners = arrayClone(handler, len);
-    for (var i = 0; i < len; ++i)
-      listeners[i].call(self, arg1, arg2);
-  }
-}
-function emitThree(handler, isFn, self, arg1, arg2, arg3) {
-  if (isFn)
-    handler.call(self, arg1, arg2, arg3);
-  else {
-    var len = handler.length;
-    var listeners = arrayClone(handler, len);
-    for (var i = 0; i < len; ++i)
-      listeners[i].call(self, arg1, arg2, arg3);
-  }
-}
-
-function emitMany(handler, isFn, self, args) {
-  if (isFn)
-    handler.apply(self, args);
-  else {
-    var len = handler.length;
-    var listeners = arrayClone(handler, len);
-    for (var i = 0; i < len; ++i)
-      listeners[i].apply(self, args);
-  }
-}
-
-EventEmitter.prototype.emit = function emit(type) {
-  var er, handler, len, args, i, events, domain;
-  var doError = (type === 'error');
-
-  events = this._events;
-  if (events)
-    doError = (doError && events.error == null);
-  else if (!doError)
-    return false;
-
-  domain = this.domain;
-
-  // If there is no 'error' event listener then throw.
-  if (doError) {
-    er = arguments[1];
-    if (domain) {
-      if (!er)
-        er = new Error('Uncaught, unspecified "error" event');
-      er.domainEmitter = this;
-      er.domain = domain;
-      er.domainThrown = false;
-      domain.emit('error', er);
-    } else if (er instanceof Error) {
-      throw er; // Unhandled 'error' event
-    } else {
-      // At least give some kind of context to the user
-      var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
-      err.context = er;
-      throw err;
-    }
-    return false;
-  }
-
-  handler = events[type];
-
-  if (!handler)
-    return false;
-
-  var isFn = typeof handler === 'function';
-  len = arguments.length;
-  switch (len) {
-    // fast cases
-    case 1:
-      emitNone(handler, isFn, this);
-      break;
-    case 2:
-      emitOne(handler, isFn, this, arguments[1]);
-      break;
-    case 3:
-      emitTwo(handler, isFn, this, arguments[1], arguments[2]);
-      break;
-    case 4:
-      emitThree(handler, isFn, this, arguments[1], arguments[2], arguments[3]);
-      break;
-    // slower
-    default:
-      args = new Array(len - 1);
-      for (i = 1; i < len; i++)
-        args[i - 1] = arguments[i];
-      emitMany(handler, isFn, this, args);
-  }
-
-  return true;
-};
-
-function _addListener(target, type, listener, prepend) {
-  var m;
-  var events;
-  var existing;
-
-  if (typeof listener !== 'function')
-    throw new TypeError('"listener" argument must be a function');
-
-  events = target._events;
-  if (!events) {
-    events = target._events = new EventHandlers();
-    target._eventsCount = 0;
-  } else {
-    // To avoid recursion in the case that type === "newListener"! Before
-    // adding it to the listeners, first emit "newListener".
-    if (events.newListener) {
-      target.emit('newListener', type,
-                  listener.listener ? listener.listener : listener);
-
-      // Re-assign `events` because a newListener handler could have caused the
-      // this._events to be assigned to a new object
-      events = target._events;
-    }
-    existing = events[type];
-  }
-
-  if (!existing) {
-    // Optimize the case of one listener. Don't need the extra array object.
-    existing = events[type] = listener;
-    ++target._eventsCount;
-  } else {
-    if (typeof existing === 'function') {
-      // Adding the second element, need to change to array.
-      existing = events[type] = prepend ? [listener, existing] :
-                                          [existing, listener];
-    } else {
-      // If we've already got an array, just append.
-      if (prepend) {
-        existing.unshift(listener);
-      } else {
-        existing.push(listener);
-      }
-    }
-
-    // Check for listener leak
-    if (!existing.warned) {
-      m = $getMaxListeners(target);
-      if (m && m > 0 && existing.length > m) {
-        existing.warned = true;
-        var w = new Error('Possible EventEmitter memory leak detected. ' +
-                            existing.length + ' ' + type + ' listeners added. ' +
-                            'Use emitter.setMaxListeners() to increase limit');
-        w.name = 'MaxListenersExceededWarning';
-        w.emitter = target;
-        w.type = type;
-        w.count = existing.length;
-        emitWarning(w);
-      }
-    }
-  }
-
-  return target;
-}
-function emitWarning(e) {
-  typeof console.warn === 'function' ? console.warn(e) : console.log(e);
-}
-EventEmitter.prototype.addListener = function addListener(type, listener) {
-  return _addListener(this, type, listener, false);
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.prependListener =
-    function prependListener(type, listener) {
-      return _addListener(this, type, listener, true);
-    };
-
-function _onceWrap(target, type, listener) {
-  var fired = false;
-  function g() {
-    target.removeListener(type, g);
-    if (!fired) {
-      fired = true;
-      listener.apply(target, arguments);
-    }
-  }
-  g.listener = listener;
-  return g;
-}
-
-EventEmitter.prototype.once = function once(type, listener) {
-  if (typeof listener !== 'function')
-    throw new TypeError('"listener" argument must be a function');
-  this.on(type, _onceWrap(this, type, listener));
-  return this;
-};
-
-EventEmitter.prototype.prependOnceListener =
-    function prependOnceListener(type, listener) {
-      if (typeof listener !== 'function')
-        throw new TypeError('"listener" argument must be a function');
-      this.prependListener(type, _onceWrap(this, type, listener));
-      return this;
-    };
-
-// emits a 'removeListener' event iff the listener was removed
-EventEmitter.prototype.removeListener =
-    function removeListener(type, listener) {
-      var list, events, position, i, originalListener;
-
-      if (typeof listener !== 'function')
-        throw new TypeError('"listener" argument must be a function');
-
-      events = this._events;
-      if (!events)
-        return this;
-
-      list = events[type];
-      if (!list)
-        return this;
-
-      if (list === listener || (list.listener && list.listener === listener)) {
-        if (--this._eventsCount === 0)
-          this._events = new EventHandlers();
-        else {
-          delete events[type];
-          if (events.removeListener)
-            this.emit('removeListener', type, list.listener || listener);
-        }
-      } else if (typeof list !== 'function') {
-        position = -1;
-
-        for (i = list.length; i-- > 0;) {
-          if (list[i] === listener ||
-              (list[i].listener && list[i].listener === listener)) {
-            originalListener = list[i].listener;
-            position = i;
-            break;
-          }
-        }
-
-        if (position < 0)
-          return this;
-
-        if (list.length === 1) {
-          list[0] = undefined;
-          if (--this._eventsCount === 0) {
-            this._events = new EventHandlers();
-            return this;
-          } else {
-            delete events[type];
-          }
-        } else {
-          spliceOne(list, position);
-        }
-
-        if (events.removeListener)
-          this.emit('removeListener', type, originalListener || listener);
-      }
-
-      return this;
-    };
-
-EventEmitter.prototype.removeAllListeners =
-    function removeAllListeners(type) {
-      var listeners, events;
-
-      events = this._events;
-      if (!events)
-        return this;
-
-      // not listening for removeListener, no need to emit
-      if (!events.removeListener) {
-        if (arguments.length === 0) {
-          this._events = new EventHandlers();
-          this._eventsCount = 0;
-        } else if (events[type]) {
-          if (--this._eventsCount === 0)
-            this._events = new EventHandlers();
-          else
-            delete events[type];
-        }
-        return this;
-      }
-
-      // emit removeListener for all listeners on all events
-      if (arguments.length === 0) {
-        var keys = Object.keys(events);
-        for (var i = 0, key; i < keys.length; ++i) {
-          key = keys[i];
-          if (key === 'removeListener') continue;
-          this.removeAllListeners(key);
-        }
-        this.removeAllListeners('removeListener');
-        this._events = new EventHandlers();
-        this._eventsCount = 0;
-        return this;
-      }
-
-      listeners = events[type];
-
-      if (typeof listeners === 'function') {
-        this.removeListener(type, listeners);
-      } else if (listeners) {
-        // LIFO order
-        do {
-          this.removeListener(type, listeners[listeners.length - 1]);
-        } while (listeners[0]);
-      }
-
-      return this;
-    };
-
-EventEmitter.prototype.listeners = function listeners(type) {
-  var evlistener;
-  var ret;
-  var events = this._events;
-
-  if (!events)
-    ret = [];
-  else {
-    evlistener = events[type];
-    if (!evlistener)
-      ret = [];
-    else if (typeof evlistener === 'function')
-      ret = [evlistener.listener || evlistener];
-    else
-      ret = unwrapListeners(evlistener);
-  }
-
-  return ret;
-};
-
-EventEmitter.listenerCount = function(emitter, type) {
-  if (typeof emitter.listenerCount === 'function') {
-    return emitter.listenerCount(type);
-  } else {
-    return listenerCount$1.call(emitter, type);
-  }
-};
-
-EventEmitter.prototype.listenerCount = listenerCount$1;
-function listenerCount$1(type) {
-  var events = this._events;
-
-  if (events) {
-    var evlistener = events[type];
-
-    if (typeof evlistener === 'function') {
-      return 1;
-    } else if (evlistener) {
-      return evlistener.length;
-    }
-  }
-
-  return 0;
-}
-
-EventEmitter.prototype.eventNames = function eventNames() {
-  return this._eventsCount > 0 ? Reflect.ownKeys(this._events) : [];
-};
-
-// About 1.5x faster than the two-arg version of Array#splice().
-function spliceOne(list, index) {
-  for (var i = index, k = i + 1, n = list.length; k < n; i += 1, k += 1)
-    list[i] = list[k];
-  list.pop();
-}
-
-function arrayClone(arr, i) {
-  var copy = new Array(i);
-  while (i--)
-    copy[i] = arr[i];
-  return copy;
-}
-
-function unwrapListeners(arr) {
-  var ret = new Array(arr.length);
-  for (var i = 0; i < ret.length; ++i) {
-    ret[i] = arr[i].listener || arr[i];
-  }
-  return ret;
-}
-
 // shim for using process in browser
 // based off https://github.com/defunctzombie/node-process/blob/master/browser.js
 
@@ -2627,7 +2627,7 @@ function format(f) {
     }
   });
   for (var x = args[i]; i < len; x = args[++i]) {
-    if (isNull(x) || !isObject$1(x)) {
+    if (isNull(x) || !isObject(x)) {
       str += ' ' + x;
     } else {
       str += ' ' + inspect(x);
@@ -3035,19 +3035,19 @@ function isUndefined(arg) {
 }
 
 function isRegExp(re) {
-  return isObject$1(re) && objectToString(re) === '[object RegExp]';
+  return isObject(re) && objectToString(re) === '[object RegExp]';
 }
 
-function isObject$1(arg) {
+function isObject(arg) {
   return typeof arg === 'object' && arg !== null;
 }
 
 function isDate(d) {
-  return isObject$1(d) && objectToString(d) === '[object Date]';
+  return isObject(d) && objectToString(d) === '[object Date]';
 }
 
 function isError(e) {
-  return isObject$1(e) &&
+  return isObject(e) &&
       (objectToString(e) === '[object Error]' || e instanceof Error);
 }
 
@@ -3061,7 +3061,7 @@ function objectToString(o) {
 
 function _extend(origin, add) {
   // Don't do anything if add isn't an object
-  if (!add || !isObject$1(add)) return origin;
+  if (!add || !isObject(add)) return origin;
 
   var keys = Object.keys(add);
   var i = keys.length;
@@ -4966,8 +4966,6 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-const bom_utf8 = Buffer.from([239, 187, 191]);
-
 class CsvError extends Error {
   constructor(code, message, ...contexts) {
     if(Array.isArray(message)) message = message.join(' ');
@@ -4985,14 +4983,8 @@ class CsvError extends Error {
   }
 }
 
-const isObject = function(obj){
+const is_object = function(obj){
   return typeof obj === 'object' && obj !== null && ! Array.isArray(obj);
-};
-
-const underscore = function(str){
-  return str.replace(/([A-Z])/g, function(_, match){
-    return '_' + match.toLowerCase();
-  });
 };
 
 // Lodash implementation of `get`
@@ -5072,36 +5064,435 @@ const get = function(object, path){
   return (index && index === length) ? object : undefined;
 };
 
+const normalize_columns = function(columns){
+  if(columns === undefined || columns === null){
+    return [undefined, undefined];
+  }
+  if(typeof columns !== 'object'){
+    return [Error('Invalid option "columns": expect an array or an object')];
+  }
+  if(!Array.isArray(columns)){
+    const newcolumns = [];
+    for(const k in columns){
+      newcolumns.push({
+        key: k,
+        header: columns[k]
+      });
+    }
+    columns = newcolumns;
+  }else {
+    const newcolumns = [];
+    for(const column of columns){
+      if(typeof column === 'string'){
+        newcolumns.push({
+          key: column,
+          header: column
+        });
+      }else if(typeof column === 'object' && column !== null && !Array.isArray(column)){
+        if(!column.key){
+          return [Error('Invalid column definition: property "key" is required')];
+        }
+        if(column.header === undefined){
+          column.header = column.key;
+        }
+        newcolumns.push(column);
+      }else {
+        return [Error('Invalid column definition: expect a string or an object')];
+      }
+    }
+    columns = newcolumns;
+  }
+  return [undefined, columns];
+};
+
+const underscore = function(str){
+  return str.replace(/([A-Z])/g, function(_, match){
+    return '_' + match.toLowerCase();
+  });
+};
+
+const normalize_options = function(opts) {
+  const options = {};
+  // Merge with user options
+  for(const opt in opts){
+    options[underscore(opt)] = opts[opt];
+  }
+  // Normalize option `bom`
+  if(options.bom === undefined || options.bom === null || options.bom === false){
+    options.bom = false;
+  }else if(options.bom !== true){
+    return [new CsvError('CSV_OPTION_BOOLEAN_INVALID_TYPE', [
+      'option `bom` is optional and must be a boolean value,',
+      `got ${JSON.stringify(options.bom)}`
+    ])];
+  }
+  // Normalize option `delimiter`
+  if(options.delimiter === undefined || options.delimiter === null){
+    options.delimiter = ',';
+  }else if(isBuffer(options.delimiter)){
+    options.delimiter = options.delimiter.toString();
+  }else if(typeof options.delimiter !== 'string'){
+    return [new CsvError('CSV_OPTION_DELIMITER_INVALID_TYPE', [
+      'option `delimiter` must be a buffer or a string,',
+      `got ${JSON.stringify(options.delimiter)}`
+    ])];
+  }
+  // Normalize option `quote`
+  if(options.quote === undefined || options.quote === null){
+    options.quote = '"';
+  }else if(options.quote === true){
+    options.quote = '"';
+  }else if(options.quote === false){
+    options.quote = '';
+  }else if (isBuffer(options.quote)){
+    options.quote = options.quote.toString();
+  }else if(typeof options.quote !== 'string'){
+    return [new CsvError('CSV_OPTION_QUOTE_INVALID_TYPE', [
+      'option `quote` must be a boolean, a buffer or a string,',
+      `got ${JSON.stringify(options.quote)}`
+    ])];
+  }
+  // Normalize option `quoted`
+  if(options.quoted === undefined || options.quoted === null){
+    options.quoted = false;
+  }
+  // Normalize option `quoted_empty`
+  if(options.quoted_empty === undefined || options.quoted_empty === null){
+    options.quoted_empty = undefined;
+  }
+  // Normalize option `quoted_match`
+  if(options.quoted_match === undefined || options.quoted_match === null || options.quoted_match === false){
+    options.quoted_match = null;
+  }else if(!Array.isArray(options.quoted_match)){
+    options.quoted_match = [options.quoted_match];
+  }
+  if(options.quoted_match){
+    for(const quoted_match of options.quoted_match){
+      const isString = typeof quoted_match === 'string';
+      const isRegExp = quoted_match instanceof RegExp;
+      if(!isString && !isRegExp){
+        return [Error(`Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`)];
+      }
+    }
+  }
+  // Normalize option `quoted_string`
+  if(options.quoted_string === undefined || options.quoted_string === null){
+    options.quoted_string = false;
+  }
+  // Normalize option `eof`
+  if(options.eof === undefined || options.eof === null){
+    options.eof = true;
+  }
+  // Normalize option `escape`
+  if(options.escape === undefined || options.escape === null){
+    options.escape = '"';
+  }else if(isBuffer(options.escape)){
+    options.escape = options.escape.toString();
+  }else if(typeof options.escape !== 'string'){
+    return [Error(`Invalid Option: escape must be a buffer or a string, got ${JSON.stringify(options.escape)}`)];
+  }
+  if (options.escape.length > 1){
+    return [Error(`Invalid Option: escape must be one character, got ${options.escape.length} characters`)];
+  }
+  // Normalize option `header`
+  if(options.header === undefined || options.header === null){
+    options.header = false;
+  }
+  // Normalize option `columns`
+  const [errColumns, columns] = normalize_columns(options.columns);
+  if(errColumns !== undefined) return [errColumns];
+  options.columns = columns;
+  // Normalize option `quoted`
+  if(options.quoted === undefined || options.quoted === null){
+    options.quoted = false;
+  }
+  // Normalize option `cast`
+  if(options.cast === undefined || options.cast === null){
+    options.cast = {};
+  }
+  // Normalize option cast.bigint
+  if(options.cast.bigint === undefined || options.cast.bigint === null){
+    // Cast boolean to string by default
+    options.cast.bigint = value => '' + value;
+  }
+  // Normalize option cast.boolean
+  if(options.cast.boolean === undefined || options.cast.boolean === null){
+    // Cast boolean to string by default
+    options.cast.boolean = value => value ? '1' : '';
+  }
+  // Normalize option cast.date
+  if(options.cast.date === undefined || options.cast.date === null){
+    // Cast date to timestamp string by default
+    options.cast.date = value => '' + value.getTime();
+  }
+  // Normalize option cast.number
+  if(options.cast.number === undefined || options.cast.number === null){
+    // Cast number to string using native casting by default
+    options.cast.number = value => '' + value;
+  }
+  // Normalize option cast.object
+  if(options.cast.object === undefined || options.cast.object === null){
+    // Stringify object as JSON by default
+    options.cast.object = value => JSON.stringify(value);
+  }
+  // Normalize option cast.string
+  if(options.cast.string === undefined || options.cast.string === null){
+    // Leave string untouched
+    options.cast.string = function(value){return value;};
+  }
+  // Normalize option `on_record`
+  if(options.on_record !== undefined && typeof options.on_record !== 'function'){
+    return [Error(`Invalid Option: "on_record" must be a function.`)];
+  }
+  // Normalize option `record_delimiter`
+  if(options.record_delimiter === undefined || options.record_delimiter === null){
+    options.record_delimiter = '\n';
+  }else if(isBuffer(options.record_delimiter)){
+    options.record_delimiter = options.record_delimiter.toString();
+  }else if(typeof options.record_delimiter !== 'string'){
+    return [Error(`Invalid Option: record_delimiter must be a buffer or a string, got ${JSON.stringify(options.record_delimiter)}`)];
+  }
+  switch(options.record_delimiter){
+  case 'auto':
+    options.record_delimiter = null;
+    break;
+  case 'unix':
+    options.record_delimiter = "\n";
+    break;
+  case 'mac':
+    options.record_delimiter = "\r";
+    break;
+  case 'windows':
+    options.record_delimiter = "\r\n";
+    break;
+  case 'ascii':
+    options.record_delimiter = "\u001e";
+    break;
+  case 'unicode':
+    options.record_delimiter = "\u2028";
+    break;
+  }
+  return [undefined, options];
+};
+
+const bom_utf8 = Buffer.from([239, 187, 191]);
+
+const stringifier = function(options, state, info){
+  return {
+    options: options,
+    state: state,
+    info: info,
+    __transform: function(chunk, push){
+      // Chunk validation
+      if(!Array.isArray(chunk) && typeof chunk !== 'object'){
+        return Error(`Invalid Record: expect an array or an object, got ${JSON.stringify(chunk)}`);
+      }
+      // Detect columns from the first record
+      if(this.info.records === 0){
+        if(Array.isArray(chunk)){
+          if(this.options.header === true && this.options.columns === undefined){
+            return Error('Undiscoverable Columns: header option requires column option or object records');
+          }
+        }else if(this.options.columns === undefined){
+          const [err, columns] = normalize_columns(Object.keys(chunk));
+          if(err) return;
+          this.options.columns = columns;
+        }
+      }
+      // Emit the header
+      if(this.info.records === 0){
+        this.bom(push);
+        const err = this.headers(push);
+        if(err) return err;
+      }
+      // Emit and stringify the record if an object or an array
+      try{
+        // this.emit('record', chunk, this.info.records);
+        if(this.options.on_record){
+          this.options.on_record(chunk, this.info.records);
+        }
+      }catch(err){
+        return err;
+      }
+      // Convert the record into a string
+      let err, chunk_string;
+      if(this.options.eof){
+        [err, chunk_string] = this.stringify(chunk);
+        if(err) return err;
+        if(chunk_string === undefined){
+          return;
+        }else {
+          chunk_string = chunk_string + this.options.record_delimiter;
+        }
+      }else {
+        [err, chunk_string] = this.stringify(chunk);
+        if(err) return err;
+        if(chunk_string === undefined){
+          return;
+        }else {
+          if(this.options.header || this.info.records){
+            chunk_string = this.options.record_delimiter + chunk_string;
+          }
+        }
+      }
+      // Emit the csv
+      this.info.records++;
+      push(chunk_string);
+    },
+    stringify: function(chunk, chunkIsHeader=false){
+      if(typeof chunk !== 'object'){
+        return [undefined, chunk];
+      }
+      const {columns} = this.options;
+      const record = [];
+      // Record is an array
+      if(Array.isArray(chunk)){
+        // We are getting an array but the user has specified output columns. In
+        // this case, we respect the columns indexes
+        if(columns){
+          chunk.splice(columns.length);
+        }
+        // Cast record elements
+        for(let i=0; i<chunk.length; i++){
+          const field = chunk[i];
+          const [err, value] = this.__cast(field, {
+            index: i, column: i, records: this.info.records, header: chunkIsHeader
+          });
+          if(err) return [err];
+          record[i] = [value, field];
+        }
+      // Record is a literal object
+      // `columns` is always defined: it is either provided or discovered.
+      }else {
+        for(let i=0; i<columns.length; i++){
+          const field = get(chunk, columns[i].key);
+          const [err, value] = this.__cast(field, {
+            index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
+          });
+          if(err) return [err];
+          record[i] = [value, field];
+        }
+      }
+      let csvrecord = '';
+      for(let i=0; i<record.length; i++){
+        let options, err;
+        // eslint-disable-next-line
+        let [value, field] = record[i];
+        if(typeof value === "string"){
+          options = this.options;
+        }else if(is_object(value)){
+          options = value;
+          value = options.value;
+          delete options.value;
+          if(typeof value !== "string" && value !== undefined && value !== null){
+            if(err) return [Error(`Invalid Casting Value: returned value must return a string, null or undefined, got ${JSON.stringify(value)}`)];
+          }
+          options = {...this.options, ...options};
+          [err, options] = normalize_options(options);
+          if(err !== undefined){
+            return [err];
+          }
+        }else if(value === undefined || value === null){
+          options = this.options;
+        }else {
+          return [Error(`Invalid Casting Value: returned value must return a string, an object, null or undefined, got ${JSON.stringify(value)}`)];
+        }
+        const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter} = options;
+        if(value){
+          if(typeof value !== 'string'){
+            return [Error(`Formatter must return a string, null or undefined, got ${JSON.stringify(value)}`)];
+          }
+          const containsdelimiter = delimiter.length && value.indexOf(delimiter) >= 0;
+          const containsQuote = (quote !== '') && value.indexOf(quote) >= 0;
+          const containsEscape = value.indexOf(escape) >= 0 && (escape !== quote);
+          const containsRecordDelimiter = value.indexOf(record_delimiter) >= 0;
+          const quotedString = quoted_string && typeof field === 'string';
+          let quotedMatch = quoted_match && quoted_match.filter(quoted_match => {
+            if(typeof quoted_match === 'string'){
+              return value.indexOf(quoted_match) !== -1;
+            }else {
+              return quoted_match.test(value);
+            }
+          });
+          quotedMatch = quotedMatch && quotedMatch.length > 0;
+          const shouldQuote = containsQuote === true || containsdelimiter || containsRecordDelimiter || quoted || quotedString || quotedMatch;
+          if(shouldQuote === true && containsEscape === true){
+            const regexp = escape === '\\'
+              ? new RegExp(escape + escape, 'g')
+              : new RegExp(escape, 'g');
+            value = value.replace(regexp, escape + escape);
+          }
+          if(containsQuote === true){
+            const regexp = new RegExp(quote,'g');
+            value = value.replace(regexp, escape + quote);
+          }
+          if(shouldQuote === true){
+            value = quote + value + quote;
+          }
+          csvrecord += value;
+        }else if(quoted_empty === true || (field === '' && quoted_string === true && quoted_empty !== false)){
+          csvrecord += quote + quote;
+        }
+        if(i !== record.length - 1){
+          csvrecord += delimiter;
+        }
+      }
+      return [undefined, csvrecord];
+    },
+    bom: function(push){
+      if(this.options.bom !== true){
+        return;
+      }
+      push(bom_utf8);
+    },
+    headers: function(push){
+      if(this.options.header === false){
+        return;
+      }
+      if(this.options.columns === undefined){
+        return;
+      }
+      let err;
+      let headers = this.options.columns.map(column => column.header);
+      if(this.options.eof){
+        [err, headers] = this.stringify(headers, true);
+        headers += this.options.record_delimiter;
+      }else {
+        [err, headers] = this.stringify(headers);
+      }
+      if(err) return err;
+      push(headers);
+    },
+    __cast: function(value, context){
+      const type = typeof value;
+      try{
+        if(type === 'string'){ // Fine for 99% of the cases
+          return [undefined, this.options.cast.string(value, context)];
+        }else if(type === 'bigint'){
+          return [undefined, this.options.cast.bigint(value, context)];
+        }else if(type === 'number'){
+          return [undefined, this.options.cast.number(value, context)];
+        }else if(type === 'boolean'){
+          return [undefined, this.options.cast.boolean(value, context)];
+        }else if(value instanceof Date){
+          return [undefined, this.options.cast.date(value, context)];
+        }else if(type === 'object' && value !== null){
+          return [undefined, this.options.cast.object(value, context)];
+        }else {
+          return [undefined, value, value];
+        }
+      }catch(err){
+        return [err];
+      }
+    }
+  };
+};
+
 class Stringifier extends Transform {
   constructor(opts = {}){
     super({...{writableObjectMode: true}, ...opts});
-    const options = {};
-    let err;
-    // Merge with user options
-    for(const opt in opts){
-      options[underscore(opt)] = opts[opt];
-    }
-    if((err = this.normalize(options)) !== undefined) throw err;
-    switch(options.record_delimiter){
-    case 'auto':
-      options.record_delimiter = null;
-      break;
-    case 'unix':
-      options.record_delimiter = "\n";
-      break;
-    case 'mac':
-      options.record_delimiter = "\r";
-      break;
-    case 'windows':
-      options.record_delimiter = "\r\n";
-      break;
-    case 'ascii':
-      options.record_delimiter = "\u001e";
-      break;
-    case 'unicode':
-      options.record_delimiter = "\u2028";
-      break;
-    }
+    const [err, options] = normalize_options(opts);
+    if(err !== undefined) throw err;
     // Expose options
     this.options = options;
     // Internal state
@@ -5112,145 +5503,16 @@ class Stringifier extends Transform {
     this.info = {
       records: 0
     };
-  }
-  normalize(options){
-    // Normalize option `bom`
-    if(options.bom === undefined || options.bom === null || options.bom === false){
-      options.bom = false;
-    }else if(options.bom !== true){
-      return new CsvError('CSV_OPTION_BOOLEAN_INVALID_TYPE', [
-        'option `bom` is optional and must be a boolean value,',
-        `got ${JSON.stringify(options.bom)}`
-      ]);
-    }
-    // Normalize option `delimiter`
-    if(options.delimiter === undefined || options.delimiter === null){
-      options.delimiter = ',';
-    }else if(isBuffer(options.delimiter)){
-      options.delimiter = options.delimiter.toString();
-    }else if(typeof options.delimiter !== 'string'){
-      return new CsvError('CSV_OPTION_DELIMITER_INVALID_TYPE', [
-        'option `delimiter` must be a buffer or a string,',
-        `got ${JSON.stringify(options.delimiter)}`
-      ]);
-    }
-    // Normalize option `quote`
-    if(options.quote === undefined || options.quote === null){
-      options.quote = '"';
-    }else if(options.quote === true){
-      options.quote = '"';
-    }else if(options.quote === false){
-      options.quote = '';
-    }else if (isBuffer(options.quote)){
-      options.quote = options.quote.toString();
-    }else if(typeof options.quote !== 'string'){
-      return new CsvError('CSV_OPTION_QUOTE_INVALID_TYPE', [
-        'option `quote` must be a boolean, a buffer or a string,',
-        `got ${JSON.stringify(options.quote)}`
-      ]);
-    }
-    // Normalize option `quoted`
-    if(options.quoted === undefined || options.quoted === null){
-      options.quoted = false;
-    }
-    // Normalize option `quoted_empty`
-    if(options.quoted_empty === undefined || options.quoted_empty === null){
-      options.quoted_empty = undefined;
-    }
-    // Normalize option `quoted_match`
-    if(options.quoted_match === undefined || options.quoted_match === null || options.quoted_match === false){
-      options.quoted_match = null;
-    }else if(!Array.isArray(options.quoted_match)){
-      options.quoted_match = [options.quoted_match];
-    }
-    if(options.quoted_match){
-      for(const quoted_match of options.quoted_match){
-        const isString = typeof quoted_match === 'string';
-        const isRegExp = quoted_match instanceof RegExp;
-        if(!isString && !isRegExp){
-          return Error(`Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`);
-        }
-      }
-    }
-    // Normalize option `quoted_string`
-    if(options.quoted_string === undefined || options.quoted_string === null){
-      options.quoted_string = false;
-    }
-    // Normalize option `eof`
-    if(options.eof === undefined || options.eof === null){
-      options.eof = true;
-    }
-    // Normalize option `escape`
-    if(options.escape === undefined || options.escape === null){
-      options.escape = '"';
-    }else if(isBuffer(options.escape)){
-      options.escape = options.escape.toString();
-    }else if(typeof options.escape !== 'string'){
-      return Error(`Invalid Option: escape must be a buffer or a string, got ${JSON.stringify(options.escape)}`);
-    }
-    if (options.escape.length > 1){
-      return Error(`Invalid Option: escape must be one character, got ${options.escape.length} characters`);
-    }
-    // Normalize option `header`
-    if(options.header === undefined || options.header === null){
-      options.header = false;
-    }
-    // Normalize option `columns`
-    const [err, columns] = this.normalize_columns(options.columns);
-    if(err) return err;
-    options.columns = columns;
-    // Normalize option `quoted`
-    if(options.quoted === undefined || options.quoted === null){
-      options.quoted = false;
-    }
-    // Normalize option `cast`
-    if(options.cast === undefined || options.cast === null){
-      options.cast = {};
-    }
-    // Normalize option cast.bigint
-    if(options.cast.bigint === undefined || options.cast.bigint === null){
-      // Cast boolean to string by default
-      options.cast.bigint = value => '' + value;
-    }
-    // Normalize option cast.boolean
-    if(options.cast.boolean === undefined || options.cast.boolean === null){
-      // Cast boolean to string by default
-      options.cast.boolean = value => value ? '1' : '';
-    }
-    // Normalize option cast.date
-    if(options.cast.date === undefined || options.cast.date === null){
-      // Cast date to timestamp string by default
-      options.cast.date = value => '' + value.getTime();
-    }
-    // Normalize option cast.number
-    if(options.cast.number === undefined || options.cast.number === null){
-      // Cast number to string using native casting by default
-      options.cast.number = value => '' + value;
-    }
-    // Normalize option cast.object
-    if(options.cast.object === undefined || options.cast.object === null){
-      // Stringify object as JSON by default
-      options.cast.object = value => JSON.stringify(value);
-    }
-    // Normalize option cast.string
-    if(options.cast.string === undefined || options.cast.string === null){
-      // Leave string untouched
-      options.cast.string = function(value){return value;};
-    }
-    // Normalize option `record_delimiter`
-    if(options.record_delimiter === undefined || options.record_delimiter === null){
-      options.record_delimiter = '\n';
-    }else if(isBuffer(options.record_delimiter)){
-      options.record_delimiter = options.record_delimiter.toString();
-    }else if(typeof options.record_delimiter !== 'string'){
-      return Error(`Invalid Option: record_delimiter must be a buffer or a string, got ${JSON.stringify(options.record_delimiter)}`);
-    }
+    this.api = stringifier(this.options, this.state, this.info);
+    this.api.options.on_record = (...args) => {
+      this.emit('record', ...args);
+    };
   }
   _transform(chunk, encoding, callback){
     if(this.state.stop === true){
       return;
     }
-    const err = this.__transform(chunk);
+    const err = this.api.__transform(chunk, this.push.bind(this));
     if(err !== undefined){
       this.state.stop = true;
     }
@@ -5263,250 +5525,11 @@ class Stringifier extends Transform {
       return;
     }
     if(this.info.records === 0){
-      this.bom();
-      const err = this.headers();
+      this.api.bom(this.push.bind(this));
+      const err = this.api.headers(this.push.bind(this));
       if(err) callback(err);
     }
     callback();
-  }
-  __transform(chunk){
-    // Chunk validation
-    if(!Array.isArray(chunk) && typeof chunk !== 'object'){
-      return Error(`Invalid Record: expect an array or an object, got ${JSON.stringify(chunk)}`);
-    }
-    // Detect columns from the first record
-    if(this.info.records === 0){
-      if(Array.isArray(chunk)){
-        if(this.options.header === true && this.options.columns === undefined){
-          return Error('Undiscoverable Columns: header option requires column option or object records');
-        }
-      }else if(this.options.columns === undefined){
-        const [err, columns] = this.normalize_columns(Object.keys(chunk));
-        if(err) return;
-        this.options.columns = columns;
-      }
-    }
-    // Emit the header
-    if(this.info.records === 0){
-      this.bom();
-      const err = this.headers();
-      if(err) return err;
-    }
-    // Emit and stringify the record if an object or an array
-    try{
-      this.emit('record', chunk, this.info.records);
-    }catch(err){
-      return err;
-    }
-    // Convert the record into a string
-    let err, chunk_string;
-    if(this.options.eof){
-      [err, chunk_string] = this.stringify(chunk);
-      if(err) return err;
-      if(chunk_string === undefined){
-        return;
-      }else {
-        chunk_string = chunk_string + this.options.record_delimiter;
-      }
-    }else {
-      [err, chunk_string] = this.stringify(chunk);
-      if(err) return err;
-      if(chunk_string === undefined){
-        return;
-      }else {
-        if(this.options.header || this.info.records){
-          chunk_string = this.options.record_delimiter + chunk_string;
-        }
-      }
-    }
-    // Emit the csv
-    this.info.records++;
-    this.push(chunk_string);
-  }
-  stringify(chunk, chunkIsHeader=false){
-    if(typeof chunk !== 'object'){
-      return [undefined, chunk];
-    }
-    const {columns} = this.options;
-    const record = [];
-    // Record is an array
-    if(Array.isArray(chunk)){
-      // We are getting an array but the user has specified output columns. In
-      // this case, we respect the columns indexes
-      if(columns){
-        chunk.splice(columns.length);
-      }
-      // Cast record elements
-      for(let i=0; i<chunk.length; i++){
-        const field = chunk[i];
-        const [err, value] = this.__cast(field, {
-          index: i, column: i, records: this.info.records, header: chunkIsHeader
-        });
-        if(err) return [err];
-        record[i] = [value, field];
-      }
-    // Record is a literal object
-    // `columns` is always defined: it is either provided or discovered.
-    }else {
-      for(let i=0; i<columns.length; i++){
-        const field = get(chunk, columns[i].key);
-        const [err, value] = this.__cast(field, {
-          index: i, column: columns[i].key, records: this.info.records, header: chunkIsHeader
-        });
-        if(err) return [err];
-        record[i] = [value, field];
-      }
-    }
-    let csvrecord = '';
-    for(let i=0; i<record.length; i++){
-      let options, err;
-      // eslint-disable-next-line
-      let [value, field] = record[i];
-      if(typeof value === "string"){
-        options = this.options;
-      }else if(isObject(value)){
-        options = value;
-        value = options.value;
-        delete options.value;
-        if(typeof value !== "string" && value !== undefined && value !== null){
-          if(err) return [Error(`Invalid Casting Value: returned value must return a string, null or undefined, got ${JSON.stringify(value)}`)];
-        }
-        options = {...this.options, ...options};
-        if((err = this.normalize(options)) !== undefined){
-          return [err];
-        }
-      }else if(value === undefined || value === null){
-        options = this.options;
-      }else {
-        return [Error(`Invalid Casting Value: returned value must return a string, an object, null or undefined, got ${JSON.stringify(value)}`)];
-      }
-      const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter} = options;
-      if(value){
-        if(typeof value !== 'string'){
-          return [Error(`Formatter must return a string, null or undefined, got ${JSON.stringify(value)}`)];
-        }
-        const containsdelimiter = delimiter.length && value.indexOf(delimiter) >= 0;
-        const containsQuote = (quote !== '') && value.indexOf(quote) >= 0;
-        const containsEscape = value.indexOf(escape) >= 0 && (escape !== quote);
-        const containsRecordDelimiter = value.indexOf(record_delimiter) >= 0;
-        const quotedString = quoted_string && typeof field === 'string';
-        let quotedMatch = quoted_match && quoted_match.filter(quoted_match => {
-          if(typeof quoted_match === 'string'){
-            return value.indexOf(quoted_match) !== -1;
-          }else {
-            return quoted_match.test(value);
-          }
-        });
-        quotedMatch = quotedMatch && quotedMatch.length > 0;
-        const shouldQuote = containsQuote === true || containsdelimiter || containsRecordDelimiter || quoted || quotedString || quotedMatch;
-        if(shouldQuote === true && containsEscape === true){
-          const regexp = escape === '\\'
-            ? new RegExp(escape + escape, 'g')
-            : new RegExp(escape, 'g');
-          value = value.replace(regexp, escape + escape);
-        }
-        if(containsQuote === true){
-          const regexp = new RegExp(quote,'g');
-          value = value.replace(regexp, escape + quote);
-        }
-        if(shouldQuote === true){
-          value = quote + value + quote;
-        }
-        csvrecord += value;
-      }else if(quoted_empty === true || (field === '' && quoted_string === true && quoted_empty !== false)){
-        csvrecord += quote + quote;
-      }
-      if(i !== record.length - 1){
-        csvrecord += delimiter;
-      }
-    }
-    return [undefined, csvrecord];
-  }
-  bom(){
-    if(this.options.bom !== true){
-      return;
-    }
-    this.push(bom_utf8);
-  }
-  headers(){
-    if(this.options.header === false){
-      return;
-    }
-    if(this.options.columns === undefined){
-      return;
-    }
-    let err;
-    let headers = this.options.columns.map(column => column.header);
-    if(this.options.eof){
-      [err, headers] = this.stringify(headers, true);
-      headers += this.options.record_delimiter;
-    }else {
-      [err, headers] = this.stringify(headers);
-    }
-    if(err) return err;
-    this.push(headers);
-  }
-  __cast(value, context){
-    const type = typeof value;
-    try{
-      if(type === 'string'){ // Fine for 99% of the cases
-        return [undefined, this.options.cast.string(value, context)];
-      }else if(type === 'bigint'){
-        return [undefined, this.options.cast.bigint(value, context)];
-      }else if(type === 'number'){
-        return [undefined, this.options.cast.number(value, context)];
-      }else if(type === 'boolean'){
-        return [undefined, this.options.cast.boolean(value, context)];
-      }else if(value instanceof Date){
-        return [undefined, this.options.cast.date(value, context)];
-      }else if(type === 'object' && value !== null){
-        return [undefined, this.options.cast.object(value, context)];
-      }else {
-        return [undefined, value, value];
-      }
-    }catch(err){
-      return [err];
-    }
-  }
-  normalize_columns(columns){
-    if(columns === undefined || columns === null){
-      return [];
-    }
-    if(typeof columns !== 'object'){
-      return [Error('Invalid option "columns": expect an array or an object')];
-    }
-    if(!Array.isArray(columns)){
-      const newcolumns = [];
-      for(const k in columns){
-        newcolumns.push({
-          key: k,
-          header: columns[k]
-        });
-      }
-      columns = newcolumns;
-    }else {
-      const newcolumns = [];
-      for(const column of columns){
-        if(typeof column === 'string'){
-          newcolumns.push({
-            key: column,
-            header: column
-          });
-        }else if(typeof column === 'object' && column !== undefined && !Array.isArray(column)){
-          if(!column.key){
-            return [Error('Invalid column definition: property "key" is required')];
-          }
-          if(column.header === undefined){
-            column.header = column.key;
-          }
-          newcolumns.push(column);
-        }else {
-          return [Error('Invalid column definition: expect a string or an object')];
-        }
-      }
-      columns = newcolumns;
-    }
-    return [undefined, columns];
   }
 }
 
@@ -5517,7 +5540,7 @@ const stringify = function(){
     const type = typeof argument;
     if(data === undefined && (Array.isArray(argument))){
       data = argument;
-    }else if(options === undefined && isObject(argument)){
+    }else if(options === undefined && is_object(argument)){
       options = argument;
     }else if(callback === undefined && type === 'function'){
       callback = argument;

@@ -1,6 +1,6 @@
 
 import { CsvError } from '../lib/index.js'
-import ResizeableBuffer from '../lib/ResizeableBuffer.js'
+import ResizeableBuffer from '../lib/utils/ResizeableBuffer.js'
 
 export assert_error = (err, assert = {}, exhaustive = false) ->
   if Array.isArray err

@@ -12,7 +12,7 @@ describe('API Types', () => {
       const keys: any = Object.keys(options)
       keys.sort().should.eql([
         'bom', 'cast', 'columns', 'delimiter', 'eof', 'escape',
-        'header', 'quote', 'quoted', 'quoted_empty',
+        'header', 'on_record', 'quote', 'quoted', 'quoted_empty',
         'quoted_match', 'quoted_string', 'record_delimiter'
       ])
     })

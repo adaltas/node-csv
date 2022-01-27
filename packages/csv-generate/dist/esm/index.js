@@ -112,7 +112,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-function read (buffer, offset, isLE, mLen, nBytes) {
+function read$1 (buffer, offset, isLE, mLen, nBytes) {
   var e, m;
   var eLen = nBytes * 8 - mLen - 1;
   var eMax = (1 << eLen) - 1;
@@ -1393,22 +1393,22 @@ Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
 
 Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
   if (!noAssert) checkOffset(offset, 4, this.length);
-  return read(this, offset, true, 23, 4)
+  return read$1(this, offset, true, 23, 4)
 };
 
 Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
   if (!noAssert) checkOffset(offset, 4, this.length);
-  return read(this, offset, false, 23, 4)
+  return read$1(this, offset, false, 23, 4)
 };
 
 Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
   if (!noAssert) checkOffset(offset, 8, this.length);
-  return read(this, offset, true, 52, 8)
+  return read$1(this, offset, true, 52, 8)
 };
 
 Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
   if (!noAssert) checkOffset(offset, 8, this.length);
-  return read(this, offset, false, 52, 8)
+  return read$1(this, offset, false, 52, 8)
 };
 
 function checkInt (buf, value, offset, ext, max, min) {
@@ -5036,20 +5036,64 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-const Generator = function(options = {}){
+const init_state = (options) => {
+  // State
+  return {
+    start_time: options.duration ? Date.now() : null,
+    fixed_size_buffer: '',
+    count_written: 0,
+    count_created: 0,
+  };
+};
+
+// Generate a random number between 0 and 1 with 2 decimals. The function is idempotent if it detect the "seed" option.
+const random = function(options={}){
+  if(options.seed){
+    return options.seed = options.seed * Math.PI * 100 % 100 / 100;
+  }else {
+    return Math.random();
+  }
+};
+
+const types = {
+  // Generate an ASCII value.
+  ascii: function({options}){
+    const column = [];
+    const nb_chars = Math.ceil(random(options) * options.maxWordLength);
+    for(let i=0; i<nb_chars; i++){
+      const char = Math.floor(random(options) * 32);
+      column.push(String.fromCharCode(char + (char < 16 ? 65 : 97 - 16)));
+    }
+    return column.join('');
+  },
+  // Generate an integer value.
+  int: function({options}){
+    return Math.floor(random(options) * Math.pow(2, 52));
+  },
+  // Generate an boolean value.
+  bool: function({options}){
+    return Math.floor(random(options) * 2);
+  }
+};
+
+const camelize = function(str){
+  return str.replace(/_([a-z])/gi, function(_, match){
+    return match.toUpperCase();
+  });
+};
+
+const normalize_options = (opts) => {
   // Convert Stream Readable options if underscored
-  if(options.high_water_mark){
-    options.highWaterMark = options.high_water_mark;
+  if(opts.high_water_mark){
+    opts.highWaterMark = opts.high_water_mark;
   }
-  if(options.object_mode){
-    options.objectMode = options.object_mode;
+  if(opts.object_mode){
+    opts.objectMode = opts.object_mode;
   }
-  // Call parent constructor
-  Stream.Readable.call(this, options);
   // Clone and camelize options
-  this.options = {};
-  for(const k in options){
-    this.options[Generator.camelize(k)] = options[k];
+  const options = {};
+  for(const k in opts){
+    options[camelize(k)] = opts[k];
   }
   // Normalize options
   const dft = {
@@ -5067,110 +5111,100 @@ const Generator = function(options = {}){
     sleep: 0,
   };
   for(const k in dft){
-    if(this.options[k] === undefined){
-      this.options[k] = dft[k];
+    if(options[k] === undefined){
+      options[k] = dft[k];
     }
   }
   // Default values
-  if(this.options.eof === true){
-    this.options.eof = this.options.rowDelimiter;
+  if(options.eof === true){
+    options.eof = options.rowDelimiter;
   }
-  // State
-  this._ = {
-    start_time: this.options.duration ? Date.now() : null,
-    fixed_size_buffer: '',
-    count_written: 0,
-    count_created: 0,
-  };
-  if(typeof this.options.columns === 'number'){
-    this.options.columns = new Array(this.options.columns);
+  if(typeof options.columns === 'number'){
+    options.columns = new Array(options.columns);
   }
-  const accepted_header_types = Object.keys(Generator).filter((t) => (!['super_', 'camelize'].includes(t)));
-  for(let i = 0; i < this.options.columns.length; i++){
-    const v = this.options.columns[i] || 'ascii';
+  const accepted_header_types = Object.keys(types).filter((t) => (!['super_', 'camelize'].includes(t)));
+  for(let i = 0; i < options.columns.length; i++){
+    const v = options.columns[i] || 'ascii';
     if(typeof v === 'string'){
       if(!accepted_header_types.includes(v)){
         throw Error(`Invalid column type: got "${v}", default values are ${JSON.stringify(accepted_header_types)}`);
       }
-      this.options.columns[i] = Generator[v];
+      options.columns[i] = types[v];
     }
   }
-  return this;
+  return options;
 };
-util.inherits(Generator, Stream.Readable);
 
-// Generate a random number between 0 and 1 with 2 decimals. The function is idempotent if it detect the "seed" option.
-Generator.prototype.random = function(){
-  if(this.options.seed){
-    return this.options.seed = this.options.seed * Math.PI * 100 % 100 / 100;
-  }else {
-    return Math.random();
-  }
-};
-// Stop the generation.
-Generator.prototype.end = function(){
-  this.push(null);
-};
-// Put new data into the read queue.
-Generator.prototype._read = function(size){
+const read = (options, state, size, push, close) => {
   // Already started
   const data = [];
-  let length = this._.fixed_size_buffer.length;
+  let length = state.fixed_size_buffer.length;
   if(length !== 0){
-    data.push(this._.fixed_size_buffer);
+    data.push(state.fixed_size_buffer);
   }
   // eslint-disable-next-line
   while(true){
     // Time for some rest: flush first and stop later
-    if((this._.count_created === this.options.length) || (this.options.end && Date.now() > this.options.end) || (this.options.duration && Date.now() > this._.start_time + this.options.duration)){
+    if((state.count_created === options.length) || (options.end && Date.now() > options.end) || (options.duration && Date.now() > state.start_time + options.duration)){
       // Flush
       if(data.length){
-        if(this.options.objectMode){
+        if(options.objectMode){
           for(const record of data){
-            this.__push(record);
+            push(record);
           }
         }else {
-          this.__push(data.join('') + (this.options.eof ? this.options.eof : ''));
+          push(data.join('') + (options.eof ? options.eof : ''));
         }
-        this._.end = true;
+        state.end = true;
       }else {
-        this.push(null);
+        close();
       }
       return;
     }
     // Create the record
     let record = [];
     let recordLength;
-    this.options.columns.forEach((fn) => {
-      record.push(fn(this));
+    options.columns.forEach((fn) => {
+      const result = fn({options: options, state: state});
+      const type = typeof result;
+      if(result !== null && type !== 'string' && type !== 'number'){
+        throw Error([
+          'INVALID_VALUE:',
+          'values returned by column function must be',
+          'a string, a number or null,',
+          `got ${JSON.stringify(result)}`
+        ].join(' '));
+      }
+      record.push(result);
     });
     // Obtain record length
-    if(this.options.objectMode){
+    if(options.objectMode){
       recordLength = 0;
       // recordLength is currently equal to the number of columns
       // This is wrong and shall equal to 1 record only
-      for(const column of record)
+      for(const column of record){
         recordLength += column.length;
+      }
     }else {
       // Stringify the record
-      record = (this._.count_created === 0 ? '' : this.options.rowDelimiter)+record.join(this.options.delimiter);
+      record = (state.count_created === 0 ? '' : options.rowDelimiter)+record.join(options.delimiter);
       recordLength = record.length;
     }
-    this._.count_created++;
+    state.count_created++;
     if(length + recordLength > size){
-      if(this.options.objectMode){
+      if(options.objectMode){
         data.push(record);
         for(const record of data){
-          this.__push(record);
+          push(record);
         }
       }else {
-        if(this.options.fixedSize){
-          this._.fixed_size_buffer = record.substr(size - length);
+        if(options.fixedSize){
+          state.fixed_size_buffer = record.substr(size - length);
           data.push(record.substr(0, size - length));
         }else {
           data.push(record);
         }
-        this.__push(data.join(''));
+        push(data.join(''));
       }
       return;
     }
@@ -5178,41 +5212,40 @@ Generator.prototype._read = function(size){
     data.push(record);
   }
 };
+
+const Generator = function(options = {}){
+  this.options = normalize_options(options);
+  // Call parent constructor
+  Stream.Readable.call(this, this.options);
+  this.state = init_state(this.options);
+  return this;
+};
+util.inherits(Generator, Stream.Readable);
+
+// Stop the generation.
+Generator.prototype.end = function(){
+  this.push(null);
+};
+// Put new data into the read queue.
+Generator.prototype._read = function(size){
+  const self = this;
+  read(this.options, this.state, size, function(chunk) {
+    self.__push(chunk);
+  }, function(){
+    self.push(null);
+  });
+};
 // Put new data into the read queue.
 Generator.prototype.__push = function(record){
+  // console.log('push', record)
   const push = () => {
-    this._.count_written++;
+    this.state.count_written++;
     this.push(record);
-    if(this._.end === true){
+    if(this.state.end === true){
       return this.push(null);
     }
   };
   this.options.sleep > 0 ? setTimeout(push, this.options.sleep) : push();
-};
-// Generate an ASCII value.
-Generator.ascii = function(gen){
-  // Column
-  const column = [];
-  const nb_chars = Math.ceil(gen.random() * gen.options.maxWordLength);
-  for(let i=0; i<nb_chars; i++){
-    const char = Math.floor(gen.random() * 32);
-    column.push(String.fromCharCode(char + (char < 16 ? 65 : 97 - 16)));
-  }
-  return column.join('');
-};
-// Generate an integer value.
-Generator.int = function(gen){
-  return Math.floor(gen.random() * Math.pow(2, 52));
-};
-// Generate an boolean value.
-Generator.bool = function(gen){
-  return Math.floor(gen.random() * 2);
-};
-// Camelize option properties
-Generator.camelize = function(str){
-  return str.replace(/_([a-z])/gi, function(_, match){
-    return match.toUpperCase();
-  });
 };
 
 const generate = function(){
