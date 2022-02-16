@@ -13,7 +13,7 @@
   },
   "mocha": {
     "inline-diffs": true,
-    "loader": "./test/loaders/all.mjs",
+    "loader": "./test/loaders/all.js",
     "recursive": true,
     "reporter": "spec",
     "require": [

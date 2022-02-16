@@ -48,7 +48,7 @@
   "main": "./dist/cjs/index.cjs",
   "mocha": {
     "inline-diffs": true,
-    "loader": "./test/loaders/all.mjs",
+    "loader": "./test/loaders/all.js",
     "recursive": true,
     "reporter": "spec",
     "require": [
@@ -73,7 +73,7 @@
     "preversion": "npm run build && git add dist",
     "pretest": "npm run build",
     "test": "mocha 'test/**/*.{coffee,ts}'",
-    "test:legacy": "mocha --loader=./test/loaders/legacy/all.mjs 'test/**/*.{coffee,ts}'"
+    "test:legacy": "mocha --loader=./test/loaders/legacy/all.js 'test/**/*.{coffee,ts}'"
   },
   "type": "module",
   "types": "dist/esm/index.d.ts",

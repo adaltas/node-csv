@@ -1,5 +1,5 @@
 
-import * as coffee from './coffee.mjs'
+import * as coffee from './coffee.js'
 import * as ts from 'ts-node/esm'
 
 const coffeeRegex = /\.coffee$|\.litcoffee$|\.coffee\.md$/;
