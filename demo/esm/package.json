@@ -5,6 +5,10 @@
   "license": "MIT",
   "type": "module",
   "private": true,
+  "dependencies": {
+    "csv": "^6.0.5",
+    "csv-parse": "^5.0.4"
+  },
   "devDependencies": {
     "coffeescript": "^2.6.1",
     "mocha": "^9.2.0",
