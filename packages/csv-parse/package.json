@@ -96,7 +96,7 @@
     "preversion": "npm run build && git add dist",
     "pretest": "npm run build",
     "test": "mocha 'test/**/*.{coffee,ts}'",
-    "test:legacy": "mocha --loader=./test/loaders/legacy/all.js 'test/**/*.{coffee,ts}'"
+    "test:legacy": "mocha --loader=./test/loaders/legacy/all.js 'test/**/*.{coffee,ts}' --ignore test/api.web_stream.coffee"
   },
   "type": "module",
   "types": "dist/esm/index.d.ts",
