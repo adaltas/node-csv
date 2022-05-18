@@ -26,11 +26,14 @@ Generator.prototype.end = function(){
 // Put new data into the read queue.
 Generator.prototype._read = function(size){
   const self = this;
-  read(this.options, this.state, size, function(chunk) {
+  const err = read(this.options, this.state, size, function(chunk) {
     self.__push(chunk);
   }, function(){
     self.push(null);
   });
+  if(err){
+    this.destroy(err);
+  }
 };
 // Put new data into the read queue.
 Generator.prototype.__push = function(record){

@@ -29,11 +29,11 @@ const read = (options, state, size, push, close) => {
     // Create the record
     let record = [];
     let recordLength;
-    options.columns.forEach((fn) => {
+    for(const fn of options.columns){
       const result = fn({options: options, state: state});
       const type = typeof result;
       if(result !== null && type !== 'string' && type !== 'number'){
-        throw Error([
+        return Error([
           'INVALID_VALUE:',
           'values returned by column function must be',
           'a string, a number or null,',
@@ -41,7 +41,7 @@ const read = (options, state, size, push, close) => {
         ].join(' '));
       }
       record.push(result);
-    });
+    }
     // Obtain record length
     if(options.objectMode){
       recordLength = 0;

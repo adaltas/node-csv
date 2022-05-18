@@ -5167,11 +5167,11 @@ var csv_generate = (function (exports) {
                 // Create the record
                 let record = [];
                 let recordLength;
-                options.columns.forEach((fn) => {
+                for(const fn of options.columns){
                   const result = fn({options: options, state: state});
                   const type = typeof result;
                   if(result !== null && type !== 'string' && type !== 'number'){
-                    throw Error([
+                    return Error([
                       'INVALID_VALUE:',
                       'values returned by column function must be',
                       'a string, a number or null,',
@@ -5179,7 +5179,7 @@ var csv_generate = (function (exports) {
                     ].join(' '));
                   }
                   record.push(result);
-                });
+                }
                 // Obtain record length
                 if(options.objectMode){
                   recordLength = 0;
@@ -5232,11 +5232,14 @@ var csv_generate = (function (exports) {
             // Put new data into the read queue.
             Generator.prototype._read = function(size){
               const self = this;
-              read(this.options, this.state, size, function(chunk) {
+              const err = read(this.options, this.state, size, function(chunk) {
                 self.__push(chunk);
               }, function(){
                 self.push(null);
               });
+              if(err){
+                this.destroy(err);
+              }
             };
             // Put new data into the read queue.
             Generator.prototype.__push = function(record){
