@@ -4,7 +4,24 @@ import * as stream from "stream";
 
 export type Callback = (err: Error | undefined, output: string) => void
 export type RecordDelimiter = string | Buffer | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
-export type Cast<T> = (value: T, context: CastingContext) => string
+
+export type CastReturnObject = { value: string } & Pick<
+    Options,
+    | 'delimiter'
+    | 'escape'
+    | 'quote'
+    | 'quoted'
+    | 'quoted_empty'
+    | 'quoted_string'
+    | 'quoted_match'
+    | 'record_delimiter'
+>
+
+export type Cast<T> = (
+    value: T,
+    context: CastingContext
+) => string | CastReturnObject;
+
 export type PlainObject<T> = Record<string, T>
 export type Input = any[]
 export interface ColumnOption {
