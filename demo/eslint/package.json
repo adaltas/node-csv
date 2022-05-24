@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "lint": "eslint ./",
     "test": "echo \"Not ready, check output of npm run lint\""
