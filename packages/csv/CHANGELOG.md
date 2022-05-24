@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.0](https://github.com/adaltas/node-csv/compare/csv@6.0.5...csv@6.1.0) (2022-05-24)
+
+
+### Features
+
+* wg stream api ([8a5eb7d](https://github.com/adaltas/node-csv/commit/8a5eb7dfd31b22217db4fbbc832d707221850785))
+
+
+
 ## [6.0.5](https://github.com/adaltas/node-csv/compare/csv@6.0.4...csv@6.0.5) (2021-12-29)
 
 

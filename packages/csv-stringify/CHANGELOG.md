@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.0](https://github.com/adaltas/node-csv/compare/csv-stringify@6.0.5...csv-stringify@6.1.0) (2022-05-24)
+
+
+### Features
+
+* wg stream api ([8a5eb7d](https://github.com/adaltas/node-csv/commit/8a5eb7dfd31b22217db4fbbc832d707221850785))
+
+
+### Bug Fixes
+
+* **csv-stringify:** update TS types to allow cast to return an object ([#339](https://github.com/adaltas/node-csv/issues/339)) ([60efa78](https://github.com/adaltas/node-csv/commit/60efa7862ed43bd2fd19d1f027a1809e9df6a67e))
+
+
+
 ## [6.0.5](https://github.com/adaltas/node-csv/compare/csv-stringify@6.0.4...csv-stringify@6.0.5) (2021-12-29)
 
 

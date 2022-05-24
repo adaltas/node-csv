@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [0.0.3](https://github.com/adaltas/node-csv/compare/csv-demo-esm@0.0.2...csv-demo-esm@0.0.3) (2022-05-24)
+
+
+### Bug Fixes
+
+* **csv-demo-esm:** csv dependencies ([64afead](https://github.com/adaltas/node-csv/commit/64afead8dc41b9d379c9761ddb70d6a29251b4e2))
+
+
+
 ## [0.0.2](https://github.com/adaltas/node-csv/compare/csv-demo-esm@0.0.1...csv-demo-esm@0.0.2) (2021-12-29)
 
 **Note:** Version bump only for package csv-demo-esm

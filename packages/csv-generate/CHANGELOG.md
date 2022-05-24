@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0](https://github.com/adaltas/node-csv/compare/csv-generate@4.0.4...csv-generate@4.1.0) (2022-05-24)
+
+
+### Features
+
+* wg stream api ([8a5eb7d](https://github.com/adaltas/node-csv/commit/8a5eb7dfd31b22217db4fbbc832d707221850785))
+
+
+### Bug Fixes
+
+* **csv-generate:** catch invalid value error ([f031542](https://github.com/adaltas/node-csv/commit/f0315423ba576551f2bd08f3e1c3bc85e9003926))
+
+
+
 ## [4.0.4](https://github.com/adaltas/node-csv/compare/csv-generate@4.0.3...csv-generate@4.0.4) (2021-12-29)
 
 

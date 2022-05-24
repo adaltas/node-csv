@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0](https://github.com/adaltas/node-csv/compare/stream-transform@3.0.4...stream-transform@3.1.0) (2022-05-24)
+
+
+### Features
+
+* wg stream api ([8a5eb7d](https://github.com/adaltas/node-csv/commit/8a5eb7dfd31b22217db4fbbc832d707221850785))
+
+
+
 ## [3.0.4](https://github.com/adaltas/node-csv/compare/stream-transform@3.0.3...stream-transform@3.0.4) (2021-12-29)
 
 
