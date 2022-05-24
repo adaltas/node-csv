@@ -37,5 +37,17 @@ describe('API Types', () => {
     }
     return options
   })
+
+  it('allows cast to return an object', () => {
+    const options: Options = {
+      cast: {
+        boolean: (value: boolean) => ({
+          value: value.toString(),
+          delimiter: ';',
+          quote: false
+        })
+      }
+    }
+  })
   
 })
