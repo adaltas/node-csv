@@ -5,8 +5,8 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "coffeescript": "^2.6.1",
-    "mocha": "^9.2.0",
+    "coffeescript": "^2.7.0",
+    "mocha": "^10.0.0",
     "should": "^13.2.3"
   },
   "mocha": {

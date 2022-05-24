@@ -239,6 +239,11 @@
               ? global$1.TYPED_ARRAY_SUPPORT
               : true;
 
+            /*
+             * Export kMaxLength after typed array support is determined.
+             */
+            kMaxLength();
+
             function kMaxLength () {
               return Buffer.TYPED_ARRAY_SUPPORT
                 ? 0x7fffffff
@@ -330,6 +335,8 @@
             if (Buffer.TYPED_ARRAY_SUPPORT) {
               Buffer.prototype.__proto__ = Uint8Array.prototype;
               Buffer.__proto__ = Uint8Array;
+              if (typeof Symbol !== 'undefined' && Symbol.species &&
+                  Buffer[Symbol.species] === Buffer) ;
             }
 
             function assertSize (size) {
@@ -2568,15 +2575,94 @@
             Item.prototype.run = function () {
                 this.fun.apply(null, this.array);
             };
+            var title = 'browser';
+            var platform = 'browser';
+            var browser = true;
+            var env = {};
+            var argv = [];
+            var version = ''; // empty string to avoid regexp issues
+            var versions = {};
+            var release = {};
+            var config = {};
+
+            function noop() {}
+
+            var on = noop;
+            var addListener = noop;
+            var once = noop;
+            var off = noop;
+            var removeListener = noop;
+            var removeAllListeners = noop;
+            var emit = noop;
+
+            function binding(name) {
+                throw new Error('process.binding is not supported');
+            }
+
+            function cwd () { return '/' }
+            function chdir (dir) {
+                throw new Error('process.chdir is not supported');
+            }function umask() { return 0; }
 
             // from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
             var performance = global$1.performance || {};
-            performance.now        ||
+            var performanceNow =
+              performance.now        ||
               performance.mozNow     ||
               performance.msNow      ||
               performance.oNow       ||
               performance.webkitNow  ||
               function(){ return (new Date()).getTime() };
+
+            // generate timestamp or delta
+            // see http://nodejs.org/api/process.html#process_process_hrtime
+            function hrtime(previousTimestamp){
+              var clocktime = performanceNow.call(performance)*1e-3;
+              var seconds = Math.floor(clocktime);
+              var nanoseconds = Math.floor((clocktime%1)*1e9);
+              if (previousTimestamp) {
+                seconds = seconds - previousTimestamp[0];
+                nanoseconds = nanoseconds - previousTimestamp[1];
+                if (nanoseconds<0) {
+                  seconds--;
+                  nanoseconds += 1e9;
+                }
+              }
+              return [seconds,nanoseconds]
+            }
+
+            var startTime = new Date();
+            function uptime() {
+              var currentTime = new Date();
+              var dif = currentTime - startTime;
+              return dif / 1000;
+            }
+
+            var process = {
+              nextTick: nextTick,
+              title: title,
+              browser: browser,
+              env: env,
+              argv: argv,
+              version: version,
+              versions: versions,
+              on: on,
+              addListener: addListener,
+              once: once,
+              off: off,
+              removeListener: removeListener,
+              removeAllListeners: removeAllListeners,
+              emit: emit,
+              binding: binding,
+              cwd: cwd,
+              chdir: chdir,
+              umask: umask,
+              hrtime: hrtime,
+              platform: platform,
+              release: release,
+              config: config,
+              uptime: uptime
+            };
 
             var inherits;
             if (typeof Object.create === 'function'){
@@ -2653,10 +2739,18 @@
                 };
               }
 
+              if (process.noDeprecation === true) {
+                return fn;
+              }
+
               var warned = false;
               function deprecated() {
                 if (!warned) {
-                  {
+                  if (process.throwDeprecation) {
+                    throw new Error(msg);
+                  } else if (process.traceDeprecation) {
+                    console.trace(msg);
+                  } else {
                     console.error(msg);
                   }
                   warned = true;
@@ -2671,7 +2765,7 @@
             var debugEnviron;
             function debuglog(set) {
               if (isUndefined(debugEnviron))
-                debugEnviron = '';
+                debugEnviron = process.env.NODE_DEBUG || '';
               set = set.toUpperCase();
               if (!debugs[set]) {
                 if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
@@ -5170,11 +5264,11 @@
                 // Create the record
                 let record = [];
                 let recordLength;
-                options.columns.forEach((fn) => {
+                for(const fn of options.columns){
                   const result = fn({options: options, state: state});
                   const type = typeof result;
                   if(result !== null && type !== 'string' && type !== 'number'){
-                    throw Error([
+                    return Error([
                       'INVALID_VALUE:',
                       'values returned by column function must be',
                       'a string, a number or null,',
@@ -5182,7 +5276,7 @@
                     ].join(' '));
                   }
                   record.push(result);
-                });
+                }
                 // Obtain record length
                 if(options.objectMode){
                   recordLength = 0;
@@ -5235,11 +5329,14 @@
             // Put new data into the read queue.
             Generator.prototype._read = function(size){
               const self = this;
-              read(this.options, this.state, size, function(chunk) {
+              const err = read(this.options, this.state, size, function(chunk) {
                 self.__push(chunk);
               }, function(){
                 self.push(null);
               });
+              if(err){
+                this.destroy(err);
+              }
             };
             // Put new data into the read queue.
             Generator.prototype.__push = function(record){
