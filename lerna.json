@@ -1,6 +1,10 @@
 {
   "command": {
     "version": {
+      "changelogPreset": {
+        "name": "conventionalcommits",
+        "issueUrlFormat": "{{host}}/{{owner}}/{{repository}}/issues/{{id}}"
+      },
       "conventionalCommits": true,
       "message": "chore(release): publish"
     }
