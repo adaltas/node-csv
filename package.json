@@ -18,7 +18,7 @@
     "publish": "lerna publish from-git --yes",
     "test": "lerna run test",
     "test:legacy": "lerna run test:legacy",
-    "version": "lerna version --conventional-commits"
+    "version": "lerna version"
   },
   "workspaces": {
     "packages": [
