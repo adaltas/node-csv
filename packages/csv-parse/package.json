@@ -32,14 +32,22 @@
   "exports": {
     ".": {
       "import": "./lib/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "require": "./dist/cjs/index.cjs",
+      "types": "./lib/index.d.ts"
     },
     "./sync": {
       "import": "./lib/sync.js",
-      "require": "./dist/cjs/sync.cjs"
+      "require": "./dist/cjs/sync.cjs",
+      "types": "./lib/sync.d.ts"
     },
-    "./browser/esm": "./dist/esm/index.js",
-    "./browser/esm/sync": "./dist/esm/sync.js"
+    "./browser/esm": {
+      "types": "./lib/index.d.ts",
+      "default": "./dist/esm/index.js"
+    },
+    "./browser/esm/sync": {
+      "types": "./lib/sync.d.ts",
+      "default": "./dist/esm/sync.js"
+    }
   },
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.2",
