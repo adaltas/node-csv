@@ -38,6 +38,11 @@
       "require": "./dist/cjs/sync.cjs",
       "types": "./lib/sync.d.ts"
     },
+    "./stream": {
+      "import": "./lib/stream.js",
+      "require": "./dist/cjs/stream.cjs",
+      "types": "./lib/stream.d.ts"
+    },
     "./browser/esm": {
       "types": "./lib/index.d.ts",
       "default": "./dist/esm/index.js"
