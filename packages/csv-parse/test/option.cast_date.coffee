@@ -24,3 +24,16 @@ describe 'Option `cast_date`', ->
         [ new Date('2050-11-27T00:00:00.000Z'), 'date2' ]
       ]
       next err
+  
+  it 'value end with space and number (issue #342)', (next) ->
+    # Current implementation rely on `isNaN(Date.parse(value))`
+    # While it return `NaN` in Firefox, Node.js return a timestamp for
+    # `node -e 'console.info(Date.parse("Test 1"))'`
+    parser = parse """
+    Test 1
+    """,
+      cast: true
+      cast_date: true
+    , (err, [[record]]) ->
+      record.toISOString().should.match /^\d{4}-\d{2}-\d{2}/
+      next err
