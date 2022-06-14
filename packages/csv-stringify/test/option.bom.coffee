@@ -11,6 +11,11 @@ describe 'Option `bom`', ->
       code: 'CSV_OPTION_BOOLEAN_INVALID_TYPE'
       message: 'option `bom` is optional and must be a boolean value, got "invalid"'
 
+  it 'empty', (next) ->
+    stringify [], bom: true, (err, data) ->
+      data.should.eql Buffer.from([239, 187, 191]).toString()
+      next()
+
   it 'value is `true`', (next) ->
     stringify [
       value: 'ok'
@@ -26,6 +31,7 @@ describe 'Option `bom`', ->
       next()
 
   describe 'sync ', ->
+    
     it 'validate', ->
       (->
         stringifySync [], bom: 'invalid'
@@ -33,6 +39,10 @@ describe 'Option `bom`', ->
         code: 'CSV_OPTION_BOOLEAN_INVALID_TYPE'
         message: 'option `bom` is optional and must be a boolean value, got "invalid"'
 
+    it 'empty', ->
+      data = stringifySync [], bom: true
+      data.should.eql Buffer.from([239, 187, 191]).toString()
+    
     it 'value is `true`', ->
       res = stringifySync [
         value: 'ok'

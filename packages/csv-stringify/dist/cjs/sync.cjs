@@ -536,17 +536,19 @@ const stringify = function(records, opts={}){
     records: 0
   };
   const api = stringifier(options, state, info);
-  // stringifier.push = function(record){
-  //   if(record === null){
-  //     return;
-  //   }
-  //   data.push(record.toString());
-  // };
   for(const record of records){
     const err = api.__transform(record, function(record){
       data.push(record);
     });
     if(err !== undefined) throw err;
+  }
+  if(data.length === 0){
+    api.bom((d) => {
+      data.push(d);
+    });
+    api.headers((headers) => {
+      data.push(headers);
+    });
   }
   return data.join('');
 };

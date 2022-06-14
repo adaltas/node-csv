@@ -1,5 +1,6 @@
 
 import { stringify } from '../lib/index.js'
+import { stringify as stringifySync } from '../lib/sync.js'
 
 describe 'Option `header`', ->
 
@@ -64,12 +65,16 @@ describe 'Option `header`', ->
     
   describe 'without records', ->
 
-    it 'should print headers if no records to parse', (next) ->
+    it 'print headers if no records to parse', (next) ->
       stringify [], header: true, columns: ['some', 'headers'], (err, data) ->
         data.should.eql 'some,headers\n'
         next()
 
-    it 'should not print headers if no records to parse and no header option', (next) ->
+    it 'print headers if no records to parse in sync mode, fix #343', ->
+      data = stringifySync [], header: true, columns: ['some', 'headers']
+      data.should.eql 'some,headers\n'
+
+    it 'not print headers if no records to parse and no header option', (next) ->
       stringify [], header: false, columns: ['some', 'headers'], (err, data) ->
         data.should.eql ''
         next()
@@ -100,7 +105,7 @@ describe 'Option `header`', ->
         """
         next()
 
-    it 'should map the column property name to display name', (next) ->
+    it 'map the column property name to display name', (next) ->
       stringify [
         { field1: 'val11', field2: 'val12', field3: 'val13' }
         { field1: 'val21', field2: 'val22', field3: 'val23' }
@@ -108,7 +113,7 @@ describe 'Option `header`', ->
         data.should.eql 'column1,column3\nval11,val13\nval21,val23\n' unless err
         next err
 
-    it 'should map the column property name to display name', (next) ->
+    it 'map the column property name to display name', (next) ->
       stringify [
         { field1: 'val11', field2: 'val12', field3: 'val13' }
         { field1: 'val21', field2: 'val22', field3: 'val23' }
@@ -126,7 +131,7 @@ describe 'Option `header`', ->
         data.should.eql 'column1,column3\nval11,val13\n,val23\n' unless err
         next err
 
-    it 'should also work for nested properties', (next) ->
+    it 'also work for nested properties', (next) ->
       stringify [
         { field1: {nested: 'val11'}, field2: 'val12', field3: 'val13' }
         { field1: {}, field2: 'val22', field3: 'val23' }

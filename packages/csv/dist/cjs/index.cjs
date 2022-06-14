@@ -469,7 +469,7 @@ const normalize_options$1 = function(opts){
       const date = Date.parse(value);
       return !isNaN(date) ? new Date(date) : value;
     };
-  }else {
+  }else if (typeof options.cast_date !== 'function'){
     throw new CsvError$1('CSV_INVALID_OPTION_CAST_DATE', [
       'Invalid option cast_date:', 'cast_date must be true or a function,',
       `got ${JSON.stringify(options.cast_date)}`

@@ -5592,7 +5592,7 @@
                   const date = Date.parse(value);
                   return !isNaN(date) ? new Date(date) : value;
                 };
-              }else {
+              }else if (typeof options.cast_date !== 'function'){
                 throw new CsvError$1('CSV_INVALID_OPTION_CAST_DATE', [
                   'Invalid option cast_date:', 'cast_date must be true or a function,',
                   `got ${JSON.stringify(options.cast_date)}`
@@ -7202,17 +7202,19 @@
                 records: 0
               };
               const api = stringifier(options, state, info);
-              // stringifier.push = function(record){
-              //   if(record === null){
-              //     return;
-              //   }
-              //   data.push(record.toString());
-              // };
               for(const record of records){
                 const err = api.__transform(record, function(record){
                   data.push(record);
                 });
                 if(err !== undefined) throw err;
+              }
+              if(data.length === 0){
+                api.bom((d) => {
+                  data.push(d);
+                });
+                api.headers((headers) => {
+                  data.push(headers);
+                });
               }
               return data.join('');
             };
