@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.1.0...csv-parse@5.2.0) (2022-06-14)
+
+
+### Features
+
+* **csv-parse:** cast_date as a function (fix [#342](https://github.com/adaltas/node-csv/issues/342)) ([2807d29](https://github.com/adaltas/node-csv/commit/2807d292c8987f5dedde4f7fe0bd0ac7f75c8755))
+
+
+
 ## [5.1.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.0.4...csv-parse@5.1.0) (2022-05-24)
 
 
