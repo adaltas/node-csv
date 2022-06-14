@@ -2520,9 +2520,10 @@
                 api.bom((d) => {
                   data.push(d);
                 });
-                api.headers((headers) => {
+                const err = api.headers((headers) => {
                   data.push(headers);
                 });
+                if(err !== undefined) throw err;
               }
               return data.join('');
             };

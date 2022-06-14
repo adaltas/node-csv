@@ -27,6 +27,7 @@ const stringify = function(records, opts={}){
     const err = api.headers((headers) => {
       data.push(headers);
     });
+    if(err !== undefined) throw err;
   }
   return data.join('');
 };

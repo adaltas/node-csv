@@ -2,9 +2,9 @@
 # import {generate as generateStream} from 'csv-generate/stream'
 # import {stringify as stringifyStream} from '../lib/stream.js'
 # import {stringify as stringifyClassic} from '../lib/index.js'
-# 
+#
 # describe 'api stream', ->
-# 
+#
 #   it.skip 'perf stream with iterator', ->
 #     generator = generateStream
 #       objectMode: true,
