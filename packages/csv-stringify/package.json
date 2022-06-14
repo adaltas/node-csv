@@ -1,5 +1,5 @@
 {
-  "version": "6.1.1",
+  "version": "6.1.2",
   "name": "csv-stringify",
   "description": "CSV stringifier implementing the Node.js `stream.Transform` API",
   "keywords": [

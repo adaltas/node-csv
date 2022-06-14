@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [6.1.2](https://github.com/adaltas/node-csv/compare/csv-stringify@6.1.1...csv-stringify@6.1.2) (2022-06-14)
+
+
+### Bug Fixes
+
+* **csv-stringify:** throw err with no records and header in sync mode ([5c8ef2e](https://github.com/adaltas/node-csv/commit/5c8ef2e25618b122982e01c22bcfa3f8ed5db8aa))
+
+
+
 ### [6.1.1](https://github.com/adaltas/node-csv/compare/csv-stringify@6.1.0...csv-stringify@6.1.1) (2022-06-14)
 
 
