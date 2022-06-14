@@ -143,6 +143,9 @@ describe('API Types', () => {
       const options: Options = {}
       options.cast_date = true
       options.castDate = true
+      options.cast_date = (value: string, context: CastingContext) => {
+        return new Date(`${value} ${context.index}`)
+      }
     })
       
     it('columns', () => {

@@ -25,6 +25,24 @@ describe 'Option `cast_date`', ->
       ]
       next err
   
+  it 'as a function', (next) ->
+    # Current implementation rely on `isNaN(Date.parse(value))`
+    # While it return `NaN` in Firefox, Node.js return a timestamp for
+    # `Date.parse('Test 1')`
+    parser = parse """
+    2000-01-01
+    2050-11-27
+    """,
+      cast: true
+      cast_date: (value, context) ->
+        new Date( (new Date(value)).getTime() + context.lines*60*60*1000)
+    , (err, records) ->
+      records.should.eql [
+        [ new Date('2000-01-01T01:00:00.000Z') ],
+        [ new Date('2050-11-27T02:00:00.000Z') ]
+      ]
+      next err
+  
   it 'value end with space and number (issue #342)', (next) ->
     # Current implementation rely on `isNaN(Date.parse(value))`
     # While it return `NaN` in Firefox, Node.js return a timestamp for
