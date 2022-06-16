@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [6.1.3](https://github.com/adaltas/node-csv/compare/csv@6.1.2...csv@6.1.3) (2022-06-16)
+
+
+### Bug Fixes
+
+* **csv-stringify:** quote_match with empty string pattern quotes empty strings ([#345](https://github.com/adaltas/node-csv/issues/345)) ([1c22d2e](https://github.com/adaltas/node-csv/commit/1c22d2e07f66dd747150b5a7499b5ebd5bc0f25c)), closes [#344](https://github.com/adaltas/node-csv/issues/344)
+
+
+
 ### [6.1.2](https://github.com/adaltas/node-csv/compare/csv@6.1.1...csv@6.1.2) (2022-06-14)
 
 **Note:** Version bump only for package csv
