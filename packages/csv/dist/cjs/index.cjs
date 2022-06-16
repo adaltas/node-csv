@@ -2195,7 +2195,22 @@ const stringifier = function(options, state, info){
           return [Error(`Invalid Casting Value: returned value must return a string, an object, null or undefined, got ${JSON.stringify(value)}`)];
         }
         const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter} = options;
-        if(value){
+        if('' === value && '' === field){
+          let quotedMatch = quoted_match && quoted_match.filter(quoted_match => {
+            if(typeof quoted_match === 'string'){
+              return value.indexOf(quoted_match) !== -1;
+            }else {
+              return quoted_match.test(value);
+            }
+          });
+          quotedMatch = quotedMatch && quotedMatch.length > 0;
+          const shouldQuote = quotedMatch || true === quoted_empty ||
+            (true === quoted_string && false !== quoted_empty);
+          if(shouldQuote === true){
+            value = quote + value + quote;
+          }
+          csvrecord += value;
+        }else if(value){
           if(typeof value !== 'string'){
             return [Error(`Formatter must return a string, null or undefined, got ${JSON.stringify(value)}`)];
           }
