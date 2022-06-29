@@ -5910,14 +5910,13 @@ var csv_parse = (function (exports) {
                     if(lappend === true && rappend === true){
                       this.state.field.append(chr);
                     }else if(rtrim === true && !this.__isCharTrimable(chr)){
-                      const err = this.__error(
+                      return this.__error(
                         new CsvError('CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE', [
                           'Invalid Closing Quote:',
                           'found non trimable byte after quote',
                           `at line ${this.info.lines}`,
                         ], this.options, this.__infoField())
                       );
-                      if(err !== undefined) return err;
                     }
                   }
                   if(end === true){
