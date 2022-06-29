@@ -1,6 +1,6 @@
 {
   "name": "csv-issues-esm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.js",
   "license": "MIT",
   "type": "module",

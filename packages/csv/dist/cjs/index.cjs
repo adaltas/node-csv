@@ -376,6 +376,16 @@ class ResizeableBuffer{
   }
 }
 
+// white space characters
+// https://en.wikipedia.org/wiki/Whitespace_character
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes#Types
+// \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff
+const np = 12;
+const cr$1 = 13; // `\r`, carriage return, 0x0D in hexadécimal, 13 in decimal
+const nl$1 = 10; // `\n`, newline, 0x0A in hexadecimal, 10 in decimal
+const space = 32;
+const tab = 9;
+
 const init_state = function(options){
   return {
     bomSkipped: false,
@@ -409,7 +419,14 @@ const init_state = function(options){
     recordDelimiterMaxLength: options.record_delimiter.length === 0 ? 2 : Math.max(...options.record_delimiter.map((v) => v.length)),
     trimChars: [Buffer.from(' ', options.encoding)[0], Buffer.from('\t', options.encoding)[0]],
     wasQuoting: false,
-    wasRowDelimiter: false
+    wasRowDelimiter: false,
+    timchars: [
+      Buffer.from(Buffer.from([cr$1], 'utf8').toString(), options.encoding),
+      Buffer.from(Buffer.from([nl$1], 'utf8').toString(), options.encoding),
+      Buffer.from(Buffer.from([np], 'utf8').toString(), options.encoding),
+      Buffer.from(Buffer.from([space], 'utf8').toString(), options.encoding),
+      Buffer.from(Buffer.from([tab], 'utf8').toString(), options.encoding),
+    ]
   };
 };
 
@@ -832,15 +849,9 @@ const isRecordEmpty = function(record){
   return record.every((field) => field == null || field.toString && field.toString().trim() === '');
 };
 
-// white space characters
-// https://en.wikipedia.org/wiki/Whitespace_character
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes#Types
-// \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff
-const tab = 9;
-const nl = 10; // \n, 0x0A in hexadecimal, 10 in decimal
-const np = 12;
-const cr = 13; // \r, 0x0D in hexadécimal, 13 in decimal
-const space = 32;
+const cr = 13; // `\r`, carriage return, 0x0D in hexadécimal, 13 in decimal
+const nl = 10; // `\n`, newline, 0x0A in hexadecimal, 10 in decimal
+
 const boms = {
   // Note, the following are equals:
   // Buffer.from("\ufeff")
@@ -985,7 +996,7 @@ const transform$1 = function(original_options = {}) {
           if(this.state.commenting === false && this.__isQuote(buf, pos)){
             if(this.state.quoting === true){
               const nextChr = buf[pos+quote.length];
-              const isNextChrTrimable = rtrim && this.__isCharTrimable(nextChr);
+              const isNextChrTrimable = rtrim && this.__isCharTrimable(buf, pos+quote.length);
               const isNextChrComment = comment !== null && this.__compareBytes(comment, buf, pos+quote.length, nextChr);
               const isNextChrDelimiter = this.__isDelimiter(buf, pos+quote.length, nextChr);
               const isNextChrRecordDelimiter = record_delimiter.length === 0 ? this.__autoDiscoverRecordDelimiter(buf, pos+quote.length) : this.__isRecordDelimiter(nextChr, buf, pos+quote.length);
@@ -1095,7 +1106,7 @@ const transform$1 = function(original_options = {}) {
         }
         if(this.state.commenting === false){
           if(max_record_size !== 0 && this.state.record_length + this.state.field.length > max_record_size){
-            const err = this.__error(
+            return this.__error(
               new CsvError$1('CSV_MAX_RECORD_SIZE', [
                 'Max Record Size:',
                 'record exceed the maximum number of tolerated bytes',
@@ -1103,23 +1114,26 @@ const transform$1 = function(original_options = {}) {
                 `at line ${this.info.lines}`,
               ], this.options, this.__infoField())
             );
-            if(err !== undefined) return err;
           }
         }
-        const lappend = ltrim === false || this.state.quoting === true || this.state.field.length !== 0 || !this.__isCharTrimable(chr);
+        const lappend = ltrim === false || this.state.quoting === true || this.state.field.length !== 0 || !this.__isCharTrimable(buf, pos);
         // rtrim in non quoting is handle in __onField
         const rappend = rtrim === false || this.state.wasQuoting === false;
         if(lappend === true && rappend === true){
           this.state.field.append(chr);
-        }else if(rtrim === true && !this.__isCharTrimable(chr)){
-          const err = this.__error(
+        }else if(rtrim === true && !this.__isCharTrimable(buf, pos)){
+          return this.__error(
             new CsvError$1('CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE', [
               'Invalid Closing Quote:',
               'found non trimable byte after quote',
               `at line ${this.info.lines}`,
             ], this.options, this.__infoField())
           );
-          if(err !== undefined) return err;
+        }else {
+          if(lappend === false){
+            pos += this.__isCharTrimable(buf, pos) - 1;
+          }
+          continue;
         }
       }
       if(end === true){
@@ -1376,8 +1390,19 @@ const transform$1 = function(original_options = {}) {
       return [undefined, field];
     },
     // Helper to test if a character is a space or a line delimiter
-    __isCharTrimable: function(chr){
-      return chr === space || chr === tab || chr === cr || chr === nl || chr === np;
+    __isCharTrimable: function(buf, pos){
+      const isTrim = (buf, pos) => {
+        const {timchars} = this.state;
+        loop1: for(let i = 0; i < timchars.length; i++){
+          const timchar = timchars[i];
+          for(let j = 0; j < timchar.length; j++){
+            if(timchar[j] !== buf[pos+j]) continue loop1;
+          }
+          return timchar.length;
+        }
+        return 0;
+      };
+      return isTrim(buf, pos);
     },
     // Keep it in case we implement the `cast_int` option
     // __isInt(value){

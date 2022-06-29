@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [5.2.1](https://github.com/adaltas/node-csv/compare/csv-parse@5.2.0...csv-parse@5.2.1) (2022-06-29)
+
+
+### Bug Fixes
+
+* **csv-parse:** rtrim encoding support (fix [#349](https://github.com/adaltas/node-csv/issues/349)) ([8bf52f0](https://github.com/adaltas/node-csv/commit/8bf52f0d5c25ee2423cb1629d3e9103534668c83))
+
+
+
 ## [5.2.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.1.0...csv-parse@5.2.0) (2022-06-14)
 
 
