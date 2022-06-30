@@ -78,6 +78,6 @@ describe 'Option `encoding`', ->
         ] unless err
         next err
       # parser.write Buffer.from Buffer.from([255, 254])
-      parser.write Buffer.from "\ufeffa,b,c\n", 'utf16le'
+      parser.write Buffer.from '\ufeffa,b,"c"\n', 'utf16le'
       parser.write Buffer.from 'd,e,f', 'utf16le'
       parser.end()
