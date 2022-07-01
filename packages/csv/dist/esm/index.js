@@ -6016,8 +6016,8 @@ const transform$1 = function(original_options = {}) {
     },
     // Central parser implementation
     parse: function(nextBuf, end, push, close){
-      const {bom, comment, escape, from_line, ltrim, max_record_size, quote, raw, relax_quotes, rtrim, skip_empty_lines, to, to_line} = this.options;
-      let {record_delimiter} = this.options;
+      const {bom, from_line, ltrim, max_record_size,raw, relax_quotes, rtrim, skip_empty_lines, to, to_line} = this.options;
+      let {comment, escape, quote, record_delimiter} = this.options;
       const {bomSkipped, previousBuf, rawBuffer, escapeIsQuote} = this.state;
       let buf;
       if(previousBuf === undefined){
@@ -6053,6 +6053,8 @@ const transform$1 = function(original_options = {}) {
               buf = buf.slice(bomLength);
               // Renormalize original options with the new encoding
               this.options = normalize_options$1({...this.original_options, encoding: encoding});
+              // Options will re-evaluate the Buffer with the new encoding
+              ({comment, escape, quote } = this.options);
               break;
             }
           }

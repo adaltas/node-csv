@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [5.2.2](https://github.com/adaltas/node-csv/compare/csv-parse@5.2.1...csv-parse@5.2.2) (2022-07-01)
+
+
+### Bug Fixes
+
+* **csv-parse:** encoding detection with bom ([#350](https://github.com/adaltas/node-csv/issues/350)) ([fd75e66](https://github.com/adaltas/node-csv/commit/fd75e6626c1c549936bf35a2247ebefa0f3d5ec3))
+
+
+
 ### [5.2.1](https://github.com/adaltas/node-csv/compare/csv-parse@5.2.0...csv-parse@5.2.1) (2022-06-29)
 
 
