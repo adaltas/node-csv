@@ -2602,7 +2602,7 @@ const transform = function(original_options = {}) {
     // Central parser implementation
     parse: function(nextBuf, end, push, close){
       const {bom, from_line, ltrim, max_record_size,raw, relax_quotes, rtrim, skip_empty_lines, to, to_line} = this.options;
-      let {comment, escape, quote, record_delimiter, } = this.options;
+      let {comment, escape, quote, record_delimiter} = this.options;
       const {bomSkipped, previousBuf, rawBuffer, escapeIsQuote} = this.state;
       let buf;
       if(previousBuf === undefined){

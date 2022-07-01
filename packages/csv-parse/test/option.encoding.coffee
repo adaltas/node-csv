@@ -56,28 +56,59 @@ describe 'Option `encoding`', ->
         ] unless err
         next err
   
-  describe 'with bom', ->
+  describe 'with BOM', ->
 
-    it 'handle BOM with utf16le', (next) ->
+    it 'utf16le auto detected', (next) ->
       parser = parse bom: true, encoding: 'utf16le', (err, records) ->
         records.should.eql [
           ['a', 'b', 'c']
           ['d', 'e', 'f']
         ]
         next()
-      # parser.write Buffer.from Buffer.from([255, 254])
       parser.write Buffer.from "\ufeffa,b,c\n", 'utf16le'
       parser.write Buffer.from 'd,e,f', 'utf16le'
       parser.end()
 
-    it 'is auto detected for utf16le', (next) ->
+    it 'utf16le auto detected with quote', (next) ->
       parser = parse bom: true, (err, records) ->
         records.should.eql [
           ['a', 'b', 'c']
           ['d', 'e', 'f']
         ] unless err
         next err
-      # parser.write Buffer.from Buffer.from([255, 254])
-      parser.write Buffer.from '\ufeffa,b,"c"\n', 'utf16le'
+      parser.write Buffer.from '\ufeffa,"b",c\n', 'utf16le'
+      parser.write Buffer.from 'd,"e",f', 'utf16le'
+      parser.end()
+
+    it 'utf16le auto detected with delimiter', (next) ->
+      parser = parse bom: true, delimiter: 'ф', (err, records) ->
+        records.should.eql [
+          ['a', 'b', 'c']
+          ['d', 'e', 'f']
+        ] unless err
+        next err
+      parser.write Buffer.from '\ufeffaфbфc\n', 'utf16le'
+      parser.write Buffer.from 'dфeфf', 'utf16le'
+      parser.end()
+
+    it 'utf16le auto detected with escape', (next) ->
+      parser = parse bom: true, escape: 'ф', (err, records) ->
+        records.should.eql [
+          ['a', '"b', 'c']
+          ['d', '"e', 'f']
+        ] unless err
+        next err
+      parser.write Buffer.from '\ufeffa,"ф"b",c\n', 'utf16le'
+      parser.write Buffer.from 'd,"ф"e",f', 'utf16le'
+      parser.end()
+
+    it 'utf16le auto detected with record_delimiter', (next) ->
+      parser = parse bom: true, record_delimiter: 'ф', (err, records) ->
+        records.should.eql [
+          ['a', 'b', 'c']
+          ['d', 'e', 'f']
+        ] unless err
+        next err
+      parser.write Buffer.from '\ufeffa,b,cф', 'utf16le'
       parser.write Buffer.from 'd,e,f', 'utf16le'
       parser.end()
