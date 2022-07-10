@@ -1,5 +1,5 @@
 {
-  "version": "5.2.2",
+  "version": "5.3.0",
   "name": "csv-parse",
   "description": "CSV parsing implementing the Node.js `stream.Transform` API",
   "keywords": [
@@ -56,7 +56,7 @@
     "@types/node": "^18.0.3",
     "coffeelint": "^2.1.0",
     "coffeescript": "^2.7.0",
-    "csv-generate": "^4.1.0",
+    "csv-generate": "^4.2.0",
     "csv-spectrum": "^1.0.0",
     "each": "^1.2.2",
     "eslint": "^8.19.0",
@@ -66,7 +66,7 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "should": "^13.2.3",
-    "stream-transform": "^3.1.0",
+    "stream-transform": "^3.2.0",
     "ts-node": "^10.8.2",
     "typescript": "^4.7.4"
   },
