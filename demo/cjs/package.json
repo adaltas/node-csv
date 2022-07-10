@@ -6,12 +6,12 @@
   "type": "commonjs",
   "private": true,
   "devDependencies": {
-    "@types/node": "^17.0.35",
+    "@types/node": "^18.0.3",
     "coffeescript": "^2.7.0",
     "mocha": "^10.0.0",
     "should": "^13.2.3",
-    "ts-node": "^10.8.0",
-    "typescript": "^4.6.4"
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
   },
   "mocha": {
     "inline-diffs": true,
