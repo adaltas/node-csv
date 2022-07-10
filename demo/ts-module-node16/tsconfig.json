@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "Node16",
+    "strict": true,
+  }
+}

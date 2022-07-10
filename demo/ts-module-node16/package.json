@@ -1,0 +1,31 @@
+{
+  "name": "csv-ts-demo-node16",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "coffeescript": "^2.7.0",
+    "mocha": "^10.0.0",
+    "should": "^13.2.3",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
+  },
+  "mocha": {
+    "inline-diffs": true,
+    "loader": "./test/loaders/all.js",
+    "recursive": true,
+    "reporter": "spec",
+    "require": [
+      "should"
+    ],
+    "throw-deprecation": true,
+    "timeout": 40000
+  },
+  "scripts": {
+    "test": "mocha 'test/**/*.coffee'",
+    "test:legacy": "mocha --loader=./test/loaders/legacy/all.js 'test/**/*.{coffee,ts}'"
+  }
+}
