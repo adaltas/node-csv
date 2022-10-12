@@ -2607,7 +2607,7 @@
                     // Skip if remaining buffer can be an escaped quote
                     quoting ? ((escape === null ? 0 : escape.length) + quote.length) : 0,
                     // Skip if remaining buffer can be record delimiter following the closing quote
-                    quoting ? (quote.length) : 0,
+                    quoting ? (quote.length + recordDelimiterMaxLength) : 0,
                   );
                   return numOfCharLeft < requiredLength;
                 },
