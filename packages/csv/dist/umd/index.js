@@ -5542,7 +5542,7 @@
                 record: [],
                 recordHasError: false,
                 record_length: 0,
-                recordDelimiterMaxLength: options.record_delimiter.length === 0 ? 2 : Math.max(...options.record_delimiter.map((v) => v.length)),
+                recordDelimiterMaxLength: options.record_delimiter.length === 0 ? 0 : Math.max(...options.record_delimiter.map((v) => v.length)),
                 trimChars: [Buffer.from(' ', options.encoding)[0], Buffer.from('\t', options.encoding)[0]],
                 wasQuoting: false,
                 wasRowDelimiter: false,
@@ -6007,15 +6007,21 @@
                 state: init_state(options),
                 __needMoreData: function(i, bufLen, end){
                   if(end) return false;
-                  const {quote} = this.options;
+                  const {encoding, escape, quote} = this.options;
                   const {quoting, needMoreDataSize, recordDelimiterMaxLength} = this.state;
                   const numOfCharLeft = bufLen - i - 1;
                   const requiredLength = Math.max(
                     needMoreDataSize,
                     // Skip if the remaining buffer smaller than record delimiter
-                    recordDelimiterMaxLength,
-                    // Skip if the remaining buffer can be record delimiter following the closing quote
-                    // 1 is for quote.length
+                    // If "record_delimiter" is yet to be discovered:
+                    // 1. It is equals to `[]` and "recordDelimiterMaxLength" equals `0`
+                    // 2. We set the length to windows line ending in the current encoding
+                    // Note, that encoding is known from user or bom discovery at that point
+                    // recordDelimiterMaxLength,
+                    recordDelimiterMaxLength === 0 ? Buffer.from('\r\n', encoding).length : recordDelimiterMaxLength,
+                    // Skip if remaining buffer can be an escaped quote
+                    quoting ? ((escape === null ? 0 : escape.length) + quote.length) : 0,
+                    // Skip if remaining buffer can be record delimiter following the closing quote
                     quoting ? (quote.length + recordDelimiterMaxLength) : 0,
                   );
                   return numOfCharLeft < requiredLength;
@@ -6611,22 +6617,26 @@
                   return true;
                 },
                 __autoDiscoverRecordDelimiter: function(buf, pos){
-                  const {encoding} = this.options;
-                  const chr = buf[pos];
-                  if(chr === cr){
-                    if(buf[pos+1] === nl){
-                      this.options.record_delimiter.push(Buffer.from('\r\n', encoding));
-                      this.state.recordDelimiterMaxLength = 2;
-                      return 2;
-                    }else {
-                      this.options.record_delimiter.push(Buffer.from('\r', encoding));
-                      this.state.recordDelimiterMaxLength = 1;
-                      return 1;
+                  const { encoding } = this.options;
+                  // Note, we don't need to cache this information in state,
+                  // It is only called on the first line until we find out a suitable
+                  // record delimiter.
+                  const rds = [
+                    // Important, the windows line ending must be before mac os 9
+                    Buffer.from('\r\n', encoding),
+                    Buffer.from('\n', encoding),
+                    Buffer.from('\r', encoding),
+                  ];
+                  loop: for(let i = 0; i < rds.length; i++){
+                    const l = rds[i].length;
+                    for(let j = 0; j < l; j++){
+                      if(rds[i][j] !== buf[pos + j]){
+                        continue loop;
+                      }
                     }
-                  }else if(chr === nl){
-                    this.options.record_delimiter.push(Buffer.from('\n', encoding));
-                    this.state.recordDelimiterMaxLength = 1;
-                    return 1;
+                    this.options.record_delimiter.push(rds[i]);
+                    this.state.recordDelimiterMaxLength = rds[i].length;
+                    return rds[i].length;
                   }
                   return 0;
                 },

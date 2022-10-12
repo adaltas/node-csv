@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [5.3.1](https://github.com/adaltas/node-csv/compare/csv-parse@5.3.0...csv-parse@5.3.1) (2022-10-12)
+
+
+### Bug Fixes
+
+* **csv-parse:** build from previus commit ([29a0916](https://github.com/adaltas/node-csv/commit/29a0916026429d648e8c515ada4a452036e0736d))
+* **csv-parse:** record_delimiter and non default encoding (fix [#365](https://github.com/adaltas/node-csv/issues/365)) ([16fdb2d](https://github.com/adaltas/node-csv/commit/16fdb2dd2c3221d00568f28bed44106ffc0d49ef))
+
+
+
 ## [5.3.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.2.2...csv-parse@5.3.0) (2022-07-10)
 
 
