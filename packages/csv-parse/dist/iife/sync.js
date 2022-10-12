@@ -3293,8 +3293,6 @@ var csv_parse_sync = (function (exports) {
             exports.CsvError = CsvError;
             exports.parse = parse;
 
-            Object.defineProperty(exports, '__esModule', { value: true });
-
             return exports;
 
 })({});

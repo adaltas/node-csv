@@ -5261,8 +5261,6 @@ var stream_transform_sync = (function (exports) {
 
   exports.transform = transform;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
-
   return exports;
 
 })({});

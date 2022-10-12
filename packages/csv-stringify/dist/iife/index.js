@@ -5700,8 +5700,6 @@ var csv_stringify = (function (exports) {
   exports.Stringifier = Stringifier;
   exports.stringify = stringify;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
-
   return exports;
 
 })({});

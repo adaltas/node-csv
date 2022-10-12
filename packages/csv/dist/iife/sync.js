@@ -7400,8 +7400,6 @@ var csv_sync = (function (exports) {
             exports.stringify = stringify;
             exports.transform = transform;
 
-            Object.defineProperty(exports, '__esModule', { value: true });
-
             return exports;
 
 })({});

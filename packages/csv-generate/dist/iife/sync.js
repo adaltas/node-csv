@@ -5387,8 +5387,6 @@ var csv_generate_sync = (function (exports) {
 
             exports.generate = generate;
 
-            Object.defineProperty(exports, '__esModule', { value: true });
-
             return exports;
 
 })({});

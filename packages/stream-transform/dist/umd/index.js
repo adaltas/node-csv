@@ -5284,6 +5284,4 @@
   exports.Transformer = Transformer;
   exports.transform = transform;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
-
 }));

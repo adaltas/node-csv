@@ -5281,8 +5281,6 @@ var stream_transform = (function (exports) {
   exports.Transformer = Transformer;
   exports.transform = transform;
 
-  Object.defineProperty(exports, '__esModule', { value: true });
-
   return exports;
 
 })({});

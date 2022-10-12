@@ -2542,8 +2542,6 @@ var csv_stringify_sync = (function (exports) {
 
             exports.stringify = stringify;
 
-            Object.defineProperty(exports, '__esModule', { value: true });
-
             return exports;
 
 })({});

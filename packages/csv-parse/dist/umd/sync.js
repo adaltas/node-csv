@@ -3296,6 +3296,4 @@
             exports.CsvError = CsvError;
             exports.parse = parse;
 
-            Object.defineProperty(exports, '__esModule', { value: true });
-
 }));

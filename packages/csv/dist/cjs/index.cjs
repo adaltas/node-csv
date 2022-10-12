@@ -1,14 +1,7 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 var stream = require('stream');
 var util = require('util');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var stream__default = /*#__PURE__*/_interopDefaultLegacy(stream);
-var util__default = /*#__PURE__*/_interopDefaultLegacy(util);
 
 const init_state$1 = (options) => {
   // State
@@ -190,11 +183,11 @@ const read = (options, state, size, push, close) => {
 const Generator = function(options = {}){
   this.options = normalize_options$2(options);
   // Call parent constructor
-  stream__default["default"].Readable.call(this, this.options);
+  stream.Readable.call(this, this.options);
   this.state = init_state$1(this.options);
   return this;
 };
-util__default["default"].inherits(Generator, stream__default["default"].Readable);
+util.inherits(Generator, stream.Readable);
 
 // Stop the generation.
 Generator.prototype.end = function(){
@@ -1668,7 +1661,7 @@ const Transformer = function(options = {}, handler){
     options.params = null;
   }
   this.handler = handler;
-  stream__default["default"].Transform.call(this, this.options);
+  stream.Transform.call(this, this.options);
   this.state = {
     running: 0,
     started: 0,
@@ -1677,7 +1670,7 @@ const Transformer = function(options = {}, handler){
   return this;
 };
 
-util__default["default"].inherits(Transformer, stream__default["default"].Transform);
+util.inherits(Transformer, stream.Transform);
 
 Transformer.prototype._transform = function(chunk, encoding, cb){
   this.state.started++;

@@ -6460,6 +6460,4 @@
             exports.Parser = Parser;
             exports.parse = parse;
 
-            Object.defineProperty(exports, '__esModule', { value: true });
-
 }));

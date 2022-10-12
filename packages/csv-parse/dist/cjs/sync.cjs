@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 class CsvError extends Error {
   constructor(code, message, options, ...contexts) {
     if(Array.isArray(message)) message = message.join(' ');

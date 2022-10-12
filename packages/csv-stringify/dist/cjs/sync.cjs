@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 // Lodash implementation of `get`
 
 const charCodeOfDot = '.'.charCodeAt(0);

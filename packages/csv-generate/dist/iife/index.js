@@ -5391,8 +5391,6 @@ var csv_generate = (function (exports) {
             exports.Generator = Generator;
             exports.generate = generate;
 
-            Object.defineProperty(exports, '__esModule', { value: true });
-
             return exports;
 
 })({});

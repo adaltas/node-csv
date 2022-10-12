@@ -7564,6 +7564,4 @@
             exports.stringify = stringify;
             exports.transform = transform;
 
-            Object.defineProperty(exports, '__esModule', { value: true });
-
 }));
