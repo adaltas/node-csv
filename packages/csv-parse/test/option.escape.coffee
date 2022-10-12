@@ -27,14 +27,16 @@ describe 'Option `escape`', ->
       # ).should.throw 'Invalid Option Length: escape must be one character, got 3'
 
     it 'is compatible with buffer size', (next) ->
-      parser = parse escape: ':::', (err, records) ->
+      parser = parse escape: '::::::', (err, records) ->
         records.should.eql [
           [ '1', '2"2', '3' ]
+          [ '4', '5', '6"' ]
           [ 'b', 'c', 'd' ]
-        ]
+        ] unless err
         next err
       parser.write c for c in """
-      1,"2:::"2",3
+      1,"2::::::"2",3
+      4,5,"6::::::""
       b,c,d
       """
       parser.end()

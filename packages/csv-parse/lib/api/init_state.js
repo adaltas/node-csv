@@ -41,7 +41,7 @@ const init_state = function(options){
     record: [],
     recordHasError: false,
     record_length: 0,
-    recordDelimiterMaxLength: options.record_delimiter.length === 0 ? 2 : Math.max(...options.record_delimiter.map((v) => v.length)),
+    recordDelimiterMaxLength: options.record_delimiter.length === 0 ? 0 : Math.max(...options.record_delimiter.map((v) => v.length)),
     trimChars: [Buffer.from(' ', options.encoding)[0], Buffer.from('\t', options.encoding)[0]],
     wasQuoting: false,
     wasRowDelimiter: false,

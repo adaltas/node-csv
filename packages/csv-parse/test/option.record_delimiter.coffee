@@ -318,3 +318,90 @@ describe 'Option `record_delimiter`', ->
           [ 'DEF' ]
         ] unless err
         next err
+    
+    it 'support utf8 no bom with windows line ending', (next) ->
+      parser = parse encoding: 'utf8', (err, records) ->
+        records.should.eql [
+          ['a', 'b']
+          ['1', '2']
+        ] unless err
+        next err
+      parser.write Buffer.from([c]) for c in Buffer.from('a,b\r\n1,2', 'utf8')
+      parser.end()
+    
+    it 'support utf8 no bom with mac os 9 line ending', (next) ->
+      parser = parse encoding: 'utf8', (err, records) ->
+        records.should.eql [
+          ['a', 'b']
+          ['1', '2']
+        ] unless err
+        next err
+      parser.write Buffer.from([c]) for c in Buffer.from('a,b\r1,2', 'utf8')
+      parser.end()
+    
+    it 'support utf8 no bom with unix line ending', (next) ->
+      parser = parse encoding: 'utf8', (err, records) ->
+        records.should.eql [
+          ['a', 'b']
+          ['1', '2']
+        ] unless err
+        next err
+      parser.write Buffer.from([c]) for c in Buffer.from('a,b\n1,2', 'utf8')
+      parser.end()
+  
+    it 'support utf8 with bom with windows line ending', (next) ->
+      parser = parse bom: true, (err, records) ->
+        records.should.eql [
+          ['a', 'b']
+          ['1', '2']
+        ] unless err
+        next err
+      parser.write Buffer.from([c]) for c in Buffer.concat([
+        Buffer.from([239, 187, 191]),
+        Buffer.from('a,b\r\n1,2', 'utf8')
+      ])
+      parser.end()
+    
+    it 'support utf16le no bom with windows line ending', (next) ->
+      parser = parse encoding: 'utf16le', (err, records) ->
+        records.should.eql [
+          ['a', 'b']
+          ['1', '2']
+        ] unless err
+        next err
+      parser.write Buffer.from([c]) for c in Buffer.from('a,b\r\n1,2', 'utf16le')
+      parser.end()
+    
+    it 'support utf16le no bom with mac os 9 line ending', (next) ->
+      parser = parse encoding: 'utf16le', (err, records) ->
+        records.should.eql [
+          ['a', 'b']
+          ['1', '2']
+        ] unless err
+        next err
+      parser.write Buffer.from([c]) for c in Buffer.from('a,b\r1,2', 'utf16le')
+      parser.end()
+    
+    it 'support utf16le no bom with unix line ending', (next) ->
+      parser = parse encoding: 'utf16le', (err, records) ->
+        records.should.eql [
+          ['a', 'b']
+          ['1', '2']
+        ] unless err
+        next err
+      parser.write Buffer.from([c]) for c in Buffer.from('a,b\n1,2', 'utf16le')
+      parser.end()
+  
+    it 'support utf16le with bom with windows line ending', (next) ->
+      parser = parse bom: true, (err, records) ->
+        records.should.eql [
+          ['a', 'b']
+          ['1', '2']
+        ] unless err
+        next err
+      parser.write Buffer.from([c]) for c in Buffer.concat([
+        Buffer.from([255, 254]),
+        Buffer.from('a,b\r\n1,2', 'utf16le')
+      ])
+      parser.end()
+      
