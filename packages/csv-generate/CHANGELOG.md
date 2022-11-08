@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.1](https://github.com/adaltas/node-csv/compare/csv-generate@4.2.0...csv-generate@4.2.1) (2022-11-08)
+
+
+### Bug Fixes
+
+* support TypeScript moduleResolution node16 ([#368](https://github.com/adaltas/node-csv/issues/368)) ([f4d7c97](https://github.com/adaltas/node-csv/commit/f4d7c97f39fb73e9d248eee21e61e7dc48015c78))
+
+
+
 ## [4.2.0](https://github.com/adaltas/node-csv/compare/csv-generate@4.1.0...csv-generate@4.2.0) (2022-07-10)
 
 
