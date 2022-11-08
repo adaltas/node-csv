@@ -262,7 +262,7 @@ const is_object$1 = function(obj){
   return (typeof obj === 'object' && obj !== null && !Array.isArray(obj));
 };
 
-class CsvError$1 extends Error {
+let CsvError$1 = class CsvError extends Error {
   constructor(code, message, options, ...contexts) {
     if(Array.isArray(message)) message = message.join(' ');
     super(message);
@@ -277,7 +277,7 @@ class CsvError$1 extends Error {
       }
     }
   }
-}
+};
 
 const normalize_columns_array = function(columns){
   const normalizedColumns = [];
