@@ -47,6 +47,9 @@ describe('API Types', () => {
         number: (value: number) => {
           return value ? 'true': 'false'
         },
+        bigint: (value: bigint) => {
+          return value ? 'true': 'false'
+        },
         object: (value: object) => {
           return value ? 'true': 'false'
         },

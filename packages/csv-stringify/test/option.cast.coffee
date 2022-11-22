@@ -5,7 +5,7 @@ describe 'Option `cast`', ->
   
   describe 'default', ->
 
-    it 'handle object BigInt', (next) ->
+    it 'default BigInt formatter', (next) ->
       stringify [
         value: BigInt 9007199254740991
       ], (err, data) ->
@@ -40,6 +40,13 @@ describe 'Option `cast`', ->
         value: 3.14
       ], {cast: number: (value) -> '' + value * 2 }, (err, data) ->
         data.should.eql '6.28\n'  unless err
+        next err
+
+    it 'handle bigint formatter', (next) ->
+      stringify [
+        value: BigInt(9007199254740991)
+      ], {cast: bigint: (value) -> '' + value / BigInt(2) }, (err, data) ->
+        data.should.eql '4503599627370495\n'  unless err
         next err
 
     it 'handle object formatter', (next) ->
