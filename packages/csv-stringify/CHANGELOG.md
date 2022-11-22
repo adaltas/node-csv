@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.2.2](https://github.com/adaltas/node-csv/compare/csv-stringify@6.2.1...csv-stringify@6.2.2) (2022-11-22)
+
+
+### Bug Fixes
+
+* **csv-stringify:** add missing type definition for bigint cast option ([#369](https://github.com/adaltas/node-csv/issues/369)) ([764e748](https://github.com/adaltas/node-csv/commit/764e7486971835189364ea7a0103798e5c07fb2b))
+
+
+
 ## [6.2.1](https://github.com/adaltas/node-csv/compare/csv-stringify@6.2.0...csv-stringify@6.2.1) (2022-11-08)
 
 
