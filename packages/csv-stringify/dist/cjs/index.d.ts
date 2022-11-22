@@ -46,6 +46,7 @@ export interface Options extends stream.TransformOptions {
         boolean?: Cast<boolean>
         date?: Cast<Date>
         number?: Cast<number>
+        bigint?: Cast<bigint>
         /**
          * Custom formatter for generic object values
          */
