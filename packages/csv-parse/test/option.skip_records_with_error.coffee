@@ -47,11 +47,11 @@ describe 'Option `skip_records_with_error`', ->
         ["line", "3"]
       ] unless err
       assert_error errors, [
-        message: 'Invalid Opening Quote: a quote is found inside a field at line 2'
+        message: 'Invalid Opening Quote: a quote is found on field 1 at line 2, value is "invalid h"'
         code: 'INVALID_OPENING_QUOTE'
         field: 'invalid h'
       ,
-        message: 'Invalid Opening Quote: a quote is found inside a field at line 2'
+        message: 'Invalid Opening Quote: a quote is found on field 1 at line 2, value is "invalid h\\"ere"'
         code: 'INVALID_OPENING_QUOTE'
         field: 'invalid h"ere'
       ]

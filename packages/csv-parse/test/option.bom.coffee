@@ -56,7 +56,7 @@ describe 'Option `bom`', ->
   it 'throw parsing error if quote follow bom', (next) ->
     parser = parse (err) ->
       assert_error err,
-        message: 'Invalid Opening Quote: a quote is found inside a field at line 1'
+        message: 'Invalid Opening Quote: a quote is found on field 0 at line 1, value is "\ufeff" (utf8 bom)'
         code: 'INVALID_OPENING_QUOTE'
         field: '\ufeff'
       next()

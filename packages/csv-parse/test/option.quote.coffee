@@ -195,7 +195,7 @@ describe 'Option `quote`', ->
 
   describe 'error "Invalid opening quotes"', ->
 
-    it 'count empty lines', (next) ->
+    it 'on indexed columns', (next) ->
       parse """
       "this","line","is",valid
       "this","line",is,"also,valid"
@@ -203,9 +203,22 @@ describe 'Option `quote`', ->
       "and",valid,line,follows...
       """, (err, records) ->
         assert_error err,
-          message: 'Invalid Opening Quote: a quote is found inside a field at line 3'
+          message: 'Invalid Opening Quote: a quote is found on field 3 at line 3, value is "invalid h"'
           code: 'INVALID_OPENING_QUOTE'
           field: 'invalid h'
+        (records == undefined).should.be.true
+        next()
+
+    it 'on indexed columns', (next) ->
+      parse """
+      "a","b","c","d"
+      "11","12",13,"14"
+      21,"22",23,2"4"
+      """, columns: true, (err, records) ->
+        assert_error err,
+          message: 'Invalid Opening Quote: a quote is found on field "d" at line 3, value is "2"'
+          code: 'INVALID_OPENING_QUOTE'
+          field: '2'
         (records == undefined).should.be.true
         next()
       

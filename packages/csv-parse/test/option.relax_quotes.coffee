@@ -33,7 +33,7 @@ describe 'Option `relax_quotes`', ->
     384682,the "SAMAY" Hostel,Jiron Florida 285
     """, relax_quotes: false, (err) ->
       assert_error err,
-        message: 'Invalid Opening Quote: a quote is found inside a field at line 1'
+        message: 'Invalid Opening Quote: a quote is found on field 1 at line 1, value is "the "'
         code: 'INVALID_OPENING_QUOTE'
         field: 'the '
       next()
@@ -104,7 +104,7 @@ describe 'Option `relax_quotes`', ->
     a,b "c"
     """, relax_quotes: false, (err) ->
       assert_error err,
-        message: 'Invalid Opening Quote: a quote is found inside a field at line 1'
+        message: 'Invalid Opening Quote: a quote is found on field 1 at line 1, value is "b "'
         code: 'INVALID_OPENING_QUOTE'
         field: 'b '
       next()

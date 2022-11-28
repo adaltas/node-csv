@@ -5066,7 +5066,7 @@ const is_object = function(obj){
 
 class CsvError extends Error {
   constructor(code, message, options, ...contexts) {
-    if(Array.isArray(message)) message = message.join(' ');
+    if(Array.isArray(message)) message = message.join(' ').trim();
     super(message);
     if(Error.captureStackTrace !== undefined){
       Error.captureStackTrace(this, CsvError);
@@ -5697,7 +5697,7 @@ const transform = function(original_options = {}) {
     },
     // Central parser implementation
     parse: function(nextBuf, end, push, close){
-      const {bom, from_line, ltrim, max_record_size,raw, relax_quotes, rtrim, skip_empty_lines, to, to_line} = this.options;
+      const {bom, encoding, from_line, ltrim, max_record_size,raw, relax_quotes, rtrim, skip_empty_lines, to, to_line} = this.options;
       let {comment, escape, quote, record_delimiter} = this.options;
       const {bomSkipped, previousBuf, rawBuffer, escapeIsQuote} = this.state;
       let buf;
@@ -5833,11 +5833,14 @@ const transform = function(original_options = {}) {
               if(this.state.field.length !== 0){
                 // In relax_quotes mode, treat opening quote preceded by chrs as regular
                 if(relax_quotes === false){
+                  const info = this.__infoField();
+                  const bom = Object.keys(boms).map(b => boms[b].equals(this.state.field.toString()) ? b : false).filter(Boolean)[0];
                   const err = this.__error(
                     new CsvError('INVALID_OPENING_QUOTE', [
                       'Invalid Opening Quote:',
-                      `a quote is found inside a field at line ${this.info.lines}`,
-                    ], this.options, this.__infoField(), {
+                      `a quote is found on field ${JSON.stringify(info.column)} at line ${info.lines}, value is ${JSON.stringify(this.state.field.toString(encoding))}`,
+                      bom ? `(${bom} bom)` : undefined
+                    ], this.options, info, {
                       field: this.state.field,
                     })
                   );

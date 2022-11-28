@@ -43,7 +43,7 @@ describe 'properties lines', ->
     "and",valid,line,follows...
     """, (err, records) ->
       assert_error err,
-        message: 'Invalid Opening Quote: a quote is found inside a field at line 3'
+        message: 'Invalid Opening Quote: a quote is found on field 4 at line 3, value is "h"'
         code: 'INVALID_OPENING_QUOTE'
         field: 'h'
       (records == undefined).should.be.true
@@ -58,7 +58,7 @@ describe 'properties lines', ->
     "and",valid,line,follows...
     """, skip_empty_lines: true, (err, records) ->
       assert_error err,
-        message: 'Invalid Opening Quote: a quote is found inside a field at line 4'
+        message: 'Invalid Opening Quote: a quote is found on field 3 at line 4, value is "invalid h"'
         code: 'INVALID_OPENING_QUOTE'
         field: 'invalid h'
       (records == undefined).should.be.true

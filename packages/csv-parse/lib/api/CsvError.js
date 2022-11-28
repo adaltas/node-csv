@@ -1,7 +1,7 @@
 
 class CsvError extends Error {
   constructor(code, message, options, ...contexts) {
-    if(Array.isArray(message)) message = message.join(' ');
+    if(Array.isArray(message)) message = message.join(' ').trim();
     super(message);
     if(Error.captureStackTrace !== undefined){
       Error.captureStackTrace(this, CsvError);
