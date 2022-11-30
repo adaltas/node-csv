@@ -116,6 +116,10 @@ describe('API Types', () => {
       const options: Options = {}
       options.quoted_match = "\""
       options.quoted_match = /\"/
+      options.quoted_match = [
+        "\"", 
+        /\"/
+      ]
     })
     
     it('quoted_string', () => {
