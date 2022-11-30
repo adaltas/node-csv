@@ -94,7 +94,7 @@ export interface Options extends stream.TransformOptions {
     /**
      * String or RegExp, no default, quote all fields matching a regular expression.
      */
-    quoted_match?: string | RegExp
+    quoted_match?: string | RegExp | (string | RegExp)[]
     /**
      * Boolean, default to false, quote all fields of type string even if not required.
      */
