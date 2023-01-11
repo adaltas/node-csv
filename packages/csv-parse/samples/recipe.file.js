@@ -17,10 +17,10 @@ await fs.writeFile(`${os.tmpdir()}/input.csv`, [
 // Read the content
 const content = await fs.readFile(`${os.tmpdir()}/input.csv`);
 // Parse the CSV content
-const records = parse(content);
+const records = parse(content, {bom: true});
 // Validate the records
 assert.deepStrictEqual(records, [
-  [ '﻿a', '1' ],
+  [ 'a', '1' ],
   [ 'b', '2' ]
 ]);
 /* hide-next-line */
