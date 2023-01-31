@@ -79,3 +79,29 @@ describe 'API events', ->
     parser.on 'error', (err) ->
       err.message.should.eql 'Invalid Record Length: expect 3, got 2 on line 2'
       next()
+
+  it 'emit `destroy` event', (next) ->
+    parser = parse """
+    a,a,a
+    b,b,b
+    c,c,c
+    """
+    parser.on 'readable', (data) ->
+      while this.read() isnt null then true
+    parser.on 'close', next
+    parser.on 'error', ->
+      next Error 'Event `error` should not be fired'
+
+  it 'emit `destroy` event with `to_line` option', (next) ->
+    # See https://github.com/adaltas/node-csv/issues/333
+    parser = parse """
+    a,a,a
+    b,b,b
+    c,c,c
+    """, to_line: 2
+    parser.on 'readable', (data) ->
+      while this.read() isnt null then true
+    parser.on 'close', next
+    parser.on 'error', ->
+      next Error 'Event `error` should not be fired'
+    

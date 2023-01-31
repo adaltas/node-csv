@@ -6383,6 +6383,7 @@ var csv_parse = (function (exports) {
                   this.push(record);
                 }, () => {
                   this.push(null);
+                  this.on('end', this.destroy);
                 });
                 if(err !== undefined){
                   this.state.stop = true;
@@ -6398,6 +6399,7 @@ var csv_parse = (function (exports) {
                   this.push(record);
                 }, () => {
                   this.push(null);
+                  this.on('end', this.destroy);
                 });
                 callback(err);
               }

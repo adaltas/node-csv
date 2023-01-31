@@ -1322,6 +1322,7 @@ class Parser extends stream.Transform {
       this.push(record);
     }, () => {
       this.push(null);
+      this.on('end', this.destroy);
     });
     if(err !== undefined){
       this.state.stop = true;
@@ -1337,6 +1338,7 @@ class Parser extends stream.Transform {
       this.push(record);
     }, () => {
       this.push(null);
+      this.on('end', this.destroy);
     });
     callback(err);
   }
