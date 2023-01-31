@@ -6708,9 +6708,10 @@
                   return;
                 }
                 const err = this.api.parse(buf, false, (record) => {
-                  this.push.call(this, record);
+                  this.push(record);
                 }, () => {
-                  this.push.call(this, null);
+                  this.push(null);
+                  this.on('end', this.destroy);
                 });
                 if(err !== undefined){
                   this.state.stop = true;
@@ -6723,9 +6724,10 @@
                   return;
                 }
                 const err = this.api.parse(undefined, true, (record) => {
-                  this.push.call(this, record);
+                  this.push(record);
                 }, () => {
-                  this.push.call(this, null);
+                  this.push(null);
+                  this.on('end', this.destroy);
                 });
                 callback(err);
               }
