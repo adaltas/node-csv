@@ -4,7 +4,7 @@ import { assert_error } from './api.assert_error.coffee'
 
 describe 'API events', ->
   
-  it 'emit readable event', (next) ->
+  it 'emit `readable` event', (next) ->
     records = []
     parser = parse()
     parser.on 'readable', ->
@@ -22,7 +22,7 @@ describe 'API events', ->
       next()
     parser.end()
       
-  it 'emit data event', (next) ->
+  it 'emit `data` event', (next) ->
     records = []
     parser = parse()
     parser.on 'data', (record) ->
@@ -53,7 +53,7 @@ describe 'API events', ->
     parser.write chr for chr in data
     parser.end()
 
-  it 'emit error', (next) ->
+  it 'emit `error`', (next) ->
     parser = parse()
     parser.on 'readable', ->
       while @read() then true
@@ -68,7 +68,7 @@ describe 'API events', ->
     """
     parser.end()
 
-  it 'emit error with data as argument', (next) ->
+  it 'emit `error` with data as argument', (next) ->
     parser = parse """
     a,a,a
     b,b
