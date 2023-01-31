@@ -24,5 +24,8 @@
   },
   "scripts": {
     "test": "mocha 'test/**/*.coffee'"
+  },
+  "dependencies": {
+    "desm": "^1.3.0"
   }
 }
