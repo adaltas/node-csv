@@ -1,0 +1,13 @@
+{
+  "name": "csv-demo-ts-moduleresolution-node16-cjs",
+  "version": "0.2.1",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
+}
