@@ -4,6 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
+  "dependencies": {
+    "csv-parse": "^5.3.4",
+    "csv-stringify": "^6.2.3"
+  },
   "devDependencies": {
     "coffeescript": "^2.7.0",
     "mocha": "^10.1.0",

@@ -5,6 +5,11 @@
   "license": "MIT",
   "type": "commonjs",
   "private": true,
+  "dependencies": {
+    "csv": "^6.2.6",
+    "csv-parse": "^5.3.4",
+    "csv-stringify": "^6.2.3"
+  },
   "devDependencies": {
     "@types/node": "^18.8.4",
     "coffeescript": "^2.7.0",

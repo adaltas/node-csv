@@ -1,6 +1,12 @@
 {
   "name": "csv-demo-ts-moduleresolution-node16-cjs",
   "version": "0.2.1",
+  "dependencies": {
+    "csv-generate": "^4.2.1",
+    "csv-parse": "^5.3.4",
+    "csv-stringify": "^6.2.3",
+    "stream-transform": "^3.2.1"
+  },
   "main": "index.js",
   "license": "MIT",
   "private": true,
@@ -8,6 +14,6 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "test": "tsc --noEmit"
   }
 }

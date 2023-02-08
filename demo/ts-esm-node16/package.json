@@ -5,6 +5,12 @@
   "license": "MIT",
   "type": "module",
   "private": true,
+  "dependencies": {
+    "csv-generate": "^4.2.1",
+    "csv-parse": "^5.3.4",
+    "csv-stringify": "^6.2.3",
+    "stream-transform": "^3.2.1"
+  },
   "devDependencies": {
     "@types/node": "^18.11.9",
     "coffeescript": "^2.7.0",

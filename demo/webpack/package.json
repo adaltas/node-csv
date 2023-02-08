@@ -16,7 +16,12 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "csv": "^6.2.6",
+    "csv-generate": "^4.2.1",
+    "csv-parse": "^5.3.4",
+    "csv-stringify": "^6.2.3",
     "http-server": "^14.1.1",
-    "stream-browserify": "^3.0.0"
+    "stream-browserify": "^3.0.0",
+    "stream-transform": "^3.2.1"
   }
 }
