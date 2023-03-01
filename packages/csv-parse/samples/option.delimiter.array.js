@@ -8,14 +8,14 @@ Yellow \t   "255" :: "255" ::"0"
 Hot Pink \t "255" :: 105   :: "180"`;
 
 const output = parse(input, {
-  delimiter: ["::","\t"],
+  delimiter: ['::','\t'],
   trim: true,
   columns: true,
 }).map((rec) => {
-  let indent = "";
+  let indent = '';
   return Object.entries(rec).map(([key, value]) => {
     const row = `${indent}${key}: <${value}>`;
-    indent = (indent.length === 0 ? "    " : indent);
+    indent = (indent.length === 0 ? '    ' : indent);
     return row;
   }).join('\n');
 }).join('\n');

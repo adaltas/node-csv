@@ -22,8 +22,8 @@ stringifier.on('error', function(err){
 stringifier.on('finish', function(){
   assert.equal(
     data.join(''),
-    "root:x:0:0:root:/root:/bin/bash\n" +
-    "someone:x:1022:1022::/home/someone:/bin/bash\n"
+    'root:x:0:0:root:/root:/bin/bash\n' +
+    'someone:x:1022:1022::/home/someone:/bin/bash\n'
   );
 });
 // Write records to the stream

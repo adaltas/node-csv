@@ -10,8 +10,8 @@ stringify([
 }, function(err, data){
   assert.equal(
     data,
-    "year,phone\n" +
-    "XXXX,XXX XXXX\n" +
-    "YYYY,YYY YYYY\n"
+    'year,phone\n' +
+    'XXXX,XXX XXXX\n' +
+    'YYYY,YYY YYYY\n'
   );
 });

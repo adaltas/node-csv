@@ -7,4 +7,4 @@ const data = stringify([
 ], {
   bom: true
 });
-assert.deepStrictEqual(data, "\ufeffa,b,c\n");
+assert.deepStrictEqual(data, '\ufeffa,b,c\n');

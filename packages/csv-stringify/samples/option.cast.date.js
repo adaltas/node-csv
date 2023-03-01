@@ -17,7 +17,7 @@ stringify([{
 }, function(err, data) {
   assert.equal(
     data,
-    "foo,1970-01-01T00:00:00.000Z\n" +
-    "bar,1971-01-01T00:00:00.000Z\n"
+    'foo,1970-01-01T00:00:00.000Z\n' +
+    'bar,1971-01-01T00:00:00.000Z\n'
   );
 });

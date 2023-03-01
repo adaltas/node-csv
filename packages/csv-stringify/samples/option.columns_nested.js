@@ -22,5 +22,5 @@ stringify([{
   'an_object.field_4',
   'an_array[1].field_2'
 ]}, (err, records) => {
-  assert.equal(records, "1_val_2,1_val_1\n2_val_2,2_val_1\n");
+  assert.equal(records, '1_val_2,1_val_1\n2_val_2,2_val_1\n');
 });

@@ -11,6 +11,6 @@ const records = parse(data, {
   comment: "#"
 });
 assert.deepStrictEqual(records, [
-  [ "hello" ],
-  [ "world" ]
+  [ 'hello' ],
+  [ 'world' ]
 ]);

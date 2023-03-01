@@ -15,7 +15,7 @@ const parser = parse({
   );
 });
 // Write data to the stream
-parser.write("root:x:0:0:root:/root:/bin/bash\n");
-parser.write("someone:x:1022:1022::/home/someone:/bin/bash\n");
+parser.write('root:x:0:0:root:/root:/bin/bash\n');
+parser.write('someone:x:1022:1022::/home/someone:/bin/bash\n');
 // Close the readable stream
 parser.end();

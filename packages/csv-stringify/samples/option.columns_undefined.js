@@ -10,7 +10,7 @@ stringify([
 }, function(err, data){
   assert.equal(
     data,
-    "XXX XXXX,XXXX,\n" +
-    "YYY YYYY,YYYY,\n"
+    'XXX XXXX,XXXX,\n' +
+    'YYY YYYY,YYYY,\n'
   );
 });
