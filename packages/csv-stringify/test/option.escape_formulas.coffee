@@ -3,7 +3,7 @@ import { stringify } from '../lib/index.js'
 
 describe 'Option `escape_formulas`', ->
 
-  it.only 'should escape =,+,-,@,\t,\r signs', (next) ->
+  it 'should escape =,+,-,@,\t,\r signs', (next) ->
     stringify [
       [ '=a',1]
       [ '+b',2]
@@ -25,7 +25,7 @@ describe 'Option `escape_formulas`', ->
       """
       next()
 
-  it.only 'should first escape_formulas, then quoted', (next) ->
+  it 'should first escape_formulas, then quoted', (next) ->
     stringify [
       [ '=a',1]
       [ 'b',2]

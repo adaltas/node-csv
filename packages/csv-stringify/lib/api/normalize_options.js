@@ -50,6 +50,12 @@ const normalize_options = function(opts) {
   }else{
     // todo
   }
+  // Normalize option `escape_formulas`
+  if(options.escape_formulas === undefined || options.escape_formulas === null){
+    options.escape_formulas = false;
+  }else{
+    // todo
+  }
   // Normalize option `quoted_empty`
   if(options.quoted_empty === undefined || options.quoted_empty === null){
     options.quoted_empty = undefined;
