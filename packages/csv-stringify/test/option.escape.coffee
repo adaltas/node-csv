@@ -3,6 +3,13 @@ import { stringify } from '../lib/index.js'
 
 describe 'Option `escape`', ->
   
+  it 'default', (next) ->
+    stringifier = stringify [
+      ['abc', 'def']
+    ], ->
+      stringifier.options.escape.should.eql('"')
+      next()
+  
   it 'validation', ->
     stringify [], escape: ','
     stringify [], escape: Buffer.from ','
