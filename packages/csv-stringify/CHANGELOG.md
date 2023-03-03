@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.0](https://github.com/adaltas/node-csv/compare/csv-stringify@6.2.4...csv-stringify@6.3.0) (2023-03-03)
+
+
+### Features
+
+* **csv-stringify:** Add escape_formulas to defend against injection attacks ([#380](https://github.com/adaltas/node-csv/issues/380)) ([47ac4bd](https://github.com/adaltas/node-csv/commit/47ac4bd7f5838e28daf889528fd6427ad0934076))
+
+
+
 ## [6.2.4](https://github.com/adaltas/node-csv/compare/csv-stringify@6.2.3...csv-stringify@6.2.4) (2023-02-08)
 
 
