@@ -125,7 +125,7 @@ const stringifier = function(options, state, info){
         }else{
           return [Error(`Invalid Casting Value: returned value must return a string, an object, null or undefined, got ${JSON.stringify(value)}`)];
         }
-        const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter} = options;
+        const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter, escape_formulas} = options;
         if('' === value && '' === field){
           let quotedMatch = quoted_match && quoted_match.filter(quoted_match => {
             if(typeof quoted_match === 'string'){
@@ -158,6 +158,9 @@ const stringifier = function(options, state, info){
             }
           });
           quotedMatch = quotedMatch && quotedMatch.length > 0;
+          if (escape_formulas && ['=', '+', '-', '@', '\t', '\r'].includes(value[0])) {
+            value = `'${value}`;
+          }
           const shouldQuote = containsQuote === true || containsdelimiter || containsRecordDelimiter || quoted || quotedString || quotedMatch;
           if(shouldQuote === true && containsEscape === true){
             const regexp = escape === '\\'

@@ -105,6 +105,10 @@ export interface Options extends stream.TransformOptions {
      * defaults to 'auto' (discovered in source or 'unix' if no source is specified).
      */
     record_delimiter?: RecordDelimiter
+    /**
+     * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protected agains csv injection attacks
+     */
+    escape_formulas?: boolean
 }
 
 export class Stringifier extends stream.Transform {
