@@ -2166,7 +2166,7 @@ const normalize_options = function(opts) {
   }else if(typeof options.escape_formulas !== 'boolean'){
     return [new CsvError('CSV_OPTION_ESCAPE_FORMULAS_INVALID_TYPE', [
       'option `escape_formulas` must be a boolean,',
-      `got ${JSON.stringify(options.delimiter)}`
+      `got ${JSON.stringify(options.escape_formulas)}`
     ])];
   }
   // Normalize option `quoted_empty`

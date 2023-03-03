@@ -12,8 +12,8 @@ describe('API Types', () => {
       const keys: any = Object.keys(options)
       keys.sort().should.eql([
         'bom', 'cast', 'columns', 'delimiter', 'eof', 'escape',
-        'header', 'on_record', 'quote', 'quoted', 'quoted_empty',
-        'quoted_match', 'quoted_string', 'record_delimiter'
+        'escape_formulas', 'header', 'on_record', 'quote', 'quoted',
+        'quoted_empty', 'quoted_match', 'quoted_string', 'record_delimiter'
       ])
     })
     
@@ -85,6 +85,11 @@ describe('API Types', () => {
       const options: Options = {}
       options.escape = '"'
       options.escape = Buffer.from('"')
+    })
+    
+    it('escape_formulas', () => {
+      const options: Options = {}
+      options.escape_formulas = true
     })
     
     it('header', () => {

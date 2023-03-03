@@ -17,7 +17,7 @@ describe 'Option `escape_formulas`', ->
       ], escape_formulas: 'invalid'
     ).should.throw
       code: 'CSV_OPTION_ESCAPE_FORMULAS_INVALID_TYPE'
-      message: 'option escape_formulas must be a boolean, got "invalid"'
+      message: 'option `escape_formulas` must be a boolean, got "invalid"'
 
   it 'escape =, +, -, @, \\t, \\r signs', (next) ->
     stringify [
