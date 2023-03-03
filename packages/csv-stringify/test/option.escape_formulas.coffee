@@ -2,8 +2,24 @@
 import { stringify } from '../lib/index.js'
 
 describe 'Option `escape_formulas`', ->
+  
+  it 'default to `false`', (next) ->
+    stringifier = stringify [
+      ['abc', 'def']
+    ], ->
+      stringifier.options.escape_formulas.should.be.false()
+      next()
+        
+  it 'validation', ->
+    (->
+      stringify [
+        ['abc', 'def']
+      ], escape_formulas: 'invalid'
+    ).should.throw
+      code: 'CSV_OPTION_ESCAPE_FORMULAS_INVALID_TYPE'
+      message: 'option escape_formulas must be a boolean, got "invalid"'
 
-  it 'should escape =,+,-,@,\t,\r signs', (next) ->
+  it 'escape =, +, -, @, \\t, \\r signs', (next) ->
     stringify [
       [ '=a',1]
       [ '+b',2]
@@ -25,7 +41,7 @@ describe 'Option `escape_formulas`', ->
       """
       next()
 
-  it 'should first escape_formulas, then quoted', (next) ->
+  it 'with `quoted` option', (next) ->
     stringify [
       [ '=a',1]
       [ 'b',2]

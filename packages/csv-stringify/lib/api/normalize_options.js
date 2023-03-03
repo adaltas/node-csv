@@ -53,8 +53,11 @@ const normalize_options = function(opts) {
   // Normalize option `escape_formulas`
   if(options.escape_formulas === undefined || options.escape_formulas === null){
     options.escape_formulas = false;
-  }else{
-    // todo
+  }else if(typeof options.escape_formulas !== 'boolean'){
+    return [new CsvError('CSV_OPTION_ESCAPE_FORMULAS_INVALID_TYPE', [
+      'option `escape_formulas` must be a boolean,',
+      `got ${JSON.stringify(options.delimiter)}`
+    ])];
   }
   // Normalize option `quoted_empty`
   if(options.quoted_empty === undefined || options.quoted_empty === null){

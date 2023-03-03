@@ -2160,6 +2160,15 @@ const normalize_options = function(opts) {
   if(options.quoted === undefined || options.quoted === null){
     options.quoted = false;
   }
+  // Normalize option `escape_formulas`
+  if(options.escape_formulas === undefined || options.escape_formulas === null){
+    options.escape_formulas = false;
+  }else if(typeof options.escape_formulas !== 'boolean'){
+    return [new CsvError('CSV_OPTION_ESCAPE_FORMULAS_INVALID_TYPE', [
+      'option `escape_formulas` must be a boolean,',
+      `got ${JSON.stringify(options.delimiter)}`
+    ])];
+  }
   // Normalize option `quoted_empty`
   if(options.quoted_empty === undefined || options.quoted_empty === null){
     options.quoted_empty = undefined;
@@ -2401,7 +2410,7 @@ const stringifier = function(options, state, info){
         }else {
           return [Error(`Invalid Casting Value: returned value must return a string, an object, null or undefined, got ${JSON.stringify(value)}`)];
         }
-        const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter} = options;
+        const {delimiter, escape, quote, quoted, quoted_empty, quoted_string, quoted_match, record_delimiter, escape_formulas} = options;
         if('' === value && '' === field){
           let quotedMatch = quoted_match && quoted_match.filter(quoted_match => {
             if(typeof quoted_match === 'string'){
@@ -2434,6 +2443,9 @@ const stringifier = function(options, state, info){
             }
           });
           quotedMatch = quotedMatch && quotedMatch.length > 0;
+          if (escape_formulas && ['=', '+', '-', '@', '\t', '\r'].includes(value[0])) {
+            value = `'${value}`;
+          }
           const shouldQuote = containsQuote === true || containsdelimiter || containsRecordDelimiter || quoted || quotedString || quotedMatch;
           if(shouldQuote === true && containsEscape === true){
             const regexp = escape === '\\'
