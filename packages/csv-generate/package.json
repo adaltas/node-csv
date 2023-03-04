@@ -17,7 +17,7 @@
     "@types/node": "^18.11.9",
     "@types/should": "^13.0.0",
     "coffeescript": "~2.7.0",
-    "each": "^1.2.2",
+    "each": "^2.2.1",
     "eslint": "^8.27.0",
     "mocha": "~10.1.0",
     "rollup": "^3.2.5",
