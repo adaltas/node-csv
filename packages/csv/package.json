@@ -27,21 +27,21 @@
     "stream-transform": "^3.2.2"
   },
   "devDependencies": {
-    "@rollup/plugin-eslint": "^9.0.1",
+    "@rollup/plugin-eslint": "^9.0.3",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@types/mocha": "^10.0.0",
-    "@types/node": "^18.11.9",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^18.15.3",
     "@types/should": "^13.0.0",
     "coffeescript": "~2.7.0",
-    "each": "^2.2.1",
-    "eslint": "^8.27.0",
-    "mocha": "~10.1.0",
-    "rollup": "^3.2.5",
+    "each": "^2.3.0",
+    "eslint": "^8.36.0",
+    "mocha": "~10.2.0",
+    "rollup": "^3.19.1",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "should": "~13.2.3",
     "ts-node": "^10.9.1",
-    "typescript": "^4.8.4"
+    "typescript": "^5.0.2"
   },
   "engines": {
     "node": ">= 0.1.90"
