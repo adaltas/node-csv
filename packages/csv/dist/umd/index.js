@@ -5400,7 +5400,7 @@
                 if(Array.isArray(message)) message = message.join(' ').trim();
                 super(message);
                 if(Error.captureStackTrace !== undefined){
-                  Error.captureStackTrace(this, CsvError$1);
+                  Error.captureStackTrace(this, CsvError);
                 }
                 this.code = code;
                 for(const context of contexts){
@@ -7556,7 +7556,16 @@
                   callback(err);
                 });
                 stringifier.on('end', function(){
-                  callback(undefined, chunks.join(''));
+                  let result;
+                  try {
+                    result = chunks.join('');
+                  } catch (err) {
+                    // This can happen if the result is extremely long; it may throw
+                    // "Cannot create a string longer than 0x1fffffe8 characters"
+                    callback(err);
+                    return;
+                  }
+                  callback(undefined, result);
                 });
               }
               if(data !== undefined){

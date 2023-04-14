@@ -5390,7 +5390,7 @@ var csv_sync = (function (exports) {
                 if(Array.isArray(message)) message = message.join(' ').trim();
                 super(message);
                 if(Error.captureStackTrace !== undefined){
-                  Error.captureStackTrace(this, CsvError$1);
+                  Error.captureStackTrace(this, CsvError);
                 }
                 this.code = code;
                 for(const context of contexts){

@@ -88,7 +88,16 @@ const stringify = function(){
       callback(err);
     });
     stringifier.on('end', function(){
-      callback(undefined, chunks.join(''));
+      let result;
+      try {
+        result = chunks.join('');
+      } catch (err) {
+        // This can happen if the result is extremely long; it may throw
+        // "Cannot create a string longer than 0x1fffffe8 characters"
+        callback(err);
+        return;
+      }
+      callback(undefined, result);
     });
   }
   if(data !== undefined){
