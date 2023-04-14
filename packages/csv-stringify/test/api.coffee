@@ -5,7 +5,7 @@ import { stringify } from '../lib/index.js'
 
 describe 'API', ->
 
-  it '0 arg', (next) ->
+  it '0 arg: write input and stream output', (next) ->
     data = ''
     stringifier = stringify()
     stringifier.on 'readable', ->
@@ -19,7 +19,7 @@ describe 'API', ->
     stringifier.write ['value 1','value 2']
     stringifier.end()
 
-  it '1 arg: option; write and data using the stream API', (next) ->
+  it '1 arg: option; write input and stream output', (next) ->
     data = ''
     generator = generate length: 2, objectMode: true, seed: 1, columns: 2
     stringifier = stringify eof: false
@@ -37,7 +37,7 @@ describe 'API', ->
       """
       next()
 
-  it '1 arg: data and pipe result', (next) ->
+  it '1 arg: data and stream output', (next) ->
     data = ''
     stringifier = stringify [
       ['field_1','field_2'], ['value 1','value 2']
@@ -48,7 +48,7 @@ describe 'API', ->
       data.should.eql 'field_1,field_2\nvalue 1,value 2\n'
       next()
 
-  it '2 args: data, option and pipe result', (next) ->
+  it '2 args: data, option and stream output', (next) ->
     data = ''
     stringifier = stringify [
       ['field_1','field_2'], ['value 1','value 2']
@@ -56,30 +56,5 @@ describe 'API', ->
     stringifier.on 'readable', ->
       data += d while d = stringifier.read()
     stringifier.on 'finish', ->
-      data.should.eql 'field_1,field_2\nvalue 1,value 2'
-      next()
-
-  it '2 args: data, callback', (next) ->
-    data = ''
-    stringifier = stringify [
-      ['field_1','field_2'], ['value 1','value 2']
-    ], (err, data) ->
-      data.should.eql 'field_1,field_2\nvalue 1,value 2\n'
-      next()
-
-  it '2 args: options, callback', (next) ->
-    data = ''
-    stringifier = stringify eof: false, (err, data) ->
-      data.should.eql 'field_1,field_2\nvalue 1,value 2'
-      next()
-    stringifier.write ['field_1','field_2']
-    stringifier.write ['value 1','value 2']
-    stringifier.end()
-
-  it '3 args: data, options, callback', (next) ->
-    data = ''
-    stringifier = stringify [
-      ['field_1','field_2'], ['value 1','value 2']
-    ], eof: false, (err, data) ->
       data.should.eql 'field_1,field_2\nvalue 1,value 2'
       next()

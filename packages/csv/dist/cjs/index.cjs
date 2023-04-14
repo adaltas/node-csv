@@ -267,7 +267,7 @@ let CsvError$1 = class CsvError extends Error {
     if(Array.isArray(message)) message = message.join(' ').trim();
     super(message);
     if(Error.captureStackTrace !== undefined){
-      Error.captureStackTrace(this, CsvError$1);
+      Error.captureStackTrace(this, CsvError);
     }
     this.code = code;
     for(const context of contexts){
@@ -2423,7 +2423,15 @@ const stringify = function(){
       callback(err);
     });
     stringifier.on('end', function(){
-      callback(undefined, chunks.join(''));
+      try {
+        callback(undefined, chunks.join(''));
+      } catch (err) {
+        // This can happen if the `chunks` is extremely long; it may throw
+        // "Cannot create a string longer than 0x1fffffe8 characters"
+        // See [#386](https://github.com/adaltas/node-csv/pull/386)
+        callback(err);
+        return;
+      }
     });
   }
   if(data !== undefined){
