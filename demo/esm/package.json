@@ -1,13 +1,13 @@
 {
   "name": "csv-demo-esm",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
   "private": true,
   "dependencies": {
-    "csv": "^6.2.8",
-    "csv-parse": "^5.3.6"
+    "csv": "^6.2.9",
+    "csv-parse": "^5.3.7"
   },
   "devDependencies": {
     "coffeescript": "^2.7.0",

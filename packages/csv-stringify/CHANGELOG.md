@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.1](https://github.com/adaltas/node-csv/compare/csv-stringify@6.3.0...csv-stringify@6.3.1) (2023-04-16)
+
+
+### Bug Fixes
+
+* uncaught errors with large stream chunks (fix [#386](https://github.com/adaltas/node-csv/issues/386)) ([1d500ed](https://github.com/adaltas/node-csv/commit/1d500edf38ba06fc80409974e08c37c6a40f27a1))
+
+
+
 ## [6.3.0](https://github.com/adaltas/node-csv/compare/csv-stringify@6.2.4...csv-stringify@6.3.0) (2023-03-03)
 
 

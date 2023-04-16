@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.2.9](https://github.com/adaltas/node-csv/compare/csv@6.2.8...csv@6.2.9) (2023-04-16)
+
+
+### Bug Fixes
+
+* uncaught errors with large stream chunks (fix [#386](https://github.com/adaltas/node-csv/issues/386)) ([1d500ed](https://github.com/adaltas/node-csv/commit/1d500edf38ba06fc80409974e08c37c6a40f27a1))
+
+
+
 ## [6.2.8](https://github.com/adaltas/node-csv/compare/csv@6.2.7...csv@6.2.8) (2023-03-03)
 
 **Note:** Version bump only for package csv
