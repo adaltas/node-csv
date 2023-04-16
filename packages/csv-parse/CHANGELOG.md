@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.3.8](https://github.com/adaltas/node-csv/compare/csv-parse@5.3.6...csv-parse@5.3.8) (2023-04-16)
+
+**Note:** Version bump only for package csv-parse
+
+
+
+
+
 ## [5.3.7](https://github.com/adaltas/node-csv/compare/csv-parse@5.3.6...csv-parse@5.3.7) (2023-04-16)
 
 **Note:** Version bump only for package csv-parse
