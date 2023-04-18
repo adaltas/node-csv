@@ -158,8 +158,17 @@ const stringifier = function(options, state, info){
             }
           });
           quotedMatch = quotedMatch && quotedMatch.length > 0;
-          if (escape_formulas && ['=', '+', '-', '@', '\t', '\r'].includes(value[0])) {
-            value = `'${value}`;
+          if (escape_formulas) {
+            switch (value[0]) {
+            case '=':
+            case '+':
+            case '-':
+            case '@':
+            case '\t':
+            case '\r':
+              value = `'${value}`;
+              break;
+            }
           }
           const shouldQuote = containsQuote === true || containsdelimiter || containsRecordDelimiter || quoted || quotedString || quotedMatch;
           if(shouldQuote === true && containsEscape === true){
