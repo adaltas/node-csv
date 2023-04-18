@@ -166,6 +166,10 @@ const stringifier = function(options, state, info){
             case '@':
             case '\t':
             case '\r':
+            case '\uFF1D': // Unicode '='
+            case '\uFF0B': // Unicode '+'
+            case '\uFF0D': // Unicode '-'
+            case '\uFF20': // Unicode '@'
               value = `'${value}`;
               break;
             }

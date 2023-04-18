@@ -5541,14 +5541,18 @@
             quotedMatch = quotedMatch && quotedMatch.length > 0;
             if (escape_formulas) {
               switch (value[0]) {
-                case '=':
-                case '+':
-                case '-':
-                case '@':
-                case '\t':
-                case '\r':
-                  value = `'${value}`;
-                  break;
+              case '=':
+              case '+':
+              case '-':
+              case '@':
+              case '\t':
+              case '\r':
+              case '\uFF1D': // Unicode '='
+              case '\uFF0B': // Unicode '+'
+              case '\uFF0D': // Unicode '-'
+              case '\uFF20': // Unicode '@'
+                value = `'${value}`;
+                break;
               }
             }
             const shouldQuote = containsQuote === true || containsdelimiter || containsRecordDelimiter || quoted || quotedString || quotedMatch;
