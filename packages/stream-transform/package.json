@@ -61,7 +61,7 @@
     "dist",
     "lib"
   ],
-  "homepage": "https://csv.js.org/transform/",
+  "homepage": "https://csv.js.org/transform",
   "license": "MIT",
   "main": "./dist/cjs/index.cjs",
   "mocha": {

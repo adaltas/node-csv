@@ -7,8 +7,8 @@ module.exports = {
   ],
   rules: {
     "scope-enum": async ctx => 
-      [2, "always", [...(await getPackages(ctx)), 
-        // Insert custom scopes below:
+      [2, "always", [...(await getPackages(ctx)),
+        // Custom scopes
         "release"
       ]]
   }

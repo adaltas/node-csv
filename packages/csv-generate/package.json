@@ -71,7 +71,7 @@
     "dist",
     "lib"
   ],
-  "homepage": "https://csv.js.org/generate/",
+  "homepage": "https://csv.js.org/generate",
   "license": "MIT",
   "main": "./dist/cjs/index.cjs",
   "mocha": {

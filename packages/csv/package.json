@@ -66,7 +66,7 @@
       "default": "./dist/esm/sync.js"
     }
   },
-  "homepage": "https://csv.js.org/",
+  "homepage": "https://csv.js.org",
   "files": [
     "dist",
     "lib"

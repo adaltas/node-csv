@@ -61,7 +61,7 @@
     "dist",
     "lib"
   ],
-  "homepage": "https://csv.js.org/stringify/",
+  "homepage": "https://csv.js.org/stringify",
   "license": "MIT",
   "main": "./dist/cjs/index.cjs",
   "mocha": {

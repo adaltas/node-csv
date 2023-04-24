@@ -84,7 +84,7 @@
     "dist",
     "lib"
   ],
-  "homepage": "https://csv.js.org/parse/",
+  "homepage": "https://csv.js.org/parse",
   "license": "MIT",
   "main": "./dist/cjs/index.cjs",
   "mocha": {
