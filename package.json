@@ -1,12 +1,12 @@
 {
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^17.2.0",
-    "@commitlint/config-conventional": "^17.2.0",
-    "@commitlint/config-lerna-scopes": "^17.2.1",
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "@commitlint/config-lerna-scopes": "^17.4.2",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^8.0.2",
-    "lerna": "^6.0.3"
+    "husky": "^8.0.3",
+    "lerna": "^6.6.1"
   },
   "repository": {
     "type": "git",
