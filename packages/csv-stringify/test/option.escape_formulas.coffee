@@ -19,7 +19,7 @@ describe 'Option `escape_formulas`', ->
       code: 'CSV_OPTION_ESCAPE_FORMULAS_INVALID_TYPE'
       message: 'option `escape_formulas` must be a boolean, got "invalid"'
 
-  it 'escape =, +, -, @, \\t, \\r signs', (next) ->
+  it 'escape =, +, -, @, \\t, \\r and unicode equivalent signs', (next) ->
     stringify [
       [ '=a',1]
       [ '+b',2]
@@ -28,6 +28,11 @@ describe 'Option `escape_formulas`', ->
       [ '\te',5]
       [ '\rf',6]
       [ 'g',7]
+      [ '\uFF1Dh',8]
+      [ '\uFF0Bi',9]
+      [ '\uFF0Dj',10]
+      [ '\uFF20k',11]
+      [ '\uFF0Cl',12] # \uFF0C is 'full width comma' and should not be escaped
     ], escape_formulas: true, eof: false, (err, data) ->
       return next err if err
       data.should.eql """
@@ -38,6 +43,11 @@ describe 'Option `escape_formulas`', ->
       '\te,5
       '\rf,6
       g,7
+      '\uFF1Dh,8
+      '\uFF0Bi,9
+      '\uFF0Dj,10
+      '\uFF20k,11
+      \uFF0Cl,12
       """
       next()
 
