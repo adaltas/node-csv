@@ -1,14 +1,14 @@
 {
   "name": "csv-demo-cjs",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "main": "index.js",
   "license": "MIT",
   "type": "commonjs",
   "private": true,
   "dependencies": {
-    "csv": "^6.2.10",
-    "csv-parse": "^5.3.8",
-    "csv-stringify": "^6.3.2"
+    "csv": "^6.2.11",
+    "csv-parse": "^5.3.9",
+    "csv-stringify": "^6.3.3"
   },
   "devDependencies": {
     "@types/node": "^18.15.3",

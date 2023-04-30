@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.2.11](https://github.com/adaltas/node-csv/compare/csv@6.2.10...csv@6.2.11) (2023-04-30)
+
+
+### Bug Fixes
+
+* **csv:** fixed CJS types under modern `modernResolution` options ([#388](https://github.com/adaltas/node-csv/issues/388)) ([54d03e4](https://github.com/adaltas/node-csv/commit/54d03e4779033ef7d574dffa98a7c3ce93da345d))
+* **csv:** remove ts files in cjs dist ([d0d1089](https://github.com/adaltas/node-csv/commit/d0d1089c3ef9053c9adb9a9747ce11d5ea5cfe49))
+
+
+
 ## [6.2.10](https://github.com/adaltas/node-csv/compare/csv@6.2.8...csv@6.2.10) (2023-04-16)
 
 
