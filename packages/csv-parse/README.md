@@ -34,7 +34,7 @@ It implements the Node.js [`stream.Transform` API](http://nodejs.org/api/stream.
 
 ## Usage
 
-Run `npm install csv` to install the full csv module or run `npm install csv-parse` if you are only interested by the CSV parser.
+Run `npm install csv` to install the full CSV module or run `npm install csv-parse` if you are only interested by the CSV parser.
 
 Use the callback and sync APIs for simplicity or the stream based API for scalability.
 

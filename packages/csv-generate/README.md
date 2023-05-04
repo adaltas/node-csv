@@ -25,7 +25,7 @@ The [`csv-generate` package](https://csv.js.org/generate/) provides a flexible g
 
 ## Usage
 
-Run `npm install csv` to install the full csv module or run `npm install csv-generate` if you are only interested by the CSV generator.
+Run `npm install csv` to install the full CSV module or run `npm install csv-generate` if you are only interested by the CSV generator.
 
 Use the callback and sync APIs for simplicity or the stream based API for scalability.
 

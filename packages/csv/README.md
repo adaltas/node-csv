@@ -34,7 +34,7 @@ The full documentation for the current version is available [here](https://csv.j
 
 Installation command is `npm install csv`.
 
-Each package is fully compatible with the stream 2 and 3 specifications.
+Each package is fully compatible with the Node.js stream 2 and 3 specifications.
 Also, a simple callback-based API is always provided for convenience.
 
 ## Sample

@@ -33,7 +33,7 @@ The Node.js [`stream.Transform` API](http://nodejs.org/api/stream.html#stream_cl
 
 ## Usage
 
-Run `npm install csv` to install the full csv module or run `npm install csv-transform` if you are only interested by the CSV stringifier.
+Run `npm install csv` to install the full CSV module or run `npm install csv-transform` if you are only interested by the CSV stringifier.
 
 The module is built on the Node.js Stream API. Use the callback and sync APIs for simplicity or the stream based API for scalability.
 
