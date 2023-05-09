@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.4.0](https://github.com/adaltas/node-csv/compare/csv-stringify@6.3.4...csv-stringify@6.4.0) (2023-05-09)
+
+
+### Features
+
+* add unicode chars to formula escape ([#387](https://github.com/adaltas/node-csv/issues/387)) ([1fc177c](https://github.com/adaltas/node-csv/commit/1fc177c605e8a88e403539806890695a6ba72dec))
+
+
+
 ## [6.3.4](https://github.com/adaltas/node-csv/compare/csv-stringify@6.3.3...csv-stringify@6.3.4) (2023-05-04)
 
 **Note:** Version bump only for package csv-stringify

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.0](https://github.com/adaltas/node-csv/compare/csv@6.2.12...csv@6.3.0) (2023-05-09)
+
+
+### Features
+
+* add unicode chars to formula escape ([#387](https://github.com/adaltas/node-csv/issues/387)) ([1fc177c](https://github.com/adaltas/node-csv/commit/1fc177c605e8a88e403539806890695a6ba72dec))
+
+
+
 ## [6.2.12](https://github.com/adaltas/node-csv/compare/csv@6.2.11...csv@6.2.12) (2023-05-04)
 
 **Note:** Version bump only for package csv

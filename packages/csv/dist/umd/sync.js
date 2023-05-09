@@ -7181,6 +7181,12 @@
                         }
                       });
                       quotedMatch = quotedMatch && quotedMatch.length > 0;
+                      // See https://github.com/adaltas/node-csv/pull/387
+                      // More about CSV injection or formula injection, when websites embed
+                      // untrusted input inside CSV files:
+                      // https://owasp.org/www-community/attacks/CSV_Injection
+                      // http://georgemauer.net/2017/10/07/csv-injection.html
+                      // Apple Numbers unicode normalization is empirical from testing
                       if (escape_formulas) {
                         switch (value[0]) {
                         case '=':
