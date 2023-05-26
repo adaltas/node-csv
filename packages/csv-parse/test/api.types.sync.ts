@@ -79,12 +79,13 @@ describe('API Types', () => {
   
   it('Info', () => {
     const info: Info = {
+      bytes: 1,
+      columns: true,
       comment_lines: 1,
       empty_lines: 1,
+      invalid_field_length: 1,
       lines: 1,
       records: 1,
-      bytes: 1,
-      invalid_field_length: 1,
     };
     return info;
   })

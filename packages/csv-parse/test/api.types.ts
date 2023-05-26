@@ -88,7 +88,7 @@ describe('API Types', () => {
   describe('Info', () => {
     
     const fakeinfo = {
-      bytes: 1,
+      bytes: 1, columns: true,
       comment_lines: 1, empty_lines: 1,
       invalid_field_length: 1, lines: 1, records: 1
     }
@@ -127,6 +127,27 @@ describe('API Types', () => {
       const info: Info = fakeinfo
       const invalid_field_length: number = info.invalid_field_length
       invalid_field_length
+    })
+
+    it('columns may be a boolean or an array', () => {
+      // Boolean
+      const infoBoolean: Info = {
+        bytes: 1, columns: true,
+        comment_lines: 1, empty_lines: 1,
+        invalid_field_length: 1, lines: 1, records: 1
+      }
+      // Array with name = <string>
+      const infoName: Info = {
+        bytes: 1, columns: [{name: 'a column'}],
+        comment_lines: 1, empty_lines: 1,
+        invalid_field_length: 1, lines: 1, records: 1
+      }
+      // Array with disabled = true
+      const infoDisabled: Info = {
+        bytes: 1, columns: [{disabled: true}],
+        comment_lines: 1, empty_lines: 1,
+        invalid_field_length: 1, lines: 1, records: 1
+      }
     })
     
   })
