@@ -237,7 +237,7 @@ export interface Info {
     /**
      * Normalized verion of `options.columns` when `options.columns` is true, boolean otherwise.
      */
-    readonly columns: boolean | { name: string }[];
+    readonly columns: boolean | { name: string }[] | { disabled: true }[];
 }
 
 export type CsvErrorCode = 
