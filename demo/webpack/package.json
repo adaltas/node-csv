@@ -1,6 +1,6 @@
 {
   "name": "csv-demo-webpack",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "",
   "private": true,
   "scripts": {
@@ -16,9 +16,9 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "csv": "^6.3.0",
+    "csv": "^6.3.1",
     "csv-generate": "^4.2.6",
-    "csv-parse": "^5.3.10",
+    "csv-parse": "^5.4.0",
     "csv-stringify": "^6.4.0",
     "http-server": "^14.1.1",
     "stream-browserify": "^3.0.0",

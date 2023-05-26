@@ -1,9 +1,9 @@
 {
   "name": "csv-demo-ts-moduleresolution-node16-cjs",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "dependencies": {
     "csv-generate": "^4.2.6",
-    "csv-parse": "^5.3.10",
+    "csv-parse": "^5.4.0",
     "csv-stringify": "^6.4.0",
     "stream-transform": "^3.2.6"
   },

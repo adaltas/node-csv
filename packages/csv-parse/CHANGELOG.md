@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.3.10...csv-parse@5.4.0) (2023-05-26)
+
+
+### Features
+
+* **csv-parse:** add `columns` property in `Info` object type ([#390](https://github.com/adaltas/node-csv/issues/390)) ([2dd2a92](https://github.com/adaltas/node-csv/commit/2dd2a92d0376c3cee3a4a39334f9828874f422bd))
+
+
+
 ## [5.3.10](https://github.com/adaltas/node-csv/compare/csv-parse@5.3.9...csv-parse@5.3.10) (2023-05-04)
 
 **Note:** Version bump only for package csv-parse
