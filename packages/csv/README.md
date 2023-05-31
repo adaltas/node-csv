@@ -1,7 +1,7 @@
 
 # CSV for Node.js and the web
 
-[![Build Status](https://img.shields.io/github/workflow/status/adaltas/node-csv/Node.js)](https://github.com/adaltas/node-csv/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/adaltas/node-csv/nodejs.yml?branch=master)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/csv)](https://www.npmjs.com/package/csv) [![NPM](https://img.shields.io/npm/v/csv)](https://www.npmjs.com/package/csv)
 
 The `csv` project provides CSV generation, parsing, transformation and serialization
