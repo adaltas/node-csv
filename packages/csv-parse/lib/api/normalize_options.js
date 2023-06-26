@@ -214,6 +214,20 @@ const normalize_options = function(opts){
   }else{
     throw new Error(`Invalid Option: max_record_size must be a positive integer, got ${JSON.stringify(options.max_record_size)}`);
   }
+  // Normalize option `null_if_omitted`
+  if (
+    options.null_if_omitted === undefined ||
+    options.null_if_omitted === null ||
+    options.null_if_omitted === false
+  ) {
+    options.null_if_omitted = false;
+  } else if (options.null_if_omitted !== true) {
+    throw new Error(
+      `Invalid Option: null_if_omitted must be a boolean, got ${JSON.stringify(
+        options.null_if_omitted
+      )}`
+    );
+  }
   // Normalize option `objname`
   if(options.objname === undefined || options.objname === null || options.objname === false){
     options.objname = undefined;

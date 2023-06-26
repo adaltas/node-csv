@@ -494,7 +494,7 @@ const transform = function(original_options = {}) {
       this.state.record_length = 0;
     },
     __onField: function(){
-      const {cast, encoding, rtrim, max_record_size} = this.options;
+      const {cast, encoding, rtrim, max_record_size, null_if_omitted} = this.options;
       const {enabled, wasQuoting} = this.state;
       // Short circuit for the from_line options
       if(enabled === false){
@@ -508,6 +508,9 @@ const transform = function(original_options = {}) {
         const [err, f] = this.__cast(field);
         if(err !== undefined) return err;
         field = f;
+      }
+      if(null_if_omitted === true && wasQuoting === false && field === ''){
+        field = null;
       }
       this.state.record.push(field);
       // Increment record length if record size must not exceed a limit

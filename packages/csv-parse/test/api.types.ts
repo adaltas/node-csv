@@ -30,7 +30,7 @@ describe('API Types', () => {
       keys.sort().should.eql([
         'bom', 'cast', 'cast_date', 'cast_first_line_to_header', 'cast_function', 'columns', 'comment', 'delimiter',
         'encoding', 'escape', 'from', 'from_line', 'group_columns_by_name',
-        'ignore_last_delimiters', 'info', 'ltrim', 'max_record_size', 'objname',
+        'ignore_last_delimiters', 'info', 'ltrim', 'max_record_size', 'null_if_omitted', 'objname',
         'on_record', 'on_skip', 'quote', 'raw', 'record_delimiter',
         'relax_column_count', 'relax_column_count_less',
         'relax_column_count_more', 'relax_quotes', 'rtrim', 'skip_empty_lines',
