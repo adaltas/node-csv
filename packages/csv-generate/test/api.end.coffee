@@ -1,6 +1,6 @@
 
 import { generate } from '../lib/index.js'
-import { Writable } from 'stream';
+import { Writable } from 'stream'
 
 describe 'api end', ->
 

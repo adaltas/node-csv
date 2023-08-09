@@ -4,7 +4,7 @@ import assert from 'assert';
 
 const records = [];
 // Create the parser
-const transformer = transform([
+transform([
   ['1','2','3','4'],
   ['a','b','c','d']
 ], function(record){

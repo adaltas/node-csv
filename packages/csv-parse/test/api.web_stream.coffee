@@ -4,13 +4,13 @@ import {parse as parseStream} from '../lib/stream.js'
 import {parse as parseClassic} from '../lib/index.js'
 
 describe 'api stream', ->
-  
+
   it.skip 'perf classic', ->
     console.time('classic')
     generator = generateClassic({
       objectMode: true,
       length: 10000000
-    });
+    })
     for await record from generator
       continue
     console.timeEnd('classic')
@@ -20,7 +20,7 @@ describe 'api stream', ->
     generator = generateStream({
       objectMode: true,
       length: 10000000
-    });
+    })
     reader = generator.getReader()
     while true
       { done, value } = await reader.read()

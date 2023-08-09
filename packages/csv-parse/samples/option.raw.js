@@ -9,5 +9,5 @@ d,e,f
   assert.deepStrictEqual(records, [
     { record: [ 'a', 'b', 'c' ], raw: 'a,b,c\n' },
     { record: [ 'd', 'e', 'f' ], raw: 'd,e,f' }
-  ])
-})
+  ]);
+});

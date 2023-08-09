@@ -6,4 +6,4 @@ const records = stringify([
   ['a "value"'],
 ]);
 
-assert.equal(records, '"a ""value"""\n')
+assert.equal(records, '"a ""value"""\n');

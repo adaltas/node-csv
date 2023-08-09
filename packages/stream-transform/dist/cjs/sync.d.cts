@@ -1,6 +1,6 @@
 /// <reference types="node" />
 
-import { Options } from './index.js';
+import { Options } from './index.cjs';
 
 export type Handler<T = any, U = any> = (record: T) => U
 // export default transform;
