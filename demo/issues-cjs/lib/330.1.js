@@ -1,4 +1,4 @@
-const {parse} = require('csv/sync');
+const { parse } = require("csv/sync");
 
 const input = `
 Date, Type, Description, Value, Balance, Account Name, Account Number
@@ -8,6 +8,6 @@ Date, Type, Description, Value, Balance, Account Name, Account Number
 
 const output = parse(input, {
   skip_empty_lines: true,
-  relax_column_count: true
+  relax_column_count: true,
 });
 console.log(output);
