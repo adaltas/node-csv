@@ -19,5 +19,5 @@ describe 'Samples', ->
           'node'
         when '.ts'
           'ts-node' # Also works with:  `node --loader ts-node/esm`
-      exec "#{bin} #{path.resolve dir, sample}", (err, stdout, stderr) ->
+      exec "#{bin} #{path.resolve dir, sample}", (err) ->
         callback err
