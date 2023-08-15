@@ -18,8 +18,8 @@ describe 'option sleep', ->
       length: 2
       sleep: 10
     .on 'readable', ->
-        while (record = this.read()) isnt null
-          records.push record.toString()
+      while (record = this.read()) isnt null
+        records.push record.toString()
     .on 'error', next
     .on 'end', ->
       records.join().split('\n').length.should.eql 2

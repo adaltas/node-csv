@@ -11,7 +11,7 @@ a,b
   columns: true,
   to: 2
 }, function(err, records){
-  console.log(err, records)
+  console.log(err, records);
   assert.deepStrictEqual(
     records, [{
       a: '1',

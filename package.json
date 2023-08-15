@@ -16,6 +16,8 @@
     "build": "lerna run build",
     "postinstall": "husky install",
     "publish": "lerna publish from-git --yes",
+    "lint": "lerna run lint",
+    "pretest": "npm run lint",
     "test": "lerna run test",
     "test:legacy": "lerna run test:legacy",
     "version": "lerna version"

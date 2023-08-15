@@ -7,4 +7,4 @@ const records = stringify([
   ['=4', '@5', '6']
 ], {escape_formulas: true});
 
-assert.equal(records, "'=1,'@2,3\n'=4,'@5,6\n")
+assert.equal(records, "'=1,'@2,3\n'=4,'@5,6\n");

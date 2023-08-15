@@ -1,5 +1,5 @@
 
-import { Input, Options } from './index.js'
+import { Input, Options } from './index.cjs'
 
 declare function stringify(input: Input, options?: Options): string
 
@@ -9,4 +9,4 @@ export { stringify };
 export {
   RecordDelimiter, Cast, PlainObject, Input, ColumnOption, CastingContext,
   Options
-} from './index.js';
+} from './index.cjs';

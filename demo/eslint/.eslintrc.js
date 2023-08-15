@@ -11,6 +11,7 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-    // 'import/no-unresolved': [2, { commonjs: false }],
+    'import/no-unresolved': [2, { commonjs: false }],
+    'no-console': 'off',
   },
 };

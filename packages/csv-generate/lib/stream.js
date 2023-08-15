@@ -11,13 +11,13 @@ const generate = (opts) => {
     async pull(controller) {
       read(options, state, 1024, function(chunk) {
         chunk = Buffer.from(chunk);
-        controller.enqueue(chunk)
+        controller.enqueue(chunk);
       }, function(){
-        controller.close()
+        controller.close();
       });
     }
   }, {highWaterMark: 1024});
   // return new Generator(options || {})
-}
+};
 
 export {generate};

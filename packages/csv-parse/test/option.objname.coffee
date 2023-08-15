@@ -2,9 +2,9 @@
 import { parse } from '../lib/index.js'
 
 describe 'Option `objname`', ->
-  
+
   describe 'validation', ->
-  
+
     it 'basic', ->
       parse '', objname: 'sth', columns: true, (->)
       parse '', objname: Buffer.from('sth'), columns: true, (->)
@@ -20,7 +20,7 @@ describe 'Option `objname`', ->
       (->
         parse '', objname: true, (->)
       ).should.throw 'Invalid Option: objname must be a string or a buffer, got true'
-    
+
     it 'field require columns', ->
       (->
         parse '', objname: 'field', (->)
@@ -29,7 +29,7 @@ describe 'Option `objname`', ->
         'objname field must be combined with columns'
         'or be defined as an index'
       ].join ' '
-    
+
     it 'index incompatible with columns', ->
       (->
         parse '', objname: 1, columns: true, (->)
@@ -38,9 +38,9 @@ describe 'Option `objname`', ->
         'objname index cannot be combined with columns'
         'or be defined as a field'
       ].join ' '
-  
+
   describe 'map to a field', ->
-    
+
     it 'convert a buffer to a column name', (next) ->
       parse '''
       a,b,c
@@ -110,10 +110,10 @@ describe 'Option `objname`', ->
               'FIELD_2': 'e'
               'FIELD_3': 'f'
             info:
-              bytes: 35 
+              bytes: 35
               lines: 3
         next()
-      
+
   describe 'map to an index', ->
 
     it 'get value associated with index', (next) ->
