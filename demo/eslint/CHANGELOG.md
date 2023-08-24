@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.15](https://github.com/adaltas/node-csv/compare/csv-demo-eslint@0.1.14...csv-demo-eslint@0.1.15) (2023-08-24)
+
+
+### Bug Fixes
+
+* commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397)) ([e6870fe](https://github.com/adaltas/node-csv/commit/e6870fe272c119e273196522c9771d12ff8b2a35))
+
+
+
 ## [0.1.14](https://github.com/adaltas/node-csv/compare/csv-demo-eslint@0.1.13...csv-demo-eslint@0.1.14) (2023-05-09)
 
 **Note:** Version bump only for package csv-demo-eslint

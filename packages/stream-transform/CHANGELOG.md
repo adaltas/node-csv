@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.7](https://github.com/adaltas/node-csv/compare/stream-transform@3.2.6...stream-transform@3.2.7) (2023-08-24)
+
+
+### Bug Fixes
+
+* commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397)) ([e6870fe](https://github.com/adaltas/node-csv/commit/e6870fe272c119e273196522c9771d12ff8b2a35))
+
+
+
 ## [3.2.6](https://github.com/adaltas/node-csv/compare/stream-transform@3.2.5...stream-transform@3.2.6) (2023-05-04)
 
 **Note:** Version bump only for package stream-transform

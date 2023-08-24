@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.4.1](https://github.com/adaltas/node-csv/compare/csv-parse@5.4.0...csv-parse@5.4.1) (2023-08-24)
+
+
+### Bug Fixes
+
+* commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397)) ([e6870fe](https://github.com/adaltas/node-csv/commit/e6870fe272c119e273196522c9771d12ff8b2a35))
+
+
+
 ## [5.4.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.3.10...csv-parse@5.4.0) (2023-05-26)
 
 

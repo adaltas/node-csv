@@ -1,11 +1,11 @@
 {
   "name": "csv-demo-ts-moduleresolution-node16-cjs",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "dependencies": {
-    "csv-generate": "^4.2.6",
-    "csv-parse": "^5.4.0",
-    "csv-stringify": "^6.4.0",
-    "stream-transform": "^3.2.6"
+    "csv-generate": "^4.2.7",
+    "csv-parse": "^5.4.1",
+    "csv-stringify": "^6.4.1",
+    "stream-transform": "^3.2.7"
   },
   "main": "index.js",
   "license": "MIT",

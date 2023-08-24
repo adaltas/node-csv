@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.10](https://github.com/adaltas/node-csv/compare/csv-demo-ts-moduleresolution-node16-cjs@0.2.9...csv-demo-ts-moduleresolution-node16-cjs@0.2.10) (2023-08-24)
+
+**Note:** Version bump only for package csv-demo-ts-moduleresolution-node16-cjs
+
+
+
+
+
 ## [0.2.9](https://github.com/adaltas/node-csv/compare/csv-demo-ts-moduleresolution-node16-cjs@0.2.8...csv-demo-ts-moduleresolution-node16-cjs@0.2.9) (2023-05-26)
 
 **Note:** Version bump only for package csv-demo-ts-moduleresolution-node16-cjs
