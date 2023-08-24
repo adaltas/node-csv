@@ -12,12 +12,12 @@
     "stream-transform": "^3.2.6"
   },
   "devDependencies": {
-    "@types/node": "^18.15.3",
+    "@types/node": "^20.5.0",
     "coffeescript": "^2.7.0",
     "mocha": "^10.2.0",
     "should": "^13.2.3",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.2"
+    "typescript": "^5.1.6"
   },
   "mocha": {
     "inline-diffs": true,

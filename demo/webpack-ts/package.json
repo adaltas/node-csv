@@ -17,10 +17,10 @@
     "buffer-browserify": "^0.2.5",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "stream-browserify": "^3.0.0",
-    "ts-loader": "^9.4.2",
-    "typescript": "^5.0.2",
-    "webpack": "^5.76.2",
-    "webpack-cli": "^5.0.1"
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   },
   "scripts": {
     "build": "npx webpack --config webpack.config.js",
