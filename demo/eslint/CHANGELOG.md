@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.16](https://github.com/adaltas/node-csv/compare/csv-demo-eslint@0.1.15...csv-demo-eslint@0.1.16) (2023-08-25)
+
+
+### Bug Fixes
+
+* **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript ([87fe919](https://github.com/adaltas/node-csv/commit/87fe91996fb2a8895c252177fca4f0cb59a518f9))
+
+
+
 ## [0.1.15](https://github.com/adaltas/node-csv/compare/csv-demo-eslint@0.1.14...csv-demo-eslint@0.1.15) (2023-08-24)
 
 

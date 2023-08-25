@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.3](https://github.com/adaltas/node-csv/compare/csv@6.3.2...csv@6.3.3) (2023-08-25)
+
+
+### Bug Fixes
+
+* **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript ([87fe919](https://github.com/adaltas/node-csv/commit/87fe91996fb2a8895c252177fca4f0cb59a518f9))
+
+
+
 ## [6.3.2](https://github.com/adaltas/node-csv/compare/csv@6.3.1...csv@6.3.2) (2023-08-24)
 
 

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.4.1...csv-parse@5.5.0) (2023-08-25)
+
+
+### Features
+
+* **csv-parse:** new comment_no_infix option (fix [#325](https://github.com/adaltas/node-csv/issues/325)) ([caca5c3](https://github.com/adaltas/node-csv/commit/caca5c3044541acfc9fe4a7f32167bb1179b6253))
+
+
+### Bug Fixes
+
+* **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript ([87fe919](https://github.com/adaltas/node-csv/commit/87fe91996fb2a8895c252177fca4f0cb59a518f9))
+
+
+
 ## [5.4.1](https://github.com/adaltas/node-csv/compare/csv-parse@5.4.0...csv-parse@5.4.1) (2023-08-24)
 
 

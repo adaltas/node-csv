@@ -5731,6 +5731,16 @@
                   ], options);
                 }
               }
+              // Normalize option `comment_no_infix`
+              if(options.comment_no_infix === undefined || options.comment_no_infix === null || options.comment_no_infix === false){
+                options.comment_no_infix = false;
+              }else if(options.comment_no_infix !== true){
+                throw new CsvError$1('CSV_INVALID_OPTION_COMMENT', [
+                  'Invalid option comment_no_infix:',
+                  'value must be a boolean,',
+                  `got ${JSON.stringify(options.comment_no_infix)}`
+                ], options);
+              }
               // Normalize option `delimiter`
               const delimiter_json = JSON.stringify(options.delimiter);
               if(!Array.isArray(options.delimiter)) options.delimiter = [options.delimiter];
@@ -6092,7 +6102,7 @@
                 },
                 // Central parser implementation
                 parse: function(nextBuf, end, push, close){
-                  const {bom, encoding, from_line, ltrim, max_record_size,raw, relax_quotes, rtrim, skip_empty_lines, to, to_line} = this.options;
+                  const {bom, comment_no_infix, encoding, from_line, ltrim, max_record_size,raw, relax_quotes, rtrim, skip_empty_lines, to, to_line} = this.options;
                   let {comment, escape, quote, record_delimiter} = this.options;
                   const {bomSkipped, previousBuf, rawBuffer, escapeIsQuote} = this.state;
                   let buf;
@@ -6291,7 +6301,7 @@
                           continue;
                         }
                         const commentCount = comment === null ? 0 : this.__compareBytes(comment, buf, pos, chr);
-                        if(commentCount !== 0){
+                        if(commentCount !== 0 && (comment_no_infix === false || this.state.field.length === 0)){
                           this.state.commenting = true;
                           continue;
                         }
