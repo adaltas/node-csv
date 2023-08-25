@@ -89,6 +89,12 @@ export interface Options {
      */
     comment?: string;
     /**
+     * Restrict the definition of comments to a full line. Comment characters
+     * defined in the middle of the line are not interpreted as such. The
+     * option require the activation of comments.
+     */
+    comment_no_infix?: boolean;
+    /**
      * Set the field delimiter. One character only, defaults to comma.
      */
     delimiter?: string | string[] | Buffer;

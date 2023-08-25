@@ -108,6 +108,16 @@ const normalize_options = function(opts){
       ], options);
     }
   }
+  // Normalize option `comment_no_infix`
+  if(options.comment_no_infix === undefined || options.comment_no_infix === null || options.comment_no_infix === false){
+    options.comment_no_infix = false;
+  }else if(options.comment_no_infix !== true){
+    throw new CsvError('CSV_INVALID_OPTION_COMMENT', [
+      'Invalid option comment_no_infix:',
+      'value must be a boolean,',
+      `got ${JSON.stringify(options.comment_no_infix)}`
+    ], options);
+  }
   // Normalize option `delimiter`
   const delimiter_json = JSON.stringify(options.delimiter);
   if(!Array.isArray(options.delimiter)) options.delimiter = [options.delimiter];
