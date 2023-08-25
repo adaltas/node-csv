@@ -5,7 +5,7 @@ import { stringify } from 'csv-stringify';
 
 (async () => {
   // Initialise the parser by generating random records
-  const parser = generate({
+  const stringifier = generate({
     length: 1000,
     objectMode: true,
     seed: true
@@ -17,7 +17,7 @@ import { stringify } from 'csv-stringify';
   // Report start
   process.stdout.write('start\n');
   // Iterate through each records
-  for await (const row of parser) {
+  for await (const row of stringifier) {
     // Report current line
     process.stdout.write(`${count++} ${row}\n`);
     // Fake asynchronous operation
