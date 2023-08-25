@@ -17,11 +17,11 @@ describe 'Samples', ->
   .map (sample) ->
     it "Sample #{sample}", (callback) ->
       ext = /\.(\w+)?$/.exec(sample)[0]
-      cmd = switch ext
+      [cmd, ...args] = switch ext
         when '.js'
-          'node'
+          ['node', path.resolve dir, sample]
         when '.ts'
-          'node --loader ts-node/esm'
-      spawn(cmd, [path.resolve dir, sample])
+          ['node', '--loader', 'ts-node/esm', path.resolve dir, sample]
+      spawn(cmd, args)
         .on 'close', (code) -> callback(code isnt 0 and new Error 'Failure')
         .stdout.on 'data', (->)
