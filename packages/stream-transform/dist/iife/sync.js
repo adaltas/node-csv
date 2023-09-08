@@ -5221,7 +5221,7 @@ var stream_transform_sync = (function (exports) {
 
   util.inherits(Transformer, Stream.Transform);
 
-  Transformer.prototype._transform = function(chunk, encoding, cb){
+  Transformer.prototype._transform = function(chunk, _, cb){
     this.state.started++;
     this.state.running++;
     if(this.state.running < this.options.parallel){
@@ -5243,8 +5243,7 @@ var stream_transform_sync = (function (exports) {
         throw Error('Invalid handler arguments');
       }
       return false;
-    }
-    catch (err) {
+    } catch (err) {
       this.__done(err);
     }
   };

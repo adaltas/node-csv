@@ -8,7 +8,7 @@ let test_running = records.length;
 const test_started = records.length;
 let test_finished = 0;
 // Execute the transformation
-transform(records, function(record, callback){
+transform(records, function(_, callback){
   setTimeout(() => {
     const {running, started, finished} = this.state;
     assert.equal(running, test_running--);
@@ -17,11 +17,11 @@ transform(records, function(record, callback){
     callback(null, `${running}_${started}_${finished}\n`);
   }, 100);
 })
-// Get notify on error
+  // Get notify on error
   .on('end', function(){
     process.stdout.write('-------\n');
     const {running, started, finished} = this.state;
     process.stdout.write(`${running}_${started}_${finished}\n`);
   })
-// Print the transformed records to the standard output
+  // Print the transformed records to the standard output
   .pipe(process.stdout);

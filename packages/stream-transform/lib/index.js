@@ -33,7 +33,7 @@ const Transformer = function(options = {}, handler){
 
 util.inherits(Transformer, stream.Transform);
 
-Transformer.prototype._transform = function(chunk, encoding, cb){
+Transformer.prototype._transform = function(chunk, _, cb){
   this.state.started++;
   this.state.running++;
   if(this.state.running < this.options.parallel){
@@ -55,8 +55,7 @@ Transformer.prototype._transform = function(chunk, encoding, cb){
       throw Error('Invalid handler arguments');
     }
     return false;
-  }
-  catch (err) {
+  } catch (err) {
     this.__done(err);
   }
 };

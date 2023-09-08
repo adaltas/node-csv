@@ -2,7 +2,7 @@
 import { generate } from 'csv-generate'
 import { transform } from '../lib/index.js'
 
-describe 'handler.sync', ->
+describe 'handler.mode.sync', ->
 
   describe 'api', ->
 
