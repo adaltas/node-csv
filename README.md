@@ -37,7 +37,7 @@ This repository is a monorepo managed using [Lerna](https://github.com/lerna/ler
 
 ## Documentation
 
-The full documentation for the current version is available [here](https://csv.js.org).
+The full documentation for the current version is available on the [official CSV project website](https://csv.js.org).
 
 * [Getting Started](https://csv.js.org/project/getting-started/)
 * [Examples](https://csv.js.org/project/examples/)
@@ -62,4 +62,4 @@ Licensed under the [MIT License](LICENSE).
 
 The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
 
-*   David Worms: <https://github.com/wdavidw>
+* David Worms: <https://github.com/wdavidw>
