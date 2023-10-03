@@ -22,8 +22,6 @@ const generate = function(options){
   }
   const chunks = [];
   let work = true;
-  // See https://nodejs.org/api/stream.html#stream_new_stream_readable_options
-  options.highWaterMark = options.objectMode ? 16 : 16384;
   const generator = new Generator(options);
   generator.push = function(chunk){
     if(chunk === null){

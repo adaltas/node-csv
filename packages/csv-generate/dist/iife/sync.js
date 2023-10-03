@@ -5248,11 +5248,13 @@ var csv_generate_sync = (function (exports) {
               if(opts.object_mode){
                 opts.objectMode = opts.object_mode;
               }
-              opts.objectMode = opts.objectMode ?? false;
               if(opts.high_water_mark){
                 opts.highWaterMark = opts.high_water_mark;
               }
-              opts.highWaterMark = opts.highWaterMark ?? Stream.getDefaultHighWaterMark(opts.objectMode);
+              // See https://nodejs.org/api/stream.html#stream_new_stream_readable_options
+              // Node.js 20 introduced `stream.getDefaultHighWaterMark(opts.objectMode)`
+              // opts.highWaterMark = opts.highWaterMark ?? (opts.objectMode ? 16 : 16384);
+              // opts.highWaterMark = opts.highWaterMark ?? stream.getDefaultHighWaterMark(opts.objectMode);
               // Clone and camelize options
               const options = {};
               for(const k in opts){

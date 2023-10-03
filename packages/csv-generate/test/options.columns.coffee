@@ -92,8 +92,6 @@ describe 'Option `columns`', ->
       generator.on 'error', next
       generator.on 'end', ->
         data.should.eql [
-          objectMode: true
-          length: 1
           columns: [ null, null ]
           delimiter: ','
           duration: null
@@ -101,7 +99,9 @@ describe 'Option `columns`', ->
           end: null
           eof: false
           fixedSize: false
+          length: 1
           maxWordLength: 16
+          objectMode: true
           rowDelimiter: '\n'
           seed: false
           sleep: 0

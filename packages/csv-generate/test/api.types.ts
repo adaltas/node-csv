@@ -27,7 +27,8 @@ describe('API Types', () => {
       const keys: any = Object.keys(options)
       keys.sort().should.eql([
         'columns', 'delimiter', 'duration', 'encoding', 'end', 'eof',
-        'fixedSize', 'length', 'maxWordLength', 'rowDelimiter', 'seed', 'sleep'
+        'fixedSize', 'length', 'maxWordLength',
+        'rowDelimiter', 'seed', 'sleep'
       ])
     })
   

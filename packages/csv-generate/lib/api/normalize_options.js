@@ -9,12 +9,16 @@ const camelize = function(str){
 
 const normalize_options = (opts) => {
   // Convert Stream Readable options if underscored
-  if(opts.high_water_mark){
-    opts.highWaterMark = opts.high_water_mark;
-  }
   if(opts.object_mode){
     opts.objectMode = opts.object_mode;
   }
+  if(opts.high_water_mark){
+    opts.highWaterMark = opts.high_water_mark;
+  }
+  // See https://nodejs.org/api/stream.html#stream_new_stream_readable_options
+  // Node.js 20 introduced `stream.getDefaultHighWaterMark(opts.objectMode)`
+  // opts.highWaterMark = opts.highWaterMark ?? (opts.objectMode ? 16 : 16384);
+  // opts.highWaterMark = opts.highWaterMark ?? stream.getDefaultHighWaterMark(opts.objectMode);
   // Clone and camelize options
   const options = {};
   for(const k in opts){
@@ -60,4 +64,4 @@ const normalize_options = (opts) => {
   return options;
 };
 
-export {normalize_options};
+export { normalize_options };
