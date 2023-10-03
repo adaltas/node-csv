@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option duration', ->
+describe 'option `duration`', ->
 
   it 'as millisecond', (next) ->
     @timeout 1000000

@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option high_water_mark', ->
+describe 'Option `high_water_mark`', ->
 
   it 'generate slightly larger buffer lengths', (next) ->
     count = 0

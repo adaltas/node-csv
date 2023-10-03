@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'Option encoding', ->
+describe 'Option `encoding`', ->
 
   it 'generate buffer by default', (next) ->
     generate length: 1, (err, data) ->

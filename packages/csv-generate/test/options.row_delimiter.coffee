@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option row_delimiter', ->
+describe 'Option `row_delimiter`', ->
 
   it 'default to unix style', (next) ->
     generator = generate length: 10, encoding: 'ascii', (err, data) ->

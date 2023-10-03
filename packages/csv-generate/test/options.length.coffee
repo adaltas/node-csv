@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option length', ->
+describe 'Option `length`', ->
 
   it 'raw text', (next) ->
     @timeout 1000000

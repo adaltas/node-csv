@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option fixed_size', ->
+describe 'Option `fixed_size`', ->
 
   it 'with fixed_size', (next) ->
     count = 0

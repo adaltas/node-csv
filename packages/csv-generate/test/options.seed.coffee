@@ -2,7 +2,7 @@
 import { generate } from '../lib/index.js'
 import { random } from '../lib/api/random.js'
 
-describe 'option seed', ->
+describe 'Option `seed`', ->
 
   describe 'without seed', ->
 

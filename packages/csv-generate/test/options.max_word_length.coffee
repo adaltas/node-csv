@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option max_word_length', ->
+describe 'Option `max_word_length', ->
 
   it 'default to 16', (next) ->
     @timeout 1000000

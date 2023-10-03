@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option delimiter', ->
+describe 'Option `delimiter`', ->
 
   it 'one char', (next) ->
     generate seed: 1, delimiter: '|', length: 4, encoding: 'ascii', (err, data) ->

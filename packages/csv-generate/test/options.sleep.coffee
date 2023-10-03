@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option sleep', ->
+describe 'Option `sleep`', ->
 
   it 'as integer above 0', (next) ->
     @timeout 10000

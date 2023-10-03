@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option columns', ->
+describe 'Option `columns`', ->
 
   it 'as number', (next) ->
     @timeout 1000000

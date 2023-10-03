@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'options', ->
+describe 'Options', ->
 
   it 'no options with default', (next) ->
     @timeout 1000000

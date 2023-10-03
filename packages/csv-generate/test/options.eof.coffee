@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option eof', ->
+describe 'Option `eof`', ->
 
   it 'default to trailing newline character if true', (next) ->
     generator = generate eof: true, length: 10, encoding: 'ascii', (err, data) ->

@@ -1,7 +1,7 @@
 
 import { generate } from '../lib/index.js'
 
-describe 'option objectMode', ->
+describe 'Option `objectMode`', ->
 
   it 'return an array of array', (next) ->
     @timeout 1000000
