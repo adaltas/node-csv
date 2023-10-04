@@ -37,6 +37,5 @@ describe 'Option `seed`', ->
         OMH,ONKCHhJmjadoA,D,GeACHiN,nnmiN,CGfDKB,NIl,JnnmjadnmiNL
         KB,dmiM,fENL,Jn,opEMIkdmiOMFckep,MIj,bgIjadnn,fENLEOMIkbhLDK
         B,LF,gGeBFaeAC,iLEO,IkdoAAC,hKpD,opENJ,opDLENLDJoAAABFP
-        iNJnmjPbhL,Ik,jPbhKCHhJn,fDKCHhIkeAABEM,kdnlh,DKACIl,HgGdoABEMIjP,adlhKCGf
         """
         next()

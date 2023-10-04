@@ -1,27 +1,34 @@
 
-
 const read = (options, state, size, push, close) => {
   // Already started
   const data = [];
-  let length = state.fixed_size_buffer.length;
-  if(length !== 0){
-    data.push(state.fixed_size_buffer);
+  let length = 0;
+  // Get remaining buffer when fixedSize is enable
+  if (options.fixedSize) {
+    length = state.fixed_size_buffer.length;
+    if(length !== 0){
+      data.push(state.fixed_size_buffer);
+    }
   }
   // eslint-disable-next-line
   while(true){
-    // Time for some rest: flush first and stop later
-    if((state.count_created === options.length) || (options.end && Date.now() > options.end) || (options.duration && Date.now() > state.start_time + options.duration)){
+    // Exit
+    if (
+      state.count_created === options.length ||
+      (options.end && Date.now() > options.end) ||
+      (options.duration && Date.now() > state.start_time + options.duration)
+    ) {
       // Flush
-      if(data.length){
-        if(options.objectMode){
-          for(const record of data){
+      if (data.length) {
+        if (options.objectMode) {
+          for (const record of data) {
             push(record);
           }
-        }else{
-          push(data.join('') + (options.eof ? options.eof : ''));
+        } else {
+          push(data.join("") + (options.eof ? options.eof : ""));
         }
         state.end = true;
-      }else{
+      } else {
         close();
       }
       return;
@@ -33,12 +40,13 @@ const read = (options, state, size, push, close) => {
       const result = fn({options: options, state: state});
       const type = typeof result;
       if(result !== null && type !== 'string' && type !== 'number'){
-        return Error([
+        close(Error([
           'INVALID_VALUE:',
           'values returned by column function must be',
           'a string, a number or null,',
           `got ${JSON.stringify(result)}`
-        ].join(' '));
+        ].join(' ')));
+        return;
       }
       record.push(result);
     }

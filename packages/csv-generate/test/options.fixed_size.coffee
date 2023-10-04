@@ -9,7 +9,7 @@ describe 'Option `fixed_size`', ->
     generator.on 'readable', ->
       while(data = generator.read())
         # First generated data is twice the high water mark, don't know why
-        data.length.should.eql if count then 1024 else 2048
+        data.length.should.eql 1024
         generator.end() if count++ is 100
     generator.on 'error', next
     generator.on 'end', next

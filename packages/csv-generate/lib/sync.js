@@ -29,14 +29,10 @@ const generate = function(options){
     if(chunk === null){
       return work = false; 
     }
-    if(options.objectMode){
-      chunks.push(chunk);
-    }else{
-      chunks.push(chunk);  
-    }
+    chunks.push(chunk); 
   };
   while(work){
-    generator._read(options.highWaterMark);
+    generator.__read(options.highWaterMark);
   }
   if(!options.objectMode){
     return chunks.join('');

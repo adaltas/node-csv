@@ -25,19 +25,23 @@ Generator.prototype.end = function(){
 };
 // Put new data into the read queue.
 Generator.prototype._read = function(size){
-  const self = this;
-  const err = read(this.options, this.state, size, function(chunk) {
-    self.__push(chunk);
-  }, function(){
-    self.push(null);
+  setImmediate(() => {
+    this.__read(size);
   });
-  if(err){
-    this.destroy(err);
-  }
+};
+Generator.prototype.__read = function(size){
+  read(this.options, this.state, size, (chunk) => {
+    this.__push(chunk);
+  }, (err) => {
+    if(err){
+      this.destroy(err);
+    }else{
+      this.push(null);
+    }
+  });
 };
 // Put new data into the read queue.
 Generator.prototype.__push = function(record){
-  // console.log('push', record)
   const push = () => {
     this.state.count_written++;
     this.push(record);

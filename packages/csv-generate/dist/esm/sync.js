@@ -5242,12 +5242,14 @@ const camelize = function(str){
 
 const normalize_options = (opts) => {
   // Convert Stream Readable options if underscored
-  if(opts.high_water_mark){
-    opts.highWaterMark = opts.high_water_mark;
-  }
   if(opts.object_mode){
     opts.objectMode = opts.object_mode;
   }
+  opts.objectMode = opts.objectMode ?? false;
+  if(opts.high_water_mark){
+    opts.highWaterMark = opts.high_water_mark;
+  }
+  opts.highWaterMark = opts.highWaterMark ?? Stream.getDefaultHighWaterMark(opts.objectMode);
   // Clone and camelize options
   const options = {};
   for(const k in opts){
@@ -5296,25 +5298,33 @@ const normalize_options = (opts) => {
 const read = (options, state, size, push, close) => {
   // Already started
   const data = [];
-  let length = state.fixed_size_buffer.length;
-  if(length !== 0){
-    data.push(state.fixed_size_buffer);
+  let length = 0;
+  // Get remaining buffer when fixedSize is enable
+  if (options.fixedSize) {
+    length = state.fixed_size_buffer.length;
+    if(length !== 0){
+      data.push(state.fixed_size_buffer);
+    }
   }
   // eslint-disable-next-line
   while(true){
-    // Time for some rest: flush first and stop later
-    if((state.count_created === options.length) || (options.end && Date.now() > options.end) || (options.duration && Date.now() > state.start_time + options.duration)){
+    // Exit
+    if (
+      state.count_created === options.length ||
+      (options.end && Date.now() > options.end) ||
+      (options.duration && Date.now() > state.start_time + options.duration)
+    ) {
       // Flush
-      if(data.length){
-        if(options.objectMode){
-          for(const record of data){
+      if (data.length) {
+        if (options.objectMode) {
+          for (const record of data) {
             push(record);
           }
-        }else {
-          push(data.join('') + (options.eof ? options.eof : ''));
+        } else {
+          push(data.join("") + (options.eof ? options.eof : ""));
         }
         state.end = true;
-      }else {
+      } else {
         close();
       }
       return;
@@ -5326,12 +5336,13 @@ const read = (options, state, size, push, close) => {
       const result = fn({options: options, state: state});
       const type = typeof result;
       if(result !== null && type !== 'string' && type !== 'number'){
-        return Error([
+        close(Error([
           'INVALID_VALUE:',
           'values returned by column function must be',
           'a string, a number or null,',
           `got ${JSON.stringify(result)}`
-        ].join(' '));
+        ].join(' ')));
+        return;
       }
       record.push(result);
     }
@@ -5386,19 +5397,23 @@ Generator.prototype.end = function(){
 };
 // Put new data into the read queue.
 Generator.prototype._read = function(size){
-  const self = this;
-  const err = read(this.options, this.state, size, function(chunk) {
-    self.__push(chunk);
-  }, function(){
-    self.push(null);
+  setImmediate(() => {
+    this.__read(size);
   });
-  if(err){
-    this.destroy(err);
-  }
+};
+Generator.prototype.__read = function(size){
+  read(this.options, this.state, size, (chunk) => {
+    this.__push(chunk);
+  }, (err) => {
+    if(err){
+      this.destroy(err);
+    }else {
+      this.push(null);
+    }
+  });
 };
 // Put new data into the read queue.
 Generator.prototype.__push = function(record){
-  // console.log('push', record)
   const push = () => {
     this.state.count_written++;
     this.push(record);
@@ -5423,21 +5438,15 @@ const generate = function(options){
   }
   const chunks = [];
   let work = true;
-  // See https://nodejs.org/api/stream.html#stream_new_stream_readable_options
-  options.highWaterMark = options.objectMode ? 16 : 16384;
   const generator = new Generator(options);
   generator.push = function(chunk){
     if(chunk === null){
       return work = false; 
     }
-    if(options.objectMode){
-      chunks.push(chunk);
-    }else {
-      chunks.push(chunk);  
-    }
+    chunks.push(chunk); 
   };
   while(work){
-    generator._read(options.highWaterMark);
+    generator.__read(options.highWaterMark);
   }
   if(!options.objectMode){
     return chunks.join('');
