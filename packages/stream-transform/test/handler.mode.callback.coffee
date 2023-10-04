@@ -30,7 +30,6 @@ describe 'handler.mode.callback', ->
     r = new Writable
         write: (chunk, _, callback) ->
           chunks.push chunk.toString()
-          # process.stdout.write '.'
           callback()
     await pipeline(
       generate columns: 10, objectMode: true, length: 1000
