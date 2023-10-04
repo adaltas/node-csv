@@ -28,9 +28,9 @@ describe 'handler.mode.callback', ->
     , 10
     chunks = []
     r = new Writable
-        write: (chunk, _, callback) ->
-          chunks.push chunk.toString()
-          callback()
+      write: (chunk, _, callback) ->
+        chunks.push chunk.toString()
+        callback()
     await pipeline(
       generate columns: 10, objectMode: true, length: 1000
     ,
