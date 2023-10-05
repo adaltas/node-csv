@@ -1324,7 +1324,7 @@ class Parser extends stream.Transform {
     this.info = this.api.info;
   }
   // Implementation of `Transform._transform`
-  _transform(buf, encoding, callback){
+  _transform(buf, _, callback){
     if(this.state.stop === true){
       return;
     }
@@ -1332,7 +1332,10 @@ class Parser extends stream.Transform {
       this.push(record);
     }, () => {
       this.push(null);
-      this.on('end', this.destroy);
+      this.end();
+      this.destroy();
+      // Note 231005, end wasnt used and destroy was called as:
+      // this.on('end', this.destroy);
     });
     if(err !== undefined){
       this.state.stop = true;

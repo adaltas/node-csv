@@ -1,5 +1,8 @@
 
+import { Readable } from 'stream'
+import { finished } from 'node:stream/promises'
 import { parse } from '../lib/index.js'
+import { generate } from 'csv-generate'
 
 describe 'Option `to_line`', ->
   
@@ -97,3 +100,16 @@ describe 'Option `to_line`', ->
         [ 'd','e','f' ]
       ] unless err
       next err
+
+  it 'resolved with `to_line`', ->
+    # Prevent `Error [ERR_STREAM_PREMATURE_CLOSE]: Premature close`
+    reader = new Readable
+      highWaterMark: 100
+      read: (size) ->
+        setImmediate =>
+          for i in [0...size]
+            this.push "#{size},#{i}\n"
+    parser = reader.pipe parse to_line: 3
+    parser.on 'readable', () =>
+      while parser.read() isnt null then true
+    await finished parser

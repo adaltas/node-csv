@@ -1,6 +1,5 @@
 
 import * as stream from 'node:stream/promises'
-import { Readable } from 'stream'
 import { generate } from 'csv-generate'
 import { parse } from '../lib/index.js'
 
