@@ -3,7 +3,7 @@
 import * as stream from "stream";
 
 export type Callback = (err: Error | undefined, output: string) => void
-export type RecordDelimiter = string | Buffer | 'auto' | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
+export type RecordDelimiter = string | Buffer | 'unix' | 'mac' | 'windows' | 'ascii' | 'unicode'
 
 export type CastReturnObject = { value: string } & Pick<
     Options,
@@ -101,8 +101,8 @@ export interface Options extends stream.TransformOptions {
     quoted_string?: boolean
     /**
      * String used to delimit record rows or a special value
-     * special values are 'auto', 'unix', 'mac', 'windows', 'ascii', 'unicode'
-     * defaults to 'auto' (discovered in source or 'unix' if no source is specified).
+     * special values are 'unix', 'mac', 'windows', 'ascii', 'unicode'
+     * defaults to '\n'.
      */
     record_delimiter?: RecordDelimiter
     /**

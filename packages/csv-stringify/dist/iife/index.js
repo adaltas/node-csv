@@ -5423,9 +5423,6 @@ var csv_stringify = (function (exports) {
       return [Error(`Invalid Option: record_delimiter must be a buffer or a string, got ${JSON.stringify(options.record_delimiter)}`)];
     }
     switch(options.record_delimiter){
-    case 'auto':
-      options.record_delimiter = null;
-      break;
     case 'unix':
       options.record_delimiter = "\n";
       break;
