@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.9](https://github.com/adaltas/node-csv/compare/stream-transform@3.2.8...stream-transform@3.2.9) (2023-10-05)
+
+
+### Bug Fixes
+
+* **stream-transform:** sync callback usage in async handler ([4dd562b](https://github.com/adaltas/node-csv/commit/4dd562b65b99803b45858f449f67e52e2ef15726))
+
+
+
 ## [3.2.8](https://github.com/adaltas/node-csv/compare/stream-transform@3.2.7...stream-transform@3.2.8) (2023-08-25)
 
 

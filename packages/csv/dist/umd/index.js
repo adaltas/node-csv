@@ -5306,11 +5306,11 @@
             const read = (options, state, size, push, close) => {
               // Already started
               const data = [];
-              let length = 0;
+              let recordsLength = 0;
               // Get remaining buffer when fixedSize is enable
               if (options.fixedSize) {
-                length = state.fixed_size_buffer.length;
-                if(length !== 0){
+                recordsLength = state.fixed_size_buffer.length;
+                if(recordsLength !== 0){
                   data.push(state.fixed_size_buffer);
                 }
               }
@@ -5368,7 +5368,7 @@
                   recordLength = record.length;
                 }
                 state.count_created++;
-                if(length + recordLength > size){
+                if(recordsLength + recordLength > size){
                   if(options.objectMode){
                     data.push(record);
                     for(const record of data){
@@ -5376,8 +5376,8 @@
                     }
                   }else {
                     if(options.fixedSize){
-                      state.fixed_size_buffer = record.substr(size - length);
-                      data.push(record.substr(0, size - length));
+                      state.fixed_size_buffer = record.substr(size - recordsLength);
+                      data.push(record.substr(0, size - recordsLength));
                     }else {
                       data.push(record);
                     }
@@ -5385,7 +5385,7 @@
                   }
                   return;
                 }
-                length += recordLength;
+                recordsLength += recordLength;
                 data.push(record);
               }
             };

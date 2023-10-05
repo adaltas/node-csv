@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.1](https://github.com/adaltas/node-csv/compare/csv-parse@5.5.0...csv-parse@5.5.1) (2023-10-05)
+
+
+### Bug Fixes
+
+* **csv-parse:** premature close error ([c6473a9](https://github.com/adaltas/node-csv/commit/c6473a9cb6c5e4c94e42c30c2b9d15b049f16a6b))
+
+
+
 ## [5.5.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.4.1...csv-parse@5.5.0) (2023-08-25)
 
 

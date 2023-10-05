@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.3.0](https://github.com/adaltas/node-csv/compare/csv-generate@4.2.8...csv-generate@4.3.0) (2023-10-05)
+
+
+### Features
+
+* **csv-generate:** breathe between async reads ([b1da5a1](https://github.com/adaltas/node-csv/commit/b1da5a13cf4dbbf0dd62f2e28e5dee8767ad0151))
+* **csv-generate:** set highWaterMark to default ([8e758cf](https://github.com/adaltas/node-csv/commit/8e758cf79ab8b089e9a6a80a1f06be524a208f35))
+
+
+
 ## [4.2.8](https://github.com/adaltas/node-csv/compare/csv-generate@4.2.7...csv-generate@4.2.8) (2023-08-25)
 
 

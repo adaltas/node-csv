@@ -1,17 +1,17 @@
 {
   "name": "csv-demo-webpack-ts",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "",
   "private": true,
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "csv-generate": "^4.2.8",
-    "csv-parse": "^5.5.0",
-    "csv-stringify": "^6.4.2",
+    "csv-generate": "^4.3.0",
+    "csv-parse": "^5.5.1",
+    "csv-stringify": "^6.4.3",
     "http-server": "^14.1.1",
-    "stream-transform": "^3.2.8"
+    "stream-transform": "^3.2.9"
   },
   "devDependencies": {
     "buffer-browserify": "^0.2.5",
