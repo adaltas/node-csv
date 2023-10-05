@@ -1,6 +1,6 @@
 
-import { Writable } from 'stream'
-import { pipeline } from 'stream/promises'
+import { Writable } from 'node:stream'
+import { pipeline } from 'node:stream/promises'
 import { generate } from 'csv-generate'
 import { transform } from '../lib/index.js'
 
