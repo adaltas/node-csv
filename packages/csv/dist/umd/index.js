@@ -6897,7 +6897,8 @@
               this.state = {
                 running: 0,
                 started: 0,
-                finished: 0
+                finished: 0,
+                paused: false,
               };
               return this;
             };
@@ -6907,7 +6908,8 @@
             Transformer.prototype._transform = function(chunk, _, cb){
               this.state.started++;
               this.state.running++;
-              if(this.state.running < this.options.parallel){
+              // Accept additionnal chunks to be processed in parallel
+              if(!this.state.paused && this.state.running < this.options.parallel){
                 cb();
                 cb = null; // Cancel further callback execution
               }
@@ -6917,7 +6919,8 @@
                   l--;
                 }
                 if(l === 1){ // sync
-                  this.__done(null, [this.handler.call(this, chunk, this.options.params)], cb);
+                  const result = this.handler.call(this, chunk, this.options.params);
+                  this.__done(null, [result], cb);
                 }else if(l === 2){ // async
                   const callback = (err, ...chunks) =>
                     this.__done(err, chunks, cb);
@@ -6952,9 +6955,10 @@
                 // We dont push empty string
                 // See https://nodejs.org/api/stream.html#stream_readable_push
                 if(chunk !== undefined && chunk !== null && chunk !== ''){
-                  this.push(chunk);
+                  this.state.paused = !this.push(chunk);
                 }
               }
+              // Chunk has been processed
               if(cb){
                 cb();
               }
@@ -7320,9 +7324,6 @@
                 return [Error(`Invalid Option: record_delimiter must be a buffer or a string, got ${JSON.stringify(options.record_delimiter)}`)];
               }
               switch(options.record_delimiter){
-              case 'auto':
-                options.record_delimiter = null;
-                break;
               case 'unix':
                 options.record_delimiter = "\n";
                 break;

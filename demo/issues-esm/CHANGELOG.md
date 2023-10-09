@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.18](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.0.17...csv-issues-esm@0.0.18) (2023-10-09)
+
+
+### Bug Fixes
+
+* **stream-transform:**  backpressure after push ([3e83f4e](https://github.com/adaltas/node-csv/commit/3e83f4e604b7b944835de18afcb41716ce4bbfad))
+
+
+
 ## [0.0.17](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.0.16...csv-issues-esm@0.0.17) (2023-10-05)
 
 **Note:** Version bump only for package csv-issues-esm

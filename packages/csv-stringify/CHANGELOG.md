@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.4.4](https://github.com/adaltas/node-csv/compare/csv-stringify@6.4.3...csv-stringify@6.4.4) (2023-10-09)
+
+
+### Bug Fixes
+
+* **csv-stringify:** remove non-functional auto value ([6e8a9ca](https://github.com/adaltas/node-csv/commit/6e8a9ca0a712c56c73eabeb8aa052bd6d197cb3f))
+
+
+
 ## [6.4.3](https://github.com/adaltas/node-csv/compare/csv-stringify@6.4.2...csv-stringify@6.4.3) (2023-10-05)
 
 **Note:** Version bump only for package csv-stringify

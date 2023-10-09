@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.10](https://github.com/adaltas/node-csv/compare/stream-transform@3.2.9...stream-transform@3.2.10) (2023-10-09)
+
+
+### Bug Fixes
+
+* **stream-transform:**  backpressure after push ([3e83f4e](https://github.com/adaltas/node-csv/commit/3e83f4e604b7b944835de18afcb41716ce4bbfad))
+
+
+
 ## [3.2.9](https://github.com/adaltas/node-csv/compare/stream-transform@3.2.8...stream-transform@3.2.9) (2023-10-05)
 
 
