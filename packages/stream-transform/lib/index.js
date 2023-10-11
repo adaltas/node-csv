@@ -49,7 +49,16 @@ Transformer.prototype._transform = function(chunk, _, cb){
     }
     if(l === 1){ // sync
       const result = this.handler.call(this, chunk, this.options.params);
-      this.__done(null, [result], cb);
+      if (result && result.then) {
+        result.then((result) => {
+          this.__done(null, [result], cb);
+        });
+        result.catch((err) => {
+          this.__done(err);
+        });
+      } else {
+        this.__done(null, [result], cb);
+      }
     }else if(l === 2){ // async
       const callback = (err, ...chunks) =>
         this.__done(err, chunks, cb);

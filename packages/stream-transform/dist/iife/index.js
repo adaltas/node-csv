@@ -5237,7 +5237,16 @@ var stream_transform = (function (exports) {
       }
       if(l === 1){ // sync
         const result = this.handler.call(this, chunk, this.options.params);
-        this.__done(null, [result], cb);
+        if (result && result.then) {
+          result.then((result) => {
+            this.__done(null, [result], cb);
+          });
+          result.catch((err) => {
+            this.__done(err);
+          });
+        } else {
+          this.__done(null, [result], cb);
+        }
       }else if(l === 2){ // async
         const callback = (err, ...chunks) =>
           this.__done(err, chunks, cb);
@@ -5262,7 +5271,8 @@ var stream_transform = (function (exports) {
   Transformer.prototype.__done = function(err, chunks, cb){
     this.state.running--;
     if(err){
-      return this.emit('error', err);
+      return this.destroy(err);
+      // return this.emit('error', err);
     }
     this.state.finished++;
     for(let chunk of chunks){
