@@ -74,7 +74,8 @@ Transformer.prototype._flush = function(cb){
 Transformer.prototype.__done = function(err, chunks, cb){
   this.state.running--;
   if(err){
-    return this.emit('error', err);
+    return this.destroy(err);
+    // return this.emit('error', err);
   }
   this.state.finished++;
   for(let chunk of chunks){

@@ -15,7 +15,9 @@ describe 'handler.mode.callback', ->
     await pipeline(
       generate length: 1000
     ,
-      transform parallel: 1, (chunk, callback) -> callback null, chunk
+      transform parallel: 1, (chunk, callback) ->
+        setImmediate ->
+          callback null, chunk
     ,
       r
     )
@@ -35,7 +37,8 @@ describe 'handler.mode.callback', ->
       generate columns: 10, objectMode: true, length: 1000
     ,
       transform parallel: 2, (chunk, callback) ->
-        callback null, JSON.stringify(chunk)+'\n'
+        setImmediate ->
+          callback null, JSON.stringify(chunk)+'\n'
     ,
       r
     )

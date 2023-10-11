@@ -2,7 +2,7 @@
 import { generate } from 'csv-generate'
 import { transform } from '../lib/index.js'
 
-describe 'handler.error', ->
+describe 'handler.mode.sync.error', ->
 
   it 'catch using stream api', (next) ->
     transformer = transform (record) ->
@@ -12,7 +12,7 @@ describe 'handler.error', ->
       next()
     transformer.on 'finish', ->
       next new Error 'Should not be called'
-    transformer.write [ 'trigger' ]
+    transformer.write [ 'trigger 1', 'trigger 2' ]
 
   it 'catch using pipe api', (next) ->
     generator = generate length: 1000, objectMode: true, seed: 1, headers: 2
@@ -23,13 +23,13 @@ describe 'handler.error', ->
       next()
     transformer.on 'finish', ->
       next new Error 'Should not be called'
-    transformer.write [ 'trigger' ]
+    transformer.write [ 'trigger 1', 'trigger 2' ]
 
   it 'catch using callback api', (next) ->
     transform [
-      [ '20322051544' ]
-      [ '28392898392' ]
-      [ '83929843999' ]
+      [ 'trigger 1' ]
+      [ 'trigger 2' ]
+      [ 'trigger 3' ]
     ], (record) ->
       throw new Error 'Custom Error'
     , (err, data) ->
