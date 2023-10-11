@@ -12,8 +12,12 @@ const config = {
   highWaterMark: 1,
   // Number of records to generate, `-1` for infinite
   length: -1,
+  // Number of parallel handler execution, `100` by default
+  parallel: 100,
   // Generate object or strings, both are supported
   objectMode: false,
+  // Use a write delay comprised between 0 and the `config.write_delay` value
+  random_delay: true,
   // Write delay, `0` to write instantly
   write_delay: 1000,
 };
@@ -64,7 +68,7 @@ const consume = new Writable({
       setTimeout(() => {
         count++;
         callback();
-      }, config.write_delay);
+      }, config.random_delay ? Math.random() * config.write_delay : config.write_delay);
     }
   },
 });
@@ -80,8 +84,14 @@ await pipeline(
         highWaterMark: config.highWaterMark,
       }),
   // Step 2 - transform
-  transform({ parallel: 100, highWaterMark: 1 }, function (chunk, next) {
-    next(null, JSON.stringify(chunk) + "\n");
+  transform({ parallel: config.parallel, highWaterMark: 1 }, function (chunk) {
+    // Sync
+    // return JSON.stringify(chunk) + "\n"
+    // Async
+    return new Promise( (resolve) => {
+      resolve(JSON.stringify(chunk) + "\n");
+    })
+    
   }),
   // Step 3 - consume
   consume
