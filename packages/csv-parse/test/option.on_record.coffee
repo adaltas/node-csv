@@ -57,6 +57,7 @@ describe 'Option `on_record`', ->
     it 'properties', (next) ->
       parse "a,b",
         on_record: (record, context) ->
+          should(context.raw).be.undefined()
           Object.keys(context).sort()
         skip_records_with_error: true
       , (err, records) ->
@@ -66,7 +67,26 @@ describe 'Option `on_record`', ->
           'index', 'invalid_field_length', 'lines', 'raw', 'records'
         ]]
         next()
-          
+    
+    it 'properties with `columns: true` and `raw: true`', (next) ->
+      parse "a,b\n1,2\n3,4",
+        columns: true
+        raw: true
+        on_record: (record, context) ->
+          if context.lines is 2
+            context.raw.should.eql '1,2\n'
+          else if context.lines is 3
+            context.raw.should.eql '3,4'
+          Object.keys(context).sort()
+        skip_records_with_error: true
+      , (err, records) ->
+        records.shift().should.eql [
+          'bytes',
+          'columns', 'comment_lines', 'empty_lines', 'error', 'header',
+          'index', 'invalid_field_length', 'lines', 'raw', 'records'
+        ]
+        next()
+    
     it 'values', (next) ->
       parse "a,b\nc,d",
         on_record: (record, context) ->
