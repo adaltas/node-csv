@@ -60,6 +60,6 @@ Licensed under the [MIT License](LICENSE).
 
 ## Contributors
 
-The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
+The project is sponsored by [Adaltas](https://www.adaltas.com), a Big Data consulting firm based in Paris, France.
 
 * David Worms: <https://github.com/wdavidw>
