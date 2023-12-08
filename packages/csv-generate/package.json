@@ -6,7 +6,9 @@
     "stream",
     "generate",
     "csv",
-    "object"
+    "object",
+    "backend",
+    "frontend"
   ],
   "bugs": "https://github.com/adaltas/node-csv-generate/issues",
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",

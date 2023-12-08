@@ -5,7 +5,9 @@
   "keywords": [
     "csv",
     "stringify",
-    "stringifier"
+    "stringifier",
+    "backend",
+    "frontend"
   ],
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "devDependencies": {

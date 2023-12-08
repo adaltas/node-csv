@@ -8,7 +8,9 @@
     "parser",
     "convert",
     "tsv",
-    "stream"
+    "stream",
+    "backend",
+    "frontend"
   ],
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "contributors": [

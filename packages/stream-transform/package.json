@@ -6,7 +6,9 @@
     "stream",
     "transform",
     "csv",
-    "object"
+    "object",
+    "backend",
+    "frontend"
   ],
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "devDependencies": {
