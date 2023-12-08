@@ -1,4 +1,5 @@
 
+import { Readable } from 'node:stream'
 import * as stream from 'node:stream/promises'
 import { generate } from 'csv-generate'
 import { parse } from '../lib/index.js'
@@ -15,14 +16,34 @@ describe 'API stream.finished', ->
     await stream.finished parser
     records.length.should.eql 10
 
-  it 'resolved with `to_line`', ->
+  it 'aborted (with generate())', ->
     # See https://github.com/adaltas/node-csv/issues/333
+    # See https://github.com/adaltas/node-csv/issues/410
+    # Prevent `Error [ERR_STREAM_PREMATURE_CLOSE]: Premature close`
     records = []
     parser = generate(length: 10).pipe parse to_line: 3
     parser.on 'readable', () =>
       while (record = parser.read()) isnt null
         records.push record
     await stream.finished parser
+    records.length.should.eql 3
+
+  it.skip 'aborted (with Readable)', ->
+    # See https://github.com/adaltas/node-csv/issues/333
+    # See https://github.com/adaltas/node-csv/issues/410
+    # Prevent `Error [ERR_STREAM_PREMATURE_CLOSE]: Premature close`
+    records = []
+    reader = new Readable
+      highWaterMark: 10
+      read: (size) ->
+        for i in [0...size]
+          this.push "#{size},#{i}\n"
+    parser = reader.pipe parse to_line: 3
+    parser.on 'readable', () =>
+      while (record = parser.read()) isnt null
+        records.push record
+    await stream.finished parser
+    console.log records
     records.length.should.eql 3
 
   it 'rejected on error', ->

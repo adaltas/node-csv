@@ -33,9 +33,16 @@ class Parser extends Transform {
     }, () => {
       this.push(null);
       this.end();
-      this.destroy();
-      // Note 231005, end wasnt used and destroy was called as:
-      // this.on('end', this.destroy);
+      // Fix #333 and break #410
+      //   ko: api.stream.iterator.coffee
+      //   ko with v21.4.0, ok with node v20.5.1: api.stream.finished # aborted (with generate())
+      //   ko: api.stream.finished # aborted (with Readable)
+      // this.destroy()
+      // Fix #410 and partially break #333
+      //   ok: api.stream.iterator.coffee
+      //   ok: api.stream.finished # aborted (with generate())
+      //   broken: api.stream.finished # aborted (with Readable)
+      this.on('end', this.destroy);
     });
     if(err !== undefined){
       this.state.stop = true;
