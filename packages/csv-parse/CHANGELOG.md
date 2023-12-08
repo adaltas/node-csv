@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.3](https://github.com/adaltas/node-csv/compare/csv-parse@5.5.2...csv-parse@5.5.3) (2023-12-08)
+
+
+### Bug Fixes
+
+* **csv-parse:** call destroy on end (fix [#410](https://github.com/adaltas/node-csv/issues/410)) ([0df32c6](https://github.com/adaltas/node-csv/commit/0df32c6a3500d2541451846c6a152ff991a2f2ff))
+
+
+
 ## [5.5.2](https://github.com/adaltas/node-csv/compare/csv-parse@5.5.1...csv-parse@5.5.2) (2023-10-09)
 
 **Note:** Version bump only for package csv-parse

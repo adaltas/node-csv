@@ -6797,9 +6797,16 @@ class Parser extends Transform {
     }, () => {
       this.push(null);
       this.end();
-      this.destroy();
-      // Note 231005, end wasnt used and destroy was called as:
-      // this.on('end', this.destroy);
+      // Fix #333 and break #410
+      //   ko: api.stream.iterator.coffee
+      //   ko with v21.4.0, ok with node v20.5.1: api.stream.finished # aborted (with generate())
+      //   ko: api.stream.finished # aborted (with Readable)
+      // this.destroy()
+      // Fix #410 and partially break #333
+      //   ok: api.stream.iterator.coffee
+      //   ok: api.stream.finished # aborted (with generate())
+      //   broken: api.stream.finished # aborted (with Readable)
+      this.on('end', this.destroy);
     });
     if(err !== undefined){
       this.state.stop = true;
@@ -6914,7 +6921,16 @@ Transformer.prototype._transform = function(chunk, _, cb){
     }
     if(l === 1){ // sync
       const result = this.handler.call(this, chunk, this.options.params);
-      this.__done(null, [result], cb);
+      if (result && result.then) {
+        result.then((result) => {
+          this.__done(null, [result], cb);
+        });
+        result.catch((err) => {
+          this.__done(err);
+        });
+      } else {
+        this.__done(null, [result], cb);
+      }
     }else if(l === 2){ // async
       const callback = (err, ...chunks) =>
         this.__done(err, chunks, cb);
@@ -6939,7 +6955,8 @@ Transformer.prototype._flush = function(cb){
 Transformer.prototype.__done = function(err, chunks, cb){
   this.state.running--;
   if(err){
-    return this.emit('error', err);
+    return this.destroy(err);
+    // return this.emit('error', err);
   }
   this.state.finished++;
   for(let chunk of chunks){

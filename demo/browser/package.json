@@ -1,6 +1,6 @@
 {
   "name": "csv-demo-browser",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
@@ -20,11 +20,11 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "csv": "^6.3.5",
-    "csv-generate": "^4.3.0",
-    "csv-parse": "^5.5.2",
-    "csv-stringify": "^6.4.4",
+    "csv": "^6.3.6",
+    "csv-generate": "^4.3.1",
+    "csv-parse": "^5.5.3",
+    "csv-stringify": "^6.4.5",
     "express": "^4.18.2",
-    "stream-transform": "^3.2.10"
+    "stream-transform": "^3.3.0"
   }
 }

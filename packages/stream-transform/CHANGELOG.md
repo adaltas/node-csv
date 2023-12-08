@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.0](https://github.com/adaltas/node-csv/compare/stream-transform@3.2.10...stream-transform@3.3.0) (2023-12-08)
+
+
+### Features
+
+* **stream-transform:** handler promise support ([df337ec](https://github.com/adaltas/node-csv/commit/df337ec44cfd9a4536641ca7e2f0f5c1404ea74d))
+
+
+
 ## [3.2.10](https://github.com/adaltas/node-csv/compare/stream-transform@3.2.9...stream-transform@3.2.10) (2023-10-09)
 
 

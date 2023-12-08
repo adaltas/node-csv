@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.0](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.0.18...csv-issues-esm@0.1.0) (2023-12-08)
+
+
+### Features
+
+* **csv-issues-esm:** more transform config in sample ([0c2acf1](https://github.com/adaltas/node-csv/commit/0c2acf10ca61faa4d97fae147596905e7316ac95))
+
+
+
 ## [0.0.18](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.0.17...csv-issues-esm@0.0.18) (2023-10-09)
 
 

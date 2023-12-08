@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.16](https://github.com/adaltas/node-csv/compare/csv-demo-webpack-ts@0.1.15...csv-demo-webpack-ts@0.1.16) (2023-12-08)
+
+**Note:** Version bump only for package csv-demo-webpack-ts
+
+
+
+
+
 ## [0.1.15](https://github.com/adaltas/node-csv/compare/csv-demo-webpack-ts@0.1.14...csv-demo-webpack-ts@0.1.15) (2023-10-09)
 
 **Note:** Version bump only for package csv-demo-webpack-ts
