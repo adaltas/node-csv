@@ -2,9 +2,7 @@
 import fs from 'fs';
 import { parse } from 'csv-parse';
 
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = new URL( '.', import.meta.url).pathname
 
 const processFile = async () => {
   const records = [];
