@@ -1,6 +1,6 @@
 .*
 node_modules
-!.eslintrc
+!.eslintrc.yml
 !.github
 !.gitignore
 !.husky
