@@ -7,7 +7,7 @@ globals:
   Atomics: "readonly"
   SharedArrayBuffer: "readonly"
 parserOptions:
-  ecmaVersion: 2020
+  ecmaVersion: "latest"
   sourceType: "module"
 rules:
   no-var: "error"
