@@ -1,6 +1,6 @@
 
 // Import the package
-import * as csv from '../lib/index.js';
+import * as csv from 'csv';
 
 // Run the pipeline
 csv
