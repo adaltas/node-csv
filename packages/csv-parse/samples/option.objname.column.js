@@ -1,5 +1,5 @@
 
-import assert from 'assert';
+import assert from 'node:assert';
 import { parse } from 'csv-parse/sync';
 
 const records = parse('c1,c2,c3\na,b,c\nd,e,f', {

@@ -1,6 +1,6 @@
 
+import assert from 'node:assert';
 import { generate } from 'csv-generate/sync';
-import assert from 'assert';
 
 const records = generate({
   seed: 1,

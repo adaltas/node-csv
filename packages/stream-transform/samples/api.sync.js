@@ -1,6 +1,6 @@
 
 import { transform } from 'stream-transform/sync';
-import assert from 'assert';
+import assert from 'node:assert';
 
 const records = transform([
   [ 'a', 'b', 'c', 'd' ],

@@ -1,6 +1,6 @@
 
+import assert from 'node:assert';
 import { stringify } from 'csv-stringify';
-import assert from 'assert';
 
 stringify([
   [ '1', '2', '3', '4' ],

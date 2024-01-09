@@ -1,7 +1,7 @@
 
-import assert from 'assert';
-import fs from 'fs';
-import os from 'os';
+import assert from 'node:assert';
+import fs from 'node:fs';
+import os from 'node:os';
 import { parse } from 'csv-parse';
 // Note, the `stream/promises` module is only available
 // starting with Node.js version 16

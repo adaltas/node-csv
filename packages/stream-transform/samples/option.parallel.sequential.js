@@ -1,6 +1,6 @@
 
 import { transform } from 'stream-transform';
-import assert from 'assert';
+import assert from 'node:assert';
 
 // Generate a dataset of 500 records
 const records = '.'.repeat(500).split('.').map((_, i) => i);

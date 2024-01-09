@@ -1,6 +1,6 @@
 
+import assert from 'node:assert';
 import {parse} from 'csv-parse/sync';
-import assert from 'assert';
 
 assert.deepEqual(
   parse('a,b,c\n1,2,3\n4,5,6', {

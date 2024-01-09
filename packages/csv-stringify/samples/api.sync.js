@@ -1,6 +1,6 @@
 
 import { stringify } from 'csv-stringify/sync';
-import assert from 'assert';
+import assert from 'node:assert';
 
 const output = stringify([
   [ '1', '2', '3', '4' ],

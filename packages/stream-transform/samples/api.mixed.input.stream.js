@@ -1,6 +1,6 @@
 
 import { transform } from 'stream-transform';
-import assert from 'assert';
+import assert from 'node:assert';
 
 // Create the parser
 const transformer = transform(function(record){

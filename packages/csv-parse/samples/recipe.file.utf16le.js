@@ -1,5 +1,5 @@
 
-import assert from 'assert';
+import assert from 'node:assert';
 import {promises as fs} from 'fs';
 import os from 'os';
 import { parse } from '../lib/sync.js';

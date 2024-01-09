@@ -1,4 +1,5 @@
-import assert from "assert";
+
+import assert from 'node:assert';
 import { generate } from "csv-generate";
 import { stringify } from "csv-stringify";
 

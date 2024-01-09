@@ -1,5 +1,5 @@
 
-import assert from 'assert';
+import assert from 'node:assert';
 import {generate, parse, transform, stringify} from 'csv/sync';
 
 // Run the pipeline

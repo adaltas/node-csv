@@ -1,5 +1,5 @@
 
-import assert from 'assert';
+import assert from 'node:assert';
 import { parse } from 'csv-parse/sync';
 
 const data = Buffer.from(`\uFEFFa,b,c\n1,2,3`, 'utf16le');

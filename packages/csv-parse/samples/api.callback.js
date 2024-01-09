@@ -1,5 +1,5 @@
 
-import assert from 'assert';
+import assert from 'node:assert';
 import { parse } from 'csv-parse';
 
 const input = '#Welcome\n"1","2","3","4"\n"a","b","c","d"';

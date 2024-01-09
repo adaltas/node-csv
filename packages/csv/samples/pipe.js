@@ -4,22 +4,22 @@ import * as csv from '../lib/index.js';
 
 // Run the pipeline
 csv
-// Generate 20 records
+  // Generate 20 records
   .generate({
     delimiter: '|',
     length: 20
   })
-// Transform CSV data into records
+  // Transform CSV data into records
   .pipe(csv.parse({
     delimiter: '|'
   }))
-// Transform each value into uppercase
-  .pipe(csv.transform((record) => {
-    return record.map((value) => {
-      return value.toUpperCase();
-    });
-  }))
-// Convert objects into a stream
+  // Transform each value into uppercase
+  .pipe(csv.transform((record) =>
+    record.map((value) =>
+      value.toUpperCase()
+    )
+  ))
+  // Convert objects into a stream
   .pipe(csv.stringify({
     quoted: true
   }))

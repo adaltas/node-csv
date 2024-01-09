@@ -1,6 +1,6 @@
 
 import { stringify } from 'csv-stringify';
-import assert from 'assert';
+import assert from 'node:assert';
 
 stringify([
   ['a value', '.', 'value.with.dot'],

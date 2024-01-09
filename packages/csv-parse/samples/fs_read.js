@@ -1,5 +1,5 @@
 
-import fs from 'fs';
+import fs from 'node:fs';
 import { parse } from 'csv-parse';
 
 const __dirname = new URL( '.', import.meta.url).pathname

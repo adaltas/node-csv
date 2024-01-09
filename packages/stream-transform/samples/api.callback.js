@@ -1,6 +1,6 @@
 
 import { transform } from 'stream-transform';
-import assert from 'assert';
+import assert from 'node:assert';
 
 transform([
   ['1','2','3','4'],
