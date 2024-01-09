@@ -23,5 +23,5 @@ csv
   .pipe(csv.stringify({
     quoted: true
   }))
-// Print the CSV stream to stdout
+  // Print the CSV stream to stdout
   .pipe(process.stdout);
