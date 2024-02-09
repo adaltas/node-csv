@@ -16,8 +16,8 @@ const records = parse(data, {
       // Such as a string
       return `${value}T05:00:00.000Z`;
     }else{
-      // Or the `context` object literal
-      return context;
+      // Or the unmodified value
+      return value;
     }
   },
   trim: true
