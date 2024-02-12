@@ -79,6 +79,14 @@ export interface Options extends stream.TransformOptions {
      */
     header?: boolean
     /**
+     * Display the column names on the first line as comment if the columns option is provided or discovered.
+     */
+    header_as_comment?: boolean
+    /**
+     * Treat all the characters after this one as a comment, default to '' (disabled).
+     */
+    comment?: string;
+    /**
      * The quote characters, defaults to the ", an empty quote value will preserve the original field.
      */
     quote?: string | Buffer | boolean

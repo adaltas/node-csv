@@ -226,6 +226,9 @@ const stringifier = function(options, state, info){
         [err, headers] = this.stringify(headers);
       }
       if(err) return err;
+      if(this.options.header_as_comment){
+        headers = this.options.comment + ' ' + headers;
+      }
       push(headers);
     },
     __cast: function(value, context){
