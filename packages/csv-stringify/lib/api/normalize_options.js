@@ -95,9 +95,10 @@ const normalize_options = function (opts) {
       const isRegExp = quoted_match instanceof RegExp;
       if (!isString && !isRegExp) {
         return [
-          Error(
-            `Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`,
-          ),
+          new CsvError("CSV_OPTION_QUOTED_MATCH", [
+            "option `quoted_match` must be a string or a regex,",
+            `got ${JSON.stringify(options.quoted_match)}`,
+          ]),
         ];
       }
     }
@@ -150,6 +151,41 @@ const normalize_options = function (opts) {
       options,
     );
   }
+  // Normalize option `headers_as_comment`
+  if (
+    options.header_as_comment === undefined ||
+    options.header_as_comment === null ||
+    options.header_as_comment === false
+  ) {
+    options.header_as_comment = false;
+  } else if (options.header_as_comment === true) {
+    options.header_as_comment = "#";
+  } else if (Buffer.isBuffer(options.header_as_comment)) {
+    options.header_as_comment = options.header_as_comment.toString();
+  } else if (typeof options.header_as_comment !== "string") {
+    throw new CsvError(
+      "CSV_INVALID_OPTION_HEADER_AS_COMMENT",
+      [
+        "option `header_as_comment` must be a boolean, a string or a buffer,",
+        `got ${JSON.stringify(options.header_as_comment)}`,
+      ],
+      options,
+    );
+  }
+  // if (options.header_as_comment && !options.comment?.length) {
+  //   throw new CsvError(
+  //     "CSV_INVALID_OPTION_COMMENT",
+  //     [
+  //       "option `comment` must be a non empty string or buffer when using `header_as_comment`,",
+  //       `got ${JSON.stringify(options.comment)}`,
+  //     ],
+  //     options,
+  //   );
+  // }
+  // Header is always enabled with `header_as_comment`
+  // if (options.header_as_comment === true) {
+  //   options.header = true;
+  // }
   // Normalize option `columns`
   const [errColumns, columns] = normalize_columns(options.columns);
   if (errColumns !== undefined) return [errColumns];

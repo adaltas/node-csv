@@ -23,6 +23,7 @@ describe("API Types", function () {
           "escape",
           "escape_formulas",
           "header",
+          "header_as_comment",
           "on_record",
           "quote",
           "quoted",

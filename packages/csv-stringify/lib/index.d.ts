@@ -86,6 +86,10 @@ export interface OptionsNormalized extends stream.TransformOptions {
    */
   header: boolean;
   /**
+   * Display the column names on the first line as comment if the columns option is provided or discovered.
+   */
+  header_as_comment?: string;
+  /**
    * The quote characters, defaults to the ", an empty quote value will preserve the original field.
    */
   quote: string;
@@ -161,6 +165,10 @@ export interface Options extends stream.TransformOptions {
    * Display the column names on the first line if the columns option is provided or discovered.
    */
   header?: boolean;
+  /**
+   * Display the column names on the first line as comment if the columns option is provided or discovered.
+   */
+  header_as_comment?: boolean | Buffer | string;
   /**
    * The quote characters, defaults to the ", an empty quote value will preserve the original field.
    */
