@@ -48,7 +48,12 @@ describe('API Types', () => {
     it('columns', () => {
       const options: Options = {}
       options.columns = 8
-      options.columns = ['ascii', 'bool', 'int']
+      options.columns = [
+        "ascii",
+        "bool",
+        "int",
+        ({ options, state }) => options.delimiter + "ok" + state.start_time,
+      ];
     })
       
     it('delimiter', () => {
