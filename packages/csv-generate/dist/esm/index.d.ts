@@ -11,11 +11,24 @@ export class Generator extends stream.Readable {
     readonly options: Options;
 }
 
+export type ColumnsFunctionArgs = {
+    options: Options;
+    state: State;
+};
+export type ColumnsFunction = (args: ColumnsFunctionArgs) => string;
+
+export type State = {
+    start_time: number,
+    fixed_size_buffer: number,
+    count_written: number,
+    count_created: number,
+}
+
 export interface Options extends stream.ReadableOptions {
     /**
      * Define the number of generated fields and the generation method.
      */
-    columns?: number | string[];
+    columns?: number | (string | ColumnsFunction)[];
     /**
      * Set the field delimiter.
      */

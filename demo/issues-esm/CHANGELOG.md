@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.0](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.1.0...csv-issues-esm@0.2.0) (2024-02-27)
+
+
+### Features
+
+* **csv-issues-esm:** reproduce issue [#415](https://github.com/adaltas/node-csv/issues/415) ([28088bc](https://github.com/adaltas/node-csv/commit/28088bcfb72331fe6ba26046a0af283c8dc0c40d))
+
+
+
 ## [0.1.0](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.0.18...csv-issues-esm@0.1.0) (2023-12-08)
 
 

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.4.0](https://github.com/adaltas/node-csv/compare/csv-generate@4.3.1...csv-generate@4.4.0) (2024-02-27)
+
+
+### Features
+
+* **csv-generate:** types column option defined as an udf (fix [#417](https://github.com/adaltas/node-csv/issues/417)) ([65f1ace](https://github.com/adaltas/node-csv/commit/65f1aceede14e9136b347e8ef9e2019a81a51010))
+
+
+
 ## [4.3.1](https://github.com/adaltas/node-csv/compare/csv-generate@4.3.0...csv-generate@4.3.1) (2023-12-08)
 
 **Note:** Version bump only for package csv-generate
