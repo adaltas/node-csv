@@ -5972,10 +5972,12 @@ var csv_parse = (function (exports) {
                         if(this.state.commenting){
                           continue;
                         }
-                        const commentCount = comment === null ? 0 : this.__compareBytes(comment, buf, pos, chr);
-                        if(commentCount !== 0 && (comment_no_infix === false || this.state.field.length === 0)){
-                          this.state.commenting = true;
-                          continue;
+                        if(comment !== null && (comment_no_infix === false || (this.state.record.length === 0 && this.state.field.length === 0))) {
+                          const commentCount = this.__compareBytes(comment, buf, pos, chr);
+                          if(commentCount !== 0){
+                            this.state.commenting = true;
+                            continue;
+                          }
                         }
                         const delimiterLength = this.__isDelimiter(buf, pos, chr);
                         if(delimiterLength !== 0){

@@ -19,7 +19,16 @@ describe 'Option `comment_no_infix`', ->
       message: 'Invalid option comment_no_infix: value must be a boolean, got 2'
       code: 'CSV_INVALID_OPTION_COMMENT'
       
-  it 'with `true`', (next) ->
+  it 'with `true`, field starting with comment', (next) ->
+    parse '''
+    a,#,c
+    ''', comment: '#', comment_no_infix: true, (err, records) ->
+      records.should.eql [
+        ['a', '#', 'c']
+      ] unless err
+      next err
+      
+  it 'with `true`, field not starting with comment', (next) ->
     parse '''
     a,b#,c
     ''', comment: '#', comment_no_infix: true, (err, records) ->

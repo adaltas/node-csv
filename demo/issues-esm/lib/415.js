@@ -13,7 +13,7 @@ await pipeline(
   parse({
     comment: "#",
     delimiter: "\t",
-    relax_column_count: true,
+    comment_no_infix: true
   }),
   stringify({ delimiter: "|" }),
   process.stdout
