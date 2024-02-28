@@ -1,13 +1,13 @@
 {
   "name": "csv-demo-ts-module-node16",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
   "private": true,
   "dependencies": {
     "csv-generate": "^4.4.0",
-    "csv-parse": "^5.5.4",
+    "csv-parse": "^5.5.5",
     "csv-stringify": "^6.4.6",
     "stream-transform": "^3.3.1"
   },

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.2.0...csv-issues-esm@0.2.1) (2024-02-28)
+
+
+### Bug Fixes
+
+* **csv-parse:** comment infix when comment first field char (fix [#415](https://github.com/adaltas/node-csv/issues/415)) ([8e0f8b8](https://github.com/adaltas/node-csv/commit/8e0f8b8e11736f1223b0bda4dd2a3b37506dd531))
+
+
+
 ## [0.2.0](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.1.0...csv-issues-esm@0.2.0) (2024-02-27)
 
 

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.5](https://github.com/adaltas/node-csv/compare/csv-parse@5.5.4...csv-parse@5.5.5) (2024-02-28)
+
+
+### Bug Fixes
+
+* **csv-parse:** comment infix when comment first field char (fix [#415](https://github.com/adaltas/node-csv/issues/415)) ([8e0f8b8](https://github.com/adaltas/node-csv/commit/8e0f8b8e11736f1223b0bda4dd2a3b37506dd531))
+
+
+
 ## [5.5.4](https://github.com/adaltas/node-csv/compare/csv-parse@5.5.3...csv-parse@5.5.4) (2024-02-27)
 
 **Note:** Version bump only for package csv-parse

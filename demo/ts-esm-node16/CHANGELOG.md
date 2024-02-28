@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.16](https://github.com/adaltas/node-csv/compare/csv-demo-ts-module-node16@0.2.15...csv-demo-ts-module-node16@0.2.16) (2024-02-28)
+
+**Note:** Version bump only for package csv-demo-ts-module-node16
+
+
+
+
+
 ## [0.2.15](https://github.com/adaltas/node-csv/compare/csv-demo-ts-module-node16@0.2.14...csv-demo-ts-module-node16@0.2.15) (2024-02-27)
 
 **Note:** Version bump only for package csv-demo-ts-module-node16

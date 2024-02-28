@@ -1,6 +1,6 @@
 {
   "name": "csv-issues-esm",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "csv-generate": "^4.4.0",
-    "csv-parse": "^5.5.4",
+    "csv-parse": "^5.5.5",
     "csv-stringify": "^6.4.6",
     "desm": "^1.3.0"
   }
