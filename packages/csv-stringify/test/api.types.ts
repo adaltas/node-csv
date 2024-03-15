@@ -1,6 +1,7 @@
 
 import 'should'
 import { stringify, CastingContext, Options, Stringifier } from '../lib/index.js'
+import { stringify as stringifySync } from '../lib/index.js'
 
 describe('API Types', () => {
   
@@ -74,6 +75,12 @@ describe('API Types', () => {
         field3: 'column3'
       }
     })
+      
+    it("columns as const", () => {
+      const options: Options = {};
+      options.columns = ["b", "a"];
+      options.columns = ["b", "a"] as const;
+    });
     
     it('delimiter', () => {
       const options: Options = {}
