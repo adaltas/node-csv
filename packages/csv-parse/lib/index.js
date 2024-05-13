@@ -14,10 +14,9 @@ import {CsvError} from './api/CsvError.js';
 class Parser extends Transform {
   constructor(opts = {}){
     super({...{readableObjectMode: true}, ...opts, encoding: null});
-    this.api = transform(opts);
-    this.api.options.on_skip = (err, chunk) => {
+    this.api = transform({on_skip: (err, chunk) => {
       this.emit('skip', err, chunk);
-    };
+    }, ...opts});
     // Backward compatibility
     this.state = this.api.state;
     this.options = this.api.options;

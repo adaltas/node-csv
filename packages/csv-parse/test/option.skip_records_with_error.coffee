@@ -106,8 +106,7 @@ describe 'Option `skip_records_with_error`', ->
     7,8,9,y
     '''
     parser.end()
-    
-
+  
   it 'handle "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH"', (next) ->
     errors = 0
     parser = parse skip_records_with_error: true, (err, records) ->
@@ -129,6 +128,30 @@ describe 'Option `skip_records_with_error`', ->
     e,f,g,h
     '''
     parser.end()
+  
+  describe 'with `bom` option', ->
+  
+    it 'handle "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH" with bom (fix #411)', (next) ->
+      errors = 0
+      parser = parse bom: true, skip_records_with_error: true, (err, records) ->
+        records.should.eql [
+          ['a', 'b', 'c', 'd']
+          ['e', 'f', 'g', 'h']
+        ] unless err
+        errors.should.eql 1
+        next err
+      parser.on 'skip', (err) ->
+        assert_error err,
+          message: 'Invalid Record Length: expect 4, got 3 on line 2'
+          code: 'CSV_RECORD_INCONSISTENT_FIELDS_LENGTH'
+          record: ['1', '2', '3']
+        errors++
+      parser.write '''
+      \ufeffa,b,c,d
+      1,2,3
+      e,f,g,h
+      '''
+      parser.end()
   
   describe 'with `raw` option', ->
     
