@@ -1,20 +1,31 @@
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import { spawn } from 'node:child_process'
 
-import each from 'each'
-import fs from 'fs'
-import path from 'path'
-import { exec } from 'child_process'
-
-import { fileURLToPath } from 'url'
-__dirname = path.dirname fileURLToPath import.meta.url
-dir = path.resolve __dirname, '../samples'
 [_, major] = process.version.match(/(\d+)\.\d+\.\d+/)
-samples = fs.readdirSync(dir)
-.filter (sample) -> ! (major < 16 && sample is 'recipe.promises.js')
-.filter (sample) -> /\.js$/.test sample
+__dirname = new URL( '.', import.meta.url).pathname
+dir = path.resolve __dirname, '../samples'
+samples = await fs.readdir dir
 
 describe 'Samples', ->
-  
-  each samples, (sample) ->
-    it "Sample #{sample}", (callback) ->
-      exec "node #{path.resolve dir, sample}", (err) ->
-        callback err
+
+  samples
+  .filter (sample) -> ! (major < 16 && sample is 'recipe.promises.js')
+  .filter (sample) ->
+    return false unless /\.(js|ts)?$/.test sample
+    true
+  .map (sample) ->
+
+    it "Sample #{sample}", () ->
+      data = await fs.readFile path.resolve(dir, sample), 'utf8'
+      return if /^["|']skip test["|']/.test data
+      new Promise (resolve, reject) ->
+        ext = /\.(\w+)?$/.exec(sample)[0]
+        [cmd, ...args] = switch ext
+          when '.js'
+            ['node', path.resolve dir, sample]
+          when '.ts'
+            ['node', '--loader', 'ts-node/esm', path.resolve dir, sample]
+        spawn(cmd, args)
+          .on 'close', (code) -> if code is 0 then resolve() else reject(new Error 'Failure')
+          .stdout.on 'data', (->)

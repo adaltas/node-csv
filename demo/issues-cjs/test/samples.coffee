@@ -12,13 +12,16 @@ describe 'Samples', ->
     return false unless /\.(js|ts)?$/.test sample
     true
   .map (sample) ->
-    it "Sample #{sample}", (callback) ->
-      ext = /\.(\w+)?$/.exec(sample)[0]
-      cmd = switch ext
-        when '.js'
-          'node'
-        when '.ts'
-          'ts-node' # Also works with:  `node --loader ts-node/esm`
-      spawn(cmd, [path.resolve dir, sample])
-        .on 'close', (code) -> callback(code isnt 0 and new Error 'Failure')
-        .stdout.on 'data', (->)
+    it "Sample #{sample}", () ->
+      data = await fs.promises.readFile path.resolve(dir, sample), 'utf8'
+      return if /^["|']skip test["|']/.test data
+      new Promise (resolve, reject) ->
+        ext = /\.(\w+)?$/.exec(sample)[0]
+        [cmd, ...args] = switch ext
+          when '.js'
+            ['node', path.resolve dir, sample]
+          when '.ts'
+            ['node', '--loader', 'ts-node/esm', path.resolve dir, sample]
+        spawn(cmd, args)
+          .on 'close', (code) -> if code is 0 then resolve() else reject(new Error 'Failure')
+          .stdout.on 'data', (->)
