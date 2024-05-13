@@ -20,7 +20,7 @@ const records = parse(data, {
       return parseInt(value);
     } else {
       // Return a different value
-      return `Value is ${value}`
+      return `Value is ${value}`;
     }
   },
   trim: true,
