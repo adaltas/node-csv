@@ -5556,6 +5556,13 @@ var csv_parse = (function (exports) {
                   `got ${JSON.stringify(options.on_record)}`
                 ], options);
               }
+              // Normalize option `on_skip`
+              // options.on_skip ??= (err, chunk) => {
+              //   this.emit('skip', err, chunk);
+              // };
+              if(options.on_skip !== undefined && options.on_skip !== null && typeof options.on_skip !== 'function'){
+                throw new Error(`Invalid Option: on_skip must be a function, got ${JSON.stringify(options.on_skip)}`);
+              }
               // Normalize option `quote`
               if(options.quote === null || options.quote === false || options.quote === ''){
                 options.quote = null;
@@ -6441,10 +6448,9 @@ var csv_parse = (function (exports) {
             class Parser extends Transform {
               constructor(opts = {}){
                 super({...{readableObjectMode: true}, ...opts, encoding: null});
-                this.api = transform(opts);
-                this.api.options.on_skip = (err, chunk) => {
+                this.api = transform({on_skip: (err, chunk) => {
                   this.emit('skip', err, chunk);
-                };
+                }, ...opts});
                 // Backward compatibility
                 this.state = this.api.state;
                 this.options = this.api.options;
