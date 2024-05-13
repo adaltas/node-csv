@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.2.1...csv-issues-esm@0.3.0) (2024-05-13)
+
+
+### Features
+
+* **csv-issues-esm:** issue 411 reproductible 2nd attempt ([41fca27](https://github.com/adaltas/node-csv/commit/41fca279cb10e7bb1a97e09c301e52cfd07856f0))
+* **csv-issues-esm:** issue 411 reproductible attempt ([6c5cb5e](https://github.com/adaltas/node-csv/commit/6c5cb5efb333ed0f6e3f64d2a8cddb2d4f813521))
+* **csv-issues-esm:** issue 423 ([c255eb5](https://github.com/adaltas/node-csv/commit/c255eb57015f821c4dea6558ddb5f58ae908b616))
+
+
+### Bug Fixes
+
+* **csv-parse:** skip event not raised with bom (fix [#411](https://github.com/adaltas/node-csv/issues/411)) ([1326351](https://github.com/adaltas/node-csv/commit/13263514ef6ec02000cf2da39ba6aa2ff92f00ae))
+
+
+
 ## [0.2.1](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.2.0...csv-issues-esm@0.2.1) (2024-02-28)
 
 

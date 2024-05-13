@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.6](https://github.com/adaltas/node-csv/compare/csv-issues-cjs@0.2.5...csv-issues-cjs@0.2.6) (2024-05-13)
+
+**Note:** Version bump only for package csv-issues-cjs
+
+
+
+
+
 ## [0.2.5](https://github.com/adaltas/node-csv/compare/csv-issues-cjs@0.2.4...csv-issues-cjs@0.2.5) (2024-02-28)
 
 **Note:** Version bump only for package csv-issues-cjs

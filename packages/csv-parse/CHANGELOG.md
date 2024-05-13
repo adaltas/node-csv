@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.5.6](https://github.com/adaltas/node-csv/compare/csv-parse@5.5.5...csv-parse@5.5.6) (2024-05-13)
+
+
+### Bug Fixes
+
+* **csv-parse:** skip event not raised with bom (fix [#411](https://github.com/adaltas/node-csv/issues/411)) ([1326351](https://github.com/adaltas/node-csv/commit/13263514ef6ec02000cf2da39ba6aa2ff92f00ae))
+
+
+
 ## [5.5.5](https://github.com/adaltas/node-csv/compare/csv-parse@5.5.4...csv-parse@5.5.5) (2024-02-28)
 
 

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.0](https://github.com/adaltas/node-csv/compare/csv-stringify@6.4.6...csv-stringify@6.5.0) (2024-05-13)
+
+
+### Features
+
+* **csv-parse:** set `columns` type as `readonly` ([#358](https://github.com/adaltas/node-csv/issues/358)) ([44f2e7c](https://github.com/adaltas/node-csv/commit/44f2e7c2d1c36adf2b1f5a32ee181b3c4c4b50d7))
+
+
+
 ## [6.4.6](https://github.com/adaltas/node-csv/compare/csv-stringify@6.4.5...csv-stringify@6.4.6) (2024-02-27)
 
 **Note:** Version bump only for package csv-stringify

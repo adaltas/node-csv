@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.31](https://github.com/adaltas/node-csv/compare/csv-demo-esm@0.0.30...csv-demo-esm@0.0.31) (2024-05-13)
+
+**Note:** Version bump only for package csv-demo-esm
+
+
+
+
+
 ## [0.0.30](https://github.com/adaltas/node-csv/compare/csv-demo-esm@0.0.29...csv-demo-esm@0.0.30) (2024-02-28)
 
 **Note:** Version bump only for package csv-demo-esm
