@@ -1,5 +1,5 @@
 
-const assert = require('assert');
+const assert = require('node:assert');
 const version = parseInt(/^v(\d+)/.exec(process.version)[1], 10)
 const { parse } = require(
   version >= 14 ? 'csv-parse/sync' : 'csv-parse/dist/cjs/sync.cjs'

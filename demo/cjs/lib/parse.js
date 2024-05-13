@@ -1,5 +1,5 @@
 
-const assert = require('assert');
+const assert = require('node:assert');
 const { parse } = require('csv-parse');
 
 const output = [];
