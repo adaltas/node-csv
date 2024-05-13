@@ -1,10 +1,4 @@
-id,amount,timestamp
-1,$33.60,05/26/2022
-2,$91.47,08/24/2022
-3,$88.70,06/15/2022
-4,$46.97,06/11/2022,faulty
-5,$93.78,05/05/2022
-6,$56.80,05/07/2022
-7,$3.54,05/12/2022
-8,$57.59,07/05/2022
-9,$76.49,05/02/2022
+id,first_name,last_name,email,modified_at
+1,Ring,Grinyov,rgrinyov0@weebly.com,2022-02-14
+2,Kylie,Lauderdale,klauderdale1@wsj.com,2022-02-14,
+3,Cammi,Bendix,cbendix2@tuttocitta.it,2022-02-14

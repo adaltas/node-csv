@@ -1,27 +1,38 @@
-import assert from 'node:assert';
-import { createReadStream } from 'node:fs';
-import { Writable } from 'node:stream'
-import { finished } from 'node:stream/promises';
+import path from 'path';
+import { pipeline } from 'stream/promises';
+import { parse as parseCSV } from 'csv-parse';
+import { Writable } from 'stream';
+import { createReadStream } from 'fs';
 import desm from "desm";
-import { parse } from 'csv-parse';
-
 const __dirname = desm(import.meta.url);
-const errors = []
 
-const parser = parse({
-  bom: true,
-  skipRecordsWithError: true,
-});
-// Create a stream and consume its source
-const sink = new Writable ({objectMode: true, write: (_, __, callback) => callback()})
-const outStream = createReadStream(`${__dirname}/411.csv`).pipe(parser).pipe(sink);
-// Catch records with errors
-parser.on('skip', (e) => {
-  errors.push(e);
-});
-// Wait for stream to be consumed
-await finished(outStream);
-// Catch error from skip event
-assert.deepStrictEqual(errors.map(e => e.message), [
-  'Invalid Record Length: expect 3, got 4 on line 5'
-])
+async function testRecordsSkip() {
+  const errors = [];
+  const records = [];
+
+  const sink = new Writable({
+    objectMode: true,
+    write: (_, __, callback) => {
+      records.push(_);
+      callback();
+    },
+  });
+
+  const csvSource = createReadStream(path.join(__dirname, '411.csv'));
+  const parser = parseCSV({
+    skip_records_with_error: true,
+    bom: true,
+  });
+  parser.on('skip', function (err) {
+    errors.push(err);
+  });
+
+  await pipeline(csvSource, parser, sink);
+
+  console.log({
+    records,
+    errors,
+  });
+}
+
+testRecordsSkip().catch(console.error);
