@@ -109,6 +109,28 @@ const normalize_options = function(opts) {
   }else{
     // todo
   }
+  // Normalize option `headers_as_comment`
+  if(!options.header_as_comment){
+    options.header_as_comment = false;
+  }else if(!options.comment?.length){
+    throw new CsvError('CSV_INVALID_OPTION_COMMENT', [
+      'Invalid option comment:',
+      'comment must be a non empty string or buffer when enable header_as_comment,',
+      `got ${JSON.stringify(options.comment)}`
+    ], options);
+  }else{
+    if(Buffer.isBuffer(options.comment)){
+      options.comment = options.comment.toString();
+    }
+    if(typeof options.comment !== 'string'){
+      throw new CsvError('CSV_INVALID_OPTION_COMMENT', [
+        'Invalid option comment:',
+        'comment must be a buffer or a string when enable header_as_comment,',
+        `got ${JSON.stringify(options.comment)}`
+      ], options);
+    }
+    options.header = true;
+  }
   // Normalize option `columns`
   const [errColumns, columns] = normalize_columns(options.columns);
   if(errColumns !== undefined) return [errColumns];
