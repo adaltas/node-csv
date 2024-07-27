@@ -5,12 +5,7 @@
 [![NPM](https://img.shields.io/npm/dm/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
 [![NPM](https://img.shields.io/npm/v/csv-stringify)](https://www.npmjs.com/package/csv-stringify)
 
-The [`csv-stringify` package](https://csv.js.org/stringify/) is a stringifier converting records into a CSV text and
-implementing the Node.js [`stream.Transform`
-API](https://nodejs.org/api/stream.html). It also provides the easier
-synchronous and callback-based APIs for conveniency. It is both extremely easy
-to use and powerful. It was first released in 2010 and is tested against big
-data sets by a large community.
+The [`csv-stringify` package](https://csv.js.org/stringify/) is a stringifier converting records into a CSV text and implementing the Node.js [`stream.Transform` API](https://nodejs.org/api/stream.html). It also provides the easier synchronous and callback-based APIs for conveniency. It is both extremely easy to use and powerful. It was first released in 2010 and is tested against big data sets by a large community.
 
 ## Documentation
 
@@ -54,26 +49,14 @@ assert.equal(output, '1,2,3,4\na,b,c,d\n');
 
 ## Development
 
-Tests are executed with mocha. To install it, run `npm install` followed by `npm
-test`. It will install mocha and its dependencies in your project "node_modules"
-directory and run the test suite. The tests run against the CoffeeScript source
-files.
+Tests are executed with mocha. To install it, run `npm install` followed by `npm test`. It will install mocha and its dependencies in your project "node_modules" directory and run the test suite. The tests run against the CoffeeScript source files.
 
 To generate the JavaScript files, run `npm run build`.
 
-The test suite is run online with
-[Travis](https://travis-ci.org/#!/adaltas/node-csv-stringify). See the [Travis
-definition
-file](https://github.com/adaltas/node-csv-stringify/blob/master/.travis.yml) to
-view the tested Node.js version.
+The test suite is run online with [Travis](https://travis-ci.org/#!/adaltas/node-csv-stringify). See the [Travis definition file](https://github.com/adaltas/node-csv-stringify/blob/master/.travis.yml) to view the tested Node.js version.
 
 ## Contributors
 
 The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
 
 *   David Worms: <https://github.com/wdavidw>
-
-[csv_home]: https://github.com/adaltas/node-csv
-[stream_transform]: http://nodejs.org/api/stream.html#stream_class_stream_transform
-[examples]: https://csv.js.org/stringify/examples/
-[csv]: https://github.com/adaltas/node-csv

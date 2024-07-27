@@ -4,12 +4,9 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/adaltas/node-csv/nodejs.yml?branch=master)](https://github.com/adaltas/node-csv/actions)
 [![NPM](https://img.shields.io/npm/dm/csv)](https://www.npmjs.com/package/csv) [![NPM](https://img.shields.io/npm/v/csv)](https://www.npmjs.com/package/csv)
 
-The `csv` project provides CSV generation, parsing, transformation and serialization
-for Node.js.
+The `csv` project provides CSV generation, parsing, transformation and serialization for Node.js.
 
-It has been tested and used by a large community over the years and should be
-considered reliable. It provides every option you would expect from an advanced
-CSV parser and stringifier.
+It has been tested and used by a large community over the years and should be considered reliable. It provides every option you would expect from an advanced CSV parser and stringifier.
 
 This package exposes 4 packages:
 
@@ -34,8 +31,7 @@ The full documentation for the current version is available [here](https://csv.j
 
 Installation command is `npm install csv`.
 
-Each package is fully compatible with the Node.js stream 2 and 3 specifications.
-Also, a simple callback-based API is always provided for convenience.
+Each package is fully compatible with the Node.js stream 2 and 3 specifications. Also, a simple callback-based API is always provided for convenience.
 
 ## Sample
 
@@ -72,8 +68,7 @@ csv
 
 ## Development
 
-This parent project doesn't have tests itself but instead delegates the
-tests to its child projects.
+This parent project doesn't have tests itself but instead delegates the tests to its child projects.
 
 Read the documentation of the child projects for additional information.
 
@@ -88,9 +83,3 @@ The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data cons
 *   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
 *   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
 *   Mat Holt "PapaParse": <https://github.com/mholt/PapaParse>
-
-[travis]: https://travis-ci.org/
-[travis-csv-generate]: http://travis-ci.org/adaltas/node-csv-generate
-[travis-csv-parse]: http://travis-ci.org/adaltas/node-csv-parse
-[travis-stream-transform]: http://travis-ci.org/adaltas/node-stream-transform
-[travis-csv-stringify]: http://travis-ci.org/adaltas/node-csv-stringify
