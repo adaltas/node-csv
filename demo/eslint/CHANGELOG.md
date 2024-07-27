@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.22](https://github.com/adaltas/node-csv/compare/csv-demo-eslint@0.1.21...csv-demo-eslint@0.1.22) (2024-07-27)
+
+**Note:** Version bump only for package csv-demo-eslint
+
+
+
+
+
 ## [0.1.21](https://github.com/adaltas/node-csv/compare/csv-demo-eslint@0.1.20...csv-demo-eslint@0.1.21) (2024-05-13)
 
 **Note:** Version bump only for package csv-demo-eslint

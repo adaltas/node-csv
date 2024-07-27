@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.1](https://github.com/adaltas/node-csv/compare/csv-stringify@6.5.0...csv-stringify@6.5.1) (2024-07-27)
+
+**Note:** Version bump only for package csv-stringify
+
+
+
+
+
 ## [6.5.0](https://github.com/adaltas/node-csv/compare/csv-stringify@6.4.6...csv-stringify@6.5.0) (2024-05-13)
 
 

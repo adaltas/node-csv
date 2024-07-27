@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.10](https://github.com/adaltas/node-csv/compare/csv@6.3.9...csv@6.3.10) (2024-07-27)
+
+**Note:** Version bump only for package csv
+
+
+
+
+
 ## [6.3.9](https://github.com/adaltas/node-csv/compare/csv@6.3.8...csv@6.3.9) (2024-05-13)
 
 **Note:** Version bump only for package csv

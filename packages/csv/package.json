@@ -1,6 +1,6 @@
 {
   "name": "csv",
-  "version": "6.3.9",
+  "version": "6.3.10",
   "description": "A mature CSV toolset with simple api, full of options and tested against large datasets.",
   "keywords": [
     "node",
@@ -25,7 +25,7 @@
   "dependencies": {
     "csv-generate": "^4.4.1",
     "csv-parse": "^5.5.6",
-    "csv-stringify": "^6.5.0",
+    "csv-stringify": "^6.5.1",
     "stream-transform": "^3.3.2"
   },
   "devDependencies": {
