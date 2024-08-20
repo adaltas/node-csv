@@ -1,12 +1,12 @@
 {
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^17.6.3",
-    "@commitlint/config-conventional": "^17.6.3",
-    "@commitlint/config-lerna-scopes": "^17.6.3",
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/config-lerna-scopes": "^19.0.0",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^8.0.3",
-    "lerna": "^6.6.1"
+    "husky": "^9.1.4",
+    "lerna": "^8.1.8"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
     "test:legacy": "lerna run test:legacy",
     "version": "lerna version"
   },
+  "type": "module",
   "workspaces": {
     "packages": [
       "packages/*",
