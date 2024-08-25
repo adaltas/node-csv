@@ -19,8 +19,8 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn --frozen-lockfile
-    - run: yarn run test
+    - run: npm install
+    - run: npm run test
   test_legacy:
     runs-on: ubuntu-latest
     strategy:
@@ -32,8 +32,13 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn --frozen-lockfile
-    - run: yarn run test:legacy
+    - run: |
+        cwd=`pwd`
+        for pkg in packages/*/package.json; do
+          cd $cwd/`dirname $pkg`
+          npm install
+          npm run test:legacy;
+        done
   publish:
     needs: [test, test_legacy]
     runs-on: ubuntu-latest
@@ -45,7 +50,7 @@ jobs:
       with:
         node-version: '16.x'
         registry-url: 'https://registry.npmjs.org'
-    - run: yarn install
-    - run: yarn run publish
+    - run: npm install
+    - run: npm run publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

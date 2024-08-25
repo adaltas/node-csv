@@ -4,6 +4,7 @@ node_modules
 !.github
 !.gitignore
 !.husky
+!.npmrc
 lerna-debug.log
 yarn.lock
 yarn-error.log
