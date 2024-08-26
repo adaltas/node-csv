@@ -5,7 +5,7 @@ import { generate, parse, transform, stringify } from "csv/sync";
 const input = generate({ seed: 1, columns: 2, length: 2 });
 const rawRecords = parse(input);
 const refinedRecords = transform(rawRecords, (data) =>
-  data.map((value) => value.toUpperCase())
+  data.map((value) => value.toUpperCase()),
 );
 const output = stringify(refinedRecords);
 // Print the final result

@@ -1,4 +1,3 @@
-
 const read = (options, state, size, push, close) => {
   // Already started
   const data = [];
@@ -6,7 +5,7 @@ const read = (options, state, size, push, close) => {
   // Get remaining buffer when fixedSize is enable
   if (options.fixedSize) {
     recordsLength = state.fixed_size_buffer.length;
-    if(recordsLength !== 0){
+    if (recordsLength !== 0) {
       data.push(state.fixed_size_buffer);
     }
   }
@@ -36,48 +35,54 @@ const read = (options, state, size, push, close) => {
     // Create the record
     let record = [];
     let recordLength;
-    for(const fn of options.columns){
-      const result = fn({options: options, state: state});
+    for (const fn of options.columns) {
+      const result = fn({ options: options, state: state });
       const type = typeof result;
-      if(result !== null && type !== 'string' && type !== 'number'){
-        close(Error([
-          'INVALID_VALUE:',
-          'values returned by column function must be',
-          'a string, a number or null,',
-          `got ${JSON.stringify(result)}`
-        ].join(' ')));
+      if (result !== null && type !== "string" && type !== "number") {
+        close(
+          Error(
+            [
+              "INVALID_VALUE:",
+              "values returned by column function must be",
+              "a string, a number or null,",
+              `got ${JSON.stringify(result)}`,
+            ].join(" "),
+          ),
+        );
         return;
       }
       record.push(result);
     }
     // Obtain record length
-    if(options.objectMode){
+    if (options.objectMode) {
       recordLength = 0;
       // recordLength is currently equal to the number of columns
       // This is wrong and shall equal to 1 record only
-      for(const column of record){
+      for (const column of record) {
         recordLength += column.length;
       }
-    }else{
+    } else {
       // Stringify the record
-      record = (state.count_created === 0 ? '' : options.rowDelimiter)+record.join(options.delimiter);
+      record =
+        (state.count_created === 0 ? "" : options.rowDelimiter) +
+        record.join(options.delimiter);
       recordLength = record.length;
     }
     state.count_created++;
-    if(recordsLength + recordLength > size){
-      if(options.objectMode){
+    if (recordsLength + recordLength > size) {
+      if (options.objectMode) {
         data.push(record);
-        for(const record of data){
+        for (const record of data) {
           push(record);
         }
-      }else{
-        if(options.fixedSize){
+      } else {
+        if (options.fixedSize) {
           state.fixed_size_buffer = record.substr(size - recordsLength);
           data.push(record.substr(0, size - recordsLength));
-        }else{
+        } else {
           data.push(record);
         }
-        push(data.join(''));
+        push(data.join(""));
       }
       return;
     }
@@ -86,4 +91,4 @@ const read = (options, state, size, push, close) => {
   }
 };
 
-export {read};
+export { read };

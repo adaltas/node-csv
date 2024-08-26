@@ -1,5 +1,4 @@
-
-import assert from 'node:assert';
+import assert from "node:assert";
 import { generate } from "csv-generate";
 import { stringify } from "csv-stringify";
 
@@ -8,9 +7,11 @@ const stringifier = generate({
   length: 1000,
   objectMode: true,
   seed: true,
-}).pipe(stringify({
-  readableHighWaterMark: 15000
-}));
+}).pipe(
+  stringify({
+    readableHighWaterMark: 15000,
+  }),
+);
 // Count records
 let count = 0;
 // Report start

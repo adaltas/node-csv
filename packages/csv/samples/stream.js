@@ -1,57 +1,62 @@
-
 // Import the package
-import {generate, parse, transform, stringify} from 'csv';
+import { generate, parse, transform, stringify } from "csv";
 
 let i = 0;
 
-const generator = generate({seed: 1, columns: 2, length: 20});
+const generator = generate({ seed: 1, columns: 2, length: 20 });
 const parser = parse();
-const transformer = transform(function(data){
+const transformer = transform(function (data) {
   i++;
-  return data.map(function(value){return value.toUpperCase();});
+  return data.map(function (value) {
+    return value.toUpperCase();
+  });
 });
 const stringifier = stringify();
 
 // Read generated CSV data and send it to the parser
-generator.on('readable', function(){
-  let data; while((data = generator.read()) !== null){
+generator.on("readable", function () {
+  let data;
+  while ((data = generator.read()) !== null) {
     parser.write(data);
   }
 });
 // When generation is over, close the parser
-generator.on('end', function(){
+generator.on("end", function () {
   parser.end();
 });
 
 // Read parsed records and send them to the transformer
-parser.on('readable', function(){
-  let data; while((data = parser.read()) !== null){
+parser.on("readable", function () {
+  let data;
+  while ((data = parser.read()) !== null) {
     transformer.write(data);
   }
 });
 // When parsing is over, close the transformer
-parser.on('end', function(){
+parser.on("end", function () {
   transformer.end();
 });
 
 // Read transformed records and send them to the stringifier
-transformer.on('readable', function(){
-  let data; while((data = transformer.read()) !== null){
+transformer.on("readable", function () {
+  let data;
+  while ((data = transformer.read()) !== null) {
     stringifier.write(data);
   }
 });
 // When transformation is over, close the stringifier
-transformer.on('end', function(){
+transformer.on("end", function () {
   stringifier.end();
 });
 
 // Read CSV data and print it to stdout
-stringifier.on('readable', function(){
-  let data; while((data = stringifier.read()) !== null){
+stringifier.on("readable", function () {
+  let data;
+  while ((data = stringifier.read()) !== null) {
     process.stdout.write(data);
   }
 });
 // When stringifying is over, print a summary to stderr
-generator.on('close', function(){
-  process.stderr.write('=> ' + i + ' records\n');
+generator.on("close", function () {
+  process.stderr.write("=> " + i + " records\n");
 });

@@ -1,6 +1,5 @@
-
-import assert from 'node:assert';
-import { parse } from 'csv-parse/sync';
+import assert from "node:assert";
+import { parse } from "csv-parse/sync";
 
 const data = `
 # At the beginning of a record
@@ -8,9 +7,6 @@ const data = `
 "world"# At the end of a record
 `.trim();
 const records = parse(data, {
-  comment: "#"
+  comment: "#",
 });
-assert.deepStrictEqual(records, [
-  [ 'hello' ],
-  [ 'world' ]
-]);
+assert.deepStrictEqual(records, [["hello"], ["world"]]);

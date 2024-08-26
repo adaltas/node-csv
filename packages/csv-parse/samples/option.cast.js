@@ -1,4 +1,3 @@
-
 import assert from "node:assert";
 import { parse } from "csv-parse/sync";
 
@@ -26,6 +25,6 @@ const records = parse(data, {
   trim: true,
 });
 assert.deepStrictEqual(records, [
-  [ "1", 2, "Value is 3" ],
-  [ "4", 5, "Value is 6" ],
+  ["1", 2, "Value is 3"],
+  ["4", 5, "Value is 6"],
 ]);

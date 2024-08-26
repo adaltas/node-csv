@@ -16,7 +16,7 @@ const write = async function (length, target) {
   }).pipe(
     fs.createWriteStream(target, {
       highWaterMark: 64 * 64 * 1024,
-    })
+    }),
   );
   await finished(writter);
 };
@@ -61,12 +61,12 @@ const print = function (results) {
         pad(" throughput ", 15 + 2),
       ].join("|"),
       "|",
-    ].join("")
+    ].join(""),
   );
   console.log(
     ["|", ["-".repeat(12), "-".repeat(17), "-".repeat(17)].join("|"), "|"].join(
-      ""
-    )
+      "",
+    ),
   );
   results.forEach(([length, nanoseconds, throughput]) => {
     console.log(
@@ -78,7 +78,7 @@ const print = function (results) {
           ` ${pad(`${throughput}`, 15)} `,
         ].join("|"),
         "|",
-      ].join("")
+      ].join(""),
     );
   });
   console.log("");
@@ -96,7 +96,7 @@ const main = async function () {
       await write(length, target);
       const [seconds] = process.hrtime(time);
       console.log(`File ${target} created in ${seconds} seconds`);
-    })
+    }),
   );
   await Promise.all(
     await tests.map(async function ({ length, target }) {
@@ -107,20 +107,20 @@ const main = async function () {
       const throughput = Math.round((length / nanoseconds) * NS_PER_SEC);
       console.log(
         "Benchmark time:",
-        `${nanoseconds} nanoseconds (${seconds} seconds)`
+        `${nanoseconds} nanoseconds (${seconds} seconds)`,
       );
       console.log(
         "Benchmark throughput:",
         Math.round(throughput),
-        "records per second"
+        "records per second",
       );
       report(length, nanoseconds, throughput);
-    })
+    }),
   );
   await Promise.all(
     await tests.map(async function ({ target }) {
       await dispose(target);
-    })
+    }),
   );
   const results = report();
   print(results);

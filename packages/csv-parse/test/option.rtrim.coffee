@@ -5,22 +5,18 @@ import { assert_error } from './api.assert_error.coffee'
 describe 'Option `rtrim`', ->
 
   it 'plain text', (next) ->
-    # coffeelint: disable=no_trailing_whitespace
     parse """
     a b ,c d 
     e f ,g h 
     """, quote: "'", escape: "'", trim: true, (err, records) ->
       records.should.eql [['a b', 'c d'],['e f', 'g h']] unless err
       next err
-    # coffeelint: enable=no_trailing_whitespace
 
   it 'after quote', (next) ->
-    # coffeelint: disable=no_trailing_whitespace
     data = '''
     'a' ,'b' 
     'c' ,'d' 
     '''
-    # coffeelint: enable=no_trailing_whitespace
     parser = parse quote: "'", escape: "'", trim: true, (err, records) ->
       records.should.eql [["a", "b"],["c", "d"]] unless err
       next err
@@ -31,7 +27,6 @@ describe 'Option `rtrim`', ->
     # 1st line: with field delimiter
     # 2nd line: with record delimiter
     # 3rd line: with end of file
-    # coffeelint: disable=no_trailing_whitespace
     parse """
     'a''' ,'b'''
     'c''','d''' 
@@ -39,15 +34,12 @@ describe 'Option `rtrim`', ->
     """, quote: "'", escape: "'", trim: true, (err, records) ->
       records.should.eql [["a'", "b'"],["c'", "d'"],["e'", "f'"]] unless err
       next err
-    # coffeelint: enable=no_trailing_whitespace
   
   it 'with whitespaces around quotes', (next) ->
-    # coffeelint: disable=no_trailing_whitespace
     data = '''
     "a b "   ,"c d   " 
     "e f " ,"g h   "   
     '''
-    # coffeelint: enable=no_trailing_whitespace
     parser = parse rtrim: true, (err, records) ->
       records.should.eql [['a b ', 'c d   '],['e f ', 'g h   ']] unless err
       next err

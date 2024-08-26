@@ -1,9 +1,6 @@
+import { stringify } from "csv-stringify/sync";
+import assert from "node:assert";
 
-import { stringify } from 'csv-stringify/sync';
-import assert from 'node:assert';
-
-const records = stringify([
-  ['a "value"'],
-]);
+const records = stringify([['a "value"']]);
 
 assert.equal(records, '"a ""value"""\n');
