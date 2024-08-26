@@ -1,4 +1,3 @@
-
 # CSV for Node.js and the web
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/adaltas/node-csv/nodejs.yml?branch=master)](https://github.com/adaltas/node-csv/actions)
@@ -10,16 +9,16 @@ It has been tested and used by a large community over the years and should be co
 
 This package exposes 4 packages:
 
-* [`csv-generate`](https://csv.js.org/generate/)
+- [`csv-generate`](https://csv.js.org/generate/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-generate)),
   a flexible generator of CSV string and Javascript objects.
-* [`csv-parse`](https://csv.js.org/parse/)
+- [`csv-parse`](https://csv.js.org/parse/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse)),
   a parser converting CSV text into arrays or objects.
-* [`csv-stringify`](https://csv.js.org/stringify/)
+- [`csv-stringify`](https://csv.js.org/stringify/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-stringify)),
   a stringifier converting records into a CSV text.
-* [`stream-transform`](https://csv.js.org/transform/)
+- [`stream-transform`](https://csv.js.org/transform/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/stream-transform)),
   a transformation framework.
 
@@ -39,30 +38,36 @@ This example uses the Stream API to create a processing pipeline.
 
 ```js
 // Import the package
-import * as csv from '../lib/index.js';
+import * as csv from "../lib/index.js";
 
 // Run the pipeline
 csv
-// Generate 20 records
+  // Generate 20 records
   .generate({
-    delimiter: '|',
-    length: 20
+    delimiter: "|",
+    length: 20,
   })
-// Transform CSV data into records
-  .pipe(csv.parse({
-    delimiter: '|'
-  }))
-// Transform each value into uppercase
-  .pipe(csv.transform((record) => {
-    return record.map((value) => {
-      return value.toUpperCase();
-    });
-  }))
-// Convert objects into a stream
-  .pipe(csv.stringify({
-    quoted: true
-  }))
-// Print the CSV stream to stdout
+  // Transform CSV data into records
+  .pipe(
+    csv.parse({
+      delimiter: "|",
+    }),
+  )
+  // Transform each value into uppercase
+  .pipe(
+    csv.transform((record) => {
+      return record.map((value) => {
+        return value.toUpperCase();
+      });
+    }),
+  )
+  // Convert objects into a stream
+  .pipe(
+    csv.stringify({
+      quoted: true,
+    }),
+  )
+  // Print the CSV stream to stdout
   .pipe(process.stdout);
 ```
 
@@ -76,10 +81,10 @@ Read the documentation of the child projects for additional information.
 
 The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
 
-*   David Worms: <https://github.com/wdavidw>
+- David Worms: <https://github.com/wdavidw>
 
 ## Related projects
 
-*   Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
-*   Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
-*   Mat Holt "PapaParse": <https://github.com/mholt/PapaParse>
+- Pavel Kolesnikov "ya-csv": <http://github.com/koles/ya-csv>
+- Chris Williams "node-csv": <http://github.com/voodootikigod/node-csv>
+- Mat Holt "PapaParse": <https://github.com/mholt/PapaParse>

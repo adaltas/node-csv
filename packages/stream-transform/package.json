@@ -81,6 +81,10 @@
     "throw-deprecation": false,
     "timeout": 40000
   },
+  "lint-staged": {
+    "*.js": "npm run lint:fix",
+    "*.md": "prettier -w"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/adaltas/node-csv.git",

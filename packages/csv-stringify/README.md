@@ -1,4 +1,3 @@
-
 # CSV stringifier for Node.js and the web
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/adaltas/node-csv/nodejs.yml?branch=master)](https://github.com/adaltas/node-csv/actions)
@@ -9,21 +8,21 @@ The [`csv-stringify` package](https://csv.js.org/stringify/) is a stringifier co
 
 ## Documentation
 
-* [Project homepage](https://csv.js.org/stringify/)
-* [API](https://csv.js.org/stringify/api/)
-* [Options](https://csv.js.org/stringify/options/)
-* [Examples](https://csv.js.org/stringify/examples/)
+- [Project homepage](https://csv.js.org/stringify/)
+- [API](https://csv.js.org/stringify/api/)
+- [Options](https://csv.js.org/stringify/options/)
+- [Examples](https://csv.js.org/stringify/examples/)
 
 ## Main features
 
-* Follow the Node.js streaming API
-* Simplicity with the optional callback API
-* Support for custom formatters, delimiters, quotes, escape characters and header
-* Support big datasets
-* Complete test coverage and samples for inspiration
-* Only 1 external dependency
-* to be used conjointly with `csv-generate`, `csv-parse` and `stream-transform`
-* MIT License
+- Follow the Node.js streaming API
+- Simplicity with the optional callback API
+- Support for custom formatters, delimiters, quotes, escape characters and header
+- Support big datasets
+- Complete test coverage and samples for inspiration
+- Only 1 external dependency
+- to be used conjointly with `csv-generate`, `csv-parse` and `stream-transform`
+- MIT License
 
 ## Usage
 
@@ -36,15 +35,15 @@ The module is built on the Node.js Stream API. Use the callback and sync APIs fo
 The [API](https://csv.js.org/stringify/api/) is available in multiple flavors. This example illustrates the sync API.
 
 ```js
-import { stringify } from 'csv-stringify/sync';
-import assert from 'assert';
+import { stringify } from "csv-stringify/sync";
+import assert from "assert";
 
 const output = stringify([
-  [ '1', '2', '3', '4' ],
-  [ 'a', 'b', 'c', 'd' ]
+  ["1", "2", "3", "4"],
+  ["a", "b", "c", "d"],
 ]);
 
-assert.equal(output, '1,2,3,4\na,b,c,d\n');
+assert.equal(output, "1,2,3,4\na,b,c,d\n");
 ```
 
 ## Development
@@ -59,4 +58,4 @@ The test suite is run online with [Travis](https://travis-ci.org/#!/adaltas/node
 
 The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
 
-*   David Worms: <https://github.com/wdavidw>
+- David Worms: <https://github.com/wdavidw>

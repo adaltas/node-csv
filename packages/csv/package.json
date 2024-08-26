@@ -99,6 +99,10 @@
     "throw-deprecation": false,
     "timeout": 40000
   },
+  "lint-staged": {
+    "*.js": "npm run lint:fix",
+    "*.md": "prettier -w"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/adaltas/node-csv.git",
@@ -109,8 +113,9 @@
     "build:rollup": "npx rollup -c",
     "build:ts": "cp lib/index.d.ts dist/cjs/index.d.cts && cp lib/sync.d.ts dist/cjs/sync.d.cts && cp lib/*.ts dist/esm",
     "postbuild:ts": "find dist/cjs -name '*.d.cts' -exec sh -c \"sed -i \"s/\\.js'/\\.cjs'/g\" {} || sed -i '' \"s/\\.js'/\\.cjs'/g\" {}\" \\;",
-    "lint:check": "eslint && tsc --noEmit true",
-    "lint:fix": "eslint --fix && tsc --noEmit true",
+    "lint:check": "eslint",
+    "lint:fix": "eslint --fix",
+    "lint:ts": "tsc --noEmit true",
     "preversion": "npm run build && git add dist",
     "pretest": "npm run build",
     "test": "mocha 'test/**/*.{coffee,ts}'",
