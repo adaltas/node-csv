@@ -11,12 +11,12 @@
     "csv-stringify": "^6.5.1"
   },
   "devDependencies": {
-    "@types/node": "^20.5.6",
+    "@types/node": "^22.5.0",
     "coffeescript": "^2.7.0",
-    "mocha": "^10.2.0",
+    "mocha": "^10.7.3",
     "should": "^13.2.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   },
   "mocha": {
     "inline-diffs": true,

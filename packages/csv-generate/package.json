@@ -15,18 +15,18 @@
   "devDependencies": {
     "@rollup/plugin-eslint": "^9.0.4",
     "@rollup/plugin-node-resolve": "^15.2.1",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^20.5.6",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^22.5.0",
     "coffeescript": "~2.7.0",
-    "each": "^2.4.0",
     "eslint": "^8.47.0",
-    "mocha": "~10.2.0",
-    "rollup": "^3.28.1",
+    "each": "^2.7.0",
+    "mocha": "~10.7.3",
+    "rollup": "^4.21.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "should": "~13.2.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   },
   "exports": {
     ".": {
