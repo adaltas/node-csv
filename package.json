@@ -3,8 +3,8 @@
   "devDependencies": {
     "@commitlint/cli": "^19.4.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "@commitlint/config-lerna-scopes": "^19.0.0",
     "cz-conventional-changelog": "^3.3.0",
+    "glob": "^11.0.0",
     "husky": "^9.1.5",
     "lerna": "^8.1.8"
   },

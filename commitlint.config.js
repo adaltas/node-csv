@@ -1,16 +1,28 @@
-import scopes from "@commitlint/config-lerna-scopes";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { glob } from "glob";
+const pkg = await fs.readFile("./package.json", { encoding: 'utf8'}).then((data) => JSON.parse(data));
+
+const packages = await glob(
+  pkg.workspaces.packages.map((pattern) => `${pattern}/package.json`)
+).then((files) =>
+  Promise.all(
+    files.map((file) =>
+      fs.readFile(file, { encoding: "utf8" }).then((data) => JSON.parse(data)).then( pkg => pkg.name)
+    )
+  )
+);
 
 export default {
   extends: [
     "@commitlint/config-conventional",
-    "@commitlint/config-lerna-scopes",
   ],
   rules: {
     "scope-enum": async (ctx) => [
       2,
       "always",
       [
-        ...(await scopes.utils.getPackages(ctx)),
+        ...packages,
         // Custom scopes
         "release",
       ],
