@@ -23,7 +23,7 @@ describe 'handler.mode.callback', ->
     )
     chunks.join('').split('\n').length.should.eql 1000
 
-  it.only 'handler with callback with parallel 2', ->
+  it 'handler with callback with parallel 2', ->
     count = 0
     clear = setInterval ->
       count++
