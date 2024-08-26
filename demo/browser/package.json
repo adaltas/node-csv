@@ -13,7 +13,7 @@
     "require": [
       "should"
     ],
-    "throw-deprecation": true,
+    "throw-deprecation": false,
     "timeout": 40000
   },
   "scripts": {

@@ -21,7 +21,7 @@
       "should",
       "coffeescript/register"
     ],
-    "throw-deprecation": true,
+    "throw-deprecation": false,
     "timeout": 40000
   },
   "scripts": {

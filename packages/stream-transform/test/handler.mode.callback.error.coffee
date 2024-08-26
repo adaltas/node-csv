@@ -9,21 +9,21 @@ describe 'handler.mode.callback.error', ->
 
   it 'with parallel 1', ->
     count = 0
-    r = new Writable
+    consumer = new Writable
       write: (_, __, callback) ->
         callback()
     try
       await pipeline(
-        generate length: 1000
+        generate length: 1000, highWaterMark: 1
       ,
-        transform parallel: 1, (chunk, callback) ->
+        transform parallel: 1, highWaterMark: 1, (chunk, callback) ->
           setImmediate ->
             if ++count < 4
               callback null, chunk
             else
               callback new Error 'Catchme'
       ,
-        r
+        consumer
       )
       throw Error 'Oh no!'
     catch err
@@ -32,7 +32,7 @@ describe 'handler.mode.callback.error', ->
 
   it 'handler with callback with parallel 10', ->
     count = 0
-    r = new Writable
+    consumer = new Writable
       objectMode: true,
       write: (_, __, callback) ->
         callback()
@@ -48,7 +48,7 @@ describe 'handler.mode.callback.error', ->
               callback new Error 'Catchme'
           , 10
       ,
-        r
+        consumer
       )
       throw Error 'Oh no!'
     catch err
