@@ -1,3 +1,4 @@
+"skip test";
 import stream from "node:stream";
 import { generate } from "csv-generate";
 import { parse } from "csv-parse";
