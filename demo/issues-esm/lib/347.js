@@ -23,6 +23,6 @@ generate({
         year: "birthYear",
         phone: "phone",
       },
-    })
+    }),
   )
   .pipe(ws);

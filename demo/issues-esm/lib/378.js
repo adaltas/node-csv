@@ -14,10 +14,10 @@ const records = parse(result, {
     header
       ? value
       : column === "id"
-      ? parseInt(value) // Cast inteter as number
-      : column === "value"
-      ? !!value // Cast value as boolean
-      : value, // Don't cast additionnal fields
+        ? parseInt(value) // Cast inteter as number
+        : column === "value"
+          ? !!value // Cast value as boolean
+          : value, // Don't cast additionnal fields
 });
 assert.deepEqual(records, [
   { id: 1, value: false },

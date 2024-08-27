@@ -10,5 +10,5 @@ console.log(
     encoding: "utf8",
     columns: camelCaseColumns,
     trim: true,
-  })
+  }),
 );

@@ -22,7 +22,14 @@
     "throw-deprecation": false,
     "timeout": 40000
   },
+  "lint-staged": {
+    "*.js": "npm run lint:fix",
+    "*.md": "prettier -w"
+  },
   "scripts": {
+    "lint:check": "eslint",
+    "lint:fix": "eslint --fix",
+    "lint:ts": "tsc --noEmit true",
     "test": "mocha 'test/**/*.coffee'"
   },
   "dependencies": {

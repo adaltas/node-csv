@@ -40,5 +40,5 @@ await pipeline(
   }),
   stringify({ delimiter: "|" }),
   // process.stdout
-  new Writable({ write: (chunk, encoding, callback) => callback() })
+  new Writable({ write: (chunk, encoding, callback) => callback() }),
 );

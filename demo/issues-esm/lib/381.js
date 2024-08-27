@@ -7,7 +7,7 @@ const records = parse(
     '"1234567890AB","Works",123',
     '"123456789012","Doesn\'t",123`',
   ].join("\n"),
-  { columns: true, cast: true }
+  { columns: true, cast: true },
 );
 
 console.log(records);

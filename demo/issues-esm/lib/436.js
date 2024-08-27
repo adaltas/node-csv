@@ -8,7 +8,7 @@ const [headers, ...records] = parse(
   Image 2;Second image;200
   Image 3;Third image;50
   `,
-  { delimiter: ";" }
+  { delimiter: ";" },
 );
 console.info("headers", headers);
 console.info("records", records);

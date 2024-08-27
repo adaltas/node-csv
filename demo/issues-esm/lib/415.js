@@ -15,5 +15,5 @@ await pipeline(
     comment_no_infix: true,
   }),
   stringify({ delimiter: "|" }),
-  process.stdout
+  process.stdout,
 );

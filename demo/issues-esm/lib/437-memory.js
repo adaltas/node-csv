@@ -1,4 +1,4 @@
-'skip test'
+"skip test";
 // Issue #437
 // Steady memory use increase when processing not so large files
 
@@ -37,13 +37,13 @@ const interval = setInterval(() => {
   const memoryData = process.memoryUsage();
   const memoryUsage = {
     rss: `${formatMemoryUsage(
-      memoryData.rss
+      memoryData.rss,
     )} -> Resident Set Size - total memory allocated for the process execution`,
     heapTotal: `${formatMemoryUsage(
-      memoryData.heapTotal
+      memoryData.heapTotal,
     )} -> total size of the allocated heap`,
     heapUsed: `${formatMemoryUsage(
-      memoryData.heapUsed
+      memoryData.heapUsed,
     )} -> actual memory used during the execution`,
     external: `${formatMemoryUsage(memoryData.external)} -> V8 external memory`,
   };
@@ -67,7 +67,7 @@ const consume = new Writable({
         },
         config.random_delay
           ? Math.random() * config.write_delay
-          : config.write_delay
+          : config.write_delay,
       );
     }
   },
@@ -86,5 +86,5 @@ await pipeline(
   // Step 3 - stringify records
   stringify(),
   // Step 4 - consume
-  consume
+  consume,
 );

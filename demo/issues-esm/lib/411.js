@@ -29,5 +29,5 @@ await finished(outStream);
 // Catch error from skip event
 assert.deepStrictEqual(
   errors.map((e) => e.message),
-  ["Invalid Record Length: expect 5, got 6 on line 3"]
+  ["Invalid Record Length: expect 5, got 6 on line 3"],
 );
