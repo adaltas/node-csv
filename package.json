@@ -22,7 +22,7 @@
     "postinstall": "husky install",
     "publish": "lerna publish from-git --yes",
     "lint:check": "lerna run lint:check",
-    "lint:fix": "lerna run lint:fix",
+    "lint:fix": "eslint --fix",
     "lint:staged": "npx lint-staged",
     "pretest": "npm run build",
     "test": "lerna run test",
