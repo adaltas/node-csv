@@ -9,21 +9,26 @@ const parse = (opts) => {
   const enqueue = (record) => {
     controller.enqueue(record);
   };
-  const close = () => {
-    controller.close();
+
+  const terminate = () => {
+    controller.terminate();
   };
 
-  return new TransformStream({
-    start(ctr) {
-      controller = ctr;
+  return new TransformStream(
+    {
+      start(ctr) {
+        controller = ctr;
+      },
+      transform(chunk) {
+        api.parse(chunk, false, enqueue, terminate);
+      },
+      flush() {
+        api.parse(undefined, true, enqueue, terminate);
+      },
     },
-    transform(chunk) {
-      api.parse(chunk, false, enqueue, close);
-    },
-    flush() {
-      api.parse(undefined, true, enqueue, close);
-    },
-  });
+    new CountQueuingStrategy({ highWaterMark: 1024 }),
+    new CountQueuingStrategy({ highWaterMark: 1024 }),
+  );
 };
 
 export { parse };
