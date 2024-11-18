@@ -3,30 +3,25 @@ import { transform } from "./api/index.js";
 
 const parse = (opts) => {
   const api = transform(opts);
+
+  let controller;
+
+  const enqueue = (record) => {
+    controller.enqueue(record);
+  };
+  const close = () => {
+    controller.close();
+  };
+
   return new TransformStream({
-    async transform(chunk, controller) {
-      api.parse(
-        chunk,
-        false,
-        (record) => {
-          controller.enqueue(record);
-        },
-        () => {
-          controller.close();
-        },
-      );
+    start(ctr) {
+      controller = ctr;
     },
-    async flush(controller) {
-      api.parse(
-        undefined,
-        true,
-        (record) => {
-          controller.enqueue(record);
-        },
-        () => {
-          controller.close();
-        },
-      );
+    transform(chunk) {
+      api.parse(chunk, false, enqueue, close);
+    },
+    flush() {
+      api.parse(undefined, true, enqueue, close);
     },
   });
 };
