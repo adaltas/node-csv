@@ -1,4 +1,3 @@
-import { TransformStream } from "node:stream/web";
 import { transform } from "./api/index.js";
 
 const parse = (opts) => {
@@ -20,10 +19,20 @@ const parse = (opts) => {
         controller = ctr;
       },
       transform(chunk) {
-        api.parse(chunk, false, enqueue, terminate);
+        const error = api.parse(chunk, false, enqueue, terminate);
+
+        if (error) {
+          controller.error(error);
+          throw error;
+        }
       },
       flush() {
-        api.parse(undefined, true, enqueue, terminate);
+        const error = api.parse(undefined, true, enqueue, terminate);
+
+        if (error) {
+          controller.error(error);
+          throw error;
+        }
       },
     },
     new CountQueuingStrategy({ highWaterMark: 1024 }),
