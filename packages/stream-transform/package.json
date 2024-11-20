@@ -98,7 +98,6 @@
     "lint:check": "eslint && tsc --noEmit true",
     "lint:fix": "eslint --fix && tsc --noEmit true",
     "preversion": "npm run build && git add dist",
-    "pretest": "npm run build",
     "test": "mocha 'test/**/*.{coffee,ts}'",
     "test:legacy": "mocha --loader=./test/loaders/legacy/all.js --ignore test/handler.mode.callback.coffee --ignore test/handler.mode.callback.error.coffee 'test/**/*.{coffee,ts}'"
   },

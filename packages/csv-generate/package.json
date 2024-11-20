@@ -108,7 +108,6 @@
     "lint:fix": "eslint --fix",
     "lint:ts": "tsc --noEmit true",
     "preversion": "npm run build && git add dist",
-    "pretest": "npm run build",
     "test": "mocha 'test/**/*.{coffee,ts}'",
     "test:legacy": "mocha --ignore test/api.web_stream.coffee --loader=./test/loaders/legacy/all.js 'test/**/*.{coffee,ts}'"
   },

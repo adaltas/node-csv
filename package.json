@@ -24,7 +24,6 @@
     "lint:check": "lerna run lint:check",
     "lint:fix": "eslint --fix",
     "lint:staged": "npx lint-staged",
-    "pretest": "npm run build",
     "test": "lerna run test",
     "test:legacy": "lerna run test:legacy",
     "version": "lerna version"
