@@ -8,6 +8,6 @@ try {
   console.info(err.message);
   assert.equal(
     err.message,
-    "Invalid Record: expect an array or an object, got 1"
+    "Invalid Record: expect an array or an object, got 1",
   );
 }

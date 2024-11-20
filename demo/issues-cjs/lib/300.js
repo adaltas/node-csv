@@ -54,7 +54,7 @@ async function main() {
 
   stringifier.on("finish", function () {
     console.log(
-      'Generated contents of the CSV file should be shown between this line and "^data".'
+      'Generated contents of the CSV file should be shown between this line and "^data".',
     );
     console.log(data.toString("utf8"));
     console.log("^data");
