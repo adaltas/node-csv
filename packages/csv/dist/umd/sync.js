@@ -7281,9 +7281,11 @@
             );
             const reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
             const reIsPlainProp = /^\w*$/;
+
             const getTag = function (value) {
               return Object.prototype.toString.call(value);
             };
+
             const isSymbol = function (value) {
               const type = typeof value;
               return (
@@ -7291,6 +7293,7 @@
                 (type === "object" && value && getTag(value) === "[object Symbol]")
               );
             };
+
             const isKey = function (value, object) {
               if (Array.isArray(value)) {
                 return false;
@@ -7311,6 +7314,7 @@
                 (object != null && value in Object(object))
               );
             };
+
             const stringToPath = function (string) {
               const result = [];
               if (string.charCodeAt(0) === charCodeOfDot) {
@@ -7327,6 +7331,7 @@
               });
               return result;
             };
+
             const castPath = function (value, object) {
               if (Array.isArray(value)) {
                 return value;
@@ -7334,12 +7339,14 @@
                 return isKey(value, object) ? [value] : stringToPath(value);
               }
             };
+
             const toKey = function (value) {
               if (typeof value === "string" || isSymbol(value)) return value;
               const result = `${value}`;
               // eslint-disable-next-line
-              return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+              return result == "0" && 1 / value == -INFINITY ? "-0" : result;
             };
+
             const get = function (object, path) {
               path = castPath(path, object);
               let index = 0;
