@@ -17,18 +17,14 @@ const parse = (opts) => {
       },
       transform(chunk) {
         const error = api.parse(chunk, false, enqueue, terminate);
-
         if (error) {
           controller.error(error);
-          throw error;
         }
       },
       flush() {
         const error = api.parse(undefined, true, enqueue, terminate);
-
         if (error) {
           controller.error(error);
-          throw error;
         }
       },
     },

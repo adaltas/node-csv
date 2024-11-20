@@ -1,12 +1,10 @@
-import 'should'
-import {parse as parseStream} from '../lib/stream.js'
-import { CsvError } from '../lib/index.js'
+import "should";
+import { parse as parseStream } from "../lib/stream.js";
+import { CsvError } from "../lib/index.js";
 
-describe('API Web Stream', () => {
-  
-  describe('stream/web/TransformStream', () => {
-    
-    it('simple parse', async () => {
+describe("API Web Stream", () => {
+  describe("stream/web/TransformStream", () => {
+    it("simple parse", async () => {
       const stream = parseStream();
       const writer = stream.writable.getWriter();
       const reader = stream.readable.getReader();
@@ -14,18 +12,18 @@ describe('API Web Stream', () => {
       await writer.close();
       await reader.read().should.finally.eql({
         done: false,
-        value: ['A', 'B', 'C'],
+        value: ["A", "B", "C"],
       });
       await reader.read().should.finally.eql({
         done: false,
-        value: ['D', 'E', 'F'],
+        value: ["D", "E", "F"],
       });
       await reader.read().should.finally.eql({
         done: true,
         value: undefined,
       });
-    })
-    
+    });
+
     it("cat error parse", async function () {
       const stream = parseStream();
       const writer = stream.writable.getWriter();
@@ -40,6 +38,5 @@ describe('API Web Stream', () => {
         err.code.should.eql("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH");
       }
     });
-
-  })
-})
+  });
+});
