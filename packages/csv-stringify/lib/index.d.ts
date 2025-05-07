@@ -61,7 +61,7 @@ export interface Options extends stream.TransformOptions {
      * can refer to nested properties of the input JSON
      * see the "header" option on how to print columns names on the first line
      */
-    columns?: readonly string[] | PlainObject<string> | readonly ColumnOption[]
+    columns?: ReadonlyArray<string | ColumnOption> | PlainObject<string>
     /**
      * Set the field delimiter, one character only, defaults to a comma.
      */
