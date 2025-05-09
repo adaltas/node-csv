@@ -1,13 +1,13 @@
 {
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^19.6.0",
-    "@commitlint/config-conventional": "^19.6.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "cz-conventional-changelog": "^3.3.0",
-    "glob": "^11.0.0",
+    "glob": "^11.0.2",
     "husky": "^9.1.7",
-    "lerna": "^8.1.9",
-    "lint-staged": "^15.2.10"
+    "lerna": "^8.2.2",
+    "lint-staged": "^15.5.2"
   },
   "lint-staged": {
     "*.js": "npm run lint:fix",

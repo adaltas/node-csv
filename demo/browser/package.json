@@ -24,7 +24,7 @@
     "csv-generate": "^4.4.2",
     "csv-parse": "^5.6.0",
     "csv-stringify": "^6.5.2",
-    "express": "^4.21.1",
+    "express": "^5.1.0",
     "stream-transform": "^3.3.3"
   }
 }

@@ -11,7 +11,7 @@ export default [
     languageOptions: { globals: { ...globals.node } },
   },
   js.configs.recommended,
-  mocha.configs.flat.recommended,
+  mocha.configs.recommended,
   prettier,
   {
     files: ["demo/webpack/**/*.js"],
