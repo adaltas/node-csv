@@ -70,6 +70,12 @@ describe('API Types', () => {
         { key: 'b' },
         { key: 'a' }
       ]
+      options.columns = [
+        { key: "b", header: "B" },
+        { key: "a" , header: "A" },
+        "c",
+        { key: "d" },
+      ];
       options.columns = {
         field1: 'column1',
         field3: 'column3'
@@ -81,7 +87,7 @@ describe('API Types', () => {
       options.columns = ["b", "a"];
       options.columns = ["b", "a"] as const;
     });
-    
+
     it('delimiter', () => {
       const options: Options = {}
       options.delimiter = ':'

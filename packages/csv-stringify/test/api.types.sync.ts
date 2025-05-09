@@ -20,7 +20,7 @@ describe('API Types', () => {
       const rd: RecordDelimiter | undefined = options.record_delimiter
       const cast = options.cast
       const castBoolean : Cast<boolean> | undefined = cast?.boolean
-      const columns: readonly string[] | PlainObject<string> | readonly ColumnOption[] | undefined = options.columns
+      const columns: ReadonlyArray<string | ColumnOption> | PlainObject<string>  | undefined = options.columns
       return [
         rd, castBoolean, columns
       ]
