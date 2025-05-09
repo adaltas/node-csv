@@ -37,8 +37,9 @@ describe 'handler.mode.callback', ->
       generate columns: 10, objectMode: true, length: 1000, seed: true
     ,
       transform parallel: 2, (chunk, callback) ->
-        setImmediate ->
+        setTimeout ->
           callback null, JSON.stringify(chunk)+'\n'
+        , 1
     ,
       consumer
     )
