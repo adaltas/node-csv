@@ -4,10 +4,10 @@
 
 import * as stream from "stream";
 
-export type Callback = (
+export type Callback<T = string[]> = (
   err: CsvError | undefined,
-  records: any | undefined,
-  info: Info,
+  records: T[] | undefined,
+  info?: Info,
 ) => void;
 
 export interface Parser extends stream.Transform {}
@@ -43,14 +43,19 @@ export type CastingDateFunction = (
   context: CastingContext,
 ) => Date;
 
-export type ColumnOption = string | undefined | null | false | { name: string };
+export type ColumnOption<K = string> =
+  | K
+  | undefined
+  | null
+  | false
+  | { name: K };
 
 /*
 Note, could not `extends stream.TransformOptions` because encoding can be
 BufferEncoding and undefined as well as null which is not defined in the
 extended type.
 */
-export interface Options {
+export interface Options<T = string[]> {
   /**
    * If true, the parser will attempt to convert read data types to native types.
    * @deprecated Use {@link cast}
@@ -84,7 +89,16 @@ export interface Options {
    * default to null,
    * affect the result data set in the sense that records will be objects instead of arrays.
    */
-  columns?: ColumnOption[] | boolean | ((record: any) => ColumnOption[]);
+  columns?:
+    | boolean
+    | ColumnOption<
+        T extends string[] ? string : T extends unknown ? string : keyof T
+      >[]
+    | ((
+        record: T,
+      ) => ColumnOption<
+        T extends string[] ? string : T extends unknown ? string : keyof T
+      >[]);
   /**
    * Convert values into an array of values when columns are activated and
    * when multiple columns of the same name are found.
@@ -149,8 +163,8 @@ export interface Options {
   /**
    * Alter and filter records by executing a user defined function.
    */
-  on_record?: (record: any, context: CastingContext) => any;
-  onRecord?: (record: any, context: CastingContext) => any;
+  on_record?: (record: T, context: CastingContext) => T | null | undefined;
+  onRecord?: (record: T, context: CastingContext) => T | null | undefined;
   /**
    * Optional character surrounding a field, one character only, defaults to double quotes.
    */
@@ -286,13 +300,28 @@ export class CsvError extends Error {
   );
 }
 
+type OptionsWithColumns<T> = Omit<Options<T>, "columns"> & {
+  columns: Exclude<Options["columns"], undefined | false>;
+};
+
+declare function parse<T = unknown>(
+  input: string | Buffer,
+  options: OptionsWithColumns<T>,
+  callback?: Callback<T>,
+): Parser;
 declare function parse(
-  input: Buffer | string,
-  options?: Options,
+  input: string | Buffer,
+  options: Options,
   callback?: Callback,
 ): Parser;
-declare function parse(input: Buffer | string, callback?: Callback): Parser;
-declare function parse(options?: Options, callback?: Callback): Parser;
+
+declare function parse<T = unknown>(
+  options: OptionsWithColumns<T>,
+  callback?: Callback<T>,
+): Parser;
+declare function parse(options: Options, callback?: Callback): Parser;
+
+declare function parse(input: string | Buffer, callback?: Callback): Parser;
 declare function parse(callback?: Callback): Parser;
 
 // export default parse;
