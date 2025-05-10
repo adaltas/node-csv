@@ -6,7 +6,8 @@ import {
   ColumnOption, Options, Info, CsvErrorCode, CsvError
 } from '../lib/sync.js'
 
-describe('API Types', () => {
+describe('API Types - Sync', () => {
+  type Person = {name: string, age: number}
   
   it('respect parse signature', () => {
     // No argument
@@ -14,11 +15,12 @@ describe('API Types', () => {
     parse("", {})
     parse(Buffer.from(""))
     parse(Buffer.from(""), {})
+    parse(Buffer.from(""), {columns: true})
   })
   
   it('return records', () => {
     try {
-      const records: object = parse("")
+      const records = parse("")
       typeof records
     }catch (err){
       if (err instanceof CsvError){
@@ -89,5 +91,29 @@ describe('API Types', () => {
     };
     return info;
   })
-  
+
+  describe('Generic types', () => {
+    it('Exposes string[][] if columns is not specified', () => {
+      const data: string[][] = parse("", {})
+    })
+
+    it('Exposes string[][] if columns is falsy', () => {
+      const data: string[][] = parse("", {
+        columns: false
+      })
+    })
+
+    it('Exposes unknown[] if columns is specified as boolean', () => {
+      const data: unknown[] = parse("", {
+        columns: true
+      })
+    })
+
+    it('Exposes T[] if columns is specified', () => {
+      const data: Person[] = parse<Person>("", {
+        columns: true
+      })
+    })
+  })
+
 })

@@ -1,9 +1,9 @@
 
 import 'should'
 import { parse, CastingContext, Info, Options, Parser, CsvError } from '../lib/index.js'
-import { parse as parse_sync } from '../lib/sync.js'
 
 describe('API Types', () => {
+  type Person = {name: string, age: number}
   
   describe('stream/callback API', () => {
     
@@ -52,40 +52,16 @@ describe('API Types', () => {
     })
     
     it('Receive Callback', (next) => {
-      parse('a\nb', function(err: Error|undefined, records: object, info: Info){
+      parse('a\nb', function(err, records, info){
         if(err !== undefined){
-          records.should.eql([['a'], ['b']])
-          info.records.should.eql(2)
+          records!.should.eql([['a'], ['b']])
+          info!.records.should.eql(2)
         }
         next(err)
       })
     })
-    
   })
-  
-  describe('sync api', () => {
-  
-    it('respect parse signature', () => {
-      // No argument
-      parse_sync("")
-      parse_sync("", {})
-      parse_sync(Buffer.from(""))
-      parse_sync(Buffer.from(""), {})
-    })
-    
-    it('return records', () => {
-      try {
-        const records: object = parse_sync("")
-        typeof records
-      }catch (err){
-        if (err instanceof CsvError){
-          err.message
-        }
-      }
-    })
-    
-  })
-  
+
   describe('Info', () => {
     
     const fakeinfo = {
@@ -175,15 +151,21 @@ describe('API Types', () => {
       options.columns = true
       options.columns = []
       options.columns = ['string', undefined, null, false, {name: 'column-name'}]
-      options.columns = (record: string[]) => {
+      options.columns = (record) => {
         const fields: string[] = record.map( (field: string) => {
           return field.toUpperCase()
         })
         return fields
       }
-      options.columns = (record: string[]) => {
+      options.columns = (record) => {
         record
         return ['string', undefined, null, false, {name: 'column-name'}]
+      }
+
+      const typedOptions: Options<Person> = {}
+      typedOptions.columns = ['age', undefined, null, false, {name: 'name'}]
+      typedOptions.columns = (record) => {
+        return ['age']
       }
     })
       
@@ -252,9 +234,17 @@ describe('API Types', () => {
     it('on_record', () => {
       const options: Options = {}
       options.on_record = (record, {lines}) =>
-        [lines, record[0]]
+        [lines.toString(), record[0]]
       options.onRecord = (record, {lines}) =>
-        [lines, record[0]]
+        [lines.toString(), record[0]]
+
+      const typedOptions: Options<Person> = {}
+      typedOptions.on_record = (record) => {
+        return {...record, name: 'John Doe'}
+      }
+      typedOptions.onRecord = (record) => {
+        return {...record, name: 'John Doe'}
+      }
     })
     
     it('quote', () => {
@@ -395,4 +385,37 @@ describe('API Types', () => {
       })
     })
   })
+
+  describe('Generic types', () => {
+    it('Exposes string[][] if columns is not specified', (next) => {
+      parse("", {}, (error, records: string[][] | undefined)  => {
+        next(error)
+      })
+    })
+
+    it('Exposes string[][] if columns is falsy', (next) => {
+      parse("", {
+        columns: false
+      }, (error, records: string[][] | undefined) => {
+        next(error)
+      })
+    })
+
+    it('Exposes unknown[] if columns is specified as boolean', (next) => {
+      parse("", {
+        columns: true
+      }, (error, records: unknown[] | undefined) => {
+        next(error)
+      })
+    })
+
+    it('Exposes T[] if columns is specified', (next) => {
+      parse<Person>("", {
+        columns: true
+      }, (error, records: Person[] | undefined) => {
+        next(error)
+      })
+    })
+  })
+
 })
