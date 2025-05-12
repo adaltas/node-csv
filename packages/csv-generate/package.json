@@ -17,7 +17,7 @@
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.15.17",
-    "coffeescript": "~2.7.0",
+    "dedent": "^0.7.0",
     "each": "^2.7.2",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.1.5",
@@ -81,12 +81,9 @@
   "main": "./dist/cjs/index.cjs",
   "mocha": {
     "inline-diffs": true,
-    "loader": "./test/loaders/all.js",
+    "import": "tsx",
     "recursive": true,
     "reporter": "spec",
-    "require": [
-      "should"
-    ],
     "throw-deprecation": false,
     "timeout": 40000
   },
@@ -104,8 +101,8 @@
     "lint:fix": "eslint --fix",
     "lint:ts": "tsc --noEmit true",
     "preversion": "npm run build && git add dist",
-    "test": "mocha 'test/**/*.{coffee,ts}'",
-    "test:legacy": "mocha --ignore test/api.web_stream.coffee --loader=./test/loaders/legacy/all.js 'test/**/*.{coffee,ts}'"
+    "test": "mocha 'test/**/*.{js,ts}'",
+    "test:legacy": "mocha --ignore test/api.web_stream.js --loader=./test/loaders/legacy/all.js 'test/**/*.{js,ts}'"
   },
   "type": "module",
   "types": "dist/esm/index.d.ts",
