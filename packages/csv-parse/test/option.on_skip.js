@@ -1,4 +1,5 @@
 import "should";
+import dedent from "dedent";
 import { parse } from "../lib/index.js";
 import { assert_error } from "./api.assert_error.js";
 
@@ -8,6 +9,27 @@ describe("Option `on_skip`", function () {
     (() => {
       parse("", { on_skip: 1 }, () => {});
     }).should.throw("Invalid Option: on_skip must be a function, got 1");
+  });
+
+  it("catch thrown error", function (next) {
+    parse(
+      dedent`
+          a,b,c,d
+          invalid
+          e,f,g,h
+        `,
+      {
+        bom: true,
+        skip_records_with_error: true,
+        on_skip: () => {
+          throw Error("Catchme");
+        },
+      },
+      (err) => {
+        err.message.should.eql("Catchme");
+        next();
+      },
+    );
   });
 
   it('handle "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH" with bom (fix #411)', function (next) {
@@ -36,10 +58,13 @@ describe("Option `on_skip`", function () {
         next(err);
       },
     );
-    parser.write(`a,b,c,d
-1,2,3
-e,f,g,h
-`);
+    parser.write(
+      dedent`
+        a,b,c,d
+        1,2,3
+        e,f,g,h
+      `,
+    );
     parser.end();
   });
 });

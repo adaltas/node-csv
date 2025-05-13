@@ -861,10 +861,14 @@ const transform = function (original_options = {}) {
       if (skip_records_with_error) {
         this.state.recordHasError = true;
         if (this.options.on_skip !== undefined) {
-          this.options.on_skip(
-            err,
-            raw ? this.state.rawBuffer.toString(encoding) : undefined,
-          );
+          try {
+            this.options.on_skip(
+              err,
+              raw ? this.state.rawBuffer.toString(encoding) : undefined,
+            );
+          } catch (err) {
+            return err;
+          }
         }
         // this.emit('skip', err, raw ? this.state.rawBuffer.toString(encoding) : undefined);
         return undefined;
