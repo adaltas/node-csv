@@ -84,7 +84,7 @@
   "main": "./dist/cjs/index.cjs",
   "mocha": {
     "inline-diffs": true,
-    "import": "tsx",
+    "loader": "ts-node/esm",
     "recursive": true,
     "reporter": "spec",
     "throw-deprecation": false,
