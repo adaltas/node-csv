@@ -3,11 +3,16 @@
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.26.0",
     "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-mocha": "^11.0.0",
+    "eslint-plugin-prettier": "^5.4.0",
     "glob": "^11.0.2",
     "husky": "^9.1.7",
     "lerna": "^8.2.2",
-    "lint-staged": "^15.5.2"
+    "lint-staged": "^16.0.0",
   },
   "lint-staged": {
     "*.js": "npm run lint:fix",
