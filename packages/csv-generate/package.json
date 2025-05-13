@@ -97,7 +97,7 @@
     "lint:ts": "tsc --noEmit true",
     "preversion": "npm run build && git add dist",
     "test": "mocha 'test/**/*.{js,ts}'",
-    "test:legacy": "mocha --ignore test/api.web_stream.js --loader=./test/loaders/legacy/all.js 'test/**/*.{js,ts}'"
+    "test:legacy": "mocha --ignore test/api.web_stream.js 'test/**/*.{js,ts}'"
   },
   "type": "module",
   "types": "dist/esm/index.d.ts",
