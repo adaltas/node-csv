@@ -1,10 +1,11 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse/sync";
 
-const data = `
+const data = dedent`
   2000-01-01,date1
   2050-11-27,date2
-`.trim();
+`;
 const records = parse(data, {
   // The cast option exect a function which
   // is called with two arguments,
@@ -43,7 +44,7 @@ assert.deepStrictEqual(records, [
   [
     "2050-11-27T05:00:00.000Z",
     {
-      bytes: 35,
+      bytes: 33,
       comment_lines: 0,
       empty_lines: 0,
       invalid_field_length: 0,

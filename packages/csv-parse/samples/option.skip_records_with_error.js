@@ -1,4 +1,5 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse";
 
 const parser = parse(
@@ -17,11 +18,11 @@ parser.on("skip", function (err) {
   assert(/^Invalid Closing Quote/.test(err.message));
 });
 parser.write(
-  `
-"a","b","c"
-"d","e","f"
-"invalid"," " ","record"
-"h","i","j"
-`.trim(),
+  dedent`
+    "a","b","c"
+    "d","e","f"
+    "invalid"," " ","record"
+    "h","i","j"
+  `,
 );
 parser.end();

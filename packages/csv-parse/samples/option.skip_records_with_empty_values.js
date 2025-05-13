@@ -1,12 +1,13 @@
 import assert from "node:assert";
 import { parse } from "csv-parse";
 
-parse(
-  `
+const data = `
 a,b,c
 , ,\t
 d,e,f
-`.trim(),
+`;
+parse(
+  data,
   {
     skip_records_with_empty_values: true,
   },

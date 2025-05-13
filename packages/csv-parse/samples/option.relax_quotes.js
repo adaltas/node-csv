@@ -2,9 +2,7 @@ import assert from "node:assert";
 import { parse } from "csv-parse";
 
 parse(
-  `
-a,some"text,c
-`.trim(),
+  'a,some"text,c',
   {
     relax_quotes: true,
   },

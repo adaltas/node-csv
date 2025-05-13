@@ -1,11 +1,12 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse";
 
 parse(
-  `
-a,b
-c,d,e
-`.trim(),
+  dedent`
+    a,b
+    c,d,e
+  `,
   {
     relax_column_count_more: true,
   },

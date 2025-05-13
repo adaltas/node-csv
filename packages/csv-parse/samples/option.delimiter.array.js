@@ -1,10 +1,12 @@
 import assert from "node:assert";
 import { parse } from "csv-parse/sync";
 
-const input = `color name::red::green::blue
+const input = `
+color name::red::green::blue
 Cyan \t     "0"   :: 255   :: 255
 Yellow \t   "255" :: "255" ::"0"
-Hot Pink \t "255" :: 105   :: "180"`;
+Hot Pink \t "255" :: 105   :: "180"
+`.trim();
 
 const output = parse(input, {
   delimiter: ["::", "\t"],

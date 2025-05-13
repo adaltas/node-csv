@@ -1,10 +1,11 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse/sync";
 
-const data = `
+const data = dedent`
   1,2,3
   4,5,6
-`.trim();
+`;
 const records = parse(data, {
   // The cast option exect a function which
   // is called with two arguments,

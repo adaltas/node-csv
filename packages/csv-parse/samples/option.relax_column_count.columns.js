@@ -1,12 +1,13 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse";
 
 parse(
-  `
-lastname,firstname,fullname
-Ritchie
-Lovelace,Ada,"Augusta Ada King, Countess of Lovelace"
-`.trim(),
+  dedent`
+    lastname,firstname,fullname
+    Ritchie
+    Lovelace,Ada,"Augusta Ada King, Countess of Lovelace"
+  `,
   {
     relax_column_count: true,
     columns: true,

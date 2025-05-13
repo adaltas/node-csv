@@ -1,11 +1,12 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse/sync";
 
 const output = parse(
-  `
-# Illustrate the usage of comment_no_infix
-a,b#,c
-`.trim(),
+  dedent`
+    # Illustrate the usage of comment_no_infix
+    a,b#,c
+  `,
   {
     comment: "#",
     comment_no_infix: true,

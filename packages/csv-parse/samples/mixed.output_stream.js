@@ -1,12 +1,13 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse";
 
 const records = [];
 parse(
-  `
-  "1","2","3"
-  "a","b","c"
-`,
+  dedent`
+    "1","2","3"
+    "a","b","c"
+  `,
   {
     trim: true,
     skip_empty_lines: true,

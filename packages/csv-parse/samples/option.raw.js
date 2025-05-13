@@ -1,11 +1,12 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse";
 
 parse(
-  `
-a,b,c
-d,e,f
-`.trim(),
+  dedent`
+    a,b,c
+    d,e,f
+  `,
   { raw: true },
   (err, records) => {
     assert.deepStrictEqual(records, [

@@ -1,12 +1,13 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse";
 
 parse(
-  `
-line 1
-line 2
-line 3
-`.trim(),
+  dedent`
+    line 1
+    line 2
+    line 3
+  `,
   {
     on_record: (record, { lines }) => (lines === 2 ? null : record),
   },

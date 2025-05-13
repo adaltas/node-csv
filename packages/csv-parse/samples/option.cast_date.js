@@ -1,10 +1,11 @@
 import assert from "node:assert";
+import dedent from "dedent";
 import { parse } from "csv-parse/sync";
 
-const data = `
-2000-01-01,date1
-2020-01-01,date2
-`.trim();
+const data = dedent`
+  2000-01-01,date1
+  2020-01-01,date2
+`;
 const records = parse(data, {
   cast: true,
   cast_date: true,
