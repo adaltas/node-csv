@@ -15,7 +15,7 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.15.17",
     "csv-generate": "^4.4.2",
-    "dedent": "^0.7.0",
+    "dedent": "^1.6.0",
     "each": "^2.7.2",
     "express": "^5.1.0",
     "mocha": "~11.2.2",
