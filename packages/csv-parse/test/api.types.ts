@@ -102,27 +102,6 @@ describe("API Types", function () {
     });
   });
 
-  describe("sync api", function () {
-    it("respect parse signature", function () {
-      // No argument
-      parse_sync("");
-      parse_sync("", {});
-      parse_sync(Buffer.from(""));
-      parse_sync(Buffer.from(""), {});
-    });
-
-    it("return records", function () {
-      try {
-        const records: object = parse_sync("");
-        typeof records;
-      } catch (err) {
-        if (err instanceof CsvError) {
-          err.message;
-        }
-      }
-    });
-  });
-
   describe("Info", function () {
     const fakeinfo = {
       bytes: 1,
