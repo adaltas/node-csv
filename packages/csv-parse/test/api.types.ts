@@ -10,6 +10,8 @@ import {
 import { parse as parse_sync } from "../lib/sync.js";
 
 describe("API Types", function () {
+  type Person = { name: string; age: number };
+
   describe("stream/callback API", function () {
     it("respect parse signature", function () {
       // No argument
@@ -89,16 +91,13 @@ describe("API Types", function () {
     });
 
     it("Receive Callback", function (next) {
-      parse(
-        "a\nb",
-        function (err: Error | undefined, records: object, info: Info) {
-          if (err !== undefined) {
-            records.should.eql([["a"], ["b"]]);
-            info.records.should.eql(2);
-          }
-          next(err);
-        },
-      );
+      parse("a\nb", function (err, records, info) {
+        if (err !== undefined) {
+          records!.should.eql([["a"], ["b"]]);
+          info!.records.should.eql(2);
+        }
+        next(err);
+      });
     });
   });
 
@@ -213,15 +212,27 @@ describe("API Types", function () {
         false,
         { name: "column-name" },
       ];
-      options.columns = (record: string[]) => {
-        const fields: string[] = record.map((field: string) => {
+      options.columns = (record) => {
+        const fields = record.map((field: string) => {
           return field.toUpperCase();
         });
         return fields;
       };
-      options.columns = (record: string[]) => {
+      options.columns = (record) => {
         record;
         return ["string", undefined, null, false, { name: "column-name" }];
+      };
+
+      const typedOptions: Options<Person> = {};
+      typedOptions.columns = ["age", undefined, null, false, { name: "name" }];
+      typedOptions.columns = (record) => {
+        return ["age"];
+      };
+
+      const unknownTypedOptions: Options<unknown> = {};
+      unknownTypedOptions.columns = ["anything", undefined, null, false];
+      unknownTypedOptions.columns = (record) => {
+        return ["anything", undefined, null, false];
       };
     });
 
@@ -289,8 +300,8 @@ describe("API Types", function () {
 
     it("on_record", function () {
       const options: Options = {};
-      options.on_record = (record, { lines }) => [lines, record[0]];
-      options.onRecord = (record, { lines }) => [lines, record[0]];
+      options.on_record = (record, { lines }) => [lines.toString(), record[0]];
+      options.onRecord = (record, { lines }) => [lines.toString(), record[0]];
     });
 
     it("quote", function () {
@@ -440,6 +451,50 @@ describe("API Types", function () {
           "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH",
         );
       });
+    });
+  });
+
+  describe("Generic types", function () {
+    it("Exposes string[][] if columns is not specified", function (next) {
+      parse("", {}, (error, records: string[][] | undefined) => {
+        next(error);
+      });
+    });
+
+    it("Exposes string[][] if columns is falsy", function (next) {
+      parse(
+        "",
+        {
+          columns: false,
+        },
+        (error, records: string[][] | undefined) => {
+          next(error);
+        },
+      );
+    });
+
+    it("Exposes unknown[] if columns is specified as boolean", function (next) {
+      parse(
+        "",
+        {
+          columns: true,
+        },
+        (error, records: unknown[] | undefined) => {
+          next(error);
+        },
+      );
+    });
+
+    it("Exposes T[] if columns is specified", function (next) {
+      parse<Person>(
+        "",
+        {
+          columns: true,
+        },
+        (error, records: Person[] | undefined) => {
+          next(error);
+        },
+      );
     });
   });
 });

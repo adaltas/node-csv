@@ -1,6 +1,16 @@
 import { Options } from "./index.js";
 
-declare function parse(input: Buffer | string, options?: Options): any;
+type OptionsWithColumns<T> = Omit<Options<T>, "columns"> & {
+  columns: Exclude<Options["columns"], undefined | false>;
+};
+
+declare function parse<T = unknown>(
+  input: Buffer | string,
+  options: OptionsWithColumns<T>,
+): T[];
+declare function parse(input: Buffer | string, options: Options): string[][];
+declare function parse(input: Buffer | string): string[][];
+
 // export default parse;
 export { parse };
 

@@ -12,6 +12,8 @@ import {
 } from "../lib/sync.js";
 
 describe("API Types", function () {
+  type Person = { name: string; age: number };
+
   it("respect parse signature", function () {
     // No argument
     parse("");
@@ -22,7 +24,7 @@ describe("API Types", function () {
 
   it("return records", function () {
     try {
-      const records: object = parse("");
+      const records = parse("");
       typeof records;
     } catch (err) {
       if (err instanceof CsvError) {
@@ -95,5 +97,29 @@ describe("API Types", function () {
       records: 1,
     };
     return info;
+  });
+
+  describe("Generic types", function () {
+    it("Exposes string[][] if columns is not specified", function () {
+      const data: string[][] = parse("", {});
+    });
+
+    it("Exposes string[][] if columns is falsy", function () {
+      const data: string[][] = parse("", {
+        columns: false,
+      });
+    });
+
+    it("Exposes unknown[] if columns is specified as boolean", function () {
+      const data: unknown[] = parse("", {
+        columns: true,
+      });
+    });
+
+    it("Exposes T[] if columns is specified", function () {
+      const data: Person[] = parse<Person>("", {
+        columns: true,
+      });
+    });
   });
 });
