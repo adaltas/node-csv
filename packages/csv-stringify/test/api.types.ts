@@ -5,14 +5,13 @@ import {
   Options,
   Stringifier,
 } from "../lib/index.js";
-import { stringify as stringifySync } from "../lib/index.js";
 
-describe("API Types", () => {
-  describe("Parser", () => {
-    it("Expose options", () => {
+describe("API Types", function () {
+  describe("Parser", function () {
+    it("Expose options", function () {
       const stringifier: Stringifier = stringify();
       const options: Options = stringifier.options;
-      const keys: any = Object.keys(options);
+      const keys = Object.keys(options);
       keys
         .sort()
         .should.eql([
@@ -34,7 +33,7 @@ describe("API Types", () => {
         ]);
     });
 
-    it("Receive Callback", (next) => {
+    it("Receive Callback", function (next) {
       stringify(
         [["a"], ["b"]],
         function (err: Error | undefined, output: string) {
@@ -47,13 +46,13 @@ describe("API Types", () => {
     });
   });
 
-  describe("Options", () => {
-    it("bom", () => {
+  describe("Options", function () {
+    it("bom", function () {
       const options: Options = {};
       options.bom = true;
     });
 
-    it("cast", () => {
+    it("cast", function () {
       const options: Options = {};
       options.cast = {
         boolean: (value: boolean) => {
@@ -77,7 +76,7 @@ describe("API Types", () => {
       };
     });
 
-    it("columns", () => {
+    it("columns", function () {
       const options: Options = {};
       options.columns = ["b", "a"];
       options.columns = [{ key: "b" }, { key: "a" }];
@@ -93,35 +92,35 @@ describe("API Types", () => {
       };
     });
 
-    it("columns as const", () => {
+    it("columns as const", function () {
       const options: Options = {};
       options.columns = ["b", "a"];
       options.columns = ["b", "a"] as const;
     });
 
-    it("delimiter", () => {
+    it("delimiter", function () {
       const options: Options = {};
       options.delimiter = ":";
       options.delimiter = Buffer.from(":");
     });
 
-    it("escape", () => {
+    it("escape", function () {
       const options: Options = {};
       options.escape = '"';
       options.escape = Buffer.from('"');
     });
 
-    it("escape_formulas", () => {
+    it("escape_formulas", function () {
       const options: Options = {};
       options.escape_formulas = true;
     });
 
-    it("header", () => {
+    it("header", function () {
       const options: Options = {};
       options.header = true;
     });
 
-    it("quote", () => {
+    it("quote", function () {
       const options: Options = {};
       options.quote = '"';
       options.quote = Buffer.from('"');
@@ -129,40 +128,40 @@ describe("API Types", () => {
       options.quote = false;
     });
 
-    it("quoted", () => {
+    it("quoted", function () {
       const options: Options = {};
       options.quoted = true;
       options.quoted = false;
     });
 
-    it("quoted_empty", () => {
+    it("quoted_empty", function () {
       const options: Options = {};
       options.quoted_empty = true;
       options.quoted_empty = false;
     });
 
-    it("quoted_match", () => {
+    it("quoted_match", function () {
       const options: Options = {};
       options.quoted_match = '"';
-      options.quoted_match = /\"/;
-      options.quoted_match = ['"', /\"/];
+      options.quoted_match = /"/;
+      options.quoted_match = ['"', /"/];
     });
 
-    it("quoted_string", () => {
+    it("quoted_string", function () {
       const options: Options = {};
       options.quoted_string = true;
       options.quoted_string = false;
     });
 
-    it("record_delimiter", () => {
+    it("record_delimiter", function () {
       const options: Options = {};
       options.record_delimiter = "|";
       options.record_delimiter = Buffer.from("|");
     });
   });
 
-  describe("CastingContext", () => {
-    it("all properties", () => {
+  describe("CastingContext", function () {
+    it("all properties", function () {
       (context: CastingContext) => {
         const column: number | string | undefined = context.column;
         const header: boolean = context.header;

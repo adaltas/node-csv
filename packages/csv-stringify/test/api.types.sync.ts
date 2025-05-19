@@ -10,14 +10,14 @@ import {
   Options,
 } from "../lib/sync.js";
 
-describe("API Types", () => {
-  it("stringify return string", () => {
+describe("API Types", function () {
+  it("stringify return string", function () {
     const input: Input = [[1, 2, 3]];
     const stringifier: string = stringify(input);
     stringifier;
   });
 
-  it("Options", () => {
+  it("Options", function () {
     (options: Options) => {
       const rd: RecordDelimiter | undefined = options.record_delimiter;
       const cast = options.cast;
@@ -30,7 +30,7 @@ describe("API Types", () => {
     };
   });
 
-  it("CastingContext", () => {
+  it("CastingContext", function () {
     const options: Options = {
       cast: {
         boolean: (value: boolean, context: CastingContext) => {
@@ -41,7 +41,7 @@ describe("API Types", () => {
     return options;
   });
 
-  it("allows cast to return an object", () => {
+  it("allows cast to return an object", function () {
     const options: Options = {
       cast: {
         boolean: (value: boolean) => ({
@@ -51,5 +51,6 @@ describe("API Types", () => {
         }),
       },
     };
+    options;
   });
 });

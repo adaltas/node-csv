@@ -1,47 +1,47 @@
 import "should";
 import csv, { generate, parse, stringify, transform } from "../lib/sync.js";
 
-describe("API Types", () => {
-  describe("usage", () => {
-    it("generate", () => {
+describe("API Types", function () {
+  describe("usage with named export", function () {
+    it("generate", function () {
       // with options + handler
       const output: string = generate(1);
       return output;
     });
 
-    it("parse", () => {
+    it("parse", function () {
       const output: string = parse("");
       return output;
     });
 
-    it("stringify", () => {
+    it("stringify", function () {
       const output: string = stringify([]);
       return output;
     });
 
-    it("transform", () => {
-      const output: any = transform([], () => {});
+    it("transform", function () {
+      const output: void[] = transform([], () => {});
       return output;
     });
   });
 
-  describe("usage", () => {
-    it("csv.generate", () => {
+  describe("usage with default export", function () {
+    it("csv.generate", function () {
       const options: csv.generator.Options = {};
       return options;
     });
 
-    it("csv.parse", () => {
+    it("csv.parse", function () {
       const options: csv.parser.Options = {};
       return options;
     });
 
-    it("csv.stringifier", () => {
+    it("csv.stringifier", function () {
       const options: csv.stringifier.Options = {};
       return options;
     });
 
-    it("csv.transform", () => {
+    it("csv.transform", function () {
       const options: csv.transformer.Options = {};
       return options;
     });

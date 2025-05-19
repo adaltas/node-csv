@@ -1,83 +1,90 @@
-
-import 'should'
+import "should";
 import {
   parse,
-  CastingContext, CastingFunction, CastingDateFunction,
-  ColumnOption, Options, Info, CsvErrorCode, CsvError
-} from '../lib/sync.js'
+  CastingContext,
+  CastingFunction,
+  CastingDateFunction,
+  ColumnOption,
+  Options,
+  Info,
+  CsvErrorCode,
+  CsvError,
+} from "../lib/sync.js";
 
-describe('API Types', () => {
-  
-  it('respect parse signature', () => {
+describe("API Types", function () {
+  it("respect parse signature", function () {
     // No argument
-    parse("")
-    parse("", {})
-    parse(Buffer.from(""))
-    parse(Buffer.from(""), {})
-  })
-  
-  it('return records', () => {
+    parse("");
+    parse("", {});
+    parse(Buffer.from(""));
+    parse(Buffer.from(""), {});
+  });
+
+  it("return records", function () {
     try {
-      const records: object = parse("")
-      typeof records
-    }catch (err){
-      if (err instanceof CsvError){
-        err.message
+      const records: object = parse("");
+      typeof records;
+    } catch (err) {
+      if (err instanceof CsvError) {
+        err.message;
       }
     }
-  })
-  
-  it('Options', () => {
+  });
+
+  it("Options", function () {
     (options: Options) => {
       const bom: boolean | undefined = options.bom;
-      return [bom]
-    }
-  })
-  
-  it('CastingContext', () => {
+      return [bom];
+    };
+  });
+
+  it("CastingContext", function () {
     const options: Options = {
       cast: (value: string, context: CastingContext) => {
-        return `${value} ${context.index}`
-      }
-    }
+        return `${value} ${context.index}`;
+      },
+    };
     return options;
-  })
-  
-  it('CastingDateFunction', () => {
-    const castDate: CastingDateFunction = (value: string, context: CastingContext) => {
-      return new Date(`${value} ${context.index}`)
-    }
+  });
+
+  it("CastingDateFunction", function () {
+    const castDate: CastingDateFunction = (
+      value: string,
+      context: CastingContext,
+    ) => {
+      return new Date(`${value} ${context.index}`);
+    };
     const options: Options = {
-      cast_date: castDate
-    }
+      cast_date: castDate,
+    };
     return options;
-  })
-  
-  it('CastingFunction', () => {
+  });
+
+  it("CastingFunction", function () {
     const cast: CastingFunction = (value: string, context: CastingContext) => {
-      return `${value} ${context.index}`
+      return `${value} ${context.index}`;
     };
     const options: Options = {
-      cast: cast
+      cast: cast,
     };
     return options;
-  })
-  
-  it('ColumnOption', () => {
-    const column: ColumnOption = {name: 'sth'};
+  });
+
+  it("ColumnOption", function () {
+    const column: ColumnOption = { name: "sth" };
     const options: Options = {
-      columns: [column]
-    }
+      columns: [column],
+    };
     return options;
-  })
-  
-  it('CsvErrorCode', () => {
-    const err = new CsvError('CSV_RECORD_INCONSISTENT_FIELDS_LENGTH', 'error');
+  });
+
+  it("CsvErrorCode", function () {
+    const err = new CsvError("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH", "error");
     const code: CsvErrorCode = err.code;
     return code;
-  })
-  
-  it('Info', () => {
+  });
+
+  it("Info", function () {
     const info: Info = {
       bytes: 1,
       columns: true,
@@ -88,6 +95,5 @@ describe('API Types', () => {
       records: 1,
     };
     return info;
-  })
-  
-})
+  });
+});

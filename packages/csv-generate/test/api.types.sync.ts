@@ -1,19 +1,19 @@
 import "should";
 import { generate, Options } from "../lib/sync.js";
 
-describe("API Types", () => {
-  describe("usage", () => {
-    it("sync with options as number", () => {
+describe("API Types", function () {
+  describe("usage", function () {
+    it("sync with options as number", function () {
       const generator: string = generate(1);
       generator.should.be.a.String();
     });
 
-    it("sync with options in string mode", () => {
+    it("sync with options in string mode", function () {
       const generator: string = generate({ length: 1 });
       generator.should.be.a.String();
     });
 
-    it("sync with options in object mode", () => {
+    it("sync with options in object mode", function () {
       const generator: Array<Array<string>> = generate({
         length: 1,
         objectMode: true,
@@ -22,12 +22,13 @@ describe("API Types", () => {
     });
   });
 
-  describe("types", () => {
-    it("generate", () => {
+  describe("types", function () {
+    it("generate", function () {
       const generator: string = generate(1);
       return generator;
     });
-    it("Options", () => {
+
+    it("Options", function () {
       const options: Options = {
         columns: 1,
       };

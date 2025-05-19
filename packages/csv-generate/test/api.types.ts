@@ -1,9 +1,9 @@
 import "should";
 import { generate, Options, Generator } from "../lib/index.js";
 
-describe("API Types", () => {
-  describe("Initialisation", () => {
-    it("stream", () => {
+describe("API Types", function () {
+  describe("Initialisation", function () {
+    it("stream", function () {
       // With callback
       const generator: Generator = generate();
       generator.destroy();
@@ -15,11 +15,11 @@ describe("API Types", () => {
     });
   });
 
-  describe("Generator", () => {
-    it("Expose options", () => {
+  describe("Generator", function () {
+    it("Expose options", function () {
       const generator: Generator = generate();
       const options: Options = generator.options;
-      const keys: any = Object.keys(options);
+      const keys = Object.keys(options);
       keys
         .sort()
         .should.eql([
@@ -38,7 +38,7 @@ describe("API Types", () => {
         ]);
     });
 
-    it("Receive Callback", (next) => {
+    it("Receive Callback", function (next) {
       generate({ length: 3 }, function (err: Error | undefined, data: object) {
         if (err !== undefined) {
           data.should.be.an.Object();
@@ -48,8 +48,8 @@ describe("API Types", () => {
     });
   });
 
-  describe("Options", () => {
-    it("columns", () => {
+  describe("Options", function () {
+    it("columns", function () {
       const options: Options = {};
       options.columns = 8;
       options.columns = [
@@ -60,69 +60,69 @@ describe("API Types", () => {
       ];
     });
 
-    it("delimiter", () => {
+    it("delimiter", function () {
       const options: Options = {};
       options.delimiter = "|";
     });
 
-    it("duration", () => {
+    it("duration", function () {
       const options: Options = {};
       options.duration = 1000;
     });
 
-    it("encoding", () => {
+    it("encoding", function () {
       const options: Options = {};
       options.encoding = "utf8";
     });
 
-    it("end", () => {
+    it("end", function () {
       const options: Options = {};
       options.end = 1000;
       options.end = new Date();
     });
 
-    it("eof", () => {
+    it("eof", function () {
       const options: Options = {};
       options.eof = true;
       options.eof = "\n";
     });
 
-    it("fixed_size", () => {
+    it("fixed_size", function () {
       const options: Options = {};
       options.fixed_size = true;
     });
 
-    it("high_water_mark", () => {
+    it("high_water_mark", function () {
       const options: Options = {};
       options.high_water_mark = 1024;
     });
 
-    it("length", () => {
+    it("length", function () {
       const options: Options = {};
       options.length = 100;
     });
 
-    it("max_word_length", () => {
+    it("max_word_length", function () {
       const options: Options = {};
       options.length = 10;
     });
 
-    it("object_mode", () => {
+    it("object_mode", function () {
       const options: Options = {};
       options.object_mode = true;
     });
 
-    it("row_delimiter", () => {
+    it("row_delimiter", function () {
       const options: Options = {};
       options.row_delimiter = ";";
     });
 
-    it("seed", () => {
+    it("seed", function () {
       const options: Options = {};
       options.seed = 10;
     });
 
-    it("sleep", () => {
+    it("sleep", function () {
       const options: Options = {};
       options.sleep = 1000;
     });

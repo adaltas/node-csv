@@ -2,9 +2,9 @@ import "should";
 import { parse as parseStream } from "../lib/stream.js";
 import { CsvError } from "../lib/index.js";
 
-describe("API Web Stream", () => {
-  describe("stream/web/TransformStream", () => {
-    it("simple parse", async () => {
+describe("API Web Stream", function () {
+  describe("stream/web/TransformStream", function () {
+    it("simple parse", async function () {
       const stream = parseStream();
       const writer = stream.writable.getWriter();
       const reader = stream.readable.getReader();

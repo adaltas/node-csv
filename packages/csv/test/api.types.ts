@@ -1,9 +1,9 @@
 import "should";
 import { generate, parse, parser, stringify, transform } from "../lib/index.js";
 
-describe("API Types", () => {
-  describe("Initialisation", () => {
-    it("generate", () => {
+describe("API Types", function () {
+  describe("Initialisation", function () {
+    it("generate", function () {
       // with options + handler
       generate(
         { length: 1 },
@@ -12,7 +12,7 @@ describe("API Types", () => {
       );
     });
 
-    it("parse", () => {
+    it("parse", function () {
       // With input + handler
       parse(
         "abc,def",
@@ -22,12 +22,12 @@ describe("API Types", () => {
       );
     });
 
-    it("stringify", () => {
+    it("stringify", function () {
       // With handler
       stringify((err: Error | undefined, output: string) => err || output);
     });
 
-    it("transform", () => {
+    it("transform", function () {
       // With handler
       const transformer = transform((record) => record);
       transformer.should.be.an.Object(); // Disable unused variable warning
