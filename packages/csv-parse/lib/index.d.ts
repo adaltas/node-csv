@@ -114,7 +114,7 @@ export interface Options<T = string[]> {
    * defined in the middle of the line are not interpreted as such. The
    * option require the activation of comments.
    */
-  comment_no_infix?: boolean;
+  comment_no_infix?: boolean | null;
   /**
    * Set the field delimiter. One character only, defaults to comma.
    */
