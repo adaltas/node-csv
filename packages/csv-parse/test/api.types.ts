@@ -7,7 +7,6 @@ import {
   Parser,
   CsvError,
 } from "../lib/index.js";
-import { parse as parse_sync } from "../lib/sync.js";
 
 describe("API Types", function () {
   type Person = { name: string; age: number };
@@ -457,6 +456,7 @@ describe("API Types", function () {
   describe("Generic types", function () {
     it("Exposes string[][] if columns is not specified", function (next) {
       parse("", {}, (error, records: string[][] | undefined) => {
+        records;
         next(error);
       });
     });
@@ -468,6 +468,7 @@ describe("API Types", function () {
           columns: false,
         },
         (error, records: string[][] | undefined) => {
+          records;
           next(error);
         },
       );
@@ -480,6 +481,7 @@ describe("API Types", function () {
           columns: true,
         },
         (error, records: unknown[] | undefined) => {
+          records;
           next(error);
         },
       );
