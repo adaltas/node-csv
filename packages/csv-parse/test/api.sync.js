@@ -19,6 +19,16 @@ describe("API sync", function () {
     ]);
   });
 
+  it("take a Uint8Array and return records", function () {
+    const records = parse(
+      new TextEncoder().encode("field_1,field_2\nvalue 1,value 2"),
+    );
+    records.should.eql([
+      ["field_1", "field_2"],
+      ["value 1", "value 2"],
+    ]);
+  });
+
   it("honors columns option", function () {
     const records = parse("field_1,field_2\nvalue 1,value 2", {
       columns: true,
