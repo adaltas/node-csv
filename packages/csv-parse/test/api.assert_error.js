@@ -35,16 +35,16 @@ export const assert_error = (err, assert = {}, exhaustive = false) => {
 
 describe("API assert_error", function () {
   it("work on array", function () {
-    const err = new CsvError("A_MESSAGE", "A message");
+    const err = new CsvError("CSV_UNKNOWN_ERROR", "A message");
     assert_error(
       [err, err],
       [
         {
-          code: "A_MESSAGE",
+          code: "CSV_UNKNOWN_ERROR",
           message: "A message",
         },
         {
-          code: "A_MESSAGE",
+          code: "CSV_UNKNOWN_ERROR",
           message: "A message",
         },
       ],
@@ -53,7 +53,7 @@ describe("API assert_error", function () {
 
   it("exhaustive detect a property not in assert", function () {
     const err = new CsvError(
-      "A_MESSAGE",
+      "CSV_UNKNOWN_ERROR",
       "A message",
       {},
       { a_key: "a value" },
@@ -62,7 +62,7 @@ describe("API assert_error", function () {
       assert_error(
         err,
         {
-          code: "A_MESSAGE",
+          code: "CSV_UNKNOWN_ERROR",
           message: "A message",
         },
         true,
@@ -71,10 +71,10 @@ describe("API assert_error", function () {
   });
 
   it("detect a property not in error", function () {
-    const err = new CsvError("A_MESSAGE", "A message");
+    const err = new CsvError("CSV_UNKNOWN_ERROR", "A message");
     (() => {
       assert_error(err, {
-        code: "A_MESSAGE",
+        code: "CSV_UNKNOWN_ERROR",
         message: "A message",
         a_key: "a value",
       });
@@ -82,41 +82,46 @@ describe("API assert_error", function () {
   });
 
   it("validate a string value", function () {
-    const err = new CsvError("A_MESSAGE", "A message");
+    const err = new CsvError("CSV_UNKNOWN_ERROR", "A message");
     assert_error(err, {
-      code: "A_MESSAGE",
+      code: "CSV_UNKNOWN_ERROR",
       message: "A message",
     });
     (() => {
       assert_error(err, {
-        code: "A_MESSAGE",
+        code: "CSV_UNKNOWN_ERROR",
         message: "Another mesage",
       });
     }).should.throw("expected 'A message' to equal 'Another mesage'");
   });
 
   it("validate a null value", function () {
-    const err = new CsvError("A_MESSAGE", "A message");
+    const err = new CsvError("CSV_UNKNOWN_ERROR", "A message");
     (() => {
       assert_error(err, {
-        code: "A_MESSAGE",
+        code: "CSV_UNKNOWN_ERROR",
         message: null,
       });
     }).should.throw("expected 'A message' to be null");
   });
 
   it("validate a undefined value", function () {
-    const err = new CsvError("A_MESSAGE", "A message");
+    const err = new CsvError("CSV_UNKNOWN_ERROR", "A message");
     (() => {
       assert_error(err, {
-        code: "A_MESSAGE",
+        code: "CSV_UNKNOWN_ERROR",
         message: undefined,
       });
     }).should.throw("expected 'A message' to be undefined");
   });
 
   it("validate a boolean true value", function () {
-    const err = new CsvError("A_MESSAGE", "A message", {}, { a_boolean: true });
+    const err = new CsvError(
+      "CSV_UNKNOWN_ERROR",
+      "A message",
+      {},
+      { a_boolean: true },
+    );
     assert_error(err, {
       a_boolean: true,
     });
@@ -129,7 +134,7 @@ describe("API assert_error", function () {
 
   it("validate a boolean false value", function () {
     const err = new CsvError(
-      "A_MESSAGE",
+      "CSV_UNKNOWN_ERROR",
       "A message",
       {},
       { a_boolean: false },
@@ -145,14 +150,14 @@ describe("API assert_error", function () {
   });
 
   it("validate a regexp value", function () {
-    const err = new CsvError("A_MESSAGE", "A message");
+    const err = new CsvError("CSV_UNKNOWN_ERROR", "A message");
     assert_error(err, {
-      code: "A_MESSAGE",
+      code: "CSV_UNKNOWN_ERROR",
       message: /^A.*/,
     });
     (() => {
       assert_error(err, {
-        code: "A_MESSAGE",
+        code: "CSV_UNKNOWN_ERROR",
         message: /^Another.*/,
       });
     }).should.throw("expected 'A message' to match /^Another.*/");

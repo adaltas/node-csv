@@ -286,7 +286,8 @@ export type CsvErrorCode =
   | "CSV_QUOTE_NOT_CLOSED"
   | "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH"
   | "CSV_RECORD_INCONSISTENT_COLUMNS"
-  | "CSV_OPTION_COLUMNS_MISSING_NAME";
+  | "CSV_OPTION_COLUMNS_MISSING_NAME"
+  | "CSV_UNKNOWN_ERROR";
 
 export class CsvError extends Error {
   readonly code: CsvErrorCode;
