@@ -2,9 +2,17 @@ import should from "should";
 import { CsvError } from "../lib/index.js";
 
 /* eslint mocha/no-exports: "off" */
-export const assert_error = (err, assert = {}, exhaustive = false) => {
+export const assert_error = function <T>(
+  err: CsvError | CsvError[],
+  assert:
+    | ({ code?: string; message?: string | RegExp | undefined | null } & T)
+    | ({ code?: string; message?: string | RegExp | undefined | null } & T)[],
+  exhaustive = false,
+) {
   if (Array.isArray(err)) {
-    err.forEach((e, i) => assert_error(e, assert[i]));
+    err.forEach((e, i) =>
+      assert_error(e, Array.isArray(assert) ? assert[i] : assert),
+    );
     return;
   }
   if (exhaustive) {
@@ -122,11 +130,11 @@ describe("API assert_error", function () {
       {},
       { a_boolean: true },
     );
-    assert_error(err, {
+    assert_error<{ a_boolean: boolean }>(err, {
       a_boolean: true,
     });
     (() => {
-      assert_error(err, {
+      assert_error<{ a_boolean: boolean }>(err, {
         a_boolean: false,
       });
     }).should.throw("expected true to equal false");
