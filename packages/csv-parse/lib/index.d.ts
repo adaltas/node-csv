@@ -108,7 +108,7 @@ export interface Options<T = string[]> {
   /**
    * Treat all the characters after this one as a comment, default to '' (disabled).
    */
-  comment?: string;
+  comment?: string | boolean | null;
   /**
    * Restrict the definition of comments to a full line. Comment characters
    * defined in the middle of the line are not interpreted as such. The
