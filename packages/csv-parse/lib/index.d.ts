@@ -6,7 +6,7 @@ import * as stream from "stream";
 
 export type Callback<T = string[]> = (
   err: CsvError | undefined,
-  records: T[] | undefined,
+  records: T[],
   info?: Info,
 ) => void;
 

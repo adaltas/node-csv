@@ -491,7 +491,8 @@ describe("API Types", function () {
         {
           columns: true,
         },
-        (error, records: Person[] | undefined) => {
+        (error, records: Person[]) => {
+          records;
           next(error);
         },
       );
