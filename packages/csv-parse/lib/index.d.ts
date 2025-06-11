@@ -32,6 +32,7 @@ export interface CastingContext {
   readonly index: number;
   readonly quoting: boolean;
   readonly lines: number;
+  readonly raw: string | undefined;
   readonly records: number;
   readonly invalid_field_length: number;
 }
