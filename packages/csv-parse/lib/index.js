@@ -9,6 +9,7 @@ import { Transform } from "stream";
 import { is_object } from "./utils/is_object.js";
 import { transform } from "./api/index.js";
 import { CsvError } from "./api/CsvError.js";
+import { normalize_options } from "./api/normalize_options.js";
 
 class Parser extends Transform {
   constructor(opts = {}) {
@@ -134,4 +135,4 @@ const parse = function () {
 };
 
 // export default parse
-export { parse, Parser, CsvError };
+export { parse, Parser, CsvError, normalize_options };
