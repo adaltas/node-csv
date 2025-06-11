@@ -95,7 +95,7 @@ const normalize_options = function (opts) {
     );
   }
   // Normalize option `columns`
-  options.cast_first_line_to_header = null;
+  options.cast_first_line_to_header = undefined;
   if (options.columns === true) {
     // Fields in the first line are converted as-is to columns
     options.cast_first_line_to_header = undefined;
