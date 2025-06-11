@@ -20,6 +20,7 @@ export {
   CastingDateFunction,
   ColumnOption,
   Options,
+  OptionsNormalized,
   Info,
   CsvErrorCode,
   CsvError,

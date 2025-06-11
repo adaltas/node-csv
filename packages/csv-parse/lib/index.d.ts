@@ -19,9 +19,40 @@ export class Parser {
 
   __write(chars: any, end: any, callback: any): any;
 
-  readonly options: Options;
+  readonly options: OptionsNormalized;
 
   readonly info: Info;
+}
+
+export interface Info {
+  /**
+   * Count the number of lines being fully commented.
+   */
+  readonly comment_lines: number;
+  /**
+   * Count the number of processed empty lines.
+   */
+  readonly empty_lines: number;
+  /**
+   * The number of lines encountered in the source dataset, start at 1 for the first line.
+   */
+  readonly lines: number;
+  /**
+   * Count the number of processed records.
+   */
+  readonly records: number;
+  /**
+   * Count of the number of processed bytes.
+   */
+  readonly bytes: number;
+  /**
+   * Number of non uniform records when `relax_column_count` is true.
+   */
+  readonly invalid_field_length: number;
+  /**
+   * Normalized verion of `options.columns` when `options.columns` is true, boolean otherwise.
+   */
+  readonly columns: boolean | { name: string }[] | { disabled: true }[];
 }
 
 export interface CastingContext {
@@ -50,6 +81,166 @@ export type ColumnOption<K = string> =
   | null
   | false
   | { name: K };
+
+export interface OptionsNormalized<T = string[]> {
+  auto_parse?: boolean | CastingFunction;
+  auto_parse_date?: boolean | CastingDateFunction;
+  /**
+   * If true, detect and exclude the byte order mark (BOM) from the CSV input if present.
+   */
+  bom?: boolean;
+  /**
+   * If true, the parser will attempt to convert input string to native types.
+   * If a function, receive the value as first argument, a context as second argument and return a new value. More information about the context properties is available below.
+   */
+  cast?: boolean | CastingFunction;
+  /**
+   * If true, the parser will attempt to convert input string to dates.
+   * If a function, receive the value as argument and return a new value. It requires the "auto_parse" option. Be careful, it relies on Date.parse.
+   */
+  cast_date?: boolean | CastingDateFunction;
+  /**
+   * Internal property string the function to
+   */
+  cast_first_line_to_header?: (
+    record: T,
+  ) => ColumnOption<
+    T extends string[] ? string : T extends unknown ? string : keyof T
+  >[];
+  /**
+   * List of fields as an array, a user defined callback accepting the first
+   * line and returning the column names or true if autodiscovered in the first
+   * CSV line, default to null, affect the result data set in the sense that
+   * records will be objects instead of arrays.
+   */
+  columns:
+    | boolean
+    | ColumnOption<
+        T extends string[] ? string : T extends unknown ? string : keyof T
+      >[];
+  /**
+   * Convert values into an array of values when columns are activated and
+   * when multiple columns of the same name are found.
+   */
+  group_columns_by_name: boolean;
+  /**
+   * Treat all the characters after this one as a comment, default to '' (disabled).
+   */
+  comment: string | null;
+  /**
+   * Restrict the definition of comments to a full line. Comment characters
+   * defined in the middle of the line are not interpreted as such. The
+   * option require the activation of comments.
+   */
+  comment_no_infix: boolean;
+  /**
+   * Set the field delimiter. One character only, defaults to comma.
+   */
+  delimiter: Buffer[];
+  /**
+   * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
+   */
+  encoding: BufferEncoding | null;
+  /**
+   * Set the escape character, one character only, defaults to double quotes.
+   */
+  escape: null | Buffer;
+  /**
+   * Start handling records from the requested number of records.
+   */
+  from: number;
+  /**
+   * Start handling records from the requested line number.
+   */
+  from_line: number;
+  /**
+   * Don't interpret delimiters as such in the last field according to the number of fields calculated from the number of columns, the option require the presence of the `column` option when `true`.
+   */
+  ignore_last_delimiters: boolean | number;
+  /**
+   * Generate two properties `info` and `record` where `info` is a snapshot of the info object at the time the record was created and `record` is the parsed array or object.
+   */
+  info: boolean;
+  /**
+   * If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
+   * Does not remove whitespace in a quoted field.
+   */
+  ltrim: boolean;
+  /**
+   * Maximum numer of characters to be contained in the field and line buffers before an exception is raised,
+   * used to guard against a wrong delimiter or record_delimiter,
+   * default to 128000 characters.
+   */
+  max_record_size: number;
+  /**
+   * Name of header-record title to name objects by.
+   */
+  objname: number | string | undefined;
+  /**
+   * Alter and filter records by executing a user defined function.
+   */
+  on_record?: (record: T, context: CastingContext) => T | undefined;
+  /**
+   * Optional character surrounding a field, one character only, defaults to double quotes.
+   */
+  quote?: Buffer | null;
+  /**
+   * Generate two properties raw and row where raw is the original CSV row content and row is the parsed array or object.
+   */
+  raw: boolean;
+  /**
+   * Discard inconsistent columns count, default to false.
+   */
+  relax_column_count: boolean;
+  /**
+   * Discard inconsistent columns count when the record contains less fields than expected, default to false.
+   */
+  relax_column_count_less: boolean;
+  /**
+   * Discard inconsistent columns count when the record contains more fields than expected, default to false.
+   */
+  relax_column_count_more: boolean;
+  /**
+   * Preserve quotes inside unquoted field.
+   */
+  relax_quotes: boolean;
+  /**
+   * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
+   * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
+   */
+  record_delimiter: Buffer[];
+  /**
+   * If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
+   * Does not remove whitespace in a quoted field.
+   */
+  rtrim: boolean;
+  /**
+   * Dont generate empty values for empty lines.
+   * Defaults to false
+   */
+  skip_empty_lines: boolean;
+  /**
+   * Skip a line with error found inside and directly go process the next line.
+   */
+  skip_records_with_error: boolean;
+  /**
+   * Don't generate records for lines containing empty column values (column matching /\s*\/), defaults to false.
+   */
+  skip_records_with_empty_values: boolean;
+  /**
+   * Stop handling records after the requested number of records.
+   */
+  to: number;
+  /**
+   * Stop handling records after the requested line number.
+   */
+  to_line: number;
+  /**
+   * If true, ignore whitespace immediately around the delimiter, defaults to false.
+   * Does not remove whitespace in a quoted field.
+   */
+  trim: boolean;
+}
 
 /*
 Note, could not `extends stream.TransformOptions` because encoding can be
@@ -123,20 +314,20 @@ export interface Options<T = string[]> {
   /**
    * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
    */
-  encoding?: BufferEncoding | undefined;
+  encoding?: BufferEncoding | boolean | null | undefined;
   /**
    * Set the escape character, one character only, defaults to double quotes.
    */
-  escape?: string | null | false | Buffer;
+  escape?: string | null | boolean | Buffer;
   /**
    * Start handling records from the requested number of records.
    */
-  from?: number;
+  from?: number | string;
   /**
    * Start handling records from the requested line number.
    */
-  from_line?: number;
-  fromLine?: number;
+  from_line?: null | number | string;
+  fromLine?: null | number | string;
   /**
    * Don't interpret delimiters as such in the last field according to the number of fields calculated from the number of columns, the option require the presence of the `column` option when `true`.
    */
@@ -149,23 +340,29 @@ export interface Options<T = string[]> {
    * If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
    * Does not remove whitespace in a quoted field.
    */
-  ltrim?: boolean;
+  ltrim?: boolean | null;
   /**
    * Maximum numer of characters to be contained in the field and line buffers before an exception is raised,
    * used to guard against a wrong delimiter or record_delimiter,
    * default to 128000 characters.
    */
-  max_record_size?: number;
+  max_record_size?: number | null | string;
   maxRecordSize?: number;
   /**
    * Name of header-record title to name objects by.
    */
-  objname?: string;
+  objname?: Buffer | null | number | string;
   /**
    * Alter and filter records by executing a user defined function.
    */
   on_record?: (record: T, context: CastingContext) => T | null | undefined;
   onRecord?: (record: T, context: CastingContext) => T | null | undefined;
+  /**
+   * Function called when an error occured if the `skip_records_with_error`
+   * option is activated.
+   */
+  on_skip?: (err: CsvError | undefined, raw: string | undefined) => undefined;
+  onSkip?: (err: CsvError | undefined, raw: string | undefined) => undefined;
   /**
    * Optional character surrounding a field, one character only, defaults to double quotes.
    */
@@ -204,7 +401,7 @@ export interface Options<T = string[]> {
    * If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
    * Does not remove whitespace in a quoted field.
    */
-  rtrim?: boolean;
+  rtrim?: boolean | null;
   /**
    * Dont generate empty values for empty lines.
    * Defaults to false
@@ -234,38 +431,7 @@ export interface Options<T = string[]> {
    * If true, ignore whitespace immediately around the delimiter, defaults to false.
    * Does not remove whitespace in a quoted field.
    */
-  trim?: boolean;
-}
-
-export interface Info {
-  /**
-   * Count the number of lines being fully commented.
-   */
-  readonly comment_lines: number;
-  /**
-   * Count the number of processed empty lines.
-   */
-  readonly empty_lines: number;
-  /**
-   * The number of lines encountered in the source dataset, start at 1 for the first line.
-   */
-  readonly lines: number;
-  /**
-   * Count the number of processed records.
-   */
-  readonly records: number;
-  /**
-   * Count of the number of processed bytes.
-   */
-  readonly bytes: number;
-  /**
-   * Number of non uniform records when `relax_column_count` is true.
-   */
-  readonly invalid_field_length: number;
-  /**
-   * Normalized verion of `options.columns` when `options.columns` is true, boolean otherwise.
-   */
-  readonly columns: boolean | { name: string }[] | { disabled: true }[];
+  trim?: boolean | null;
 }
 
 export type CsvErrorCode =
@@ -297,7 +463,7 @@ export class CsvError extends Error {
   constructor(
     code: CsvErrorCode,
     message: string | string[],
-    options?: Options,
+    options?: OptionsNormalized,
     ...contexts: any[]
   );
 }
