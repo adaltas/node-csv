@@ -39,7 +39,7 @@ describe("API stream.finished", function () {
     // See https://github.com/adaltas/node-csv/issues/333
     // See https://github.com/adaltas/node-csv/issues/410
     // Prevent `Error [ERR_STREAM_PREMATURE_CLOSE]: Premature close`
-    const records = [];
+    const records: string[] = [];
     const reader = new Readable({
       highWaterMark: 10,
       read: function (size) {

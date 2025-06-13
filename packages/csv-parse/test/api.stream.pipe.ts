@@ -2,13 +2,13 @@ import "should";
 import fs from "fs";
 import { Readable } from "stream";
 import { generate } from "csv-generate";
-import { parse } from "../lib/index.js";
+import { parse, CsvError } from "../lib/index.js";
 
 describe("API pipe", function () {
   it("piping in and reading out", function (next) {
     let finished = false;
     const parser = parse();
-    const records = [];
+    const records: string[] = [];
     const generator = generate({
       length: 2,
       seed: 1,
@@ -63,7 +63,7 @@ describe("API pipe", function () {
     });
     const rs = fs.createReadStream("/doesnotexist");
     rs.on("error", (err) => {
-      err.code.should.eql("ENOENT");
+      (err as CsvError).code.should.eql("ENOENT");
       next();
     });
     rs.pipe(parser);

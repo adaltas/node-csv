@@ -3,7 +3,7 @@ import { parse } from "../lib/index.js";
 
 describe("API write", function () {
   it("string randomly splited", function (next) {
-    const records = [];
+    const records: string[] = [];
     const parser = parse();
     parser.on("readable", () => {
       let d;
@@ -28,10 +28,10 @@ describe("API write", function () {
     });
     let buffer = "";
     for (let i = 0; i < 10; i++) {
-      buffer += "".concat(`Test ${i}`, ",", i, ",", '""""', "\n");
+      buffer += "".concat(`Test ${i}`, ",", `${i}`, ",", '""""', "\n");
       if (buffer.length > 250) {
-        parser.write(buffer.substr(0, 250));
-        buffer = buffer.substr(250);
+        parser.write(buffer.substring(0, 250));
+        buffer = buffer.substring(250);
       }
     }
     parser.write(buffer);

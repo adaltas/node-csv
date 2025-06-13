@@ -4,6 +4,7 @@ import { parse } from "../lib/index.js";
 describe("API info", function () {
   it("is exported in the callback on error", function (next) {
     parse("1,2,3\na,b,", (err, records, info) => {
+      if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 10,
         columns: false,
@@ -19,6 +20,7 @@ describe("API info", function () {
 
   it("is exported in the callback on success", function (next) {
     parse("1,2,3\na,b,c", (err, records, info) => {
+      if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 11,
         columns: false,
@@ -34,6 +36,7 @@ describe("API info", function () {
 
   it("discovered columns are included", function (next) {
     parse("a,b,c\n1,2,3", { columns: true }, (err, records, info) => {
+      if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 11,
         comment_lines: 0,
@@ -49,6 +52,7 @@ describe("API info", function () {
 
   it("with multiline records", function (next) {
     parse('a,b,c\nd,"e\n",f\ng,h,i', (err, records, info) => {
+      if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 20,
         columns: false,

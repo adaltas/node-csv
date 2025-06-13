@@ -4,7 +4,7 @@ import { assert_error } from "./api.assert_error.js";
 
 describe("API events", function () {
   it("emit `readable` event", function (next) {
-    const records = [];
+    const records: string[] = [];
     const parser = parse();
     parser.on("readable", () => {
       let record;
@@ -24,7 +24,7 @@ describe("API events", function () {
   });
 
   it("emit `data` event", function (next) {
-    const records = [];
+    const records: string[] = [];
     const parser = parse();
     parser.on("data", (record) => {
       records.push(record);
@@ -43,6 +43,7 @@ describe("API events", function () {
   it("ensure error in _transform is called once", function (next) {
     const data = ' x  " a b",x "   c d"\nx " e f", x  "   g h"';
     const parser = parse((err) => {
+      if (!err) return next(Error("Invalid assessment"));
       assert_error(err, {
         message:
           'Invalid Opening Quote: a quote is found on field 0 at line 1, value is " x  "',
