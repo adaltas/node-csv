@@ -1,5 +1,5 @@
 import should from "should";
-import { CsvError } from "../lib/index.js";
+import { CsvError, normalize_options } from "../lib/index.js";
 
 /* eslint mocha/no-exports: "off" */
 export const assert_error = function <T>(
@@ -60,12 +60,10 @@ describe("API assert_error", function () {
   });
 
   it("exhaustive detect a property not in assert", function () {
-    const err = new CsvError(
-      "CSV_UNKNOWN_ERROR",
-      "A message",
-      {},
-      { a_key: "a value" },
-    );
+    const options = normalize_options({});
+    const err = new CsvError("CSV_UNKNOWN_ERROR", "A message", options, {
+      a_key: "a value",
+    });
     (() => {
       assert_error(
         err,
@@ -124,12 +122,10 @@ describe("API assert_error", function () {
   });
 
   it("validate a boolean true value", function () {
-    const err = new CsvError(
-      "CSV_UNKNOWN_ERROR",
-      "A message",
-      {},
-      { a_boolean: true },
-    );
+    const options = normalize_options({});
+    const err = new CsvError("CSV_UNKNOWN_ERROR", "A message", options, {
+      a_boolean: true,
+    });
     assert_error<{ a_boolean: boolean }>(err, {
       a_boolean: true,
     });
@@ -141,12 +137,10 @@ describe("API assert_error", function () {
   });
 
   it("validate a boolean false value", function () {
-    const err = new CsvError(
-      "CSV_UNKNOWN_ERROR",
-      "A message",
-      {},
-      { a_boolean: false },
-    );
+    const options = normalize_options({});
+    const err = new CsvError("CSV_UNKNOWN_ERROR", "A message", options, {
+      a_boolean: false,
+    });
     assert_error(err, {
       a_boolean: false,
     });

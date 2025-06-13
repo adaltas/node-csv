@@ -6,6 +6,7 @@ import {
   Options,
   Parser,
   CsvError,
+  normalize_options,
 } from "../lib/index.js";
 
 describe("API Types", function () {
@@ -30,7 +31,7 @@ describe("API Types", function () {
 
     it("Expose options", function () {
       const parser: Parser = parse();
-      const options: Options = parser.options;
+      const options = parser.options;
       const keys: string[] = Object.keys(options);
       keys
         .sort()
@@ -224,13 +225,15 @@ describe("API Types", function () {
 
       const typedOptions: Options<Person> = {};
       typedOptions.columns = ["age", undefined, null, false, { name: "name" }];
-      typedOptions.columns = (record) => {
+      typedOptions.columns = (record: Person) => {
+        record;
         return ["age"];
       };
 
       const unknownTypedOptions: Options<unknown> = {};
       unknownTypedOptions.columns = ["anything", undefined, null, false];
-      unknownTypedOptions.columns = (record) => {
+      unknownTypedOptions.columns = (record: unknown) => {
+        record;
         return ["anything", undefined, null, false];
       };
     });
@@ -429,10 +432,11 @@ describe("API Types", function () {
       });
 
       it("Supports contexts", function () {
+        const options = normalize_options({});
         const error = new CsvError(
           "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH",
           "MESSAGE",
-          {},
+          options,
           { testContext: { testProp: "testValue" } },
         );
 
@@ -443,12 +447,11 @@ describe("API Types", function () {
     });
 
     it("Proper type is thrown when an error is encountered", function () {
-      parse(`a,b\nc`, function (e: Error | undefined) {
+      parse(`a,b\nc`, function (e) {
+        if (!e) throw Error("Invalid assessment");
         const isCsvError = e instanceof CsvError;
         isCsvError.should.be.true();
-        (e as CsvError).code.should.eql(
-          "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH",
-        );
+        e.code.should.eql("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH");
       });
     });
   });

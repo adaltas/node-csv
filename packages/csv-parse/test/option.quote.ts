@@ -20,12 +20,12 @@ describe("Option `quote`", function () {
 
   it("default", function () {
     const parser = parse();
-    parser.options.quote.should.eql(Buffer.from('"'));
+    parser.options.quote?.should.eql(Buffer.from('"'));
   });
 
   it("normalize", function () {
     let parser = parse({ quote: true });
-    parser.options.quote.should.eql(Buffer.from('"'));
+    parser.options.quote?.should.eql(Buffer.from('"'));
     parser = parse({ quote: false });
     (parser.options.quote === null).should.be.true();
     parser = parse({ quote: null });
@@ -244,6 +244,7 @@ describe("Option `quote`", function () {
   describe('error "Quoted field not terminated"', function () {
     it("when unclosed", function (next) {
       parse(`"",1974,8.8392926E7,"","`, (err) => {
+        if (!err) return next(Error("Invalid assessment"));
         assert_error(err, {
           message:
             "Quote Not Closed: the parsing is finished with an opening quote at line 1",
@@ -257,6 +258,7 @@ describe("Option `quote`", function () {
   describe('error "Invalid Closing Quote"', function () {
     it("when followed by a character", function (next) {
       parse('""!', { quote: '"', escape: '"' }, (err) => {
+        if (!err) return next(Error("Invalid assessment"));
         assert_error(err, {
           message:
             'Invalid Closing Quote: got "!" at line 1 instead of delimiter, record delimiter, trimable character (if activated) or comment',
@@ -309,6 +311,7 @@ describe("Option `quote`", function () {
           "and",valid,line,follows...
         `,
         (err, records) => {
+          if (!err) return next(Error("Invalid assessment"));
           assert_error(err, {
             message:
               'Invalid Opening Quote: a quote is found on field 3 at line 3, value is "invalid h"',
@@ -330,6 +333,7 @@ describe("Option `quote`", function () {
         `,
         { columns: true },
         (err, records) => {
+          if (!err) return next(Error("Invalid assessment"));
           assert_error(err, {
             message:
               'Invalid Opening Quote: a quote is found on field "d" at line 3, value is "2"',

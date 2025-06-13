@@ -165,7 +165,7 @@ describe("Option `record_delimiter`", function () {
     });
 
     it("handle chunks of multiple chars when record_delimiter is a string", function (next) {
-      const records = [];
+      const records: string[] = [];
       const parser = parse({ record_delimiter: "::" });
       parser.on("readable", () => {
         let d;
@@ -190,7 +190,7 @@ describe("Option `record_delimiter`", function () {
     });
 
     it("handle chunks of multiple chars when record_delimiter is an array", function (next) {
-      const records = [];
+      const records: string[] = [];
       const parser = parse({ record_delimiter: ["::", "\r"] });
       parser.on("readable", () => {
         let d;
@@ -217,7 +217,7 @@ describe("Option `record_delimiter`", function () {
     });
 
     it("handle chunks of multiple chars without quotes when record_delimiter is a string", function (next) {
-      const records = [];
+      const records: string[] = [];
       const parser = parse({ record_delimiter: "::" });
       parser.on("readable", () => {
         let d;
@@ -242,7 +242,7 @@ describe("Option `record_delimiter`", function () {
     });
 
     it("handle chunks of multiple chars without quotes when record_delimiter is an array", function (next) {
-      const records = [];
+      const records: string[] = [];
       const parser = parse({ record_delimiter: ["::", "\n", "\r\n"] });
       parser.on("readable", () => {
         let d;
@@ -278,7 +278,7 @@ describe("Option `record_delimiter`", function () {
     });
 
     it("handle chunks in autodiscovery", function (next) {
-      const records = [];
+      const records: string[] = [];
       const parser = parse();
       parser.on("readable", () => {
         let d;
@@ -303,7 +303,7 @@ describe("Option `record_delimiter`", function () {
     });
 
     it("write aggressively", function (next) {
-      const records = [];
+      const records: string[] = [];
       const parser = parse();
       parser.on("readable", () => {
         let d;
@@ -333,7 +333,7 @@ describe("Option `record_delimiter`", function () {
     });
 
     it("ensure autodiscovery support chunck between lines", function (next) {
-      const records = [];
+      const records: string[] = [];
       const parser = parse();
       parser.on("readable", () => {
         let d;
@@ -396,8 +396,9 @@ describe("Option `record_delimiter`", function () {
         }
         next(err);
       });
-      for (const c of Buffer.from("a,b\r\n1,2", "utf8")) {
-        parser.write(Buffer.from([c]));
+      const buf = Buffer.from("a,b\r\n1,2", "utf8");
+      for (let i = 0; i < buf.length; i++) {
+        parser.write(Buffer.from([buf[i]]));
       }
       parser.end();
     });
@@ -412,8 +413,9 @@ describe("Option `record_delimiter`", function () {
         }
         next(err);
       });
-      for (const c of Buffer.from("a,b\r1,2", "utf8")) {
-        parser.write(Buffer.from([c]));
+      const buf = Buffer.from("a,b\r1,2", "utf8");
+      for (let i = 0; i < buf.length; i++) {
+        parser.write(Buffer.from([buf[i]]));
       }
       parser.end();
     });
@@ -428,8 +430,9 @@ describe("Option `record_delimiter`", function () {
         }
         next(err);
       });
-      for (const c of Buffer.from("a,b\n1,2", "utf8")) {
-        parser.write(Buffer.from([c]));
+      const buf = Buffer.from("a,b\n1,2", "utf8");
+      for (let i = 0; i < buf.length; i++) {
+        parser.write(Buffer.from([buf[i]]));
       }
       parser.end();
     });
@@ -444,11 +447,12 @@ describe("Option `record_delimiter`", function () {
         }
         next(err);
       });
-      for (const c of Buffer.concat([
+      const buf = Buffer.concat([
         Buffer.from([239, 187, 191]),
         Buffer.from("a,b\r\n1,2", "utf8"),
-      ])) {
-        parser.write(Buffer.from([c]));
+      ]);
+      for (let i = 0; i < buf.length; i++) {
+        parser.write(Buffer.from([buf[i]]));
       }
       parser.end();
     });
@@ -463,8 +467,9 @@ describe("Option `record_delimiter`", function () {
         }
         next(err);
       });
-      for (const c of Buffer.from("a,b\r\n1,2", "utf16le")) {
-        parser.write(Buffer.from([c]));
+      const buf = Buffer.from("a,b\r\n1,2", "utf16le");
+      for (let i = 0; i < buf.length; i++) {
+        parser.write(Buffer.from([buf[i]]));
       }
       parser.end();
     });
@@ -479,8 +484,9 @@ describe("Option `record_delimiter`", function () {
         }
         next(err);
       });
-      for (const c of Buffer.from("a,b\r1,2", "utf16le")) {
-        parser.write(Buffer.from([c]));
+      const buf = Buffer.from("a,b\r1,2", "utf16le");
+      for (let i = 0; i < buf.length; i++) {
+        parser.write(Buffer.from([buf[i]]));
       }
       parser.end();
     });
@@ -495,8 +501,9 @@ describe("Option `record_delimiter`", function () {
         }
         next(err);
       });
-      for (const c of Buffer.from("a,b\n1,2", "utf16le")) {
-        parser.write(Buffer.from([c]));
+      const buf = Buffer.from("a,b\n1,2", "utf16le");
+      for (let i = 0; i < buf.length; i++) {
+        parser.write(Buffer.from([buf[i]]));
       }
       parser.end();
     });
@@ -511,11 +518,12 @@ describe("Option `record_delimiter`", function () {
         }
         next(err);
       });
-      for (const c of Buffer.concat([
+      const buf = Buffer.concat([
         Buffer.from([255, 254]),
         Buffer.from("a,b\r\n1,2", "utf16le"),
-      ])) {
-        parser.write(Buffer.from([c]));
+      ]);
+      for (let i = 0; i < buf.length; i++) {
+        parser.write(Buffer.from([buf[i]]));
       }
       parser.end();
     });

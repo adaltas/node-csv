@@ -370,33 +370,33 @@ export interface Options<T = string[]> {
   /**
    * Generate two properties raw and row where raw is the original CSV row content and row is the parsed array or object.
    */
-  raw?: boolean;
-  /**
-   * Discard inconsistent columns count, default to false.
-   */
-  relax_column_count?: boolean;
-  relaxColumnCount?: boolean;
-  /**
-   * Discard inconsistent columns count when the record contains less fields than expected, default to false.
-   */
-  relax_column_count_less?: boolean;
-  relaxColumnCountLess?: boolean;
-  /**
-   * Discard inconsistent columns count when the record contains more fields than expected, default to false.
-   */
-  relax_column_count_more?: boolean;
-  relaxColumnCountMore?: boolean;
-  /**
-   * Preserve quotes inside unquoted field.
-   */
-  relax_quotes?: boolean;
-  relaxQuotes?: boolean;
+  raw?: boolean | null;
   /**
    * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
    * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
    */
-  record_delimiter?: string | string[] | Buffer | Buffer[];
-  recordDelimiter?: string | string[] | Buffer | Buffer[];
+  record_delimiter?: string | Buffer | null | (string | Buffer | null)[];
+  recordDelimiter?: string | Buffer | null | (string | Buffer | null)[];
+  /**
+   * Discard inconsistent columns count, default to false.
+   */
+  relax_column_count?: boolean | null;
+  relaxColumnCount?: boolean | null;
+  /**
+   * Discard inconsistent columns count when the record contains less fields than expected, default to false.
+   */
+  relax_column_count_less?: boolean | null;
+  relaxColumnCountLess?: boolean | null;
+  /**
+   * Discard inconsistent columns count when the record contains more fields than expected, default to false.
+   */
+  relax_column_count_more?: boolean | null;
+  relaxColumnCountMore?: boolean | null;
+  /**
+   * Preserve quotes inside unquoted field.
+   */
+  relax_quotes?: boolean | null;
+  relaxQuotes?: boolean | null;
   /**
    * If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
    * Does not remove whitespace in a quoted field.
@@ -406,27 +406,27 @@ export interface Options<T = string[]> {
    * Dont generate empty values for empty lines.
    * Defaults to false
    */
-  skip_empty_lines?: boolean;
-  skipEmptyLines?: boolean;
-  /**
-   * Skip a line with error found inside and directly go process the next line.
-   */
-  skip_records_with_error?: boolean;
-  skipRecordsWithError?: boolean;
+  skip_empty_lines?: boolean | null;
+  skipEmptyLines?: boolean | null;
   /**
    * Don't generate records for lines containing empty column values (column matching /\s*\/), defaults to false.
    */
-  skip_records_with_empty_values?: boolean;
-  skipRecordsWithEmptyValues?: boolean;
+  skip_records_with_empty_values?: boolean | null;
+  skipRecordsWithEmptyValues?: boolean | null;
+  /**
+   * Skip a line with error found inside and directly go process the next line.
+   */
+  skip_records_with_error?: boolean | null;
+  skipRecordsWithError?: boolean | null;
   /**
    * Stop handling records after the requested number of records.
    */
-  to?: number;
+  to?: null | number | string;
   /**
    * Stop handling records after the requested line number.
    */
-  to_line?: number;
-  toLine?: number;
+  to_line?: null | number | string;
+  toLine?: null | number | string;
   /**
    * If true, ignore whitespace immediately around the delimiter, defaults to false.
    * Does not remove whitespace in a quoted field.

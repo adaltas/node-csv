@@ -47,6 +47,7 @@ describe("info lines", function () {
         "and",valid,line,follows...
       `,
       (err, records) => {
+        if (!err) return next(Error("Invalid assessment"));
         assert_error(err, {
           message:
             'Invalid Opening Quote: a quote is found on field 4 at line 3, value is "h"',
@@ -72,6 +73,7 @@ describe("info lines", function () {
         skip_empty_lines: true,
       },
       (err, records) => {
+        if (!err) return next(Error("Invalid assessment"));
         assert_error(err, {
           message:
             'Invalid Opening Quote: a quote is found on field 3 at line 4, value is "invalid h"',
@@ -94,6 +96,7 @@ describe("info lines", function () {
         "",1974,8.8392926E7,"",""
       `,
       (err, records) => {
+        if (!err) return next(Error("Invalid assessment"));
         assert_error(err, {
           message:
             "Quote Not Closed: the parsing is finished with an opening quote at line 5",
@@ -120,6 +123,7 @@ describe("info lines", function () {
         delimiter: "\t",
       },
       (err, records) => {
+        if (!err) return next(Error("Invalid assessment"));
         assert_error(err, {
           message:
             'Invalid Closing Quote: got " " at line 3 instead of delimiter, record delimiter, trimable character (if activated) or comment',
@@ -146,6 +150,7 @@ describe("info lines", function () {
         escape: '"',
       },
       (err, records) => {
+        if (!err) return next(Error("Invalid assessment"));
         assert_error(err, {
           message:
             'Invalid Closing Quote: got "t" at line 2 instead of delimiter, record delimiter, trimable character (if activated) or comment',
