@@ -13,4 +13,5 @@ export {
   ColumnOption,
   CastingContext,
   Options,
+  OptionsNormalized,
 } from "./index.js";

@@ -38,6 +38,7 @@ describe("Option `header`", function () {
         header: true,
       },
       (err) => {
+        if (!err) return next(Error("Invalid assessment"));
         err.message.should.eql(
           "Undiscoverable Columns: header option requires column option or object records",
         );
