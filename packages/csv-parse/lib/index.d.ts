@@ -10,14 +10,16 @@ export type Callback<T = string[]> = (
   info?: Info,
 ) => void;
 
-export interface Parser extends stream.Transform {}
+// export interface Parser extends stream.Transform {}
 
-export class Parser {
+// export class Parser<T> extends stream.Transform {
+export class Parser extends stream.Transform {
   constructor(options: Options);
 
-  __push(line: any): any;
+  // __push(line: T): CsvError | undefined;
+  __push(line: any): CsvError | undefined;
 
-  __write(chars: any, end: any, callback: any): any;
+  // __write(chars: any, end: any, callback: any): any;
 
   readonly options: OptionsNormalized;
 
@@ -68,7 +70,10 @@ export interface CastingContext {
   readonly invalid_field_length: number;
 }
 
-export type CastingFunction = (value: string, context: CastingContext) => any;
+export type CastingFunction = (
+  value: string,
+  context: CastingContext,
+) => unknown;
 
 export type CastingDateFunction = (
   value: string,
@@ -464,7 +469,7 @@ export class CsvError extends Error {
     code: CsvErrorCode,
     message: string | string[],
     options?: OptionsNormalized,
-    ...contexts: any[]
+    ...contexts: unknown[]
   );
 }
 
