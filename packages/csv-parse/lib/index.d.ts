@@ -473,12 +473,12 @@ type OptionsWithColumns<T> = Omit<Options<T>, "columns"> & {
 };
 
 declare function parse<T = unknown>(
-  input: string | Buffer,
+  input: string | Buffer | Uint8Array,
   options: OptionsWithColumns<T>,
   callback?: Callback<T>,
 ): Parser;
 declare function parse(
-  input: string | Buffer,
+  input: string | Buffer | Uint8Array,
   options: Options,
   callback?: Callback,
 ): Parser;
@@ -489,7 +489,10 @@ declare function parse<T = unknown>(
 ): Parser;
 declare function parse(options: Options, callback?: Callback): Parser;
 
-declare function parse(input: string | Buffer, callback?: Callback): Parser;
+declare function parse(
+  input: string | Buffer | Uint8Array,
+  callback?: Callback,
+): Parser;
 declare function parse(callback?: Callback): Parser;
 
 // export default parse;

@@ -5,11 +5,14 @@ type OptionsWithColumns<T> = Omit<Options<T>, "columns"> & {
 };
 
 declare function parse<T = unknown>(
-  input: Buffer | string,
+  input: Buffer | string | Uint8Array,
   options: OptionsWithColumns<T>,
 ): T[];
-declare function parse(input: Buffer | string, options: Options): string[][];
-declare function parse(input: Buffer | string): string[][];
+declare function parse(
+  input: Buffer | string | Uint8Array,
+  options: Options,
+): string[][];
+declare function parse(input: Buffer | string | Uint8Array): string[][];
 
 // export default parse;
 export { parse };

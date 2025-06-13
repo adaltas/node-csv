@@ -57,7 +57,8 @@ describe("API sync", function () {
       parse("A,B\nB\nC,K", { trim: true });
       throw Error("Error not catched");
     } catch (err) {
-      err.message.should.eql(
+      if (!err) throw Error("Invalid assessment");
+      (err as Error).message.should.eql(
         "Invalid Record Length: expect 2, got 1 on line 2",
       );
     }
