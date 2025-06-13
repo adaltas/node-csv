@@ -837,8 +837,8 @@
                 byteOffset = 0;
               } else if (byteOffset > 0x7fffffff) {
                 byteOffset = 0x7fffffff;
-              } else if (byteOffset < -0x80000000) {
-                byteOffset = -0x80000000;
+              } else if (byteOffset < -2147483648) {
+                byteOffset = -2147483648;
               }
               byteOffset = +byteOffset;  // Coerce to Number.
               if (isNaN(byteOffset)) {
@@ -1597,7 +1597,7 @@
             Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80);
+              if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -128);
               if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value);
               if (value < 0) value = 0xff + value + 1;
               this[offset] = (value & 0xff);
@@ -1607,7 +1607,7 @@
             Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -32768);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value & 0xff);
                 this[offset + 1] = (value >>> 8);
@@ -1620,7 +1620,7 @@
             Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -32768);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value >>> 8);
                 this[offset + 1] = (value & 0xff);
@@ -1633,7 +1633,7 @@
             Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -2147483648);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value & 0xff);
                 this[offset + 1] = (value >>> 8);
@@ -1648,7 +1648,7 @@
             Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -2147483648);
               if (value < 0) value = 0xffffffff + value + 1;
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value >>> 24);
@@ -2255,7 +2255,7 @@
                 );
               }
               // Normalize option `columns`
-              options.cast_first_line_to_header = null;
+              options.cast_first_line_to_header = undefined;
               if (options.columns === true) {
                 // Fields in the first line are converted as-is to columns
                 options.cast_first_line_to_header = undefined;
@@ -3683,10 +3683,14 @@
                   if (skip_records_with_error) {
                     this.state.recordHasError = true;
                     if (this.options.on_skip !== undefined) {
-                      this.options.on_skip(
-                        err,
-                        raw ? this.state.rawBuffer.toString(encoding) : undefined,
-                      );
+                      try {
+                        this.options.on_skip(
+                          err,
+                          raw ? this.state.rawBuffer.toString(encoding) : undefined,
+                        );
+                      } catch (err) {
+                        return err;
+                      }
                     }
                     // this.emit('skip', err, raw ? this.state.rawBuffer.toString(encoding) : undefined);
                     return undefined;
@@ -3740,10 +3744,13 @@
                 }
               };
               const close = () => {};
-              const err1 = parser.parse(data, false, push, close);
-              if (err1 !== undefined) throw err1;
-              const err2 = parser.parse(undefined, true, push, close);
-              if (err2 !== undefined) throw err2;
+              const error = parser.parse(data, true, push, close);
+              if (error !== undefined) throw error;
+              // 250606: `parser.parse` was implemented as 2 calls:
+              // const err1 = parser.parse(data, false, push, close);
+              // if (err1 !== undefined) throw err1;
+              // const err2 = parser.parse(undefined, true, push, close);
+              // if (err2 !== undefined) throw err2;
               return records;
             };
 

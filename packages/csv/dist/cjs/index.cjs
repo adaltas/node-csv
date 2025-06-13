@@ -579,7 +579,7 @@ const normalize_options$1 = function (opts) {
     );
   }
   // Normalize option `columns`
-  options.cast_first_line_to_header = null;
+  options.cast_first_line_to_header = undefined;
   if (options.columns === true) {
     // Fields in the first line are converted as-is to columns
     options.cast_first_line_to_header = undefined;
@@ -2007,10 +2007,14 @@ const transform$1 = function (original_options = {}) {
       if (skip_records_with_error) {
         this.state.recordHasError = true;
         if (this.options.on_skip !== undefined) {
-          this.options.on_skip(
-            err,
-            raw ? this.state.rawBuffer.toString(encoding) : undefined,
-          );
+          try {
+            this.options.on_skip(
+              err,
+              raw ? this.state.rawBuffer.toString(encoding) : undefined,
+            );
+          } catch (err) {
+            return err;
+          }
         }
         // this.emit('skip', err, raw ? this.state.rawBuffer.toString(encoding) : undefined);
         return undefined;
@@ -2402,6 +2406,7 @@ const reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
 const reIsPlainProp = /^\w*$/;
 
 const getTag = function (value) {
+  // if (!value) value === undefined ? "[object Undefined]" : "[object Null]";
   return Object.prototype.toString.call(value);
 };
 

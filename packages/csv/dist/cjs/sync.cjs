@@ -577,7 +577,7 @@ const normalize_options$1 = function (opts) {
     );
   }
   // Normalize option `columns`
-  options.cast_first_line_to_header = null;
+  options.cast_first_line_to_header = undefined;
   if (options.columns === true) {
     // Fields in the first line are converted as-is to columns
     options.cast_first_line_to_header = undefined;
@@ -2005,10 +2005,14 @@ const transform$1 = function (original_options = {}) {
       if (skip_records_with_error) {
         this.state.recordHasError = true;
         if (this.options.on_skip !== undefined) {
-          this.options.on_skip(
-            err,
-            raw ? this.state.rawBuffer.toString(encoding) : undefined,
-          );
+          try {
+            this.options.on_skip(
+              err,
+              raw ? this.state.rawBuffer.toString(encoding) : undefined,
+            );
+          } catch (err) {
+            return err;
+          }
         }
         // this.emit('skip', err, raw ? this.state.rawBuffer.toString(encoding) : undefined);
         return undefined;
@@ -2062,10 +2066,13 @@ const parse = function (data, opts = {}) {
     }
   };
   const close = () => {};
-  const err1 = parser.parse(data, false, push, close);
-  if (err1 !== undefined) throw err1;
-  const err2 = parser.parse(undefined, true, push, close);
-  if (err2 !== undefined) throw err2;
+  const error = parser.parse(data, true, push, close);
+  if (error !== undefined) throw error;
+  // 250606: `parser.parse` was implemented as 2 calls:
+  // const err1 = parser.parse(data, false, push, close);
+  // if (err1 !== undefined) throw err1;
+  // const err2 = parser.parse(undefined, true, push, close);
+  // if (err2 !== undefined) throw err2;
   return records;
 };
 
@@ -2094,6 +2101,7 @@ const reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
 const reIsPlainProp = /^\w*$/;
 
 const getTag = function (value) {
+  // if (!value) value === undefined ? "[object Undefined]" : "[object Null]";
   return Object.prototype.toString.call(value);
 };
 

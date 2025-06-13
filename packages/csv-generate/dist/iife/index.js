@@ -834,8 +834,8 @@ var csv_generate = (function (exports) {
                 byteOffset = 0;
               } else if (byteOffset > 0x7fffffff) {
                 byteOffset = 0x7fffffff;
-              } else if (byteOffset < -0x80000000) {
-                byteOffset = -0x80000000;
+              } else if (byteOffset < -2147483648) {
+                byteOffset = -2147483648;
               }
               byteOffset = +byteOffset;  // Coerce to Number.
               if (isNaN(byteOffset)) {
@@ -1594,7 +1594,7 @@ var csv_generate = (function (exports) {
             Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80);
+              if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -128);
               if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value);
               if (value < 0) value = 0xff + value + 1;
               this[offset] = (value & 0xff);
@@ -1604,7 +1604,7 @@ var csv_generate = (function (exports) {
             Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -32768);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value & 0xff);
                 this[offset + 1] = (value >>> 8);
@@ -1617,7 +1617,7 @@ var csv_generate = (function (exports) {
             Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -32768);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value >>> 8);
                 this[offset + 1] = (value & 0xff);
@@ -1630,7 +1630,7 @@ var csv_generate = (function (exports) {
             Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -2147483648);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value & 0xff);
                 this[offset + 1] = (value >>> 8);
@@ -1645,7 +1645,7 @@ var csv_generate = (function (exports) {
             Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -2147483648);
               if (value < 0) value = 0xffffffff + value + 1;
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value >>> 24);
@@ -2003,7 +2003,9 @@ var csv_generate = (function (exports) {
               this.domain = null;
               if (EventEmitter.usingDomains) {
                 // if there is an active domain, then attach to it.
-                if (domain.active) ;
+                if (domain.active && !(this instanceof domain.Domain)) {
+                  this.domain = domain.active;
+                }
               }
 
               if (!this._events || this._events === Object.getPrototypeOf(this)._events) {
@@ -2572,94 +2574,19 @@ var csv_generate = (function (exports) {
             Item.prototype.run = function () {
                 this.fun.apply(null, this.array);
             };
-            var title = 'browser';
-            var platform = 'browser';
-            var browser = true;
             var env = {};
-            var argv = [];
-            var version = ''; // empty string to avoid regexp issues
-            var versions = {};
-            var release = {};
-            var config = {};
-
-            function noop() {}
-
-            var on = noop;
-            var addListener = noop;
-            var once = noop;
-            var off = noop;
-            var removeListener = noop;
-            var removeAllListeners = noop;
-            var emit = noop;
-
-            function binding(name) {
-                throw new Error('process.binding is not supported');
-            }
-
-            function cwd () { return '/' }
-            function chdir (dir) {
-                throw new Error('process.chdir is not supported');
-            }function umask() { return 0; }
 
             // from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
             var performance = global$1.performance || {};
-            var performanceNow =
-              performance.now        ||
+            performance.now        ||
               performance.mozNow     ||
               performance.msNow      ||
               performance.oNow       ||
               performance.webkitNow  ||
               function(){ return (new Date()).getTime() };
 
-            // generate timestamp or delta
-            // see http://nodejs.org/api/process.html#process_process_hrtime
-            function hrtime(previousTimestamp){
-              var clocktime = performanceNow.call(performance)*1e-3;
-              var seconds = Math.floor(clocktime);
-              var nanoseconds = Math.floor((clocktime%1)*1e9);
-              if (previousTimestamp) {
-                seconds = seconds - previousTimestamp[0];
-                nanoseconds = nanoseconds - previousTimestamp[1];
-                if (nanoseconds<0) {
-                  seconds--;
-                  nanoseconds += 1e9;
-                }
-              }
-              return [seconds,nanoseconds]
-            }
-
-            var startTime = new Date();
-            function uptime() {
-              var currentTime = new Date();
-              var dif = currentTime - startTime;
-              return dif / 1000;
-            }
-
             var process = {
-              nextTick: nextTick,
-              title: title,
-              browser: browser,
-              env: env,
-              argv: argv,
-              version: version,
-              versions: versions,
-              on: on,
-              addListener: addListener,
-              once: once,
-              off: off,
-              removeListener: removeListener,
-              removeAllListeners: removeAllListeners,
-              emit: emit,
-              binding: binding,
-              cwd: cwd,
-              chdir: chdir,
-              umask: umask,
-              hrtime: hrtime,
-              platform: platform,
-              release: release,
-              config: config,
-              uptime: uptime
-            };
+              env: env};
 
             var inherits;
             if (typeof Object.create === 'function'){

@@ -52,6 +52,7 @@ const reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/;
 const reIsPlainProp = /^\w*$/;
 
 const getTag = function (value) {
+  // if (!value) value === undefined ? "[object Undefined]" : "[object Null]";
   return Object.prototype.toString.call(value);
 };
 

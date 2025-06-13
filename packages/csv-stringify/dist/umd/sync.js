@@ -837,8 +837,8 @@
                 byteOffset = 0;
               } else if (byteOffset > 0x7fffffff) {
                 byteOffset = 0x7fffffff;
-              } else if (byteOffset < -0x80000000) {
-                byteOffset = -0x80000000;
+              } else if (byteOffset < -2147483648) {
+                byteOffset = -2147483648;
               }
               byteOffset = +byteOffset;  // Coerce to Number.
               if (isNaN(byteOffset)) {
@@ -1597,7 +1597,7 @@
             Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80);
+              if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -128);
               if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value);
               if (value < 0) value = 0xff + value + 1;
               this[offset] = (value & 0xff);
@@ -1607,7 +1607,7 @@
             Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -32768);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value & 0xff);
                 this[offset + 1] = (value >>> 8);
@@ -1620,7 +1620,7 @@
             Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -32768);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value >>> 8);
                 this[offset + 1] = (value & 0xff);
@@ -1633,7 +1633,7 @@
             Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -2147483648);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value & 0xff);
                 this[offset + 1] = (value >>> 8);
@@ -1648,7 +1648,7 @@
             Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -2147483648);
               if (value < 0) value = 0xffffffff + value + 1;
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value >>> 24);
@@ -2001,6 +2001,7 @@
             const reIsPlainProp = /^\w*$/;
 
             const getTag = function (value) {
+              // if (!value) value === undefined ? "[object Undefined]" : "[object Null]";
               return Object.prototype.toString.call(value);
             };
 
