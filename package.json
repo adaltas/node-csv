@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "postinstall": "husky install",
+    "prepare": "husky",
     "publish": "lerna publish from-git --yes",
     "lint:check": "eslint",
     "lint:fix": "eslint --fix",
