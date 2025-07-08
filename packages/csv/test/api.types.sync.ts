@@ -10,7 +10,7 @@ describe("API Types", function () {
     });
 
     it("parse", function () {
-      const output: string = parse("");
+      const output: string[][] = parse("");
       return output;
     });
 
