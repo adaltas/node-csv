@@ -1,12 +1,12 @@
 {
   "name": "csv-issues-cjs",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "csv-parse": "^5.6.0",
-    "csv-stringify": "^6.5.2"
+    "csv-parse": "^6.0.0",
+    "csv-stringify": "^6.6.0"
   },
   "devDependencies": {
     "coffeescript": "^2.7.0",

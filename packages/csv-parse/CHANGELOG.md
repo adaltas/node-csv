@@ -3,6 +3,88 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 6.0.0 (2025-07-10)
+
+### ⚠ BREAKING CHANGES
+
+- **csv-parse:** rename group_columns_by_name option
+- **csv-parse:** rename RECORD_INCONSISTENT_FIELDS_LENGTH
+- **csv-parse:** rename RECORD_DONT_MATCH_COLUMNS_LENGTH
+- **csv-parse:** rename skip_records_with_error
+- **csv-parse:** rename skip_records_with_empty_values
+- **csv-parse:** rename relax to relax_quotes
+
+### Features
+
+- backport support for node 14 ([dbfeb78](https://github.com/adaltas/node-csv/commit/dbfeb78f61ed36f02936d63a53345708ca213e45))
+- backward support for node 8 ([496231d](https://github.com/adaltas/node-csv/commit/496231dfd838f0a6a72269a5a2390a4c637cef95))
+- **csv-parse:** add `columns` property in `Info` object type ([#390](https://github.com/adaltas/node-csv/issues/390)) ([2dd2a92](https://github.com/adaltas/node-csv/commit/2dd2a92d0376c3cee3a4a39334f9828874f422bd))
+- **csv-parse:** add generic type argument ([#457](https://github.com/adaltas/node-csv/issues/457)) ([ef71342](https://github.com/adaltas/node-csv/commit/ef713422d75812f2d4634c0c3f1d1f46a68ad186)), closes [#278](https://github.com/adaltas/node-csv/issues/278) [#407](https://github.com/adaltas/node-csv/issues/407)
+- **csv-parse:** boolean and null comment type ([b9ac1f0](https://github.com/adaltas/node-csv/commit/b9ac1f0ce8d10a157d189ff4277a668ec2680b07))
+- **csv-parse:** callback records defined type ([3d4f225](https://github.com/adaltas/node-csv/commit/3d4f22549941766ecec87c962f4bb5058b996c24))
+- **csv-parse:** cast_date as a function (fix [#342](https://github.com/adaltas/node-csv/issues/342)) ([2807d29](https://github.com/adaltas/node-csv/commit/2807d292c8987f5dedde4f7fe0bd0ac7f75c8755))
+- **csv-parse:** casting context raw export ([a26f5d7](https://github.com/adaltas/node-csv/commit/a26f5d71c82dcdda01037965330919344eedaf47))
+- **csv-parse:** implement TransformStream ([#445](https://github.com/adaltas/node-csv/issues/445)) ([1213de8](https://github.com/adaltas/node-csv/commit/1213de8f032432ac09dd34861446b91ae85220ef))
+- **csv-parse:** improve record_delimiter validation ([67b7da8](https://github.com/adaltas/node-csv/commit/67b7da892db7f0f426b9f0fa12063e81eafe8a9b))
+- **csv-parse:** input as Uint8Array (fix [#458](https://github.com/adaltas/node-csv/issues/458)) ([24af461](https://github.com/adaltas/node-csv/commit/24af4615343bf6f167adf2226d6906cf0e2cf89d))
+- **csv-parse:** new comment_no_infix option (fix [#325](https://github.com/adaltas/node-csv/issues/325)) ([caca5c3](https://github.com/adaltas/node-csv/commit/caca5c3044541acfc9fe4a7f32167bb1179b6253))
+- **csv-parse:** normailzsed options type ([da7a62e](https://github.com/adaltas/node-csv/commit/da7a62e3b30fdc1fbd6293cbc9289a8ff6f5f64a))
+- **csv-parse:** normalize_options export ([9056293](https://github.com/adaltas/node-csv/commit/9056293960a2e0bdc0e4bae30d819ca794407fed))
+- **csv-parse:** null comment_no_infix type ([d8bf4fd](https://github.com/adaltas/node-csv/commit/d8bf4fd1fb813553a0e312b44374877b4dace52d))
+- **csv-parse:** objname index ([015b936](https://github.com/adaltas/node-csv/commit/015b936ea42026efa52263a7687f886463263ed8))
+- **csv-parse:** on_skip catch thrown error ([987a3a9](https://github.com/adaltas/node-csv/commit/987a3a9a6873c06c7e2256a2bd83415b3fe0323b))
+- **csv-parse:** skip_line_with_errors used with raw print current buffer (fix [#292](https://github.com/adaltas/node-csv/issues/292)) ([2741990](https://github.com/adaltas/node-csv/commit/27419908b9ce5319307bb6647335d5c07cd1e3a4))
+- **csv-parse:** ts type encoding with BufferEncoding ([39a4388](https://github.com/adaltas/node-csv/commit/39a43886904801d47a92a3cb5722409f36020534))
+- **csv-parse:** use ts unknown instead of any when possible ([a47badf](https://github.com/adaltas/node-csv/commit/a47badf599211ad12c4dd1ffac800adb3da393b7))
+- esm migration ([b5c0d4b](https://github.com/adaltas/node-csv/commit/b5c0d4b191c8b57397808c0922a3f08248506a9f))
+- export ts types in sync ([890bf8d](https://github.com/adaltas/node-csv/commit/890bf8d950c18a05cab5e35a461d0847d9425156))
+- replace ts types with typesVersions ([acb41d5](https://github.com/adaltas/node-csv/commit/acb41d5031669f2d582e40da1c80f5fd4738fee4))
+- ts module Node16 and type declaration to exports field ([#341](https://github.com/adaltas/node-csv/issues/341)) ([4b0283d](https://github.com/adaltas/node-csv/commit/4b0283d17b7fa46daa1f87380759ba72c71ec79b))
+- wg stream api ([8a5eb7d](https://github.com/adaltas/node-csv/commit/8a5eb7dfd31b22217db4fbbc832d707221850785))
+
+### Bug Fixes
+
+- commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397)) ([e6870fe](https://github.com/adaltas/node-csv/commit/e6870fe272c119e273196522c9771d12ff8b2a35))
+- correct exports in package.json with webpack ([154eafb](https://github.com/adaltas/node-csv/commit/154eafbac866eb4499a0d392f8dcd057695c2586))
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript ([87fe919](https://github.com/adaltas/node-csv/commit/87fe91996fb2a8895c252177fca4f0cb59a518f9))
+- **csv-demo-webpack-ts:** remove polyfill ([47a99bd](https://github.com/adaltas/node-csv/commit/47a99bd944d1d943e6374227dbc4e20aaa2c8c7f))
+- **csv-demo-webpack-ts:** simplify export paths ([8d63a14](https://github.com/adaltas/node-csv/commit/8d63a14313bb6b26f13fafb740cc686f1dfaa65f))
+- **csv-parse:** build from previus commit ([29a0916](https://github.com/adaltas/node-csv/commit/29a0916026429d648e8c515ada4a452036e0736d))
+- **csv-parse:** call destroy on end (fix [#410](https://github.com/adaltas/node-csv/issues/410)) ([0df32c6](https://github.com/adaltas/node-csv/commit/0df32c6a3500d2541451846c6a152ff991a2f2ff))
+- **csv-parse:** comment infix when comment first field char (fix [#415](https://github.com/adaltas/node-csv/issues/415)) ([8e0f8b8](https://github.com/adaltas/node-csv/commit/8e0f8b8e11736f1223b0bda4dd2a3b37506dd531))
+- **csv-parse:** destroy on end and call close event (fix [#333](https://github.com/adaltas/node-csv/issues/333)) ([ca3f55b](https://github.com/adaltas/node-csv/commit/ca3f55b7cf556b45377677428783608a2d9ebbb2))
+- **csv-parse:** encoding detection with bom ([#350](https://github.com/adaltas/node-csv/issues/350)) ([fd75e66](https://github.com/adaltas/node-csv/commit/fd75e6626c1c549936bf35a2247ebefa0f3d5ec3))
+- **csv-parse:** export csv error class in sync ([fc89380](https://github.com/adaltas/node-csv/commit/fc8938090141861dcbcae214f64e52a0aa6cc691))
+- **csv-parse:** improve INVALID_OPENING_QUOTE error message (fix adaltas/node-csv-docs[#120](https://github.com/adaltas/node-csv/issues/120)) ([3639780](https://github.com/adaltas/node-csv/commit/36397800a9b479658e6497bb521a27c037fc3abb))
+- **csv-parse:** premature close error ([c6473a9](https://github.com/adaltas/node-csv/commit/c6473a9cb6c5e4c94e42c30c2b9d15b049f16a6b))
+- **csv-parse:** record_delimiter and non default encoding (fix [#365](https://github.com/adaltas/node-csv/issues/365)) ([16fdb2d](https://github.com/adaltas/node-csv/commit/16fdb2dd2c3221d00568f28bed44106ffc0d49ef))
+- **csv-parse:** remove support for cast_date, no test ([5471985](https://github.com/adaltas/node-csv/commit/5471985e7e5f603ee1e3dd7bcf203415d94978f5))
+- **csv-parse:** rtrim encoding support (fix [#349](https://github.com/adaltas/node-csv/issues/349)) ([8bf52f0](https://github.com/adaltas/node-csv/commit/8bf52f0d5c25ee2423cb1629d3e9103534668c83))
+- **csv-parse:** skip event not raised with bom (fix [#411](https://github.com/adaltas/node-csv/issues/411)) ([1326351](https://github.com/adaltas/node-csv/commit/13263514ef6ec02000cf2da39ba6aa2ff92f00ae))
+- **csv-parse:** ts callback CsvError argument ([899dc67](https://github.com/adaltas/node-csv/commit/899dc67ed6256478e8eecbcc5b925f238ce367d5))
+- dont insert polyfills in cjs [#303](https://github.com/adaltas/node-csv/issues/303) ([9baf334](https://github.com/adaltas/node-csv/commit/9baf334044dab90b4a0d096a7e456d0fd5807d5b))
+- esm exports in package.json files ([c48fe47](https://github.com/adaltas/node-csv/commit/c48fe478ced7560aa078fbc36ec33d6007111e2b)), closes [#308](https://github.com/adaltas/node-csv/issues/308)
+- export original lib esm modules ([be25349](https://github.com/adaltas/node-csv/commit/be2534928ba21156e9cde1e15d2e8593d62ffe71))
+- expose browser esm modules ([eb87355](https://github.com/adaltas/node-csv/commit/eb873557c65912f065d2581d30a17a96b0bfd2d6))
+- fallback to setTimeout is setImmediate is undefined ([3d6a2d0](https://github.com/adaltas/node-csv/commit/3d6a2d0a655af342f28456b46db7ccfe7ee9d664))
+- refer to esm files in dist ([b780fbd](https://github.com/adaltas/node-csv/commit/b780fbd26f5e54494e511eb2e004d3cdedee3593))
+- remove samples from publicatgion ([12c221d](https://github.com/adaltas/node-csv/commit/12c221dc37add26f094e3bb7f94b50ee06ff5be6))
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354)) ([fa09d03](https://github.com/adaltas/node-csv/commit/fa09d03aaf0008b2790656871ca6b2c4be12d14c))
+- support TypeScript moduleResolution node16 ([#368](https://github.com/adaltas/node-csv/issues/368)) ([f4d7c97](https://github.com/adaltas/node-csv/commit/f4d7c97f39fb73e9d248eee21e61e7dc48015c78))
+
+### Performance Improvements
+
+- **csv-parse:** buffer unsafe allocation ([35c1f4a](https://github.com/adaltas/node-csv/commit/35c1f4a9dd806adc4de749c2e211bd436224d7f0))
+
+### Code Refactoring
+
+- **csv-parse:** rename group_columns_by_name option ([74334cf](https://github.com/adaltas/node-csv/commit/74334cf0e85e005a878c0597b3300f4762116a0d))
+- **csv-parse:** rename RECORD_DONT_MATCH_COLUMNS_LENGTH ([fb391c9](https://github.com/adaltas/node-csv/commit/fb391c92fa248bda30b816930cac88a5d9026b04))
+- **csv-parse:** rename RECORD_INCONSISTENT_FIELDS_LENGTH ([7b55f05](https://github.com/adaltas/node-csv/commit/7b55f050df327939efcb65d4e76d27f98c89d925))
+- **csv-parse:** rename relax to relax_quotes ([9fffd50](https://github.com/adaltas/node-csv/commit/9fffd50762e10b3794883c6b3751ad209510f82e))
+- **csv-parse:** rename skip_records_with_empty_values ([aa432c1](https://github.com/adaltas/node-csv/commit/aa432c1251327b579ee7f71bd9fd776021ac1f1e))
+- **csv-parse:** rename skip_records_with_error ([0376af7](https://github.com/adaltas/node-csv/commit/0376af7984caa6726d12980edecccda1bbbbcacc))
+
 ## [5.6.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.5.6...csv-parse@5.6.0) (2024-11-21)
 
 ### Features
