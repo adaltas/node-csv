@@ -17,7 +17,8 @@
     "timeout": 40000
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "exit 0"
   },
   "dependencies": {
     "csv": "^6.3.11",
