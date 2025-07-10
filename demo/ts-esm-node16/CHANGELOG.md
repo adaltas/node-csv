@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.20 (2025-07-10)
+
+### Bug Fixes
+
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript ([87fe919](https://github.com/adaltas/node-csv/commit/87fe91996fb2a8895c252177fca4f0cb59a518f9))
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354)) ([fa09d03](https://github.com/adaltas/node-csv/commit/fa09d03aaf0008b2790656871ca6b2c4be12d14c))
+
 ## [0.2.19](https://github.com/adaltas/node-csv/compare/csv-demo-ts-module-node16@0.2.18...csv-demo-ts-module-node16@0.2.19) (2024-11-21)
 
 **Note:** Version bump only for package csv-demo-ts-module-node16

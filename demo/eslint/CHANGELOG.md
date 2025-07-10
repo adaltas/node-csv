@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.0 (2025-07-10)
+
+### Features
+
+- wg stream api ([8a5eb7d](https://github.com/adaltas/node-csv/commit/8a5eb7dfd31b22217db4fbbc832d707221850785))
+
+### Bug Fixes
+
+- commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397)) ([e6870fe](https://github.com/adaltas/node-csv/commit/e6870fe272c119e273196522c9771d12ff8b2a35))
+- **csv-demo-eslint:** private package ([28d6066](https://github.com/adaltas/node-csv/commit/28d60660de1c886e51e9cc16771f17fc4257a304))
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript ([87fe919](https://github.com/adaltas/node-csv/commit/87fe91996fb2a8895c252177fca4f0cb59a518f9))
+
 ## [0.1.23](https://github.com/adaltas/node-csv/compare/csv-demo-eslint@0.1.22...csv-demo-eslint@0.1.23) (2024-11-21)
 
 **Note:** Version bump only for package csv-demo-eslint

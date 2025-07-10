@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.5.0 (2025-07-10)
+
+### Features
+
+- **csv-issues-esm:** 437 sample with endable transformer ([bec3f12](https://github.com/adaltas/node-csv/commit/bec3f12072f47f2eaf7f67b25d081d292c36de26))
+- **csv-issues-esm:** issue 411 reproductible 2nd attempt ([41fca27](https://github.com/adaltas/node-csv/commit/41fca279cb10e7bb1a97e09c301e52cfd07856f0))
+- **csv-issues-esm:** issue 411 reproductible attempt ([6c5cb5e](https://github.com/adaltas/node-csv/commit/6c5cb5efb333ed0f6e3f64d2a8cddb2d4f813521))
+- **csv-issues-esm:** issue 423 ([c255eb5](https://github.com/adaltas/node-csv/commit/c255eb57015f821c4dea6558ddb5f58ae908b616))
+- **csv-issues-esm:** issue 436 ([0cbe4c7](https://github.com/adaltas/node-csv/commit/0cbe4c781dcd77b9e4354f9b12abe8dfca539771))
+- **csv-issues-esm:** issue 441 ([6ecf900](https://github.com/adaltas/node-csv/commit/6ecf90049a7e08a3fe9ff2f99c53ab032d91ff05))
+- **csv-issues-esm:** more transform config in sample ([0c2acf1](https://github.com/adaltas/node-csv/commit/0c2acf10ca61faa4d97fae147596905e7316ac95))
+- **csv-issues-esm:** reproduce issue [#415](https://github.com/adaltas/node-csv/issues/415) ([28088bc](https://github.com/adaltas/node-csv/commit/28088bcfb72331fe6ba26046a0af283c8dc0c40d))
+
+### Bug Fixes
+
+- **csv-issues-esm:** illustrate cas [#381](https://github.com/adaltas/node-csv/issues/381) ([5f8fcb6](https://github.com/adaltas/node-csv/commit/5f8fcb639af87d04f96115ddc811df90f435c483))
+- **csv-parse:** comment infix when comment first field char (fix [#415](https://github.com/adaltas/node-csv/issues/415)) ([8e0f8b8](https://github.com/adaltas/node-csv/commit/8e0f8b8e11736f1223b0bda4dd2a3b37506dd531))
+- **csv-parse:** record_delimiter and non default encoding (fix [#365](https://github.com/adaltas/node-csv/issues/365)) ([16fdb2d](https://github.com/adaltas/node-csv/commit/16fdb2dd2c3221d00568f28bed44106ffc0d49ef))
+- **csv-parse:** skip event not raised with bom (fix [#411](https://github.com/adaltas/node-csv/issues/411)) ([1326351](https://github.com/adaltas/node-csv/commit/13263514ef6ec02000cf2da39ba6aa2ff92f00ae))
+- **stream-transform:** backpressure after push ([3e83f4e](https://github.com/adaltas/node-csv/commit/3e83f4e604b7b944835de18afcb41716ce4bbfad))
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354)) ([fa09d03](https://github.com/adaltas/node-csv/commit/fa09d03aaf0008b2790656871ca6b2c4be12d14c))
+
 ## [0.4.0](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.3.1...csv-issues-esm@0.4.0) (2024-11-21)
 
 ### Features

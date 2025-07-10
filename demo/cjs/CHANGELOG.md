@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.3.0 (2025-07-10)
+
+### Features
+
+- backward support for node 8 ([496231d](https://github.com/adaltas/node-csv/commit/496231dfd838f0a6a72269a5a2390a4c637cef95))
+- **csv-demo-cjs:** new stringify.ts sample ([b44de05](https://github.com/adaltas/node-csv/commit/b44de05d70b4577cdb85c4f285321eea840f8fa3))
+
+### Bug Fixes
+
+- **csv-demo-cjs:** ts type ([9bb1bf8](https://github.com/adaltas/node-csv/commit/9bb1bf8e0084cd38f788dd56851b9af4149ac49d))
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript ([87fe919](https://github.com/adaltas/node-csv/commit/87fe91996fb2a8895c252177fca4f0cb59a518f9))
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354)) ([fa09d03](https://github.com/adaltas/node-csv/commit/fa09d03aaf0008b2790656871ca6b2c4be12d14c))
+
 ## [0.2.19](https://github.com/adaltas/node-csv/compare/csv-demo-cjs@0.2.18...csv-demo-cjs@0.2.19) (2024-11-21)
 
 **Note:** Version bump only for package csv-demo-cjs
