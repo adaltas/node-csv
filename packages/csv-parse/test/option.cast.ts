@@ -78,28 +78,28 @@ describe("Option `cast`", function () {
           cast: (value, context) => Object.keys(context).sort(),
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
+          if (err) return next(err);
+          records.should.eql([
+            [
               [
-                [
-                  "bytes",
-                  "column",
-                  "columns",
-                  "comment_lines",
-                  "empty_lines",
-                  "error",
-                  "header",
-                  "index",
-                  "invalid_field_length",
-                  "lines",
-                  "quoting",
-                  "raw",
-                  "records",
-                ],
+                "bytes",
+                "bytes_records",
+                "column",
+                "columns",
+                "comment_lines",
+                "empty_lines",
+                "error",
+                "header",
+                "index",
+                "invalid_field_length",
+                "lines",
+                "quoting",
+                "raw",
+                "records",
               ],
-            ]);
-          }
-          next(err);
+            ],
+          ]);
+          next();
         },
       );
     });
@@ -117,47 +117,48 @@ describe("Option `cast`", function () {
           },
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              [
-                "2000-01-01T05:00:00.000Z",
-                {
-                  bytes: 16,
-                  column: 1,
-                  columns: false,
-                  comment_lines: 0,
-                  empty_lines: 0,
-                  error: undefined,
-                  header: false,
-                  index: 1,
-                  invalid_field_length: 0,
-                  lines: 1,
-                  quoting: false,
-                  raw: undefined,
-                  records: 0,
-                },
-              ],
-              [
-                "2050-11-27T05:00:00.000Z",
-                {
-                  bytes: 33,
-                  column: 1,
-                  columns: false,
-                  comment_lines: 0,
-                  empty_lines: 0,
-                  error: undefined,
-                  header: false,
-                  index: 1,
-                  invalid_field_length: 0,
-                  lines: 2,
-                  quoting: false,
-                  raw: undefined,
-                  records: 1,
-                },
-              ],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            [
+              "2000-01-01T05:00:00.000Z",
+              {
+                bytes: 16,
+                bytes_records: 0,
+                column: 1,
+                columns: false,
+                comment_lines: 0,
+                empty_lines: 0,
+                error: undefined,
+                header: false,
+                index: 1,
+                invalid_field_length: 0,
+                lines: 1,
+                quoting: false,
+                raw: undefined,
+                records: 0,
+              },
+            ],
+            [
+              "2050-11-27T05:00:00.000Z",
+              {
+                bytes: 33,
+                bytes_records: 17,
+                column: 1,
+                columns: false,
+                comment_lines: 0,
+                empty_lines: 0,
+                error: undefined,
+                header: false,
+                index: 1,
+                invalid_field_length: 0,
+                lines: 2,
+                quoting: false,
+                raw: undefined,
+                records: 1,
+              },
+            ],
+          ]);
+          next();
         },
       );
     });
@@ -171,14 +172,13 @@ describe("Option `cast`", function () {
           cast: (value, { column }) => typeof column,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { a: "string", b: "string" },
-              { a: "string", b: "string" },
-              { a: "string" },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            { a: "string", b: "string" },
+            { a: "string", b: "string" },
+            { a: "string" },
+          ]);
+          next();
         },
       );
     });
@@ -207,14 +207,13 @@ describe("Option `cast`", function () {
           cast: (value, { quoting }) => quoting,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              [true, false],
-              [false, true],
-              [false, true],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            [true, false],
+            [false, true],
+            [false, true],
+          ]);
+          next();
         },
       );
     });
@@ -252,13 +251,12 @@ describe("Option `cast`", function () {
           cast: (value, { header }) => (header ? value : parseInt(value)),
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { a: 1, b: 2, c: 3 },
-              { a: 4, b: 5, c: 6 },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            { a: 1, b: 2, c: 3 },
+            { a: 4, b: 5, c: 6 },
+          ]);
+          next();
         },
       );
     });
@@ -274,13 +272,12 @@ describe("Option `cast`", function () {
           },
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { a: 1, b: 2, c: 3 },
-              { a: 4, b: 5, c: 6 },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            { a: 1, b: 2, c: 3 },
+            { a: 4, b: 5, c: 6 },
+          ]);
+          next();
         },
       );
     });
@@ -315,13 +312,12 @@ describe("Option `cast`", function () {
           },
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { a: 1, c: "3" },
-              { a: 5, c: "7" },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            { a: 1, c: "3" },
+            { a: 5, c: "7" },
+          ]);
+          next();
         },
       );
     });
@@ -367,13 +363,9 @@ describe("Option `cast`", function () {
           group_columns_by_name: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { FIELD_1: [0, 2, 3] },
-              { FIELD_1: [0, 0, 4] },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([{ FIELD_1: [0, 2, 3] }, { FIELD_1: [0, 0, 4] }]);
+          next();
         },
       );
     });

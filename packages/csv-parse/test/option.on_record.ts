@@ -103,6 +103,7 @@ describe("Option `on_record`", function () {
           records.should.eql([
             [
               "bytes",
+              "bytes_records",
               "columns",
               "comment_lines",
               "empty_lines",
@@ -142,6 +143,7 @@ describe("Option `on_record`", function () {
             .shift()
             ?.should.eql([
               "bytes",
+              "bytes_records",
               "columns",
               "comment_lines",
               "empty_lines",
@@ -173,6 +175,7 @@ describe("Option `on_record`", function () {
           records.should.eql([
             {
               bytes: 8,
+              bytes_records: 8,
               columns: [{ name: "a" }, { name: "b" }],
               comment_lines: 0,
               empty_lines: 0,
@@ -186,6 +189,7 @@ describe("Option `on_record`", function () {
             },
             {
               bytes: 11,
+              bytes_records: 11,
               columns: [{ name: "a" }, { name: "b" }],
               comment_lines: 0,
               empty_lines: 0,

@@ -59,6 +59,8 @@ export interface Info {
 
 export interface CastingContext {
   readonly column: number | string;
+  readonly bytes: number;
+  readonly bytes_records: number;
   readonly empty_lines: number;
   readonly error: CsvError;
   readonly header: boolean;

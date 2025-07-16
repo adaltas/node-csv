@@ -27,6 +27,7 @@ assert.deepStrictEqual(records, [
     "2000-01-01T05:00:00.000Z",
     {
       bytes: 16,
+      bytes_records: 0,
       comment_lines: 0,
       empty_lines: 0,
       invalid_field_length: 0,
@@ -45,6 +46,7 @@ assert.deepStrictEqual(records, [
     "2050-11-27T05:00:00.000Z",
     {
       bytes: 33,
+      bytes_records: 17,
       comment_lines: 0,
       empty_lines: 0,
       invalid_field_length: 0,

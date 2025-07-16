@@ -7,6 +7,7 @@ describe("API info", function () {
       if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 10,
+        bytes_records: 16,
         columns: false,
         comment_lines: 0,
         empty_lines: 0,
@@ -24,6 +25,7 @@ describe("API info", function () {
       if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 11,
+        bytes_records: 17,
         columns: false,
         comment_lines: 0,
         empty_lines: 0,
@@ -41,6 +43,7 @@ describe("API info", function () {
       if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 11,
+        bytes_records: 11,
         comment_lines: 0,
         columns: [{ name: "a" }, { name: "b" }, { name: "c" }],
         empty_lines: 0,
@@ -58,6 +61,7 @@ describe("API info", function () {
       if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 20,
+        bytes_records: 41,
         columns: false,
         comment_lines: 0,
         empty_lines: 0,

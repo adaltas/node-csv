@@ -9,6 +9,7 @@ assert.deepStrictEqual(records, [
   {
     info: {
       bytes: 5,
+      bytes_records: 5,
       columns: false,
       comment_lines: 0,
       empty_lines: 0,

@@ -82,6 +82,7 @@ describe("API Types", function () {
         .sort()
         .should.eql([
           "bytes",
+          "bytes_records",
           "comment_lines",
           "empty_lines",
           "invalid_field_length",
@@ -92,11 +93,10 @@ describe("API Types", function () {
 
     it("Receive Callback", function (next) {
       parse("a\nb", function (err, records, info) {
-        if (err !== undefined) {
-          records!.should.eql([["a"], ["b"]]);
-          info!.records.should.eql(2);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["a"], ["b"]]);
+        info!.records.should.eql(2);
+        next();
       });
     });
   });

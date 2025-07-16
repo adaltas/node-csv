@@ -36,6 +36,7 @@ describe("Option `info`", function () {
           .sort()
           .should.eql([
             "bytes",
+            "bytes_records",
             "columns",
             "comment_lines",
             "empty_lines",

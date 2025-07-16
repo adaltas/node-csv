@@ -28,6 +28,7 @@ const boms = {
 const transform = function (original_options = {}) {
   const info = {
     bytes: 0,
+    bytes_records: 0,
     comment_lines: 0,
     empty_lines: 0,
     invalid_field_length: 0,
@@ -703,6 +704,7 @@ const transform = function (original_options = {}) {
           return;
         }
       }
+      this.info.bytes_records += this.info.bytes;
       push(record);
     },
     // Return a tuple with the error and the casted value
@@ -890,6 +892,7 @@ const transform = function (original_options = {}) {
       const { columns, raw, encoding } = this.options;
       return {
         ...this.__infoDataSet(),
+        bytes_records: this.info.bytes,
         error: this.state.error,
         header: columns === true,
         index: this.state.record.length,
@@ -899,8 +902,11 @@ const transform = function (original_options = {}) {
     __infoField: function () {
       const { columns } = this.options;
       const isColumns = Array.isArray(columns);
+      // Bytes records are only incremented when all records'fields are parsed
+      const bytes_records = this.info.bytes_records;
       return {
         ...this.__infoRecord(),
+        bytes_records: bytes_records,
         column:
           isColumns === true
             ? columns.length > this.state.record.length
