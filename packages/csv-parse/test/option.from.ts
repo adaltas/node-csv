@@ -28,10 +28,9 @@ describe("Option `from`", function () {
       `,
       { from: 3 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([["7", "8", "9"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["7", "8", "9"]]);
+        next();
       },
     );
   });
@@ -46,10 +45,9 @@ describe("Option `from`", function () {
       `,
       { columns: true, from: 3 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([{ a: "7", b: "8", c: "9" }]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([{ a: "7", b: "8", c: "9" }]);
+        next();
       },
     );
   });
@@ -66,10 +64,8 @@ describe("Option `from`", function () {
       `,
       { from: 3 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([["7", "8", "\n9"]]);
-        }
-        next(err);
+        records.should.eql([["7", "8", "\n9"]]);
+        next();
       },
     );
   });
@@ -81,10 +77,9 @@ describe("Option `from`", function () {
       `,
       { from: 3, record_delimiter: ":" },
       (err, records) => {
-        if (!err) {
-          records.should.eql([["7", "8", "9"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["7", "8", "9"]]);
+        next();
       },
     );
   });

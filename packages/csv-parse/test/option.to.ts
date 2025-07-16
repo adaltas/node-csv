@@ -95,13 +95,12 @@ describe("Option `to`", function () {
       `,
       { to: 2 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["1", "2", "\n3"],
-            ["4", "5", "\n6"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["1", "2", "\n3"],
+          ["4", "5", "\n6"],
+        ]);
+        next();
       },
     );
   });
@@ -113,13 +112,12 @@ describe("Option `to`", function () {
       `,
       { to: 2, record_delimiter: ":" },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["1", "2", "3"],
-            ["4", "5", "6"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["1", "2", "3"],
+          ["4", "5", "6"],
+        ]);
+        next();
       },
     );
   });

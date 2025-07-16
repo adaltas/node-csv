@@ -113,23 +113,21 @@ describe("Option `trim`", function () {
         trim: true,
       },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            { h1: "1", h2: "2", h3: "3", "": "" },
-            { h1: "4", h2: "5", h3: "6", "": "" },
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          { h1: "1", h2: "2", h3: "3", "": "" },
+          { h1: "4", h2: "5", h3: "6", "": "" },
+        ]);
+        next();
       },
     );
   });
 
   it("last field empty", function (next) {
     parse("a,", { trim: true }, (err, records) => {
-      if (!err) {
-        records.should.eql([["a", ""]]);
-      }
-      next(err);
+      if (err) return next(err);
+      records.should.eql([["a", ""]]);
+      next();
     });
   });
 
@@ -260,10 +258,9 @@ describe("Option `trim`", function () {
           trim: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([["ф", "ф"]]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([["ф", "ф"]]);
+          next();
         },
       );
     });
@@ -276,10 +273,9 @@ describe("Option `trim`", function () {
           ltrim: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([["ф ", "ф "]]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([["ф ", "ф "]]);
+          next();
         },
       );
     });
@@ -292,10 +288,9 @@ describe("Option `trim`", function () {
           rtrim: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([[" ф", " ф"]]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([[" ф", " ф"]]);
+          next();
         },
       );
     });

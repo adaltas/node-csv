@@ -20,10 +20,9 @@ describe("Option `group_columns_by_name`", function () {
         group_columns_by_name: false,
       },
       (err, records) => {
-        if (!err) {
-          records.should.eql([{ FIELD_1: "DEF" }, { FIELD_1: "JKL" }]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([{ FIELD_1: "DEF" }, { FIELD_1: "JKL" }]);
+        next();
       },
     );
   });
@@ -36,13 +35,12 @@ describe("Option `group_columns_by_name`", function () {
         group_columns_by_name: true,
       },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            { FIELD_1: ["ABC", "DEF"] },
-            { FIELD_1: ["GHI", "JKL"] },
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          { FIELD_1: ["ABC", "DEF"] },
+          { FIELD_1: ["GHI", "JKL"] },
+        ]);
+        next();
       },
     );
   });

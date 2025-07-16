@@ -12,10 +12,9 @@ describe("Option `skip_empty_lines`", function () {
   describe("false", function () {
     it("dont skip by default", function (next) {
       parse("ABC\n\nDEF", (err, records) => {
-        if (!err) {
-          records.should.eql([["ABC"], [""], ["DEF"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["ABC"], [""], ["DEF"]]);
+        next();
       });
     });
   });
@@ -23,19 +22,17 @@ describe("Option `skip_empty_lines`", function () {
   describe("usage", function () {
     it("skip", function (next) {
       parse("ABC\n\nDEF", { skip_empty_lines: true }, (err, records) => {
-        if (!err) {
-          records.should.eql([["ABC"], ["DEF"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["ABC"], ["DEF"]]);
+        next();
       });
     });
 
     it("quoted fields are not interpreted as empty", function (next) {
       parse('ABC\n""\nDEF', { skip_empty_lines: true }, (err, records) => {
-        if (!err) {
-          records.should.eql([["ABC"], [""], ["DEF"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["ABC"], [""], ["DEF"]]);
+        next();
       });
     });
 
@@ -74,13 +71,12 @@ describe("Option `skip_empty_lines`", function () {
           trim: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b", "c"],
-              ["d", "e", "f"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c"],
+            ["d", "e", "f"],
+          ]);
+          next();
         },
       );
     });

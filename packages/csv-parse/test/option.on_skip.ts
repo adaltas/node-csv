@@ -47,14 +47,13 @@ describe("Option `on_skip`", function () {
         },
       },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b", "c", "d"],
-            ["e", "f", "g", "h"],
-          ]);
-        }
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b", "c", "d"],
+          ["e", "f", "g", "h"],
+        ]);
         errors.should.eql(1);
-        next(err);
+        next();
       },
     );
     parser.write(

@@ -76,7 +76,7 @@ describe("Option `relax_quotes`", function () {
     parse(`a,""b"" c,d`, { relax_quotes: true }, (err, records) => {
       if (err) return next(err);
       records.should.eql([["a", '""b"" c', "d"]]);
-      next(err);
+      next();
     });
   });
 

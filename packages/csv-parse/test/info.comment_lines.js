@@ -9,8 +9,9 @@ describe("info comment_lines", function () {
         comment: "#",
       },
       (err, records, { comment_lines }) => {
-        if (!err) comment_lines.should.eql(0);
-        next(err);
+        if (err) return next(err);
+        comment_lines.should.eql(0);
+        next();
       },
     );
   });
@@ -22,8 +23,9 @@ describe("info comment_lines", function () {
         comment: "#",
       },
       (err, records, { comment_lines }) => {
-        if (!err) comment_lines.should.eql(0);
-        next(err);
+        if (err) return next(err);
+        comment_lines.should.eql(0);
+        next();
       },
     );
   });
@@ -35,8 +37,9 @@ describe("info comment_lines", function () {
         comment: "#",
       },
       (err, records, { comment_lines }) => {
-        if (!err) comment_lines.should.eql(1);
-        next(err);
+        if (err) return next(err);
+        comment_lines.should.eql(1);
+        next();
       },
     );
   });
@@ -48,8 +51,9 @@ describe("info comment_lines", function () {
         comment: "#",
       },
       (err, records, { comment_lines }) => {
-        if (!err) comment_lines.should.eql(0);
-        next(err);
+        if (err) return next(err);
+        comment_lines.should.eql(0);
+        next();
       },
     );
   });
@@ -62,8 +66,9 @@ describe("info comment_lines", function () {
         skip_empty_lines: true,
       },
       (err, records, { comment_lines }) => {
-        if (!err) comment_lines.should.eql(2);
-        next(err);
+        if (err) return next(err);
+        comment_lines.should.eql(2);
+        next();
       },
     );
   });
@@ -75,8 +80,9 @@ describe("info comment_lines", function () {
         comment: "#",
       },
       (err, records, { comment_lines }) => {
-        if (!err) comment_lines.should.eql(1);
-        next(err);
+        if (err) return next(err);
+        comment_lines.should.eql(1);
+        next();
       },
     );
   });
@@ -88,8 +94,9 @@ describe("info comment_lines", function () {
         comment: "#",
       },
       (err, records, { comment_lines }) => {
-        if (!err) comment_lines.should.eql(1);
-        next(err);
+        if (err) return next(err);
+        comment_lines.should.eql(1);
+        next();
       },
     );
   });

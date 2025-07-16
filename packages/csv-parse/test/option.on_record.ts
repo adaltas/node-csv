@@ -12,10 +12,9 @@ describe("Option `on_record`", function () {
           },
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([["b", "a"]]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([["b", "a"]]);
+          next();
         },
       );
     });
@@ -30,13 +29,12 @@ describe("Option `on_record`", function () {
           },
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b"],
-              ["e", "f"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b"],
+            ["e", "f"],
+          ]);
+          next();
         },
       );
     });

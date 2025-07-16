@@ -19,15 +19,17 @@ describe("Option `comment`", function () {
 
   it("single comment line", function (next) {
     parse("# comment", { comment: "#" }, (err, records) => {
+      if (err) return next(err);
       records.length.should.eql(0);
-      next(err);
+      next();
     });
   });
 
   it("single comment line with empty field", function (next) {
     parse('""# comment', { comment: "#" }, (err, records) => {
+      if (err) return next(err);
       records.should.eql([[""]]);
-      next(err);
+      next();
     });
   });
 
@@ -45,14 +47,13 @@ describe("Option `comment`", function () {
         comment: "#",
       },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["ABC", "45"],
-            ["DEF", "23"],
-            ["GHI", "94"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["ABC", "45"],
+          ["DEF", "23"],
+          ["GHI", "94"],
+        ]);
+        next();
       },
     );
   });
@@ -68,14 +69,13 @@ describe("Option `comment`", function () {
         comment: "#",
       },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["ABC", "45"],
-            ["D#noEF", "23"],
-            ["GHI", "94"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["ABC", "45"],
+          ["D#noEF", "23"],
+          ["GHI", "94"],
+        ]);
+        next();
       },
     );
   });
@@ -90,6 +90,7 @@ describe("Option `comment`", function () {
         comment: "",
       },
       (err, records) => {
+        if (err) return next(err);
         records.should.eql([
           ["abc", "#", "def"],
           ["1", "2", "3"],
@@ -101,6 +102,7 @@ describe("Option `comment`", function () {
 
   it("is cancel by default", function (next) {
     parse("abc,#,def\n1,2,3", (err, records) => {
+      if (err) return next(err);
       records.should.eql([
         ["abc", "#", "def"],
         ["1", "2", "3"],
@@ -111,6 +113,7 @@ describe("Option `comment`", function () {
 
   it("accept multiple characters", function (next) {
     const parser = parse({ comment: "//" }, (err, records) => {
+      if (err) return next(err);
       records.should.eql([
         ["abc", "def"],
         ["1", "2"],

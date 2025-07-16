@@ -20,6 +20,7 @@ describe("API info", function () {
 
   it("is exported in the callback on success", function (next) {
     parse("1,2,3\na,b,c", (err, records, info) => {
+      if (err) return next(err);
       if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 11,
@@ -30,12 +31,13 @@ describe("API info", function () {
         lines: 2,
         records: 2,
       });
-      next(err);
+      next();
     });
   });
 
   it("discovered columns are included", function (next) {
     parse("a,b,c\n1,2,3", { columns: true }, (err, records, info) => {
+      if (err) return next(err);
       if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 11,
@@ -46,12 +48,13 @@ describe("API info", function () {
         lines: 2,
         records: 1,
       });
-      next(err);
+      next();
     });
   });
 
   it("with multiline records", function (next) {
     parse('a,b,c\nd,"e\n",f\ng,h,i', (err, records, info) => {
+      if (err) return next(err);
       if (!info) return next(Error("Invalid assessment"));
       info.should.eql({
         bytes: 20,
@@ -62,7 +65,7 @@ describe("API info", function () {
         lines: 4,
         records: 3,
       });
-      next(err);
+      next();
     });
   });
 });

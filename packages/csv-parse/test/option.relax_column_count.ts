@@ -75,13 +75,12 @@ describe("Option `relax_column_count`", function () {
       `,
       { columns: ["a", "b", "c", "d"], relax_column_count: true },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            { a: "1", b: "2", c: "3" },
-            { a: "4", b: "5" },
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          { a: "1", b: "2", c: "3" },
+          { a: "4", b: "5" },
+        ]);
+        next();
       },
     );
   });
@@ -94,13 +93,12 @@ describe("Option `relax_column_count`", function () {
       `,
       { columns: ["a", "b", "c"], relax_column_count: true },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            { a: "1", b: "2", c: "3" },
-            { a: "5", b: "6", c: "7" },
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          { a: "1", b: "2", c: "3" },
+          { a: "5", b: "6", c: "7" },
+        ]);
+        next();
       },
     );
   });
@@ -115,13 +113,12 @@ describe("Option `relax_column_count`", function () {
       `,
       { relax_column_count: true, columns: ["a", "b", "c", "d"], from: 3 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            { a: "6", b: "7", c: "8" },
-            { a: "9", b: "10" },
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          { a: "6", b: "7", c: "8" },
+          { a: "9", b: "10" },
+        ]);
+        next();
       },
     );
   });
@@ -135,13 +132,12 @@ describe("Option `relax_column_count`", function () {
         `,
         { relax_column_count_more: true },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["1", "2", "3"],
-              ["a", "b", "c", "d"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["1", "2", "3"],
+            ["a", "b", "c", "d"],
+          ]);
+          next();
         },
       );
     });
@@ -175,13 +171,12 @@ describe("Option `relax_column_count`", function () {
         `,
         { relax_column_count_less: true },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["1", "2", "3"],
-              ["a", "b"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["1", "2", "3"],
+            ["a", "b"],
+          ]);
+          next();
         },
       );
     });

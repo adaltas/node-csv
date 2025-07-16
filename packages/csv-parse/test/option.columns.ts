@@ -11,13 +11,12 @@ describe("Option `columns`", function () {
           columns: ["a", false, "c", false],
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { a: "1", c: "3" },
-              { a: "5", c: "7" },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            { a: "1", c: "3" },
+            { a: "5", c: "7" },
+          ]);
+          next();
         },
       );
     });
@@ -46,13 +45,12 @@ describe("Option `columns`", function () {
           columns: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { a: "3", b: "2", c: "4" },
-              { a: "7", b: "6", c: "8" },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            { a: "3", b: "2", c: "4" },
+            { a: "7", b: "6", c: "8" },
+          ]);
+          next();
         },
       );
     });
@@ -65,13 +63,12 @@ describe("Option `columns`", function () {
           columns: columns,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { a: "3", b: "2", c: "4" },
-              { a: "7", b: "6", c: "8" },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            { a: "3", b: "2", c: "4" },
+            { a: "7", b: "6", c: "8" },
+          ]);
+          next();
         },
       );
     });
@@ -83,10 +80,9 @@ describe("Option `columns`", function () {
           columns: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([{ "": "4" }, { "": "8" }]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([{ "": "4" }, { "": "8" }]);
+          next();
         },
       );
     });
@@ -100,27 +96,26 @@ describe("Option `columns`", function () {
           columns: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              {
-                FIELD_1: "20322051544",
-                FIELD_2: "1979",
-                FIELD_3: "8.8017226E7",
-                FIELD_4: "ABC",
-                FIELD_5: "45",
-                FIELD_6: "2000-01-01",
-              },
-              {
-                FIELD_1: "28392898392",
-                FIELD_2: "1974",
-                FIELD_3: "8.8392926E7",
-                FIELD_4: "DEF",
-                FIELD_5: "23",
-                FIELD_6: "2050-11-27",
-              },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            {
+              FIELD_1: "20322051544",
+              FIELD_2: "1979",
+              FIELD_3: "8.8017226E7",
+              FIELD_4: "ABC",
+              FIELD_5: "45",
+              FIELD_6: "2000-01-01",
+            },
+            {
+              FIELD_1: "28392898392",
+              FIELD_2: "1974",
+              FIELD_3: "8.8392926E7",
+              FIELD_4: "DEF",
+              FIELD_5: "23",
+              FIELD_6: "2050-11-27",
+            },
+          ]);
+          next();
         },
       );
     });
@@ -132,13 +127,12 @@ describe("Option `columns`", function () {
           columns: false,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b", "c"],
-              ["d", "e", "f"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c"],
+            ["d", "e", "f"],
+          ]);
+          next();
         },
       );
     });
@@ -151,10 +145,9 @@ describe("Option `columns`", function () {
           skip_empty_lines: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([{ a: "1", b: "2", c: "3" }]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([{ a: "1", b: "2", c: "3" }]);
+          next();
         },
       );
     });
@@ -167,10 +160,9 @@ describe("Option `columns`", function () {
           skip_records_with_empty_values: true,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([{ a: "1", b: "2", c: "3" }]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([{ a: "1", b: "2", c: "3" }]);
+          next();
         },
       );
     });
@@ -191,27 +183,26 @@ describe("Option `columns`", function () {
           ],
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              {
-                FIELD_1: "20322051544",
-                FIELD_2: "1979",
-                FIELD_3: "8.8017226E7",
-                FIELD_4: "ABC",
-                FIELD_5: "45",
-                FIELD_6: "2000-01-01",
-              },
-              {
-                FIELD_1: "28392898392",
-                FIELD_2: "1974",
-                FIELD_3: "8.8392926E7",
-                FIELD_4: "DEF",
-                FIELD_5: "23",
-                FIELD_6: "2050-11-27",
-              },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            {
+              FIELD_1: "20322051544",
+              FIELD_2: "1979",
+              FIELD_3: "8.8017226E7",
+              FIELD_4: "ABC",
+              FIELD_5: "45",
+              FIELD_6: "2000-01-01",
+            },
+            {
+              FIELD_1: "28392898392",
+              FIELD_2: "1974",
+              FIELD_3: "8.8392926E7",
+              FIELD_4: "DEF",
+              FIELD_5: "23",
+              FIELD_6: "2050-11-27",
+            },
+          ]);
+          next();
         },
       );
     });
@@ -298,13 +289,12 @@ describe("Option `columns`", function () {
           columns: ["a", undefined, undefined, undefined, "b"],
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { a: "0", b: "4" },
-              { a: "5", b: "9" },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            { a: "0", b: "4" },
+            { a: "5", b: "9" },
+          ]);
+          next();
         },
       );
     });
@@ -316,13 +306,12 @@ describe("Option `columns`", function () {
           columns: ["a", false, false, false, "b"],
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              { a: "0", b: "4" },
-              { a: "5", b: "9" },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            { a: "0", b: "4" },
+            { a: "5", b: "9" },
+          ]);
+          next();
         },
       );
     });
@@ -334,10 +323,9 @@ describe("Option `columns`", function () {
           columns: ["a", null, null],
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([{ a: "0" }, { a: "3" }]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([{ a: "0" }, { a: "3" }]);
+          next();
         },
       );
     });
@@ -349,10 +337,9 @@ describe("Option `columns`", function () {
           columns: ["a", undefined, undefined],
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([{ a: "0" }, { a: "3" }]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([{ a: "0" }, { a: "3" }]);
+          next();
         },
       );
     });
@@ -380,27 +367,26 @@ describe("Option `columns`", function () {
           columns: (record) => record.map((column) => column.toLowerCase()),
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              {
-                field_1: "20322051544",
-                field_2: "1979",
-                field_3: "8.8017226E7",
-                field_4: "ABC",
-                field_5: "45",
-                field_6: "2000-01-01",
-              },
-              {
-                field_1: "28392898392",
-                field_2: "1974",
-                field_3: "8.8392926E7",
-                field_4: "DEF",
-                field_5: "23",
-                field_6: "2050-11-27",
-              },
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            {
+              field_1: "20322051544",
+              field_2: "1979",
+              field_3: "8.8017226E7",
+              field_4: "ABC",
+              field_5: "45",
+              field_6: "2000-01-01",
+            },
+            {
+              field_1: "28392898392",
+              field_2: "1974",
+              field_3: "8.8392926E7",
+              field_4: "DEF",
+              field_5: "23",
+              field_6: "2050-11-27",
+            },
+          ]);
+          next();
         },
       );
     });

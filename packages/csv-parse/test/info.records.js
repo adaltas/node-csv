@@ -11,8 +11,9 @@ describe("info count records", function () {
         g,h,i
       `,
       (err) => {
-        if (!err) parser.info.records.should.eql(3);
-        next(err);
+        if (err) return next(err);
+        parser.info.records.should.eql(3);
+        next();
       },
     );
   });
@@ -30,8 +31,9 @@ describe("info count records", function () {
         columns: true,
       },
       (err) => {
-        if (!err) parser.info.records.should.eql(4);
-        next(err);
+        if (err) return next(err);
+        parser.info.records.should.eql(4);
+        next();
       },
     );
   });

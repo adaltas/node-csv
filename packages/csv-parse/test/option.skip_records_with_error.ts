@@ -15,15 +15,14 @@ describe("Option `skip_records_with_error`", function () {
   it('handle "Invalid closing quote"', function (next) {
     let errors = 0;
     const parser = parse({ skip_records_with_error: true }, (err, records) => {
-      if (!err) {
-        records.should.eql([
-          ["a", "b", "c"],
-          ["one", "two", "three"],
-          ["seven", "eight", "nine"],
-        ]);
-      }
+      if (err) return next(err);
+      records.should.eql([
+        ["a", "b", "c"],
+        ["one", "two", "three"],
+        ["seven", "eight", "nine"],
+      ]);
       errors.should.eql(1);
-      next(err);
+      next();
     });
     parser.on("skip", (err) => {
       assert_error(err, {
@@ -47,12 +46,11 @@ describe("Option `skip_records_with_error`", function () {
   it('handle "Invalid opening quote"', function (next) {
     const errors: CsvError[] = [];
     const parser = parse({ skip_records_with_error: true }, (err, records) => {
-      if (!err) {
-        records.should.eql([
-          ["line", "1"],
-          ["line", "3"],
-        ]);
-      }
+      if (err) return next(err);
+      records.should.eql([
+        ["line", "1"],
+        ["line", "3"],
+      ]);
       assert_error(errors, [
         {
           message:
@@ -68,7 +66,7 @@ describe("Option `skip_records_with_error`", function () {
         },
       ]);
       errors.length.should.eql(2);
-      next(err);
+      next();
     });
     parser.on("skip", (err) => {
       errors.push(err);
@@ -84,11 +82,10 @@ describe("Option `skip_records_with_error`", function () {
   it('handle "Quoted field not terminated"', function (next) {
     let errors = 0;
     const parser = parse({ skip_records_with_error: true }, (err, records) => {
-      if (!err) {
-        records.should.eql([["a", "b", "c", "d"]]);
-      }
+      if (err) return next(err);
+      records.should.eql([["a", "b", "c", "d"]]);
       errors.should.eql(1);
-      next(err);
+      next();
     });
     parser.on("skip", (err) => {
       assert_error(err, {
@@ -110,14 +107,13 @@ describe("Option `skip_records_with_error`", function () {
     const parser = parse(
       { skip_records_with_error: true, columns: ["a", "b", "c", "d"] },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            { a: "4", b: "5", c: "6", d: "x" },
-            { a: "7", b: "8", c: "9", d: "y" },
-          ]);
-        }
+        if (err) return next(err);
+        records.should.eql([
+          { a: "4", b: "5", c: "6", d: "x" },
+          { a: "7", b: "8", c: "9", d: "y" },
+        ]);
         errors.should.eql(1);
-        next(err);
+        next();
       },
     );
     parser.on("skip", (err) => {
@@ -139,14 +135,13 @@ describe("Option `skip_records_with_error`", function () {
   it('handle "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH"', function (next) {
     let errors = 0;
     const parser = parse({ skip_records_with_error: true }, (err, records) => {
-      if (!err) {
-        records.should.eql([
-          ["a", "b", "c", "d"],
-          ["e", "f", "g", "h"],
-        ]);
-      }
+      if (err) return next(err);
+      records.should.eql([
+        ["a", "b", "c", "d"],
+        ["e", "f", "g", "h"],
+      ]);
       errors.should.eql(1);
-      next(err);
+      next();
     });
     parser.on("skip", (err) => {
       assert_error(err, {
@@ -170,14 +165,13 @@ describe("Option `skip_records_with_error`", function () {
       const parser = parse(
         { bom: true, skip_records_with_error: true },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b", "c", "d"],
-              ["e", "f", "g", "h"],
-            ]);
-          }
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c", "d"],
+            ["e", "f", "g", "h"],
+          ]);
           errors.should.eql(1);
-          next(err);
+          next();
         },
       );
       parser.on("skip", (err) => {
@@ -208,8 +202,9 @@ describe("Option `skip_records_with_error`", function () {
           raw: true,
         },
         (err) => {
+          if (err) return next(err);
           errors.should.eql(1);
-          next(err);
+          next();
         },
       );
       parser.on("skip", (err, raw) => {

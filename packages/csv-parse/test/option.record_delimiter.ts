@@ -99,11 +99,12 @@ describe("Option `record_delimiter`", function () {
   describe("details", function () {
     it("is compatible with buffer size", function (next) {
       const parser = parse({ record_delimiter: ["::::::"] }, (err, records) => {
+        if (err) return next(err);
         records.should.eql([
           ["1", "2", "3"],
           ["b", "c", "d"],
         ]);
-        next(err);
+        next();
       });
       for (const c of "1,2,3::::::b,c,d") {
         parser.write(c);
@@ -119,14 +120,13 @@ describe("Option `record_delimiter`", function () {
           record_delimiter: [";\n", "\n"],
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b"],
-              ["11", "22"],
-              ["33", "33"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b"],
+            ["11", "22"],
+            ["33", "33"],
+          ]);
+          next();
         },
       );
     });
@@ -270,10 +270,9 @@ describe("Option `record_delimiter`", function () {
   describe("auto", function () {
     it("No record", function (next) {
       parse("", (err, records) => {
-        if (!err) {
-          records.should.eql([]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([]);
+        next();
       });
     });
 
@@ -359,13 +358,12 @@ describe("Option `record_delimiter`", function () {
 
     it("skip default record delimiters when quoted", function (next) {
       const parser = parse((err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["1", "2", "\n"],
-            ["3", "4", ""],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["1", "2", "\n"],
+          ["3", "4", ""],
+        ]);
+        next();
       });
       for (const c of '1,2,"\n"\r\n3,4,') {
         parser.write(c);
@@ -378,23 +376,21 @@ describe("Option `record_delimiter`", function () {
         "ABC\r\n\r\nDEF\r\n\r\n",
         { skip_empty_lines: true },
         (err, records) => {
-          if (!err) {
-            records.should.eql([["ABC"], ["DEF"]]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([["ABC"], ["DEF"]]);
+          next();
         },
       );
     });
 
     it("support utf8 no bom with windows line ending", function (next) {
       const parser = parse({ encoding: "utf8" }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b"],
-            ["1", "2"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["1", "2"],
+        ]);
+        next();
       });
       const buf = Buffer.from("a,b\r\n1,2", "utf8");
       for (let i = 0; i < buf.length; i++) {
@@ -405,13 +401,12 @@ describe("Option `record_delimiter`", function () {
 
     it("support utf8 no bom with mac os 9 line ending", function (next) {
       const parser = parse({ encoding: "utf8" }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b"],
-            ["1", "2"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["1", "2"],
+        ]);
+        next();
       });
       const buf = Buffer.from("a,b\r1,2", "utf8");
       for (let i = 0; i < buf.length; i++) {
@@ -422,13 +417,12 @@ describe("Option `record_delimiter`", function () {
 
     it("support utf8 no bom with unix line ending", function (next) {
       const parser = parse({ encoding: "utf8" }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b"],
-            ["1", "2"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["1", "2"],
+        ]);
+        next();
       });
       const buf = Buffer.from("a,b\n1,2", "utf8");
       for (let i = 0; i < buf.length; i++) {
@@ -439,13 +433,12 @@ describe("Option `record_delimiter`", function () {
 
     it("support utf8 with bom with windows line ending", function (next) {
       const parser = parse({ bom: true }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b"],
-            ["1", "2"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["1", "2"],
+        ]);
+        next();
       });
       const buf = Buffer.concat([
         Buffer.from([239, 187, 191]),
@@ -459,13 +452,12 @@ describe("Option `record_delimiter`", function () {
 
     it("support utf16le no bom with windows line ending", function (next) {
       const parser = parse({ encoding: "utf16le" }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b"],
-            ["1", "2"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["1", "2"],
+        ]);
+        next();
       });
       const buf = Buffer.from("a,b\r\n1,2", "utf16le");
       for (let i = 0; i < buf.length; i++) {
@@ -476,13 +468,12 @@ describe("Option `record_delimiter`", function () {
 
     it("support utf16le no bom with mac os 9 line ending", function (next) {
       const parser = parse({ encoding: "utf16le" }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b"],
-            ["1", "2"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["1", "2"],
+        ]);
+        next();
       });
       const buf = Buffer.from("a,b\r1,2", "utf16le");
       for (let i = 0; i < buf.length; i++) {
@@ -493,13 +484,12 @@ describe("Option `record_delimiter`", function () {
 
     it("support utf16le no bom with unix line ending", function (next) {
       const parser = parse({ encoding: "utf16le" }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b"],
-            ["1", "2"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["1", "2"],
+        ]);
+        next();
       });
       const buf = Buffer.from("a,b\n1,2", "utf16le");
       for (let i = 0; i < buf.length; i++) {
@@ -510,13 +500,12 @@ describe("Option `record_delimiter`", function () {
 
     it("support utf16le with bom with windows line ending", function (next) {
       const parser = parse({ bom: true }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b"],
-            ["1", "2"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["1", "2"],
+        ]);
+        next();
       });
       const buf = Buffer.concat([
         Buffer.from([255, 254]),

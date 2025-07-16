@@ -24,14 +24,13 @@ describe("Option `escape`", function () {
 
     it("is compatible with buffer size", function (next) {
       const parser = parse({ escape: "::::::" }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["1", '2"2', "3"],
-            ["4", "5", '6"'],
-            ["b", "c", "d"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["1", '2"2', "3"],
+          ["4", "5", '6"'],
+          ["b", "c", "d"],
+        ]);
+        next();
       });
       for (const c of dedent`
         1,"2::::::"2",3

@@ -6,11 +6,12 @@ import { assert_error } from "./api.assert_error.js";
 describe("Option `quote`", function () {
   it("is compatible with buffer size", function (next) {
     const parser = parse({ escape: "$", quote: "::::::" }, (err, data) => {
+      if (err) return next(err);
       data.should.eql([
         ["1", "2::::::2", "3"],
         ["b", "c", "d"],
       ]);
-      next(err);
+      next();
     });
     for (const c of "1,::::::2$::::::2::::::,3\nb,c,d") {
       parser.write(c);
@@ -134,13 +135,12 @@ describe("Option `quote`", function () {
         "
       `,
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["20322051544", "\n", "8.8017226E7", "45", "\nok\n"],
-            ["\n", "1974", "8.8392926E7", "", "\n"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["20322051544", "\n", "8.8017226E7", "45", "\nok\n"],
+          ["\n", "1974", "8.8392926E7", "", "\n"],
+        ]);
+        next();
       },
     );
   });
@@ -154,13 +154,12 @@ describe("Option `quote`", function () {
         `,
         { quote: "" },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b", "c"],
-              ["1", 'r"2"d"2"', "3"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c"],
+            ["1", 'r"2"d"2"', "3"],
+          ]);
+          next();
         },
       );
     });
@@ -173,13 +172,12 @@ describe("Option `quote`", function () {
         `,
         { quote: null },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b", "c"],
-              ["1", 'r"2"d"2"', "3"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c"],
+            ["1", 'r"2"d"2"', "3"],
+          ]);
+          next();
         },
       );
     });
@@ -192,13 +190,12 @@ describe("Option `quote`", function () {
         `,
         { quote: null },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b", "c"],
-              ["1", 'r"2"d"2"', "3"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c"],
+            ["1", 'r"2"d"2"', "3"],
+          ]);
+          next();
         },
       );
     });
@@ -213,13 +210,12 @@ describe("Option `quote`", function () {
         `,
         { quote: "$$" },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b", "c"],
-              ["1", "2", "3"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c"],
+            ["1", "2", "3"],
+          ]);
+          next();
         },
       );
     });
@@ -232,10 +228,9 @@ describe("Option `quote`", function () {
         `,
         { quote: true, columns: true },
         (err, records) => {
-          if (!err) {
-            records.should.eql([{ a: "1", b: "2", c: "3" }]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([{ a: "1", b: "2", c: "3" }]);
+          next();
         },
       );
     });

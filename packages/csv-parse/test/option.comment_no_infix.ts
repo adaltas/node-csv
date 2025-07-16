@@ -17,10 +17,9 @@ describe("Option `comment_no_infix`", function () {
         comment_no_infix: true,
       },
       (err, records) => {
-        if (!err) {
-          records.should.eql([["a", "#", "c"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["a", "#", "c"]]);
+        next();
       },
     );
   });
@@ -33,10 +32,9 @@ describe("Option `comment_no_infix`", function () {
         comment_no_infix: true,
       },
       (err, records) => {
-        if (!err) {
-          records.should.eql([["a", "b#", "c"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["a", "b#", "c"]]);
+        next();
       },
     );
   });
@@ -49,10 +47,9 @@ describe("Option `comment_no_infix`", function () {
         comment_no_infix: false,
       },
       (err, records) => {
-        if (!err) {
-          records.should.eql([["a", "b"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["a", "b"]]);
+        next();
       },
     );
   });

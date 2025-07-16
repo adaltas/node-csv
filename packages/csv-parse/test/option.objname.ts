@@ -49,16 +49,15 @@ describe("Option `objname`", function () {
         `a,b,c`,
         { objname: Buffer.from("h1"), columns: ["h1", "h2", "h3"] },
         (err, records) => {
-          if (!err) {
-            records.should.eql({
-              a: {
-                h1: "a",
-                h2: "b",
-                h3: "c",
-              },
-            });
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql({
+            a: {
+              h1: "a",
+              h2: "b",
+              h3: "c",
+            },
+          });
+          next();
         },
       );
     });
@@ -84,7 +83,7 @@ describe("Option `objname`", function () {
               FIELD_3: "f",
             },
           });
-          next(err);
+          next();
         },
       );
     });

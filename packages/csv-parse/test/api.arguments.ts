@@ -36,11 +36,12 @@ describe("API arguments", function () {
     it("callback:function; pipe data and get result in callback", function (next) {
       generate({ length: 2, seed: 1, columns: 2, fixed_size: true }).pipe(
         parse((err, records) => {
+          if (err) return next(err);
           records.should.eql([
             ["OMH", "ONKCHhJmjadoA"],
             ["D", "GeACHiN"],
           ]);
-          next(err);
+          next();
         }),
       );
     });
@@ -89,8 +90,9 @@ describe("API arguments", function () {
 
     it("options:object, callback:function; write data and get result in callback", function (next) {
       const parser = parse({ columns: true }, (err, records) => {
+        if (err) return next(err);
         records.should.eql([{ field_1: "value 1", field_2: "value 2" }]);
-        next(err);
+        next();
       });
       parser.write("field_1,field_2\nvalue 1,value 2");
       parser.end();
@@ -98,21 +100,23 @@ describe("API arguments", function () {
 
     it("data:string, callback:function", function (next) {
       parse("value a,value b\nvalue 1,value 2", (err, records) => {
+        if (err) return next(err);
         records.should.eql([
           ["value a", "value b"],
           ["value 1", "value 2"],
         ]);
-        next(err);
+        next();
       });
     });
 
     it("data:buffer, callback:function", function (next) {
       parse(Buffer.from("value a,value b\nvalue 1,value 2"), (err, records) => {
+        if (err) return next(err);
         records.should.eql([
           ["value a", "value b"],
           ["value 1", "value 2"],
         ]);
-        next(err);
+        next();
       });
     });
   });
@@ -123,8 +127,9 @@ describe("API arguments", function () {
         "field_1,field_2\nvalue 1,value 2",
         { columns: true },
         (err, records) => {
+          if (err) return next(err);
           records.should.eql([{ field_1: "value 1", field_2: "value 2" }]);
-          next(err);
+          next();
         },
       );
     });
@@ -134,8 +139,9 @@ describe("API arguments", function () {
         Buffer.from("field_1,field_2\nvalue 1,value 2"),
         { columns: true },
         (err, records) => {
+          if (err) return next(err);
           records.should.eql([{ field_1: "value 1", field_2: "value 2" }]);
-          next(err);
+          next();
         },
       );
     });

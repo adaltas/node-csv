@@ -10,11 +10,12 @@ describe("Option `cast_date`", function () {
         cast_date: true,
       },
       (err, records) => {
+        if (err) return next(err);
         records.should.eql([
           [new Date("2000-01-01T00:00:00.000Z"), "date1"],
           [new Date("2050-11-27T00:00:00.000Z"), "date2"],
         ]);
-        next(err);
+        next();
       },
     );
   });
@@ -34,11 +35,12 @@ describe("Option `cast_date`", function () {
         },
       },
       (err, records) => {
+        if (err) return next(err);
         records.should.eql([
           [new Date("2000-01-01T01:00:00.000Z")],
           [new Date("2050-11-27T02:00:00.000Z")],
         ]);
-        next(err);
+        next();
       },
     );
   });
@@ -54,10 +56,11 @@ describe("Option `cast_date`", function () {
         cast_date: true,
       },
       (err, [[record]]) => {
+        if (err) return next(err);
         (record as unknown as Date)
           .toISOString()
           .should.match(/^\d{4}-\d{2}-\d{2}/);
-        next(err);
+        next();
       },
     );
   });

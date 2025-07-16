@@ -29,13 +29,12 @@ describe("Option `to_line`", function () {
       `,
       { to_line: 2 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["1", "2", "3"],
-            ["4", "5", "6"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["1", "2", "3"],
+          ["4", "5", "6"],
+        ]);
+        next();
       },
     );
   });
@@ -50,13 +49,12 @@ describe("Option `to_line`", function () {
       `,
       { columns: true, to_line: 3 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            { a: "1", b: "2", c: "3" },
-            { a: "4", b: "5", c: "6" },
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          { a: "1", b: "2", c: "3" },
+          { a: "4", b: "5", c: "6" },
+        ]);
+        next();
       },
     );
   });
@@ -74,13 +72,12 @@ describe("Option `to_line`", function () {
       `,
       { to_line: 5 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["1", "2", "\n\n3"],
-            ["4", "5", "\n6"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["1", "2", "\n\n3"],
+          ["4", "5", "\n6"],
+        ]);
+        next();
       },
     );
   });
@@ -98,13 +95,12 @@ describe("Option `to_line`", function () {
       `,
       { to_line: 6 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["1", "2", "\n\n3"],
-            ["4", "5", "\n6"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["1", "2", "\n\n3"],
+          ["4", "5", "\n6"],
+        ]);
+        next();
       },
     );
   });
@@ -119,14 +115,13 @@ describe("Option `to_line`", function () {
       `,
       { to_line: 2, record_delimiter: ":" },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b", "c"],
-            ["1", "2", "\n3"],
-            ["d", "e", "f"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b", "c"],
+          ["1", "2", "\n3"],
+          ["d", "e", "f"],
+        ]);
+        next();
       },
     );
   });

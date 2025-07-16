@@ -39,10 +39,9 @@ describe("Option `from_line`", function () {
       `,
       { from_line: 3 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([["7", "8", "9"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["7", "8", "9"]]);
+        next();
       },
     );
   });
@@ -55,10 +54,9 @@ describe("Option `from_line`", function () {
       `,
       { from_line: 2 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([["1", "2", "3"]]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([["1", "2", "3"]]);
+        next();
       },
     );
   });
@@ -75,13 +73,12 @@ describe("Option `from_line`", function () {
       `,
       { from_line: 4 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["4", "5", "\n6"],
-            ["7", "8", "\n9"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["4", "5", "\n6"],
+          ["7", "8", "\n9"],
+        ]);
+        next();
       },
     );
   });
@@ -99,13 +96,12 @@ describe("Option `from_line`", function () {
       `,
       { from_line: 2 },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["4", "5", "\n6"],
-            ["7", "8", "\n9"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["4", "5", "\n6"],
+          ["7", "8", "\n9"],
+        ]);
+        next();
       },
     );
   });
@@ -120,13 +116,12 @@ describe("Option `from_line`", function () {
       `,
       { from_line: 3, record_delimiter: ":" },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["g", "h", "i"],
-            ["7", "8", "\n9"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["g", "h", "i"],
+          ["7", "8", "\n9"],
+        ]);
+        next();
       },
     );
   });
@@ -144,26 +139,24 @@ describe("Option `from_line`", function () {
       `,
       { from_line: 5, skip_empty_lines: true },
       (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["4", "5", "6"],
-            ["7", "8", "9"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["4", "5", "6"],
+          ["7", "8", "9"],
+        ]);
+        next();
       },
     );
   });
 
   it("handle multiple bytes record delimiters", function (next) {
     parse(`a,b\r\nc,d\r\ne,f`, { from_line: 2 }, (err, records) => {
-      if (!err) {
-        records.should.eql([
-          ["c", "d"],
-          ["e", "f"],
-        ]);
-      }
-      next(err);
+      if (err) return next(err);
+      records.should.eql([
+        ["c", "d"],
+        ["e", "f"],
+      ]);
+      next();
     });
   });
 
@@ -177,10 +170,9 @@ describe("Option `from_line`", function () {
       `,
       { from_line: 3, columns: true },
       (err, records) => {
-        if (!err) {
-          records.should.eql([{ a: "4", b: "5", c: "6" }]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([{ a: "4", b: "5", c: "6" }]);
+        next();
       },
     );
   });

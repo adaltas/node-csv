@@ -21,8 +21,9 @@ describe("Option `encoding`", function () {
           encoding: "utf16le",
         },
         (err, records) => {
-          if (!err) records.should.eql([["x", "x"]]);
-          next(err);
+          if (err) return next(err);
+          records.should.eql([["x", "x"]]);
+          next();
         },
       );
     });
@@ -34,13 +35,12 @@ describe("Option `encoding`", function () {
           encoding: "utf16le",
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b", "c"],
-              ["1", '2 "3" 4', "5"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c"],
+            ["1", '2 "3" 4', "5"],
+          ]);
+          next();
         },
       );
     });
@@ -52,13 +52,12 @@ describe("Option `encoding`", function () {
           encoding: null,
         },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              [Buffer.from("a"), Buffer.from("b")],
-              [Buffer.from("1"), Buffer.from("2")],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            [Buffer.from("a"), Buffer.from("b")],
+            [Buffer.from("1"), Buffer.from("2")],
+          ]);
+          next();
         },
       );
     });
@@ -69,6 +68,7 @@ describe("Option `encoding`", function () {
       const parser = parse(
         { bom: true, encoding: "utf16le" },
         (err, records) => {
+          if (err) return next(err);
           records.should.eql([
             ["a", "b", "c"],
             ["d", "e", "f"],
@@ -83,13 +83,12 @@ describe("Option `encoding`", function () {
 
     it("utf16le auto detected with quote", function (next) {
       const parser = parse({ bom: true }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b", "c"],
-            ["d", "e", "f"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b", "c"],
+          ["d", "e", "f"],
+        ]);
+        next();
       });
       parser.write(Buffer.from('\ufeffa,"b",c\n', "utf16le"));
       parser.write(Buffer.from('d,"e",f', "utf16le"));
@@ -98,13 +97,12 @@ describe("Option `encoding`", function () {
 
     it("utf16le auto detected with delimiter", function (next) {
       const parser = parse({ bom: true, delimiter: "ф" }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", "b", "c"],
-            ["d", "e", "f"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b", "c"],
+          ["d", "e", "f"],
+        ]);
+        next();
       });
       parser.write(Buffer.from("\ufeffaфbфc\n", "utf16le"));
       parser.write(Buffer.from("dфeфf", "utf16le"));
@@ -113,13 +111,12 @@ describe("Option `encoding`", function () {
 
     it("utf16le auto detected with escape", function (next) {
       const parser = parse({ bom: true, escape: "ф" }, (err, records) => {
-        if (!err) {
-          records.should.eql([
-            ["a", '"b', "c"],
-            ["d", '"e', "f"],
-          ]);
-        }
-        next(err);
+        if (err) return next(err);
+        records.should.eql([
+          ["a", '"b', "c"],
+          ["d", '"e', "f"],
+        ]);
+        next();
       });
       parser.write(Buffer.from('\ufeffa,"ф"b",c\n', "utf16le"));
       parser.write(Buffer.from('d,"ф"e",f', "utf16le"));
@@ -130,13 +127,12 @@ describe("Option `encoding`", function () {
       const parser = parse(
         { bom: true, record_delimiter: "ф" },
         (err, records) => {
-          if (!err) {
-            records.should.eql([
-              ["a", "b", "c"],
-              ["d", "e", "f"],
-            ]);
-          }
-          next(err);
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c"],
+            ["d", "e", "f"],
+          ]);
+          next();
         },
       );
       parser.write(Buffer.from("\ufeffa,b,cф", "utf16le"));

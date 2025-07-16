@@ -44,11 +44,12 @@ describe("Option `delimiter`", function () {
 
   it("is compatible with buffer size", function (next) {
     const parser = parse({ delimiter: [":::"] }, (err, records) => {
+      if (err) return next(err);
       records.should.eql([
         ["1", "2", "3"],
         ["b", "c", "d"],
       ]);
-      next(err);
+      next();
     });
     for (const c of "1:::2:::3\nb:::c:::d") {
       parser.write(c);

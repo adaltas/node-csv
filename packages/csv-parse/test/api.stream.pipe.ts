@@ -80,8 +80,9 @@ describe("API pipe", function () {
           delimiter: ",",
         },
         (err, records) => {
-          if (!err) records.should.eql([]);
-          next(err);
+          if (err) return next(err);
+          records.should.eql([]);
+          next();
         },
       ),
     );

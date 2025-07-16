@@ -6,22 +6,25 @@ import { assert_error } from "./api.assert_error.js";
 describe("info lines", function () {
   it("count lines", function (next) {
     const p = parse("a,b,c\nd,e,f\nh,i,j", (err) => {
-      if (!err) p.info.lines.should.eql(3);
-      next(err);
+      if (err) return next(err);
+      p.info.lines.should.eql(3);
+      next();
     });
   });
 
   it("count no line", function (next) {
     const p = parse("", (err) => {
-      if (!err) p.info.lines.should.eql(1);
-      next(err);
+      if (err) return next(err);
+      p.info.lines.should.eql(1);
+      next();
     });
   });
 
   it("count empty lines", function (next) {
     const p = parse("\n\n", (err) => {
-      if (!err) p.info.lines.should.eql(3);
-      next(err);
+      if (err) return next(err);
+      p.info.lines.should.eql(3);
+      next();
     });
   });
 
@@ -32,8 +35,9 @@ describe("info lines", function () {
         skip_empty_lines: true,
       },
       (err) => {
-        if (!err) p.info.lines.should.eql(6);
-        next(err);
+        if (err) return next(err);
+        p.info.lines.should.eql(6);
+        next();
       },
     );
   });
