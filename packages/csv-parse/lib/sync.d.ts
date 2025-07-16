@@ -18,13 +18,17 @@ declare function parse(input: Buffer | string | Uint8Array): string[][];
 export { parse };
 
 export {
-  CastingContext,
+  CastingContext, // Deprecated
   CastingFunction,
   CastingDateFunction,
   ColumnOption,
   Options,
   OptionsNormalized,
   Info,
+  InfoCallback,
+  InfoDataSet,
+  InfoRecord,
+  InfoField,
   CsvErrorCode,
   CsvError,
 } from "./index.js";

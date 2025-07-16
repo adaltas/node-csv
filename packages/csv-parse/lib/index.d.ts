@@ -7,7 +7,7 @@ import * as stream from "stream";
 export type Callback<T = string[]> = (
   err: CsvError | undefined,
   records: T[],
-  info?: Info,
+  info?: InfoCallback,
 ) => void;
 
 export class Parser extends stream.Transform {
@@ -25,59 +25,66 @@ export class Parser extends stream.Transform {
 
 export interface Info {
   /**
-   * Count the number of lines being fully commented.
+   * The number of processed bytes.
+   */
+  readonly bytes: number;
+  /**
+   * The number of processed bytes until the last successfully parsed and emitted records.
+   */
+  readonly bytes_records: number;
+  /**
+   * The number of lines being fully commented.
    */
   readonly comment_lines: number;
   /**
-   * Count the number of processed empty lines.
+   * The number of processed empty lines.
    */
   readonly empty_lines: number;
+  /**
+   * The number of non uniform records when `relax_column_count` is true.
+   */
+  readonly invalid_field_length: number;
   /**
    * The number of lines encountered in the source dataset, start at 1 for the first line.
    */
   readonly lines: number;
   /**
-   * Count the number of processed records.
+   * The number of processed records.
    */
   readonly records: number;
-  /**
-   * Count of the number of processed bytes.
-   */
-  readonly bytes: number;
-  /**
-   * Number of non uniform records when `relax_column_count` is true.
-   */
-  readonly invalid_field_length: number;
+}
+
+export interface InfoCallback extends Info {
   /**
    * Normalized verion of `options.columns` when `options.columns` is true, boolean otherwise.
    */
   readonly columns: boolean | { name: string }[] | { disabled: true }[];
 }
 
-export interface CastingContext {
+export interface InfoDataSet extends Info {
   readonly column: number | string;
-  readonly bytes: number;
-  readonly bytes_records: number;
-  readonly empty_lines: number;
+}
+
+export interface InfoRecord extends InfoDataSet {
   readonly error: CsvError;
   readonly header: boolean;
   readonly index: number;
-  readonly quoting: boolean;
-  readonly lines: number;
   readonly raw: string | undefined;
-  readonly records: number;
-  readonly invalid_field_length: number;
 }
 
-export type CastingFunction = (
-  value: string,
-  context: CastingContext,
-) => unknown;
+export interface InfoField extends InfoRecord {
+  readonly quoting: boolean;
+}
 
-export type CastingDateFunction = (
-  value: string,
-  context: CastingContext,
-) => Date;
+/**
+ * @deprecated Use the InfoField interface instead, the interface will disappear in future versions.
+ */
+// eslint-disable-next-line
+export interface CastingContext extends InfoField {}
+
+export type CastingFunction = (value: string, context: InfoField) => unknown;
+
+export type CastingDateFunction = (value: string, context: InfoField) => Date;
 
 export type ColumnOption<K = string> =
   | K
@@ -183,7 +190,7 @@ export interface OptionsNormalized<T = string[]> {
   /**
    * Alter and filter records by executing a user defined function.
    */
-  on_record?: (record: T, context: CastingContext) => T | undefined;
+  on_record?: (record: T, context: InfoRecord) => T | undefined;
   /**
    * Optional character surrounding a field, one character only, defaults to double quotes.
    */
@@ -359,8 +366,8 @@ export interface Options<T = string[]> {
   /**
    * Alter and filter records by executing a user defined function.
    */
-  on_record?: (record: T, context: CastingContext) => T | null | undefined;
-  onRecord?: (record: T, context: CastingContext) => T | null | undefined;
+  on_record?: (record: T, context: InfoRecord) => T | null | undefined;
+  onRecord?: (record: T, context: InfoRecord) => T | null | undefined;
   /**
    * Function called when an error occured if the `skip_records_with_error`
    * option is activated.

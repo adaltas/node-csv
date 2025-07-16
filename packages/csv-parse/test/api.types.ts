@@ -104,6 +104,7 @@ describe("API Types", function () {
   describe("Info", function () {
     const fakeinfo = {
       bytes: 1,
+      bytes_records: 0,
       columns: true,
       comment_lines: 1,
       empty_lines: 1,
@@ -152,7 +153,8 @@ describe("API Types", function () {
       // Boolean
       const infoBoolean: Info = {
         bytes: 1,
-        columns: true,
+        bytes_records: 0,
+        // columns: true,
         comment_lines: 1,
         empty_lines: 1,
         invalid_field_length: 1,
@@ -163,7 +165,8 @@ describe("API Types", function () {
       // Array with name = <string>
       const infoName: Info = {
         bytes: 1,
-        columns: [{ name: "a column" }],
+        bytes_records: 0,
+        // columns: [{ name: "a column" }],
         comment_lines: 1,
         empty_lines: 1,
         invalid_field_length: 1,
@@ -174,7 +177,8 @@ describe("API Types", function () {
       // Array with disabled = true
       const infoDisabled: Info = {
         bytes: 1,
-        columns: [{ disabled: true }],
+        bytes_records: 0,
+        // columns: [{ disabled: true }],
         comment_lines: 1,
         empty_lines: 1,
         invalid_field_length: 1,

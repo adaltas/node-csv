@@ -89,7 +89,8 @@ describe("API Types", function () {
   it("Info", function () {
     const info: Info = {
       bytes: 1,
-      columns: true,
+      bytes_records: 0,
+      // columns: true,
       comment_lines: 1,
       empty_lines: 1,
       invalid_field_length: 1,

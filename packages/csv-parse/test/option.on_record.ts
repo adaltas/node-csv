@@ -1,5 +1,5 @@
 import should from "should";
-import { parse, CastingContext } from "../lib/index.js";
+import { parse, InfoRecord } from "../lib/index.js";
 
 describe("Option `on_record`", function () {
   describe("usage", function () {
@@ -161,7 +161,7 @@ describe("Option `on_record`", function () {
     });
 
     it("values", function (next) {
-      parse<CastingContext>(
+      parse<InfoRecord>(
         "a,b\n1,2\n3,4",
         {
           on_record: (record, context) => {
