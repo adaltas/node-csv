@@ -5865,7 +5865,7 @@ var csv_parse = (function (exports) {
               // Normalize option `to`
               if (options.to === undefined || options.to === null) {
                 options.to = -1;
-              } else {
+              } else if (options.to !== -1) {
                 if (typeof options.to === "string" && /\d+/.test(options.to)) {
                   options.to = parseInt(options.to);
                 }
@@ -5884,7 +5884,7 @@ var csv_parse = (function (exports) {
               // Normalize option `to_line`
               if (options.to_line === undefined || options.to_line === null) {
                 options.to_line = -1;
-              } else {
+              } else if (options.to_line !== -1) {
                 if (typeof options.to_line === "string" && /\d+/.test(options.to_line)) {
                   options.to_line = parseInt(options.to_line);
                 }
@@ -6015,10 +6015,14 @@ var csv_parse = (function (exports) {
                           this.state.bufBytesStart += bomLength;
                           buf = buf.slice(bomLength);
                           // Renormalize original options with the new encoding
-                          this.options = normalize_options({
+                          const options = normalize_options({
                             ...this.original_options,
                             encoding: encoding,
                           });
+                          // Properties are merged with the existing options instance
+                          for (const key in options) {
+                            this.options[key] = options[key];
+                          }
                           // Options will re-evaluate the Buffer with the new encoding
                           ({ comment, escape, quote } = this.options);
                           break;

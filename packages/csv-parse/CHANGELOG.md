@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.6.0...csv-parse@6.1.0) (2025-07-16)
+
+### Features
+
+- **csv-parse:** add generic type argument ([#457](https://github.com/adaltas/node-csv/issues/457)) ([ef71342](https://github.com/adaltas/node-csv/commit/ef713422d75812f2d4634c0c3f1d1f46a68ad186)), closes [#278](https://github.com/adaltas/node-csv/issues/278) [#407](https://github.com/adaltas/node-csv/issues/407)
+- **csv-parse:** boolean and null comment type ([b9ac1f0](https://github.com/adaltas/node-csv/commit/b9ac1f0ce8d10a157d189ff4277a668ec2680b07))
+- **csv-parse:** callback records defined type ([3d4f225](https://github.com/adaltas/node-csv/commit/3d4f22549941766ecec87c962f4bb5058b996c24))
+- **csv-parse:** casting context raw export ([a26f5d7](https://github.com/adaltas/node-csv/commit/a26f5d71c82dcdda01037965330919344eedaf47))
+- **csv-parse:** input as Uint8Array (fix [#458](https://github.com/adaltas/node-csv/issues/458)) ([24af461](https://github.com/adaltas/node-csv/commit/24af4615343bf6f167adf2226d6906cf0e2cf89d))
+- **csv-parse:** normailzsed options type ([da7a62e](https://github.com/adaltas/node-csv/commit/da7a62e3b30fdc1fbd6293cbc9289a8ff6f5f64a))
+- **csv-parse:** normalize_options export ([9056293](https://github.com/adaltas/node-csv/commit/9056293960a2e0bdc0e4bae30d819ca794407fed))
+- **csv-parse:** null comment_no_infix type ([d8bf4fd](https://github.com/adaltas/node-csv/commit/d8bf4fd1fb813553a0e312b44374877b4dace52d))
+- **csv-parse:** on_skip catch thrown error ([987a3a9](https://github.com/adaltas/node-csv/commit/987a3a9a6873c06c7e2256a2bd83415b3fe0323b))
+- **csv-parse:** use ts unknown instead of any when possible ([a47badf](https://github.com/adaltas/node-csv/commit/a47badf599211ad12c4dd1ffac800adb3da393b7))
+
+### Bug Fixes
+
+- **csv-parse:** normalized columns with auto-detected bom (fix [#460](https://github.com/adaltas/node-csv/issues/460)) ([4abcc44](https://github.com/adaltas/node-csv/commit/4abcc445ccdd566df8a3e827b6d6a881bebb6518))
+
 ## 6.0.0 (2025-07-10)
 
 ### ⚠ BREAKING CHANGES
