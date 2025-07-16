@@ -102,24 +102,28 @@ describe("API Types", function () {
   describe("Generic types", function () {
     it("Exposes string[][] if columns is not specified", function () {
       const data: string[][] = parse("", {});
+      data;
     });
 
     it("Exposes string[][] if columns is falsy", function () {
       const data: string[][] = parse("", {
         columns: false,
       });
+      data;
     });
 
     it("Exposes unknown[] if columns is specified as boolean", function () {
       const data: unknown[] = parse("", {
         columns: true,
       });
+      data;
     });
 
     it("Exposes T[] if columns is specified", function () {
       const data: Person[] = parse<Person>("", {
         columns: true,
       });
+      data;
     });
   });
 });
