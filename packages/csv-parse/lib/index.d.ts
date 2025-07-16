@@ -462,7 +462,7 @@ export type CsvErrorCode =
 
 export class CsvError extends Error {
   readonly code: CsvErrorCode;
-  [key: string]: any;
+  [key: string]: unknown;
 
   constructor(
     code: CsvErrorCode,

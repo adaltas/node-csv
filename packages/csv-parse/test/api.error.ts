@@ -15,10 +15,11 @@ describe("API error", function () {
 
   it("set additional context information", function () {
     const options = normalize_options({});
-    const err = new CsvError("CSV_UNKNOWN_ERROR", "msg", options, {
+    type UnknowError = CsvError & { a: number; b: number };
+    const err: UnknowError = new CsvError("CSV_UNKNOWN_ERROR", "msg", options, {
       a: 1,
       b: 2,
-    });
+    }) as UnknowError;
     err.a.should.eql(1);
     err.b.should.eql(2);
   });
