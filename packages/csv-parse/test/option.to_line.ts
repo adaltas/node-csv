@@ -9,9 +9,9 @@ describe("Option `to_line`", function () {
     parse("", { to_line: null }, () => {});
     parse("", { to_line: undefined }, () => {});
     (() => {
-      parse("", { to_line: -1 }, () => {});
+      parse("", { to_line: -2 }, () => {});
     }).should.throw(
-      "Invalid Option: to_line must be a positive integer greater than 0, got -1",
+      "Invalid Option: to_line must be a positive integer greater than 0, got -2",
     );
     (() => {
       parse("", { to_line: 0 }, () => {});

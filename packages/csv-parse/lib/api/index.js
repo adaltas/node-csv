@@ -115,10 +115,14 @@ const transform = function (original_options = {}) {
               this.state.bufBytesStart += bomLength;
               buf = buf.slice(bomLength);
               // Renormalize original options with the new encoding
-              this.options = normalize_options({
+              const options = normalize_options({
                 ...this.original_options,
                 encoding: encoding,
               });
+              // Properties are merged with the existing options instance
+              for (const key in options) {
+                this.options[key] = options[key];
+              }
               // Options will re-evaluate the Buffer with the new encoding
               ({ comment, escape, quote } = this.options);
               break;

@@ -127,4 +127,18 @@ describe("Option `bom`", function () {
     parser.write(Buffer.from([239, 187]));
     parser.end();
   });
+
+  it("options instance is updated and not re-created (see #460)", async function () {
+    // https://github.com/adaltas/node-csv/issues/460
+    const parser = parse({
+      columns: true,
+      bom: true,
+      from_line: 2,
+    });
+    parser.write(Buffer.from("\ufeffa,b\n"));
+    parser.write(Buffer.from("1,2\n"));
+    parser.write(Buffer.from("3,4\n"));
+    parser.end();
+    parser.options?.columns.should.eql([{ name: "1" }, { name: "2" }]);
+  });
 });

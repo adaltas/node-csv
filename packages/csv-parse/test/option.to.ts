@@ -8,9 +8,9 @@ describe("Option `to`", function () {
     parse("", { to: "10" }, () => {});
     parse("", { to: null }, () => {});
     (() => {
-      parse("", { to: -1 }, () => {});
+      parse("", { to: -2 }, () => {});
     }).should.throw(
-      "Invalid Option: to must be a positive integer greater than 0, got -1",
+      "Invalid Option: to must be a positive integer greater than 0, got -2",
     );
     (() => {
       parse("", { to: 0 }, () => {});

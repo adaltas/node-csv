@@ -650,7 +650,7 @@ const normalize_options = function (opts) {
   // Normalize option `to`
   if (options.to === undefined || options.to === null) {
     options.to = -1;
-  } else {
+  } else if (options.to !== -1) {
     if (typeof options.to === "string" && /\d+/.test(options.to)) {
       options.to = parseInt(options.to);
     }
@@ -669,7 +669,7 @@ const normalize_options = function (opts) {
   // Normalize option `to_line`
   if (options.to_line === undefined || options.to_line === null) {
     options.to_line = -1;
-  } else {
+  } else if (options.to_line !== -1) {
     if (typeof options.to_line === "string" && /\d+/.test(options.to_line)) {
       options.to_line = parseInt(options.to_line);
     }
