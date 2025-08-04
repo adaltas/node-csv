@@ -258,7 +258,7 @@ Note, could not `extends stream.TransformOptions` because encoding can be
 BufferEncoding and undefined as well as null which is not defined in the
 extended type.
 */
-export interface Options<T = string[]> {
+export interface Options<T = string[], U = T> {
   /**
    * If true, the parser will attempt to convert read data types to native types.
    * @deprecated Use {@link cast}
@@ -366,8 +366,8 @@ export interface Options<T = string[]> {
   /**
    * Alter and filter records by executing a user defined function.
    */
-  on_record?: (record: T, context: InfoRecord) => T | null | undefined;
-  onRecord?: (record: T, context: InfoRecord) => T | null | undefined;
+  on_record?: (record: T, context: InfoRecord) => U | null | undefined;
+  onRecord?: (record: T, context: InfoRecord) => U | null | undefined;
   /**
    * Function called when an error occured if the `skip_records_with_error`
    * option is activated.
