@@ -89,7 +89,11 @@ describe("API arguments", function () {
     });
 
     it("options:object, callback:function; write data and get result in callback", function (next) {
-      const parser = parse({ columns: true }, (err, records) => {
+      interface RowType {
+        field_1: string;
+        field_2: string;
+      }
+      const parser = parse<RowType>({ columns: true }, (err, records) => {
         if (err) return next(err);
         records.should.eql([{ field_1: "value 1", field_2: "value 2" }]);
         next();
@@ -123,7 +127,11 @@ describe("API arguments", function () {
 
   describe("3 args", function () {
     it("data:string, options:object, callback:function", function (next) {
-      parse(
+      interface RowType {
+        field_1: string;
+        field_2: string;
+      }
+      parse<RowType>(
         "field_1,field_2\nvalue 1,value 2",
         { columns: true },
         (err, records) => {
@@ -135,7 +143,11 @@ describe("API arguments", function () {
     });
 
     it("data:buffer, options:object, callback:function", function (next) {
-      parse(
+      interface RowType {
+        field_1: string;
+        field_2: string;
+      }
+      parse<RowType>(
         Buffer.from("field_1,field_2\nvalue 1,value 2"),
         { columns: true },
         (err, records) => {
