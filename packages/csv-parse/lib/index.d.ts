@@ -93,7 +93,7 @@ export type ColumnOption<K = string> =
   | false
   | { name: K };
 
-export interface OptionsNormalized<T = string[]> {
+export interface OptionsNormalized<T = string[], U = T> {
   auto_parse?: boolean | CastingFunction;
   auto_parse_date?: boolean | CastingDateFunction;
   /**
@@ -190,7 +190,8 @@ export interface OptionsNormalized<T = string[]> {
   /**
    * Alter and filter records by executing a user defined function.
    */
-  on_record?: (record: T, context: InfoRecord) => T | undefined;
+  on_record?: (record: U, context: InfoRecord) => T | null | undefined;
+  // on_record?: (record: T, context: InfoRecord) => T | undefined;
   /**
    * Optional character surrounding a field, one character only, defaults to double quotes.
    */
@@ -258,7 +259,7 @@ Note, could not `extends stream.TransformOptions` because encoding can be
 BufferEncoding and undefined as well as null which is not defined in the
 extended type.
 */
-export interface Options<T = string[]> {
+export interface Options<T = string[], U = T> {
   /**
    * If true, the parser will attempt to convert read data types to native types.
    * @deprecated Use {@link cast}
@@ -366,8 +367,8 @@ export interface Options<T = string[]> {
   /**
    * Alter and filter records by executing a user defined function.
    */
-  on_record?: (record: T, context: InfoRecord) => T | null | undefined;
-  onRecord?: (record: T, context: InfoRecord) => T | null | undefined;
+  on_record?: (record: U, context: InfoRecord) => T | null | undefined | U;
+  onRecord?: (record: U, context: InfoRecord) => T | null | undefined | U;
   /**
    * Function called when an error occured if the `skip_records_with_error`
    * option is activated.
@@ -479,13 +480,13 @@ export class CsvError extends Error {
   );
 }
 
-type OptionsWithColumns<T> = Omit<Options<T>, "columns"> & {
+export type OptionsWithColumns<T, U = T> = Omit<Options<T, U>, "columns"> & {
   columns: Exclude<Options["columns"], undefined | false>;
 };
 
-declare function parse<T = unknown>(
+declare function parse<T = unknown, U = T>(
   input: string | Buffer | Uint8Array,
-  options: OptionsWithColumns<T>,
+  options: OptionsWithColumns<T, U>,
   callback?: Callback<T>,
 ): Parser;
 declare function parse(
@@ -494,8 +495,8 @@ declare function parse(
   callback?: Callback,
 ): Parser;
 
-declare function parse<T = unknown>(
-  options: OptionsWithColumns<T>,
+declare function parse<T = unknown, U = T>(
+  options: OptionsWithColumns<T, U>,
   callback?: Callback<T>,
 ): Parser;
 declare function parse(options: Options, callback?: Callback): Parser;

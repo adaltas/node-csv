@@ -1,12 +1,8 @@
-import { Options } from "./index.js";
+import { Options, OptionsWithColumns } from "./index.js";
 
-type OptionsWithColumns<T> = Omit<Options<T>, "columns"> & {
-  columns: Exclude<Options["columns"], undefined | false>;
-};
-
-declare function parse<T = unknown>(
+declare function parse<T = unknown, U = T>(
   input: Buffer | string | Uint8Array,
-  options: OptionsWithColumns<T>,
+  options: OptionsWithColumns<T, U>,
 ): T[];
 declare function parse(
   input: Buffer | string | Uint8Array,
@@ -24,6 +20,7 @@ export {
   ColumnOption,
   Options,
   OptionsNormalized,
+  OptionsWithColumns,
   Info,
   InfoCallback,
   InfoDataSet,

@@ -11,6 +11,7 @@ export {
   ColumnOption,
   Options,
   OptionsNormalized,
+  OptionsWithColumns,
   Info,
   InfoCallback,
   InfoDataSet,

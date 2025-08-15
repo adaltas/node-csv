@@ -8,6 +8,7 @@ describe("Option `on_record`", function () {
         "a,b",
         {
           on_record: (record) => {
+            console.log(record[1]);
             return [record[1], record[0]];
           },
         },
@@ -82,6 +83,34 @@ describe("Option `on_record`", function () {
         (err) => {
           if (!err) return next("Invalid assertion");
           err.message.should.eql("Error thrown on line 2");
+          next();
+        },
+      );
+    });
+
+    it("with option `columns` (fix #461 #464 #466)", function (next) {
+      type RowTypeOriginal = { a: string; b: string };
+      type RowTypeFinal = { prop_a: string; prop_b: string };
+      parse<RowTypeFinal, RowTypeOriginal>(
+        "a,1\nb,2",
+        {
+          on_record: (record: RowTypeOriginal): RowTypeFinal => ({
+            prop_a: record.a,
+            prop_b: record.b,
+          }),
+          columns: ["a", "b"],
+        },
+        function (err, records: RowTypeFinal[]) {
+          records.should.eql([
+            {
+              prop_a: "a",
+              prop_b: "1",
+            },
+            {
+              prop_a: "b",
+              prop_b: "2",
+            },
+          ]);
           next();
         },
       );
