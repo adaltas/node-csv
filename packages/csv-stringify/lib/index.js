@@ -105,7 +105,7 @@ const stringify = function () {
       }
       stringifier.end();
     };
-    // Support Deno, Rollup doesnt provide a shim for setImmediate
+    // Support Deno, Rollup doesn't provide a shim for setImmediate
     if (typeof setImmediate === "function") {
       setImmediate(writer);
     } else {

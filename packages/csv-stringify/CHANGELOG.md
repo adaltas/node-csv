@@ -249,7 +249,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ## Version 5.6.1
 
 - fix: memory leak in sync
-- refactor: remove unsused values
+- refactor: remove unused values
 - fix: add browserify dev dep
 
 ## Version 5.6.0
@@ -486,7 +486,7 @@ Cleanup
 
 ## Version 2.0.3
 
-- package: es5 backward compatiblity
+- package: es5 backward compatibility
 - package: ignore yarn lock file
 
 ## Version 2.0.2
