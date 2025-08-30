@@ -2,7 +2,7 @@ import "should";
 import { generate } from "../lib/sync.js";
 
 describe("api sync", function () {
-  it("throw error if options isnt provided", function () {
+  it("throw error if options isn't provided", function () {
     (() => generate()).should.throw(
       "Invalid Argument: options must be an object or an integer",
     );
@@ -11,7 +11,7 @@ describe("api sync", function () {
     );
   });
 
-  it("throw error if length isnt provided", function () {
+  it("throw error if length isn't provided", function () {
     (() => generate({})).should.throw(
       "Invalid Argument: length is not defined",
     );
