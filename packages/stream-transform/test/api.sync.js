@@ -44,7 +44,7 @@ describe("api.sync", function () {
           callback;
         },
       );
-    }).should.throw("Invalid Handler: only synchonous handlers are supported");
+    }).should.throw("Invalid Handler: only synchronous handlers are supported");
     // With options
     (function () {
       transform(
@@ -61,6 +61,6 @@ describe("api.sync", function () {
           params;
         },
       );
-    }).should.throw("Invalid Handler: only synchonous handlers are supported");
+    }).should.throw("Invalid Handler: only synchronous handlers are supported");
   });
 });

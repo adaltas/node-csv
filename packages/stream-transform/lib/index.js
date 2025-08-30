@@ -36,7 +36,7 @@ util.inherits(Transformer, stream.Transform);
 Transformer.prototype._transform = function (chunk, _, cb) {
   this.state.started++;
   this.state.running++;
-  // Accept additionnal chunks to be processed in parallel
+  // Accept additional chunks to be processed in parallel
   if (!this.state.paused && this.state.running < this.options.parallel) {
     cb();
     cb = null; // Cancel further callback execution
@@ -142,7 +142,7 @@ const transform = function () {
       }
       transformer.end();
     };
-    // Support Deno, Rollup doesnt provide a shim for setImmediate
+    // Support Deno, Rollup doesn't provide a shim for setImmediate
     if (typeof setImmediate === "function") {
       setImmediate(writer);
     } else {

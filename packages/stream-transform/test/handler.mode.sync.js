@@ -45,7 +45,7 @@ describe("handler.mode.sync", function () {
     });
   });
 
-  it("modify the recieved object", function (next) {
+  it("modify the received object", function (next) {
     transform(
       [
         ["20322051544", "1979", "8.8017226E7", "ABC", "45", "2000-01-01"],
@@ -110,7 +110,7 @@ describe("handler.mode.sync", function () {
     );
   });
 
-  it("recieve an array and return an object", function (next) {
+  it("receive an array and return an object", function (next) {
     transform(
       [
         ["20322051544", "1979", "8.8017226E7", "ABC", "45", "2000-01-01"],
@@ -201,7 +201,7 @@ describe("handler.mode.sync", function () {
         function (err, source) {
           transform(
             source,
-            { parralel: 1 },
+            { parallel: 1 },
             (record) => record,
             (err, result) => result.should.eql(source),
           );
