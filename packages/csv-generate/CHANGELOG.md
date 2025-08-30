@@ -258,7 +258,7 @@ New features and bug fixes:
 
 ## Version 2.0.1
 
-- package: es5 backward compatiblity
+- package: es5 backward compatibility
 - package: ignore yarn lock file
 
 ## 2.0.0

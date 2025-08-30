@@ -13,7 +13,7 @@ describe("Option `sleep`", function () {
   });
 
   it("sleep combined with length and objectMode false", function (next) {
-    // Fix bug where chuncks where emited after end when sleep is activated
+    // Fix bug where chunks where emitted after end when sleep is activated
     this.timeout(10000);
     const records = [];
     generate({
