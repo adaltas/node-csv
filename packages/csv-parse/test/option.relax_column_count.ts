@@ -103,7 +103,7 @@ describe("Option `relax_column_count`", function () {
     );
   });
 
-  it("with columns and from, doesnt break count and relying options like from", function (next) {
+  it("with columns and from, doesn't break count and relying options like from", function (next) {
     parse(
       dedent`
         1,2,3

@@ -7,7 +7,7 @@ const data = dedent`
   4,5,6
 `;
 const records = parse(data, {
-  // The cast option exect a function which
+  // The cast option expect a function which
   // is called with two arguments,
   // the parsed value and a context object
   cast: function (value, context) {

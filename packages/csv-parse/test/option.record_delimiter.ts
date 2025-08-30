@@ -112,7 +112,7 @@ describe("Option `record_delimiter`", function () {
       parser.end();
     });
 
-    it("ensure that delimiter and record_delimiter doesnt match", function (next) {
+    it("ensure that delimiter and record_delimiter doesn't match", function (next) {
       parse(
         "a;b\n11;22;\n33;33;\n",
         {

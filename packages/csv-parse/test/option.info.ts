@@ -13,7 +13,7 @@ describe("Option `info`", function () {
         `,
         { info: true },
         (err, records) => {
-          // @todo: improve type definition, setting option.info as true shal
+          // @todo: improve type definition, setting option.info as true shall
           // be reflected in the return records array.
           (records as unknown as { record: string[]; info: Info }[]).map(
             ({ record, info }) => {

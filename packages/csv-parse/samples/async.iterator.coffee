@@ -9,7 +9,7 @@ import { parse } from 'csv-parse'
     high_water_mark: 64 * 64
     length: 1000
   ).pipe parse()
-  # Intialise count
+  # Initialise count
   count = 0
   # Report start
   process.stdout.write 'start\n'

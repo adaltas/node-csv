@@ -25,7 +25,7 @@ describe("API destroy", function () {
       next();
     });
     parser.on("end", () => {
-      next(Error("End event shouldnt be called"));
+      next(Error("End event shouldn't be called"));
     });
     // Note, removing =nextTick trigger both the error and end events
     process.nextTick(() => {
@@ -48,14 +48,14 @@ describe("API destroy", function () {
         next();
       });
       parser.on("end", () => {
-        next(Error("End event shouldnt be called"));
+        next(Error("End event shouldn't be called"));
       });
       fs.createReadStream(`${os.tmpdir()}/data.csv`).pipe(parser);
     });
   });
 
   it("inside readable with generator input stream", function (next) {
-    // csv-generate emit data synchronously, it cant detect error on time
+    // csv-generate emit data synchronously, it can't detect error on time
     const parser = parse() as Parser & ParserPrivate;
     parser.on("readable", function () {
       while (parser.read()) {

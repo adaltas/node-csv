@@ -320,7 +320,7 @@ See also [CSV package for Node.js version 6 (11/15/2021)](https://www.adaltas.co
 
 ## Version 4.16.0
 
-- fix: info print the number of encountered line when emited
+- fix: info print the number of encountered line when emitted
 - feat: cast expose context.empty_lines
 - fix: handle empty column names properly
 - feat: enforce usage of columns with columns_duplicates_to_array
@@ -430,7 +430,7 @@ New feature:
 
 Project management:
 
-- samples: new file recipie
+- samples: new file recipe
 
 ## Version 4.9.1
 
