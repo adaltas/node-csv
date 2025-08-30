@@ -12,7 +12,7 @@ describe("API stream.iterator", function () {
     records.length.should.eql(10);
   });
 
-  it("with iteractor stoped in between", async function () {
+  it("with iterator stopped in between", async function () {
     // See https://github.com/adaltas/node-csv/issues/333
     // See https://github.com/adaltas/node-csv/issues/410
     // Prevent `Error [ERR_STREAM_PREMATURE_CLOSE]: Premature close`

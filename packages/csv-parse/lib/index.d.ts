@@ -56,7 +56,7 @@ export interface Info {
 
 export interface InfoCallback extends Info {
   /**
-   * Normalized verion of `options.columns` when `options.columns` is true, boolean otherwise.
+   * Normalized version of `options.columns` when `options.columns` is true, boolean otherwise.
    */
   readonly columns: boolean | { name: string }[] | { disabled: true }[];
 }
@@ -178,7 +178,7 @@ export interface OptionsNormalized<T = string[]> {
    */
   ltrim: boolean;
   /**
-   * Maximum numer of characters to be contained in the field and line buffers before an exception is raised,
+   * Maximum number of characters to be contained in the field and line buffers before an exception is raised,
    * used to guard against a wrong delimiter or record_delimiter,
    * default to 128000 characters.
    */
@@ -353,7 +353,7 @@ export interface Options<T = string[]> {
    */
   ltrim?: boolean | null;
   /**
-   * Maximum numer of characters to be contained in the field and line buffers before an exception is raised,
+   * Maximum number of characters to be contained in the field and line buffers before an exception is raised,
    * used to guard against a wrong delimiter or record_delimiter,
    * default to 128000 characters.
    */
@@ -369,7 +369,7 @@ export interface Options<T = string[]> {
   on_record?: (record: T, context: InfoRecord) => T | null | undefined;
   onRecord?: (record: T, context: InfoRecord) => T | null | undefined;
   /**
-   * Function called when an error occured if the `skip_records_with_error`
+   * Function called when an error occurred if the `skip_records_with_error`
    * option is activated.
    */
   on_skip?: (err: CsvError | undefined, raw: string | undefined) => undefined;

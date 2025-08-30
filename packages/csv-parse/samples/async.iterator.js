@@ -8,7 +8,7 @@ import { parse } from "csv-parse";
     high_water_mark: 64 * 64,
     length: 100,
   }).pipe(parse());
-  // Intialise count
+  // Initialise count
   let count = 0;
   // Report start
   process.stdout.write("start\n");

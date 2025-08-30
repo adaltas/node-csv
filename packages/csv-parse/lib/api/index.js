@@ -306,7 +306,7 @@ const transform = function (original_options = {}) {
                 this.info.comment_lines++;
                 // Skip full comment line
               } else {
-                // Activate records emition if above from_line
+                // Activate records emission if above from_line
                 if (
                   this.state.enabled === false &&
                   this.info.lines +

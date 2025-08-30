@@ -43,7 +43,7 @@ describe("Option `from_line`", function () {
     );
   });
 
-  it("records with quoted line at the begining of line", function (next) {
+  it("records with quoted line at the beginning of line", function (next) {
     parse(
       dedent`1,2,"
 

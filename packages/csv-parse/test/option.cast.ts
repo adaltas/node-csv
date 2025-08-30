@@ -47,7 +47,7 @@ describe("Option `cast`", function () {
       );
     });
 
-    it("ints isnt exposed to DOS vulnerabilities, npm security issue 69742", function (next) {
+    it("int isn't exposed to DOS vulnerabilities, npm security issue 69742", function (next) {
       const data =
         Array.from({ length: 3000000 })
           .map(() => "1")

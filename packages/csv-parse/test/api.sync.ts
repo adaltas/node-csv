@@ -55,7 +55,7 @@ describe("API sync", function () {
   it("catch errors", function () {
     try {
       parse("A,B\nB\nC,K", { trim: true });
-      throw Error("Error not catched");
+      throw Error("Error not caught");
     } catch (err) {
       if (!err) throw Error("Invalid assessment");
       (err as Error).message.should.eql(
