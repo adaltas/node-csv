@@ -1,13 +1,13 @@
 import { Options } from "./index.js";
 
-type OptionsWithColumns<T> = Omit<Options<T>, "columns"> & {
+type OptionsWithColumns<T, U> = Omit<Options<T>, "columns"> & {
   columns: Exclude<Options["columns"], undefined | false>;
 };
 
-declare function parse<T = unknown>(
+declare function parse<T = unknown, U = T>(
   input: Buffer | string | Uint8Array,
-  options: OptionsWithColumns<T>,
-): T[];
+  options: OptionsWithColumns<T, U>,
+): U[];
 declare function parse(
   input: Buffer | string | Uint8Array,
   options: Options,
