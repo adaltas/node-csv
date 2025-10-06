@@ -32,7 +32,7 @@ export type Cast<T> = (
 export type PlainObject<T> = Record<string, T>;
 export type Input = any[];
 export interface ColumnOption {
-  key: string;
+  key: string | (string | number)[];
   header?: string;
 }
 export interface CastingContext {

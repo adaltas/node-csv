@@ -84,8 +84,7 @@ const castPath = function (value, object) {
 const toKey = function (value) {
   if (typeof value === "string" || isSymbol(value)) return value;
   const result = `${value}`;
-  // eslint-disable-next-line
-  return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+  return result == "0" && 1 / value == -Infinity ? "-0" : result;
 };
 
 const get = function (object, path) {

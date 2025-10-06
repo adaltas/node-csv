@@ -84,6 +84,19 @@ describe("Option `columns`", function () {
       );
     });
 
+    it("Is an array of object with key defined as an array", function (next) {
+      stringify(
+        [{ a: "a value", b: [{ c: "c value", d: "d value" }] }],
+        {
+          columns: [{ key: ["b", 0, "c"] }],
+        },
+        (err, records) => {
+          if (!err) records.should.eql("c value\n");
+          next(err);
+        },
+      );
+    });
+
     it("can still access fields with dots", function (next) {
       stringify(
         [{ "foo.bar": "1" }, { "foo.bar": "2" }],
