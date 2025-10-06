@@ -487,7 +487,7 @@ describe("API Types", function () {
         {
           columns: true,
         },
-        (error, records: unknown[] | undefined) => {
+        (error, records: unknown[]) => {
           records;
           next(error);
         },
@@ -499,6 +499,26 @@ describe("API Types", function () {
         "",
         {
           columns: true,
+        },
+        (error, records: Person[]) => {
+          records;
+          next(error);
+        },
+      );
+    });
+
+    it("Exposes U[] and T if columns and on_record are specified", function (next) {
+      type PersonOriginal = { surname: string; age: number };
+      parse<Person, PersonOriginal>(
+        "",
+        {
+          columns: true,
+          on_record: (record: PersonOriginal) => {
+            return {
+              name: record.surname,
+              age: record.age,
+            };
+          },
         },
         (error, records: Person[]) => {
           records;
