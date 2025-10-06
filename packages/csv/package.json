@@ -123,5 +123,6 @@
         "dist/esm/sync.d.ts"
       ]
     }
-  }
+  },
+  "sideEffects": false
 }
