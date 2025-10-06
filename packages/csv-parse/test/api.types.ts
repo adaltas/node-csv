@@ -1,13 +1,6 @@
 import "should";
-import {
-  parse,
-  CastingContext,
-  Info,
-  Options,
-  Parser,
-  CsvError,
-  normalize_options,
-} from "../lib/index.js";
+import { parse, CsvError, normalize_options } from "../lib/index.js";
+import type { Info, InfoField, Options, Parser } from "../lib/index.js";
 
 describe("API Types", function () {
   type Person = { name: string; age: number };
@@ -200,7 +193,7 @@ describe("API Types", function () {
       const options: Options = {};
       options.cast_date = true;
       options.castDate = true;
-      options.cast_date = (value: string, context: CastingContext) => {
+      options.cast_date = (value: string, context: InfoField) => {
         return new Date(`${value} ${context.index}`);
       };
     });
@@ -388,9 +381,9 @@ describe("API Types", function () {
     });
   });
 
-  describe("CastingContext", function () {
+  describe("InfoField", function () {
     it("all properties", function () {
-      (context: CastingContext) => {
+      (context: InfoField) => {
         const column: number | string = context.column;
         const empty_lines: number = context.empty_lines;
         const header: boolean = context.header;

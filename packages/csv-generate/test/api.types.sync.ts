@@ -1,5 +1,6 @@
 import "should";
-import { generate, Options } from "../lib/sync.js";
+import { generate } from "../lib/sync.js";
+import type { Options } from "../lib/sync.js";
 
 describe("API Types", function () {
   describe("usage", function () {

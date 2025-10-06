@@ -1,6 +1,7 @@
 import should from "should";
 import dedent from "dedent";
-import { parse, Info } from "../lib/index.js";
+import { parse } from "../lib/index.js";
+import type { Info } from "../lib/index.js";
 
 describe("Option `info`", function () {
   describe("true", function () {

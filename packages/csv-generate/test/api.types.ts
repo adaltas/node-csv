@@ -1,5 +1,6 @@
 import "should";
-import { generate, Options, Generator } from "../lib/index.js";
+import { generate } from "../lib/index.js";
+import type { Options, Generator } from "../lib/index.js";
 
 describe("API Types", function () {
   describe("Initialisation", function () {

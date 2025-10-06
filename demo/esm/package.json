@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "coffeescript": "^2.7.0",
-    "mocha": "^11.5.0",
+    "mocha": "^11.7.4",
     "should": "^13.2.3"
   },
   "mocha": {

@@ -1,5 +1,6 @@
 import should from "should";
-import { parse, InfoRecord } from "../lib/index.js";
+import { parse } from "../lib/index.js";
+import type { InfoRecord } from "../lib/index.js";
 
 describe("Option `on_record`", function () {
   describe("usage", function () {

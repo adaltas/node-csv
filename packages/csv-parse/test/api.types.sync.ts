@@ -1,14 +1,13 @@
 import "should";
-import {
-  parse,
-  CastingContext,
+import { parse, CsvError } from "../lib/sync.js";
+import type {
+  InfoField,
   CastingFunction,
   CastingDateFunction,
   ColumnOption,
   Options,
   Info,
   CsvErrorCode,
-  CsvError,
 } from "../lib/sync.js";
 
 describe("API Types", function () {
@@ -40,9 +39,9 @@ describe("API Types", function () {
     };
   });
 
-  it("CastingContext", function () {
+  it("InfoField", function () {
     const options: Options = {
-      cast: (value: string, context: CastingContext) => {
+      cast: (value: string, context: InfoField) => {
         return `${value} ${context.index}`;
       },
     };
@@ -52,7 +51,7 @@ describe("API Types", function () {
   it("CastingDateFunction", function () {
     const castDate: CastingDateFunction = (
       value: string,
-      context: CastingContext,
+      context: InfoField,
     ) => {
       return new Date(`${value} ${context.index}`);
     };
@@ -63,7 +62,7 @@ describe("API Types", function () {
   });
 
   it("CastingFunction", function () {
-    const cast: CastingFunction = (value: string, context: CastingContext) => {
+    const cast: CastingFunction = (value: string, context: InfoField) => {
       return `${value} ${context.index}`;
     };
     const options: Options = {
