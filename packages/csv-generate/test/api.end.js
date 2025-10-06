@@ -10,7 +10,7 @@ describe("api end", function () {
     generator.on("readable", () => {
       while (generator.read()) {
         if (end) {
-          generator.emit("error", Error("Record emited after end"));
+          generator.emit("error", Error("Record emitted after end"));
         }
         if (count++ === 5) {
           end = true;
@@ -29,7 +29,7 @@ describe("api end", function () {
     generator.on("readable", () => {
       while (generator.read()) {
         if (end) {
-          generator.emit("error", Error("Record emited after end"));
+          generator.emit("error", Error("Record emitted after end"));
         }
         if (count++ === 5) {
           end = true;

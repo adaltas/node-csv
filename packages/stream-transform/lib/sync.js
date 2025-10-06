@@ -37,7 +37,7 @@ const transform = function () {
     expected_handler_length++;
   }
   if (handler.length > expected_handler_length) {
-    throw Error("Invalid Handler: only synchonous handlers are supported");
+    throw Error("Invalid Handler: only synchronous handlers are supported");
   }
   // Start transformation
   const chunks = [];

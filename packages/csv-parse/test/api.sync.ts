@@ -95,7 +95,7 @@ describe("API sync", function () {
       records.should.eql([["1"], ["2"]]);
     });
   });
-
+  
   describe("errors", function () {
     it("catch errors", function () {
       try {

@@ -64,7 +64,7 @@ export interface OptionsNormalized extends stream.TransformOptions {
   /**
    * List of fields, applied when `transform` returns an object
    * order matters
-   * read the transformer documentation for additionnal information
+   * read the transformer documentation for additional information
    * columns are auto discovered in the first record when the user write objects
    * can refer to nested properties of the input JSON
    * see the "header" option on how to print columns names on the first line
@@ -114,7 +114,7 @@ export interface OptionsNormalized extends stream.TransformOptions {
    */
   record_delimiter: RecordDelimiter;
   /**
-   * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protected agains csv injection attacks
+   * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protect against csv injection attacks
    */
   escape_formulas: boolean;
 }
@@ -141,7 +141,7 @@ export interface Options extends stream.TransformOptions {
   /**
    * List of fields, applied when `transform` returns an object
    * order matters
-   * read the transformer documentation for additionnal information
+   * read the transformer documentation for additional information
    * columns are auto discovered in the first record when the user write objects
    * can refer to nested properties of the input JSON
    * see the "header" option on how to print columns names on the first line
@@ -191,7 +191,7 @@ export interface Options extends stream.TransformOptions {
    */
   record_delimiter?: RecordDelimiter;
   /**
-   * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protected agains csv injection attacks
+   * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protect against csv injection attacks
    */
   escape_formulas?: boolean;
 }

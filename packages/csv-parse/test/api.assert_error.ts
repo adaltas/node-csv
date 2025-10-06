@@ -96,9 +96,9 @@ describe("API assert_error", function () {
     (() => {
       assert_error(err, {
         code: "CSV_UNKNOWN_ERROR",
-        message: "Another mesage",
+        message: "Another message",
       });
-    }).should.throw("expected 'A message' to equal 'Another mesage'");
+    }).should.throw("expected 'A message' to equal 'Another message'");
   });
 
   it("validate a null value", function () {

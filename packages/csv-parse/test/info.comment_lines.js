@@ -87,7 +87,7 @@ describe("info comment_lines", function () {
     );
   });
 
-  it("one line a the begining", function (next) {
+  it("one line at the beginning", function (next) {
     parse(
       "# comment\na,b,c\nd,e,f",
       {
