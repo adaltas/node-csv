@@ -1,29 +1,28 @@
-
-import * as csv from 'csv/browser/esm/sync';
+import * as csv from "csv/browser/esm/sync";
 
 window.onload = () => {
-  const runEl = document.getElementById('run');
-  const outputEl = document.getElementById('output');
-  runEl.onclick = (e) => {
-    try{
+  const runEl = document.getElementById("run");
+  const outputEl = document.getElementById("output");
+  runEl.onclick = () => {
+    try {
       // Run the pipeline
       const input = csv.generate({
-        delimiter: '|',
-        length: 10
+        delimiter: "|",
+        length: 10,
       });
       const rawRecords = csv.parse(input, {
-        delimiter: '|'
+        delimiter: "|",
       });
       const refinedRecords = csv.transform(rawRecords, (record) => {
         record.push(record.shift());
         return record;
       });
       const output = csv.stringify(refinedRecords, {
-        quoted: true
+        quoted: true,
       });
       outputEl.innerHTML = output;
-    }catch(err){
-      outputEl.innerHTML = 'Error: ' + err.message;
+    } catch (err) {
+      outputEl.innerHTML = "Error: " + err.message;
     }
   };
 };

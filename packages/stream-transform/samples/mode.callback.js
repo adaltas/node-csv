@@ -1,18 +1,20 @@
+import { transform } from "stream-transform";
 
-import { transform } from 'stream-transform';
-
-transform([
-  ['1','2','3','4'],
-  ['a','b','c','d']
-], function(data, callback){
-  setImmediate(function(){
-    data.push(data.shift());
-    callback(null, data.join(',')+'\n');
-  });
-}, {
-  parallel: 20
-})
-  .pipe(process.stdout);
+transform(
+  [
+    ["1", "2", "3", "4"],
+    ["a", "b", "c", "d"],
+  ],
+  function (data, callback) {
+    setImmediate(function () {
+      data.push(data.shift());
+      callback(null, data.join(",") + "\n");
+    });
+  },
+  {
+    parallel: 20,
+  },
+).pipe(process.stdout);
 
 // Output:
 // 2,3,4,1

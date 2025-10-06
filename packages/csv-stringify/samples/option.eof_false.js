@@ -8,6 +8,6 @@ const data = stringify(
   ],
   {
     eof: false,
-  }
+  },
 );
 assert.deepStrictEqual(data, "a,b\nc,d");

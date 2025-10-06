@@ -6,12 +6,12 @@ module.exports = {
     es2021: true,
   },
   // Adding airbnb-base throw an error
-  extends: ['eslint:recommended', 'plugin:import/recommended', 'airbnb-base'],
+  extends: ["eslint:recommended", "plugin:import/recommended", "airbnb-base"],
   parserOptions: {
-    ecmaVersion: 'latest',
+    ecmaVersion: "latest",
   },
   rules: {
-    'import/no-unresolved': [2, { commonjs: false }],
-    'no-console': 'off',
+    "import/no-unresolved": [2, { commonjs: false }],
+    "no-console": "off",
   },
 };

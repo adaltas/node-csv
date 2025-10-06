@@ -1,16 +1,16 @@
 {
   "name": "csv-issues-cjs",
-  "version": "0.2.3",
+  "version": "0.3.1",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "csv-parse": "^5.5.3",
-    "csv-stringify": "^6.4.5"
+    "csv-parse": "^6.1.0",
+    "csv-stringify": "^6.6.0"
   },
   "devDependencies": {
     "coffeescript": "^2.7.0",
-    "mocha": "^10.2.0",
+    "mocha": "^11.7.4",
     "should": "^13.2.3"
   },
   "mocha": {
@@ -21,7 +21,7 @@
       "should",
       "coffeescript/register"
     ],
-    "throw-deprecation": true,
+    "throw-deprecation": false,
     "timeout": 40000
   },
   "scripts": {

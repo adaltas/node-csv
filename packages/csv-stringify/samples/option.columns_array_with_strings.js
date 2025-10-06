@@ -1,11 +1,12 @@
+import { stringify } from "csv-stringify";
+import assert from "node:assert";
 
-import { stringify } from 'csv-stringify';
-import assert from 'node:assert';
-
-stringify([
-  { a: '1', b: '2' }
-], {
-  columns: [ 'a', 'b' ]
-}, function(err, data){
-  assert.equal(data, '1,2\n');
-});
+stringify(
+  [{ a: "1", b: "2" }],
+  {
+    columns: ["a", "b"],
+  },
+  function (err, data) {
+    assert.equal(data, "1,2\n");
+  },
+);

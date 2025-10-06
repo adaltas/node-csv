@@ -1,4 +1,3 @@
-
 # Stream transformation for Node.js and the web
 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/adaltas/node-csv/nodejs.yml?branch=master)](https://github.com/adaltas/node-csv/actions)
@@ -11,25 +10,25 @@ The Node.js [`stream.Transform` API](http://nodejs.org/api/stream.html#stream_cl
 
 ## Documentation
 
-* [Project homepage](https://csv.js.org/transform/)
-* [API](https://csv.js.org/transform/api/)
-* [Options](https://csv.js.org/transform/options/)
-* [Handler](https://csv.js.org/transform/handler/)
-* [State properties](https://csv.js.org/transform/state/)
-* [Examples](https://csv.js.org/transform/examples/)
+- [Project homepage](https://csv.js.org/transform/)
+- [API](https://csv.js.org/transform/api/)
+- [Options](https://csv.js.org/transform/options/)
+- [Handler](https://csv.js.org/transform/handler/)
+- [State properties](https://csv.js.org/transform/state/)
+- [Examples](https://csv.js.org/transform/examples/)
 
 ## Main features
 
-* Extends the native Node.js [transform stream API](http://nodejs.org/api/stream.html#stream_class_stream_transform)
-* Simplicity with the optional callback and sync API
-* Pipe transformations between readable and writable streams
-* Synchronous versus asynchronous user functions
-* Sequential and parallel execution
-* Accept object, array or JSON as input and output
-* Sequential or user-defined concurrent execution
-* Skip and multiply records
-* Alter or clone input records
-* MIT License
+- Extends the native Node.js [transform stream API](http://nodejs.org/api/stream.html#stream_class_stream_transform)
+- Simplicity with the optional callback and sync API
+- Pipe transformations between readable and writable streams
+- Synchronous versus asynchronous user functions
+- Sequential and parallel execution
+- Accept object, array or JSON as input and output
+- Sequential or user-defined concurrent execution
+- Skip and multiply records
+- Alter or clone input records
+- MIT License
 
 ## Usage
 
@@ -42,20 +41,23 @@ The module is built on the Node.js Stream API. Use the callback and sync APIs fo
 The [API](https://csv.js.org/transform/api/) is available in multiple flavors. This example illustrates the sync API.
 
 ```js
-import { transform } from 'stream-transform/sync';
-import assert from 'assert';
+import { transform } from "stream-transform/sync";
+import assert from "assert";
 
-const records = transform([
-  [ 'a', 'b', 'c', 'd' ],
-  [ '1', '2', '3', '4' ]
-], function(record){
-  record.push(record.shift());
-  return record;
-});
+const records = transform(
+  [
+    ["a", "b", "c", "d"],
+    ["1", "2", "3", "4"],
+  ],
+  function (record) {
+    record.push(record.shift());
+    return record;
+  },
+);
 
 assert.deepEqual(records, [
-  [ 'b', 'c', 'd', 'a' ],
-  [ '2', '3', '4', '1' ]
+  ["b", "c", "d", "a"],
+  ["2", "3", "4", "1"],
 ]);
 ```
 
@@ -71,4 +73,4 @@ The test suite is run online with [Travis](http://travis-ci.org/wdavidw/node-str
 
 The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.
 
-*   David Worms: <https://github.com/wdavidw>
+- David Worms: <https://github.com/wdavidw>

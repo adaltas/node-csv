@@ -1,12 +1,23 @@
 {
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^17.6.3",
-    "@commitlint/config-conventional": "^17.6.3",
-    "@commitlint/config-lerna-scopes": "^17.6.3",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/js": "^9.37.0",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^8.0.3",
-    "lerna": "^6.6.1"
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-mocha": "^11.2.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "glob": "^11.0.3",
+    "husky": "^9.1.7",
+    "lerna": "^9.0.0",
+    "lint-staged": "^16.2.3",
+    "typescript-eslint": "^8.45.0"
+  },
+  "lint-staged": {
+    "*.js": "npm run lint:fix",
+    "*.md": "prettier -w"
   },
   "repository": {
     "type": "git",
@@ -14,14 +25,16 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "postinstall": "husky install",
+    "prepare": "husky",
     "publish": "lerna publish from-git --yes",
-    "lint": "lerna run lint",
-    "pretest": "npm run lint",
+    "lint:check": "eslint",
+    "lint:fix": "eslint --fix",
+    "lint:staged": "npx lint-staged",
     "test": "lerna run test",
     "test:legacy": "lerna run test:legacy",
     "version": "lerna version"
   },
+  "type": "module",
   "workspaces": {
     "packages": [
       "packages/*",

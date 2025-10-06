@@ -1,27 +1,36 @@
-
-import {
-  TransformStream,
-} from 'node:stream/web';
-import {transform} from './api/index.js';
+import { TransformStream, CountQueuingStrategy } from "node:stream/web";
+import { transform } from "./api/index.js";
 
 const parse = (opts) => {
   const api = transform(opts);
-  return new TransformStream({
-    async transform(chunk, controller) {
-      api.parse(chunk, false, (record) => {
-        controller.enqueue(record);
-      }, () => {
-        controller.close();
-      });
+  let controller;
+  const enqueue = (record) => {
+    controller.enqueue(record);
+  };
+  const terminate = () => {
+    controller.terminate();
+  };
+  return new TransformStream(
+    {
+      start(ctr) {
+        controller = ctr;
+      },
+      transform(chunk) {
+        const error = api.parse(chunk, false, enqueue, terminate);
+        if (error) {
+          controller.error(error);
+        }
+      },
+      flush() {
+        const error = api.parse(undefined, true, enqueue, terminate);
+        if (error) {
+          controller.error(error);
+        }
+      },
     },
-    async flush(controller){
-      api.parse(undefined, true, (record) => {
-        controller.enqueue(record);
-      }, () => {
-        controller.close();
-      });
-    }
-  });
+    new CountQueuingStrategy({ highWaterMark: 1024 }),
+    new CountQueuingStrategy({ highWaterMark: 1024 }),
+  );
 };
 
-export {parse};
+export { parse };

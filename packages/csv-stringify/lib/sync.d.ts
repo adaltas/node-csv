@@ -1,12 +1,17 @@
+import { Input, Options } from "./index.js";
 
-import { Input, Options } from './index.js'
-
-declare function stringify(input: Input, options?: Options): string
+declare function stringify(input: Input, options?: Options): string;
 
 // export default stringify;
 export { stringify };
 
 export {
-  RecordDelimiter, Cast, PlainObject, Input, ColumnOption, CastingContext,
-  Options
-} from './index.js';
+  RecordDelimiter,
+  Cast,
+  PlainObject,
+  Input,
+  ColumnOption,
+  CastingContext,
+  Options,
+  OptionsNormalized,
+} from "./index.js";

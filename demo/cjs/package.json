@@ -1,22 +1,22 @@
 {
   "name": "csv-demo-cjs",
-  "version": "0.2.14",
+  "version": "0.3.1",
   "main": "index.js",
   "license": "MIT",
   "type": "commonjs",
   "private": true,
   "dependencies": {
-    "csv": "^6.3.6",
-    "csv-parse": "^5.5.3",
-    "csv-stringify": "^6.4.5"
+    "csv": "^6.4.1",
+    "csv-parse": "^6.1.0",
+    "csv-stringify": "^6.6.0"
   },
   "devDependencies": {
-    "@types/node": "^20.5.6",
+    "@types/node": "^24.7.0",
     "coffeescript": "^2.7.0",
-    "mocha": "^10.2.0",
+    "mocha": "^11.7.4",
     "should": "^13.2.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   },
   "mocha": {
     "inline-diffs": true,
@@ -26,7 +26,7 @@
       "should",
       "coffeescript/register"
     ],
-    "throw-deprecation": true,
+    "throw-deprecation": false,
     "timeout": 40000
   },
   "scripts": {

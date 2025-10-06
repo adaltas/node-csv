@@ -1,7 +1,7 @@
 // coffeescript-loader.mjs
-import { URL, pathToFileURL } from 'url';
-import CoffeeScript from 'coffeescript';
-import { cwd } from 'process';
+import { URL, pathToFileURL } from "url";
+import CoffeeScript from "coffeescript";
+import { cwd } from "process";
 
 const baseURL = pathToFileURL(`${cwd()}/`).href;
 
@@ -15,7 +15,7 @@ export function resolve(specifier, context, defaultResolve) {
   if (extensionsRegex.test(specifier)) {
     return {
       url: new URL(specifier, parentURL).href,
-      stop: true
+      stop: true,
     };
   }
   // Let Node.js handle all other specifiers.
@@ -28,8 +28,8 @@ export function getFormat(url, context, defaultGetFormat) {
   // purposes of this loader, all CoffeeScript URLs are ES modules.
   if (extensionsRegex.test(url)) {
     return {
-      format: 'module',
-      stop: true
+      format: "module",
+      stop: true,
     };
   }
   // Let Node.js handle all other URLs.
@@ -37,11 +37,11 @@ export function getFormat(url, context, defaultGetFormat) {
 }
 
 export function transformSource(source, context, defaultTransformSource) {
-  const { url, format } = context;
+  const { url } = context;
 
   if (extensionsRegex.test(url)) {
     return {
-      source: CoffeeScript.compile(String(source), { bare: true })
+      source: CoffeeScript.compile(String(source), { bare: true }),
     };
   }
 

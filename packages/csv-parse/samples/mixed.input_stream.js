@@ -1,21 +1,20 @@
-
-import assert from 'node:assert';
-import { parse } from 'csv-parse';
+import assert from "node:assert";
+import { parse } from "csv-parse";
 
 // Create the parser
-const parser = parse({
-  delimiter: ':'
-}, function(err, records){
-  assert.deepStrictEqual(
-    records,
-    [
-      [ 'root','x','0','0','root','/root','/bin/bash' ],
-      [ 'someone','x','1022','1022','','/home/someone','/bin/bash' ]
-    ]
-  );
-});
+const parser = parse(
+  {
+    delimiter: ":",
+  },
+  function (err, records) {
+    assert.deepStrictEqual(records, [
+      ["root", "x", "0", "0", "root", "/root", "/bin/bash"],
+      ["someone", "x", "1022", "1022", "", "/home/someone", "/bin/bash"],
+    ]);
+  },
+);
 // Write data to the stream
-parser.write('root:x:0:0:root:/root:/bin/bash\n');
-parser.write('someone:x:1022:1022::/home/someone:/bin/bash\n');
+parser.write("root:x:0:0:root:/root:/bin/bash\n");
+parser.write("someone:x:1022:1022::/home/someone:/bin/bash\n");
 // Close the readable stream
 parser.end();

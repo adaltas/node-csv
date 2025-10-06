@@ -1,17 +1,17 @@
 {
   "name": "csv-demo-ts-cjs-node16",
-  "version": "0.2.14",
+  "version": "0.2.21",
   "dependencies": {
-    "csv-generate": "^4.3.1",
-    "csv-parse": "^5.5.3",
-    "csv-stringify": "^6.4.5",
-    "stream-transform": "^3.3.0"
+    "csv-generate": "^4.5.0",
+    "csv-parse": "^6.1.0",
+    "csv-stringify": "^6.6.0",
+    "stream-transform": "^3.4.0"
   },
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "typescript": "^5.2.2"
+    "typescript": "^5.9.3"
   },
   "scripts": {
     "test": "tsc --noEmit"

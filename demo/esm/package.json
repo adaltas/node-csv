@@ -1,17 +1,17 @@
 {
   "name": "csv-demo-esm",
-  "version": "0.0.28",
+  "version": "0.0.35",
   "main": "index.js",
   "license": "MIT",
   "type": "module",
   "private": true,
   "dependencies": {
-    "csv": "^6.3.6",
-    "csv-parse": "^5.5.3"
+    "csv": "^6.4.1",
+    "csv-parse": "^6.1.0"
   },
   "devDependencies": {
     "coffeescript": "^2.7.0",
-    "mocha": "^10.2.0",
+    "mocha": "^11.7.4",
     "should": "^13.2.3"
   },
   "mocha": {
@@ -22,7 +22,7 @@
     "require": [
       "should"
     ],
-    "throw-deprecation": true,
+    "throw-deprecation": false,
     "timeout": 40000
   },
   "scripts": {

@@ -837,8 +837,8 @@
                 byteOffset = 0;
               } else if (byteOffset > 0x7fffffff) {
                 byteOffset = 0x7fffffff;
-              } else if (byteOffset < -0x80000000) {
-                byteOffset = -0x80000000;
+              } else if (byteOffset < -2147483648) {
+                byteOffset = -2147483648;
               }
               byteOffset = +byteOffset;  // Coerce to Number.
               if (isNaN(byteOffset)) {
@@ -1597,7 +1597,7 @@
             Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80);
+              if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -128);
               if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value);
               if (value < 0) value = 0xff + value + 1;
               this[offset] = (value & 0xff);
@@ -1607,7 +1607,7 @@
             Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -32768);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value & 0xff);
                 this[offset + 1] = (value >>> 8);
@@ -1620,7 +1620,7 @@
             Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000);
+              if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -32768);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value >>> 8);
                 this[offset + 1] = (value & 0xff);
@@ -1633,7 +1633,7 @@
             Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -2147483648);
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value & 0xff);
                 this[offset + 1] = (value >>> 8);
@@ -1648,7 +1648,7 @@
             Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
               value = +value;
               offset = offset | 0;
-              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000);
+              if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -2147483648);
               if (value < 0) value = 0xffffffff + value + 1;
               if (Buffer.TYPED_ARRAY_SUPPORT) {
                 this[offset] = (value >>> 24);
@@ -2006,7 +2006,9 @@
               this.domain = null;
               if (EventEmitter.usingDomains) {
                 // if there is an active domain, then attach to it.
-                if (domain.active ) ;
+                if (domain.active && !(this instanceof domain.Domain)) {
+                  this.domain = domain.active;
+                }
               }
 
               if (!this._events || this._events === Object.getPrototypeOf(this)._events) {
@@ -2575,94 +2577,19 @@
             Item.prototype.run = function () {
                 this.fun.apply(null, this.array);
             };
-            var title = 'browser';
-            var platform = 'browser';
-            var browser = true;
             var env = {};
-            var argv = [];
-            var version = ''; // empty string to avoid regexp issues
-            var versions = {};
-            var release = {};
-            var config = {};
-
-            function noop() {}
-
-            var on = noop;
-            var addListener = noop;
-            var once = noop;
-            var off = noop;
-            var removeListener = noop;
-            var removeAllListeners = noop;
-            var emit = noop;
-
-            function binding(name) {
-                throw new Error('process.binding is not supported');
-            }
-
-            function cwd () { return '/' }
-            function chdir (dir) {
-                throw new Error('process.chdir is not supported');
-            }function umask() { return 0; }
 
             // from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
             var performance = global$1.performance || {};
-            var performanceNow =
-              performance.now        ||
+            performance.now        ||
               performance.mozNow     ||
               performance.msNow      ||
               performance.oNow       ||
               performance.webkitNow  ||
               function(){ return (new Date()).getTime() };
 
-            // generate timestamp or delta
-            // see http://nodejs.org/api/process.html#process_process_hrtime
-            function hrtime(previousTimestamp){
-              var clocktime = performanceNow.call(performance)*1e-3;
-              var seconds = Math.floor(clocktime);
-              var nanoseconds = Math.floor((clocktime%1)*1e9);
-              if (previousTimestamp) {
-                seconds = seconds - previousTimestamp[0];
-                nanoseconds = nanoseconds - previousTimestamp[1];
-                if (nanoseconds<0) {
-                  seconds--;
-                  nanoseconds += 1e9;
-                }
-              }
-              return [seconds,nanoseconds]
-            }
-
-            var startTime = new Date();
-            function uptime() {
-              var currentTime = new Date();
-              var dif = currentTime - startTime;
-              return dif / 1000;
-            }
-
             var process = {
-              nextTick: nextTick,
-              title: title,
-              browser: browser,
-              env: env,
-              argv: argv,
-              version: version,
-              versions: versions,
-              on: on,
-              addListener: addListener,
-              once: once,
-              off: off,
-              removeListener: removeListener,
-              removeAllListeners: removeAllListeners,
-              emit: emit,
-              binding: binding,
-              cwd: cwd,
-              chdir: chdir,
-              umask: umask,
-              hrtime: hrtime,
-              platform: platform,
-              release: release,
-              config: config,
-              uptime: uptime
-            };
+              env: env};
 
             var inherits;
             if (typeof Object.create === 'function'){
@@ -5204,54 +5131,54 @@
               // State
               return {
                 start_time: options.duration ? Date.now() : null,
-                fixed_size_buffer: '',
+                fixed_size_buffer: "",
                 count_written: 0,
                 count_created: 0,
               };
             };
 
             // Generate a random number between 0 and 1 with 2 decimals. The function is idempotent if it detect the "seed" option.
-            const random = function(options={}){
-              if(options.seed){
-                return options.seed = options.seed * Math.PI * 100 % 100 / 100;
-              }else {
+            const random = function (options = {}) {
+              if (options.seed) {
+                return (options.seed = ((options.seed * Math.PI * 100) % 100) / 100);
+              } else {
                 return Math.random();
               }
             };
 
             const types = {
               // Generate an ASCII value.
-              ascii: function({options}){
+              ascii: function ({ options }) {
                 const column = [];
                 const nb_chars = Math.ceil(random(options) * options.maxWordLength);
-                for(let i=0; i<nb_chars; i++){
+                for (let i = 0; i < nb_chars; i++) {
                   const char = Math.floor(random(options) * 32);
                   column.push(String.fromCharCode(char + (char < 16 ? 65 : 97 - 16)));
                 }
-                return column.join('');
+                return column.join("");
               },
               // Generate an integer value.
-              int: function({options}){
+              int: function ({ options }) {
                 return Math.floor(random(options) * Math.pow(2, 52));
               },
               // Generate an boolean value.
-              bool: function({options}){
+              bool: function ({ options }) {
                 return Math.floor(random(options) * 2);
-              }
+              },
             };
 
-            const camelize = function(str){
-              return str.replace(/_([a-z])/gi, function(_, match){
+            const camelize = function (str) {
+              return str.replace(/_([a-z])/gi, function (_, match) {
                 return match.toUpperCase();
               });
             };
 
             const normalize_options = (opts) => {
               // Convert Stream Readable options if underscored
-              if(opts.object_mode){
+              if (opts.object_mode) {
                 opts.objectMode = opts.object_mode;
               }
-              if(opts.high_water_mark){
+              if (opts.high_water_mark) {
                 opts.highWaterMark = opts.high_water_mark;
               }
               // See https://nodejs.org/api/stream.html#stream_new_stream_readable_options
@@ -5260,13 +5187,13 @@
               // opts.highWaterMark = opts.highWaterMark ?? stream.getDefaultHighWaterMark(opts.objectMode);
               // Clone and camelize options
               const options = {};
-              for(const k in opts){
+              for (const k in opts) {
                 options[camelize(k)] = opts[k];
               }
               // Normalize options
               const dft = {
                 columns: 8,
-                delimiter: ',',
+                delimiter: ",",
                 duration: null,
                 encoding: null,
                 end: null,
@@ -5274,28 +5201,32 @@
                 fixedSize: false,
                 length: -1,
                 maxWordLength: 16,
-                rowDelimiter: '\n',
+                rowDelimiter: "\n",
                 seed: false,
                 sleep: 0,
               };
-              for(const k in dft){
-                if(options[k] === undefined){
+              for (const k in dft) {
+                if (options[k] === undefined) {
                   options[k] = dft[k];
                 }
               }
               // Default values
-              if(options.eof === true){
+              if (options.eof === true) {
                 options.eof = options.rowDelimiter;
               }
-              if(typeof options.columns === 'number'){
+              if (typeof options.columns === "number") {
                 options.columns = new Array(options.columns);
               }
-              const accepted_header_types = Object.keys(types).filter((t) => (!['super_', 'camelize'].includes(t)));
-              for(let i = 0; i < options.columns.length; i++){
-                const v = options.columns[i] || 'ascii';
-                if(typeof v === 'string'){
-                  if(!accepted_header_types.includes(v)){
-                    throw Error(`Invalid column type: got "${v}", default values are ${JSON.stringify(accepted_header_types)}`);
+              const accepted_header_types = Object.keys(types).filter(
+                (t) => !["super_", "camelize"].includes(t),
+              );
+              for (let i = 0; i < options.columns.length; i++) {
+                const v = options.columns[i] || "ascii";
+                if (typeof v === "string") {
+                  if (!accepted_header_types.includes(v)) {
+                    throw Error(
+                      `Invalid column type: got "${v}", default values are ${JSON.stringify(accepted_header_types)}`,
+                    );
                   }
                   options.columns[i] = types[v];
                 }
@@ -5310,7 +5241,7 @@
               // Get remaining buffer when fixedSize is enable
               if (options.fixedSize) {
                 recordsLength = state.fixed_size_buffer.length;
-                if(recordsLength !== 0){
+                if (recordsLength !== 0) {
                   data.push(state.fixed_size_buffer);
                 }
               }
@@ -5340,48 +5271,54 @@
                 // Create the record
                 let record = [];
                 let recordLength;
-                for(const fn of options.columns){
-                  const result = fn({options: options, state: state});
+                for (const fn of options.columns) {
+                  const result = fn({ options: options, state: state });
                   const type = typeof result;
-                  if(result !== null && type !== 'string' && type !== 'number'){
-                    close(Error([
-                      'INVALID_VALUE:',
-                      'values returned by column function must be',
-                      'a string, a number or null,',
-                      `got ${JSON.stringify(result)}`
-                    ].join(' ')));
+                  if (result !== null && type !== "string" && type !== "number") {
+                    close(
+                      Error(
+                        [
+                          "INVALID_VALUE:",
+                          "values returned by column function must be",
+                          "a string, a number or null,",
+                          `got ${JSON.stringify(result)}`,
+                        ].join(" "),
+                      ),
+                    );
                     return;
                   }
                   record.push(result);
                 }
                 // Obtain record length
-                if(options.objectMode){
+                if (options.objectMode) {
                   recordLength = 0;
                   // recordLength is currently equal to the number of columns
                   // This is wrong and shall equal to 1 record only
-                  for(const column of record){
+                  for (const column of record) {
                     recordLength += column.length;
                   }
-                }else {
+                } else {
                   // Stringify the record
-                  record = (state.count_created === 0 ? '' : options.rowDelimiter)+record.join(options.delimiter);
+                  record =
+                    (state.count_created === 0 ? "" : options.rowDelimiter) +
+                    record.join(options.delimiter);
                   recordLength = record.length;
                 }
                 state.count_created++;
-                if(recordsLength + recordLength > size){
-                  if(options.objectMode){
+                if (recordsLength + recordLength > size) {
+                  if (options.objectMode) {
                     data.push(record);
-                    for(const record of data){
+                    for (const record of data) {
                       push(record);
                     }
-                  }else {
-                    if(options.fixedSize){
+                  } else {
+                    if (options.fixedSize) {
                       state.fixed_size_buffer = record.substr(size - recordsLength);
                       data.push(record.substr(0, size - recordsLength));
-                    }else {
+                    } else {
                       data.push(record);
                     }
-                    push(data.join(''));
+                    push(data.join(""));
                   }
                   return;
                 }
@@ -5390,7 +5327,7 @@
               }
             };
 
-            const Generator = function(options = {}){
+            const Generator = function (options = {}) {
               this.options = normalize_options(options);
               // Call parent constructor
               Stream.Readable.call(this, this.options);
@@ -5400,70 +5337,77 @@
             util.inherits(Generator, Stream.Readable);
 
             // Stop the generation.
-            Generator.prototype.end = function(){
+            Generator.prototype.end = function () {
               this.push(null);
             };
             // Put new data into the read queue.
-            Generator.prototype._read = function(size){
+            Generator.prototype._read = function (size) {
               setImmediate(() => {
                 this.__read(size);
               });
             };
-            Generator.prototype.__read = function(size){
-              read(this.options, this.state, size, (chunk) => {
-                this.__push(chunk);
-              }, (err) => {
-                if(err){
-                  this.destroy(err);
-                }else {
-                  this.push(null);
-                }
-              });
+            Generator.prototype.__read = function (size) {
+              read(
+                this.options,
+                this.state,
+                size,
+                (chunk) => {
+                  this.__push(chunk);
+                },
+                (err) => {
+                  if (err) {
+                    this.destroy(err);
+                  } else {
+                    this.push(null);
+                  }
+                },
+              );
             };
             // Put new data into the read queue.
-            Generator.prototype.__push = function(record){
+            Generator.prototype.__push = function (record) {
               const push = () => {
                 this.state.count_written++;
                 this.push(record);
-                if(this.state.end === true){
+                if (this.state.end === true) {
                   return this.push(null);
                 }
               };
               this.options.sleep > 0 ? setTimeout(push, this.options.sleep) : push();
             };
 
-            const generate = function(){
+            const generate = function () {
               let options;
               let callback;
-              if(arguments.length === 2){
+              if (arguments.length === 2) {
                 options = arguments[0];
                 callback = arguments[1];
-              }else if(arguments.length === 1){
-                if(typeof arguments[0] === 'function'){
+              } else if (arguments.length === 1) {
+                if (typeof arguments[0] === "function") {
                   options = {};
                   callback = arguments[0];
-                }else {
+                } else {
                   options = arguments[0];
                 }
-              }else if(arguments.length === 0){
+              } else if (arguments.length === 0) {
                 options = {};
               }
               const generator = new Generator(options);
-              if(callback){
+              if (callback) {
                 const data = [];
-                generator.on('readable', function(){
-                  let d; while((d = generator.read()) !== null){
+                generator.on("readable", function () {
+                  let d;
+                  while ((d = generator.read()) !== null) {
                     data.push(d);
                   }
                 });
-                generator.on('error', callback);
-                generator.on('end', function(){
-                  if(generator.options.objectMode){
+                generator.on("error", callback);
+                generator.on("end", function () {
+                  if (generator.options.objectMode) {
                     callback(null, data);
-                  }else {
-                    if(generator.options.encoding){
-                      callback(null, data.join(''));
-                    }else {
+                  } else {
+                    if (generator.options.encoding) {
+                      callback(null, data.join(""));
+                    } else {
                       callback(null, Buffer.concat(data));
                     }
                   }

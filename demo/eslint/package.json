@@ -1,6 +1,6 @@
 {
   "name": "csv-demo-eslint",
-  "version": "0.1.19",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "private": true,
@@ -10,11 +10,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "csv-stringify": "^6.4.5"
+    "csv-stringify": "^6.6.0"
   },
   "devDependencies": {
-    "eslint": "^8.47.0",
+    "eslint": "^9.37.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.28.1"
+    "eslint-plugin-import": "^2.32.0"
   }
 }

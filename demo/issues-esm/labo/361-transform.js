@@ -32,13 +32,13 @@ const interval = setInterval(() => {
   const memoryData = process.memoryUsage();
   const memoryUsage = {
     rss: `${formatMemoryUsage(
-      memoryData.rss
+      memoryData.rss,
     )} -> Resident Set Size - total memory allocated for the process execution`,
     heapTotal: `${formatMemoryUsage(
-      memoryData.heapTotal
+      memoryData.heapTotal,
     )} -> total size of the allocated heap`,
     heapUsed: `${formatMemoryUsage(
-      memoryData.heapUsed
+      memoryData.heapUsed,
     )} -> actual memory used during the execution`,
     external: `${formatMemoryUsage(memoryData.external)} -> V8 external memory`,
   };
@@ -65,10 +65,15 @@ const consume = new Writable({
       count++;
       callback();
     } else {
-      setTimeout(() => {
-        count++;
-        callback();
-      }, config.random_delay ? Math.random() * config.write_delay : config.write_delay);
+      setTimeout(
+        () => {
+          count++;
+          callback();
+        },
+        config.random_delay
+          ? Math.random() * config.write_delay
+          : config.write_delay,
+      );
     }
   },
 });
@@ -88,11 +93,10 @@ await pipeline(
     // Sync
     // return JSON.stringify(chunk) + "\n"
     // Async
-    return new Promise( (resolve) => {
+    return new Promise((resolve) => {
       resolve(JSON.stringify(chunk) + "\n");
-    })
-    
+    });
   }),
   // Step 3 - consume
-  consume
+  consume,
 );

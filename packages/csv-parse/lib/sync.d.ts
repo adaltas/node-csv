@@ -1,11 +1,31 @@
+import { Options, OptionsWithColumns } from "./index.js";
 
-import { Options } from './index.js';
+declare function parse<T = unknown, U = T>(
+  input: Buffer | string | Uint8Array,
+  options: OptionsWithColumns<T, U>,
+): T[];
+declare function parse(
+  input: Buffer | string | Uint8Array,
+  options: Options,
+): string[][];
+declare function parse(input: Buffer | string | Uint8Array): string[][];
 
-declare function parse(input: Buffer | string, options?: Options): any;
 // export default parse;
 export { parse };
 
 export {
-  CastingContext, CastingFunction, CastingDateFunction,
-  ColumnOption, Options, Info, CsvErrorCode, CsvError
-} from './index.js';
+  CastingContext, // Deprecated
+  CastingFunction,
+  CastingDateFunction,
+  ColumnOption,
+  Options,
+  OptionsNormalized,
+  OptionsWithColumns,
+  Info,
+  InfoCallback,
+  InfoDataSet,
+  InfoRecord,
+  InfoField,
+  CsvErrorCode,
+  CsvError,
+} from "./index.js";

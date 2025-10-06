@@ -8,7 +8,7 @@ fs.createReadStream(`${__dirname}/265.tubs.csv`)
       columns: false,
       skip_empty_lines: true,
       trim: true,
-    })
+    }),
   )
   .on("data", (data) => {
     console.log(data);

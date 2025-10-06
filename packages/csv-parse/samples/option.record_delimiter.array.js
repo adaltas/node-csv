@@ -1,13 +1,12 @@
+import assert from "node:assert";
+import { parse } from "csv-parse/sync";
 
-import assert from 'node:assert';
-import { parse } from 'csv-parse/sync';
-
-const data = 'a,b,c&&d,e,f||h,i,j';
+const data = "a,b,c&&d,e,f||h,i,j";
 const records = parse(data, {
-  record_delimiter: ['&&', '||']
+  record_delimiter: ["&&", "||"],
 });
 assert.deepStrictEqual(records, [
-  [ 'a', 'b', 'c' ],
-  [ 'd', 'e', 'f' ],
-  [ 'h', 'i', 'j' ]
+  ["a", "b", "c"],
+  ["d", "e", "f"],
+  ["h", "i", "j"],
 ]);

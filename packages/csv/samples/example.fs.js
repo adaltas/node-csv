@@ -6,7 +6,7 @@ import { parse, transform, stringify } from "csv";
 const __dirname = new URL(".", import.meta.url).pathname;
 await fs.promises.writeFile(
   `${__dirname}/example.fs.input.csv`,
-  "a,b,c\n1,2,3"
+  "a,b,c\n1,2,3",
 );
 
 await finished(
@@ -15,10 +15,10 @@ await finished(
     .pipe(parse())
     .pipe(transform((record) => record.reverse()))
     .pipe(stringify())
-    .pipe(fs.createWriteStream(`${__dirname}/example.fs.output.csv`))
+    .pipe(fs.createWriteStream(`${__dirname}/example.fs.output.csv`)),
 );
 
 assert.equal(
   await fs.promises.readFile(`${__dirname}/example.fs.output.csv`, "utf8"),
-  "c,b,a\n3,2,1\n"
+  "c,b,a\n3,2,1\n",
 );

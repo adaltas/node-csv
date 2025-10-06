@@ -9,7 +9,6 @@
       "message": "chore(release): publish"
     }
   },
-  "npmClient": "yarn",
-  "version": "independent",
-  "useWorkspaces": true
+  "npmClient": "npm",
+  "version": "independent"
 }

@@ -15,7 +15,7 @@ transform(
   },
   {
     parallel: 20,
-  }
+  },
 ).pipe(process.stdout);
 
 // Output:

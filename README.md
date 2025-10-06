@@ -1,4 +1,3 @@
-
 <pre>
      _   _           _        _____  _______      __
     | \ | |         | |      / ____|/ ____\ \    / /
@@ -17,21 +16,21 @@ It has been tested and used by a large community over the years and should be co
 
 ## Project structure
 
-This repository is a monorepo managed using [Lerna](https://github.com/lerna/lerna). There are 5 packages managed in this codebase, even though we publish them to NPM as separate packages:
+This repository is a monorepo managed using [Lerna](https://github.com/lerna/lerna). There are 5 projects in the codebase, published as separated NPM packages:
 
-* [`csv`](https://csv.js.org/)
+- [`csv`](https://csv.js.org/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv)),
   an umbrella which is itself split into 4 packages.
-* [`csv-generate`](https://csv.js.org/generate/)
+- [`csv-generate`](https://csv.js.org/generate/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-generate)),
   a flexible generator of CSV string and Javascript objects.
-* [`csv-parse`](https://csv.js.org/parse/)
+- [`csv-parse`](https://csv.js.org/parse/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-parse)),
   a parser converting CSV text into arrays or objects.
-* [`csv-stringify`](https://csv.js.org/stringify/)
+- [`csv-stringify`](https://csv.js.org/stringify/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/csv-stringify)),
   a stringifier converting records into a CSV text.
-* [`stream-transform`](https://csv.js.org/transform/)
+- [`stream-transform`](https://csv.js.org/transform/)
   ([GitHub](https://github.com/adaltas/node-csv/tree/master/packages/stream-transform)),
   a transformation framework.
 
@@ -39,20 +38,20 @@ This repository is a monorepo managed using [Lerna](https://github.com/lerna/ler
 
 The full documentation for the current version is available on the [official CSV project website](https://csv.js.org).
 
-* [Getting Started](https://csv.js.org/project/getting-started/)
-* [Examples](https://csv.js.org/project/examples/)
-* [License](https://csv.js.org/project/license/)
-* [Community](https://csv.js.org/project/contribute/)
+- [Getting Started](https://csv.js.org/project/getting-started/)
+- [Examples](https://csv.js.org/project/examples/)
+- [License](https://csv.js.org/project/license/)
+- [Community](https://csv.js.org/project/contribute/)
 
 ## Features
 
-* Extends the native Node.js [transform stream API](http://nodejs.org/api/stream.html#stream_class_stream_transform)
-* Simplicity with the optional callback and sync API
-* Support for ECMAScript modules and CommonJS
-* Large documentation, numerous examples and full unit test coverage
-* Few dependencies, in many cases zero dependencies
-* Node.js support from version 8 to latest
-* Mature project with more than 10 years of history
+- Extends the native Node.js [transform stream API](http://nodejs.org/api/stream.html#stream_class_stream_transform)
+- Simplicity with the optional callback and sync API
+- Support for ECMAScript modules and CommonJS
+- Large documentation, numerous examples and full unit test coverage
+- Few dependencies, in many cases zero dependencies
+- Node.js support from version 8 to latest
+- Mature project with more than 10 years of history
 
 ## License
 
@@ -62,4 +61,4 @@ Licensed under the [MIT License](LICENSE).
 
 The project is sponsored by [Adaltas](https://www.adaltas.com), a Big Data consulting firm based in Paris, France.
 
-* David Worms: <https://github.com/wdavidw>
+- David Worms: <https://github.com/wdavidw>
