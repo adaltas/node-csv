@@ -4,7 +4,9 @@ import { parse } from "../lib/index.js";
 describe("Option `delimiter`", function () {
   it("validation", function () {
     parse("", { delimiter: "," }, () => {});
+    parse("", { delimiter: [",", ","] }, () => {});
     parse("", { delimiter: Buffer.from(",") }, () => {});
+    parse("", { delimiter: [Buffer.from(","), Buffer.from(",")] }, () => {});
     (() => {
       parse("", { delimiter: "" }, () => {});
     }).should.throw({
@@ -164,6 +166,23 @@ describe("Option `delimiter`", function () {
         records.should.eql([
           ["abc", "", "123", ""],
           ["", "def", "", ""],
+        ]);
+        next();
+      },
+    );
+  });
+
+  it("using array of buffers", function (next) {
+    parse(
+      "abc,def;123\nhij,klm;456",
+      {
+        delimiter: [Buffer.from(","), Buffer.from(";")],
+      },
+      (err, records) => {
+        if (err) return next(err);
+        records.should.eql([
+          ["abc", "def", "123"],
+          ["hij", "klm", "456"],
         ]);
         next();
       },

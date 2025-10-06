@@ -130,11 +130,6 @@ export interface OptionsNormalized<T = string[], U = T> {
         T extends string[] ? string : T extends unknown ? string : keyof T
       >[];
   /**
-   * Convert values into an array of values when columns are activated and
-   * when multiple columns of the same name are found.
-   */
-  group_columns_by_name: boolean;
-  /**
    * Treat all the characters after this one as a comment, default to '' (disabled).
    */
   comment: string | null;
@@ -165,6 +160,11 @@ export interface OptionsNormalized<T = string[], U = T> {
    */
   from_line: number;
   /**
+   * Convert values into an array of values when columns are activated and
+   * when multiple columns of the same name are found.
+   */
+  group_columns_by_name: boolean;
+  /**
    * Don't interpret delimiters as such in the last field according to the number of fields calculated from the number of columns, the option require the presence of the `column` option when `true`.
    */
   ignore_last_delimiters: boolean | number;
@@ -191,7 +191,11 @@ export interface OptionsNormalized<T = string[], U = T> {
    * Alter and filter records by executing a user defined function.
    */
   on_record?: (record: U, context: InfoRecord) => T | null | undefined;
-  // on_record?: (record: T, context: InfoRecord) => T | undefined;
+  /**
+   * Function called when an error occurred if the `skip_records_with_error`
+   * option is activated.
+   */
+  on_skip?: (err: CsvError | undefined, raw: string | undefined) => undefined;
   /**
    * Optional character surrounding a field, one character only, defaults to double quotes.
    */
@@ -200,6 +204,11 @@ export interface OptionsNormalized<T = string[], U = T> {
    * Generate two properties raw and row where raw is the original CSV row content and row is the parsed array or object.
    */
   raw: boolean;
+  /**
+   * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
+   * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
+   */
+  record_delimiter: Buffer[];
   /**
    * Discard inconsistent columns count, default to false.
    */
@@ -217,11 +226,6 @@ export interface OptionsNormalized<T = string[], U = T> {
    */
   relax_quotes: boolean;
   /**
-   * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
-   * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
-   */
-  record_delimiter: Buffer[];
-  /**
    * If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
    * Does not remove whitespace in a quoted field.
    */
@@ -232,13 +236,13 @@ export interface OptionsNormalized<T = string[], U = T> {
    */
   skip_empty_lines: boolean;
   /**
-   * Skip a line with error found inside and directly go process the next line.
-   */
-  skip_records_with_error: boolean;
-  /**
    * Don't generate records for lines containing empty column values (column matching /\s*\/), defaults to false.
    */
   skip_records_with_empty_values: boolean;
+  /**
+   * Skip a line with error found inside and directly go process the next line.
+   */
+  skip_records_with_error: boolean;
   /**
    * Stop handling records after the requested number of records.
    */
@@ -275,18 +279,18 @@ export interface Options<T = string[], U = T> {
   /**
    * If true, detect and exclude the byte order mark (BOM) from the CSV input if present.
    */
-  bom?: boolean;
+  bom?: OptionsNormalized["bom"];
   /**
    * If true, the parser will attempt to convert input string to native types.
    * If a function, receive the value as first argument, a context as second argument and return a new value. More information about the context properties is available below.
    */
-  cast?: boolean | CastingFunction;
+  cast?: OptionsNormalized["cast"];
   /**
    * If true, the parser will attempt to convert input string to dates.
    * If a function, receive the value as argument and return a new value. It requires the "auto_parse" option. Be careful, it relies on Date.parse.
    */
-  cast_date?: boolean | CastingDateFunction;
-  castDate?: boolean | CastingDateFunction;
+  cast_date?: OptionsNormalized["cast_date"];
+  castDate?: OptionsNormalized["cast_date"];
   /**
    * List of fields as an array,
    * a user defined callback accepting the first line and returning the column names or true if autodiscovered in the first CSV line,
@@ -294,76 +298,77 @@ export interface Options<T = string[], U = T> {
    * affect the result data set in the sense that records will be objects instead of arrays.
    */
   columns?:
-    | boolean
-    | ColumnOption<
-        T extends string[] ? string : T extends unknown ? string : keyof T
-      >[]
+    | OptionsNormalized["columns"]
     | ((
         record: T,
       ) => ColumnOption<
         T extends string[] ? string : T extends unknown ? string : keyof T
       >[]);
   /**
-   * Convert values into an array of values when columns are activated and
-   * when multiple columns of the same name are found.
-   */
-  group_columns_by_name?: boolean;
-  groupColumnsByName?: boolean;
-  /**
    * Treat all the characters after this one as a comment, default to '' (disabled).
    */
-  comment?: string | boolean | null;
+  comment?: OptionsNormalized["comment"] | boolean;
   /**
    * Restrict the definition of comments to a full line. Comment characters
    * defined in the middle of the line are not interpreted as such. The
    * option require the activation of comments.
    */
-  comment_no_infix?: boolean | null;
+  comment_no_infix?: OptionsNormalized["comment_no_infix"] | null;
   /**
    * Set the field delimiter. One character only, defaults to comma.
    */
-  delimiter?: string | string[] | Buffer;
+  delimiter?:
+    | OptionsNormalized["comment_no_infix"]
+    | string
+    | string[]
+    | Buffer;
   /**
    * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
    */
-  encoding?: BufferEncoding | boolean | null | undefined;
+  encoding?: OptionsNormalized["encoding"] | boolean | undefined;
   /**
    * Set the escape character, one character only, defaults to double quotes.
    */
-  escape?: string | null | boolean | Buffer;
+  escape?: OptionsNormalized["escape"] | string | boolean;
   /**
    * Start handling records from the requested number of records.
    */
-  from?: number | string;
+  from?: OptionsNormalized["from"] | string;
   /**
    * Start handling records from the requested line number.
    */
-  from_line?: null | number | string;
-  fromLine?: null | number | string;
+  from_line?: OptionsNormalized["from_line"] | null | string;
+  fromLine?: OptionsNormalized["from_line"] | null | string;
+  /**
+   * Convert values into an array of values when columns are activated and
+   * when multiple columns of the same name are found.
+   */
+  group_columns_by_name?: OptionsNormalized["group_columns_by_name"];
+  groupColumnsByName?: OptionsNormalized["group_columns_by_name"];
   /**
    * Don't interpret delimiters as such in the last field according to the number of fields calculated from the number of columns, the option require the presence of the `column` option when `true`.
    */
-  ignore_last_delimiters?: boolean | number;
+  ignore_last_delimiters?: OptionsNormalized["ignore_last_delimiters"];
   /**
    * Generate two properties `info` and `record` where `info` is a snapshot of the info object at the time the record was created and `record` is the parsed array or object.
    */
-  info?: boolean;
+  info?: OptionsNormalized["info"];
   /**
    * If true, ignore whitespace immediately following the delimiter (i.e. left-trim all fields), defaults to false.
    * Does not remove whitespace in a quoted field.
    */
-  ltrim?: boolean | null;
+  ltrim?: OptionsNormalized["ltrim"] | null;
   /**
    * Maximum number of characters to be contained in the field and line buffers before an exception is raised,
    * used to guard against a wrong delimiter or record_delimiter,
    * default to 128000 characters.
    */
-  max_record_size?: number | null | string;
-  maxRecordSize?: number;
+  max_record_size?: OptionsNormalized["max_record_size"] | null | string;
+  maxRecordSize?: OptionsNormalized["max_record_size"];
   /**
    * Name of header-record title to name objects by.
    */
-  objname?: Buffer | null | number | string;
+  objname?: OptionsNormalized["objname"] | Buffer | null;
   /**
    * Alter and filter records by executing a user defined function.
    */
@@ -373,77 +378,91 @@ export interface Options<T = string[], U = T> {
    * Function called when an error occurred if the `skip_records_with_error`
    * option is activated.
    */
-  on_skip?: (err: CsvError | undefined, raw: string | undefined) => undefined;
-  onSkip?: (err: CsvError | undefined, raw: string | undefined) => undefined;
+  on_skip?: OptionsNormalized["on_skip"];
+  onSkip?: OptionsNormalized["on_skip"];
   /**
    * Optional character surrounding a field, one character only, defaults to double quotes.
    */
-  quote?: string | boolean | Buffer | null;
+  quote?: OptionsNormalized["quote"] | string | boolean;
   /**
    * Generate two properties raw and row where raw is the original CSV row content and row is the parsed array or object.
    */
-  raw?: boolean | null;
+  raw?: OptionsNormalized["raw"] | null;
   /**
    * One or multiple characters used to delimit record rows; defaults to auto discovery if not provided.
    * Supported auto discovery method are Linux ("\n"), Apple ("\r") and Windows ("\r\n") row delimiters.
    */
-  record_delimiter?: string | Buffer | null | (string | Buffer | null)[];
-  recordDelimiter?: string | Buffer | null | (string | Buffer | null)[];
+  record_delimiter?:
+    | OptionsNormalized["record_delimiter"]
+    | string
+    | Buffer
+    | null
+    | (string | null)[];
+  recordDelimiter?:
+    | OptionsNormalized["record_delimiter"]
+    | string
+    | Buffer
+    | null
+    | (string | null)[];
   /**
    * Discard inconsistent columns count, default to false.
    */
-  relax_column_count?: boolean | null;
-  relaxColumnCount?: boolean | null;
+  relax_column_count?: OptionsNormalized["relax_column_count"] | null;
+  relaxColumnCount?: OptionsNormalized["relax_column_count"] | null;
   /**
    * Discard inconsistent columns count when the record contains less fields than expected, default to false.
    */
-  relax_column_count_less?: boolean | null;
-  relaxColumnCountLess?: boolean | null;
+  relax_column_count_less?: OptionsNormalized["relax_column_count_less"] | null;
+  relaxColumnCountLess?: OptionsNormalized["relax_column_count_less"] | null;
   /**
    * Discard inconsistent columns count when the record contains more fields than expected, default to false.
    */
-  relax_column_count_more?: boolean | null;
-  relaxColumnCountMore?: boolean | null;
+  relax_column_count_more?: OptionsNormalized["relax_column_count_more"] | null;
+  relaxColumnCountMore?: OptionsNormalized["relax_column_count_more"] | null;
   /**
    * Preserve quotes inside unquoted field.
    */
-  relax_quotes?: boolean | null;
-  relaxQuotes?: boolean | null;
+  relax_quotes?: OptionsNormalized["relax_quotes"] | null;
+  relaxQuotes?: OptionsNormalized["relax_quotes"] | null;
   /**
    * If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields), defaults to false.
    * Does not remove whitespace in a quoted field.
    */
-  rtrim?: boolean | null;
+  rtrim?: OptionsNormalized["rtrim"] | null;
   /**
    * Dont generate empty values for empty lines.
    * Defaults to false
    */
-  skip_empty_lines?: boolean | null;
-  skipEmptyLines?: boolean | null;
+  skip_empty_lines?: OptionsNormalized["skip_empty_lines"] | null;
+  skipEmptyLines?: OptionsNormalized["skip_empty_lines"] | null;
   /**
    * Don't generate records for lines containing empty column values (column matching /\s*\/), defaults to false.
    */
-  skip_records_with_empty_values?: boolean | null;
-  skipRecordsWithEmptyValues?: boolean | null;
+  skip_records_with_empty_values?:
+    | OptionsNormalized["skip_records_with_empty_values"]
+    | null;
+  skipRecordsWithEmptyValues?:
+    | OptionsNormalized["skip_records_with_empty_values"]
+    | null;
   /**
    * Skip a line with error found inside and directly go process the next line.
    */
-  skip_records_with_error?: boolean | null;
-  skipRecordsWithError?: boolean | null;
+  skip_records_with_error?: OptionsNormalized["skip_records_with_error"] | null;
+  skipRecordsWithError?: OptionsNormalized["skip_records_with_error"] | null;
   /**
    * Stop handling records after the requested number of records.
    */
-  to?: null | number | string;
+  to?: OptionsNormalized["to"] | null | string;
   /**
    * Stop handling records after the requested line number.
    */
-  to_line?: null | number | string;
-  toLine?: null | number | string;
+  to_line?: OptionsNormalized["to_line"] | null | string;
+  toLine?: OptionsNormalized["to_line"] | null | string;
   /**
    * If true, ignore whitespace immediately around the delimiter, defaults to false.
    * Does not remove whitespace in a quoted field.
    */
-  trim?: boolean | null;
+  trim?: OptionsNormalized["trim"] | null;
 }
 
 export type CsvErrorCode =
