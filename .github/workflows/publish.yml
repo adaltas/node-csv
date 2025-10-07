@@ -29,76 +29,28 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run test
-  test_legacy:
-    needs: [is_release]
-    if: ${{ needs.is_release.outputs.type == '::norelease::' }}
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: |
-          cwd=`pwd`
-          for pkg in packages/*/package.json; do
-            cd $cwd/`dirname $pkg`
-            npm install
-            npm run test:legacy;
-          done
-      # - run: |
-      #     echo 'Test csv generate'
-      #     cwd=`pwd`
-      #     cd $cwd/packages/csv-generate
-      #     npm install
-      #     npm run test:legacy
-      #     npm link
-      #     cd $pwd
-      # - run: |
-      #     echo 'Test stream transform'
-      #     cwd=`pwd`
-      #     cd $cwd/packages/stream-transform
-      #     npm install
-      #     npm link csv-generate
-      #     npm run test:legacy
-      #     npm link
-      #     cd $pwd
-      # - run: |
-      #     echo 'Test csv parse'
-      #     cwd=`pwd`
-      #     cd $cwd/packages/csv-parse
-      #     npm install
-      #     npm link csv-generate
-      #     npm link stream-transform
-      #     npm run test:legacy
-      #     npm link
-      #     cd $pwd
-      # - run: |
-      #     echo 'Test csv stringify'
-      #     cwd=`pwd`
-      #     cd $cwd/packages/csv-stringify
-      #     npm install
-      #     npm link csv-generate
-      #     npm run test:legacy
-      #     npm link
-      #     cd $pwd
-      # - run: |
-      #     echo 'Test csv'
-      #     cwd=`pwd`
-      #     cd $cwd/packages/csv
-      #     npm install
-      #     npm link csv-generate
-      #     npm link csv-parse
-      #     npm link csv-stringify
-      #     npm link stream-transform
-      #     npm run test:legacy
-      #     npm link
-      #     cd $pwd
+  # test_legacy:
+  #   needs: [is_release]
+  #   if: ${{ needs.is_release.outputs.type == '::norelease::' }}
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [14.x]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - run: |
+  #         cwd=`pwd`
+  #         for pkg in packages/*/package.json; do
+  #           cd $cwd/`dirname $pkg`
+  #           npm install
+  #           npm run test:legacy;
+  #         done
   publish:
     needs: [is_release, test]
     if: ${{ needs.is_release.outputs.type == '::release::' }}
