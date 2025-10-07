@@ -62,11 +62,10 @@ export interface OptionsNormalized extends stream.TransformOptions {
     string?: Cast<string>;
   };
   /**
-   * List of fields, applied when `transform` returns an object
-   * order matters
-   * read the transformer documentation for additional information
-   * columns are auto discovered in the first record when the user write objects
-   * can refer to nested properties of the input JSON
+   * List of fields, applied when `transform` returns an object, order matters,
+   * read the transformer documentation for additional information. Columns are
+   * auto discovered in the first record when the user write objects. Columns
+   * can refer to nested properties of the input JSON,
    * see the "header" option on how to print columns names on the first line
    */
   columns: ReadonlyArray<string | ColumnOption> | PlainObject<string>;
@@ -139,11 +138,10 @@ export interface Options extends stream.TransformOptions {
     string?: Cast<string>;
   };
   /**
-   * List of fields, applied when `transform` returns an object
-   * order matters
-   * read the transformer documentation for additional information
-   * columns are auto discovered in the first record when the user write objects
-   * can refer to nested properties of the input JSON
+   * List of fields, applied when `transform` returns an object, order matters,
+   * read the transformer documentation for additional information. Columns are
+   * auto discovered in the first record when the user write objects. Columns
+   * can refer to nested properties of the input JSON,
    * see the "header" option on how to print columns names on the first line
    */
   columns?: ReadonlyArray<string | ColumnOption> | PlainObject<string>;
