@@ -134,10 +134,21 @@ const normalize_options = function (opts) {
     ];
   }
   // Normalize option `header`
-  if (options.header === undefined || options.header === null) {
+  if (
+    options.header === undefined ||
+    options.header === null ||
+    options.header === false
+  ) {
     options.header = false;
-  } else {
-    // todo
+  } else if (options.header !== true) {
+    throw new CsvError(
+      "CSV_INVALID_OPTION_HEADER",
+      [
+        "option `header` is expected to be a boolean,",
+        `got ${JSON.stringify(options.header)}`,
+      ],
+      options,
+    );
   }
   // Normalize option `columns`
   const [errColumns, columns] = normalize_columns(options.columns);
