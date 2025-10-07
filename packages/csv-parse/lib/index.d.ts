@@ -317,11 +317,7 @@ export interface Options<T = string[], U = T> {
   /**
    * Set the field delimiter. One character only, defaults to comma.
    */
-  delimiter?:
-    | OptionsNormalized["comment_no_infix"]
-    | string
-    | string[]
-    | Buffer;
+  delimiter?: OptionsNormalized["delimiter"] | string | string[] | Buffer;
   /**
    * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
    */
