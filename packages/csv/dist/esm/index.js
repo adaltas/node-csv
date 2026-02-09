@@ -5441,8 +5441,8 @@ const normalize_columns_array = function (columns) {
     const column = columns[i];
     if (column === undefined || column === null || column === false) {
       normalizedColumns[i] = { disabled: true };
-    } else if (typeof column === "string") {
-      normalizedColumns[i] = { name: column };
+    } else if (typeof column === "string" || typeof column === "number") {
+      normalizedColumns[i] = { name: `${column}` };
     } else if (is_object$1(column)) {
       if (typeof column.name !== "string") {
         throw new CsvError$1("CSV_OPTION_COLUMNS_MISSING_NAME", [
@@ -6284,6 +6284,7 @@ const boms = {
 const transform$1 = function (original_options = {}) {
   const info = {
     bytes: 0,
+    bytes_records: 0,
     comment_lines: 0,
     empty_lines: 0,
     invalid_field_length: 0,
@@ -6561,7 +6562,7 @@ const transform$1 = function (original_options = {}) {
                 this.info.comment_lines++;
                 // Skip full comment line
               } else {
-                // Activate records emition if above from_line
+                // Activate records emission if above from_line
                 if (
                   this.state.enabled === false &&
                   this.info.lines +
@@ -6959,6 +6960,7 @@ const transform$1 = function (original_options = {}) {
           return;
         }
       }
+      this.info.bytes_records += this.info.bytes;
       push(record);
     },
     // Return a tuple with the error and the casted value
@@ -7146,6 +7148,7 @@ const transform$1 = function (original_options = {}) {
       const { columns, raw, encoding } = this.options;
       return {
         ...this.__infoDataSet(),
+        bytes_records: this.info.bytes,
         error: this.state.error,
         header: columns === true,
         index: this.state.record.length,
@@ -7155,8 +7158,11 @@ const transform$1 = function (original_options = {}) {
     __infoField: function () {
       const { columns } = this.options;
       const isColumns = Array.isArray(columns);
+      // Bytes records are only incremented when all records'fields are parsed
+      const bytes_records = this.info.bytes_records;
       return {
         ...this.__infoRecord(),
+        bytes_records: bytes_records,
         column:
           isColumns === true
             ? columns.length > this.state.record.length
@@ -7282,7 +7288,7 @@ const parse = function () {
       parser.write(data);
       parser.end();
     };
-    // Support Deno, Rollup doesnt provide a shim for setImmediate
+    // Support Deno, Rollup doesn't provide a shim for setImmediate
     if (typeof setImmediate === "function") {
       setImmediate(writer);
     } else {
@@ -7328,7 +7334,7 @@ util.inherits(Transformer, Stream.Transform);
 Transformer.prototype._transform = function (chunk, _, cb) {
   this.state.started++;
   this.state.running++;
-  // Accept additionnal chunks to be processed in parallel
+  // Accept additional chunks to be processed in parallel
   if (!this.state.paused && this.state.running < this.options.parallel) {
     cb();
     cb = null; // Cancel further callback execution
@@ -7434,7 +7440,7 @@ const transform = function () {
       }
       transformer.end();
     };
-    // Support Deno, Rollup doesnt provide a shim for setImmediate
+    // Support Deno, Rollup doesn't provide a shim for setImmediate
     if (typeof setImmediate === "function") {
       setImmediate(writer);
     } else {
@@ -7573,8 +7579,7 @@ const castPath = function (value, object) {
 const toKey = function (value) {
   if (typeof value === "string" || isSymbol(value)) return value;
   const result = `${value}`;
-  // eslint-disable-next-line
-  return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+  return result == "0" && 1 / value == -Infinity ? "-0" : result;
 };
 
 const get = function (object, path) {
@@ -7731,9 +7736,10 @@ const normalize_options = function (opts) {
       const isRegExp = quoted_match instanceof RegExp;
       if (!isString && !isRegExp) {
         return [
-          Error(
-            `Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`,
-          ),
+          new CsvError("CSV_OPTION_QUOTED_MATCH", [
+            "option `quoted_match` must be a string or a regex,",
+            `got ${JSON.stringify(options.quoted_match)}`,
+          ]),
         ];
       }
     }
@@ -7766,9 +7772,57 @@ const normalize_options = function (opts) {
     ];
   }
   // Normalize option `header`
-  if (options.header === undefined || options.header === null) {
+  if (
+    options.header === undefined ||
+    options.header === null ||
+    options.header === false
+  ) {
     options.header = false;
+  } else if (options.header !== true) {
+    throw new CsvError(
+      "CSV_INVALID_OPTION_HEADER",
+      [
+        "option `header` is expected to be a boolean,",
+        `got ${JSON.stringify(options.header)}`,
+      ],
+      options,
+    );
   }
+  // Normalize option `headers_as_comment`
+  if (
+    options.header_as_comment === undefined ||
+    options.header_as_comment === null ||
+    options.header_as_comment === false
+  ) {
+    options.header_as_comment = false;
+  } else if (options.header_as_comment === true) {
+    options.header_as_comment = "#";
+  } else if (isBuffer$1(options.header_as_comment)) {
+    options.header_as_comment = options.header_as_comment.toString();
+  } else if (typeof options.header_as_comment !== "string") {
+    throw new CsvError(
+      "CSV_INVALID_OPTION_HEADER_AS_COMMENT",
+      [
+        "option `header_as_comment` must be a boolean, a string or a buffer,",
+        `got ${JSON.stringify(options.header_as_comment)}`,
+      ],
+      options,
+    );
+  }
+  // if (options.header_as_comment && !options.comment?.length) {
+  //   throw new CsvError(
+  //     "CSV_INVALID_OPTION_COMMENT",
+  //     [
+  //       "option `comment` must be a non empty string or buffer when using `header_as_comment`,",
+  //       `got ${JSON.stringify(options.comment)}`,
+  //     ],
+  //     options,
+  //   );
+  // }
+  // Header is always enabled with `header_as_comment`
+  // if (options.header_as_comment === true) {
+  //   options.header = true;
+  // }
   // Normalize option `columns`
   const [errColumns, columns] = normalize_columns(options.columns);
   if (errColumns !== undefined) return [errColumns];
@@ -8135,6 +8189,9 @@ const stringifier = function (options, state, info) {
         [err, headers] = this.stringify(headers);
       }
       if (err) return err;
+      if (this.options.header_as_comment) {
+        headers = this.options.header_as_comment + " " + headers;
+      }
       push(headers);
     },
     __cast: function (value, context) {
@@ -8265,7 +8322,7 @@ const stringify = function () {
       }
       stringifier.end();
     };
-    // Support Deno, Rollup doesnt provide a shim for setImmediate
+    // Support Deno, Rollup doesn't provide a shim for setImmediate
     if (typeof setImmediate === "function") {
       setImmediate(writer);
     } else {

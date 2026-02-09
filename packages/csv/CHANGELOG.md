@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.5.0](https://github.com/adaltas/node-csv/compare/csv@6.4.1...csv@6.5.0) (2026-02-09)
+
+### Features
+
+- **csv:** `sideEffects: false` to package.json ([#465](https://github.com/adaltas/node-csv/issues/465)) ([1968e90](https://github.com/adaltas/node-csv/commit/1968e90bba2817a3cd8a27565a407d1ffbc30111))
+
 ## [6.4.1](https://github.com/adaltas/node-csv/compare/csv@6.3.11...csv@6.4.1) (2025-07-16)
 
 **Note:** Version bump only for package csv

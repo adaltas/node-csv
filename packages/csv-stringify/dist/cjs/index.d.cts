@@ -30,9 +30,9 @@ export type Cast<T> = (
 ) => string | null | CastReturnObject;
 
 export type PlainObject<T> = Record<string, T>;
-export type Input = any[];
+export type Input = unknown[];
 export interface ColumnOption {
-  key: string;
+  key: string | (string | number)[];
   header?: string;
 }
 export interface CastingContext {
@@ -58,15 +58,14 @@ export interface OptionsNormalized extends stream.TransformOptions {
     /**
      * Custom formatter for generic object values
      */
-    object?: Cast<Record<string, any>>;
+    object?: Cast<Record<string, unknown>>;
     string?: Cast<string>;
   };
   /**
-   * List of fields, applied when `transform` returns an object
-   * order matters
-   * read the transformer documentation for additionnal information
-   * columns are auto discovered in the first record when the user write objects
-   * can refer to nested properties of the input JSON
+   * List of fields, applied when `transform` returns an object, order matters,
+   * read the transformer documentation for additional information. Columns are
+   * auto discovered in the first record when the user write objects. Columns
+   * can refer to nested properties of the input JSON,
    * see the "header" option on how to print columns names on the first line
    */
   columns: ReadonlyArray<string | ColumnOption> | PlainObject<string>;
@@ -86,6 +85,10 @@ export interface OptionsNormalized extends stream.TransformOptions {
    * Display the column names on the first line if the columns option is provided or discovered.
    */
   header: boolean;
+  /**
+   * Display the column names on the first line as comment if the columns option is provided or discovered.
+   */
+  header_as_comment?: string;
   /**
    * The quote characters, defaults to the ", an empty quote value will preserve the original field.
    */
@@ -114,7 +117,7 @@ export interface OptionsNormalized extends stream.TransformOptions {
    */
   record_delimiter: RecordDelimiter;
   /**
-   * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protected agains csv injection attacks
+   * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protect against csv injection attacks
    */
   escape_formulas: boolean;
 }
@@ -135,15 +138,14 @@ export interface Options extends stream.TransformOptions {
     /**
      * Custom formatter for generic object values
      */
-    object?: Cast<Record<string, any>>;
+    object?: Cast<Record<string, unknown>>;
     string?: Cast<string>;
   };
   /**
-   * List of fields, applied when `transform` returns an object
-   * order matters
-   * read the transformer documentation for additionnal information
-   * columns are auto discovered in the first record when the user write objects
-   * can refer to nested properties of the input JSON
+   * List of fields, applied when `transform` returns an object, order matters,
+   * read the transformer documentation for additional information. Columns are
+   * auto discovered in the first record when the user write objects. Columns
+   * can refer to nested properties of the input JSON,
    * see the "header" option on how to print columns names on the first line
    */
   columns?: ReadonlyArray<string | ColumnOption> | PlainObject<string>;
@@ -163,6 +165,10 @@ export interface Options extends stream.TransformOptions {
    * Display the column names on the first line if the columns option is provided or discovered.
    */
   header?: boolean;
+  /**
+   * Display the column names on the first line as comment if the columns option is provided or discovered.
+   */
+  header_as_comment?: boolean | Buffer | string;
   /**
    * The quote characters, defaults to the ", an empty quote value will preserve the original field.
    */
@@ -191,7 +197,7 @@ export interface Options extends stream.TransformOptions {
    */
   record_delimiter?: RecordDelimiter;
   /**
-   * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protected agains csv injection attacks
+   * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protect against csv injection attacks
    */
   escape_formulas?: boolean;
 }

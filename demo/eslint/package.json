@@ -1,6 +1,6 @@
 {
   "name": "csv-demo-eslint",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "index.js",
   "private": true,
@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "csv-stringify": "^6.6.0"
+    "csv-stringify": "^6.7.0"
   },
   "devDependencies": {
     "eslint": "^10.0.0",

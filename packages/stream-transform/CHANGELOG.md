@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.1](https://github.com/adaltas/node-csv/compare/stream-transform@3.4.0...stream-transform@3.4.1) (2026-02-09)
+
+**Note:** Version bump only for package stream-transform
+
 ## 3.4.0 (2025-07-10)
 
 ### Features

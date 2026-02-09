@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.2.0](https://github.com/adaltas/node-csv/compare/csv-parse@6.1.0...csv-parse@6.2.0) (2026-02-09)
+
+### Features
+
+- **csv-parse:** alig info interfaces with js api ([18bb78a](https://github.com/adaltas/node-csv/commit/18bb78ae993cc940e0b9790a2199a342d26f2d1e))
+- **csv-parse:** info bytes_records (fix [#446](https://github.com/adaltas/node-csv/issues/446)) ([c6b9a9c](https://github.com/adaltas/node-csv/commit/c6b9a9c889802c81d70bcfc53f0075e571f8c225))
+- **csv-parse:** remove non-existing ts function declaration ([aaf0789](https://github.com/adaltas/node-csv/commit/aaf0789b942e2a10b0df4100d69e112946668580))
+- **csv-parse:** remove ts usage of all in error type ([61fc933](https://github.com/adaltas/node-csv/commit/61fc9331d97bda5f25604010989e1dd96339cef2))
+- **csv-parse:** returned type generic for `on_record` (fix [#461](https://github.com/adaltas/node-csv/issues/461) [#464](https://github.com/adaltas/node-csv/issues/464) [#466](https://github.com/adaltas/node-csv/issues/466)) ([#468](https://github.com/adaltas/node-csv/issues/468)) ([9ddbabf](https://github.com/adaltas/node-csv/commit/9ddbabff8322c3317453b2ee807393285773ab5e))
+
+### Bug Fixes
+
+- **csv-parse:** delimiter inherited type ([b20f164](https://github.com/adaltas/node-csv/commit/b20f164b258af8b05b47c1e5b0f6b3f1eb99a41c))
+- **csv-parse:** support number columns with cast (fix [#477](https://github.com/adaltas/node-csv/issues/477)) ([a068ec0](https://github.com/adaltas/node-csv/commit/a068ec06f7d7f43b6606f64d55a8c96ece790c68))
+
 ## [6.1.0](https://github.com/adaltas/node-csv/compare/csv-parse@5.6.0...csv-parse@6.1.0) (2025-07-16)
 
 ### Features

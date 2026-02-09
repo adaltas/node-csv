@@ -2588,9 +2588,9 @@ var stream_transform_sync = (function (exports) {
   var process = {
     env: env};
 
-  var inherits;
+  var inherits$1;
   if (typeof Object.create === 'function'){
-    inherits = function inherits(ctor, superCtor) {
+    inherits$1 = function inherits(ctor, superCtor) {
       // implementation from standard node.js 'util' module
       ctor.super_ = superCtor;
       ctor.prototype = Object.create(superCtor.prototype, {
@@ -2603,7 +2603,7 @@ var stream_transform_sync = (function (exports) {
       });
     };
   } else {
-    inherits = function inherits(ctor, superCtor) {
+    inherits$1 = function inherits(ctor, superCtor) {
       ctor.super_ = superCtor;
       var TempCtor = function () {};
       TempCtor.prototype = superCtor.prototype;
@@ -2611,7 +2611,7 @@ var stream_transform_sync = (function (exports) {
       ctor.prototype.constructor = ctor;
     };
   }
-  var inherits$1 = inherits;
+  var inherits = inherits$1;
 
   var formatRegExp = /%[sdj%]/g;
   function format(f) {
@@ -3144,7 +3144,7 @@ var stream_transform_sync = (function (exports) {
   }
 
   var util = {
-    inherits: inherits$1,
+    inherits: inherits,
     _extend: _extend,
     log: log,
     isBuffer: isBuffer,
@@ -3446,7 +3446,7 @@ var stream_transform_sync = (function (exports) {
   Readable.ReadableState = ReadableState;
 
   var debug = debuglog('stream');
-  inherits$1(Readable, EventEmitter);
+  inherits(Readable, EventEmitter);
 
   function prependListener(emitter, event, fn) {
     // Sadly this is not cacheable as some libraries bundle their own
@@ -4335,7 +4335,7 @@ var stream_transform_sync = (function (exports) {
   // the drain event emission and buffering.
 
   Writable.WritableState = WritableState;
-  inherits$1(Writable, EventEmitter);
+  inherits(Writable, EventEmitter);
 
   function nop() {}
 
@@ -4806,7 +4806,7 @@ var stream_transform_sync = (function (exports) {
     };
   }
 
-  inherits$1(Duplex, Readable);
+  inherits(Duplex, Readable);
 
   var keys = Object.keys(Writable.prototype);
   for (var v = 0; v < keys.length; v++) {
@@ -4886,7 +4886,7 @@ var stream_transform_sync = (function (exports) {
   // would be consumed, and then the rest would wait (un-transformed) until
   // the results of the previous transformed chunk were consumed.
 
-  inherits$1(Transform, Duplex);
+  inherits(Transform, Duplex);
 
   function TransformState(stream) {
     this.afterTransform = function (er, data) {
@@ -5013,7 +5013,7 @@ var stream_transform_sync = (function (exports) {
     return stream.push(null);
   }
 
-  inherits$1(PassThrough, Transform);
+  inherits(PassThrough, Transform);
   function PassThrough(options) {
     if (!(this instanceof PassThrough)) return new PassThrough(options);
 
@@ -5024,7 +5024,7 @@ var stream_transform_sync = (function (exports) {
     cb(null, chunk);
   };
 
-  inherits$1(Stream, EventEmitter);
+  inherits(Stream, EventEmitter);
   Stream.Readable = Readable;
   Stream.Writable = Writable;
   Stream.Duplex = Duplex;
@@ -5160,7 +5160,7 @@ var stream_transform_sync = (function (exports) {
   Transformer.prototype._transform = function (chunk, _, cb) {
     this.state.started++;
     this.state.running++;
-    // Accept additionnal chunks to be processed in parallel
+    // Accept additional chunks to be processed in parallel
     if (!this.state.paused && this.state.running < this.options.parallel) {
       cb();
       cb = null; // Cancel further callback execution
@@ -5268,7 +5268,7 @@ var stream_transform_sync = (function (exports) {
       expected_handler_length++;
     }
     if (handler.length > expected_handler_length) {
-      throw Error("Invalid Handler: only synchonous handlers are supported");
+      throw Error("Invalid Handler: only synchronous handlers are supported");
     }
     // Start transformation
     const chunks = [];

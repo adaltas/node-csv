@@ -2588,9 +2588,9 @@ var csv_stringify = (function (exports) {
   var process = {
     env: env};
 
-  var inherits;
+  var inherits$1;
   if (typeof Object.create === 'function'){
-    inherits = function inherits(ctor, superCtor) {
+    inherits$1 = function inherits(ctor, superCtor) {
       // implementation from standard node.js 'util' module
       ctor.super_ = superCtor;
       ctor.prototype = Object.create(superCtor.prototype, {
@@ -2603,7 +2603,7 @@ var csv_stringify = (function (exports) {
       });
     };
   } else {
-    inherits = function inherits(ctor, superCtor) {
+    inherits$1 = function inherits(ctor, superCtor) {
       ctor.super_ = superCtor;
       var TempCtor = function () {};
       TempCtor.prototype = superCtor.prototype;
@@ -2611,7 +2611,7 @@ var csv_stringify = (function (exports) {
       ctor.prototype.constructor = ctor;
     };
   }
-  var inherits$1 = inherits;
+  var inherits = inherits$1;
 
   var formatRegExp = /%[sdj%]/g;
   function format(f) {
@@ -3376,7 +3376,7 @@ var csv_stringify = (function (exports) {
   Readable.ReadableState = ReadableState;
 
   var debug = debuglog('stream');
-  inherits$1(Readable, EventEmitter);
+  inherits(Readable, EventEmitter);
 
   function prependListener(emitter, event, fn) {
     // Sadly this is not cacheable as some libraries bundle their own
@@ -4265,7 +4265,7 @@ var csv_stringify = (function (exports) {
   // the drain event emission and buffering.
 
   Writable.WritableState = WritableState;
-  inherits$1(Writable, EventEmitter);
+  inherits(Writable, EventEmitter);
 
   function nop() {}
 
@@ -4736,7 +4736,7 @@ var csv_stringify = (function (exports) {
     };
   }
 
-  inherits$1(Duplex, Readable);
+  inherits(Duplex, Readable);
 
   var keys = Object.keys(Writable.prototype);
   for (var v = 0; v < keys.length; v++) {
@@ -4816,7 +4816,7 @@ var csv_stringify = (function (exports) {
   // would be consumed, and then the rest would wait (un-transformed) until
   // the results of the previous transformed chunk were consumed.
 
-  inherits$1(Transform, Duplex);
+  inherits(Transform, Duplex);
 
   function TransformState(stream) {
     this.afterTransform = function (er, data) {
@@ -4943,7 +4943,7 @@ var csv_stringify = (function (exports) {
     return stream.push(null);
   }
 
-  inherits$1(PassThrough, Transform);
+  inherits(PassThrough, Transform);
   function PassThrough(options) {
     if (!(this instanceof PassThrough)) return new PassThrough(options);
 
@@ -4954,7 +4954,7 @@ var csv_stringify = (function (exports) {
     cb(null, chunk);
   };
 
-  inherits$1(Stream, EventEmitter);
+  inherits(Stream, EventEmitter);
   Stream.Readable = Readable;
   Stream.Writable = Writable;
   Stream.Duplex = Duplex;
@@ -5165,8 +5165,7 @@ var csv_stringify = (function (exports) {
   const toKey = function (value) {
     if (typeof value === "string" || isSymbol(value)) return value;
     const result = `${value}`;
-    // eslint-disable-next-line
-    return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+    return result == "0" && 1 / value == -Infinity ? "-0" : result;
   };
 
   const get = function (object, path) {
@@ -5323,9 +5322,10 @@ var csv_stringify = (function (exports) {
         const isRegExp = quoted_match instanceof RegExp;
         if (!isString && !isRegExp) {
           return [
-            Error(
-              `Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`,
-            ),
+            new CsvError("CSV_OPTION_QUOTED_MATCH", [
+              "option `quoted_match` must be a string or a regex,",
+              `got ${JSON.stringify(options.quoted_match)}`,
+            ]),
           ];
         }
       }
@@ -5358,9 +5358,57 @@ var csv_stringify = (function (exports) {
       ];
     }
     // Normalize option `header`
-    if (options.header === undefined || options.header === null) {
+    if (
+      options.header === undefined ||
+      options.header === null ||
+      options.header === false
+    ) {
       options.header = false;
+    } else if (options.header !== true) {
+      throw new CsvError(
+        "CSV_INVALID_OPTION_HEADER",
+        [
+          "option `header` is expected to be a boolean,",
+          `got ${JSON.stringify(options.header)}`,
+        ],
+        options,
+      );
     }
+    // Normalize option `headers_as_comment`
+    if (
+      options.header_as_comment === undefined ||
+      options.header_as_comment === null ||
+      options.header_as_comment === false
+    ) {
+      options.header_as_comment = false;
+    } else if (options.header_as_comment === true) {
+      options.header_as_comment = "#";
+    } else if (isBuffer(options.header_as_comment)) {
+      options.header_as_comment = options.header_as_comment.toString();
+    } else if (typeof options.header_as_comment !== "string") {
+      throw new CsvError(
+        "CSV_INVALID_OPTION_HEADER_AS_COMMENT",
+        [
+          "option `header_as_comment` must be a boolean, a string or a buffer,",
+          `got ${JSON.stringify(options.header_as_comment)}`,
+        ],
+        options,
+      );
+    }
+    // if (options.header_as_comment && !options.comment?.length) {
+    //   throw new CsvError(
+    //     "CSV_INVALID_OPTION_COMMENT",
+    //     [
+    //       "option `comment` must be a non empty string or buffer when using `header_as_comment`,",
+    //       `got ${JSON.stringify(options.comment)}`,
+    //     ],
+    //     options,
+    //   );
+    // }
+    // Header is always enabled with `header_as_comment`
+    // if (options.header_as_comment === true) {
+    //   options.header = true;
+    // }
     // Normalize option `columns`
     const [errColumns, columns] = normalize_columns(options.columns);
     if (errColumns !== undefined) return [errColumns];
@@ -5727,6 +5775,9 @@ var csv_stringify = (function (exports) {
           [err, headers] = this.stringify(headers);
         }
         if (err) return err;
+        if (this.options.header_as_comment) {
+          headers = this.options.header_as_comment + " " + headers;
+        }
         push(headers);
       },
       __cast: function (value, context) {
@@ -5857,7 +5908,7 @@ var csv_stringify = (function (exports) {
         }
         stringifier.end();
       };
-      // Support Deno, Rollup doesnt provide a shim for setImmediate
+      // Support Deno, Rollup doesn't provide a shim for setImmediate
       if (typeof setImmediate === "function") {
         setImmediate(writer);
       } else {

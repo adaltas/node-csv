@@ -1,5 +1,5 @@
 {
-  "version": "4.5.0",
+  "version": "4.5.1",
   "name": "csv-generate",
   "description": "CSV and object generation implementing the Node.js `stream.Readable` API",
   "keywords": [
@@ -15,9 +15,9 @@
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@types/mocha": "^10.0.10",
-    "mocha": "~11.7.5",
     "@types/node": "^25.2.2",
     "dedent": "^1.7.1",
+    "mocha": "~11.7.5",
     "prettier": "^3.8.1",
     "rollup": "^4.57.1",
     "rollup-plugin-node-builtins": "^2.1.2",
