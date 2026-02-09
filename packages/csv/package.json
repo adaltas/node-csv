@@ -82,8 +82,8 @@
   "license": "MIT",
   "main": "./dist/cjs/index.cjs",
   "mocha": {
+    "import": "tsx",
     "inline-diffs": true,
-    "loader": "ts-node/esm",
     "recursive": true,
     "reporter": "spec",
     "throw-deprecation": false,
