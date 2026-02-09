@@ -1,8 +1,13 @@
 import "should";
 import dedent from "dedent";
-import { parse } from "../lib/index.js";
+import { parse, normalize_options } from "../lib/index.js";
 
 describe("Option `from`", function () {
+  it("default", function () {
+    const options = normalize_options({});
+    options.from.should.eql(1);
+  });
+
   it("validation", function () {
     parse("", { from: 10 }, () => {});
     parse("", { from: "10" }, () => {});
