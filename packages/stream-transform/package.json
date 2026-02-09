@@ -86,7 +86,7 @@
     "lint:fix": "eslint --fix",
     "lint:ts": "tsc --noEmit true",
     "preversion": "npm run build && git add dist",
-    "test": "mocha 'test/**/*.{js,ts}'",
+    "test": "npx tsc --noEmit && mocha 'test/**/*.{js,ts}'",
     "test:legacy": "mocha --ignore test/handler.mode.callback.js --ignore test/handler.mode.callback.error.js 'test/**/*.{js,ts}'"
   },
   "type": "module",

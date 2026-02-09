@@ -119,7 +119,7 @@
     "lint:fix": "eslint --fix",
     "lint:ts": "tsc --noEmit true",
     "preversion": "npm run build && git add dist",
-    "test": "mocha 'test/**/*.{js,ts}'",
+    "test": "npx tsc --noEmit && mocha 'test/**/*.{js,ts}'",
     "test:legacy": "mocha --ignore test/api.web_stream.js --ignore test/api.web_stream.ts --ignore test/api.stream.finished.ts --ignore test/api.stream.iterator.ts 'test/**/*.{js,ts}'"
   },
   "type": "module",
