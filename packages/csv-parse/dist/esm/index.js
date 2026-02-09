@@ -5082,8 +5082,8 @@ const normalize_columns_array = function (columns) {
     const column = columns[i];
     if (column === undefined || column === null || column === false) {
       normalizedColumns[i] = { disabled: true };
-    } else if (typeof column === "string") {
-      normalizedColumns[i] = { name: column };
+    } else if (typeof column === "string" || typeof column === "number") {
+      normalizedColumns[i] = { name: `${column}` };
     } else if (is_object(column)) {
       if (typeof column.name !== "string") {
         throw new CsvError("CSV_OPTION_COLUMNS_MISSING_NAME", [
@@ -5925,6 +5925,7 @@ const boms = {
 const transform = function (original_options = {}) {
   const info = {
     bytes: 0,
+    bytes_records: 0,
     comment_lines: 0,
     empty_lines: 0,
     invalid_field_length: 0,
@@ -6202,7 +6203,7 @@ const transform = function (original_options = {}) {
                 this.info.comment_lines++;
                 // Skip full comment line
               } else {
-                // Activate records emition if above from_line
+                // Activate records emission if above from_line
                 if (
                   this.state.enabled === false &&
                   this.info.lines +
@@ -6600,6 +6601,7 @@ const transform = function (original_options = {}) {
           return;
         }
       }
+      this.info.bytes_records += this.info.bytes;
       push(record);
     },
     // Return a tuple with the error and the casted value
@@ -6787,6 +6789,7 @@ const transform = function (original_options = {}) {
       const { columns, raw, encoding } = this.options;
       return {
         ...this.__infoDataSet(),
+        bytes_records: this.info.bytes,
         error: this.state.error,
         header: columns === true,
         index: this.state.record.length,
@@ -6796,8 +6799,11 @@ const transform = function (original_options = {}) {
     __infoField: function () {
       const { columns } = this.options;
       const isColumns = Array.isArray(columns);
+      // Bytes records are only incremented when all records'fields are parsed
+      const bytes_records = this.info.bytes_records;
       return {
         ...this.__infoRecord(),
+        bytes_records: bytes_records,
         column:
           isColumns === true
             ? columns.length > this.state.record.length
@@ -6923,7 +6929,7 @@ const parse = function () {
       parser.write(data);
       parser.end();
     };
-    // Support Deno, Rollup doesnt provide a shim for setImmediate
+    // Support Deno, Rollup doesn't provide a shim for setImmediate
     if (typeof setImmediate === "function") {
       setImmediate(writer);
     } else {

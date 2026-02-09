@@ -324,7 +324,7 @@ describe("Option `cast`", function () {
 
     it("throw error if header is invalid", function (next) {
       parse(
-        "a,b,c,d\n1,2,3,4\n5,6,7,8",
+        "a,b,c,d,e\n1,2,3,4,5\n6,7,8,9,10",
         {
           columns: true,
           cast: (value, context) => {
@@ -337,6 +337,8 @@ describe("Option `cast`", function () {
                 return context.header ? null : value;
               case 3:
                 return context.header ? 1234 : value;
+              case 4:
+                return context.header ? Symbol("foo") : value;
             }
           },
         },
@@ -344,7 +346,7 @@ describe("Option `cast`", function () {
           if (!err) return next(Error("Invalid assessment"));
           assert_error(err, {
             message:
-              "Invalid column definition: expect a string or a literal object, got 1234 at position 3",
+              "Invalid column definition: expect a string or a literal object, got undefined at position 4",
             code: "CSV_INVALID_COLUMN_DEFINITION",
           });
           next();

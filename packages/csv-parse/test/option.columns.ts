@@ -1,4 +1,5 @@
 import "should";
+import dedent from "dedent";
 import { parse } from "../lib/index.js";
 import { assert_error } from "./api.assert_error.js";
 
@@ -163,6 +164,27 @@ describe("Option `columns`", function () {
           if (err) return next(err);
           records.should.eql([{ a: "1", b: "2", c: "3" }]);
           next();
+        },
+      );
+    });
+
+    it("dont cast numbers (fix #477)", function (next) {
+      const data = dedent`
+        Person,2023,2024,2025
+        John,100,150,200`;
+      parse(
+        data,
+        {
+          columns: true,
+          cast: true,
+        },
+        (err, records) => {
+          if (!err) {
+            records.should.eql([
+              { "2023": 100, "2024": 150, "2025": 200, Person: "John" },
+            ]);
+          }
+          next(err);
         },
       );
     });

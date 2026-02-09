@@ -2588,9 +2588,9 @@ var csv_parse = (function (exports) {
             var process = {
               env: env};
 
-            var inherits;
+            var inherits$1;
             if (typeof Object.create === 'function'){
-              inherits = function inherits(ctor, superCtor) {
+              inherits$1 = function inherits(ctor, superCtor) {
                 // implementation from standard node.js 'util' module
                 ctor.super_ = superCtor;
                 ctor.prototype = Object.create(superCtor.prototype, {
@@ -2603,7 +2603,7 @@ var csv_parse = (function (exports) {
                 });
               };
             } else {
-              inherits = function inherits(ctor, superCtor) {
+              inherits$1 = function inherits(ctor, superCtor) {
                 ctor.super_ = superCtor;
                 var TempCtor = function () {};
                 TempCtor.prototype = superCtor.prototype;
@@ -2611,7 +2611,7 @@ var csv_parse = (function (exports) {
                 ctor.prototype.constructor = ctor;
               };
             }
-            var inherits$1 = inherits;
+            var inherits = inherits$1;
 
             var formatRegExp = /%[sdj%]/g;
             function format(f) {
@@ -3376,7 +3376,7 @@ var csv_parse = (function (exports) {
             Readable.ReadableState = ReadableState;
 
             var debug = debuglog('stream');
-            inherits$1(Readable, EventEmitter);
+            inherits(Readable, EventEmitter);
 
             function prependListener(emitter, event, fn) {
               // Sadly this is not cacheable as some libraries bundle their own
@@ -4265,7 +4265,7 @@ var csv_parse = (function (exports) {
             // the drain event emission and buffering.
 
             Writable.WritableState = WritableState;
-            inherits$1(Writable, EventEmitter);
+            inherits(Writable, EventEmitter);
 
             function nop() {}
 
@@ -4736,7 +4736,7 @@ var csv_parse = (function (exports) {
               };
             }
 
-            inherits$1(Duplex, Readable);
+            inherits(Duplex, Readable);
 
             var keys = Object.keys(Writable.prototype);
             for (var v = 0; v < keys.length; v++) {
@@ -4816,7 +4816,7 @@ var csv_parse = (function (exports) {
             // would be consumed, and then the rest would wait (un-transformed) until
             // the results of the previous transformed chunk were consumed.
 
-            inherits$1(Transform, Duplex);
+            inherits(Transform, Duplex);
 
             function TransformState(stream) {
               this.afterTransform = function (er, data) {
@@ -4943,7 +4943,7 @@ var csv_parse = (function (exports) {
               return stream.push(null);
             }
 
-            inherits$1(PassThrough, Transform);
+            inherits(PassThrough, Transform);
             function PassThrough(options) {
               if (!(this instanceof PassThrough)) return new PassThrough(options);
 
@@ -4954,7 +4954,7 @@ var csv_parse = (function (exports) {
               cb(null, chunk);
             };
 
-            inherits$1(Stream, EventEmitter);
+            inherits(Stream, EventEmitter);
             Stream.Readable = Readable;
             Stream.Writable = Writable;
             Stream.Duplex = Duplex;
@@ -5085,8 +5085,8 @@ var csv_parse = (function (exports) {
                 const column = columns[i];
                 if (column === undefined || column === null || column === false) {
                   normalizedColumns[i] = { disabled: true };
-                } else if (typeof column === "string") {
-                  normalizedColumns[i] = { name: column };
+                } else if (typeof column === "string" || typeof column === "number") {
+                  normalizedColumns[i] = { name: `${column}` };
                 } else if (is_object(column)) {
                   if (typeof column.name !== "string") {
                     throw new CsvError("CSV_OPTION_COLUMNS_MISSING_NAME", [
@@ -5928,6 +5928,7 @@ var csv_parse = (function (exports) {
             const transform = function (original_options = {}) {
               const info = {
                 bytes: 0,
+                bytes_records: 0,
                 comment_lines: 0,
                 empty_lines: 0,
                 invalid_field_length: 0,
@@ -6205,7 +6206,7 @@ var csv_parse = (function (exports) {
                             this.info.comment_lines++;
                             // Skip full comment line
                           } else {
-                            // Activate records emition if above from_line
+                            // Activate records emission if above from_line
                             if (
                               this.state.enabled === false &&
                               this.info.lines +
@@ -6603,6 +6604,7 @@ var csv_parse = (function (exports) {
                       return;
                     }
                   }
+                  this.info.bytes_records += this.info.bytes;
                   push(record);
                 },
                 // Return a tuple with the error and the casted value
@@ -6790,6 +6792,7 @@ var csv_parse = (function (exports) {
                   const { columns, raw, encoding } = this.options;
                   return {
                     ...this.__infoDataSet(),
+                    bytes_records: this.info.bytes,
                     error: this.state.error,
                     header: columns === true,
                     index: this.state.record.length,
@@ -6799,8 +6802,11 @@ var csv_parse = (function (exports) {
                 __infoField: function () {
                   const { columns } = this.options;
                   const isColumns = Array.isArray(columns);
+                  // Bytes records are only incremented when all records'fields are parsed
+                  const bytes_records = this.info.bytes_records;
                   return {
                     ...this.__infoRecord(),
+                    bytes_records: bytes_records,
                     column:
                       isColumns === true
                         ? columns.length > this.state.record.length
@@ -6926,7 +6932,7 @@ var csv_parse = (function (exports) {
                   parser.write(data);
                   parser.end();
                 };
-                // Support Deno, Rollup doesnt provide a shim for setImmediate
+                // Support Deno, Rollup doesn't provide a shim for setImmediate
                 if (typeof setImmediate === "function") {
                   setImmediate(writer);
                 } else {

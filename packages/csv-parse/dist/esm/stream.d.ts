@@ -5,13 +5,18 @@ declare function parse(options?: Options): TransformStream;
 export { parse };
 
 export {
-  CastingContext,
+  CastingContext, // Deprecated
   CastingFunction,
   CastingDateFunction,
   ColumnOption,
   Options,
   OptionsNormalized,
+  OptionsWithColumns,
   Info,
+  InfoCallback,
+  InfoDataSet,
+  InfoRecord,
+  InfoField,
   CsvErrorCode,
   CsvError,
 } from "./index.js";

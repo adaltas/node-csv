@@ -7,8 +7,8 @@ const normalize_columns_array = function (columns) {
     const column = columns[i];
     if (column === undefined || column === null || column === false) {
       normalizedColumns[i] = { disabled: true };
-    } else if (typeof column === "string") {
-      normalizedColumns[i] = { name: column };
+    } else if (typeof column === "string" || typeof column === "number") {
+      normalizedColumns[i] = { name: `${column}` };
     } else if (is_object(column)) {
       if (typeof column.name !== "string") {
         throw new CsvError("CSV_OPTION_COLUMNS_MISSING_NAME", [
