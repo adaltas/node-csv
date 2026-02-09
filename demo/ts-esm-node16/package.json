@@ -12,9 +12,9 @@
     "stream-transform": "^3.4.0"
   },
   "devDependencies": {
-    "@types/node": "^24.7.0",
+    "@types/node": "^25.2.2",
     "coffeescript": "^2.7.0",
-    "mocha": "^11.7.4",
+    "mocha": "^11.7.5",
     "should": "^13.2.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
