@@ -40,9 +40,9 @@ describe("API Types", function () {
     });
 
     it("Receive Callback", function (next) {
-      generate({ length: 3 }, function (err: Error | undefined, data: object) {
+      generate({ length: 3 }, function (err: Error | undefined, data: unknown) {
         if (err !== undefined) {
-          data.should.be.an.Object();
+          (data as Buffer).should.be.an.instanceOf(Buffer);
         }
         next(err);
       });

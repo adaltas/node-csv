@@ -14,7 +14,7 @@ describe("api.types", function () {
     (options: Options) => {
       const consume: boolean | undefined = options.consume;
       const parallel: number | undefined = options.parallel;
-      const params: number = options.params;
+      const params: number = options.params as number;
       return { consume, parallel, params };
     };
   });

@@ -2,12 +2,15 @@
 
 import * as stream from "stream";
 
-export type Handler<T = any, U = any> = (
+export type Handler<T = unknown, U = unknown> = (
   record: T,
   callback: HandlerCallback,
-  params?: any,
+  params?: unknown,
 ) => U;
-export type HandlerCallback<T = any> = (err?: null | Error, record?: T) => void;
+export type HandlerCallback<T = unknown> = (
+  err?: null | Error,
+  record?: T,
+) => void;
 export type Callback = (err?: null | Error, output?: string) => void;
 
 export interface Options extends stream.TransformOptions {
@@ -22,7 +25,7 @@ export interface Options extends stream.TransformOptions {
   /**
    * Pass user defined parameters to the user handler as last argument.
    */
-  params?: any;
+  params?: unknown;
 }
 export interface State {
   finished: number;
@@ -35,21 +38,21 @@ export class Transformer extends stream.Transform {
   readonly state: State;
 }
 
-declare function transform<T = any, U = any>(
+declare function transform<T = unknown, U = unknown>(
   handler: Handler<T, U>,
   callback?: Callback,
 ): Transformer;
-declare function transform<T = any, U = any>(
+declare function transform<T = unknown, U = unknown>(
   records: Array<T>,
   handler: Handler<T, U>,
   callback?: Callback,
 ): Transformer;
-declare function transform<T = any, U = any>(
+declare function transform<T = unknown, U = unknown>(
   options: Options,
   handler: Handler<T, U>,
   callback?: Callback,
 ): Transformer;
-declare function transform<T = any, U = any>(
+declare function transform<T = unknown, U = unknown>(
   records: Array<T>,
   options: Options,
   handler: Handler<T, U>,

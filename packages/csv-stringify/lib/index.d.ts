@@ -30,7 +30,7 @@ export type Cast<T> = (
 ) => string | null | CastReturnObject;
 
 export type PlainObject<T> = Record<string, T>;
-export type Input = any[];
+export type Input = unknown[];
 export interface ColumnOption {
   key: string | (string | number)[];
   header?: string;
@@ -58,7 +58,7 @@ export interface OptionsNormalized extends stream.TransformOptions {
     /**
      * Custom formatter for generic object values
      */
-    object?: Cast<Record<string, any>>;
+    object?: Cast<Record<string, unknown>>;
     string?: Cast<string>;
   };
   /**
@@ -138,7 +138,7 @@ export interface Options extends stream.TransformOptions {
     /**
      * Custom formatter for generic object values
      */
-    object?: Cast<Record<string, any>>;
+    object?: Cast<Record<string, unknown>>;
     string?: Cast<string>;
   };
   /**
