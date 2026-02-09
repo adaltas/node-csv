@@ -17,8 +17,8 @@ describe("API Types", function () {
       parse(
         "abc,def",
         {},
-        (err: parser.CsvError | undefined, records: Array<Array<string>>) =>
-          err?.message || records,
+        (err: parser.CsvError | undefined, records: unknown) =>
+          err?.message || (records as Array<Array<string>>),
       );
     });
 
