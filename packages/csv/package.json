@@ -104,6 +104,7 @@
     "lint:ts": "tsc --noEmit true",
     "preversion": "npm run build && git add dist",
     "test": "npx tsc --noEmit && mocha 'test/**/*.{js,ts}'",
+    "test:16": "mocha 'test/**/*.js'",
     "test:legacy": "mocha --ignore test/samples.js 'test/**/*.{js,ts}'"
   },
   "type": "module",

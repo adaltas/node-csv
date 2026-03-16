@@ -31,6 +31,7 @@
     "lint:fix": "eslint --fix",
     "lint:staged": "npx lint-staged",
     "test": "lerna run test",
+    "test:16": "lerna run test:16",
     "test:legacy": "lerna run test:legacy",
     "version": "lerna version"
   },

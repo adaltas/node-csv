@@ -87,6 +87,7 @@
     "lint:ts": "tsc --noEmit true",
     "preversion": "npm run build && git add dist",
     "test": "npx tsc --noEmit && mocha 'test/**/*.{js,ts}'",
+    "test:16": "mocha 'test/**/*.js'",
     "test:legacy": "mocha --ignore test/handler.mode.callback.js --ignore test/handler.mode.callback.error.js 'test/**/*.{js,ts}'"
   },
   "type": "module",
