@@ -32,13 +32,36 @@ Installation command is `npm install csv`.
 
 Each package is fully compatible with the Node.js stream 2 and 3 specifications. Also, a simple callback-based API is always provided for convenience.
 
-## Sample
+## Synchronous sample
+
+```js
+// Import the package
+import * as csv from "csv/sync";
+
+// Run the pipeline
+import { generate, parse, transform, stringify } from "csv/sync";
+
+// Run the pipeline
+const input = generate({ seed: 1, columns: 2, length: 2 });
+const rawRecords = parse(input);
+const refinedRecords = transform(rawRecords, (data) =>
+  data.map((value) => value.toUpperCase()),
+);
+const output = stringify(refinedRecords);
+
+// Print the final result
+console.log(output);
+//> OMH,ONKCHHJMJADOA
+//> D,GEACHIN
+```
+
+## Streaming sample
 
 This example uses the Stream API to create a processing pipeline.
 
 ```js
 // Import the package
-import * as csv from "../lib/index.js";
+import * as csv from "csv";
 
 // Run the pipeline
 csv
