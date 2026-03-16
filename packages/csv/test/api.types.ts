@@ -7,8 +7,7 @@ describe("API Types", function () {
       // with options + handler
       generate(
         { length: 1 },
-        (err: Error | undefined, records: Array<Array<string>>) =>
-          err || records,
+        (err: Error | undefined, records) => err || records,
       );
     });
 
