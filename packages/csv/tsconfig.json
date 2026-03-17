@@ -5,5 +5,5 @@
     "module": "ES2020",
     "moduleResolution": "node",
     "strict": true,
-  }
+  },
 }
