@@ -11,7 +11,7 @@
     "csv-stringify": "^6.6.0"
   },
   "devDependencies": {
-    "@types/node": "^25.2.2",
+    "@types/node": "^25.5.0",
     "coffeescript": "^2.7.0",
     "mocha": "^11.7.5",
     "should": "^13.2.3",
