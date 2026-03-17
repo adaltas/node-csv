@@ -13,7 +13,6 @@
   },
   "mocha": {
     "inline-diffs": true,
-    "loader": "./test/loaders/all.js",
     "recursive": true,
     "reporter": "spec",
     "require": [
@@ -30,7 +29,7 @@
     "lint:check": "eslint",
     "lint:fix": "eslint --fix",
     "lint:ts": "tsc --noEmit true",
-    "test": "mocha 'test/**/*.coffee'"
+    "test": "mocha 'test/**/*.js'"
   },
   "dependencies": {
     "csv-generate": "^4.5.0",
