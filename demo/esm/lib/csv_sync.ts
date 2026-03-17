@@ -11,7 +11,7 @@ const records: any = csv.parse(input, {
   delimiter: "|",
 });
 // Transform each value into uppercase
-const uppercaseRecords: any = csv.transform(records, (record) => {
+const uppercaseRecords: any = csv.transform(records, (record: string[]) => {
   return record.map((value: string) => {
     return value.toUpperCase();
   });

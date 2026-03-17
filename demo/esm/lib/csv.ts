@@ -11,11 +11,13 @@ const parser: csv.parser.Parser = csv.parse({
   delimiter: "|",
 });
 // Transform each value into uppercase
-const transformer: csv.transformer.Transformer = csv.transform((record) => {
-  return record.map((value: string) => {
-    return value.toUpperCase();
-  });
-});
+const transformer: csv.transformer.Transformer = csv.transform(
+  (record: string[]) => {
+    return record.map((value: string) => {
+      return value.toUpperCase();
+    });
+  },
+);
 // Convert objects into a stream
 const stringifier: csv.stringifier.Stringifier = csv.stringify({
   cast: {

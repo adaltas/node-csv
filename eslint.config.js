@@ -33,6 +33,12 @@ export default [
     },
   },
   {
+    files: ["demo/{cjs,issues-cjs}/test/**/*.{js,ts}"],
+    rules: {
+      "@typescript-eslint/no-require-imports": 0,
+    },
+  },
+  {
     files: ["**/test/**/*.js", "**/test/**/*.ts"],
     languageOptions: {
       // globals: {

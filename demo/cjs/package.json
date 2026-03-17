@@ -30,6 +30,6 @@
     "timeout": 40000
   },
   "scripts": {
-    "test": "mocha 'test/**/*.coffee'"
+    "test": "mocha 'test/**/*.js'"
   }
 }
