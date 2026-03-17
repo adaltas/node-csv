@@ -39,21 +39,7 @@ export default [
     },
   },
   {
-    files: ["**/test/**/*.js", "**/test/**/*.ts"],
-    languageOptions: {
-      // globals: {
-      //   ...globals.mocha,
-      // },
-      // https://typescript-eslint.io/blog/parser-options-project-true/
-      // parserOptions: {
-      //   project: ["./packages/csv/tsconfig.json"],
-      //   tsconfigRootDir: __dirname,
-      // },
-      // parserOptions: {
-      //   project: true,
-      //   tsconfigRootDir: __dirname,
-      // },
-    },
+    files: ["**/test/**/*.{js,ts}"],
     rules: {
       "@typescript-eslint/no-unused-expressions": 0, // Applies to both js and ts
     },
