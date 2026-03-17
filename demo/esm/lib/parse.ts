@@ -1,7 +1,7 @@
 import assert from "assert";
 import { parse, Parser } from "csv-parse";
 
-const output: any = [];
+const output: string[] = [];
 // Create the parser
 const parser: Parser = parse({
   delimiter: ":",

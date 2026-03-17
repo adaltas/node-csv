@@ -10,17 +10,20 @@ const input: string = csv.generate({
   length: 20,
 });
 // Transform CSV data into records
-const records: any = csv.parse(input, {
+const records: string[][] = csv.parse(input, {
   delimiter: "|",
 });
 // Transform each value into uppercase
-const uppercaseRecords: any = csv.transform(records, (record: string[]) => {
-  return record.map((value: string) => {
-    return value.toUpperCase();
-  });
-});
+const uppercaseRecords: string[][] = csv.transform(
+  records,
+  (record: string[]) => {
+    return record.map((value: string) => {
+      return value.toUpperCase();
+    });
+  },
+);
 // Convert objects into a stream
-const output: any = csv.stringify(uppercaseRecords, {
+const output: string = csv.stringify(uppercaseRecords, {
   cast: {
     string: (value: string, context: csv.stringifier.CastingContext) => {
       return context.index % 2 ? value.toLowerCase() : value.toUpperCase();

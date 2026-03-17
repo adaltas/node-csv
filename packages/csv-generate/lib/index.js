@@ -54,7 +54,8 @@ Generator.prototype.__push = function (record) {
       return this.push(null);
     }
   };
-  this.options.sleep > 0 ? setTimeout(push, this.options.sleep) : push();
+  if (this.options.sleep > 0) setTimeout(push, this.options.sleep);
+  else push();
 };
 
 const generate = function () {

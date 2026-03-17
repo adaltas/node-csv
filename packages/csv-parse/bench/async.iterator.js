@@ -28,8 +28,8 @@ const read = async function (length, source) {
       highWaterMark: 64 * 64 * 1024,
     })
     .pipe(parse());
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   for await (const record of parser) {
-    record;
     count++;
   }
   assert.strictEqual(count, length);
@@ -99,7 +99,7 @@ const main = async function () {
     }),
   );
   await Promise.all(
-    await tests.map(async function ({ length, target }) {
+    tests.map(async function ({ length, target }) {
       const hrtime = process.hrtime();
       await read(length, target);
       const [seconds, hrtime_nanoseconds] = process.hrtime(hrtime);
@@ -118,7 +118,7 @@ const main = async function () {
     }),
   );
   await Promise.all(
-    await tests.map(async function ({ target }) {
+    tests.map(async function ({ target }) {
       await dispose(target);
     }),
   );

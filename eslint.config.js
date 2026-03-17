@@ -36,6 +36,7 @@ export default [
     files: [
       "demo/{cjs,issues-cjs,webpack-ts}/{lib,src,test}/**/*.{js,ts}",
       "demo/webpack-ts/webpack.config.js",
+      "demo/webpack/webpack.config.js",
     ],
     rules: {
       "@typescript-eslint/no-require-imports": 0,
