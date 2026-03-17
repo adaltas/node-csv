@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.7.0](https://github.com/adaltas/node-csv/compare/csv-stringify@6.5.2...csv-stringify@6.7.0) (2026-03-17)
+
+### Features
+
+- **csv-stringify:** header validation
+- **csv-stringify:** new header_as_comment option (fix [#420](https://github.com/adaltas/node-csv/issues/420))
+
+### Bug Fixes
+
+- **csv-stringify:** allow mixed string and object columns typedef ([#456](https://github.com/adaltas/node-csv/issues/456))
+- **csv-stringify:** infinity is not defined in get (fix [#475](https://github.com/adaltas/node-csv/issues/475))
+
 ## 6.6.0 (2025-07-10)
 
 ### Features

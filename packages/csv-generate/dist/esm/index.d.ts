@@ -2,7 +2,7 @@
 
 import * as stream from "stream";
 
-type Callback = (err?: Error, records?: any) => void;
+type Callback = (err?: Error, records?: unknown) => void;
 
 export class Generator extends stream.Readable {
   constructor(options?: Options);

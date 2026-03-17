@@ -5168,8 +5168,7 @@
   const toKey = function (value) {
     if (typeof value === "string" || isSymbol(value)) return value;
     const result = `${value}`;
-    // eslint-disable-next-line
-    return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+    return result == "0" && 1 / value == -Infinity ? "-0" : result;
   };
 
   const get = function (object, path) {
@@ -5326,9 +5325,10 @@
         const isRegExp = quoted_match instanceof RegExp;
         if (!isString && !isRegExp) {
           return [
-            Error(
-              `Invalid Option: quoted_match must be a string or a regex, got ${JSON.stringify(quoted_match)}`,
-            ),
+            new CsvError("CSV_OPTION_QUOTED_MATCH", [
+              "option `quoted_match` must be a string or a regex,",
+              `got ${JSON.stringify(options.quoted_match)}`,
+            ]),
           ];
         }
       }
@@ -5361,9 +5361,57 @@
       ];
     }
     // Normalize option `header`
-    if (options.header === undefined || options.header === null) {
+    if (
+      options.header === undefined ||
+      options.header === null ||
+      options.header === false
+    ) {
       options.header = false;
+    } else if (options.header !== true) {
+      throw new CsvError(
+        "CSV_INVALID_OPTION_HEADER",
+        [
+          "option `header` is expected to be a boolean,",
+          `got ${JSON.stringify(options.header)}`,
+        ],
+        options,
+      );
     }
+    // Normalize option `headers_as_comment`
+    if (
+      options.header_as_comment === undefined ||
+      options.header_as_comment === null ||
+      options.header_as_comment === false
+    ) {
+      options.header_as_comment = false;
+    } else if (options.header_as_comment === true) {
+      options.header_as_comment = "#";
+    } else if (isBuffer(options.header_as_comment)) {
+      options.header_as_comment = options.header_as_comment.toString();
+    } else if (typeof options.header_as_comment !== "string") {
+      throw new CsvError(
+        "CSV_INVALID_OPTION_HEADER_AS_COMMENT",
+        [
+          "option `header_as_comment` must be a boolean, a string or a buffer,",
+          `got ${JSON.stringify(options.header_as_comment)}`,
+        ],
+        options,
+      );
+    }
+    // if (options.header_as_comment && !options.comment?.length) {
+    //   throw new CsvError(
+    //     "CSV_INVALID_OPTION_COMMENT",
+    //     [
+    //       "option `comment` must be a non empty string or buffer when using `header_as_comment`,",
+    //       `got ${JSON.stringify(options.comment)}`,
+    //     ],
+    //     options,
+    //   );
+    // }
+    // Header is always enabled with `header_as_comment`
+    // if (options.header_as_comment === true) {
+    //   options.header = true;
+    // }
     // Normalize option `columns`
     const [errColumns, columns] = normalize_columns(options.columns);
     if (errColumns !== undefined) return [errColumns];
@@ -5730,6 +5778,9 @@
           [err, headers] = this.stringify(headers);
         }
         if (err) return err;
+        if (this.options.header_as_comment) {
+          headers = this.options.header_as_comment + " " + headers;
+        }
         push(headers);
       },
       __cast: function (value, context) {
@@ -5860,7 +5911,7 @@
         }
         stringifier.end();
       };
-      // Support Deno, Rollup doesnt provide a shim for setImmediate
+      // Support Deno, Rollup doesn't provide a shim for setImmediate
       if (typeof setImmediate === "function") {
         setImmediate(writer);
       } else {

@@ -5157,7 +5157,7 @@ util.inherits(Transformer, Stream.Transform);
 Transformer.prototype._transform = function (chunk, _, cb) {
   this.state.started++;
   this.state.running++;
-  // Accept additionnal chunks to be processed in parallel
+  // Accept additional chunks to be processed in parallel
   if (!this.state.paused && this.state.running < this.options.parallel) {
     cb();
     cb = null; // Cancel further callback execution
@@ -5265,7 +5265,7 @@ const transform = function () {
     expected_handler_length++;
   }
   if (handler.length > expected_handler_length) {
-    throw Error("Invalid Handler: only synchonous handlers are supported");
+    throw Error("Invalid Handler: only synchronous handlers are supported");
   }
   // Start transformation
   const chunks = [];
