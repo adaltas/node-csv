@@ -1,4 +1,4 @@
-import "should";
+import should from "should";
 import dedent from "dedent";
 import { parse } from "../lib/index.js";
 
@@ -44,13 +44,33 @@ describe("Option `objname`", function () {
   });
 
   describe("map to a field", function () {
+    it("dont modify prototype (see #479)", function (next) {
+      parse(
+        "key,value\n__proto__,polluted\n",
+        {
+          objname: "key",
+          columns: true,
+        },
+        (err, records) => {
+          if (err) return next(err);
+          console.log(Object.getPrototypeOf(records));
+          console.log(
+            "Polluted:",
+            Object.getPrototypeOf(records) !== Object.prototype,
+          );
+          console.log("Value:", records);
+          next();
+        },
+      );
+    });
+
     it("convert a buffer to a column name", function (next) {
       parse(
         `a,b,c`,
         { objname: Buffer.from("h1"), columns: ["h1", "h2", "h3"] },
         (err, records) => {
           if (err) return next(err);
-          records.should.eql({
+          should(records).match({
             a: {
               h1: "a",
               h2: "b",
@@ -71,7 +91,7 @@ describe("Option `objname`", function () {
         { objname: "FIELD_1", columns: ["FIELD_1", "FIELD_2", "FIELD_3"] },
         (err, records) => {
           if (err) return next(err);
-          records.should.eql({
+          should(records).match({
             a: {
               FIELD_1: "a",
               FIELD_2: "b",
@@ -98,7 +118,7 @@ describe("Option `objname`", function () {
         { objname: "FIELD_1", columns: true },
         (err, records) => {
           if (err) return next(err);
-          records.should.eql({
+          should(records).match({
             a: {
               FIELD_1: "a",
               FIELD_2: "b",
@@ -125,7 +145,7 @@ describe("Option `objname`", function () {
         { objname: "FIELD_2", columns: true, info: true },
         (err, records) => {
           if (err) return next(err);
-          records.should.match({
+          should(records).match({
             b: {
               record: {
                 FIELD_1: "a",
@@ -165,7 +185,8 @@ describe("Option `objname`", function () {
         { objname: 1 },
         (err, records) => {
           if (err) return next(err);
-          records.should.eql({
+          // should.deepEqual(records, {
+          should(records).match({
             b: ["a", "b", "c"],
             e: ["d", "e", "f"],
           });
@@ -183,7 +204,7 @@ describe("Option `objname`", function () {
         { objname: 1, info: true },
         (err, records) => {
           if (err) return next(err);
-          records.should.match({
+          should(records).match({
             b: {
               record: ["a", "b", "c"],
               info: {

@@ -101,14 +101,23 @@ const parse = function () {
   const parser = new Parser(options);
   if (callback) {
     const records =
-      options === undefined || options.objname === undefined ? [] : {};
+      options === undefined || options.objname === undefined
+        ? []
+        : Object.create(null);
+    // const records =
+    //   options === undefined || options.objname === undefined ? [] : {};
     parser.on("readable", function () {
       let record;
       while ((record = this.read()) !== null) {
         if (options === undefined || options.objname === undefined) {
           records.push(record);
         } else {
-          records[record[0]] = record[1];
+          Object.assign(records, {
+            [record[0]]: record[1],
+            // writable: true,
+            // enumerable: true,
+            // configurable: true
+          });
         }
       }
     });
