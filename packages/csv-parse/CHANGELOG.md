@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.2.1](https://github.com/adaltas/node-csv/compare/csv-parse@6.2.0...csv-parse@6.2.1) (2026-03-20)
+
+### Bug Fixes
+
+- **csv-parse:** prototype pollution with objname option (fix [#479](https://github.com/adaltas/node-csv/issues/479))
+
 ## [6.2.0](https://github.com/adaltas/node-csv/compare/csv-parse@6.1.0...csv-parse@6.2.0) (2026-03-17)
 
 ### Features

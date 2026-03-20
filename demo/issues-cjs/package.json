@@ -1,11 +1,11 @@
 {
   "name": "csv-issues-cjs",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "csv-parse": "^6.2.0",
+    "csv-parse": "^6.2.1",
     "csv-stringify": "^6.7.0"
   },
   "devDependencies": {

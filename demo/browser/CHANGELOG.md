@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/adaltas/node-csv/compare/csv-demo-browser@0.2.2...csv-demo-browser@0.2.3) (2026-03-20)
+
+**Note:** Version bump only for package csv-demo-browser
+
 ## [0.2.2](https://github.com/adaltas/node-csv/compare/csv-demo-browser@0.2.1...csv-demo-browser@0.2.2) (2026-03-17)
 
 **Note:** Version bump only for package csv-demo-browser
