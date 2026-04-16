@@ -737,7 +737,15 @@ const transform = function (original_options = {}) {
       }
       return [undefined, field];
     },
-    // Helper to test if a character is a space or a line delimiter
+    __compareBytes: function (sourceBuf, targetBuf, targetPos, firstByte) {
+      if (sourceBuf[0] !== firstByte) return 0;
+      const sourceLength = sourceBuf.length;
+      for (let i = 1; i < sourceLength; i++) {
+        if (sourceBuf[i] !== targetBuf[targetPos + i]) return 0;
+      }
+      return sourceLength;
+    },
+    // Helper to test if a character is trimable
     __isCharTrimable: function (buf, pos) {
       const isTrim = (buf, pos) => {
         const { timchars } = this.state;
@@ -751,23 +759,6 @@ const transform = function (original_options = {}) {
         return 0;
       };
       return isTrim(buf, pos);
-    },
-    // Keep it in case we implement the `cast_int` option
-    // __isInt(value){
-    //   // return Number.isInteger(parseInt(value))
-    //   // return !isNaN( parseInt( obj ) );
-    //   return /^(\-|\+)?[1-9][0-9]*$/.test(value)
-    // }
-    __isFloat: function (value) {
-      return value - parseFloat(value) + 1 >= 0; // Borrowed from jquery
-    },
-    __compareBytes: function (sourceBuf, targetBuf, targetPos, firstByte) {
-      if (sourceBuf[0] !== firstByte) return 0;
-      const sourceLength = sourceBuf.length;
-      for (let i = 1; i < sourceLength; i++) {
-        if (sourceBuf[i] !== targetBuf[targetPos + i]) return 0;
-      }
-      return sourceLength;
     },
     __isDelimiter: function (buf, pos, chr) {
       const { delimiter, ignore_last_delimiters } = this.options;
@@ -794,6 +785,40 @@ const transform = function (original_options = {}) {
       }
       return 0;
     },
+    __isEscape: function (buf, pos, chr) {
+      const { escape } = this.options;
+      if (escape === null) return false;
+      const l = escape.length;
+      if (escape[0] === chr) {
+        for (let i = 0; i < l; i++) {
+          if (escape[i] !== buf[pos + i]) {
+            return false;
+          }
+        }
+        return true;
+      }
+      return false;
+    },
+    __isFloat: function (value) {
+      return value - parseFloat(value) + 1 >= 0; // Borrowed from jquery
+    },
+    // Keep it in case we implement the `cast_int` option
+    // __isInt(value){
+    //   // return Number.isInteger(parseInt(value))
+    //   // return !isNaN( parseInt( obj ) );
+    //   return /^(\-|\+)?[1-9][0-9]*$/.test(value)
+    // }
+    __isQuote: function (buf, pos) {
+      const { quote } = this.options;
+      if (quote === null) return false;
+      const l = quote.length;
+      for (let i = 0; i < l; i++) {
+        if (quote[i] !== buf[pos + i]) {
+          return false;
+        }
+      }
+      return true;
+    },
     __isRecordDelimiter: function (chr, buf, pos) {
       const { record_delimiter } = this.options;
       const recordDelimiterLength = record_delimiter.length;
@@ -811,31 +836,6 @@ const transform = function (original_options = {}) {
         return rd.length;
       }
       return 0;
-    },
-    __isEscape: function (buf, pos, chr) {
-      const { escape } = this.options;
-      if (escape === null) return false;
-      const l = escape.length;
-      if (escape[0] === chr) {
-        for (let i = 0; i < l; i++) {
-          if (escape[i] !== buf[pos + i]) {
-            return false;
-          }
-        }
-        return true;
-      }
-      return false;
-    },
-    __isQuote: function (buf, pos) {
-      const { quote } = this.options;
-      if (quote === null) return false;
-      const l = quote.length;
-      for (let i = 0; i < l; i++) {
-        if (quote[i] !== buf[pos + i]) {
-          return false;
-        }
-      }
-      return true;
     },
     __autoDiscoverRecordDelimiter: function (buf, pos) {
       const { encoding } = this.options;
