@@ -295,4 +295,94 @@ describe("Option `trim`", function () {
       );
     });
   });
+
+  describe("unicode whitespace", function () {
+    const ws = (codepoint: number): string => String.fromCharCode(codepoint);
+
+    it("trim ideographic space U+3000", function (next) {
+      const sp = ws(0x3000);
+      parse(`${sp}a${sp},${sp}b${sp}`, { trim: true }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["a", "b"]]);
+        next();
+      });
+    });
+
+    it("trim vertical tab U+000B", function (next) {
+      const sp = ws(0x000b);
+      parse(
+        `${sp}a${sp},${sp}b${sp}`,
+        { trim: true, record_delimiter: "|" },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([["a", "b"]]);
+          next();
+        },
+      );
+    });
+
+    it("trim no-break space U+00A0", function (next) {
+      const sp = ws(0x00a0);
+      parse(`${sp}a${sp},${sp}b${sp}`, { trim: true }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["a", "b"]]);
+        next();
+      });
+    });
+
+    it("trim mixed ECMAScript whitespace at field boundaries", function (next) {
+      // U+2028 and U+2029 are excluded because they act as record delimiters.
+      const codepoints = [
+        0x00a0, 0x1680, 0x2000, 0x2001, 0x2002, 0x2003, 0x2004, 0x2005, 0x2006,
+        0x2007, 0x2008, 0x2009, 0x200a, 0x202f, 0x205f, 0x3000, 0xfeff,
+      ];
+      const surround = codepoints.map(ws).join("");
+      parse(
+        `${surround}field-1${surround},${surround}field-2${surround}`,
+        { trim: true },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([["field-1", "field-2"]]);
+          next();
+        },
+      );
+    });
+
+    it("does not trim '?' under latin1 encoding", function (next) {
+      parse(
+        Buffer.from("?a?,?b?", "latin1"),
+        { encoding: "latin1", trim: true },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([["?a?", "?b?"]]);
+          next();
+        },
+      );
+    });
+
+    it("trim multi-byte whitespace split across writes", function (next) {
+      const records: string[] = [];
+      const parser = parse({ trim: true });
+      parser.on("readable", () => {
+        let d;
+        while ((d = parser.read())) {
+          records.push(d);
+        }
+      });
+      parser.on("end", () => {
+        records.should.eql([["a", "b"]]);
+        next();
+      });
+      const sp = Buffer.from(ws(0x3000), "utf8");
+      parser.write(sp.subarray(0, 1));
+      parser.write(sp.subarray(1));
+      parser.write("a");
+      parser.write(sp.subarray(0, 2));
+      parser.write(sp.subarray(2));
+      parser.write(",");
+      parser.write("b");
+      parser.write(sp);
+      parser.end();
+    });
+  });
 });

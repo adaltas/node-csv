@@ -1,16 +1,59 @@
 import ResizeableBuffer from "../utils/ResizeableBuffer.js";
 
-// white space characters
-// https://en.wikipedia.org/wiki/Whitespace_character
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes#Types
-// \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff
-const np = 12;
-const cr = 13; // `\r`, carriage return, 0x0D in hexadécimal, 13 in decimal
-const nl = 10; // `\n`, newline, 0x0A in hexadecimal, 10 in decimal
-const space = 32;
-const tab = 9;
-
 const init_state = function (options) {
+  // ECMAScript WhiteSpace + LineTerminator codepoints, encoded under
+  // `options.encoding`. Aligns trimming with `String.prototype.trim()`.
+  // https://tc39.es/ecma262/#sec-white-space
+  // https://tc39.es/ecma262/#sec-line-terminators
+  //
+  // Codepoints unrepresentable in the target encoding are dropped: Node's
+  // Buffer substitutes them with `?` (0x3F), and including those would cause
+  // literal `?` bytes in the input to be trimmed under `latin1`/`ascii`.
+  const timchars = [
+    // Basic Latin
+    0x0020, // [Space](https://www.fileformat.info/info/unicode/char/0020/index.htm)
+    0x0009, // [CHARACTER TABULATION (HT)](https://www.fileformat.info/info/unicode/char/0009/index.htm)
+    0x000a, // [LINE FEED (LF)](https://www.fileformat.info/info/unicode/char/000a/index.htm)
+    0x000d, // [CARRIAGE RETURN (CR)](https://www.fileformat.info/info/unicode/char/000d/index.htm)
+    0x000c, // [FORM FEED (FF)](https://www.fileformat.info/info/unicode/char/000c/index.htm)
+    0x000b, // [LINE TABULATION (VT)](https://www.fileformat.info/info/unicode/char/000b/index.htm)
+    // Latin-1 Supplement
+    0x00a0, // [NO-BREAK SPACE (NBSP)](https://www.fileformat.info/info/unicode/char/00a0/index.htm)
+    // Ogham
+    0x1680, // [OGHAM SPACE MARK](https://www.fileformat.info/info/unicode/char/1680/index.htm)
+    // General Punctuation
+    0x2000, // [EN QUAD](https://www.fileformat.info/info/unicode/char/2000/index.htm)
+    0x2001, // [EM QUAD](https://www.fileformat.info/info/unicode/char/2001/index.htm)
+    0x2002, // [EN SPACE](https://www.fileformat.info/info/unicode/char/2002/index.htm)
+    0x2003, // [EM SPACE](https://www.fileformat.info/info/unicode/char/2003/index.htm)
+    0x2004, // [THREE-PER-EM SPACE](https://www.fileformat.info/info/unicode/char/2004/index.htm)
+    0x2005, // [FOUR-PER-EM SPACE](https://www.fileformat.info/info/unicode/char/2005/index.htm)
+    0x2006, // [SIX-PER-EM SPACE](https://www.fileformat.info/info/unicode/char/2006/index.htm)
+    0x2007, // [FIGURE SPACE](https://www.fileformat.info/info/unicode/char/2007/index.htm)
+    0x2008, // [PUNCTUATION SPACE](https://www.fileformat.info/info/unicode/char/2008/index.htm)
+    0x2009, // [THIN SPACE](https://www.fileformat.info/info/unicode/char/2009/index.htm)
+    0x200a, // [HAIR SPACE](https://www.fileformat.info/info/unicode/char/200a/index.htm)
+    0x2028, // [LINE SEPARATOR](https://www.fileformat.info/info/unicode/char/2028/index.htm)
+    0x2029, // [PARAGRAPH SEPARATOR](https://www.fileformat.info/info/unicode/char/2029/index.htm)
+    0x202f, // [NARROW NO-BREAK SPACE (NNBSP)](https://www.fileformat.info/info/unicode/char/202f/index.htm)
+    0x205f, // [MEDIUM MATHEMATICAL SPACE (MMSP)](https://www.fileformat.info/info/unicode/char/205f/index.htm)
+    0x3000, // [IDEOGRAPHIC SPACE](https://www.fileformat.info/info/unicode/char/3000/index.htm)
+    0xfeff, // [ZERO WIDTH NO-BREAK SPACE (BOM)](https://www.fileformat.info/info/unicode/char/feff/index.htm)
+  ].reduce((acc, codepoint) => {
+    const encoded = Buffer.from(
+      String.fromCharCode(codepoint),
+      options.encoding,
+    );
+    if (codepoint !== 0x3f && encoded.length === 1 && encoded[0] === 0x3f) {
+      return acc;
+    }
+    acc.push(encoded);
+    return acc;
+  }, []);
+  // First-byte lookup table for `__isCharTrimable`. Non-whitespace bytes
+  // (the common case) bail out in O(1) without scanning every timchar.
+  const timcharFirstBytes = new Uint8Array(256);
+  for (const t of timchars) timcharFirstBytes[t[0]] = 1;
   return {
     bomSkipped: false,
     bufBytesStart: 0,
@@ -37,6 +80,8 @@ const init_state = function (options) {
       ...options.delimiter.map((delimiter) => delimiter.length),
       // Skip if the remaining buffer can be escape sequence
       options.quote !== null ? options.quote.length : 0,
+      // Skip if the remaining buffer can be a multi-byte trim character
+      ...timchars.map((t) => t.length),
     ),
     previousBuf: undefined,
     quoting: false,
@@ -55,13 +100,8 @@ const init_state = function (options) {
     ],
     wasQuoting: false,
     wasRowDelimiter: false,
-    timchars: [
-      Buffer.from(Buffer.from([cr], "utf8").toString(), options.encoding),
-      Buffer.from(Buffer.from([nl], "utf8").toString(), options.encoding),
-      Buffer.from(Buffer.from([np], "utf8").toString(), options.encoding),
-      Buffer.from(Buffer.from([space], "utf8").toString(), options.encoding),
-      Buffer.from(Buffer.from([tab], "utf8").toString(), options.encoding),
-    ],
+    timchars: timchars,
+    timcharFirstBytes: timcharFirstBytes,
   };
 };
 

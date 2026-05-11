@@ -747,18 +747,19 @@ const transform = function (original_options = {}) {
     },
     // Helper to test if a character is trimable
     __isCharTrimable: function (buf, pos) {
-      const isTrim = (buf, pos) => {
-        const { timchars } = this.state;
-        loop1: for (let i = 0; i < timchars.length; i++) {
-          const timchar = timchars[i];
-          for (let j = 0; j < timchar.length; j++) {
-            if (timchar[j] !== buf[pos + j]) continue loop1;
-          }
-          return timchar.length;
+      const { timchars, timcharFirstBytes } = this.state;
+      // Fast bail-out: non-whitespace bytes (the common case) are rejected
+      // without scanning the full timchar list.
+      const first = buf[pos];
+      if (first === undefined || timcharFirstBytes[first] === 0) return 0;
+      loop1: for (let i = 0; i < timchars.length; i++) {
+        const timchar = timchars[i];
+        for (let j = 0; j < timchar.length; j++) {
+          if (timchar[j] !== buf[pos + j]) continue loop1;
         }
-        return 0;
-      };
-      return isTrim(buf, pos);
+        return timchar.length;
+      }
+      return 0;
     },
     __isDelimiter: function (buf, pos, chr) {
       const { delimiter, ignore_last_delimiters } = this.options;
