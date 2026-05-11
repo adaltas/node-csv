@@ -1,16 +1,33 @@
 import ResizeableBuffer from "../utils/ResizeableBuffer.js";
 
-// white space characters
-// https://en.wikipedia.org/wiki/Whitespace_character
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes#Types
-// \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff
-const np = 12;
-const cr = 13; // `\r`, carriage return, 0x0D in hexadécimal, 13 in decimal
-const nl = 10; // `\n`, newline, 0x0A in hexadecimal, 10 in decimal
-const space = 32;
-const tab = 9;
-
 const init_state = function (options) {
+  // ECMAScript WhiteSpace + LineTerminator codepoints, encoded under
+  // `options.encoding`. Aligns trimming with `String.prototype.trim()`.
+  // https://tc39.es/ecma262/#sec-white-space
+  // https://tc39.es/ecma262/#sec-line-terminators
+  //
+  // Codepoints unrepresentable in the target encoding are dropped: Node's
+  // Buffer substitutes them with `?` (0x3F), and including those would cause
+  // literal `?` bytes in the input to be trimmed under `latin1`/`ascii`.
+  const timchars = [
+    0x0020, 0x0009, 0x000a, 0x000d, 0x000c, 0x000b, 0x00a0, 0x1680, 0x2000,
+    0x2001, 0x2002, 0x2003, 0x2004, 0x2005, 0x2006, 0x2007, 0x2008, 0x2009,
+    0x200a, 0x2028, 0x2029, 0x202f, 0x205f, 0x3000, 0xfeff,
+  ].reduce((acc, codepoint) => {
+    const encoded = Buffer.from(
+      String.fromCharCode(codepoint),
+      options.encoding,
+    );
+    if (codepoint !== 0x3f && encoded.length === 1 && encoded[0] === 0x3f) {
+      return acc;
+    }
+    acc.push(encoded);
+    return acc;
+  }, []);
+  // First-byte lookup table for `__isCharTrimable`. Non-whitespace bytes
+  // (the common case) bail out in O(1) without scanning every timchar.
+  const timcharFirstBytes = new Uint8Array(256);
+  for (const t of timchars) timcharFirstBytes[t[0]] = 1;
   return {
     bomSkipped: false,
     bufBytesStart: 0,
@@ -37,6 +54,8 @@ const init_state = function (options) {
       ...options.delimiter.map((delimiter) => delimiter.length),
       // Skip if the remaining buffer can be escape sequence
       options.quote !== null ? options.quote.length : 0,
+      // Skip if the remaining buffer can be a multi-byte trim character
+      ...timchars.map((t) => t.length),
     ),
     previousBuf: undefined,
     quoting: false,
@@ -55,13 +74,8 @@ const init_state = function (options) {
     ],
     wasQuoting: false,
     wasRowDelimiter: false,
-    timchars: [
-      Buffer.from(Buffer.from([cr], "utf8").toString(), options.encoding),
-      Buffer.from(Buffer.from([nl], "utf8").toString(), options.encoding),
-      Buffer.from(Buffer.from([np], "utf8").toString(), options.encoding),
-      Buffer.from(Buffer.from([space], "utf8").toString(), options.encoding),
-      Buffer.from(Buffer.from([tab], "utf8").toString(), options.encoding),
-    ],
+    timchars: timchars,
+    timcharFirstBytes: timcharFirstBytes,
   };
 };
 
