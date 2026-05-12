@@ -305,6 +305,13 @@ const stringifier = function (options, state, info) {
           return [undefined, this.options.cast.date(value, context)];
         } else if (type === "object" && value !== null) {
           return [undefined, this.options.cast.object(value, context)];
+        } else if (value === null && this.options.cast.null !== undefined) {
+          return [undefined, this.options.cast.null(value, context)];
+        } else if (
+          value === undefined &&
+          this.options.cast.undefined !== undefined
+        ) {
+          return [undefined, this.options.cast.undefined(value, context)];
         } else {
           return [undefined, value];
         }
