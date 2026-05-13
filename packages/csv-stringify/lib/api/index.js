@@ -121,6 +121,7 @@ const stringifier = function (options, state, info) {
         if (typeof value === "string") {
           options = this.options;
         } else if (is_object(value)) {
+          // Value is considerered as a mix of a value and options
           options = value;
           value = options.value;
           delete options.value;
@@ -136,6 +137,7 @@ const stringifier = function (options, state, info) {
                 ),
               ];
           }
+          // Merge global options with the ones returned by cast
           options = { ...this.options, ...options };
           [err, options] = normalize_options(options);
           if (err !== undefined) {
@@ -304,7 +306,7 @@ const stringifier = function (options, state, info) {
         } else if (type === "object" && value !== null) {
           return [undefined, this.options.cast.object(value, context)];
         } else {
-          return [undefined, value, value];
+          return [undefined, value];
         }
       } catch (err) {
         return [err];
