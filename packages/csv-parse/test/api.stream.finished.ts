@@ -56,7 +56,6 @@ describe("API stream.finished", function () {
       }
     });
     await stream.finished(parser);
-    console.log(records);
     records.length.should.eql(3);
   });
 

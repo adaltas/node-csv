@@ -5,7 +5,10 @@ describe("Option `delimiter`", function () {
   it("validation", function () {
     parse("", { delimiter: "," }, () => {});
     normalize_options({ delimiter: [] }).delimiter.should.eql([]);
-    parse("", { delimiter: [",", ","] }, () => {});
+    normalize_options({ delimiter: [".", ","] }).delimiter.should.eql([
+      Buffer.from("."),
+      Buffer.from(","),
+    ]);
     parse("", { delimiter: Buffer.from(",") }, () => {});
     parse("", { delimiter: [Buffer.from(","), Buffer.from(",")] }, () => {});
     (() => {

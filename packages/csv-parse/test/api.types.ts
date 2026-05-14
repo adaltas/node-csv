@@ -38,6 +38,7 @@ describe("API Types", function () {
           "comment",
           "comment_no_infix",
           "delimiter",
+          "delimiter_auto",
           "encoding",
           "escape",
           "from",

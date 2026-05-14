@@ -93,6 +93,12 @@ export type ColumnOption<K = string> =
   | false
   | { name: K };
 
+export interface OptionDelimiterAuto {
+  preferred: Record<string, number>;
+  score: () => number;
+  size: number;
+}
+
 export interface OptionsNormalized<T = string[], U = T> {
   auto_parse?: boolean | CastingFunction;
   auto_parse_date?: boolean | CastingDateFunction;
@@ -143,6 +149,10 @@ export interface OptionsNormalized<T = string[], U = T> {
    * Set the field delimiter. One character only, defaults to comma.
    */
   delimiter: Buffer[];
+  /**
+   * Discover the field delimiter.
+   */
+  delimiter_auto: OptionDelimiterAuto;
   /**
    * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
    */
@@ -318,6 +328,10 @@ export interface Options<T = string[], U = T> {
    * Set the field delimiter. One character only, defaults to comma.
    */
   delimiter?: OptionsNormalized["delimiter"] | string | string[] | Buffer;
+  /**
+   * Discover the field delimiter
+   */
+  delimiter_auto?: boolean | Partial<OptionsNormalized["delimiter_auto"]>;
   /**
    * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
    */

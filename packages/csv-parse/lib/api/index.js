@@ -2,6 +2,7 @@ import { normalize_columns_array } from "./normalize_columns_array.js";
 import { init_state } from "./init_state.js";
 import { normalize_options } from "./normalize_options.js";
 import { CsvError } from "./CsvError.js";
+import { delimiter_discover } from "../utils/delimiter_discover.js";
 
 const isRecordEmpty = function (record) {
   return record.every(
@@ -70,6 +71,7 @@ const transform = function (original_options = {}) {
       const {
         bom,
         comment_no_infix,
+        delimiter_auto,
         encoding,
         from_line,
         ltrim,
@@ -82,7 +84,45 @@ const transform = function (original_options = {}) {
         to_line,
       } = this.options;
       let { comment, escape, quote, record_delimiter } = this.options;
-      const { bomSkipped, previousBuf, rawBuffer, escapeIsQuote } = this.state;
+      const {
+        bomSkipped,
+        delimiterDiscovered,
+        delimiterBufPrevious,
+        rawBuffer,
+        escapeIsQuote,
+      } = this.state;
+      // Automatic delimiter discovery
+      if (!delimiterDiscovered && delimiter_auto) {
+        let delimiterBuf;
+        if (delimiterBufPrevious === undefined) {
+          delimiterBuf = nextBuf;
+        } else if (
+          delimiterBufPrevious !== undefined &&
+          nextBuf === undefined
+        ) {
+          delimiterBuf = delimiterBufPrevious;
+        } else {
+          delimiterBuf = Buffer.concat([delimiterBufPrevious, nextBuf]);
+        }
+        // Ensure that nextBuf is not concatenated a second time during buffer reconciliation
+        nextBuf = undefined;
+        // this.delimiterBufPrevious = delimiterBuf;
+        if (end || delimiterBuf.length > delimiter_auto.size) {
+          this.options.delimiter = [
+            Buffer.from(
+              delimiter_discover(delimiterBuf, this.options.delimiter_auto),
+            ),
+          ];
+          this.state.previousBuf = delimiterBuf;
+          this.state.delimiterBufPrevious = undefined;
+          this.state.delimiterDiscovered = true;
+        } else {
+          this.state.delimiterBufPrevious = delimiterBuf;
+          return;
+        }
+      }
+      // Previous buffers reconciliation
+      const { previousBuf } = this.state;
       let buf;
       if (previousBuf === undefined) {
         if (nextBuf === undefined) {
