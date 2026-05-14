@@ -220,5 +220,4 @@ declare function stringify(
   callback?: Callback,
 ): Stringifier;
 
-// export default stringify
 export { stringify };

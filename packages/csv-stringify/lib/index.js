@@ -115,5 +115,4 @@ const stringify = function () {
   return stringifier;
 };
 
-// export default stringify
 export { stringify, CsvError, Stringifier };

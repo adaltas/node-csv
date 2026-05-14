@@ -10,7 +10,6 @@ declare function parse(
 ): string[][];
 declare function parse(input: Buffer | string | Uint8Array): string[][];
 
-// export default parse;
 export { parse };
 
 export {

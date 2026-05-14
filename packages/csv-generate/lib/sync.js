@@ -38,5 +38,4 @@ const generate = function (options) {
   }
 };
 
-// export default generate
 export { generate };

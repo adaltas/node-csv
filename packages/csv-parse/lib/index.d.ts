@@ -522,7 +522,6 @@ declare function parse(
 ): Parser;
 declare function parse(callback?: Callback): Parser;
 
-// export default parse;
 export { parse };
 
 declare function normalize_options(opts: Options): OptionsNormalized;

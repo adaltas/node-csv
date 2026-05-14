@@ -51,5 +51,4 @@ const transform = function () {
   return chunks;
 };
 
-// export default transform
 export { transform };

@@ -143,5 +143,4 @@ const parse = function () {
   return parser;
 };
 
-// export default parse
 export { parse, Parser, CsvError, normalize_options };

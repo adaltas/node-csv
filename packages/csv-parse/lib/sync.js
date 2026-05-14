@@ -23,6 +23,5 @@ const parse = function (data, opts = {}) {
   return records;
 };
 
-// export default parse
 export { parse };
 export { CsvError };

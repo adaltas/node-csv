@@ -170,5 +170,4 @@ const transform = function () {
   return transformer;
 };
 
-// export default transform
 export { transform, Transformer };
