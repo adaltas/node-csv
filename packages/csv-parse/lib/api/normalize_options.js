@@ -1,6 +1,7 @@
 import { normalize_columns_array } from "./normalize_columns_array.js";
 import { CsvError } from "./CsvError.js";
 import { underscore } from "../utils/underscore.js";
+import { is_object } from "../utils/is_object.js";
 
 const normalize_options = function (opts) {
   const options = {};
@@ -190,14 +191,57 @@ const normalize_options = function (opts) {
       options,
     );
   }
+  // Normalize option `delimiter_auto`
+  if (
+    options.delimiter_auto === undefined ||
+    options.delimiter_auto === null ||
+    options.delimiter_auto === false
+  ) {
+    options.delimiter_auto = false;
+  } else if (options.delimiter_auto === true) {
+    options.delimiter_auto = {};
+  } else if (!is_object(options.delimiter_auto)) {
+    throw new CsvError(
+      "CSV_INVALID_OPTION_DELIMITER_AUTO",
+      [
+        "Invalid option delimiter_auto:",
+        "delimiter_auto must be a boolean or a configuration object,",
+        `got ${JSON.stringify(options.delimiter_auto)}`,
+      ],
+      options,
+    );
+  }
+  if (options.delimiter_auto) {
+    options.delimiter_auto.preferred ??= {
+      [",".charCodeAt(0)]: 1.8,
+      ["\t".charCodeAt(0)]: 1.8,
+      [";".charCodeAt(0)]: 1.6,
+      [" ".charCodeAt(0)]: 1.6,
+      [":".charCodeAt(0)]: 1.5,
+      [".".charCodeAt(0)]: 1.4,
+      ["/".charCodeAt(0)]: 1.4,
+    };
+    options.delimiter_auto.score ??= (info, options) => {
+      return (info.total - info.std) * (options.preferred[info.char_code] ?? 1);
+    };
+    options.delimiter_auto.size ??= 2048;
+  }
   // Normalize option `delimiter`
   const delimiter_json = JSON.stringify(options.delimiter);
-  if (!Array.isArray(options.delimiter))
-    options.delimiter = [options.delimiter];
-  options.delimiter = options.delimiter.map(function (delimiter) {
-    if (delimiter === undefined || delimiter === null || delimiter === false) {
-      return Buffer.from(",", options.encoding);
+  if (options.delimiter_auto) {
+    options.delimiter ??= [];
+  }
+  if (!Array.isArray(options.delimiter)) {
+    if (
+      options.delimiter === undefined ||
+      options.delimiter === null ||
+      options.delimiter === false
+    ) {
+      options.delimiter = Buffer.from(",", options.encoding);
     }
+    options.delimiter = [options.delimiter];
+  }
+  options.delimiter = options.delimiter.map(function (delimiter) {
     if (typeof delimiter === "string") {
       delimiter = Buffer.from(delimiter, options.encoding);
     }
