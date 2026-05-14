@@ -15,11 +15,6 @@ const parse = function (data, opts = {}) {
   const close = () => {};
   const error = parser.parse(data, true, push, close);
   if (error !== undefined) throw error;
-  // 250606: `parser.parse` was implemented as 2 calls:
-  // const err1 = parser.parse(data, false, push, close);
-  // if (err1 !== undefined) throw err1;
-  // const err2 = parser.parse(undefined, true, push, close);
-  // if (err2 !== undefined) throw err2;
   return records;
 };
 
