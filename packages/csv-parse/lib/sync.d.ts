@@ -27,4 +27,5 @@ export {
   InfoField,
   CsvErrorCode,
   CsvError,
+  normalize_options,
 } from "./index.js";

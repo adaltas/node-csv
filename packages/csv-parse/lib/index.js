@@ -104,8 +104,6 @@ const parse = function () {
       options === undefined || options.objname === undefined
         ? []
         : Object.create(null);
-    // const records =
-    //   options === undefined || options.objname === undefined ? [] : {};
     parser.on("readable", function () {
       let record;
       while ((record = this.read()) !== null) {
@@ -143,4 +141,4 @@ const parse = function () {
   return parser;
 };
 
-export { parse, Parser, CsvError, normalize_options };
+export { CsvError, parse, Parser, normalize_options };

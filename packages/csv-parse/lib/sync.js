@@ -1,4 +1,5 @@
 import { CsvError, transform } from "./api/index.js";
+import { normalize_options } from "./api/normalize_options.js";
 
 const parse = function (data, opts = {}) {
   if (typeof data === "string") {
@@ -18,5 +19,4 @@ const parse = function (data, opts = {}) {
   return records;
 };
 
-export { parse };
-export { CsvError };
+export { parse, CsvError, normalize_options };
