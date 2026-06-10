@@ -1,5 +1,6 @@
 import { TransformStream, CountQueuingStrategy } from "node:stream/web";
-import { transform } from "./api/index.js";
+import { CsvError, transform } from "./api/index.js";
+import { normalize_options } from "./api/normalize_options.js";
 
 const parse = (opts) => {
   const api = transform(opts);
@@ -33,4 +34,4 @@ const parse = (opts) => {
   );
 };
 
-export { parse };
+export { parse, CsvError, normalize_options };
