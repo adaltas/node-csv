@@ -39,7 +39,8 @@ describe("Option `escape_formulas`", function () {
             "'-c,3",
             "'@d,4",
             "'\te,5",
-            "'\rf,6",
+            // The carriage return forces quoting so the field round-trips.
+            "\"'\rf\",6",
             "g,7",
             "'\uFF1Dh,8",
             "'\uFF0Bi,9",

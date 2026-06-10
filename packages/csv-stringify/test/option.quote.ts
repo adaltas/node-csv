@@ -184,6 +184,16 @@ describe("Option `quote`", function () {
     );
   });
 
+  it("quotes a field containing a carriage return", function (next) {
+    // A lone "\r" is treated as a record delimiter by the parser, so it must
+    // be quoted to survive a round trip (it previously leaked through unquoted).
+    stringify([["a\rb"]], { eof: false }, (err, data) => {
+      if (err) return next(err);
+      data.should.eql('"a\rb"');
+      next();
+    });
+  });
+
   it("field where quote string is empty", function (next) {
     stringify(
       [
