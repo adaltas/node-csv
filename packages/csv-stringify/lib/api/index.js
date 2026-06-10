@@ -176,6 +176,7 @@ const stringifier = function (options, state, info) {
           quoted_string,
           quoted_match,
           record_delimiter,
+          quote_record_delimiter,
           escape_formulas,
         } = options;
         if ("" === value && "" === field) {
@@ -208,10 +209,11 @@ const stringifier = function (options, state, info) {
           const containsdelimiter = emits_separator(value, delimiter);
           const containsQuote = quote !== "" && value.indexOf(quote) >= 0;
           const containsEscape = value.indexOf(escape) >= 0 && escape !== quote;
-          const containsRecordDelimiter = emits_separator(
-            value,
-            record_delimiter,
-          );
+          // Testing `\n` and `\r` covers the three sequences `parse` discovers
+          const containsRecordDelimiter =
+            emits_separator(value, record_delimiter) ||
+            (quote_record_delimiter === true &&
+              (emits_separator(value, "\n") || emits_separator(value, "\r")));
           const quotedString = quoted_string && typeof field === "string";
           let quotedMatch =
             quoted_match &&

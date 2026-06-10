@@ -119,6 +119,13 @@ export interface OptionsNormalized extends stream.TransformOptions {
    */
   record_delimiter: RecordDelimiter;
   /**
+   * Boolean, quote the fields containing one of the record delimiters discovered by `parse`, `\r\n`, `\n` and `\r`.
+   * Defaults to true unless `record_delimiter` is provided.
+   * It preserves round trip calls between `stringify` and `parse` with default options: `stringify` only writes `\n` while `parse` treats the three sequences as record delimiters,
+   * so an unquoted field holding a `\r` is otherwise read back as multiple records.
+   */
+  quote_record_delimiter: boolean;
+  /**
    * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protect against csv injection attacks
    */
   escape_formulas: boolean;
@@ -200,6 +207,13 @@ export interface Options extends stream.TransformOptions {
    * defaults to '\n'.
    */
   record_delimiter?: RecordDelimiter;
+  /**
+   * Boolean, quote the fields containing one of the record delimiters discovered by `parse`, `\r\n`, `\n` and `\r`.
+   * Defaults to true unless `record_delimiter` is provided.
+   * It preserves round trip calls between `stringify` and `parse` with default options: `stringify` only writes `\n` while `parse` treats the three sequences as record delimiters,
+   * so an unquoted field holding a `\r` is otherwise read back as multiple records.
+   */
+  quote_record_delimiter?: boolean;
   /**
    * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protect against csv injection attacks
    */

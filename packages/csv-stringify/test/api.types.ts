@@ -26,6 +26,7 @@ describe("API Types", function () {
           "header_as_comment",
           "on_record",
           "quote",
+          "quote_record_delimiter",
           "quoted",
           "quoted_empty",
           "quoted_match",
@@ -158,6 +159,12 @@ describe("API Types", function () {
       const options: Options = {};
       options.record_delimiter = "|";
       options.record_delimiter = Buffer.from("|");
+    });
+
+    it("quote_record_delimiter", function () {
+      const options: Options = {};
+      options.quote_record_delimiter = true;
+      options.quote_record_delimiter = false;
     });
   });
 
