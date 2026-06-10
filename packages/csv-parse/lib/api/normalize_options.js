@@ -194,17 +194,6 @@ const normalize_options = function (opts) {
   const delimiter_json = JSON.stringify(options.delimiter);
   if (!Array.isArray(options.delimiter))
     options.delimiter = [options.delimiter];
-  if (options.delimiter.length === 0) {
-    throw new CsvError(
-      "CSV_INVALID_OPTION_DELIMITER",
-      [
-        "Invalid option delimiter:",
-        "delimiter must be a non empty string or buffer or array of string|buffer,",
-        `got ${delimiter_json}`,
-      ],
-      options,
-    );
-  }
   options.delimiter = options.delimiter.map(function (delimiter) {
     if (delimiter === undefined || delimiter === null || delimiter === false) {
       return Buffer.from(",", options.encoding);
