@@ -1,9 +1,10 @@
 import "should";
-import { parse } from "../lib/index.js";
+import { parse, normalize_options } from "../lib/index.js";
 
 describe("Option `delimiter`", function () {
   it("validation", function () {
     parse("", { delimiter: "," }, () => {});
+    normalize_options({ delimiter: [] }).delimiter.should.eql([]);
     parse("", { delimiter: [",", ","] }, () => {});
     parse("", { delimiter: Buffer.from(",") }, () => {});
     parse("", { delimiter: [Buffer.from(","), Buffer.from(",")] }, () => {});
@@ -19,13 +20,6 @@ describe("Option `delimiter`", function () {
     }).should.throw({
       message:
         'Invalid option delimiter: delimiter must be a non empty string or buffer or array of string|buffer, got {"type":"Buffer","data":[]}',
-      code: "CSV_INVALID_OPTION_DELIMITER",
-    });
-    (() => {
-      parse("", { delimiter: [] }, () => {});
-    }).should.throw({
-      message:
-        "Invalid option delimiter: delimiter must be a non empty string or buffer or array of string|buffer, got []",
       code: "CSV_INVALID_OPTION_DELIMITER",
     });
     (() => {
@@ -57,6 +51,19 @@ describe("Option `delimiter`", function () {
       parser.write(c);
     }
     parser.end();
+  });
+
+  it("default to comma", function () {
+    const options = normalize_options({});
+    options.delimiter.should.eql([Buffer.from(",")]);
+  });
+
+  it("empty array create a single field", function (next) {
+    parse("abc,,123,\n,def,,", { delimiter: [] }, (err, records) => {
+      if (err) return next(err);
+      records.should.eql([["abc,,123,"], [",def,,"]]);
+      next();
+    });
   });
 
   it("using default comma", function (next) {
