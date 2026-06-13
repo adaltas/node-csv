@@ -32,6 +32,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci --ignore-scripts
+      - run: npm rebuild duckdb
       - run: npm run test
   # test_16:
   #   runs-on: ubuntu-latest
