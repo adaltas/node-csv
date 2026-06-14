@@ -1,5 +1,6 @@
 import "should";
-import csv, { generate, parse, stringify, transform } from "../lib/sync.js";
+import { generate, parse, stringify, transform } from "../lib/sync.js";
+import { generator, parser, stringifier, transformer } from "../lib/sync.js";
 
 describe("API Types", function () {
   describe("usage with named export", function () {
@@ -27,22 +28,22 @@ describe("API Types", function () {
 
   describe("usage with default export", function () {
     it("csv.generate", function () {
-      const options: csv.generator.Options = {};
+      const options: generator.Options = {};
       return options;
     });
 
     it("csv.parse", function () {
-      const options: csv.parser.Options = {};
+      const options: parser.Options = {};
       return options;
     });
 
     it("csv.stringifier", function () {
-      const options: csv.stringifier.Options = {};
+      const options: stringifier.Options = {};
       return options;
     });
 
     it("csv.transform", function () {
-      const options: csv.transformer.Options = {};
+      const options: transformer.Options = {};
       return options;
     });
   });
