@@ -2,7 +2,6 @@ import { Input, Options } from "./index.cjs";
 
 declare function stringify(input: Input, options?: Options): string;
 
-// export default stringify;
 export { stringify };
 
 export {

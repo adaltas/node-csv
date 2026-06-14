@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 4.6.0 (2026-06-14)
+
+### Features
+
+- backport support for node 14
+- backward support for node 8
+- **csv-generate:** breathe between async reads
+- **csv-generate:** set highWaterMark to default
+- **csv-generate:** ts extends options with stream.ReadableOptions
+- **csv-generate:** types column option defined as an udf (fix [#417](https://github.com/adaltas/node-csv/issues/417))
+- esm migration
+- export ts types in sync
+- replace ts types with typesVersions
+- ts module Node16 and type declaration to exports field ([#341](https://github.com/adaltas/node-csv/issues/341))
+- wg stream api
+
+### Bug Fixes
+
+- commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397))
+- correct exports in package.json with webpack
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript
+- **csv-demo-webpack-ts:** remove polyfill
+- **csv-demo-webpack-ts:** simplify export paths
+- **csv-generate:** catch invalid value error
+- **csv-generate:** coffee migration in sync incompatible with node < 14, fix [#289](https://github.com/adaltas/node-csv/issues/289)
+- **csv-generate:** record emited after end with sleep
+- **csv-generate:** stream.push after EOF
+- dont insert polyfills in cjs [#303](https://github.com/adaltas/node-csv/issues/303)
+- esm exports in package.json files, closes [#308](https://github.com/adaltas/node-csv/issues/308)
+- export original lib esm modules
+- expose browser esm modules
+- refer to esm files in dist
+- remove samples from publicatgion
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354))
+- support TypeScript moduleResolution node16 ([#368](https://github.com/adaltas/node-csv/issues/368))
+
 ## [4.5.1](https://github.com/adaltas/node-csv/compare/csv-generate@4.4.2...csv-generate@4.5.1) (2026-03-17)
 
 **Note:** Version bump only for package csv-generate

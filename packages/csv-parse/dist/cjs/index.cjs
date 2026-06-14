@@ -470,7 +470,7 @@ const normalize_options = function (opts) {
           (info.total - info.std) * (options.preferred[info.char_code] || 1)
         );
       };
-    else if (typeof options.delimiter_auto.preferred !== "function") {
+    else if (typeof options.delimiter_auto.score !== "function") {
       throw new CsvError(
         "CSV_INVALID_OPTION_DELIMITER_AUTO",
         [
@@ -481,9 +481,9 @@ const normalize_options = function (opts) {
         options,
       );
     }
-    if (options.delimiter_auto.score === undefined)
+    if (options.delimiter_auto.size === undefined)
       options.delimiter_auto.size = 2048;
-    else if (typeof options.delimiter_auto.preferred !== "number") {
+    else if (typeof options.delimiter_auto.size !== "number") {
       throw new CsvError(
         "CSV_INVALID_OPTION_DELIMITER_AUTO",
         [

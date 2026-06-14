@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.6.0 (2026-06-14)
+
+### Features
+
+- **csv-issues-esm:** 437 sample with endable transformer
+- **csv-issues-esm:** issue 411 reproductible 2nd attempt
+- **csv-issues-esm:** issue 411 reproductible attempt
+- **csv-issues-esm:** issue 423
+- **csv-issues-esm:** issue 436
+- **csv-issues-esm:** issue 441
+- **csv-issues-esm:** more transform config in sample
+- **csv-issues-esm:** reproduce issue [#415](https://github.com/adaltas/node-csv/issues/415)
+
+### Bug Fixes
+
+- **csv-issues-esm:** illustrate cas [#381](https://github.com/adaltas/node-csv/issues/381)
+- **csv-parse:** comment infix when comment first field char (fix [#415](https://github.com/adaltas/node-csv/issues/415))
+- **csv-parse:** record_delimiter and non default encoding (fix [#365](https://github.com/adaltas/node-csv/issues/365))
+- **csv-parse:** skip event not raised with bom (fix [#411](https://github.com/adaltas/node-csv/issues/411))
+- **stream-transform:** backpressure after push
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354))
+
 ## [0.5.3](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.5.2...csv-issues-esm@0.5.3) (2026-03-20)
 
 **Note:** Version bump only for package csv-issues-esm

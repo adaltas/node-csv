@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.4.0 (2026-06-14)
+
+### Features
+
+- **csv-issues-cjs:** 330 sample code
+- **csv-issues-cjs:** 399 issue
+
+### Bug Fixes
+
+- **csv-issues-esm:** illustrate issue [#300](https://github.com/adaltas/node-csv/issues/300)
+- **csv-stringify:** catch error with sync api, fix [#296](https://github.com/adaltas/node-csv/issues/296)
+- dont insert polyfills in cjs [#303](https://github.com/adaltas/node-csv/issues/303)
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354))
+
 ## [0.3.3](https://github.com/adaltas/node-csv/compare/csv-issues-cjs@0.3.2...csv-issues-cjs@0.3.3) (2026-03-20)
 
 **Note:** Version bump only for package csv-issues-cjs

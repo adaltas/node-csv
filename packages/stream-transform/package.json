@@ -1,5 +1,5 @@
 {
-  "version": "3.4.1",
+  "version": "3.5.0",
   "name": "stream-transform",
   "description": "Object transformations implementing the Node.js `stream.Transform` API",
   "keywords": [
@@ -15,7 +15,7 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.9.3",
-    "csv-generate": "^4.5.1",
+    "csv-generate": "^4.6.0",
     "mocha": "^11.7.6",
     "pad": "^3.3.0",
     "prettier": "^3.8.4",

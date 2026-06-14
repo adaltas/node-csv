@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.3.0 (2026-06-14)
+
+### Features
+
+- **csv-demo-webpack:** split usages by packages
+
+### Bug Fixes
+
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354))
+
 ## [0.2.3](https://github.com/adaltas/node-csv/compare/csv-demo-browser@0.2.2...csv-demo-browser@0.2.3) (2026-03-20)
 
 **Note:** Version bump only for package csv-demo-browser

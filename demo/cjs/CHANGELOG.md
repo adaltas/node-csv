@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.4.0 (2026-06-14)
+
+### Features
+
+- backward support for node 8
+- **csv-demo-cjs:** new stringify.ts sample
+
+### Bug Fixes
+
+- **csv-demo-cjs:** ts type
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354))
+
 ## [0.3.3](https://github.com/adaltas/node-csv/compare/csv-demo-cjs@0.3.2...csv-demo-cjs@0.3.3) (2026-03-20)
 
 **Note:** Version bump only for package csv-demo-cjs

@@ -5614,6 +5614,7 @@ var csv_stringify = (function (exports) {
           if (typeof value === "string") {
             options = this.options;
           } else if (is_object(value)) {
+            // Value is considerered as a mix of a value and options
             options = value;
             value = options.value;
             delete options.value;
@@ -5629,6 +5630,7 @@ var csv_stringify = (function (exports) {
                   ),
                 ];
             }
+            // Merge global options with the ones returned by cast
             options = { ...this.options, ...options };
             [err, options] = normalize_options(options);
             if (err !== undefined) {
@@ -5796,8 +5798,15 @@ var csv_stringify = (function (exports) {
             return [undefined, this.options.cast.date(value, context)];
           } else if (type === "object" && value !== null) {
             return [undefined, this.options.cast.object(value, context)];
+          } else if (value === null && this.options.cast.null !== undefined) {
+            return [undefined, this.options.cast.null(value, context)];
+          } else if (
+            value === undefined &&
+            this.options.cast.undefined !== undefined
+          ) {
+            return [undefined, this.options.cast.undefined(value, context)];
           } else {
-            return [undefined, value, value];
+            return [undefined, value];
           }
         } catch (err) {
           return [err];

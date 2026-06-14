@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.3.0 (2026-06-14)
+
+### Features
+
+- **csv-demo-webpack-ts:** new demo webpack with TypeScript
+
+### Bug Fixes
+
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript
+- **csv-demo-webpack-ts:** remove polyfill
+- **csv-demo-webpack-ts:** simplify export paths
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354))
+
 ## [0.2.3](https://github.com/adaltas/node-csv/compare/csv-demo-webpack-ts@0.2.2...csv-demo-webpack-ts@0.2.3) (2026-03-20)
 
 **Note:** Version bump only for package csv-demo-webpack-ts

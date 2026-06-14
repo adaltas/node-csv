@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 6.8.0 (2026-06-14)
+
+### Features
+
+- add unicode chars to formula escape ([#387](https://github.com/adaltas/node-csv/issues/387))
+- backport support for node 14
+- backward support for node 8
+- **csv-parse:** set `columns` type as `readonly` ([#358](https://github.com/adaltas/node-csv/issues/358))
+- **csv-stringify:** Add escape_formulas to defend against injection attacks ([#380](https://github.com/adaltas/node-csv/issues/380))
+- **csv-stringify:** header validation
+- **csv-stringify:** new header_as_comment option (fix [#420](https://github.com/adaltas/node-csv/issues/420))
+- **csv-stringify:** support null and undefined in stringify cast options ([#484](https://github.com/adaltas/node-csv/issues/484))
+- **csv-stringify:** ts extends options with stream.TransformOptions ([#301](https://github.com/adaltas/node-csv/issues/301))
+- esm migration
+- export ts types in sync
+- replace ts types with typesVersions
+- ts module Node16 and type declaration to exports field ([#341](https://github.com/adaltas/node-csv/issues/341))
+- wg stream api
+
+### Bug Fixes
+
+- commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397))
+- correct exports in package.json with webpack
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript
+- **csv-demo-webpack-ts:** remove polyfill
+- **csv-demo-webpack-ts:** simplify export paths
+- **csv-stringify:** add missing type definition for bigint cast option ([#369](https://github.com/adaltas/node-csv/issues/369))
+- **csv-stringify:** allow mixed string and object columns typedef ([#456](https://github.com/adaltas/node-csv/issues/456))
+- **csv-stringify:** bom and header in sync mode with no records (fix [#343](https://github.com/adaltas/node-csv/issues/343))
+- **csv-stringify:** catch error with sync api, fix [#296](https://github.com/adaltas/node-csv/issues/296)
+- **csv-stringify:** infinity is not defined in get (fix [#475](https://github.com/adaltas/node-csv/issues/475))
+- **csv-stringify:** node 12 compatibility in flush
+- **csv-stringify:** quote_match with empty string pattern quotes empty strings ([#345](https://github.com/adaltas/node-csv/issues/345)), closes [#344](https://github.com/adaltas/node-csv/issues/344)
+- **csv-stringify:** remove non-functional auto value
+- **csv-stringify:** throw err with no records and header in sync mode
+- **csv-stringify:** update quoted_match config option to accept arrays ([#371](https://github.com/adaltas/node-csv/issues/371))
+- **csv-stringify:** update TS types to allow cast to return an object ([#339](https://github.com/adaltas/node-csv/issues/339))
+- **csv-stringify:** use removeListener instead of off
+- dont insert polyfills in cjs [#303](https://github.com/adaltas/node-csv/issues/303)
+- esm exports in package.json files, closes [#308](https://github.com/adaltas/node-csv/issues/308)
+- export original lib esm modules
+- expose browser esm modules
+- fallback to setTimeout is setImmediate is undefined
+- refer to esm files in dist
+- remove samples from publicatgion
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354))
+- support TypeScript moduleResolution node16 ([#368](https://github.com/adaltas/node-csv/issues/368))
+- uncaught errors with large stream chunks (fix [#386](https://github.com/adaltas/node-csv/issues/386))
+
 ## [6.7.0](https://github.com/adaltas/node-csv/compare/csv-stringify@6.5.2...csv-stringify@6.7.0) (2026-03-17)
 
 ### Features

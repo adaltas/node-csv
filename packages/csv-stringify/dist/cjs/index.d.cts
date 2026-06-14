@@ -60,6 +60,8 @@ export interface OptionsNormalized extends stream.TransformOptions {
      */
     object?: Cast<Record<string, unknown>>;
     string?: Cast<string>;
+    null?: Cast<null>;
+    undefined?: Cast<undefined>;
   };
   /**
    * List of fields, applied when `transform` returns an object, order matters,
@@ -140,6 +142,8 @@ export interface Options extends stream.TransformOptions {
      */
     object?: Cast<Record<string, unknown>>;
     string?: Cast<string>;
+    null?: Cast<null>;
+    undefined?: Cast<undefined>;
   };
   /**
    * List of fields, applied when `transform` returns an object, order matters,
@@ -216,5 +220,4 @@ declare function stringify(
   callback?: Callback,
 ): Stringifier;
 
-// export default stringify
 export { stringify };

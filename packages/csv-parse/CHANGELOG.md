@@ -3,6 +3,104 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 7.0.0 (2026-06-14)
+
+### ⚠ BREAKING CHANGES
+
+- **csv-parse:** rename group_columns_by_name option
+- **csv-parse:** rename RECORD_INCONSISTENT_FIELDS_LENGTH
+- **csv-parse:** rename RECORD_DONT_MATCH_COLUMNS_LENGTH
+- **csv-parse:** rename skip_records_with_error
+- **csv-parse:** rename skip_records_with_empty_values
+- **csv-parse:** rename relax to relax_quotes
+
+### Features
+
+- backport support for node 14
+- backward support for node 8
+- **csv-parse:** add `columns` property in `Info` object type ([#390](https://github.com/adaltas/node-csv/issues/390))
+- **csv-parse:** add generic type argument ([#457](https://github.com/adaltas/node-csv/issues/457)), closes [#278](https://github.com/adaltas/node-csv/issues/278) [#407](https://github.com/adaltas/node-csv/issues/407)
+- **csv-parse:** alig info interfaces with js api
+- **csv-parse:** boolean and null comment type
+- **csv-parse:** callback records defined type
+- **csv-parse:** cast_date as a function (fix [#342](https://github.com/adaltas/node-csv/issues/342))
+- **csv-parse:** casting context raw export
+- **csv-parse:** delimiter discover (fix [#400](https://github.com/adaltas/node-csv/issues/400))
+- **csv-parse:** delimiter_auto sample
+- **csv-parse:** desactivate delimiter splitting when empty array
+- **csv-parse:** dont modify prototype in sync (see [#479](https://github.com/adaltas/node-csv/issues/479))
+- **csv-parse:** export CsvError and normalize_options
+- **csv-parse:** implement TransformStream ([#445](https://github.com/adaltas/node-csv/issues/445))
+- **csv-parse:** improve record_delimiter validation
+- **csv-parse:** info bytes_records (fix [#446](https://github.com/adaltas/node-csv/issues/446))
+- **csv-parse:** input as Uint8Array (fix [#458](https://github.com/adaltas/node-csv/issues/458))
+- **csv-parse:** new comment_no_infix option (fix [#325](https://github.com/adaltas/node-csv/issues/325))
+- **csv-parse:** normailzsed options type
+- **csv-parse:** normalize_options export
+- **csv-parse:** null comment_no_infix type
+- **csv-parse:** objname index
+- **csv-parse:** on_skip catch thrown error
+- **csv-parse:** remove comment about sync parse old usage
+- **csv-parse:** remove non-existing ts function declaration
+- **csv-parse:** remove ts usage of all in error type
+- **csv-parse:** returned type generic for `on_record` (fix [#461](https://github.com/adaltas/node-csv/issues/461) [#464](https://github.com/adaltas/node-csv/issues/464) [#466](https://github.com/adaltas/node-csv/issues/466)) ([#468](https://github.com/adaltas/node-csv/issues/468))
+- **csv-parse:** skip_line_with_errors used with raw print current buffer (fix [#292](https://github.com/adaltas/node-csv/issues/292))
+- **csv-parse:** ts type encoding with BufferEncoding
+- **csv-parse:** use ts unknown instead of any when possible
+- esm migration
+- export ts types in sync
+- replace ts types with typesVersions
+- ts module Node16 and type declaration to exports field ([#341](https://github.com/adaltas/node-csv/issues/341))
+- wg stream api
+
+### Bug Fixes
+
+- commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397))
+- correct exports in package.json with webpack
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript
+- **csv-demo-webpack-ts:** remove polyfill
+- **csv-demo-webpack-ts:** simplify export paths
+- **csv-parse:** align trim with ECMAScript whitespace (fix [#482](https://github.com/adaltas/node-csv/issues/482)) ([#483](https://github.com/adaltas/node-csv/issues/483))
+- **csv-parse:** build from previus commit
+- **csv-parse:** call destroy on end (fix [#410](https://github.com/adaltas/node-csv/issues/410))
+- **csv-parse:** comment infix when comment first field char (fix [#415](https://github.com/adaltas/node-csv/issues/415))
+- **csv-parse:** delimiter inherited type
+- **csv-parse:** destroy on end and call close event (fix [#333](https://github.com/adaltas/node-csv/issues/333))
+- **csv-parse:** encoding detection with bom ([#350](https://github.com/adaltas/node-csv/issues/350))
+- **csv-parse:** export csv error class in sync
+- **csv-parse:** improve INVALID_OPENING_QUOTE error message (fix adaltas/node-csv-docs[#120](https://github.com/adaltas/node-csv/issues/120))
+- **csv-parse:** normalized columns with auto-detected bom (fix [#460](https://github.com/adaltas/node-csv/issues/460))
+- **csv-parse:** premature close error
+- **csv-parse:** prototype pollution with objname option (fix [#479](https://github.com/adaltas/node-csv/issues/479))
+- **csv-parse:** record_delimiter and non default encoding (fix [#365](https://github.com/adaltas/node-csv/issues/365))
+- **csv-parse:** remove support for cast_date, no test
+- **csv-parse:** rtrim encoding support (fix [#349](https://github.com/adaltas/node-csv/issues/349))
+- **csv-parse:** skip event not raised with bom (fix [#411](https://github.com/adaltas/node-csv/issues/411))
+- **csv-parse:** support number columns with cast (fix [#477](https://github.com/adaltas/node-csv/issues/477))
+- **csv-parse:** ts callback CsvError argument
+- dont insert polyfills in cjs [#303](https://github.com/adaltas/node-csv/issues/303)
+- esm exports in package.json files, closes [#308](https://github.com/adaltas/node-csv/issues/308)
+- export original lib esm modules
+- expose browser esm modules
+- fallback to setTimeout is setImmediate is undefined
+- refer to esm files in dist
+- remove samples from publicatgion
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354))
+- support TypeScript moduleResolution node16 ([#368](https://github.com/adaltas/node-csv/issues/368))
+
+### Performance Improvements
+
+- **csv-parse:** buffer unsafe allocation
+
+### Code Refactoring
+
+- **csv-parse:** rename group_columns_by_name option
+- **csv-parse:** rename RECORD_DONT_MATCH_COLUMNS_LENGTH
+- **csv-parse:** rename RECORD_INCONSISTENT_FIELDS_LENGTH
+- **csv-parse:** rename relax to relax_quotes
+- **csv-parse:** rename skip_records_with_empty_values
+- **csv-parse:** rename skip_records_with_error
+
 ## [6.2.1](https://github.com/adaltas/node-csv/compare/csv-parse@6.2.0...csv-parse@6.2.1) (2026-03-20)
 
 ### Bug Fixes

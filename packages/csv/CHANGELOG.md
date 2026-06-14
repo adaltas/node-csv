@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 6.6.0 (2026-06-14)
+
+### Features
+
+- add unicode chars to formula escape ([#387](https://github.com/adaltas/node-csv/issues/387))
+- backport support for node 14
+- backward support for node 8
+- **csv:** `sideEffects: false` to package.json ([#465](https://github.com/adaltas/node-csv/issues/465))
+- **csv:** synchronous sample
+- esm migration
+- export ts types in sync
+- replace ts types with typesVersions
+- ts module Node16 and type declaration to exports field ([#341](https://github.com/adaltas/node-csv/issues/341))
+- wg stream api
+
+### Bug Fixes
+
+- commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397))
+- correct exports in package.json with webpack
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript
+- **csv-demo-webpack-ts:** simplify export paths
+- **csv-generate:** finish called twice in node 16
+- **csv-stringify:** bom and header in sync mode with no records (fix [#343](https://github.com/adaltas/node-csv/issues/343))
+- **csv-stringify:** node 12 compatibility in flush
+- **csv-stringify:** quote_match with empty string pattern quotes empty strings ([#345](https://github.com/adaltas/node-csv/issues/345)), closes [#344](https://github.com/adaltas/node-csv/issues/344)
+- **csv:** export csv_sync
+- **csv:** fixed CJS types under modern `modernResolution` options ([#388](https://github.com/adaltas/node-csv/issues/388))
+- **csv:** remove ts files in cjs dist
+- dont insert polyfills in cjs [#303](https://github.com/adaltas/node-csv/issues/303)
+- esm exports in package.json files, closes [#308](https://github.com/adaltas/node-csv/issues/308)
+- export original lib esm modules
+- expose browser esm modules
+- fallback to setTimeout is setImmediate is undefined
+- refer to esm files in dist
+- remove samples from publicatgion
+- uncaught errors with large stream chunks (fix [#386](https://github.com/adaltas/node-csv/issues/386))
+
 ## [6.5.1](https://github.com/adaltas/node-csv/compare/csv@6.5.0...csv@6.5.1) (2026-03-20)
 
 **Note:** Version bump only for package csv

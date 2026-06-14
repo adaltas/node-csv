@@ -2441,7 +2441,7 @@ var csv_parse_sync = (function (exports) {
                       (info.total - info.std) * (options.preferred[info.char_code] || 1)
                     );
                   };
-                else if (typeof options.delimiter_auto.preferred !== "function") {
+                else if (typeof options.delimiter_auto.score !== "function") {
                   throw new CsvError(
                     "CSV_INVALID_OPTION_DELIMITER_AUTO",
                     [
@@ -2452,9 +2452,9 @@ var csv_parse_sync = (function (exports) {
                     options,
                   );
                 }
-                if (options.delimiter_auto.score === undefined)
+                if (options.delimiter_auto.size === undefined)
                   options.delimiter_auto.size = 2048;
-                else if (typeof options.delimiter_auto.preferred !== "number") {
+                else if (typeof options.delimiter_auto.size !== "number") {
                   throw new CsvError(
                     "CSV_INVALID_OPTION_DELIMITER_AUTO",
                     [
@@ -3959,7 +3959,7 @@ var csv_parse_sync = (function (exports) {
               if (typeof data === "string") {
                 data = Buffer.from(data);
               }
-              const records = opts && opts.objname ? {} : [];
+              const records = opts && opts.objname ? Object.create(null) : [];
               const parser = transform(opts);
               const push = (record) => {
                 if (parser.options.objname === undefined) records.push(record);

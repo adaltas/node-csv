@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 3.5.0 (2026-06-14)
+
+### Features
+
+- backport support for node 14
+- backward support for node 8
+- esm migration
+- export ts types in sync
+- replace ts types with typesVersions
+- **stream-transform:** handler promise support
+- **stream-transform:** ts extends options with stream.TransformOptions
+- ts module Node16 and type declaration to exports field ([#341](https://github.com/adaltas/node-csv/issues/341))
+- wg stream api
+
+### Bug Fixes
+
+- commonjs types, run tsc and lint to validate changes ([#397](https://github.com/adaltas/node-csv/issues/397))
+- correct exports in package.json with webpack
+- **csv-demo-ts-cjs-node16:** upgrade module definition after latest typescript
+- **csv-demo-webpack-ts:** remove polyfill
+- **csv-demo-webpack-ts:** simplify export paths
+- **csv-generate:** finish called twice in node 16
+- dont insert polyfills in cjs [#303](https://github.com/adaltas/node-csv/issues/303)
+- esm exports in package.json files, closes [#308](https://github.com/adaltas/node-csv/issues/308)
+- export original lib esm modules
+- expose browser esm modules
+- fallback to setTimeout is setImmediate is undefined
+- refer to esm files in dist
+- remove samples from publicatgion
+- **stream-transform:** backpressure after push
+- **stream-transform:** finish event call multiple times
+- **stream-transform:** sync callback usage in async handler
+- support ts node16 resolution in cjs ([#354](https://github.com/adaltas/node-csv/issues/354))
+- support TypeScript moduleResolution node16 ([#368](https://github.com/adaltas/node-csv/issues/368))
+
 ## [3.4.1](https://github.com/adaltas/node-csv/compare/stream-transform@3.4.0...stream-transform@3.4.1) (2026-03-17)
 
 **Note:** Version bump only for package stream-transform
