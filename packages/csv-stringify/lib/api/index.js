@@ -195,6 +195,17 @@ const stringifier = function (options, state, info) {
           const containsQuote = quote !== "" && value.indexOf(quote) >= 0;
           const containsEscape = value.indexOf(escape) >= 0 && escape !== quote;
           const containsRecordDelimiter = value.indexOf(record_delimiter) >= 0;
+          // With a newline-based record delimiter, a field containing either
+          // line-break character must be quoted: the parser treats both `\r`
+          // and `\n` as record delimiters, so an unquoted value (e.g. a lone
+          // `\r` when the delimiter is `\n`) would be split apart on the next
+          // parse. A custom, non-newline delimiter leaves line breaks as data.
+          const recordDelimiterIsNewline =
+            record_delimiter.indexOf("\n") >= 0 ||
+            record_delimiter.indexOf("\r") >= 0;
+          const containsLineBreak =
+            recordDelimiterIsNewline &&
+            (value.indexOf("\r") >= 0 || value.indexOf("\n") >= 0);
           const quotedString = quoted_string && typeof field === "string";
           let quotedMatch =
             quoted_match &&
@@ -232,6 +243,7 @@ const stringifier = function (options, state, info) {
             containsQuote === true ||
             containsdelimiter ||
             containsRecordDelimiter ||
+            containsLineBreak ||
             quoted ||
             quotedString ||
             quotedMatch;
