@@ -8,7 +8,7 @@
   "devDependencies": {
     "coffeescript": "^2.7.0",
     "dirname-filename-esm": "^1.1.2",
-    "mocha": "^11.7.5",
+    "mocha": "^11.7.6",
     "should": "^13.2.3"
   },
   "mocha": {
@@ -35,7 +35,7 @@
     "csv-generate": "^4.5.1",
     "csv-parse": "^6.2.1",
     "csv-stringify": "^6.7.0",
-    "dedent": "^1.7.1",
+    "dedent": "^1.7.2",
     "desm": "^1.3.1",
     "duckdb-async": "^1.4.2"
   }
