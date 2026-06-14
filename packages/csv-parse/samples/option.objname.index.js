@@ -5,7 +5,8 @@ const records = parse("a,b,c\nd,e,f", {
   objname: 1,
 });
 
-assert.deepStrictEqual(records, {
+// records has null prototype, using `Object.assign`
+assert.deepStrictEqual(Object.assign({}, records), {
   b: ["a", "b", "c"],
   e: ["d", "e", "f"],
 });

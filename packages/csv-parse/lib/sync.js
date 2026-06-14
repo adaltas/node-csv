@@ -5,7 +5,7 @@ const parse = function (data, opts = {}) {
   if (typeof data === "string") {
     data = Buffer.from(data);
   }
-  const records = opts && opts.objname ? {} : [];
+  const records = opts && opts.objname ? Object.create(null) : [];
   const parser = transform(opts);
   const push = (record) => {
     if (parser.options.objname === undefined) records.push(record);

@@ -1,6 +1,7 @@
 import should from "should";
 import dedent from "dedent";
 import { parse } from "../lib/index.js";
+import { parse as parseSync } from "../lib/sync.js";
 
 describe("Option `objname`", function () {
   describe("validation", function () {
@@ -44,8 +45,14 @@ describe("Option `objname`", function () {
   });
 
   describe("map to a field", function () {
-    it("dont modify prototype (see #479)", function (next) {
-      parse(
+    it("dont modify prototype with streaming (see #479)", function (next) {
+      interface Records {
+        [key: string]: {
+          key: string;
+          value: string;
+        };
+      }
+      parse<Records>(
         "key,value\n__proto__,polluted\n",
         {
           objname: "key",
@@ -53,15 +60,32 @@ describe("Option `objname`", function () {
         },
         (err, records) => {
           if (err) return next(err);
-          console.log(Object.getPrototypeOf(records));
-          console.log(
-            "Polluted:",
-            Object.getPrototypeOf(records) !== Object.prototype,
-          );
-          console.log("Value:", records);
+          should(Object.getPrototypeOf(records)).be.Null();
+          should((records as unknown as Records)["__proto__"]).eql({
+            key: "__proto__",
+            value: "polluted",
+          });
           next();
         },
       );
+    });
+
+    it("dont modify prototype with async (see #479)", function () {
+      interface Records {
+        [key: string]: {
+          key: string;
+          value: string;
+        };
+      }
+      const records = parseSync<Records>("key,value\n__proto__,polluted\n", {
+        objname: "key",
+        columns: true,
+      });
+      should(Object.getPrototypeOf(records)).be.Null();
+      should((records as unknown as Records)["__proto__"]).eql({
+        key: "__proto__",
+        value: "polluted",
+      });
     });
 
     it("convert a buffer to a column name", function (next) {

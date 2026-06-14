@@ -1,4 +1,4 @@
-import "should";
+import should from "should";
 import dedent from "dedent";
 import { parse } from "../lib/sync.js";
 
@@ -84,7 +84,7 @@ describe("API sync", function () {
         objname: "field_1",
         columns: true,
       });
-      records.should.eql({
+      should(Object.assign({}, records)).eql({
         "name 1": { field_1: "name 1", field_2: "value 1" },
         "name 2": { field_1: "name 2", field_2: "value 2" },
       });
