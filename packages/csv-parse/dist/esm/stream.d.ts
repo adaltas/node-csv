@@ -1,7 +1,7 @@
 import { Options } from "./index.js";
 
 declare function parse(options?: Options): TransformStream;
-// export default parse;
+
 export { parse };
 
 export {
@@ -19,4 +19,5 @@ export {
   InfoField,
   CsvErrorCode,
   CsvError,
+  normalize_options,
 } from "./index.js";
