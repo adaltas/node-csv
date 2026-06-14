@@ -1,5 +1,5 @@
 {
-  "name": "csv-demo-ts-module-node16",
+  "name": "csv-demo-ts-esm-node16",
   "version": "0.2.23",
   "main": "index.js",
   "license": "MIT",
