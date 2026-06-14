@@ -89,5 +89,4 @@ export interface Options extends stream.ReadableOptions {
 declare function generate(options?: Options, callback?: Callback): Generator;
 declare function generate(callback?: Callback): Generator;
 
-// export default generate;
 export { generate };

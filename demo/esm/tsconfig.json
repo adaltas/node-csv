@@ -2,8 +2,11 @@
   "compileOnSave": false,
   "compilerOptions": {
     "esModuleInterop": true,
-    "module": "ES2020",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "strict": true,
-  }
+    "target": "esnext",
+    // Prevent error "Cannot find name 'it'"
+    "types": ["mocha"],
+  },
 }
