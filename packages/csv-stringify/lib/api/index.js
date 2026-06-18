@@ -3,6 +3,21 @@ import { is_object } from "../utils/is_object.js";
 import { normalize_columns } from "./normalize_columns.js";
 import { normalize_options } from "./normalize_options.js";
 const bom_utf8 = Buffer.from([239, 187, 191]);
+// True when appending `separator` after `value` would let `parse` find
+// `separator` starting inside `value`. Besides the field containing the whole
+// separator, this also covers boundary fusion: a field whose tail is a
+// non-empty prefix of a multi-character separator merges with the appended
+// separator (eg value "a:" + delimiter "::" => "a:::", matched at offset 1).
+// Such fields must be quoted to round-trip, like RFC 4180 fields containing the
+// delimiter, generalized to multi-character delimiters and record delimiters.
+const emits_separator = function (value, separator) {
+  return (
+    separator.length !== 0 &&
+    (value.indexOf(separator) !== -1 ||
+      (separator.length > 1 &&
+        (value + separator).indexOf(separator) < value.length))
+  );
+};
 
 const stringifier = function (options, state, info) {
   return {
@@ -190,11 +205,13 @@ const stringifier = function (options, state, info) {
               ),
             ];
           }
-          const containsdelimiter =
-            delimiter.length && value.indexOf(delimiter) >= 0;
+          const containsdelimiter = emits_separator(value, delimiter);
           const containsQuote = quote !== "" && value.indexOf(quote) >= 0;
           const containsEscape = value.indexOf(escape) >= 0 && escape !== quote;
-          const containsRecordDelimiter = value.indexOf(record_delimiter) >= 0;
+          const containsRecordDelimiter = emits_separator(
+            value,
+            record_delimiter,
+          );
           const quotedString = quoted_string && typeof field === "string";
           let quotedMatch =
             quoted_match &&
