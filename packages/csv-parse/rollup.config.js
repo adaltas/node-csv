@@ -99,4 +99,19 @@ export default [
       nodeResolve(),
     ],
   },
+  {
+    input: "lib/stream.js",
+    output: [
+      {
+        file: `dist/cjs/stream.cjs`,
+        format: "cjs",
+      },
+    ],
+    plugins: [
+      // eslint({
+      //   fix: true,
+      // }),
+      nodeResolve(),
+    ],
+  },
 ];
