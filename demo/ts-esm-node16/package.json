@@ -12,7 +12,7 @@
     "stream-transform": "^3.5.0"
   },
   "devDependencies": {
-    "@types/node": "^25.9.3",
+    "@types/node": "^26.0.1",
     "coffeescript": "^2.7.0",
     "mocha": "^11.7.6",
     "should": "^13.2.3",

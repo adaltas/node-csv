@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^5.107.2",
-    "webpack-cli": "^7.0.3"
+    "webpack": "^5.108.1",
+    "webpack-cli": "^7.1.0"
   },
   "dependencies": {
     "csv": "^6.6.0",
