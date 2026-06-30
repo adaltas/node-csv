@@ -212,6 +212,14 @@ const stringifier = function (options, state, info) {
             value,
             record_delimiter,
           );
+          // `parse` treats CR, LF and CRLF as record delimiters when
+          // `record_delimiter` is left to auto-detection (its default), so a
+          // field holding a bare CR or LF starts a new record and must be
+          // quoted to round-trip, even when it does not contain the configured
+          // `record_delimiter` (eg a lone "\r" stringified with the default
+          // "\n" record delimiter).
+          const containsNewline =
+            value.indexOf("\r") !== -1 || value.indexOf("\n") !== -1;
           const quotedString = quoted_string && typeof field === "string";
           let quotedMatch =
             quoted_match &&
@@ -249,6 +257,7 @@ const stringifier = function (options, state, info) {
             containsQuote === true ||
             containsdelimiter ||
             containsRecordDelimiter ||
+            containsNewline ||
             quoted ||
             quotedString ||
             quotedMatch;
