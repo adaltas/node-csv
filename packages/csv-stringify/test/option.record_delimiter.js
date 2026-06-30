@@ -31,4 +31,14 @@ describe("Option `record_delimiter`", function () {
       },
     );
   });
+  it("quote a field containing a bare carriage return", function (next) {
+    // `parse` treats a lone CR as a record delimiter under its default
+    // auto-detection, so a field holding a CR must be quoted to round-trip even
+    // though it does not contain the default "\n" record delimiter.
+    stringify([["x\ry", "z"]], { eof: false }, (err, data) => {
+      if (err) return next(err);
+      data.toString().should.eql('"x\ry",z');
+      next();
+    });
+  });
 });
