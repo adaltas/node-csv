@@ -253,15 +253,10 @@ const stringifier = function (options, state, info) {
             quotedString ||
             quotedMatch;
           if (shouldQuote === true && containsEscape === true) {
-            const regexp =
-              escape === "\\"
-                ? new RegExp(escape + escape, "g")
-                : new RegExp(escape, "g");
-            value = value.replace(regexp, escape + escape);
+            value = value.replaceAll(escape, () => escape + escape);
           }
           if (containsQuote === true) {
-            const regexp = new RegExp(quote, "g");
-            value = value.replace(regexp, escape + quote);
+            value = value.replaceAll(quote, () => escape + quote);
           }
           if (shouldQuote === true) {
             value = quote + value + quote;
