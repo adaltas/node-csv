@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.8.1](https://github.com/adaltas/node-csv/compare/csv-stringify@6.8.0...csv-stringify@6.8.1) (2026-07-02)
+
+### Bug Fixes
+
+- **csv-stringify:** double regexp-metacharacter escape/quote literally ([#494](https://github.com/adaltas/node-csv/issues/494))
+- **csv-stringify:** quote fields fusing with a multi-character separator
+
 ## 6.8.0 (2026-06-14)
 
 ### Features

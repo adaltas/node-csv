@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.0.1](https://github.com/adaltas/node-csv/compare/csv-parse@7.0.0...csv-parse@7.0.1) (2026-07-02)
+
+### Bug Fixes
+
+- **csv-parse:** ship stream cjs export ([#490](https://github.com/adaltas/node-csv/issues/490))
+
 ## 7.0.0 (2026-06-14)
 
 ### ⚠ WARNING
