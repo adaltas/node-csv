@@ -1,6 +1,7 @@
 import "should";
 import dedent from "dedent";
 import { stringify } from "../lib/index.js";
+import { stringify as stringifySync } from "../lib/sync.js";
 
 describe("Option `quote`", function () {
   it("default", function (next) {
@@ -224,5 +225,19 @@ describe("Option `quote`", function () {
         next();
       },
     );
+  });
+
+  it("regex metacharacter quote is doubled literally (fix #494)", function () {
+    // See "Option `escape` - regexp metacharacter escape is doubled literally (fix #494)"
+    // Same class of bug on `new RegExp(quote, "g")` when the quote character is
+    // a regexp metacharacter and appears inside the field.
+    // Before #494, the returned value was `."."."..`
+    stringifySync([["a.b"]], { quote: ".", eof: false }).should.eql('.a".b.');
+    // Before #494, the returned value was `|\|a\||\|b\||`
+    stringifySync([["a|b"]], {
+      quote: "|",
+      escape: "\\",
+      eof: false,
+    }).should.eql("|a\\|b|");
   });
 });
