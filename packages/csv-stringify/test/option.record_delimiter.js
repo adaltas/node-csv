@@ -18,6 +18,7 @@ describe("Option `record_delimiter`", function () {
       "Invalid Option: record_delimiter must be a buffer or a string, got 123",
     );
   });
+
   it("quote a field that would fuse with a multi-character record delimiter", function (next) {
     // The last field "a#" + record delimiter "##" emits "a###", which parse
     // re-tokenizes as a record boundary, so the field must be quoted.

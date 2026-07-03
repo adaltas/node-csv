@@ -1,3 +1,4 @@
+import "should";
 import { stringify } from "../lib/index.js";
 
 describe("Option `record_delimiter`", function () {
