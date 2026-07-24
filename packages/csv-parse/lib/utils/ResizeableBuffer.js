@@ -47,7 +47,7 @@ class ResizeableBuffer {
   }
   toString(encoding) {
     if (encoding) {
-      return this.buf.slice(0, this.length).toString(encoding);
+      return this.buf.toString(encoding, 0, this.length);
     } else {
       return Uint8Array.prototype.slice.call(this.buf.slice(0, this.length));
     }
