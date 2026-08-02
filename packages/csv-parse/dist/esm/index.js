@@ -5153,7 +5153,7 @@ class ResizeableBuffer {
   }
   toString(encoding) {
     if (encoding) {
-      return this.buf.slice(0, this.length).toString(encoding);
+      return this.buf.toString(encoding, 0, this.length);
     } else {
       return Uint8Array.prototype.slice.call(this.buf.slice(0, this.length));
     }
@@ -6670,7 +6670,7 @@ const transform = function (original_options = {}) {
             // Turn duplicate columns into an array
             if (
               group_columns_by_name === true &&
-              obj[columns[i].name] !== undefined
+              Object.hasOwn(obj, columns[i].name)
             ) {
               if (Array.isArray(obj[columns[i].name])) {
                 obj[columns[i].name] = obj[columns[i].name].concat(record[i]);
@@ -6678,7 +6678,12 @@ const transform = function (original_options = {}) {
                 obj[columns[i].name] = [obj[columns[i].name], record[i]];
               }
             } else {
-              obj[columns[i].name] = record[i];
+              Object.defineProperty(obj, columns[i].name, {
+                value: record[i],
+                enumerable: true,
+                writable: true,
+                configurable: true,
+              });
             }
           }
           // Without objname (default)

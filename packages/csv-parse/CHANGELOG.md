@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.0.2](https://github.com/adaltas/node-csv/compare/csv-parse@7.0.1...csv-parse@7.0.2) (2026-08-02)
+
+### Bug Fixes
+
+- **csv-parse:** prototype replacement reachable via columns ([#497](https://github.com/adaltas/node-csv/issues/497))
+
+### Performance Improvements
+
+- **csv-parse:** avoid unnecessary allocation in ResizeableBuffer.toString ([#495](https://github.com/adaltas/node-csv/issues/495))
+
 ## [7.0.1](https://github.com/adaltas/node-csv/compare/csv-parse@7.0.0...csv-parse@7.0.1) (2026-07-02)
 
 ### Bug Fixes
