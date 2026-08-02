@@ -1,4 +1,4 @@
-import "should";
+import should from "should";
 import dedent from "dedent";
 import { parse } from "../lib/index.js";
 import { assert_error } from "./api.assert_error.js";
@@ -428,5 +428,28 @@ describe("Option `columns`", function () {
         },
       );
     });
+  });
+
+  it("prototype replacement still reachable via columns path (#496)", function (next) {
+    parse(
+      "__proto__,__proto__,role\nEVIL1,EVIL2,admin\n",
+      { columns: true, group_columns_by_name: true },
+      (e, recs) => {
+        type evil = {
+          1?: string;
+          2?: string;
+          role?: string;
+        };
+        const rec = recs[0] as evil;
+        JSON.stringify(rec).should.eql(
+          '{"__proto__":["EVIL1","EVIL2"],"role":"admin"}',
+        ); // was equals to `{"role":"admin"}`
+        should((rec as []).length).be.Undefined(); // was equals to `3`
+        should(rec["1"]).be.Undefined(); // was equal to `EVIL1`
+        should(rec["2"]).be.Undefined(); // was equal to `EVIL2`
+        should(rec["role"]).eql("admin"); // was equal to `admin`
+        next();
+      },
+    );
   });
 });
