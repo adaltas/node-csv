@@ -49,7 +49,7 @@ describe("Option `quoted_match`", function () {
     );
   });
 
-  it("a global regex matches every field", function (next) {
+  it("a global regex matches every field (fix #498)", function (next) {
     // A global regex carries `lastIndex` from one call to the next, and the
     // same regex object is applied to every field of every record.
     stringify(
@@ -67,7 +67,7 @@ describe("Option `quoted_match`", function () {
     );
   });
 
-  it("a global regex matches every field of a record", function (next) {
+  it("a global regex matches every field of a record (fix #498)", function (next) {
     stringify(
       [["1", "2", "3", "4"]],
       { quoted_match: [/\d/g], eof: false },
@@ -80,7 +80,7 @@ describe("Option `quoted_match`", function () {
     );
   });
 
-  it("a global regex does not consume the caller's `lastIndex`", function (next) {
+  it("a global regex does not consume the caller's `lastIndex` (fix #498)", function (next) {
     const quoted_match = /\d/g;
     quoted_match.lastIndex = 1;
     stringify([["1"], ["2"]], { quoted_match, eof: false }, (err, data) => {
