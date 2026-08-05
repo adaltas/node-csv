@@ -49,6 +49,49 @@ describe("Option `quoted_match`", function () {
     );
   });
 
+  it("a global regex matches every field (fix #498)", function (next) {
+    // A global regex carries `lastIndex` from one call to the next, and the
+    // same regex object is applied to every field of every record.
+    stringify(
+      [
+        ["1", "2"],
+        ["3", "4"],
+      ],
+      { quoted_match: /\d/g, eof: false },
+      (err, data) => {
+        if (!err) {
+          data.should.eql('"1","2"\n"3","4"'); // was equal to `"1",2\n"3",4`
+        }
+        next(err);
+      },
+    );
+  });
+
+  it("a global regex matches every field of a record (fix #498)", function (next) {
+    stringify(
+      [["1", "2", "3", "4"]],
+      { quoted_match: [/\d/g], eof: false },
+      (err, data) => {
+        if (!err) {
+          data.should.eql('"1","2","3","4"'); // was equal to `"1",2,"3",4`
+        }
+        next(err);
+      },
+    );
+  });
+
+  it("a global regex does not consume the caller's `lastIndex` (fix #498)", function (next) {
+    const quoted_match = /\d/g;
+    quoted_match.lastIndex = 1;
+    stringify([["1"], ["2"]], { quoted_match, eof: false }, (err, data) => {
+      if (!err) {
+        data.should.eql('"1"\n"2"'); // was equal to `1\n"2"`
+        quoted_match.lastIndex.should.eql(1);
+      }
+      next(err);
+    });
+  });
+
   it('an empty string regex with no other "quoted" options (#344)', function (next) {
     stringify(
       [["a", null, undefined, "", "b"]],
