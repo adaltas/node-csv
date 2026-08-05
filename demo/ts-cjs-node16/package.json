@@ -1,10 +1,10 @@
 {
   "name": "csv-demo-ts-cjs-node16",
-  "version": "0.2.26",
+  "version": "0.2.27",
   "dependencies": {
     "csv-generate": "^4.6.1",
     "csv-parse": "^7.0.2",
-    "csv-stringify": "^6.8.2",
+    "csv-stringify": "^6.8.3",
     "stream-transform": "^3.5.1"
   },
   "main": "index.js",

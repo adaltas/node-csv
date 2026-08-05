@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.3](https://github.com/adaltas/node-csv/compare/csv-demo-cjs@0.4.2...csv-demo-cjs@0.4.3) (2026-08-05)
+
+**Note:** Version bump only for package csv-demo-cjs
+
 ## [0.4.2](https://github.com/adaltas/node-csv/compare/csv-demo-cjs@0.4.1...csv-demo-cjs@0.4.2) (2026-08-02)
 
 **Note:** Version bump only for package csv-demo-cjs

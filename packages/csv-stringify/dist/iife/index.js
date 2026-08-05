@@ -5511,6 +5511,21 @@ var csv_stringify = (function (exports) {
           (value + separator).indexOf(separator) < value.length))
     );
   };
+  // True when `value` matches one of the `quoted_match` patterns. The regexps
+  // come from the user and the same objects are reused for every field, so the
+  // test must not depend on their state: `RegExp.prototype.test` advances
+  // `lastIndex` on a global or sticky regexp, which would make a match in one
+  // field move where the next field starts matching. `String.prototype.search`
+  // searches from the start and restores `lastIndex`, and is equivalent to
+  // `test` for the stateless regexps.
+  const matches_quoted_match = function (value, quoted_match) {
+    if (!quoted_match) return false;
+    return quoted_match.some((pattern) =>
+      typeof pattern === "string"
+        ? value.indexOf(pattern) !== -1
+        : value.search(pattern) !== -1,
+    );
+  };
 
   const stringifier = function (options, state, info) {
     return {
@@ -5672,16 +5687,7 @@ var csv_stringify = (function (exports) {
             escape_formulas,
           } = options;
           if ("" === value && "" === field) {
-            let quotedMatch =
-              quoted_match &&
-              quoted_match.filter((quoted_match) => {
-                if (typeof quoted_match === "string") {
-                  return value.indexOf(quoted_match) !== -1;
-                } else {
-                  return quoted_match.test(value);
-                }
-              });
-            quotedMatch = quotedMatch && quotedMatch.length > 0;
+            const quotedMatch = matches_quoted_match(value, quoted_match);
             const shouldQuote =
               quotedMatch ||
               true === quoted_empty ||
@@ -5706,16 +5712,7 @@ var csv_stringify = (function (exports) {
               record_delimiter,
             );
             const quotedString = quoted_string && typeof field === "string";
-            let quotedMatch =
-              quoted_match &&
-              quoted_match.filter((quoted_match) => {
-                if (typeof quoted_match === "string") {
-                  return value.indexOf(quoted_match) !== -1;
-                } else {
-                  return quoted_match.test(value);
-                }
-              });
-            quotedMatch = quotedMatch && quotedMatch.length > 0;
+            const quotedMatch = matches_quoted_match(value, quoted_match);
             // See https://github.com/adaltas/node-csv/pull/387
             // More about CSV injection or formula injection, when websites embed
             // untrusted input inside CSV files:

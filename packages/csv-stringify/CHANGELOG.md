@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.8.3](https://github.com/adaltas/node-csv/compare/csv-stringify@6.8.2...csv-stringify@6.8.3) (2026-08-05)
+
+### Bug Fixes
+
+- **csv-stringify:** quote every field matching a global quoted_match regexp ([#498](https://github.com/adaltas/node-csv/issues/498))
+
 ## [6.8.2](https://github.com/adaltas/node-csv/compare/csv-stringify@6.8.1...csv-stringify@6.8.2) (2026-08-02)
 
 **Note:** Version bump only for package csv-stringify
