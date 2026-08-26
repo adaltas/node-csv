@@ -93,9 +93,37 @@ export type ColumnOption<K = string> =
   | false
   | { name: K };
 
+export interface InfoDelimiterAuto {
+  /**
+   * The character code of the delimiter candidate being scored.
+   */
+  readonly char_code: number;
+  /**
+   * The number of occurrences of the candidate in each line.
+   */
+  readonly lines: number[];
+  /**
+   * Whether the candidate is listed in the `preferred` option.
+   */
+  readonly preferred: boolean;
+  /**
+   * The standard deviation of the occurrences across the lines.
+   */
+  readonly std: number;
+  /**
+   * The total number of occurrences of the candidate.
+   */
+  readonly total: number;
+}
+
+export type ScoringFunction = (
+  info: InfoDelimiterAuto,
+  options: OptionDelimiterAuto,
+) => number;
+
 export interface OptionDelimiterAuto {
   preferred: Record<string, number>;
-  score: () => number;
+  score: ScoringFunction;
   size: number;
 }
 
