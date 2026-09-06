@@ -87,11 +87,7 @@ export type CastingFunction = (value: string, context: InfoField) => unknown;
 export type CastingDateFunction = (value: string, context: InfoField) => Date;
 
 export type ColumnOption<K = string> =
-  | K
-  | undefined
-  | null
-  | false
-  | { name: K };
+  K | undefined | null | false | { name: K };
 
 export interface OptionDelimiterAuto {
   preferred: Record<string, number>;
@@ -449,11 +445,9 @@ export interface Options<T = string[], U = T> {
    * Don't generate records for lines containing empty column values (column matching /\s*\/), defaults to false.
    */
   skip_records_with_empty_values?:
-    | OptionsNormalized["skip_records_with_empty_values"]
-    | null;
+    OptionsNormalized["skip_records_with_empty_values"] | null;
   skipRecordsWithEmptyValues?:
-    | OptionsNormalized["skip_records_with_empty_values"]
-    | null;
+    OptionsNormalized["skip_records_with_empty_values"] | null;
   /**
    * Skip a line with error found inside and directly go process the next line.
    */

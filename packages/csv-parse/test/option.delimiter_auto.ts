@@ -82,7 +82,6 @@ describe("Option `delimiter_auto`", function () {
     // Data writing
     for (let i = 0; i < content.length; i++) {
       parser.write(content.slice(i, i + 1));
-      // process.stdout.write(content.slice(i, i + 1));
     }
     parser.end();
   });
