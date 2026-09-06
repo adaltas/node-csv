@@ -1,5 +1,3 @@
-/// <reference types="node" />
-
 import * as stream from "stream";
 
 export type Callback = (err: Error | undefined, output: string) => void;

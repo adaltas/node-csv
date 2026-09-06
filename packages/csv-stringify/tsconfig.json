@@ -7,6 +7,7 @@
     "strict": true,
     "target": "esnext",
     // Prevent error "Cannot find name 'it'"
-    "types": ["mocha"],
+    "types": ["mocha"]
   },
+  "exclude": ["test/browser-types"]
 }
