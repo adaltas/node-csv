@@ -223,8 +223,9 @@ describe("API Types", function () {
 
       const typedOptions: Options<Person> = {};
       typedOptions.columns = ["age", undefined, null, false, { name: "name" }];
-      typedOptions.columns = (record: Person) => {
-        record;
+      typedOptions.columns = (record) => {
+        const header: string[] = record;
+        header;
         return ["age"];
       };
 
@@ -493,6 +494,24 @@ describe("API Types", function () {
         "",
         {
           columns: true,
+        },
+        (error, records: Person[]) => {
+          records;
+          next(error);
+        },
+      );
+    });
+
+    it("Accepts typed keys from a columns callback", function (next) {
+      const columnMapping = new Map<string, keyof Person>([
+        ["full_name", "name"],
+        ["years", "age"],
+      ]);
+      parse<Person>(
+        "full_name,years\nAda,36",
+        {
+          columns: (header) =>
+            header.map((column) => columnMapping.get(column)),
         },
         (error, records: Person[]) => {
           records;
