@@ -125,5 +125,16 @@ describe("API Types", function () {
       });
       data;
     });
+
+    it("Accepts typed keys from a columns callback", function () {
+      const columnMapping = new Map<string, keyof Person>([
+        ["full_name", "name"],
+        ["years", "age"],
+      ]);
+      const data: Person[] = parse<Person>("full_name,years\nAda,36", {
+        columns: (header) => header.map((column) => columnMapping.get(column)),
+      });
+      data;
+    });
   });
 });
