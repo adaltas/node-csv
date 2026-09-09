@@ -56,6 +56,19 @@ describe("Option `raw`", function () {
     });
   });
 
+  it("preserves windows (CRLF) record delimiters", function (next) {
+    // The `\n` of a `\r\n` record delimiter used to be dropped from `raw`,
+    // yielding `a,b\r` instead of `a,b\r\n`. (#332)
+    parse("a,b\r\nc,d\r\n", { raw: true }, (err, records) => {
+      if (err) return next(err);
+      const raws = (
+        records as unknown as { record: string[]; raw: string }[]
+      ).map((r) => r.raw);
+      raws.should.eql(["a,b\r\n", "c,d\r\n"]);
+      next();
+    });
+  });
+
   it("preserve columns", function (next) {
     parse(
       dedent`
