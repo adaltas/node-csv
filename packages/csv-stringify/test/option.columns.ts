@@ -128,6 +128,29 @@ describe("Option `columns`", function () {
       );
     });
 
+    it("is an array, should not be altered", function (next) {
+      const records = [
+        ["20322051544", "1979", "8.8017226E7"],
+        ["28392898392", "1974", "8.8392926E7"],
+      ];
+      stringify(
+        records,
+        {
+          columns: ["FIELD_1", "FIELD_2"],
+        },
+        (err, data) => {
+          if (!err) {
+            data.should.eql("20322051544,1979\n28392898392,1974\n");
+            records.should.eql([
+              ["20322051544", "1979", "8.8017226E7"],
+              ["28392898392", "1974", "8.8392926E7"],
+            ]);
+          }
+          next(err);
+        },
+      );
+    });
+
     it("is a readable stream", function (next) {
       const ws = stringify(
         {
