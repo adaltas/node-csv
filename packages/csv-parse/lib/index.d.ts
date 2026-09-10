@@ -98,7 +98,7 @@ type ColumnKey<T> = T extends string[]
 // Keep columns from overriding record types inferred from options such as raw.
 type NoInferColumnRecord<T> = [T][T extends unknown ? 0 : never];
 
-export interface InfoDelimiterAuto {
+export interface ScoringFunctionInfo {
   /**
    * The character code of the delimiter candidate being scored.
    */
@@ -122,11 +122,11 @@ export interface InfoDelimiterAuto {
 }
 
 export type ScoringFunction = (
-  info: InfoDelimiterAuto,
-  options: OptionDelimiterAuto,
+  info: ScoringFunctionInfo,
+  options: ScoringFunctionOptions,
 ) => number;
 
-export interface OptionDelimiterAuto {
+export interface ScoringFunctionOptions {
   preferred: Record<string, number>;
   score: ScoringFunction;
   size: number;
@@ -181,7 +181,7 @@ export interface OptionsNormalized<T = string[], U = T> {
   /**
    * Discover the field delimiter.
    */
-  delimiter_auto: OptionDelimiterAuto;
+  delimiter_auto: ScoringFunctionOptions;
   /**
    * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
    */
