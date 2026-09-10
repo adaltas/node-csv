@@ -38,6 +38,33 @@ describe("Option `delimiter_auto`", function () {
     ]);
   });
 
+  it("sync custom score", function () {
+    // The default score elects `;` because it is more preferred than `:`
+    parse_sync("a:b;c\nd:e;f", {
+      delimiter_auto: true,
+    }).should.eql([
+      ["a:b", "c"],
+      ["d:e", "f"],
+    ]);
+    // A custom score receives the candidate info and the normalized options
+    const char_codes: number[] = [];
+    parse_sync("a:b;c\nd:e;f", {
+      delimiter_auto: {
+        score: (info, options) => {
+          char_codes.push(info.char_code);
+          return info.char_code === ":".charCodeAt(0)
+            ? 100
+            : (info.total - info.std) *
+                (options.preferred[info.char_code] || 1);
+        },
+      },
+    }).should.eql([
+      ["a", "b;c"],
+      ["d", "e;f"],
+    ]);
+    char_codes.length.should.eql(127);
+  });
+
   it("stream smaller than size", function (next) {
     let content = "";
     for (let i = 0; i < 10; i++) {
