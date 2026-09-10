@@ -290,7 +290,7 @@ const stringifier = function (options, state, info) {
         [err, headers] = this.stringify(headers, true);
         headers += this.options.record_delimiter;
       } else {
-        [err, headers] = this.stringify(headers);
+        [err, headers] = this.stringify(headers, true);
       }
       if (err) return err;
       if (this.options.header_as_comment) {
