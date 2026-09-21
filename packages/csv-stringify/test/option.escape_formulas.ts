@@ -53,6 +53,21 @@ describe("Option `escape_formulas`", function () {
     );
   });
 
+  it("preserves negative numeric values", function (next) {
+    stringify(
+      [[-1.5, -2n, "-3.5"]],
+      {
+        escape_formulas: true,
+        eof: false,
+      },
+      (err, data) => {
+        if (err) return next(err);
+        data.should.eql("-1.5,-2,'-3.5");
+        next();
+      },
+    );
+  });
+
   it("with `quoted` option", function (next) {
     stringify(
       [
