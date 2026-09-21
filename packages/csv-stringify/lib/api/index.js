@@ -152,7 +152,7 @@ const stringifier = function (options, state, info) {
           options = this.options;
         } else if (is_object(value)) {
           // Value is considerered as a mix of a value and options
-          options = value;
+          options = { ...value };
           value = options.value;
           delete options.value;
           if (
