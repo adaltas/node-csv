@@ -38,7 +38,6 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "should": "~13.2.3",
-    "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   },
   "engines": {
