@@ -46,10 +46,18 @@ describe("api.callback", function () {
       ),
     );
     stringify(input, (err) => {
-      err.should.match({
-        code: "ERR_STRING_TOO_LONG",
-        message: "Cannot create a string longer than 0x1fffffe8 characters",
-      });
+      if (err.code) {
+        // Prior Node.js v26
+        err.should.match({
+          code: "ERR_STRING_TOO_LONG",
+          message: "Cannot create a string longer than 0x1fffffe8 characters",
+        });
+      } else {
+        // After Node.js v26
+        err.should.match({
+          message: "Invalid string length",
+        });
+      }
       next();
     });
   });
