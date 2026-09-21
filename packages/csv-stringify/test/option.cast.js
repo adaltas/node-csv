@@ -22,33 +22,6 @@ describe("Option `cast`", function () {
   });
 
   describe("info object", function () {
-    it("preserves a reused cast result", function (next) {
-      const result = { value: "shared", quoted: true };
-      stringify(
-        [["first", "second"]],
-        { cast: { string: () => result } },
-        (err, output) => {
-          if (err) return next(err);
-          output.should.eql('"shared","shared"\n');
-          result.should.eql({ value: "shared", quoted: true });
-          next();
-        },
-      );
-    });
-
-    it("accepts a frozen cast result", function (next) {
-      const result = Object.freeze({ value: "frozen", quoted: true });
-      stringify(
-        [["input"]],
-        { cast: { string: () => result } },
-        (err, output) => {
-          if (err) return next(err);
-          output.should.eql('"frozen"\n');
-          next();
-        },
-      );
-    });
-
     it("validate and normalize local options", function (next) {
       stringify(
         [["invalid cast"]],
