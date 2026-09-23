@@ -8,7 +8,7 @@
   "devDependencies": {
     "coffeescript": "^2.7.0",
     "dirname-filename-esm": "^1.1.2",
-    "mocha": "^11.7.6",
+    "mocha": "^12.0.2",
     "should": "^13.2.3"
   },
   "mocha": {

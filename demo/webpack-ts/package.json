@@ -19,8 +19,8 @@
     "stream-browserify": "^3.0.0",
     "esbuild-loader": "^4.0.0",
     "typescript": "^6.0.3",
-    "webpack": "^5.108.1",
-    "webpack-cli": "^7.1.0"
+    "webpack": "^5.111.1",
+    "webpack-cli": "^7.2.3"
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
