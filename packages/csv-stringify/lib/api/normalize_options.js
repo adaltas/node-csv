@@ -246,9 +246,7 @@ const normalize_options = function (opts) {
     options.quote_record_delimiter === undefined ||
     options.quote_record_delimiter === null
   ) {
-    options.quote_record_delimiter =
-      options.record_delimiter === undefined ||
-      options.record_delimiter === null;
+    options.quote_record_delimiter = !options.record_delimiter;
   } else if (typeof options.quote_record_delimiter !== "boolean") {
     return [
       new CsvError("CSV_OPTION_QUOTE_RECORD_DELIMITER_INVALID_TYPE", [

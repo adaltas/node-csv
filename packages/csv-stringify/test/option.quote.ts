@@ -218,6 +218,7 @@ describe("Option `quote`", function () {
         record_delimiter: "__",
       },
       (err, data) => {
+        if (err) return next(err);
         data.should.eql(dedent`
           123
           456,789__,1974

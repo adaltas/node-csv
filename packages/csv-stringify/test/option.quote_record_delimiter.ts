@@ -1,122 +1,105 @@
-import { stringify } from "../lib/index.js";
+import "should";
+import { stringify, normalize_options } from "../lib/sync.js";
 
 describe("Option `quote_record_delimiter`", function () {
-  it("quotes a field containing a carriage return", function (next) {
-    stringify([["a\rb"]], { eof: false }, (err, data) => {
-      if (err) return next(err);
-      data.should.eql('"a\rb"');
-      next();
+  it("default to `true`", function () {
+    let options;
+    [, options] = normalize_options({});
+    options.quote_record_delimiter.should.eql(true);
+    [, options] = normalize_options({ quote_record_delimiter: false });
+    options.quote_record_delimiter.should.eql(false);
+  });
+
+  it("quotes a field containing a carriage return", function () {
+    stringify([["a\rb"]], { eof: false }).should.eql('"a\rb"');
+    stringify([["a\rb"]], {
+      eof: false,
+      quote_record_delimiter: true,
+    }).should.eql('"a\rb"');
+    stringify([["a\rb"]], {
+      eof: false,
+      quote_record_delimiter: false,
+    }).should.eql("a\rb");
+  });
+
+  it("quotes a field containing a line feed", function () {
+    // quote_record_delimiter is `false`
+    // but the input contains the default record_delimiter `\n`
+    // which cause the `emits_separator` function to return true
+    stringify([["a\nb"]], { eof: false }).should.eql('"a\nb"');
+    stringify([["a\nb"]], {
+      eof: false,
+      quote_record_delimiter: false,
+    }).should.eql('"a\nb"');
+    stringify([["a\nb"]], {
+      eof: false,
+      quote_record_delimiter: true,
+    }).should.eql('"a\nb"');
+  });
+
+  it("quotes a field containing a carriage return and line feed", function () {
+    // quote_record_delimiter is `false`
+    // but the input **partially** contains the default record_delimiter `\n`
+    // which cause the `emits_separator` function to return true
+    stringify([["a\r\nb"]], { eof: false }).should.eql('"a\r\nb"');
+    stringify([["a\r\nb"]], {
+      eof: false,
+      quote_record_delimiter: false,
+    }).should.eql('"a\r\nb"');
+    stringify([["a\r\nb"]], {
+      eof: false,
+      quote_record_delimiter: true,
+    }).should.eql('"a\r\nb"');
+  });
+
+  describe("with `record_delimiter`", function () {
+    it("defaults to false when `record_delimiter` is provided", function () {
+      let options;
+      [, options] = normalize_options({ record_delimiter: "::" });
+      options.quote_record_delimiter.should.eql(false);
+      [, options] = normalize_options({
+        quote_record_delimiter: true,
+        record_delimiter: "::",
+      });
+      options.quote_record_delimiter.should.eql(true);
+    });
+
+    it("quotes the configured `record_delimiter` when disabled", function () {
+      stringify([["a::b"]], {
+        record_delimiter: "::",
+        quote_record_delimiter: false,
+        eof: false,
+      }).should.eql('"a::b"');
     });
   });
-
-  it("quotes a field containing a line feed", function (next) {
-    stringify([["a\nb"]], { eof: false }, (err, data) => {
-      if (err) return next(err);
-      data.should.eql('"a\nb"');
-      next();
+  describe("with `cast`", function () {
+    it("applies to a `record_delimiter` returned by cast", function () {
+      // The emitted delimiter stays the global one, so `\r` is still quoted
+      stringify([["a\rb"], ["c"]], {
+        cast: {
+          string: (value) => ({
+            value,
+            quote_record_delimiter: true,
+            record_delimiter: "::",
+          }),
+        },
+        eof: false,
+      }).should.eql('"a\rb"\nc');
     });
-  });
 
-  it("quotes a field containing a carriage return and line feed", function (next) {
-    stringify([["a\r\nb"]], { eof: false }, (err, data) => {
-      if (err) return next(err);
-      data.should.eql('"a\r\nb"');
-      next();
-    });
-  });
-
-  it("defaults to false when `record_delimiter` is provided", function (next) {
-    stringify(
-      [["a\rb"]],
-      { record_delimiter: "::", eof: false },
-      (err, data) => {
-        if (err) return next(err);
-        data.should.eql("a\rb");
-        next();
-      },
-    );
-  });
-
-  it("disabled with a default `record_delimiter`", function (next) {
-    stringify(
-      [["a\rb"]],
-      { quote_record_delimiter: false, eof: false },
-      (err, data) => {
-        if (err) return next(err);
-        data.should.eql("a\rb");
-        next();
-      },
-    );
-  });
-
-  it("enabled with a custom `record_delimiter`", function (next) {
-    stringify(
-      [["a\rb"]],
-      { record_delimiter: "::", quote_record_delimiter: true, eof: false },
-      (err, data) => {
-        if (err) return next(err);
-        data.should.eql('"a\rb"');
-        next();
-      },
-    );
-  });
-
-  it("quotes the configured `record_delimiter` when disabled", function (next) {
-    stringify(
-      [["a::b"]],
-      { record_delimiter: "::", quote_record_delimiter: false, eof: false },
-      (err, data) => {
-        if (err) return next(err);
-        data.should.eql('"a::b"');
-        next();
-      },
-    );
-  });
-
-  it("applies to a `record_delimiter` returned by cast", function (next) {
-    // The emitted delimiter stays the global one, so `\r` is still quoted
-    stringify(
-      [["a\rb"], ["c"]],
-      {
+    it("quotes a `record_delimiter` returned by cast", function () {
+      stringify([["a::b"]], {
         cast: { string: (value) => ({ value, record_delimiter: "::" }) },
         eof: false,
-      },
-      (err, data) => {
-        if (err) return next(err);
-        data.should.eql('"a\rb"\nc');
-        next();
-      },
-    );
-  });
+      }).should.eql('"a::b"');
+    });
 
-  it("quotes a `record_delimiter` returned by cast", function (next) {
-    stringify(
-      [["a::b"]],
-      {
-        cast: { string: (value) => ({ value, record_delimiter: "::" }) },
-        eof: false,
-      },
-      (err, data) => {
-        if (err) return next(err);
-        data.should.eql('"a::b"');
-        next();
-      },
-    );
-  });
-
-  it("defaults to false in cast when `record_delimiter` is provided", function (next) {
-    stringify(
-      [["a\rb"]],
-      {
+    it("defaults to false in cast when `record_delimiter` is provided", function () {
+      stringify([["a\rb"]], {
         record_delimiter: ";;",
         cast: { string: (value) => ({ value, record_delimiter: "::" }) },
         eof: false,
-      },
-      (err, data) => {
-        if (err) return next(err);
-        data.should.eql("a\rb");
-        next();
-      },
-    );
+      }).should.eql("a\rb");
+    });
   });
 });
