@@ -2,5 +2,5 @@
 
 for script in ./lib/*.js; do
   echo "################## $script"
-  node $script
+  node "$script"
 done

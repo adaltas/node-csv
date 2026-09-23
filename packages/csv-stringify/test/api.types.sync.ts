@@ -23,9 +23,8 @@ describe("API Types", function () {
       const cast = options.cast;
       const castBoolean: Cast<boolean> | undefined = cast?.boolean;
       const columns:
-        | ReadonlyArray<string | ColumnOption>
-        | PlainObject<string>
-        | undefined = options.columns;
+        ReadonlyArray<string | ColumnOption> | PlainObject<string> | undefined =
+        options.columns;
       return [rd, castBoolean, columns];
     };
   });
