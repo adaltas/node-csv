@@ -115,4 +115,4 @@ const stringify = function () {
   return stringifier;
 };
 
-export { stringify, CsvError, Stringifier };
+export { stringify, CsvError, Stringifier, normalize_options };

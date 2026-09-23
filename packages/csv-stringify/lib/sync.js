@@ -1,3 +1,10 @@
+/*
+CSV Stringify
+
+Please look at the [Sync API](https://csv.js.org/stringify/api/sync/) for
+additional information.
+*/
+
 import { stringifier } from "./api/index.js";
 import { normalize_options } from "./api/normalize_options.js";
 
@@ -31,4 +38,4 @@ const stringify = function (records, opts = {}) {
   return data.join("");
 };
 
-export { stringify };
+export { stringify, normalize_options };

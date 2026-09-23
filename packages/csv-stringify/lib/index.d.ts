@@ -215,3 +215,35 @@ declare function stringify(
 ): Stringifier;
 
 export { stringify };
+
+/////////////////////////////////////////////////////// CsvError
+
+export type CsvErrorCode =
+  | "CSV_OPTION_BOOLEAN_INVALID_TYPE"
+  | "CSV_OPTION_DELIMITER_INVALID_TYPE"
+  | "CSV_OPTION_QUOTE_INVALID_TYPE"
+  | "CSV_OPTION_ESCAPE_FORMULAS_INVALID_TYPE"
+  | "CSV_OPTION_QUOTED_MATCH"
+  | "CSV_INVALID_OPTION_HEADER"
+  | "CSV_INVALID_OPTION_HEADER_AS_COMMENT"
+  | "CSV_OPTION_QUOTE_RECORD_DELIMITER_INVALID_TYPE"
+  | "CSV_INVALID_ARGUMENT";
+
+export class CsvError extends Error {
+  readonly code: CsvErrorCode;
+  [key: string]: unknown;
+
+  constructor(
+    code: CsvErrorCode,
+    message: string | string[],
+    options?: OptionsNormalized,
+    ...contexts: unknown[]
+  );
+}
+
+/////////////////////////////////////////////////////// normalize_options
+
+declare function normalize_options(
+  opts: Options,
+): [CsvError, OptionsNormalized];
+export { normalize_options };
