@@ -7,7 +7,7 @@ const config = (mod) => ({
     rules: [
       {
         test: /\.ts$/,
-        use: "ts-loader",
+        use: "esbuild-loader",
         exclude: /node_modules/,
       },
     ],
