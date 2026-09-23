@@ -17,8 +17,8 @@
     "buffer-browserify": "^0.2.5",
     "node-polyfill-webpack-plugin": "^4.1.0",
     "stream-browserify": "^3.0.0",
-    "esbuild-loader": "^4.0.0",
     "typescript": "^6.0.3",
+    "esbuild-loader": "^4.5.0",
     "webpack": "^5.111.1",
     "webpack-cli": "^7.2.3"
   },
