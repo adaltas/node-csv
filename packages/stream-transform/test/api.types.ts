@@ -26,6 +26,32 @@ describe("api.types", function () {
         (err, records) => err || records,
       );
     });
+
+    it("handler before options", async function () {
+      const transformer = transform((record: string) => record.toUpperCase(), {
+        parallel: 1,
+      });
+      transformer.end("hello");
+      const records = [];
+      for await (const record of transformer) {
+        records.push(record);
+      }
+      records.should.eql(["HELLO"]);
+      transformer.options.should.have.property("parallel", 1);
+    });
+
+    it("records and handler before options with callback", function (done) {
+      transform(
+        ["hello", "world"],
+        (record) => record.toUpperCase(),
+        { parallel: 1 },
+        (err, records) => {
+          if (err) return done(err);
+          records!.should.eql(["HELLO", "WORLD"]);
+          done();
+        },
+      );
+    });
   });
 
   describe("Parser", function () {

@@ -53,9 +53,20 @@ declare function transform<T = unknown, U = unknown>(
   callback?: Callback,
 ): Transformer;
 declare function transform<T = unknown, U = unknown>(
+  handler: Handler<T, U>,
+  options: Options,
+  callback?: Callback,
+): Transformer;
+declare function transform<T = unknown, U = unknown>(
   records: Array<T>,
   options: Options,
   handler: Handler<T, U>,
+  callback?: Callback,
+): Transformer;
+declare function transform<T = unknown, U = unknown>(
+  records: Array<T>,
+  handler: Handler<T, U>,
+  options: Options,
   callback?: Callback,
 ): Transformer;
 
