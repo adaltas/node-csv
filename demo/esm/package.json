@@ -10,13 +10,11 @@
     "csv-parse": "^7.0.2"
   },
   "devDependencies": {
-    "coffeescript": "^2.7.0",
     "mocha": "^11.7.6",
     "should": "^13.2.3"
   },
   "mocha": {
     "inline-diffs": true,
-    "loader": "./test/loaders/all.js",
     "recursive": true,
     "reporter": "spec",
     "require": [
@@ -26,7 +24,6 @@
     "timeout": 40000
   },
   "scripts": {
-    "test": "mocha 'test/**/*.coffee'",
-    "test:legacy": "mocha --loader=./test/loaders/legacy/all.js 'test/**/*.{coffee,ts}'"
+    "test": "mocha 'test/**/*.js'"
   }
 }

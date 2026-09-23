@@ -27,8 +27,8 @@ describe("Samples", function () {
             case ".ts":
               [cmd, ...args] = [
                 "node",
-                "--loader",
-                "ts-node/esm",
+                "--import",
+                "tsx",
                 path.resolve(dir, sample),
               ];
               break;

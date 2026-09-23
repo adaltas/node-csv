@@ -24,7 +24,12 @@ describe("Samples", function () {
               [cmd, ...args] = ["node", path.resolve(dir, sample)];
               break;
             case ".ts":
-              [cmd, ...args] = ["ts-node", path.resolve(dir, sample)];
+              [cmd, ...args] = [
+                "node",
+                "--import",
+                "tsx",
+                path.resolve(dir, sample),
+              ];
               break;
           }
           spawn(cmd, args)

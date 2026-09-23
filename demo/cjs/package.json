@@ -15,7 +15,6 @@
     "coffeescript": "^2.7.0",
     "mocha": "^11.7.6",
     "should": "^13.2.3",
-    "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   },
   "mocha": {
