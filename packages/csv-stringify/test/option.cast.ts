@@ -135,25 +135,29 @@ describe("Option `cast`", function () {
       );
     });
 
-    it("header", function (next) {
-      stringify(
-        [["value 1"], ["value 2"]],
-        {
-          header: true,
-          columns: ["header"],
-          cast: {
-            string: (value, context) => `${value} | ${context.header}`,
+    for (const eof of [true, false]) {
+      it(`header with eof ${eof}`, function (next) {
+        stringify(
+          [["value 1"], ["value 2"]],
+          {
+            header: true,
+            columns: ["header"],
+            eof,
+            cast: {
+              string: (value, context) => `${value} | ${context.header}`,
+            },
           },
-        },
-        (err, data) => {
-          if (!err)
-            data
-              .trim()
-              .should.eql("header | true\nvalue 1 | false\nvalue 2 | false");
-          next(err);
-        },
-      );
-    });
+          (err, data) => {
+            if (!err)
+              data.should.eql(
+                "header | true\nvalue 1 | false\nvalue 2 | false" +
+                  (eof ? "\n" : ""),
+              );
+            next(err);
+          },
+        );
+      });
+    }
   });
 
   describe("option header", function () {
