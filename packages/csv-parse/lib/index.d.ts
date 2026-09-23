@@ -498,6 +498,40 @@ export interface Options<T = string[], U = T> {
   trim?: OptionsNormalized["trim"] | null;
 }
 
+export type OptionsWithColumns<T, U = T> = Omit<Options<T, U>, "columns"> & {
+  columns: Exclude<
+    Options<NoInferColumnRecord<T>, NoInferColumnRecord<U>>["columns"],
+    undefined | false
+  >;
+};
+
+declare function parse<T = unknown, U = T>(
+  input: string | Buffer | Uint8Array,
+  options: OptionsWithColumns<T, U>,
+  callback?: Callback<T>,
+): Parser;
+declare function parse(
+  input: string | Buffer | Uint8Array,
+  options: Options,
+  callback?: Callback,
+): Parser;
+
+declare function parse<T = unknown, U = T>(
+  options: OptionsWithColumns<T, U>,
+  callback?: Callback<T>,
+): Parser;
+declare function parse(options: Options, callback?: Callback): Parser;
+
+declare function parse(
+  input: string | Buffer | Uint8Array,
+  callback?: Callback,
+): Parser;
+declare function parse(callback?: Callback): Parser;
+
+export { parse };
+
+/////////////////////////////////////////////////////// CsvError
+
 export type CsvErrorCode =
   | "CSV_INVALID_ARGUMENT"
   | "CSV_INVALID_CLOSING_QUOTE"
@@ -532,37 +566,7 @@ export class CsvError extends Error {
   );
 }
 
-export type OptionsWithColumns<T, U = T> = Omit<Options<T, U>, "columns"> & {
-  columns: Exclude<
-    Options<NoInferColumnRecord<T>, NoInferColumnRecord<U>>["columns"],
-    undefined | false
-  >;
-};
-
-declare function parse<T = unknown, U = T>(
-  input: string | Buffer | Uint8Array,
-  options: OptionsWithColumns<T, U>,
-  callback?: Callback<T>,
-): Parser;
-declare function parse(
-  input: string | Buffer | Uint8Array,
-  options: Options,
-  callback?: Callback,
-): Parser;
-
-declare function parse<T = unknown, U = T>(
-  options: OptionsWithColumns<T, U>,
-  callback?: Callback<T>,
-): Parser;
-declare function parse(options: Options, callback?: Callback): Parser;
-
-declare function parse(
-  input: string | Buffer | Uint8Array,
-  callback?: Callback,
-): Parser;
-declare function parse(callback?: Callback): Parser;
-
-export { parse };
+/////////////////////////////////////////////////////// normalize_options
 
 declare function normalize_options(opts: Options): OptionsNormalized;
 export { normalize_options };
