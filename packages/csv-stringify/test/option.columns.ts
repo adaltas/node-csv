@@ -128,10 +128,10 @@ describe("Option `columns`", function () {
       );
     });
 
-    it("is an array, should not be altered", function (next) {
+    it("input array is not altered", function (next) {
       const records = [
-        ["20322051544", "1979", "8.8017226E7"],
-        ["28392898392", "1974", "8.8392926E7"],
+        ["a", "b", "c"],
+        ["d", "e", "f"],
       ];
       stringify(
         records,
@@ -140,10 +140,10 @@ describe("Option `columns`", function () {
         },
         (err, data) => {
           if (!err) {
-            data.should.eql("20322051544,1979\n28392898392,1974\n");
+            data.should.eql("a,b\nd,e\n");
             records.should.eql([
-              ["20322051544", "1979", "8.8017226E7"],
-              ["28392898392", "1974", "8.8392926E7"],
+              ["a", "b", "c"],
+              ["d", "e", "f"],
             ]);
           }
           next(err);
