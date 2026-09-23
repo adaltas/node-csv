@@ -87,11 +87,16 @@ export type CastingFunction = (value: string, context: InfoField) => unknown;
 export type CastingDateFunction = (value: string, context: InfoField) => Date;
 
 export type ColumnOption<K = string> =
-  | K
-  | undefined
-  | null
-  | false
-  | { name: K };
+  K | undefined | null | false | { name: K };
+
+type ColumnKey<T> = T extends string[]
+  ? string
+  : unknown extends T
+    ? string
+    : string | keyof T;
+
+// Keep columns from overriding record types inferred from options such as raw.
+type NoInferColumnRecord<T> = [T][T extends unknown ? 0 : never];
 
 export interface OptionDelimiterAuto {
   preferred: Record<string, number>;
@@ -120,21 +125,17 @@ export interface OptionsNormalized<T = string[], U = T> {
    * Internal property string the function to
    */
   cast_first_line_to_header?: (
-    record: T,
-  ) => ColumnOption<
-    T extends string[] ? string : T extends unknown ? string : keyof T
-  >[];
+    record: string[],
+  ) => ColumnOption<ColumnKey<U>>[];
   /**
    * List of fields as an array, a user defined callback accepting the first
    * line and returning the column names or true if autodiscovered in the first
    * CSV line, default to null, affect the result data set in the sense that
-   * records will be objects instead of arrays.
+   * records will be objects instead of arrays. The callback receives the raw
+   * header fields as strings, while returned names may use keys from the typed
+   * input record.
    */
-  columns:
-    | boolean
-    | ColumnOption<
-        T extends string[] ? string : T extends unknown ? string : keyof T
-      >[];
+  columns: boolean | ColumnOption<ColumnKey<U>>[];
   /**
    * Treat all the characters after this one as a comment, default to '' (disabled).
    */
@@ -305,15 +306,11 @@ export interface Options<T = string[], U = T> {
    * List of fields as an array,
    * a user defined callback accepting the first line and returning the column names or true if autodiscovered in the first CSV line,
    * default to null,
-   * affect the result data set in the sense that records will be objects instead of arrays.
+   * affect the result data set in the sense that records will be objects instead of arrays. The callback receives the raw header fields as strings, while returned names may use keys from the typed input record.
    */
   columns?:
-    | OptionsNormalized["columns"]
-    | ((
-        record: T,
-      ) => ColumnOption<
-        T extends string[] ? string : T extends unknown ? string : keyof T
-      >[]);
+    | OptionsNormalized<T, U>["columns"]
+    | ((record: string[]) => ColumnOption<ColumnKey<U>>[]);
   /**
    * Treat all the characters after this one as a comment, default to '' (disabled).
    */
@@ -449,11 +446,9 @@ export interface Options<T = string[], U = T> {
    * Don't generate records for lines containing empty column values (column matching /\s*\/), defaults to false.
    */
   skip_records_with_empty_values?:
-    | OptionsNormalized["skip_records_with_empty_values"]
-    | null;
+    OptionsNormalized["skip_records_with_empty_values"] | null;
   skipRecordsWithEmptyValues?:
-    | OptionsNormalized["skip_records_with_empty_values"]
-    | null;
+    OptionsNormalized["skip_records_with_empty_values"] | null;
   /**
    * Skip a line with error found inside and directly go process the next line.
    */
@@ -510,7 +505,10 @@ export class CsvError extends Error {
 }
 
 export type OptionsWithColumns<T, U = T> = Omit<Options<T, U>, "columns"> & {
-  columns: Exclude<Options["columns"], undefined | false>;
+  columns: Exclude<
+    Options<NoInferColumnRecord<T>, NoInferColumnRecord<U>>["columns"],
+    undefined | false
+  >;
 };
 
 declare function parse<T = unknown, U = T>(

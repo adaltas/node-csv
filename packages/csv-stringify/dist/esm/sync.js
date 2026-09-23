@@ -2561,7 +2561,7 @@ const stringifier = function (options, state, info) {
           options = this.options;
         } else if (is_object(value)) {
           // Value is considerered as a mix of a value and options
-          options = value;
+          options = { ...value };
           value = options.value;
           delete options.value;
           if (
@@ -2637,9 +2637,14 @@ const stringifier = function (options, state, info) {
           // Apple Numbers unicode normalization is empirical from testing
           if (escape_formulas) {
             switch (value[0]) {
+              case "-":
+                if (typeof field === "number" || typeof field === "bigint") {
+                  break;
+                }
+                value = `'${value}`;
+                break;
               case "=":
               case "+":
-              case "-":
               case "@":
               case "\t":
               case "\r":
