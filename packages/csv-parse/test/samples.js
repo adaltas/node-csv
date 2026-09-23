@@ -9,7 +9,7 @@ const samples = await fs.readdir(dir);
 const [, major] = process.version.match(/(\d+)\.\d+\.\d+/);
 
 describe("Samples", function () {
-  /* eslint mocha/no-setup-in-describe: "off" */
+  /* eslint mocha/no-setup-in-suite: "off" */
   samples
     .filter((sample) => !(major < 16 && sample === "recipe.promises.js"))
     .filter((sample) => {

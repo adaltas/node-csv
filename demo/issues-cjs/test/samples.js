@@ -6,7 +6,7 @@ const dir = path.resolve(__dirname, "../lib");
 const samples = fs.readdirSync(dir);
 
 describe("Samples", function () {
-  /* eslint mocha/no-setup-in-describe: "off" */
+  /* eslint mocha/no-setup-in-suite: "off" */
   samples
     .filter((sample) => {
       if (!/\.(js|ts)?$/.test(sample)) return false;
