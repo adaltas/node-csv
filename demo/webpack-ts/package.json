@@ -23,7 +23,7 @@
     "webpack-cli": "^7.1.0"
   },
   "scripts": {
-    "build": "npx webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js",
     "start": "http-server ./dist -p 8000",
     "test": "npm run build >/dev/null"
   }

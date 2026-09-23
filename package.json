@@ -29,7 +29,7 @@
     "publish": "lerna publish from-git --yes",
     "lint:check": "eslint",
     "lint:fix": "eslint --fix",
-    "lint:staged": "npx lint-staged",
+    "lint:staged": "lint-staged",
     "test": "lerna run test",
     "test:16": "lerna run test:16",
     "test:legacy": "lerna run test:legacy",
