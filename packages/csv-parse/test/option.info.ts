@@ -87,7 +87,7 @@ describe("Option `info`", function () {
         `,
         { info: true, skip_empty_lines: true },
         (err, records) => {
-          if (err) next(err);
+          if (err) return next(err);
           (records as unknown as { record: string[]; info: Info }[])
             .map(({ info }) => [info.lines, info.bytes])
             .should.eql([
@@ -112,7 +112,7 @@ describe("Option `info`", function () {
         `,
         { info: true, comment: "#" },
         (err, records) => {
-          if (err) next(err);
+          if (err) return next(err);
           (records as unknown as { record: string[]; info: Info }[])
             .map(({ info }) => [info.lines, info.bytes])
             .should.eql([

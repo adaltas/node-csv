@@ -29,7 +29,7 @@ describe("Option `max_record_size`", function () {
       `,
       { max_record_size: 10 },
       (err) => {
-        if (!err) return Error("Invalid assertion");
+        if (!err) return next(Error("Invalid assertion"));
         assert_error(err, {
           message:
             "Max Record Size: record exceed the maximum number of tolerated bytes of 10 at line 3",

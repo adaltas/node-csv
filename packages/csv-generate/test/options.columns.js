@@ -48,14 +48,13 @@ describe("Option `columns`", function () {
     });
   });
 
-  it("validate types", function (next) {
+  it("validate types", function () {
     try {
       generate({ columns: ["int", "bool", "invalid"] });
     } catch (err) {
       err.message.should.eql(
         'Invalid column type: got "invalid", default values are ["ascii","int","bool"]',
       );
-      next();
     }
   });
 

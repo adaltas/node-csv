@@ -3,7 +3,7 @@ import { generate, parse, parser, stringify, transform } from "../lib/index.js";
 
 describe("API Types", function () {
   describe("Initialisation", function () {
-    it("generate", function () {
+    it("generate", async function () {
       // with options + handler
       generate(
         { length: 1 },
@@ -11,7 +11,7 @@ describe("API Types", function () {
       );
     });
 
-    it("parse", function () {
+    it("parse", async function () {
       // With input + handler
       parse(
         "abc,def",
@@ -21,12 +21,14 @@ describe("API Types", function () {
       );
     });
 
-    it("stringify", function () {
+    it("stringify", async function () {
       // With handler
-      stringify((err: Error | undefined, output: string) => err || output);
+      await stringify(
+        (err: Error | undefined, output: string) => err || output,
+      );
     });
 
-    it("transform", function () {
+    it("transform", async function () {
       // With handler
       const transformer = transform((record) => record);
       transformer.should.be.an.Object(); // Disable unused variable warning

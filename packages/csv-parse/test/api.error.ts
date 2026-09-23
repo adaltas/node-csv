@@ -24,9 +24,9 @@ describe("API error", function () {
     err.b.should.eql(2);
   });
 
-  it("errors are enriched by context", function () {
+  it("errors are enriched by context", function (next) {
     parse('a"b', (err) => {
-      if (!err) throw Error("Invalid assertion");
+      if (!err) return next(Error("Invalid assertion"));
       assert_error(err, {
         message: /Invalid Opening Quote/,
         code: "INVALID_OPENING_QUOTE",
@@ -40,6 +40,7 @@ describe("API error", function () {
         records: 0,
         field: "a",
       });
+      next();
     });
   });
 });

@@ -87,7 +87,7 @@ describe("Option `ltrim`", function () {
   it("with char after whitespaces", function (next) {
     const data = ` x  " a b",x "   c d"\nx " e f", x  "   g h"`;
     const parser = parse({ ltrim: true }, (err) => {
-      if (!err) return Error("Invalid assertion");
+      if (!err) return next(Error("Invalid assertion"));
       assert_error(err, {
         message:
           'Invalid Opening Quote: a quote is found on field 0 at line 1, value is "x  "',

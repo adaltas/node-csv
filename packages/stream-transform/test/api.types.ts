@@ -3,7 +3,7 @@ import { transform, Options, Transformer } from "../lib/index.js";
 
 describe("api.types", function () {
   describe("Initialisation", function () {
-    it("stream", function () {
+    it("stream", async function () {
       // With handler
       const transformer: Transformer = transform((record) => record);
       transformer.should.be.an.Object();

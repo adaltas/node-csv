@@ -267,7 +267,7 @@ describe("Option `relax_column_count`", function () {
   });
 
   describe("with skip_records_with_error", function () {
-    it("dont skip records", function () {
+    it("dont skip records", function (next) {
       parse(
         dedent`
           column_a
@@ -278,7 +278,9 @@ describe("Option `relax_column_count`", function () {
           relax_column_count: true,
         },
         (err, records) => {
+          if (err) return next(err);
           records.should.eql([["column_a"], ["a", "b"]]);
+          next();
         },
       );
     });

@@ -33,7 +33,7 @@ describe("API Web Stream", function () {
         throw Error("Shall not be called");
       } catch (err) {
         if (!(err instanceof CsvError)) {
-          throw Error("Invalid error type");
+          throw Error("Invalid error type", { cause: err });
         }
         err.code.should.eql("CSV_RECORD_INCONSISTENT_FIELDS_LENGTH");
       }

@@ -4,7 +4,7 @@ import type { Options, Generator } from "../lib/index.js";
 
 describe("API Types", function () {
   describe("Initialisation", function () {
-    it("stream", function () {
+    it("stream", async function () {
       // With callback
       const generator: Generator = generate();
       generator.destroy();

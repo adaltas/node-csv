@@ -195,7 +195,7 @@ describe("handler.mode.sync", function () {
   });
 
   describe("behavior", function () {
-    it("respect order", function () {
+    it("respect order", async function () {
       generate(
         { length: 1000, objectMode: true, seed: 1, columns: 2 },
         function (err, source) {
