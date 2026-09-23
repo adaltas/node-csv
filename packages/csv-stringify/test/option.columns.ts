@@ -128,6 +128,29 @@ describe("Option `columns`", function () {
       );
     });
 
+    it("input array is not altered", function (next) {
+      const records = [
+        ["a", "b", "c"],
+        ["d", "e", "f"],
+      ];
+      stringify(
+        records,
+        {
+          columns: ["FIELD_1", "FIELD_2"],
+        },
+        (err, data) => {
+          if (!err) {
+            data.should.eql("a,b\nd,e\n");
+            records.should.eql([
+              ["a", "b", "c"],
+              ["d", "e", "f"],
+            ]);
+          }
+          next(err);
+        },
+      );
+    });
+
     it("is a readable stream", function (next) {
       const ws = stringify(
         {

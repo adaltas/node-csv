@@ -113,11 +113,11 @@ const stringifier = function (options, state, info) {
       if (Array.isArray(chunk)) {
         // We are getting an array but the user has specified output columns. In
         // this case, we respect the columns indexes
-        if (columns) {
-          chunk.splice(columns.length);
-        }
+        const length = columns
+          ? Math.min(chunk.length, columns.length)
+          : chunk.length;
         // Cast record elements
-        for (let i = 0; i < chunk.length; i++) {
+        for (let i = 0; i < length; i++) {
           const field = chunk[i];
           const [err, value] = this.__cast(field, {
             index: i,
