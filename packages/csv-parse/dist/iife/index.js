@@ -6412,6 +6412,16 @@ var csv_parse = (function (exports) {
                           pos,
                         );
                         if (recordDelimiterLength !== 0) {
+                          // Only the first byte of the record delimiter was appended to
+                          // the raw buffer above; append the remaining bytes so that
+                          // multi-byte delimiters such as "\r\n" are preserved in full in
+                          // `raw` instead of being truncated when `pos` skips past them
+                          // below (e.g. `raw: 'a,b\r'` instead of `raw: 'a,b\r\n'`). (#332)
+                          if (raw === true) {
+                            for (let i = 1; i < recordDelimiterLength; i++) {
+                              rawBuffer.append(buf[pos + i]);
+                            }
+                          }
                           // Do not emit comments which take a full line
                           const skipCommentLine =
                             this.state.commenting &&
