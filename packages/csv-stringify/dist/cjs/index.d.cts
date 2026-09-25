@@ -113,6 +113,13 @@ export interface OptionsNormalized extends stream.TransformOptions {
    */
   record_delimiter: RecordDelimiter;
   /**
+   * Boolean, quote the fields containing one of the record delimiters discovered by `parse`, `\r\n`, `\n` and `\r`.
+   * Defaults to true unless `record_delimiter` is provided.
+   * It preserves round trip calls between `stringify` and `parse` with default options: `stringify` only writes `\n` while `parse` treats the three sequences as record delimiters,
+   * so an unquoted field holding a `\r` is otherwise read back as multiple records.
+   */
+  quote_record_delimiter: boolean;
+  /**
    * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protect against csv injection attacks
    */
   escape_formulas: boolean;
@@ -195,6 +202,13 @@ export interface Options extends stream.TransformOptions {
    */
   record_delimiter?: RecordDelimiter;
   /**
+   * Boolean, quote the fields containing one of the record delimiters discovered by `parse`, `\r\n`, `\n` and `\r`.
+   * Defaults to true unless `record_delimiter` is provided.
+   * It preserves round trip calls between `stringify` and `parse` with default options: `stringify` only writes `\n` while `parse` treats the three sequences as record delimiters,
+   * so an unquoted field holding a `\r` is otherwise read back as multiple records.
+   */
+  quote_record_delimiter?: boolean;
+  /**
    * Boolean, default to false, if true, fields that begin with `=`, `+`, `-`, `@`, `\t`, or `\r` will be prepended with a `'` to protect against csv injection attacks
    */
   escape_formulas?: boolean;
@@ -215,3 +229,35 @@ declare function stringify(
 ): Stringifier;
 
 export { stringify };
+
+/////////////////////////////////////////////////////// CsvError
+
+export type CsvErrorCode =
+  | "CSV_OPTION_BOOLEAN_INVALID_TYPE"
+  | "CSV_OPTION_DELIMITER_INVALID_TYPE"
+  | "CSV_OPTION_QUOTE_INVALID_TYPE"
+  | "CSV_OPTION_ESCAPE_FORMULAS_INVALID_TYPE"
+  | "CSV_OPTION_QUOTED_MATCH"
+  | "CSV_INVALID_OPTION_HEADER"
+  | "CSV_INVALID_OPTION_HEADER_AS_COMMENT"
+  | "CSV_OPTION_QUOTE_RECORD_DELIMITER_INVALID_TYPE"
+  | "CSV_INVALID_ARGUMENT";
+
+export class CsvError extends Error {
+  readonly code: CsvErrorCode;
+  [key: string]: unknown;
+
+  constructor(
+    code: CsvErrorCode,
+    message: string | string[],
+    options?: OptionsNormalized,
+    ...contexts: unknown[]
+  );
+}
+
+/////////////////////////////////////////////////////// normalize_options
+
+declare function normalize_options(
+  opts: Options,
+): [CsvError, OptionsNormalized];
+export { normalize_options };

@@ -98,9 +98,37 @@ type ColumnKey<T> = T extends string[]
 // Keep columns from overriding record types inferred from options such as raw.
 type NoInferColumnRecord<T> = [T][T extends unknown ? 0 : never];
 
-export interface OptionDelimiterAuto {
+export interface ScoringFunctionInfo {
+  /**
+   * The character code of the delimiter candidate being scored.
+   */
+  readonly char_code: number;
+  /**
+   * The number of occurrences of the candidate in each line.
+   */
+  readonly lines: number[];
+  /**
+   * Whether the candidate is listed in the `preferred` option.
+   */
+  readonly preferred: boolean;
+  /**
+   * The standard deviation of the occurrences across the lines.
+   */
+  readonly std: number;
+  /**
+   * The total number of occurrences of the candidate.
+   */
+  readonly total: number;
+}
+
+export type ScoringFunction = (
+  info: ScoringFunctionInfo,
+  options: ScoringFunctionOptions,
+) => number;
+
+export interface ScoringFunctionOptions {
   preferred: Record<string, number>;
-  score: () => number;
+  score: ScoringFunction;
   size: number;
 }
 
@@ -153,7 +181,7 @@ export interface OptionsNormalized<T = string[], U = T> {
   /**
    * Discover the field delimiter.
    */
-  delimiter_auto: OptionDelimiterAuto;
+  delimiter_auto: ScoringFunctionOptions;
   /**
    * Set the source and destination encoding, a value of `null` returns buffer instead of strings.
    */
@@ -470,6 +498,40 @@ export interface Options<T = string[], U = T> {
   trim?: OptionsNormalized["trim"] | null;
 }
 
+export type OptionsWithColumns<T, U = T> = Omit<Options<T, U>, "columns"> & {
+  columns: Exclude<
+    Options<NoInferColumnRecord<T>, NoInferColumnRecord<U>>["columns"],
+    undefined | false
+  >;
+};
+
+declare function parse<T = unknown, U = T>(
+  input: string | Buffer | Uint8Array,
+  options: OptionsWithColumns<T, U>,
+  callback?: Callback<T>,
+): Parser;
+declare function parse(
+  input: string | Buffer | Uint8Array,
+  options: Options,
+  callback?: Callback,
+): Parser;
+
+declare function parse<T = unknown, U = T>(
+  options: OptionsWithColumns<T, U>,
+  callback?: Callback<T>,
+): Parser;
+declare function parse(options: Options, callback?: Callback): Parser;
+
+declare function parse(
+  input: string | Buffer | Uint8Array,
+  callback?: Callback,
+): Parser;
+declare function parse(callback?: Callback): Parser;
+
+export { parse };
+
+/////////////////////////////////////////////////////// CsvError
+
 export type CsvErrorCode =
   | "CSV_INVALID_ARGUMENT"
   | "CSV_INVALID_CLOSING_QUOTE"
@@ -504,37 +566,7 @@ export class CsvError extends Error {
   );
 }
 
-export type OptionsWithColumns<T, U = T> = Omit<Options<T, U>, "columns"> & {
-  columns: Exclude<
-    Options<NoInferColumnRecord<T>, NoInferColumnRecord<U>>["columns"],
-    undefined | false
-  >;
-};
-
-declare function parse<T = unknown, U = T>(
-  input: string | Buffer | Uint8Array,
-  options: OptionsWithColumns<T, U>,
-  callback?: Callback<T>,
-): Parser;
-declare function parse(
-  input: string | Buffer | Uint8Array,
-  options: Options,
-  callback?: Callback,
-): Parser;
-
-declare function parse<T = unknown, U = T>(
-  options: OptionsWithColumns<T, U>,
-  callback?: Callback<T>,
-): Parser;
-declare function parse(options: Options, callback?: Callback): Parser;
-
-declare function parse(
-  input: string | Buffer | Uint8Array,
-  callback?: Callback,
-): Parser;
-declare function parse(callback?: Callback): Parser;
-
-export { parse };
+/////////////////////////////////////////////////////// normalize_options
 
 declare function normalize_options(opts: Options): OptionsNormalized;
 export { normalize_options };

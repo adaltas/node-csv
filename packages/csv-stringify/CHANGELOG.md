@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.9.0](https://github.com/adaltas/node-csv/compare/csv-stringify@6.8.3...csv-stringify@6.9.0) (2026-09-25)
+
+### Features
+
+* **csv-stringify:** expose csv error and normalize_options ([963388d](https://github.com/adaltas/node-csv/commit/963388da88d150e0ab2dafa2ad4382917c25cc06))
+
+### Bug Fixes
+
+* **csv-stringify:** do not alter the source record when columns is set ([#504](https://github.com/adaltas/node-csv/issues/504)) ([041deff](https://github.com/adaltas/node-csv/commit/041deff3f9b811e73ac0d151d00c605eaf2a00d6))
+* **csv-stringify:** preserve header cast context when eof is false ([#505](https://github.com/adaltas/node-csv/issues/505)) ([a38ef06](https://github.com/adaltas/node-csv/commit/a38ef064a099cdac907cd170d028d8ced3fb1c52))
+* **csv-stringify:** preserve negative numeric values ([#510](https://github.com/adaltas/node-csv/issues/510)) ([0002d56](https://github.com/adaltas/node-csv/commit/0002d56f882eb386510ee725d318f06bfeccc9cc))
+* **csv-stringify:** preserve objects returned by cast functions ([#509](https://github.com/adaltas/node-csv/issues/509)) ([1742c9f](https://github.com/adaltas/node-csv/commit/1742c9ff3386f9a20e3fdcf452322e75b3a19f1a))
+* **csv-stringify:** quote fields containing a carriage return ([#485](https://github.com/adaltas/node-csv/issues/485)) ([d64d410](https://github.com/adaltas/node-csv/commit/d64d410b21cf126d410c79c9448b648531a2e8af))
+
+
 ## [6.8.3](https://github.com/adaltas/node-csv/compare/csv-stringify@6.8.2...csv-stringify@6.8.3) (2026-08-05)
 
 ### Bug Fixes

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.0.3](https://github.com/adaltas/node-csv/compare/csv-parse@7.0.2...csv-parse@7.0.3) (2026-09-25)
+
+### Bug Fixes
+
+* **csv-parse:** preserve typed column keys ([#500](https://github.com/adaltas/node-csv/issues/500)) ([745f045](https://github.com/adaltas/node-csv/commit/745f045295f43a77e14a779bd57a4e3c5f51d9ea))
+* **csv-parse:** type the delimiter_auto score callback arguments ([#499](https://github.com/adaltas/node-csv/issues/499)) ([4aa04da](https://github.com/adaltas/node-csv/commit/4aa04daba6336a53fa79c0e0ec2ea242a95ae33c))
+
+
 ## [7.0.2](https://github.com/adaltas/node-csv/compare/csv-parse@7.0.1...csv-parse@7.0.2) (2026-08-02)
 
 ### Bug Fixes

@@ -7940,6 +7940,20 @@
               ) {
                 return [Error(`Invalid Option: "on_record" must be a function.`)];
               }
+              // Normalize option `quote_record_delimiter`
+              if (
+                options.quote_record_delimiter === undefined ||
+                options.quote_record_delimiter === null
+              ) {
+                options.quote_record_delimiter = !options.record_delimiter;
+              } else if (typeof options.quote_record_delimiter !== "boolean") {
+                return [
+                  new CsvError("CSV_OPTION_QUOTE_RECORD_DELIMITER_INVALID_TYPE", [
+                    "option `quote_record_delimiter` must be a boolean,",
+                    `got ${JSON.stringify(options.quote_record_delimiter)}`,
+                  ]),
+                ];
+              }
               // Normalize option `record_delimiter`
               if (
                 options.record_delimiter === undefined ||
@@ -7983,12 +7997,13 @@
             // separator (eg value "a:" + delimiter "::" => "a:::", matched at offset 1).
             // Such fields must be quoted to round-trip, like RFC 4180 fields containing the
             // delimiter, generalized to multi-character delimiters and record delimiters.
-            const emits_separator = function (value, separator) {
-              return (
-                separator.length !== 0 &&
-                (value.indexOf(separator) !== -1 ||
-                  (separator.length > 1 &&
-                    (value + separator).indexOf(separator) < value.length))
+            const emits_separator = function (value, separators) {
+              return separators.some(
+                (separator) =>
+                  separator.length !== 0 &&
+                  (value.indexOf(separator) !== -1 ||
+                    (separator.length > 1 &&
+                      (value + separator).indexOf(separator) < value.length)),
               );
             };
             // True when `value` matches one of the `quoted_match` patterns. The regexps
@@ -8086,11 +8101,11 @@
                   if (Array.isArray(chunk)) {
                     // We are getting an array but the user has specified output columns. In
                     // this case, we respect the columns indexes
-                    if (columns) {
-                      chunk.splice(columns.length);
-                    }
+                    const length = columns
+                      ? Math.min(chunk.length, columns.length)
+                      : chunk.length;
                     // Cast record elements
-                    for (let i = 0; i < chunk.length; i++) {
+                    for (let i = 0; i < length; i++) {
                       const field = chunk[i];
                       const [err, value] = this.__cast(field, {
                         index: i,
@@ -8164,6 +8179,7 @@
                       quoted_string,
                       quoted_match,
                       record_delimiter,
+                      quote_record_delimiter,
                       escape_formulas,
                     } = options;
                     if ("" === value && "" === field) {
@@ -8184,13 +8200,14 @@
                           ),
                         ];
                       }
-                      const containsdelimiter = emits_separator(value, delimiter);
+                      const containsdelimiter = emits_separator(value, [delimiter]);
                       const containsQuote = quote !== "" && value.indexOf(quote) >= 0;
                       const containsEscape = value.indexOf(escape) >= 0 && escape !== quote;
-                      const containsRecordDelimiter = emits_separator(
-                        value,
+                      // Testing `\n` and `\r` covers the three sequences `parse` discovers
+                      const containsRecordDelimiter = emits_separator(value, [
                         record_delimiter,
-                      );
+                        ...(quote_record_delimiter === false ? [] : ["\n", "\r"]),
+                      ]);
                       const quotedString = quoted_string && typeof field === "string";
                       const quotedMatch = matches_quoted_match(value, quoted_match);
                       // See https://github.com/adaltas/node-csv/pull/387
@@ -8268,7 +8285,7 @@
                     [err, headers] = this.stringify(headers, true);
                     headers += this.options.record_delimiter;
                   } else {
-                    [err, headers] = this.stringify(headers);
+                    [err, headers] = this.stringify(headers, true);
                   }
                   if (err) return err;
                   if (this.options.header_as_comment) {
@@ -8471,12 +8488,14 @@
                   // sync
                   const result = this.handler.call(this, chunk, this.options.params);
                   if (result && result.then) {
-                    result.then((result) => {
-                      this.__done(null, [result], cb);
-                    });
-                    result.catch((err) => {
-                      this.__done(err);
-                    });
+                    result.then(
+                      (result) => {
+                        this.__done(null, [result], cb);
+                      },
+                      (err) => {
+                        this.__done(err);
+                      },
+                    );
                   } else {
                     this.__done(null, [result], cb);
                   }

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.4](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.6.3...csv-issues-esm@0.6.4) (2026-09-25)
+
+**Note:** Version bump only for package csv-issues-esm
+
+
+
+
+
 ## [0.6.3](https://github.com/adaltas/node-csv/compare/csv-issues-esm@0.6.2...csv-issues-esm@0.6.3) (2026-08-05)
 
 **Note:** Version bump only for package csv-issues-esm

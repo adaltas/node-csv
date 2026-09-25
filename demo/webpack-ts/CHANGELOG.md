@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.0](https://github.com/adaltas/node-csv/compare/csv-demo-webpack-ts@0.3.3...csv-demo-webpack-ts@0.4.0) (2026-09-25)
+
+### Features
+
+* **csv-demo-webpack-ts:** replace ts-loader with esbuild-loader ([fe3e20e](https://github.com/adaltas/node-csv/commit/fe3e20e51e5df668d2bf0b2fdfd44e0fa8d44e6d))
+
+
 ## [0.3.3](https://github.com/adaltas/node-csv/compare/csv-demo-webpack-ts@0.3.2...csv-demo-webpack-ts@0.3.3) (2026-08-05)
 
 **Note:** Version bump only for package csv-demo-webpack-ts

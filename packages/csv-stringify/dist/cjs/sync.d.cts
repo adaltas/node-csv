@@ -11,6 +11,7 @@ export {
   Input,
   ColumnOption,
   CastingContext,
+  normalize_options,
   Options,
   OptionsNormalized,
 } from "./index.cjs";

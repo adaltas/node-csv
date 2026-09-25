@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.0](https://github.com/adaltas/node-csv/compare/stream-transform@3.5.1...stream-transform@3.6.0) (2026-09-25)
+
+### Features
+
+* **stream-transform:** accept options after handler in types ([#507](https://github.com/adaltas/node-csv/issues/507)) ([92f6f6f](https://github.com/adaltas/node-csv/commit/92f6f6ff2c222a2a9b851a3abfd4256243fa3bd6))
+
+### Bug Fixes
+
+* **stream-transform:** handle promise rejections without leaking ([#508](https://github.com/adaltas/node-csv/issues/508)) ([e594bdf](https://github.com/adaltas/node-csv/commit/e594bdf182b73a8ef934e4dd097ecab715b4c8fe))
+
+
 ## [3.5.1](https://github.com/adaltas/node-csv/compare/stream-transform@3.5.0...stream-transform@3.5.1) (2026-07-02)
 
 **Note:** Version bump only for package stream-transform

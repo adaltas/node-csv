@@ -5177,12 +5177,14 @@
         // sync
         const result = this.handler.call(this, chunk, this.options.params);
         if (result && result.then) {
-          result.then((result) => {
-            this.__done(null, [result], cb);
-          });
-          result.catch((err) => {
-            this.__done(err);
-          });
+          result.then(
+            (result) => {
+              this.__done(null, [result], cb);
+            },
+            (err) => {
+              this.__done(err);
+            },
+          );
         } else {
           this.__done(null, [result], cb);
         }
