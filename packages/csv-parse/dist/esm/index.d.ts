@@ -297,12 +297,11 @@ export interface OptionsNormalized<T = string[], U = T> {
   trim: boolean;
 }
 
-/*
-Note, could not `extends stream.TransformOptions` because encoding can be
-BufferEncoding and undefined as well as null which is not defined in the
-extended type.
-*/
-export interface Options<T = string[], U = T> {
+// Keep the parser's encoding options instead of the narrower stream encoding.
+export interface Options<T = string[], U = T> extends Omit<
+  stream.TransformOptions,
+  "encoding"
+> {
   /**
    * If true, the parser will attempt to convert read data types to native types.
    * @deprecated Use {@link cast}

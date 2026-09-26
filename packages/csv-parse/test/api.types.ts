@@ -1,11 +1,40 @@
 import "should";
-import { parse, CsvError, normalize_options } from "../lib/index.js";
-import type { Info, InfoField, Options, Parser } from "../lib/index.js";
+import { parse, CsvError, normalize_options, Parser } from "../lib/index.js";
+import type { Info, InfoField, Options } from "../lib/index.js";
 
 describe("API Types", function () {
   type Person = { name: string; age: number };
 
   describe("stream/callback API", function () {
+    it("accepts stream buffer options in the constructor", function () {
+      const parser = new Parser({
+        readableHighWaterMark: 2,
+        writableHighWaterMark: 32,
+      });
+      parser.readableHighWaterMark.should.eql(2);
+      parser.writableHighWaterMark.should.eql(32);
+      parser.destroy();
+    });
+
+    it("accepts stream options with a callback", function (next) {
+      parse("a,b\n", { highWaterMark: 16 }, (error, records) => {
+        if (error) return next(error);
+        records.should.eql([["a", "b"]]);
+        next();
+      });
+    });
+
+    for (const encoding of [null, false]) {
+      it(`keeps encoding ${encoding} with stream options`, function (next) {
+        const options: Options = { highWaterMark: 1, encoding };
+        parse("a,b\n", options, (error, records) => {
+          if (error) return next(error);
+          records.should.eql([[Buffer.from("a"), Buffer.from("b")]]);
+          next();
+        });
+      });
+    }
+
     it("respect parse signature", function () {
       // No argument
       parse();
