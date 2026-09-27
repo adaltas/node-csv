@@ -1,6 +1,5 @@
-/// <reference types="node" />
-
-import * as stream from "stream";
+import type * as stream from "./browser.js";
+import type { Buffer } from "./browser.js";
 
 export type Callback = (err: Error | undefined, output: string) => void;
 export type RecordDelimiter =
