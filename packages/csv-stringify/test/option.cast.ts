@@ -195,6 +195,24 @@ describe("Option `cast`", function () {
   });
 
   describe("info object", function () {
+    it("accept string, null and undefined values in cast options", function (next) {
+      stringify(
+        [["empty", "null", "undefined", "text"]],
+        {
+          cast: {
+            string: (value, context) => ({
+              value: ["", null, undefined, "text"][context.index],
+            }),
+          },
+        },
+        (err, data) => {
+          if (err) return next(err);
+          data.should.eql(",,,text\n");
+          next();
+        },
+      );
+    });
+
     it("preserves a reused cast result", function (next) {
       const result = { value: "shared", quoted: true };
       stringify(

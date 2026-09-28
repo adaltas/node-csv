@@ -1,5 +1,4 @@
 import "should";
-import assert from "node:assert";
 import { stringify } from "../lib/index.js";
 import { stringify as stringifySync } from "../lib/sync.js";
 
@@ -41,31 +40,11 @@ describe("Option `cast`", function () {
       });
 
       it(`reject invalid value ${JSON.stringify(value)} in the sync API`, function () {
-        assert.throws(
-          () =>
-            stringifySync([["input"]], { cast: { string: () => ({ value }) } }),
-          { message },
-        );
+        (function () {
+          stringifySync([["input"]], { cast: { string: () => ({ value }) } });
+        }).should.throw({ message });
       });
     }
-
-    it("accept string, null and undefined values in cast options", function (next) {
-      stringify(
-        [["empty", "null", "undefined", "text"]],
-        {
-          cast: {
-            string: (value, context) => ({
-              value: ["", null, undefined, "text"][context.index],
-            }),
-          },
-        },
-        (err, data) => {
-          if (err) return next(err);
-          data.should.eql(",,,text\n");
-          next();
-        },
-      );
-    });
 
     it("validate and normalize local options", function (next) {
       stringify(
