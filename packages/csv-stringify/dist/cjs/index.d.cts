@@ -6,7 +6,7 @@ export type Callback = (err: Error | undefined, output: string) => void;
 export type RecordDelimiter =
   string | Buffer | "unix" | "mac" | "windows" | "ascii" | "unicode";
 
-export type CastReturnObject = { value: string } & Pick<
+export type CastReturnObject = { value: string | null | undefined } & Pick<
   Options,
   | "delimiter"
   | "escape"

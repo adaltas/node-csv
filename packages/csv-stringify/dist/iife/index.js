@@ -5668,12 +5668,11 @@ var csv_stringify = (function (exports) {
               value !== undefined &&
               value !== null
             ) {
-              if (err)
-                return [
-                  Error(
-                    `Invalid Casting Value: returned value must return a string, null or undefined, got ${JSON.stringify(value)}`,
-                  ),
-                ];
+              return [
+                Error(
+                  `Invalid Casting Value: returned value must return a string, null or undefined, got ${JSON.stringify(value)}`,
+                ),
+              ];
             }
             // Merge global options with the ones returned by cast
             options = { ...this.options, ...options };
