@@ -1,9 +1,10 @@
 import fs from "node:fs";
 import assert from "node:assert";
 import { finished } from "node:stream/promises";
+import { fileURLToPath } from "node:url";
 import { parse, transform, stringify } from "csv";
 
-const __dirname = new URL(".", import.meta.url).pathname;
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 await fs.promises.writeFile(
   `${__dirname}/example.fs.input.csv`,
   "a,b,c\n1,2,3",
