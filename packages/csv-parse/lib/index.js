@@ -28,6 +28,7 @@ class Parser extends Transform {
   // Implementation of `Transform._transform`
   _transform(buf, _, callback) {
     if (this.state.stop === true) {
+      callback();
       return;
     }
     const err = this.api.parse(
@@ -38,27 +39,27 @@ class Parser extends Transform {
       },
       () => {
         this.push(null);
-        this.end();
-        // Fix #333 and break #410
-        //   ko: api.stream.iterator.coffee
-        //   ko with v21.4.0, ok with node v20.5.1: api.stream.finished # aborted (with generate())
-        //   ko: api.stream.finished # aborted (with Readable)
-        // this.destroy()
-        // Fix #410 and partially break #333
-        //   ok: api.stream.iterator.coffee
-        //   ok: api.stream.finished # aborted (with generate())
-        //   broken: api.stream.finished # aborted (with Readable)
-        this.on("end", this.destroy);
+        // Let buffered records be consumed before closing the writable side.
+        // The source can still write chunks before the readable end event.
+        this.on("end", () => {
+          this.end(() => this.destroy());
+        });
       },
     );
     if (err !== undefined) {
       this.state.stop = true;
     }
-    callback(err);
+    // Hold back upstream input until the final records have been consumed.
+    if (err === undefined && this.state.stop && !this.readableEnded) {
+      this.once("end", callback);
+    } else {
+      callback(err);
+    }
   }
   // Implementation of `Transform._flush`
   _flush(callback) {
     if (this.state.stop === true) {
+      callback();
       return;
     }
     const err = this.api.parse(

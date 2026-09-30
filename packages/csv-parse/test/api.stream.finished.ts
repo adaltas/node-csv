@@ -35,7 +35,7 @@ describe("API stream.finished", function () {
     records.length.should.eql(3);
   });
 
-  it.skip("aborted (with Readable)", async function () {
+  it("aborted (with Readable)", async function () {
     // See https://github.com/adaltas/node-csv/issues/333
     // See https://github.com/adaltas/node-csv/issues/410
     // Prevent `Error [ERR_STREAM_PREMATURE_CLOSE]: Premature close`
@@ -55,9 +55,66 @@ describe("API stream.finished", function () {
         records.push(record);
       }
     });
-    await stream.finished(parser);
-    records.length.should.eql(3);
+    try {
+      await stream.finished(parser);
+      records.length.should.eql(3);
+    } finally {
+      reader.destroy();
+    }
   });
+
+  for (const option of ["to", "to_line"]) {
+    it(`finishes after ${option} while the consumer pauses`, async function () {
+      const records: string[][] = [];
+      let produced = 0;
+      const reader = Readable.from(
+        (function* () {
+          for (let i = 0; i < 1000; i++) {
+            produced++;
+            yield `${i},value${i}\n`;
+          }
+        })(),
+        { highWaterMark: 1 },
+      );
+      const options =
+        option === "to"
+          ? { to: 1, highWaterMark: 1 }
+          : { to_line: 1, highWaterMark: 1 };
+      const parser = parse(options);
+      const done = stream.finished(parser);
+      parser.on("data", (record) => {
+        records.push(record);
+        parser.pause();
+        setImmediate(() => parser.resume());
+      });
+      reader.pipe(parser);
+      try {
+        await done;
+        records.should.eql([["0", "value0"]]);
+        produced.should.be.below(10);
+      } finally {
+        reader.destroy();
+      }
+    });
+
+    it(`resolves after ${option} with separate input chunks`, async function () {
+      const records: string[][] = [];
+      const parser = Readable.from(["a,b\n", "c,d\n", "e,f\n", "g,h\n"]).pipe(
+        parse({ [option]: 2 }),
+      );
+      parser.on("readable", () => {
+        let record;
+        while ((record = parser.read()) !== null) {
+          records.push(record);
+        }
+      });
+      await stream.finished(parser);
+      records.should.eql([
+        ["a", "b"],
+        ["c", "d"],
+      ]);
+    });
+  }
 
   it("rejected on error", async function () {
     const parser = parse({ to_line: 3 });
