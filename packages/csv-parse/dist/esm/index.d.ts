@@ -4,18 +4,31 @@
 
 import * as stream from "stream";
 import type { CsvError } from "./api/CsvError.js";
+export type * from "./options.js";
 import type {
   // Info
   Info,
   InfoCallback,
   // Options
-  OptionsWithColumns,
-  OptionsNormalized,
-  Options,
+  Options as OptionsOriginal,
+  OptionsNormalized as OptionsNormalizedOriginal,
+  OptionsWithColumns as OptionsWithColumnsOriginal,
 } from "./options.js";
 
 export * from "./api/CsvError.js";
-export type * from "./options.js";
+
+export interface Options<T = string[], U = T>
+  extends OptionsOriginal<T, U>, Omit<stream.TransformOptions, "encoding"> {}
+
+export interface OptionsNormalized<T = string[], U = T>
+  extends
+    OptionsNormalizedOriginal<T, U>,
+    Omit<stream.TransformOptions, "encoding"> {}
+
+export interface OptionsWithColumns<T, U = T>
+  extends
+    OptionsWithColumnsOriginal<T, U>,
+    Omit<stream.TransformOptions, "encoding"> {}
 
 export type Callback<T = string[]> = (
   err: CsvError | undefined,
@@ -35,7 +48,6 @@ export class Parser extends stream.Transform {
 
   readonly info: Info;
 }
-
 declare function parse<T = unknown, U = T>(
   input: string | Buffer | Uint8Array,
   options: OptionsWithColumns<T, U>,

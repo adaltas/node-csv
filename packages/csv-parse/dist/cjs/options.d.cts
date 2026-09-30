@@ -1,5 +1,3 @@
-import * as stream from "stream";
-
 import { CsvError } from "./api/CsvError.cjs";
 
 export interface Info {
@@ -277,10 +275,7 @@ export interface OptionsNormalized<T = string[], U = T> {
 }
 
 // Keep the parser's encoding options instead of the narrower stream encoding.
-export interface Options<T = string[], U = T> extends Omit<
-  stream.TransformOptions,
-  "encoding"
-> {
+export interface Options<T = string[], U = T> {
   /**
    * If true, the parser will attempt to convert read data types to native types.
    * @deprecated Use {@link cast}
