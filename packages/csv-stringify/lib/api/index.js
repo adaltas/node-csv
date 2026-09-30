@@ -212,14 +212,6 @@ const stringifier = function (options, state, info) {
               ),
             ];
           }
-          const containsdelimiter = emits_separator(value, [delimiter]);
-          const containsQuote = quote !== "" && value.indexOf(quote) >= 0;
-          const containsEscape = value.indexOf(escape) >= 0 && escape !== quote;
-          // Testing `\n` and `\r` covers the three sequences `parse` discovers
-          const containsRecordDelimiter = emits_separator(value, [
-            record_delimiter,
-            ...(quote_record_delimiter === false ? [] : ["\n", "\r"]),
-          ]);
           const quotedString = quoted_string && typeof field === "string";
           const quotedMatch = matches_quoted_match(value, quoted_match);
           // See https://github.com/adaltas/node-csv/pull/387
@@ -249,6 +241,16 @@ const stringifier = function (options, state, info) {
                 break;
             }
           }
+          // Inspect the value once the formula prefix is added, it may match
+          // the `quote`, `escape` or `delimiter` options
+          const containsdelimiter = emits_separator(value, [delimiter]);
+          const containsQuote = quote !== "" && value.indexOf(quote) >= 0;
+          const containsEscape = value.indexOf(escape) >= 0 && escape !== quote;
+          // Testing `\n` and `\r` covers the three sequences `parse` discovers
+          const containsRecordDelimiter = emits_separator(value, [
+            record_delimiter,
+            ...(quote_record_delimiter === false ? [] : ["\n", "\r"]),
+          ]);
           const shouldQuote =
             containsQuote === true ||
             containsdelimiter ||
