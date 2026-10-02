@@ -6,9 +6,9 @@ const init_state = function (options) {
   // https://tc39.es/ecma262/#sec-white-space
   // https://tc39.es/ecma262/#sec-line-terminators
   //
-  // Codepoints unrepresentable in the target encoding are dropped: Node's
-  // Buffer substitutes them with `?` (0x3F), and including those would cause
-  // literal `?` bytes in the input to be trimmed under `latin1`/`ascii`.
+  // Drop codepoints that do not round-trip through the target encoding.
+  // Single-byte encodings truncate them and could otherwise trim ordinary
+  // input bytes, e.g. U+205F becomes `_` under `latin1` and `ascii`.
   const timchars = [
     // Basic Latin
     0x0020, // [Space](https://www.fileformat.info/info/unicode/char/0020/index.htm)
@@ -40,11 +40,9 @@ const init_state = function (options) {
     0x3000, // [IDEOGRAPHIC SPACE](https://www.fileformat.info/info/unicode/char/3000/index.htm)
     0xfeff, // [ZERO WIDTH NO-BREAK SPACE (BOM)](https://www.fileformat.info/info/unicode/char/feff/index.htm)
   ].reduce((acc, codepoint) => {
-    const encoded = Buffer.from(
-      String.fromCharCode(codepoint),
-      options.encoding,
-    );
-    if (codepoint !== 0x3f && encoded.length === 1 && encoded[0] === 0x3f) {
+    const character = String.fromCharCode(codepoint);
+    const encoded = Buffer.from(character, options.encoding);
+    if (encoded.toString(options.encoding || "utf8") !== character) {
       return acc;
     }
     acc.push(encoded);
