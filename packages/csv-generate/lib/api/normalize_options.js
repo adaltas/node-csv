@@ -43,6 +43,10 @@ const normalize_options = (opts) => {
       options[k] = dft[k];
     }
   }
+  // Zero is a fixed point of the seeded recurrence; use the existing initial seed.
+  if (options.seed === 0) {
+    options.seed = 1;
+  }
   // Default values
   if (options.eof === true) {
     options.eof = options.rowDelimiter;
