@@ -1,8 +1,33 @@
 import "should";
 import should from "should";
 import { stringify } from "../lib/index.js";
+import { stringify as stringifySync } from "../lib/sync.js";
 
 describe("Option `quoted_match`", function () {
+  it("matches an empty string returned by a string cast", function (next) {
+    stringify(
+      [[" ", "", null, undefined, "text"]],
+      { quoted_match: /^$/, cast: { string: (value) => value.trim() } },
+      (err, data) => {
+        if (err) return next(err);
+        data.should.eql('"","",,,text\n');
+        next();
+      },
+    );
+  });
+
+  it("matches empty cast values in the sync API and local options", function () {
+    const data = stringifySync([[" ", 0, {}, null, undefined]], {
+      quoted_match: /^$/,
+      cast: {
+        string: (value) => value.trim(),
+        number: () => "",
+        object: () => ({ value: "", quoted_match: "" }),
+      },
+    });
+    data.should.eql('"","","",,\n');
+  });
+
   it("default to `null`", function (next) {
     const stringifier = stringify([["abc", "def"]], () => {
       should(stringifier.options.quoted_match).be.null();
