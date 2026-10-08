@@ -55,12 +55,10 @@ const read = (options, state, size, push, close) => {
     }
     // Obtain record length
     if (options.objectMode) {
-      recordLength = 0;
-      // recordLength is currently equal to the number of columns
-      // This is wrong and shall equal to 1 record only
-      for (const column of record) {
-        recordLength += column.length;
-      }
+      // Let the stream request each record independently of its column values.
+      state.count_created++;
+      push(record);
+      return;
     } else {
       // Stringify the record
       record =
