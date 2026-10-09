@@ -101,13 +101,11 @@ const parse = function () {
   const parser = new Parser(options);
   if (callback) {
     const records =
-      options === undefined || options.objname === undefined
-        ? []
-        : Object.create(null);
+      parser.options.objname === undefined ? [] : Object.create(null);
     parser.on("readable", function () {
       let record;
       while ((record = this.read()) !== null) {
-        if (options === undefined || options.objname === undefined) {
+        if (parser.options.objname === undefined) {
           records.push(record);
         } else {
           Object.assign(records, {
