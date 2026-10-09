@@ -1,3 +1,4 @@
+import assert from "node:assert/strict";
 import "should";
 import { transform } from "../lib/sync.js";
 
@@ -62,5 +63,21 @@ describe("api.sync", function () {
         },
       );
     }).should.throw("Invalid Handler: only synchronous handlers are supported");
+  });
+
+  it("throws the handler error and skips later records", function () {
+    const err = new Error("on 2");
+    const seen = [];
+    assert.throws(
+      function () {
+        transform([1, 2, 3], function (record) {
+          seen.push(record);
+          if (record === 2) throw err;
+          return record;
+        });
+      },
+      (thrown) => thrown === err,
+    );
+    seen.should.eql([1, 2]);
   });
 });
