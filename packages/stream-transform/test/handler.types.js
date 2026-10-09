@@ -40,7 +40,7 @@ describe("handler.types", function () {
     );
   });
 
-  it("receive string and return object", function (next) {
+  it("receive string and return object with a then field", function (next) {
     transform(
       ["20322-051544", "28392-898392", "83929-843999"],
       (record) => {
@@ -48,16 +48,16 @@ describe("handler.types", function () {
         const [value_1, value_2] = record.split("-");
         record = {
           FIELD_1: value_1,
-          FIELD_2: value_2,
+          then: value_2,
         };
         return record;
       },
       (err, data) => {
         if (err) return next(err);
         data.should.eql([
-          { FIELD_1: "20322", FIELD_2: "051544" },
-          { FIELD_1: "28392", FIELD_2: "898392" },
-          { FIELD_1: "83929", FIELD_2: "843999" },
+          { FIELD_1: "20322", then: "051544" },
+          { FIELD_1: "28392", then: "898392" },
+          { FIELD_1: "83929", then: "843999" },
         ]);
         next();
       },
