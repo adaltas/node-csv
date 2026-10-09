@@ -134,7 +134,7 @@ const normalize_options = function (opts) {
       "CSV_INVALID_OPTION_GROUP_COLUMNS_BY_NAME",
       [
         "Invalid option group_columns_by_name:",
-        "expect an boolean,",
+        "expect a boolean,",
         `got ${JSON.stringify(options.group_columns_by_name)}`,
       ],
       options,
