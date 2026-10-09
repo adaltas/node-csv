@@ -775,7 +775,7 @@ const transform = function (original_options = {}) {
         }
       }
       if (this.__isFloat(field)) {
-        return [undefined, parseFloat(field)];
+        return [undefined, Number(field)];
       } else if (this.options.cast_date !== false) {
         const info = this.__infoField();
         return [undefined, this.options.cast_date.call(null, field, info)];
