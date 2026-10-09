@@ -58,6 +58,13 @@ describe("Option `cast`", function () {
       });
     });
 
+    it("hex, octal and binary literals", function (next) {
+      parse("0x10,0o17,0b11,0x", { cast: true }, (err, records) => {
+        if (!err) records.should.eql([[16, 15, 3, "0x"]]);
+        next(err);
+      });
+    });
+
     it("float", function (next) {
       parse(
         "123a,1.23,0.123,01.23,.123,123.",
