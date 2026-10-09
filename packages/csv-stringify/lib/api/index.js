@@ -194,12 +194,14 @@ const stringifier = function (options, state, info) {
           quote_record_delimiter,
           escape_formulas,
         } = options;
-        if ("" === value && "" === field) {
+        if ("" === value) {
           const quotedMatch = matches_quoted_match(value, quoted_match);
           const shouldQuote =
             quotedMatch ||
             true === quoted_empty ||
-            (true === quoted_string && false !== quoted_empty);
+            (true === quoted_string &&
+              typeof field === "string" &&
+              false !== quoted_empty);
           if (shouldQuote === true) {
             value = quote + value + quote;
           }
