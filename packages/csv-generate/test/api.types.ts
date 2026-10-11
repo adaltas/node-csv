@@ -61,21 +61,6 @@ describe("API Types", function () {
       ];
     });
 
-    it("column functions can return numbers and null", function (next) {
-      generate(
-        {
-          length: 1,
-          encoding: "utf8",
-          columns: [() => 42, () => null],
-        },
-        (err, records) => {
-          if (err) return next(err);
-          (records as string).should.eql("42,");
-          next();
-        },
-      );
-    });
-
     it("delimiter", function () {
       const options: Options = {};
       options.delimiter = "|";

@@ -5,7 +5,7 @@ describe("Option `columns`", function () {
   it("as number", function (next) {
     this.timeout(1000000);
     let count = 0;
-    const data = [];
+    const data: Buffer[] = [];
     const generator = generate({ columns: 3 });
     generator.on("readable", () => {
       let d;
@@ -26,7 +26,7 @@ describe("Option `columns`", function () {
   it("as types", function (next) {
     this.timeout(1000000);
     let count = 0;
-    const data = [];
+    const data: Buffer[] = [];
     const generator = generate({ columns: ["int", "bool"], seed: 1 });
     generator.on("readable", () => {
       let d;
@@ -52,6 +52,7 @@ describe("Option `columns`", function () {
     try {
       generate({ columns: ["int", "bool", "invalid"] });
     } catch (err) {
+      if (!(err instanceof Error)) throw err;
       err.message.should.eql(
         'Invalid column type: got "invalid", default values are ["ascii","int","bool"]',
       );
@@ -61,7 +62,7 @@ describe("Option `columns`", function () {
   describe("user function", function () {
     it("accept string or null or number", function (next) {
       this.timeout(1000000);
-      const data = [];
+      const data: string[] = [];
       const generator = generate({
         length: 1,
         columns: [() => "a", () => null, () => 1],
@@ -81,6 +82,7 @@ describe("Option `columns`", function () {
 
     it("validate return argument", function (next) {
       this.timeout(1000000);
+      // @ts-expect-error Exercise runtime rejection of unsupported return values.
       const generator = generate({
         objectMode: true,
         columns: [() => ({})],
@@ -104,7 +106,7 @@ describe("Option `columns`", function () {
 
     it("validate arguments in objectMode", function (next) {
       this.timeout(1000000);
-      const data = [];
+      const data: unknown[] = [];
       const generator = generate({
         objectMode: true,
         length: 1,

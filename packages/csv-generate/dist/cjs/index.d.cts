@@ -5,6 +5,7 @@ import * as stream from "stream";
 type Callback = (err?: Error, records?: unknown) => void;
 
 export class Generator extends stream.Readable {
+  end(): void;
   constructor(options?: Options);
 
   readonly options: Options;
