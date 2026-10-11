@@ -14,7 +14,9 @@ export type ColumnsFunctionArgs = {
   options: Options;
   state: State;
 };
-export type ColumnsFunction = (args: ColumnsFunctionArgs) => string;
+export type ColumnsFunction = (
+  args: ColumnsFunctionArgs,
+) => string | number | null;
 
 export type State = {
   start_time: number;
