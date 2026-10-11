@@ -34,6 +34,7 @@ const normalize_columns = function (columns) {
         }
         newcolumns.push({
           ...column,
+          key: column.key,
           header: column.header === undefined ? column.key : column.header,
         });
       } else {

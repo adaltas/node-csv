@@ -13,6 +13,28 @@ describe("Option `columns`", function () {
       Object.keys(column).should.eql(["key"]);
     });
 
+    const structuralColumns = [
+      ["inherited", Object.create({ key: "a" })],
+      ["non-enumerable", Object.defineProperty({}, "key", { value: "a" })],
+      [
+        "getter",
+        Object.create({
+          get key() {
+            return "a";
+          },
+        }),
+      ],
+    ];
+    for (const [name, column] of structuralColumns) {
+      it(`preserves a ${name} column key`, function () {
+        stringifySync([{ a: "value" }], {
+          columns: [column],
+          header: true,
+        }).should.eql("a\nvalue\n");
+        Object.keys(column).should.eql([]);
+      });
+    }
+
     it("does not mutate reusable column definitions", function () {
       const column = { key: "a" };
       stringifySync([{ a: "first" }], { columns: [column], header: true });
