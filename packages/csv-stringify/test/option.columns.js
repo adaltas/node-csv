@@ -1,8 +1,23 @@
 import "should";
 import { stringify } from "../lib/index.js";
+import { stringify as stringifySync } from "../lib/sync.js";
 
 describe("Option `columns`", function () {
   describe("definition", function () {
+    it("accepts an empty record key with an explicit header", function () {
+      stringifySync([{ "": "value" }], {
+        columns: [{ key: "", header: "blank" }],
+        header: true,
+      }).should.eql("blank\nvalue\n");
+    });
+
+    it("accepts an empty record key with the default header", function () {
+      stringifySync([{ "": "value" }], {
+        columns: [{ key: "" }],
+        header: true,
+      }).should.eql("\nvalue\n");
+    });
+
     it("validates option types", function () {
       (() => {
         stringify([], { columns: true }, () => {});
