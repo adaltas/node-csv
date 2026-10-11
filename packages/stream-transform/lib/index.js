@@ -49,7 +49,7 @@ Transformer.prototype._transform = function (chunk, _, cb) {
     if (l === 1) {
       // sync
       const result = this.handler.call(this, chunk, this.options.params);
-      if (result && result.then) {
+      if (result && typeof result.then === "function") {
         result.then(
           (result) => {
             this.__done(null, [result], cb);
