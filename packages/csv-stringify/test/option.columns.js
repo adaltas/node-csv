@@ -1,8 +1,29 @@
 import "should";
 import { stringify } from "../lib/index.js";
+import { stringify as stringifySync } from "../lib/sync.js";
 
 describe("Option `columns`", function () {
   describe("definition", function () {
+    it("accepts frozen column definitions without adding a header", function () {
+      const column = Object.freeze({ key: "a" });
+      const columns = Object.freeze([column]);
+      stringifySync([{ a: "value" }], { columns, header: true }).should.eql(
+        "a\nvalue\n",
+      );
+      Object.keys(column).should.eql(["key"]);
+    });
+
+    it("does not mutate reusable column definitions", function () {
+      const column = { key: "a" };
+      stringifySync([{ a: "first" }], { columns: [column], header: true });
+      column.key = "b";
+      stringifySync([{ b: "second" }], {
+        columns: [column],
+        header: true,
+      }).should.eql("b\nsecond\n");
+      Object.keys(column).should.eql(["key"]);
+    });
+
     it("validates option types", function () {
       (() => {
         stringify([], { columns: true }, () => {});
