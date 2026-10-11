@@ -90,4 +90,77 @@ describe("Option `escape_formulas`", function () {
       },
     );
   });
+
+  it("with a `quote` option set to the escape prefix", function (next) {
+    stringify(
+      [
+        ["=a", 1],
+        ["=b,c", 2],
+      ],
+      {
+        escape_formulas: true,
+        quote: "'",
+        eof: false,
+      },
+      (err, data) => {
+        if (err) return next(err);
+        data.should.eql(dedent`
+          '"'=a',1
+          '"'=b,c',2
+        `);
+        next();
+      },
+    );
+  });
+
+  it("with an `escape` option set to the escape prefix", function (next) {
+    stringify(
+      [["=a,b", 1]],
+      {
+        escape_formulas: true,
+        escape: "'",
+        eof: false,
+      },
+      (err, data) => {
+        if (err) return next(err);
+        data.should.eql(`"''=a,b",1`);
+        next();
+      },
+    );
+  });
+
+  it("with a `delimiter` option set to the escape prefix", function (next) {
+    stringify(
+      [["=a", 1]],
+      {
+        escape_formulas: true,
+        delimiter: "'",
+        eof: false,
+      },
+      (err, data) => {
+        if (err) return next(err);
+        data.should.eql(`"'=a"'1`);
+        next();
+      },
+    );
+  });
+
+  it("with a `record_delimiter` option set to the escape prefix", function (next) {
+    stringify(
+      [
+        ["=a", 1],
+        ["b", 2],
+      ],
+      {
+        escape_formulas: true,
+        record_delimiter: "'",
+        eof: false,
+      },
+      (err, data) => {
+        if (err) return next(err);
+        data.should.eql(`"'=a",1'b,2`);
+        next();
+      },
+    );
+  });
 });
