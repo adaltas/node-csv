@@ -5266,7 +5266,7 @@ var stream_transform_sync = (function (exports) {
     }
     // Validate arguments
     let expected_handler_length = 1;
-    if (options.params) {
+    if (options.params !== undefined && options.params !== null) {
       expected_handler_length++;
     }
     if (handler.length > expected_handler_length) {

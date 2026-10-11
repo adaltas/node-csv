@@ -31,6 +31,27 @@ describe("api.sync", function () {
     data.should.eql(["a|b|c", "1|2|3"]);
   });
 
+  for (const params of [0, false, ""]) {
+    it(`honors falsy params ${JSON.stringify(params)}`, function () {
+      const data = transform(["record"], { params }, function (record, value) {
+        return [record, value];
+      });
+      data.should.eql([["record", params]]);
+    });
+  }
+
+  for (const params of [undefined, null]) {
+    it(`rejects callback handlers with params ${params}`, function () {
+      (function () {
+        transform(["record"], { params }, function (record, callback) {
+          callback(null, record);
+        });
+      }).should.throw(
+        "Invalid Handler: only synchronous handlers are supported",
+      );
+    });
+  }
+
   it("only sync handlers are supported", function () {
     // Without options
     (function () {
