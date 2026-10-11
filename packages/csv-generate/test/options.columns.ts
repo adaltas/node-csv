@@ -52,8 +52,7 @@ describe("Option `columns`", function () {
     try {
       generate({ columns: ["int", "bool", "invalid"] });
     } catch (err) {
-      if (!(err instanceof Error)) throw err;
-      err.message.should.eql(
+      (err as Error).message.should.eql(
         'Invalid column type: got "invalid", default values are ["ascii","int","bool"]',
       );
     }
