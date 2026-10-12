@@ -199,8 +199,21 @@ const normalize_options = function (opts) {
   // Normalize option `cast`
   if (options.cast === undefined || options.cast === null) {
     options.cast = {};
-  } else {
-    // todo
+  } else if (
+    typeof options.cast === "object" ||
+    typeof options.cast === "function"
+  ) {
+    options.cast = {
+      ...options.cast,
+      bigint: options.cast.bigint,
+      boolean: options.cast.boolean,
+      date: options.cast.date,
+      number: options.cast.number,
+      object: options.cast.object,
+      string: options.cast.string,
+      null: options.cast.null,
+      undefined: options.cast.undefined,
+    };
   }
   // Normalize option cast.bigint
   if (options.cast.bigint === undefined || options.cast.bigint === null) {
