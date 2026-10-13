@@ -200,7 +200,7 @@ const normalize_options = function (opts) {
   if (options.cast === undefined || options.cast === null) {
     options.cast = {};
   } else {
-    // todo
+    options.cast = { ...options.cast };
   }
   // Normalize option cast.bigint
   if (options.cast.bigint === undefined || options.cast.bigint === null) {
