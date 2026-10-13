@@ -1,8 +1,19 @@
 import "should";
 import dedent from "dedent";
 import { stringify } from "../lib/index.js";
+import { stringify as stringifySync } from "../lib/sync.js";
 
 describe("Option `cast`", function () {
+  it("preserves frozen options in the sync API", function () {
+    const string = (value: string) => value.toUpperCase();
+    const cast = { string };
+    Object.freeze(cast);
+    for (let i = 0; i < 2; i++) {
+      stringifySync([["value", 42]], { cast }).should.equal("VALUE,42\n");
+    }
+    cast.should.eql({ string });
+  });
+
   describe("default", function () {
     it("default BigInt formatter", function (next) {
       stringify(
