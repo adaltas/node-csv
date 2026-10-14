@@ -5405,6 +5405,10 @@
                 }
                 chunks.push(chunk);
               };
+              // Surface validation errors synchronously instead of emitting stream errors.
+              generator.destroy = function (err) {
+                throw err;
+              };
               while (work) {
                 generator.__read(options.highWaterMark);
               }
