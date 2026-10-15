@@ -35,7 +35,38 @@ It implements the Node.js [`stream.Transform` API](http://nodejs.org/api/stream.
 
 Run `npm install csv` to install the full CSV module or run `npm install csv-parse` if you are only interested by the CSV parser.
 
-Use the callback and sync APIs for simplicity or the stream based API for scalability.
+Use the callback and sync APIs for simplicity, or the stream and async iterator APIs for incremental processing.
+
+### Async iterator API
+
+The `csv-parse/iterator` entrypoint parses an asynchronous iterable of string or
+`Uint8Array` chunks, including Node.js Buffers, without a stream wrapper:
+
+```js
+import { parse } from "csv-parse/iterator";
+
+async function* chunks() {
+  yield "name,age\nAlice,";
+  yield new TextEncoder().encode("20\nBob,30");
+}
+
+for await (const record of parse(chunks(), { columns: true, cast: true })) {
+  console.log(record);
+}
+```
+
+All records from a chunk are yielded before the next chunk is requested. The
+final record does not need a trailing newline. Parsing and input errors are
+thrown during iteration. Once iteration has started, breaking from the loop,
+calling the generator's `return()`, or reaching a `to`/`to_line` limit closes the
+input iterator.
+Strings are encoded as UTF-8; use byte chunks with the `encoding` option for
+other encodings. The existing parser options and streaming record shapes apply.
+
+CommonJS consumers can use `require("csv-parse/iterator")`. For browsers, use
+`csv-parse/browser/esm/iterator`; this distribution includes the required byte
+buffer support and does not depend on Node.js streams. Parsing still processes
+each input chunk synchronously, so callers should supply suitably sized chunks.
 
 ## Example
 
