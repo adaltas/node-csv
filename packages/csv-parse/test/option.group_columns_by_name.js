@@ -8,7 +8,7 @@ describe("Option `group_columns_by_name`", function () {
     }).should.throw({
       code: "CSV_INVALID_OPTION_GROUP_COLUMNS_BY_NAME",
       message:
-        'Invalid option group_columns_by_name: expect an boolean, got "invalid"',
+        'Invalid option group_columns_by_name: expect a boolean, got "invalid"',
     });
   });
 });

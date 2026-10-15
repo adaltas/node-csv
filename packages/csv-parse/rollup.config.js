@@ -114,4 +114,38 @@ export default [
       nodeResolve(),
     ],
   },
+  {
+    onwarn: function (warning, rollupWarn) {
+      if (warning.code === "CIRCULAR_DEPENDENCY") return;
+      rollupWarn(warning);
+    },
+    input: "lib/iterator.js",
+    output: [
+      {
+        file: `dist/esm/iterator.js`,
+        format: "esm",
+      },
+      {
+        file: `dist/iife/iterator.js`,
+        format: "iife",
+        name: "csv_parse_iterator",
+      },
+      {
+        file: `dist/umd/iterator.js`,
+        format: "umd",
+        name: "csv_parse_iterator",
+      },
+    ],
+    plugins: [globals(), builtins(), nodeResolve()],
+  },
+  {
+    input: "lib/iterator.js",
+    output: [
+      {
+        file: `dist/cjs/iterator.cjs`,
+        format: "cjs",
+      },
+    ],
+    plugins: [nodeResolve()],
+  },
 ];

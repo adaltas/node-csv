@@ -52,6 +52,16 @@
         "default": "./dist/cjs/sync.cjs"
       }
     },
+    "./iterator": {
+      "import": {
+        "types": "./lib/iterator.d.ts",
+        "default": "./lib/iterator.js"
+      },
+      "require": {
+        "types": "./dist/cjs/iterator.d.cts",
+        "default": "./dist/cjs/iterator.cjs"
+      }
+    },
     "./stream": {
       "import": {
         "types": "./lib/stream.d.ts",
@@ -69,6 +79,10 @@
     "./browser/esm/sync": {
       "types": "./dist/esm/sync.d.ts",
       "default": "./dist/esm/sync.js"
+    },
+    "./browser/esm/iterator": {
+      "types": "./dist/esm/iterator.d.ts",
+      "default": "./dist/esm/iterator.js"
     }
   },
   "devDependencies": {
@@ -111,7 +125,7 @@
   "scripts": {
     "build": "npm run build:rollup && npm run build:ts",
     "build:rollup": "rollup -c",
-    "build:ts": "mkdir -p dist/cjs/api dist/esm/api && cp lib/index.d.ts dist/cjs/index.d.cts && cp lib/options.d.ts dist/cjs/options.d.cts && cp lib/sync.d.ts dist/cjs/sync.d.cts && cp lib/stream.d.ts dist/cjs/stream.d.cts && cp lib/api/CsvError.d.ts dist/cjs/api/CsvError.d.cts && cp lib/*.ts dist/esm && cp lib/api/*.ts dist/esm/api",
+    "build:ts": "mkdir -p dist/cjs/api dist/esm/api && cp lib/index.d.ts dist/cjs/index.d.cts && cp lib/options.d.ts dist/cjs/options.d.cts && cp lib/sync.d.ts dist/cjs/sync.d.cts && cp lib/iterator.d.ts dist/cjs/iterator.d.cts && cp lib/stream.d.ts dist/cjs/stream.d.cts && cp lib/api/CsvError.d.ts dist/cjs/api/CsvError.d.cts && cp lib/*.ts dist/esm && cp lib/api/*.ts dist/esm/api",
     "postbuild:ts": "find dist/cjs -name '*.d.cts' -exec sh -c \"sed -i \"s/\\.js'/\\.cjs'/g\" {} || sed -i '' \"s/\\.js'/\\.cjs'/g\" {}\" \\;",
     "lint:check": "eslint",
     "lint:fix": "eslint --fix",
@@ -131,11 +145,17 @@
       "sync": [
         "dist/esm/sync.d.ts"
       ],
+      "iterator": [
+        "dist/esm/iterator.d.ts"
+      ],
       "browser/esm": [
         "dist/esm/index.d.ts"
       ],
       "browser/esm/sync": [
         "dist/esm/sync.d.ts"
+      ],
+      "browser/esm/iterator": [
+        "dist/esm/iterator.d.ts"
       ]
     }
   }
