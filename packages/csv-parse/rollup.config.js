@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import globals from "rollup-plugin-node-globals";
 import builtins from "rollup-plugin-node-builtins";
@@ -111,6 +112,36 @@ export default [
       // eslint({
       //   fix: true,
       // }),
+      nodeResolve(),
+    ],
+  },
+  {
+    input: "lib/stream.js",
+    output: {
+      file: "dist/esm/stream.js",
+      format: "esm",
+      banner:
+        "/*!\n" +
+        readFileSync(
+          new URL("./lib/browser/LICENSE", import.meta.url),
+          "utf8",
+        ) +
+        "\n*/",
+    },
+    plugins: [
+      {
+        name: "browser-web-streams",
+        resolveId(id) {
+          if (id === "node:stream/web") return "\0browser-web-streams";
+        },
+        load(id) {
+          if (id === "\0browser-web-streams") {
+            return "export const { TransformStream, CountQueuingStrategy } = globalThis;";
+          }
+        },
+      },
+      globals(),
+      builtins(),
       nodeResolve(),
     ],
   },
