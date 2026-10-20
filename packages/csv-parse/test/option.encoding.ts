@@ -1,5 +1,6 @@
 import "should";
 import { parse } from "../lib/index.js";
+import { parse as parseSync } from "../lib/sync.js";
 
 describe("Option `encoding`", function () {
   describe("validation & normalization", function () {
@@ -64,6 +65,39 @@ describe("Option `encoding`", function () {
   });
 
   describe("with BOM", function () {
+    for (const option of ["trim", "ltrim"] as const) {
+      for (const whitespace of [" ", "\u00a0"]) {
+        it(`utf16le auto detected with ${option} and whitespace ${JSON.stringify(whitespace)} in sync API`, function () {
+          const input = Buffer.from(
+            `\ufeff${whitespace}a,${whitespace}b`,
+            "utf16le",
+          );
+          parseSync(input, { bom: true, [option]: true }).should.eql([
+            ["a", "b"],
+          ]);
+        });
+
+        it(`utf16le auto detected with ${option} and whitespace ${JSON.stringify(whitespace)} across byte-sized writes`, function (next) {
+          const input = Buffer.from(
+            `\ufeff${whitespace}a,${whitespace}b`,
+            "utf16le",
+          );
+          const parser = parse(
+            { bom: true, [option]: true },
+            (err, records) => {
+              if (err) return next(err);
+              records.should.eql([["a", "b"]]);
+              next();
+            },
+          );
+          for (let i = 0; i < input.length; i++) {
+            parser.write(input.subarray(i, i + 1));
+          }
+          parser.end();
+        });
+      }
+    }
+
     it("utf16le auto detected", function (next) {
       const parser = parse(
         { bom: true, encoding: "utf16le" },
