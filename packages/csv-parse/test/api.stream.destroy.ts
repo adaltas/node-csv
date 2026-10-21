@@ -2,7 +2,7 @@ import fs from "fs";
 import os from "os";
 import "should";
 import { generate } from "csv-generate";
-import { parse, Parser } from "../lib/index.js";
+import { parse, Parser, Callback, Options } from "../lib/index.js";
 
 interface ParserPrivate {
   _readableState: {
@@ -72,5 +72,43 @@ describe("API destroy", function () {
       next();
     });
     generate({ length: 2, seed: 1, columns: 2, fixed_size: true }).pipe(parser);
+  });
+
+  describe("stream without destroy", function () {
+    // The browser builds bundle a stream polyfill which doesn't implement
+    // `destroy`, see https://github.com/adaltas/node-csv/issues/409
+    const parseWithoutDestroy = (options: Options, callback: Callback) => {
+      // Node.js calls `destroy` itself unless `autoDestroy` is disabled
+      const parser = parse({ ...options, autoDestroy: false }, callback);
+      Object.defineProperty(parser, "destroy", { value: undefined });
+      return parser;
+    };
+
+    it("option `to`", function (next) {
+      const parser = parseWithoutDestroy({ to: 1 }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["a", "b"]]);
+        next();
+      });
+      parser.write("a,b\n1,2\n");
+    });
+
+    it("option `to_line`", function (next) {
+      const parser = parseWithoutDestroy({ to_line: 1 }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["a", "b"]]);
+        next();
+      });
+      parser.write("a,b\n1,2\n");
+    });
+
+    it("empty input", function (next) {
+      const parser = parseWithoutDestroy({}, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([]);
+        next();
+      });
+      parser.end();
+    });
   });
 });
