@@ -42,7 +42,12 @@ class Parser extends Transform {
         // Let buffered records be consumed before closing the writable side.
         // The source can still write chunks before the readable end event.
         this.on("end", () => {
-          this.end(() => this.destroy());
+          this.end(() => {
+            // The stream polyfill of the browser builds has no `destroy` (#409)
+            if (typeof this.destroy === "function") {
+              this.destroy();
+            }
+          });
         });
       },
     );
@@ -70,7 +75,9 @@ class Parser extends Transform {
       },
       () => {
         this.push(null);
-        this.on("end", this.destroy);
+        if (typeof this.destroy === "function") {
+          this.on("end", this.destroy);
+        }
       },
     );
     callback(err);
