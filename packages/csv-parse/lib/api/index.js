@@ -164,6 +164,16 @@ const transform = function (original_options = {}) {
               for (const key in options) {
                 this.options[key] = options[key];
               }
+              // Refresh buffers and lookahead sizes derived from the encoding.
+              const state = init_state(options);
+              for (const key of [
+                "timchars",
+                "timcharFirstBytes",
+                "needMoreDataSize",
+                "recordDelimiterMaxLength",
+              ]) {
+                this.state[key] = state[key];
+              }
               // Options will re-evaluate the Buffer with the new encoding
               ({ comment, escape, quote } = this.options);
               break;
