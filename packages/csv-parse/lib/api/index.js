@@ -48,21 +48,21 @@ const transform = function (original_options = {}) {
       const { quoting, needMoreDataSize, recordDelimiterMaxLength } =
         this.state;
       const numOfCharLeft = bufLen - i - 1;
+      // When the record delimiter has not been discovered yet, auto-detection
+      // needs enough bytes to distinguish "\r\n" from "\r" in the current
+      // encoding. This also applies to the delimiter following a closing quote.
+      const recordDelimiterLookahead =
+        recordDelimiterMaxLength === 0
+          ? Buffer.from("\r\n", encoding).length
+          : recordDelimiterMaxLength;
       const requiredLength = Math.max(
         needMoreDataSize,
         // Skip if the remaining buffer smaller than record delimiter
-        // If "record_delimiter" is yet to be discovered:
-        // 1. It is equals to `[]` and "recordDelimiterMaxLength" equals `0`
-        // 2. We set the length to windows line ending in the current encoding
-        // Note, that encoding is known from user or bom discovery at that point
-        // recordDelimiterMaxLength,
-        recordDelimiterMaxLength === 0
-          ? Buffer.from("\r\n", encoding).length
-          : recordDelimiterMaxLength,
+        recordDelimiterLookahead,
         // Skip if remaining buffer can be an escaped quote
         quoting ? (escape === null ? 0 : escape.length) + quote.length : 0,
         // Skip if remaining buffer can be record delimiter following the closing quote
-        quoting ? quote.length + recordDelimiterMaxLength : 0,
+        quoting ? quote.length + recordDelimiterLookahead : 0,
       );
       return numOfCharLeft < requiredLength;
     },
