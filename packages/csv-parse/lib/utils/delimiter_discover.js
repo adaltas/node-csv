@@ -33,6 +33,7 @@ const delimiter_discover = function (records, options) {
     for (let i = 0, l = record.length; i < l; i++) {
       // Count the character frequency
       const code = record.charCodeAt(i);
+      if (code >= info.length) continue;
       if (info[code].lines[line] === undefined) info[code].lines[line] = 0;
       info[code].lines[line]++;
     }
