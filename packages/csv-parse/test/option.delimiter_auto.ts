@@ -38,6 +38,52 @@ describe("Option `delimiter_auto`", function () {
     ]);
   });
 
+  it("sync preserves Unicode field content", function () {
+    parse_sync("é,東京,😀\nß,北京,🚀", {
+      delimiter_auto: true,
+    }).should.eql([
+      ["é", "東京", "😀"],
+      ["ß", "北京", "🚀"],
+    ]);
+  });
+
+  it("stream discovers with split UTF-8 field characters", function (next) {
+    const expected = [
+      ["姓名", "城市"],
+      ["张三", "北京"],
+      ["李四", "上海"],
+    ];
+    const input = Buffer.from(
+      expected.map((record) => record.join(",")).join("\n"),
+    );
+    const parser = parse({ delimiter_auto: { size: 9 } }, (err, records) => {
+      if (err) return next(err);
+      records.should.eql(expected);
+      next();
+    });
+    for (let i = 0; i < input.length; i++) {
+      parser.write(input.subarray(i, i + 1));
+    }
+    parser.end();
+  });
+
+  it("custom score receives only ASCII candidates with Unicode fields", function () {
+    const char_codes: number[] = [];
+    parse_sync("é:甲;β\nø:乙;γ", {
+      delimiter_auto: {
+        score: (info) => {
+          char_codes.push(info.char_code);
+          return info.char_code === ":".charCodeAt(0) ? 1 : 0;
+        },
+      },
+    }).should.eql([
+      ["é", "甲;β"],
+      ["ø", "乙;γ"],
+    ]);
+    char_codes.length.should.eql(127);
+    char_codes.every((code) => code < 127).should.eql(true);
+  });
+
   it("sync custom score", function () {
     // The default score elects `;` because it is more preferred than `:`
     parse_sync("a:b;c\nd:e;f", {
