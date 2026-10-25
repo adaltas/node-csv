@@ -173,6 +173,8 @@ const transform = function (original_options = {}) {
         }
       }
       const bufLen = buf.length;
+      // Use the effective encoding, including any encoding detected from a BOM.
+      const isUtf16le = Buffer.byteLength("\n", this.options.encoding) === 2;
       let pos;
       for (pos = 0; pos < bufLen; pos++) {
         // Ensure we get enough space to look ahead
@@ -205,6 +207,10 @@ const transform = function (original_options = {}) {
         }
         if (
           (chr === cr || chr === nl) &&
+          // UTF-16LE CR/LF must be complete, aligned code units.
+          (!isUtf16le ||
+            ((this.state.bufBytesStart + pos) % 2 === 0 &&
+              buf[pos + 1] === 0)) &&
           this.state.wasRowDelimiter === false
         ) {
           this.state.wasRowDelimiter = true;
