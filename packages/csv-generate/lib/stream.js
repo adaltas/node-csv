@@ -15,8 +15,12 @@ const generate = (opts) => {
             chunk = Buffer.from(chunk);
             controller.enqueue(chunk);
           },
-          function () {
-            controller.close();
+          function (err) {
+            if (err) {
+              controller.error(err);
+            } else {
+              controller.close();
+            }
           },
         );
       },
