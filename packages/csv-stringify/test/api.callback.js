@@ -1,4 +1,6 @@
 import "should";
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { stringify } from "../lib/index.js";
 
 describe("api.callback", function () {
@@ -37,6 +39,36 @@ describe("api.callback", function () {
         next();
       },
     );
+  });
+
+  it("does not invoke a throwing callback twice", function () {
+    const result = spawnSync(
+      process.execPath,
+      [
+        "--input-type=module",
+        "--eval",
+        `
+          import assert from "node:assert/strict";
+          import { stringify } from ${JSON.stringify(new URL("../lib/index.js", import.meta.url).href)};
+
+          const error = new Error("Callback failed");
+          let calls = 0;
+          let caught = false;
+          process.once("uncaughtException", (err) => {
+            assert.equal(err, error);
+            assert.equal(calls, 1);
+            caught = true;
+          });
+          process.on("exit", () => assert.equal(caught, true));
+          stringify([["value"]], () => {
+            calls++;
+            throw error;
+          });
+        `,
+      ],
+      { encoding: "utf8" },
+    );
+    assert.equal(result.status, 0, result.stderr);
   });
 
   it("catch error in end handler, see #386", function (next) {
