@@ -591,6 +591,7 @@ const transform = function (original_options = {}) {
         // With columns, records are object
         if (columns !== false) {
           const obj = {};
+          const groupedColumns = new Set();
           // Transform record array to an object
           for (let i = 0, l = record.length; i < l; i++) {
             if (columns[i] === undefined || columns[i].disabled) continue;
@@ -599,10 +600,11 @@ const transform = function (original_options = {}) {
               group_columns_by_name === true &&
               Object.hasOwn(obj, columns[i].name)
             ) {
-              if (Array.isArray(obj[columns[i].name])) {
-                obj[columns[i].name] = obj[columns[i].name].concat(record[i]);
+              if (groupedColumns.has(columns[i].name)) {
+                obj[columns[i].name].push(record[i]);
               } else {
                 obj[columns[i].name] = [obj[columns[i].name], record[i]];
+                groupedColumns.add(columns[i].name);
               }
             } else {
               Object.defineProperty(obj, columns[i].name, {
