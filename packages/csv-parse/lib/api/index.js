@@ -785,8 +785,11 @@ const transform = function (original_options = {}) {
     __isCharBoundary: function (pos) {
       // UTF-16LE tokens must start on a code unit, including after buffering
       // an odd number of bytes or discovering the encoding from a BOM.
+      const { encoding } = this.options;
       return (
-        !/^(?:utf-?16le|ucs-?2)$/i.test(this.options.encoding) ||
+        encoding === "utf8" ||
+        encoding === null ||
+        !/^(?:utf-?16le|ucs-?2)$/i.test(encoding) ||
         (this.state.bufBytesStart + pos) % 2 === 0
       );
     },
