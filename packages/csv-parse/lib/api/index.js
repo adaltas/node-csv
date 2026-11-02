@@ -784,6 +784,14 @@ const transform = function (original_options = {}) {
     },
     __compareBytes: function (sourceBuf, targetBuf, targetPos, firstByte) {
       if (sourceBuf[0] !== firstByte) return 0;
+      // UTF-16LE comments must start on a code unit, including after buffering
+      // an odd number of bytes or discovering the encoding from a BOM.
+      if (
+        /^(?:utf-?16le|ucs-?2)$/i.test(this.options.encoding) &&
+        (this.state.bufBytesStart + targetPos) % 2 !== 0
+      ) {
+        return 0;
+      }
       const sourceLength = sourceBuf.length;
       for (let i = 1; i < sourceLength; i++) {
         if (sourceBuf[i] !== targetBuf[targetPos + i]) return 0;
