@@ -32,15 +32,17 @@ describe("Option `cast_date` errors", function () {
 
   it("continues to throw the original error from the sync API", function () {
     const error = new Error("date conversion failed");
-    assert.throws(
-      () =>
-        parseSync("bad", {
-          cast: true,
-          cast_date() {
-            throw error;
-          },
-        }),
-      (err) => err === error,
-    );
+    let thrown;
+    try {
+      parseSync("bad", {
+        cast: true,
+        cast_date() {
+          throw error;
+        },
+      });
+    } catch (err) {
+      thrown = err;
+    }
+    assert.equal(thrown, error);
   });
 });
