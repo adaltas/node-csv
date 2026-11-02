@@ -496,7 +496,8 @@ const normalize_options = function (opts) {
   if (
     options.quote === null ||
     options.quote === false ||
-    options.quote === ""
+    options.quote === "" ||
+    (Buffer.isBuffer(options.quote) && options.quote.length === 0)
   ) {
     options.quote = null;
   } else {
