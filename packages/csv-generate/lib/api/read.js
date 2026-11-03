@@ -5,8 +5,15 @@ const read = (options, state, size, push, close) => {
   // Get remaining buffer when fixedSize is enable
   if (options.fixedSize) {
     recordsLength = state.fixed_size_buffer.length;
+    if (size > 0 && recordsLength > size) {
+      const chunk = state.fixed_size_buffer.substr(0, size);
+      state.fixed_size_buffer = state.fixed_size_buffer.substr(size);
+      push(chunk);
+      return;
+    }
     if (recordsLength !== 0) {
       data.push(state.fixed_size_buffer);
+      state.fixed_size_buffer = "";
     }
   }
   // eslint-disable-next-line
