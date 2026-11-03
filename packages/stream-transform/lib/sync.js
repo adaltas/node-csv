@@ -45,6 +45,9 @@ const transform = function () {
   transformer.push = function (chunk) {
     chunks.push(chunk);
   };
+  transformer.destroy = function (err) {
+    throw err;
+  };
   for (const record of records) {
     transformer._transform(record, null, function () {});
   }
