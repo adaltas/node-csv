@@ -159,6 +159,72 @@ describe("Option `skip_records_with_error`", function () {
     parser.end();
   });
 
+  it('handle "CSV_MAX_RECORD_SIZE"', function (next) {
+    const errors: CsvError[] = [];
+    const parser = parse(
+      { max_record_size: 5, skip_records_with_error: true },
+      (err, records) => {
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["c", "d"],
+          ["e", "f"],
+        ]);
+        assert_error(errors, [
+          {
+            message:
+              "Max Record Size: record exceed the maximum number of tolerated bytes of 5 at line 2",
+            code: "CSV_MAX_RECORD_SIZE",
+          },
+        ]);
+        errors.length.should.eql(1);
+        next();
+      },
+    );
+    parser.on("skip", (err) => {
+      errors.push(err);
+    });
+    // Split the oversized field across writes
+    parser.write("a,b\n12");
+    parser.write("3456789,0\nc,d\n");
+    parser.write("e,f\n");
+    parser.end();
+  });
+
+  it('handle "CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE"', function (next) {
+    const errors: CsvError[] = [];
+    const parser = parse(
+      { rtrim: true, skip_records_with_error: true },
+      (err, records) => {
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b"],
+          ["c", "d"],
+          ["e", "f"],
+        ]);
+        assert_error(errors, [
+          {
+            message:
+              "Invalid Closing Quote: found non trimable byte after quote at line 2",
+            code: "CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE",
+          },
+        ]);
+        errors.length.should.eql(1);
+        next();
+      },
+    );
+    parser.on("skip", (err) => {
+      errors.push(err);
+    });
+    parser.write(dedent`
+      a,b
+      "1" xx,2
+      c,d
+      e,f
+    `);
+    parser.end();
+  });
+
   describe("with `bom` option", function () {
     it('handle "CSV_RECORD_INCONSISTENT_FIELDS_LENGTH" with bom (fix #411)', function (next) {
       let errors = 0;

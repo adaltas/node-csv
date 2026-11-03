@@ -415,9 +415,10 @@ const transform = function (original_options = {}) {
         if (this.state.commenting === false) {
           if (
             max_record_size !== 0 &&
+            this.state.recordHasError === false &&
             this.state.record_length + this.state.field.length > max_record_size
           ) {
-            return this.__error(
+            const err = this.__error(
               new CsvError(
                 "CSV_MAX_RECORD_SIZE",
                 [
@@ -430,6 +431,7 @@ const transform = function (original_options = {}) {
                 this.__infoField(),
               ),
             );
+            if (err !== undefined) return err;
           }
         }
         const lappend =
@@ -442,18 +444,21 @@ const transform = function (original_options = {}) {
         if (lappend === true && rappend === true) {
           this.state.field.append(chr);
         } else if (rtrim === true && !this.__isCharTrimable(buf, pos)) {
-          return this.__error(
-            new CsvError(
-              "CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE",
-              [
-                "Invalid Closing Quote:",
-                "found non trimable byte after quote",
-                `at line ${this.info.lines}`,
-              ],
-              this.options,
-              this.__infoField(),
-            ),
-          );
+          if (this.state.recordHasError === false) {
+            const err = this.__error(
+              new CsvError(
+                "CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE",
+                [
+                  "Invalid Closing Quote:",
+                  "found non trimable byte after quote",
+                  `at line ${this.info.lines}`,
+                ],
+                this.options,
+                this.__infoField(),
+              ),
+            );
+            if (err !== undefined) return err;
+          }
         } else {
           if (lappend === false) {
             pos += this.__isCharTrimable(buf, pos) - 1;
