@@ -4,59 +4,6 @@ import { stringify } from "../lib/index.js";
 import { stringify as stringifySync } from "../lib/sync.js";
 
 describe("Option `quote`", function () {
-  it("preserves special characters when quoting is disabled", function () {
-    for (const quote of [false, ""]) {
-      stringifySync([['say "hi", bob'], ['say "hi"\nbob']], {
-        quote,
-      }).should.eql('say "hi", bob\nsay "hi"\nbob\n');
-    }
-  });
-
-  it("preserves fields selected for quoting when quoting is disabled", function () {
-    for (const quote of [false, ""]) {
-      for (const options of [
-        { quoted: true },
-        { quoted_string: true },
-        { quoted_match: /hi/ },
-      ]) {
-        stringifySync([['say "hi"']], { quote, ...options }).should.eql(
-          'say "hi"\n',
-        );
-      }
-    }
-  });
-
-  it("preserves quotes supplied by a cast with quoting disabled", function () {
-    stringifySync([["abc", 1]], {
-      quoted: true,
-      cast: {
-        number: (value) => ({ value: `="${value}"`, quote: false }),
-      },
-    }).should.eql('"abc",="1"\n');
-  });
-
-  it("preserves custom escape characters when quoting is disabled", function () {
-    stringifySync([["C:\\dir,x"]], {
-      quote: false,
-      escape: "\\",
-    }).should.eql("C:\\dir,x\n");
-  });
-
-  it("preserves quotes in fields containing a custom delimiter", function () {
-    stringifySync([['{"a":1}\tx']], {
-      quote: "",
-      delimiter: "\t",
-    }).should.eql('{"a":1}\tx\n');
-  });
-
-  it("preserves selected fields in the callback API with quoting disabled", function (next) {
-    stringify([['say "hi"']], { quote: false, quoted: true }, (err, data) => {
-      if (err) return next(err);
-      data.should.eql('say "hi"\n');
-      next();
-    });
-  });
-
   it("default", function (next) {
     const stringifier = stringify([], () => {
       stringifier.options.quote.should.eql('"');
@@ -293,5 +240,56 @@ describe("Option `quote`", function () {
       escape: "\\",
       eof: false,
     }).should.eql("|a\\|b|");
+  });
+
+  describe("disabled", function () {
+    it("preserves special characters when quoting is disabled", function () {
+      stringifySync([['say "hi", bob'], ['say "hi"\nbob']], {
+        quote: false,
+      }).should.eql('say "hi", bob\nsay "hi"\nbob\n');
+    });
+
+    it("preserves fields selected for quoting when quoting is disabled", function () {
+      for (const options of [
+        { quoted: true },
+        { quoted_string: true },
+        { quoted_match: /hi/ },
+      ]) {
+        stringifySync([['say "hi"']], { quote: false, ...options }).should.eql(
+          'say "hi"\n',
+        );
+      }
+    });
+
+    it("preserves quotes supplied by a cast with quoting disabled", function () {
+      stringifySync([["abc", 1]], {
+        quoted: true,
+        cast: {
+          number: (value) => ({ value: `="${value}"`, quote: false }),
+        },
+      }).should.eql('"abc",="1"\n');
+    });
+
+    it("preserves custom escape characters when quoting is disabled", function () {
+      stringifySync([["C:\\dir,x"]], {
+        quote: false,
+        escape: "\\",
+      }).should.eql("C:\\dir,x\n");
+    });
+
+    it("preserves quotes in fields containing a custom delimiter", function () {
+      stringifySync([['{"a":1}\tx']], {
+        quote: "",
+        delimiter: "\t",
+      }).should.eql('{"a":1}\tx\n');
+    });
+
+    it("preserves selected fields in the callback API with quoting disabled", function (next) {
+      stringify([['say "hi"']], { quote: false, quoted: true }, (err, data) => {
+        if (err) return next(err);
+        data.should.eql('say "hi"\n');
+        next();
+      });
+    });
   });
 });
