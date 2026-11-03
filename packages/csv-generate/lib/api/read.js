@@ -25,7 +25,13 @@ const read = (options, state, size, push, close) => {
       (options.duration && Date.now() > state.start_time + options.duration)
     ) {
       // Flush
-      if (data.length) {
+      if (
+        data.length ||
+        (!options.objectMode &&
+          options.eof &&
+          state.count_created > 0 &&
+          state.end !== true)
+      ) {
         if (options.objectMode) {
           for (const record of data) {
             push(record);
