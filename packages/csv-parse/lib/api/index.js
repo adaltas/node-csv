@@ -107,10 +107,32 @@ const transform = function (original_options = {}) {
         // Ensure that nextBuf is not concatenated a second time during buffer reconciliation
         nextBuf = undefined;
         // this.delimiterBufPrevious = delimiterBuf;
+        if (!end && bom && !bomSkipped && delimiterBuf.length < 3) {
+          this.state.delimiterBufPrevious = delimiterBuf;
+          return;
+        }
         if (end || delimiterBuf.length > delimiter_auto.size) {
+          let sample = delimiterBuf;
+          let sampleEncoding = encoding || "utf8";
+          if (bom && !bomSkipped) {
+            for (const [bomEncoding, signature] of Object.entries(boms)) {
+              if (
+                sample.length >= signature.length &&
+                signature.compare(sample, 0, signature.length) === 0
+              ) {
+                sample = sample.subarray(signature.length);
+                sampleEncoding = bomEncoding;
+                break;
+              }
+            }
+          }
           this.options.delimiter = [
             Buffer.from(
-              delimiter_discover(delimiterBuf, this.options.delimiter_auto),
+              delimiter_discover(
+                sample.toString(sampleEncoding),
+                this.options.delimiter_auto,
+              ),
+              sampleEncoding,
             ),
           ];
           this.state.previousBuf = delimiterBuf;
@@ -141,16 +163,16 @@ const transform = function (original_options = {}) {
       if (bomSkipped === false) {
         if (bom === false) {
           this.state.bomSkipped = true;
-        } else if (buf.length < 3) {
+        } else if (buf.length < 3 && end === false) {
           // No enough data
-          if (end === false) {
-            // Wait for more data
-            this.state.previousBuf = buf;
-            return;
-          }
+          this.state.previousBuf = buf;
+          return;
         } else {
           for (const encoding in boms) {
-            if (boms[encoding].compare(buf, 0, boms[encoding].length) === 0) {
+            if (
+              buf.length >= boms[encoding].length &&
+              boms[encoding].compare(buf, 0, boms[encoding].length) === 0
+            ) {
               // Skip BOM
               const bomLength = boms[encoding].length;
               this.state.bufBytesStart += bomLength;
@@ -160,6 +182,10 @@ const transform = function (original_options = {}) {
                 ...this.original_options,
                 encoding: encoding,
               });
+              // BOM normalization must retain the delimiter discovered above.
+              if (this.state.delimiterDiscovered) {
+                options.delimiter = this.options.delimiter;
+              }
               // Properties are merged with the existing options instance
               for (const key in options) {
                 this.options[key] = options[key];
