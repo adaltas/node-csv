@@ -718,7 +718,25 @@ const transform = function (original_options = {}) {
       }
       let field = this.state.field.toString(encoding);
       if (rtrim === true && wasQuoting === false) {
-        field = field.trimRight();
+        if (encoding === null) {
+          let end = field.length;
+          trimming: while (end > 0) {
+            for (const trimChar of this.state.timchars) {
+              const start = end - trimChar.length;
+              if (
+                start >= 0 &&
+                field.compare(trimChar, 0, trimChar.length, start, end) === 0
+              ) {
+                end = start;
+                continue trimming;
+              }
+            }
+            break;
+          }
+          field = field.subarray(0, end);
+        } else {
+          field = field.trimRight();
+        }
       }
       if (cast === true) {
         const [err, f] = this.__cast(field);
