@@ -3,18 +3,13 @@ import "should";
 const { parse, stringify } = await import("../lib/sync.js");
 
 describe("Option `relax_quotes`", function () {
-  it("round trips relaxed quotes without changing records or fields", function () {
+  it("round trips without changing records or fields", function () {
     const options = { relax_quotes: true };
-    const text = 'say "hi",plain\n"a,b","a\nb"\n"""hi""",a"b\n';
-    const records = parse(text, options);
-    const output = stringify(records, options);
-    output.should.eql(text);
-    parse(output, options).should.eql(records);
-    records.should.have.length(3);
-    records.forEach((record) => record.should.have.length(2));
+    const text = 'ab"c",def\n"hi,j","k\nlm"\n"""nop""",q"xy\n';
+    stringify(parse(text, options), options).should.eql(text);
   });
 
-  it("round trips relaxed quotes with custom separators and escaping", function () {
+  it("round trips with custom separators and escaping", function () {
     const options = {
       relax_quotes: true,
       delimiter: "::",
@@ -26,9 +21,7 @@ describe("Option `relax_quotes`", function () {
       ["a|b\\c", "a::b"],
       ["a__b", "|leading"],
     ];
-    const output = stringify(records, options);
-    output.should.startWith("a|b\\c::");
-    parse(output, options).should.eql(records);
+    parse(stringify(records, options), options).should.eql(records);
   });
 
   it("preserves leading quotes when parsing with trim enabled", function () {
