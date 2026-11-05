@@ -259,10 +259,12 @@ const stringifier = function (options, state, info) {
             quoted ||
             quotedString ||
             quotedMatch;
+          // Escape all escape characters if quoted
           if (shouldQuote === true && containsEscape === true) {
             value = value.replaceAll(escape, () => escape + escape);
           }
-          if (shouldQuote === true && containsQuote === true) {
+          // Escape all quote characters if quoted
+          if (shouldQuote === true) {
             value = value.replaceAll(quote, () => escape + quote);
           }
           if (shouldQuote === true) {
