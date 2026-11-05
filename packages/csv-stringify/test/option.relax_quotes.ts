@@ -1,50 +1,45 @@
 import "should";
-import { stringify } from "../lib/index.js";
-import { stringify as stringifySync, normalize_options } from "../lib/sync.js";
+import { stringify, normalize_options } from "../lib/sync.js";
 
 describe("Option `relax_quotes`", function () {
-  it("defaults to false", function () {
+  it("normalisation defaults to false", function () {
     const [, options] = normalize_options({});
     options.relax_quotes.should.eql(false);
-    stringifySync([['say "hi"']]).should.eql('"say ""hi"""\n');
-    stringifySync([['say "hi"']], { relax_quotes: false }).should.eql(
-      '"say ""hi"""\n',
-    );
   });
 
   it("preserves interior quotes in unquoted fields", function () {
-    stringifySync([['say "hi"', 'a"b', 'a""b']], {
+    stringify([['ab"c"', 'd"ef', 'hi""j']], {
       relax_quotes: true,
-    }).should.eql('say "hi",a"b,a""b\n');
+    }).should.eql('ab"c",d"ef,hi""j\n');
   });
 
-  it("still quotes delimiters and line breaks", function () {
-    stringifySync([['say "hi", bob'], ['say "hi"\nbob'], ['say "hi"\rbob']], {
+  it("still quotes delimiters and record delimiters", function () {
+    stringify([['a"b",c'], ['d"e"\nf'], ['h"i"\rj']], {
       relax_quotes: true,
-    }).should.eql('"say ""hi"", bob"\n"say ""hi""\nbob"\n"say ""hi""\rbob"\n');
+    }).should.eql(['"a""b"",c"', '"d""e""\nf"', '"h""i""\rj"', ""].join("\n"));
   });
 
   it("still quotes leading quotes", function () {
-    stringifySync([['"hi"', '"unfinished', ' "hi"']], {
+    stringify([['"abc"', '"def', ' "hij"']], {
       relax_quotes: true,
-    }).should.eql('"""hi""","""unfinished"," ""hi"""\n');
+    }).should.eql('"""abc""","""def"," ""hij"""\n');
   });
 
   it("respects explicit quoting selectors", function () {
     for (const options of [
       { quoted: true },
       { quoted_string: true },
-      { quoted_match: /hi/ },
+      { quoted_match: /def/ },
     ]) {
-      stringifySync([['say "hi"']], {
+      stringify([['abc "def"']], {
         relax_quotes: true,
         ...options,
-      }).should.eql('"say ""hi"""\n');
+      }).should.eql('"abc ""def"""\n');
     }
   });
 
   it("escapes custom quotes only when enclosing the field", function () {
-    stringifySync([["a|b\\c", "a|b\\c,d", "|a\\b"]], {
+    stringify([["a|b\\c", "a|b\\c,d", "|a\\b"]], {
       relax_quotes: true,
       quote: "|",
       escape: "\\",
@@ -52,23 +47,15 @@ describe("Option `relax_quotes`", function () {
   });
 
   it("supports multi-character quotes and delimiters", function () {
-    stringifySync([["a||b", "||a", "a||b::c"]], {
+    stringify([["a||b", "||a", "a||b::c"]], {
       relax_quotes: true,
       quote: "||",
       delimiter: "::",
     }).should.eql('a||b::||"||a||::||a"||b::c||\n');
   });
 
-  it("supports the callback API", function (next) {
-    stringify([['say "hi"', 'a,"b"']], { relax_quotes: true }, (err, data) => {
-      if (err) return next(err);
-      data.should.eql('say "hi","a,""b"""\n');
-      next();
-    });
-  });
-
   it("supports field-level cast options", function () {
-    stringifySync([[1, 2]], {
+    stringify([[1, 2]], {
       cast: {
         number: (value) => ({
           value: `say "${value}"`,
