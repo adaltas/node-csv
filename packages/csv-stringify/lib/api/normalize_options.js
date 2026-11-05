@@ -53,6 +53,17 @@ const normalize_options = function (opts) {
       ]),
     ];
   }
+  // Normalize option `relax_quotes`
+  if (options.relax_quotes === undefined || options.relax_quotes === null) {
+    options.relax_quotes = false;
+  } else if (typeof options.relax_quotes !== "boolean") {
+    return [
+      new CsvError("CSV_OPTION_RELAX_QUOTES_INVALID_TYPE", [
+        "option `relax_quotes` must be a boolean,",
+        `got ${JSON.stringify(options.relax_quotes)}`,
+      ]),
+    ];
+  }
   // Normalize option `quoted`
   if (options.quoted === undefined || options.quoted === null) {
     options.quoted = false;
