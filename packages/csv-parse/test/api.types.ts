@@ -299,6 +299,8 @@ describe("API Types", function () {
       const options: Options = {};
       options.from_line = 10;
       options.fromLine = 10;
+      options.from_line = { position: 10, skip_comments: true };
+      options.fromLine = { position: 10, skip_comments: true };
     });
 
     it("ignore_last_delimiters", function () {

@@ -159,3 +159,149 @@ describe("Option `from_line`", function () {
     );
   });
 });
+
+describe("Option `from_line` as an object", function () {
+  it("does not count leading comment lines", function (next) {
+    parse(
+      dedent`
+        // Some
+        // Number of
+        // Comments
+        thing1=value1
+        thing2=value2
+        header1,header2,header3
+        value,value,value
+      `,
+      { comment: "//", from_line: { position: 3, skip_comments: true } },
+      (err, records) => {
+        if (err) return next(err);
+        records.should.eql([
+          ["header1", "header2", "header3"],
+          ["value", "value", "value"],
+        ]);
+        next();
+      },
+    );
+  });
+
+  it("does not count comment lines between records", function (next) {
+    parse(
+      dedent`
+        a,b,c
+        # a comment
+        1,2,3
+        # another comment
+        4,5,6
+      `,
+      { comment: "#", from_line: { position: 2, skip_comments: true } },
+      (err, records) => {
+        if (err) return next(err);
+        records.should.eql([
+          ["1", "2", "3"],
+          ["4", "5", "6"],
+        ]);
+        next();
+      },
+    );
+  });
+
+  it("counts a record preceded by comments from its non-comment position", function (next) {
+    parse(
+      "# comment\nx,y\n# comment\n1,2\n3,4",
+      { comment: "#", from_line: { position: 3, skip_comments: true } },
+      (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["3", "4"]]);
+        next();
+      },
+    );
+  });
+
+  it("does not count a comment in the middle of a line", function (next) {
+    parse(
+      "a,b # comment\n1,2\n3,4",
+      { comment: "#", from_line: 2 },
+      (err, records) => {
+        if (err) return next(err);
+        // the trailing comment does not make the first line a comment
+        // line, so `from_line: 2` starts at the second line
+        records.should.eql([
+          ["1", "2"],
+          ["3", "4"],
+        ]);
+        next();
+      },
+    );
+  });
+
+  it("honors header after comment lines", function (next) {
+    parse(
+      dedent`
+        # comment
+        # comment
+        skip,skip
+        a,b
+        1,2
+      `,
+      {
+        comment: "#",
+        from_line: { position: 2, skip_comments: true },
+        columns: true,
+      },
+      (err, records) => {
+        if (err) return next(err);
+        records.should.eql([{ a: "1", b: "2" }]);
+        next();
+      },
+    );
+  });
+
+  it("validation", function () {
+    (() => {
+      parse("", { from_line: { position: 2, skip_comments: "yes" } }, () => {});
+    }).should.throw(
+      'Invalid Option: from_line skip_comments must be a boolean, got "yes"',
+    );
+    (() => {
+      parse("", { from_line: { position: 0 } }, () => {});
+    }).should.throw(
+      'Invalid Option: from_line must be a positive integer greater than 0, got {"position":0}',
+    );
+    (() => {
+      parse("", { from_line: {} }, () => {});
+    }).should.throw("Invalid Option: from_line must be an integer, got {}");
+  });
+
+  it("counts comment lines when skip_comments is not set", function (next) {
+    parse(
+      "# a\n# b\nx,y\n1,2\n3,4",
+      { comment: "#", from_line: { position: 3 } },
+      (err, records) => {
+        if (err) return next(err);
+        records.should.eql([
+          ["1", "2"],
+          ["3", "4"],
+        ]);
+        next();
+      },
+    );
+  });
+
+  it("comment lines are counted by default", function (next) {
+    parse(
+      "# a\n# b\nx,y\n1,2\n3,4",
+      { comment: "#", from_line: 3 },
+      (err, records) => {
+        if (err) return next(err);
+        // without the option, the result is unchanged: comment lines
+        // are counted by `from_line` (with the option enabled, the
+        // same input only returns the last record)
+        records.should.eql([
+          ["1", "2"],
+          ["3", "4"],
+        ]);
+        next();
+      },
+    );
+  });
+});

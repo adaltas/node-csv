@@ -331,17 +331,33 @@ const normalize_options = function (opts) {
     }
   }
   // Normalize option `from_line`
+  // It takes two forms: an integer, normalized to an object with the
+  // integer as its `position` property and `skip_comments` set to
+  // `false`; or an object with a `position` property and an optional
+  // `skip_comments` property.
   if (options.from_line === undefined || options.from_line === null) {
-    options.from_line = 1;
+    options.from_line = { position: 1, skip_comments: false };
   } else {
-    if (
-      typeof options.from_line === "string" &&
-      /\d+/.test(options.from_line)
-    ) {
-      options.from_line = parseInt(options.from_line);
+    let position = options.from_line;
+    let skip_comments = false;
+    if (is_object(options.from_line)) {
+      position = options.from_line.position;
+      const skipComments =
+        options.from_line.skip_comments ?? options.from_line.skipComments;
+      if (skipComments !== undefined && skipComments !== null) {
+        if (typeof skipComments !== "boolean") {
+          throw new Error(
+            `Invalid Option: from_line skip_comments must be a boolean, got ${JSON.stringify(skipComments)}`,
+          );
+        }
+        skip_comments = skipComments;
+      }
     }
-    if (Number.isInteger(options.from_line)) {
-      if (options.from_line <= 0) {
+    if (typeof position === "string" && /\d+/.test(position)) {
+      position = parseInt(position);
+    }
+    if (Number.isInteger(position)) {
+      if (position <= 0) {
         throw new Error(
           `Invalid Option: from_line must be a positive integer greater than 0, got ${JSON.stringify(opts.from_line)}`,
         );
@@ -351,6 +367,7 @@ const normalize_options = function (opts) {
         `Invalid Option: from_line must be an integer, got ${JSON.stringify(opts.from_line)}`,
       );
     }
+    options.from_line = { position, skip_comments };
   }
   // Normalize options `ignore_last_delimiters`
   if (

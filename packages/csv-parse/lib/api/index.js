@@ -208,6 +208,7 @@ const transform = function (original_options = {}) {
           this.state.wasRowDelimiter === false
         ) {
           this.state.wasRowDelimiter = true;
+          this.state.lineHasContent = false;
         }
         // Previous char was a valid escape char
         // treat the current char as a regular char
@@ -324,6 +325,7 @@ const transform = function (original_options = {}) {
                 }
               } else {
                 this.state.quoting = true;
+                this.state.lineHasContent = true;
                 pos += quote.length - 1;
                 continue;
               }
@@ -347,15 +349,22 @@ const transform = function (original_options = {}) {
                 // Skip full comment line
               } else {
                 // Activate records emission if above from_line
+                // With the `skip_comments` property of `from_line`,
+                // full comment lines are not taken into account: it
+                // counts the lines which are not full comment lines
                 if (
                   this.state.enabled === false &&
                   this.info.lines +
-                    (this.state.wasRowDelimiter === true ? 1 : 0) >=
-                    from_line
+                    (this.state.wasRowDelimiter === true ? 1 : 0) -
+                    (from_line.skip_comments === true
+                      ? this.state.fullCommentLines
+                      : 0) >=
+                    from_line.position
                 ) {
                   this.state.enabled = true;
                   this.__resetField();
                   this.__resetRecord();
+                  this.state.commenting = false;
                   pos += recordDelimiterLength - 1;
                   continue;
                 }
@@ -367,6 +376,7 @@ const transform = function (original_options = {}) {
                   this.state.field.length === 0
                 ) {
                   this.info.empty_lines++;
+                  this.state.commenting = false;
                   pos += recordDelimiterLength - 1;
                   continue;
                 }
@@ -399,6 +409,9 @@ const transform = function (original_options = {}) {
               const commentCount = this.__compareBytes(comment, buf, pos, chr);
               if (commentCount !== 0) {
                 this.state.commenting = true;
+                if (this.state.lineHasContent === false) {
+                  this.state.fullCommentLines++;
+                }
                 continue;
               }
             }
@@ -441,6 +454,7 @@ const transform = function (original_options = {}) {
         const rappend = rtrim === false || this.state.wasQuoting === false;
         if (lappend === true && rappend === true) {
           this.state.field.append(chr);
+          this.state.lineHasContent = true;
         } else if (rtrim === true && !this.__isCharTrimable(buf, pos)) {
           return this.__error(
             new CsvError(
