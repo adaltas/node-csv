@@ -720,16 +720,15 @@ const transform = function (original_options = {}) {
       if (rtrim === true && wasQuoting === false) {
         field = field.trimRight();
       }
+      if (max_record_size !== 0) {
+        this.state.record_length += field.length;
+      }
       if (cast === true) {
         const [err, f] = this.__cast(field);
         if (err !== undefined) return err;
         field = f;
       }
       this.state.record.push(field);
-      // Increment record length if record size must not exceed a limit
-      if (max_record_size !== 0 && typeof field === "string") {
-        this.state.record_length += field.length;
-      }
       this.__resetField();
     },
     __resetField: function () {
