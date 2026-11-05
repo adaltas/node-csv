@@ -11,6 +11,7 @@ export type CastReturnObject = { value: string | null | undefined } & Pick<
   | "delimiter"
   | "escape"
   | "quote"
+  | "relax_quotes"
   | "quoted"
   | "quoted_empty"
   | "quoted_string"
@@ -89,6 +90,12 @@ export interface OptionsNormalized extends stream.TransformOptions {
    * The quote characters, defaults to the ", an empty quote value will preserve the original field.
    */
   quote: string;
+  /**
+   * Preserve interior quotes in unquoted fields when quoting is enabled, defaults to false.
+   * Fields containing delimiters, line breaks, or leading quotes are still quoted.
+   * Parse this non-RFC 4180 output with `relax_quotes: true`.
+   */
+  relax_quotes: boolean;
   /**
    * Boolean, default to false, quote all the non-empty fields even if not required.
    */
@@ -178,6 +185,12 @@ export interface Options extends stream.TransformOptions {
    * The quote characters, defaults to the ", an empty quote value will preserve the original field.
    */
   quote?: string | Buffer | boolean;
+  /**
+   * Preserve interior quotes in unquoted fields when quoting is enabled, defaults to false.
+   * Fields containing delimiters, line breaks, or leading quotes are still quoted.
+   * Parse this non-RFC 4180 output with `relax_quotes: true`.
+   */
+  relax_quotes?: boolean;
   /**
    * Boolean, default to false, quote all the non-empty fields even if not required.
    */

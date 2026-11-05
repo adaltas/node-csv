@@ -186,6 +186,7 @@ const stringifier = function (options, state, info) {
           delimiter,
           escape,
           quote,
+          relax_quotes,
           quoted,
           quoted_empty,
           quoted_string,
@@ -250,7 +251,9 @@ const stringifier = function (options, state, info) {
             }
           }
           const shouldQuote =
-            containsQuote === true ||
+            (containsQuote === true &&
+              (relax_quotes === false ||
+                value.trimStart().startsWith(quote))) ||
             containsdelimiter ||
             containsRecordDelimiter ||
             quoted ||
@@ -259,7 +262,7 @@ const stringifier = function (options, state, info) {
           if (shouldQuote === true && containsEscape === true) {
             value = value.replaceAll(escape, () => escape + escape);
           }
-          if (containsQuote === true) {
+          if (shouldQuote === true && containsQuote === true) {
             value = value.replaceAll(quote, () => escape + quote);
           }
           if (shouldQuote === true) {
