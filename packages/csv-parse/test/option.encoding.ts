@@ -12,6 +12,44 @@ describe("Option `encoding`", function () {
     });
   });
 
+  describe("unaligned multi-byte delimiter matches", function () {
+    // In utf16le, a code unit is 2 bytes: a delimiter is only a delimiter
+    // when it starts on a code unit boundary. The bytes below spell a valid
+    // delimiter halfway through a code unit; the value must survive intact.
+    it("does not match a record delimiter inside a code unit", function (next) {
+      parse(Buffer.from("\u0a01\u0100", "utf16le"), {
+        encoding: "utf16le",
+        record_delimiter: "\n",
+      }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["\u0a01\u0100"]]);
+        next();
+      });
+    });
+
+    it("does not match a carriage return inside a code unit", function (next) {
+      parse(Buffer.from("\u0d01\u0100", "utf16le"), {
+        encoding: "utf16le",
+        record_delimiter: "\r",
+      }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["\u0d01\u0100"]]);
+        next();
+      });
+    });
+
+    it("does not match a field delimiter inside a code unit", function (next) {
+      parse(Buffer.from("\u2c01\u0100", "utf16le"), {
+        encoding: "utf16le",
+        delimiter: ",",
+      }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["\u2c01\u0100"]]);
+        next();
+      });
+    });
+  });
+
   describe("definition", function () {
     it("with delimiter", function (next) {
       parse(
