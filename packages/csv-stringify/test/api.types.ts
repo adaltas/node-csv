@@ -32,6 +32,7 @@ describe("API Types", function () {
           "quoted_match",
           "quoted_string",
           "record_delimiter",
+          "relax_quotes",
         ]);
     });
 

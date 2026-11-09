@@ -11,10 +11,8 @@ describe("Option `quote`", function () {
   });
 
   it("delimiter", function () {
-    const text = '"ab,c",",def"';
-    const normalized = `${text}\n`;
-    stringify(parse(text)).should.eql(normalized);
-    parse(stringify(parse(text))).should.eql(parse(text));
+    const text = '"ab,c",",def"\n';
+    stringify(parse(text)).should.eql(text);
   });
 
   it("record delimiter", function () {
