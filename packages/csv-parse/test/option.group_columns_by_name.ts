@@ -1,5 +1,6 @@
 import "should";
 import { parse } from "../lib/index.js";
+import { parse as parseSync } from "../lib/sync.js";
 
 describe("Option `group_columns_by_name`", function () {
   it("require columns to be active", function () {
@@ -43,5 +44,33 @@ describe("Option `group_columns_by_name`", function () {
         next();
       },
     );
+  });
+
+  it("preserves array-valued casts instead of treating them as groups", function () {
+    const records = parseSync("1,2,3", {
+      columns: ["value", "value", "value"],
+      group_columns_by_name: true,
+      cast: (value) => [Number(value)],
+    });
+    records.should.eql([{ value: [[1], [2], [3]] }]);
+  });
+
+  it("preserves an array-valued cast appended to an existing group", function () {
+    const records = parseSync("1,2,3", {
+      columns: ["value", "value", "value"],
+      group_columns_by_name: true,
+      cast: (value, context) =>
+        context.index === 2 ? [Number(value)] : Number(value),
+    });
+    records.should.eql([{ value: [1, 2, [3]] }]);
+  });
+
+  it("keeps empty arrays as individual cast values", function () {
+    const records = parseSync("1,2,3", {
+      columns: ["value", "value", "value"],
+      group_columns_by_name: true,
+      cast: () => [],
+    });
+    records.should.eql([{ value: [[], [], []] }]);
   });
 });
