@@ -32,10 +32,11 @@ const normalize_columns = function (columns) {
             Error('Invalid column definition: property "key" is required'),
           ];
         }
-        if (column.header === undefined) {
-          column.header = column.key;
-        }
-        newcolumns.push(column);
+        newcolumns.push({
+          ...column,
+          key: column.key,
+          header: column.header === undefined ? column.key : column.header,
+        });
       } else {
         return [
           Error("Invalid column definition: expect a string or an object"),
