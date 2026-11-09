@@ -27,7 +27,7 @@ const normalize_columns = function (columns) {
         column !== null &&
         !Array.isArray(column)
       ) {
-        if (!column.key) {
+        if (!column.key && column.key !== "") {
           return [
             Error('Invalid column definition: property "key" is required'),
           ];
