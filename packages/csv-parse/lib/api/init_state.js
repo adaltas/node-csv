@@ -54,6 +54,11 @@ const init_state = function (options) {
   // (the common case) bail out in O(1) without scanning every timchar.
   const timcharFirstBytes = new Uint8Array(256);
   for (const t of timchars) timcharFirstBytes[t[0]] = 1;
+  // Longest quote, used to know how many bytes must be buffered
+  const quoteMaxLength =
+    options.quote === null
+      ? 0
+      : Math.max(...options.quote.map((quote) => quote.length));
   return {
     bomSkipped: false,
     bufBytesStart: 0,
@@ -65,10 +70,6 @@ const init_state = function (options) {
     error: undefined,
     enabled: options.from_line === 1,
     escaping: false,
-    escapeIsQuote:
-      Buffer.isBuffer(options.escape) &&
-      Buffer.isBuffer(options.quote) &&
-      Buffer.compare(options.escape, options.quote) === 0,
     // columns can be `false`, `true`, `Array`
     expectedRecordLength: Array.isArray(options.columns)
       ? options.columns.length
@@ -85,12 +86,15 @@ const init_state = function (options) {
       // Auto discovery of delimiter is limited to 1 character
       options.delimiter_auto ? 1 : 0,
       // Skip if the remaining buffer can be escape sequence
-      options.quote !== null ? options.quote.length : 0,
+      quoteMaxLength,
       // Skip if the remaining buffer can be a multi-byte trim character
       ...timchars.map((t) => t.length),
     ),
     previousBuf: undefined,
+    // Quote which opened the current quoted field
+    openingQuote: null,
     quoting: false,
+    quoteMaxLength: quoteMaxLength,
     stop: false,
     rawBuffer: new ResizeableBuffer(100),
     record: [],

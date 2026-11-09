@@ -1,6 +1,7 @@
 import "should";
 import dedent from "dedent";
-import { parse } from "../lib/index.js";
+import { parse, normalize_options } from "../lib/index.js";
+import type { Options } from "../lib/index.js";
 import { assert_error } from "./api.assert_error.js";
 
 describe("Option `quote`", function () {
@@ -21,16 +22,34 @@ describe("Option `quote`", function () {
 
   it("default", function () {
     const parser = parse();
-    parser.options.quote?.should.eql(Buffer.from('"'));
+    parser.options.quote?.should.eql([Buffer.from('"')]);
   });
 
   it("normalize", function () {
     let parser = parse({ quote: true });
-    parser.options.quote?.should.eql(Buffer.from('"'));
+    parser.options.quote?.should.eql([Buffer.from('"')]);
+    parser = parse({ quote: '"' });
+    parser.options.quote?.should.eql([Buffer.from('"')]);
+    parser = parse({ quote: Buffer.from("'") });
+    parser.options.quote?.should.eql([Buffer.from("'")]);
+    parser = parse({ quote: ['"', "'"] });
+    parser.options.quote?.should.eql([Buffer.from('"'), Buffer.from("'")]);
+    parser = parse({ quote: [Buffer.from("|")] });
+    parser.options.quote?.should.eql([Buffer.from("|")]);
     parser = parse({ quote: false });
     (parser.options.quote === null).should.be.true();
     parser = parse({ quote: null });
     (parser.options.quote === null).should.be.true();
+    parser = parse({ quote: [] });
+    (parser.options.quote === null).should.be.true();
+  });
+
+  it("throw on invalid characters", function () {
+    (() => {
+      normalize_options({ quote: ["|", 1] } as unknown as Options);
+    }).should.throw(
+      'Invalid Option: quote must be a buffer, a string or an array of buffers or strings, got ["|",1]',
+    );
   });
 
   it("with default", function (next) {
@@ -220,6 +239,99 @@ describe("Option `quote`", function () {
       );
     });
 
+    it("with multiple characters array", function (next) {
+      parse(
+        dedent`
+          a,"b",'c'
+          'd',e,"f"
+        `,
+        { quote: ['"', "'"] },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b", "c"],
+            ["d", "e", "f"],
+          ]);
+          next();
+        },
+      );
+    });
+
+    it("with multiple characters array and a single character chunk", function (next) {
+      const parser = parse({ quote: ['"', "'"] }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([
+          ["a", "b", "c"],
+          ["d", "e", "f"],
+        ]);
+        next();
+      });
+      for (const chr of "a,\"b\",'c'\n'd',e,\"f\"") {
+        parser.write(chr);
+      }
+      parser.end();
+    });
+
+    it("with multiple characters array and multi character quotes", function (next) {
+      parse(
+        dedent`
+          <<a<<,@@b@@
+          @@c@@,<<d<<
+        `,
+        { quote: ["<<", "@@"] },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([
+            ["a", "b"],
+            ["c", "d"],
+          ]);
+          next();
+        },
+      );
+    });
+
+    it("with multiple characters array and the other quote inside the field", function (next) {
+      parse(
+        dedent`
+          'a"b',"c'd"
+        `,
+        { quote: ['"', "'"], escape: null },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([['a"b', "c'd"]]);
+          next();
+        },
+      );
+    });
+
+    it("with multiple characters array and relax_quotes", function (next) {
+      parse(
+        dedent`
+          'a'b,c
+        `,
+        { quote: ['"', "'"], relax_quotes: true },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([["'a'b", "c"]]);
+          next();
+        },
+      );
+    });
+
+    it("with multiple characters array and fields containing delimiters", function (next) {
+      parse(
+        dedent`
+          a,'b,c',"d,e"
+        `,
+        { quote: ['"', "'"] },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([["a", "b,c", "d,e"]]);
+          next();
+        },
+      );
+    });
+
     it("with columns", function (next) {
       parse(
         dedent`
@@ -237,6 +349,18 @@ describe("Option `quote`", function () {
   });
 
   describe('error "Quoted field not terminated"', function () {
+    it("when unclosed with multiple characters", function (next) {
+      parse(`'a,b`, { quote: ['"', "'"] }, (err) => {
+        if (!err) return next(Error("Invalid assessment"));
+        assert_error(err, {
+          message:
+            "Quote Not Closed: the parsing is finished with an opening quote at line 1",
+          code: "CSV_QUOTE_NOT_CLOSED",
+        });
+        next();
+      });
+    });
+
     it("when unclosed", function (next) {
       parse(`"",1974,8.8392926E7,"","`, (err) => {
         if (!err) return next(Error("Invalid assessment"));

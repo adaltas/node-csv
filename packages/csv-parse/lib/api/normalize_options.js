@@ -496,20 +496,31 @@ const normalize_options = function (opts) {
   if (
     options.quote === null ||
     options.quote === false ||
-    options.quote === ""
+    options.quote === "" ||
+    (Array.isArray(options.quote) && options.quote.length === 0)
   ) {
     options.quote = null;
   } else {
-    if (options.quote === undefined || options.quote === true) {
-      options.quote = Buffer.from('"', options.encoding);
-    } else if (typeof options.quote === "string") {
-      options.quote = Buffer.from(options.quote, options.encoding);
+    const original = options.quote;
+    const values =
+      options.quote === undefined || options.quote === true
+        ? ['"']
+        : Array.isArray(options.quote)
+          ? options.quote
+          : [options.quote];
+    const quotes = [];
+    for (const value of values) {
+      if (typeof value === "string" && value !== "") {
+        quotes.push(Buffer.from(value, options.encoding));
+      } else if (Buffer.isBuffer(value) && value.length !== 0) {
+        quotes.push(value);
+      } else {
+        throw new Error(
+          `Invalid Option: quote must be a buffer, a string or an array of buffers or strings, got ${JSON.stringify(original)}`,
+        );
+      }
     }
-    if (!Buffer.isBuffer(options.quote)) {
-      throw new Error(
-        `Invalid Option: quote must be a buffer or a string, got ${JSON.stringify(options.quote)}`,
-      );
-    }
+    options.quote = quotes;
   }
   // Normalize option `raw`
   if (

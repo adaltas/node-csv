@@ -44,9 +44,13 @@ const transform = function (original_options = {}) {
     state: init_state(options),
     __needMoreData: function (i, bufLen, end) {
       if (end) return false;
-      const { encoding, escape, quote } = this.options;
-      const { quoting, needMoreDataSize, recordDelimiterMaxLength } =
-        this.state;
+      const { encoding, escape } = this.options;
+      const {
+        quoting,
+        needMoreDataSize,
+        quoteMaxLength,
+        recordDelimiterMaxLength,
+      } = this.state;
       const numOfCharLeft = bufLen - i - 1;
       const requiredLength = Math.max(
         needMoreDataSize,
@@ -60,9 +64,9 @@ const transform = function (original_options = {}) {
           ? Buffer.from("\r\n", encoding).length
           : recordDelimiterMaxLength,
         // Skip if remaining buffer can be an escaped quote
-        quoting ? (escape === null ? 0 : escape.length) + quote.length : 0,
+        quoting ? (escape === null ? 0 : escape.length) + quoteMaxLength : 0,
         // Skip if remaining buffer can be record delimiter following the closing quote
-        quoting ? quote.length + recordDelimiterMaxLength : 0,
+        quoting ? quoteMaxLength + recordDelimiterMaxLength : 0,
       );
       return numOfCharLeft < requiredLength;
     },
@@ -83,13 +87,12 @@ const transform = function (original_options = {}) {
         to,
         to_line,
       } = this.options;
-      let { comment, escape, quote, record_delimiter } = this.options;
+      let { comment, escape, record_delimiter } = this.options;
       const {
         bomSkipped,
         delimiterDiscovered,
         delimiterBufPrevious,
         rawBuffer,
-        escapeIsQuote,
       } = this.state;
       // Automatic delimiter discovery
       if (!delimiterDiscovered && delimiter_auto) {
@@ -165,7 +168,7 @@ const transform = function (original_options = {}) {
                 this.options[key] = options[key];
               }
               // Options will re-evaluate the Buffer with the new encoding
-              ({ comment, escape, quote } = this.options);
+              ({ comment, escape } = this.options);
               break;
             }
           }
@@ -223,6 +226,11 @@ const transform = function (original_options = {}) {
             this.__isEscape(buf, pos, chr) &&
             pos + escape.length < bufLen
           ) {
+            // Escape only escapes a quote when it is the quote that opened
+            // the field, otherwise it escapes any character
+            const escapeIsQuote =
+              this.state.openingQuote !== null &&
+              escape.equals(this.state.openingQuote);
             if (escapeIsQuote) {
               if (this.__isQuote(buf, pos + escape.length)) {
                 this.state.escaping = true;
@@ -236,24 +244,28 @@ const transform = function (original_options = {}) {
             }
           }
           // Not currently escaping and chr is a quote
-          // TODO: need to compare bytes instead of single char
-          if (this.state.commenting === false && this.__isQuote(buf, pos)) {
+          const quoteMatched =
+            this.state.commenting === false
+              ? this.__matchQuote(buf, pos, chr)
+              : null;
+          if (quoteMatched !== null) {
+            const quoteLength = quoteMatched.length;
             if (this.state.quoting === true) {
-              const nextChr = buf[pos + quote.length];
+              const nextChr = buf[pos + quoteLength];
               const isNextChrTrimable =
-                rtrim && this.__isCharTrimable(buf, pos + quote.length);
+                rtrim && this.__isCharTrimable(buf, pos + quoteLength);
               const isNextChrComment =
                 comment !== null &&
-                this.__compareBytes(comment, buf, pos + quote.length, nextChr);
+                this.__compareBytes(comment, buf, pos + quoteLength, nextChr);
               const isNextChrDelimiter = this.__isDelimiter(
                 buf,
-                pos + quote.length,
+                pos + quoteLength,
                 nextChr,
               );
               const isNextChrRecordDelimiter =
                 record_delimiter.length === 0
-                  ? this.__autoDiscoverRecordDelimiter(buf, pos + quote.length)
-                  : this.__isRecordDelimiter(nextChr, buf, pos + quote.length);
+                  ? this.__autoDiscoverRecordDelimiter(buf, pos + quoteLength)
+                  : this.__isRecordDelimiter(nextChr, buf, pos + quoteLength);
               // Escape a quote
               // Treat next char as a regular character
               if (
@@ -271,7 +283,8 @@ const transform = function (original_options = {}) {
               ) {
                 this.state.quoting = false;
                 this.state.wasQuoting = true;
-                pos += quote.length - 1;
+                this.state.openingQuote = null;
+                pos += quoteLength - 1;
                 continue;
               } else if (relax_quotes === false) {
                 const err = this.__error(
@@ -292,8 +305,9 @@ const transform = function (original_options = {}) {
               } else {
                 this.state.quoting = false;
                 this.state.wasQuoting = true;
-                this.state.field.prepend(quote);
-                pos += quote.length - 1;
+                this.state.openingQuote = null;
+                this.state.field.prepend(quoteMatched);
+                pos += quoteLength - 1;
               }
             } else {
               if (this.state.field.length !== 0) {
@@ -324,7 +338,8 @@ const transform = function (original_options = {}) {
                 }
               } else {
                 this.state.quoting = true;
-                pos += quote.length - 1;
+                this.state.openingQuote = quoteMatched;
+                pos += quoteLength - 1;
                 continue;
               }
             }
@@ -734,6 +749,7 @@ const transform = function (original_options = {}) {
     },
     __resetField: function () {
       this.state.field.reset();
+      this.state.openingQuote = null;
       this.state.wasQuoting = false;
     },
     __push: function (record, push) {
@@ -855,15 +871,34 @@ const transform = function (original_options = {}) {
     //   return /^(\-|\+)?[1-9][0-9]*$/.test(value)
     // }
     __isQuote: function (buf, pos) {
+      const openingQuote = this.state.openingQuote;
+      if (openingQuote === null) return false;
+      return this.__compareBytes(openingQuote, buf, pos, buf[pos]) !== 0;
+    },
+    // Return the quote matching at the given position or null
+    __matchQuote: function (buf, pos, chr) {
       const { quote } = this.options;
-      if (quote === null) return false;
-      const l = quote.length;
-      for (let i = 0; i < l; i++) {
-        if (quote[i] !== buf[pos + i]) {
-          return false;
+      if (quote === null) return null;
+      // Inside a quoted field, only the quote which opened it closes it
+      if (this.state.quoting === true) {
+        const openingQuote = this.state.openingQuote;
+        if (
+          openingQuote === null ||
+          this.__compareBytes(openingQuote, buf, pos, chr) === 0
+        ) {
+          return null;
         }
+        return openingQuote;
       }
-      return true;
+      loop1: for (let i = 0; i < quote.length; i++) {
+        const q = quote[i];
+        if (q[0] !== chr) continue;
+        for (let j = 1; j < q.length; j++) {
+          if (q[j] !== buf[pos + j]) continue loop1;
+        }
+        return q;
+      }
+      return null;
     },
     __isRecordDelimiter: function (chr, buf, pos) {
       const { record_delimiter } = this.options;
