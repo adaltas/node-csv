@@ -806,6 +806,16 @@ const transform = function (original_options = {}) {
       }
       return 0;
     },
+    // Multi-byte encodings such as utf16le represent each code unit on
+    // several bytes. A delimiter is only a delimiter when it starts on a
+    // code unit boundary: matched at any other offset, it would split a
+    // valid character into an empty record or field.
+    __isByteAligned: function (pos) {
+      return (
+        this.options.encoding !== "utf16le" ||
+        (this.state.bufBytesStart + pos) % 2 === 0
+      );
+    },
     __isDelimiter: function (buf, pos, chr) {
       const { delimiter, ignore_last_delimiters } = this.options;
       if (
@@ -818,6 +828,9 @@ const transform = function (original_options = {}) {
         typeof ignore_last_delimiters === "number" &&
         this.state.record.length === ignore_last_delimiters - 1
       ) {
+        return 0;
+      }
+      if (!this.__isByteAligned(pos)) {
         return 0;
       }
       loop1: for (let i = 0; i < delimiter.length; i++) {
@@ -867,6 +880,9 @@ const transform = function (original_options = {}) {
     },
     __isRecordDelimiter: function (chr, buf, pos) {
       const { record_delimiter } = this.options;
+      if (!this.__isByteAligned(pos)) {
+        return 0;
+      }
       const recordDelimiterLength = record_delimiter.length;
       loop1: for (let i = 0; i < recordDelimiterLength; i++) {
         const rd = record_delimiter[i];
@@ -885,6 +901,9 @@ const transform = function (original_options = {}) {
     },
     __autoDiscoverRecordDelimiter: function (buf, pos) {
       const { encoding } = this.options;
+      if (!this.__isByteAligned(pos)) {
+        return 0;
+      }
       // Note, we don't need to cache this information in state,
       // It is only called on the first line until we find out a suitable
       // record delimiter.
