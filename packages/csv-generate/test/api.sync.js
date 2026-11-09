@@ -31,4 +31,17 @@ describe("api sync", function () {
     const data = generate({ length: 1000, objectMode: true });
     data.length.should.eql(1000);
   });
+
+  it("preserves supported column values in objectMode", function () {
+    const data = generate({
+      length: 3,
+      objectMode: true,
+      columns: [() => "value", () => null, () => 42, () => ""],
+    });
+    data.should.eql([
+      ["value", null, 42, ""],
+      ["value", null, 42, ""],
+      ["value", null, 42, ""],
+    ]);
+  });
 });
