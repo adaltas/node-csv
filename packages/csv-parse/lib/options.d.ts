@@ -213,9 +213,10 @@ export interface OptionsNormalized<T = string[], U = T> {
    */
   on_skip?: (err: CsvError | undefined, raw: string | undefined) => undefined;
   /**
-   * Optional character surrounding a field, one character only, defaults to double quotes.
+   * One or multiple characters surrounding a field, defaults to double quotes.
+   * A quoted field is closed by the character which opened it.
    */
-  quote?: Buffer | null;
+  quote?: Buffer[] | null;
   /**
    * Generate two properties raw and row where raw is the original CSV row content and row is the parsed array or object.
    */
@@ -389,9 +390,11 @@ export interface Options<T = string[], U = T> {
   on_skip?: OptionsNormalized["on_skip"];
   onSkip?: OptionsNormalized["on_skip"];
   /**
-   * Optional character surrounding a field, one character only, defaults to double quotes.
+   * One or multiple characters surrounding a field, defaults to double quotes.
+   * Pass an array to accept fields quoted with any of the characters, for
+   * example `['"', "'"]`.
    */
-  quote?: OptionsNormalized["quote"] | string | boolean;
+  quote?: OptionsNormalized["quote"] | string | string[] | Buffer | boolean;
   /**
    * Generate two properties raw and row where raw is the original CSV row content and row is the parsed array or object.
    */
