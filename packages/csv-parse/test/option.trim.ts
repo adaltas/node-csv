@@ -1,6 +1,7 @@
 import "should";
 import dedent from "dedent";
 import { parse } from "../lib/index.js";
+import { parse as parseSync } from "../lib/sync.js";
 
 describe("Option `trim`", function () {
   it("validation", function () {
@@ -384,5 +385,69 @@ describe("Option `trim`", function () {
       parser.write(sp);
       parser.end();
     });
+  });
+  describe("single-byte encodings", function () {
+    for (const encoding of ["ascii", "latin1", "binary"] as const) {
+      for (const option of ["trim", "ltrim"] as const) {
+        it(`preserves field data with ${option} and ${encoding}`, function () {
+          const input = " _alice_, /home/user, (draft), ?value?";
+          parseSync(Buffer.from(input, encoding), {
+            encoding,
+            [option]: true,
+          }).should.eql([["_alice_", "/home/user", "(draft)", "?value?"]]);
+        });
+
+        it(`preserves column names with ${option} and ${encoding}`, function () {
+          const input = " _id, /path, (status)\n _alice, /home, (active)";
+          parseSync(Buffer.from(input, encoding), {
+            encoding,
+            columns: true,
+            [option]: true,
+          }).should.eql([
+            { _id: "_alice", "/path": "/home", "(status)": "(active)" },
+          ]);
+        });
+
+        it(`preserves data across writes with ${option} and ${encoding}`, function (next) {
+          const input = Buffer.from(" _alice_, /home, (draft)", encoding);
+          const parser = parse({ encoding, [option]: true }, (err, records) => {
+            if (err) return next(err);
+            records.should.eql([["_alice_", "/home", "(draft)"]]);
+            next();
+          });
+          for (let i = 0; i < input.length; i++) {
+            parser.write(input.subarray(i, i + 1));
+          }
+          parser.end();
+        });
+      }
+
+      it(`trims representable whitespace with ${encoding}`, function () {
+        const whitespace =
+          encoding === "ascii" ? " \t\r\n\v\f" : " \t\r\n\v\f\u00a0";
+        const input = `${whitespace}_alice_${whitespace},${whitespace}/home${whitespace}`;
+        parseSync(Buffer.from(input, encoding), {
+          encoding,
+          trim: true,
+          record_delimiter: "|",
+        }).should.eql([["_alice_", "/home"]]);
+      });
+
+      it(`preserves quoted whitespace and data with ${encoding}`, function () {
+        parseSync(Buffer.from(' " _alice_ ", " /home "', encoding), {
+          encoding,
+          trim: true,
+        }).should.eql([[" _alice_ ", " /home "]]);
+      });
+
+      it(`rejects non-whitespace after closing quotes with ${encoding}`, function () {
+        (() => {
+          parseSync(Buffer.from('"value" _', encoding), {
+            encoding,
+            trim: true,
+          });
+        }).should.throw({ code: "CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE" });
+      });
+    }
   });
 });
