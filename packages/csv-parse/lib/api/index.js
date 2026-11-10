@@ -66,6 +66,35 @@ const transform = function (original_options = {}) {
       );
       return numOfCharLeft < requiredLength;
     },
+    // Lookup table of the bytes which can't start a delimiter, a record
+    // delimiter, a quote, an escape, a comment or a trimable character
+    __plainBytes: function () {
+      const {
+        comment,
+        delimiter,
+        escape,
+        ltrim,
+        quote,
+        record_delimiter,
+        rtrim,
+      } = this.options;
+      const plainBytes = new Uint8Array(256).fill(1);
+      if (ltrim === true || rtrim === true) {
+        for (const timchar of this.state.timchars) plainBytes[timchar[0]] = 0;
+      }
+      plainBytes[cr] = 0;
+      plainBytes[nl] = 0;
+      for (const chars of [
+        comment,
+        escape,
+        quote,
+        delimiter,
+        record_delimiter,
+      ].flat()) {
+        if (chars !== null && chars.length !== 0) plainBytes[chars[0]] = 0;
+      }
+      return plainBytes;
+    },
     // Central parser implementation
     parse: function (nextBuf, end, push, close) {
       const {
@@ -173,6 +202,8 @@ const transform = function (original_options = {}) {
         }
       }
       const bufLen = buf.length;
+      // Bytes which can be appended to the field without further checks
+      const plainBytes = max_record_size === 0 ? this.__plainBytes() : null;
       let pos;
       for (pos = 0; pos < bufLen; pos++) {
         // Ensure we get enough space to look ahead
@@ -202,6 +233,16 @@ const transform = function (original_options = {}) {
         const chr = buf[pos];
         if (raw === true) {
           rawBuffer.append(chr);
+        }
+        if (
+          plainBytes !== null &&
+          plainBytes[chr] === 1 &&
+          this.state.escaping === false &&
+          this.state.commenting === false &&
+          (rtrim === false || this.state.wasQuoting === false)
+        ) {
+          this.state.field.append(chr);
+          continue;
         }
         if (
           (chr === cr || chr === nl) &&
