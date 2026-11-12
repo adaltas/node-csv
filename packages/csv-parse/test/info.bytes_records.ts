@@ -60,7 +60,7 @@ describe("info bytes_records", function () {
     records.should.eql([
       [0, 0],
       [18, 18],
-      [46, 46],
+      [28, 28],
     ]);
   });
 });

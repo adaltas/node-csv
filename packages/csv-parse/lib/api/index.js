@@ -749,7 +749,7 @@ const transform = function (original_options = {}) {
           return;
         }
       }
-      this.info.bytes_records += this.info.bytes;
+      this.info.bytes_records = this.info.bytes;
       push(record);
     },
     // Return a tuple with the error and the casted value
