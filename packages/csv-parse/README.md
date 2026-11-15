@@ -75,6 +75,26 @@ parser.write("someone:x:1022:1022::/home/someone:/bin/bash\n");
 parser.end();
 ```
 
+## Browser Web Streams
+
+The `csv-parse/browser/esm/stream` entry point uses the browser's native
+`TransformStream` and accepts byte chunks, such as a fetch response body:
+
+```js
+import { parse } from "csv-parse/browser/esm/stream";
+
+const response = await fetch("data.csv");
+const reader = response.body.pipeThrough(parse({ columns: true })).getReader();
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+  console.log(value);
+}
+```
+
+This entry point requires native Web Streams support. It does not install
+stream globals or require Node.js stream modules.
+
 ## Contributors
 
 The project is sponsored by [Adaltas](https://www.adaltas.com), an Big Data consulting firm based in Paris, France.

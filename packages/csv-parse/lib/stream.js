@@ -17,7 +17,8 @@ const parse = (opts) => {
         controller = ctr;
       },
       transform(chunk) {
-        const error = api.parse(chunk, false, enqueue, terminate);
+        const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+        const error = api.parse(buffer, false, enqueue, terminate);
         if (error) {
           controller.error(error);
         }
