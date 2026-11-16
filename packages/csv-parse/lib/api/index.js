@@ -329,6 +329,19 @@ const transform = function (original_options = {}) {
               }
             }
           }
+          if (
+            this.state.quoting === true &&
+            this.state.recordHasError === true
+          ) {
+            if (record_delimiter.length === 0) {
+              this.__autoDiscoverRecordDelimiter(buf, pos);
+              record_delimiter = this.options.record_delimiter;
+            }
+            if (this.__isRecordDelimiter(chr, buf, pos) !== 0) {
+              this.state.quoting = false;
+              this.state.wasQuoting = false;
+            }
+          }
           if (this.state.quoting === false) {
             const recordDelimiterLength = this.__isRecordDelimiter(
               chr,
@@ -529,10 +542,17 @@ const transform = function (original_options = {}) {
         }
         return this.__firstLineToColumns(record);
       }
-      if (columns === false && this.info.records === 0) {
+      if (
+        columns === false &&
+        this.info.records === 0 &&
+        this.state.recordHasError !== true
+      ) {
         this.state.expectedRecordLength = recordLength;
       }
-      if (recordLength !== this.state.expectedRecordLength) {
+      if (
+        recordLength !== this.state.expectedRecordLength &&
+        this.state.recordHasError !== true
+      ) {
         const err =
           columns === false
             ? new CsvError(
