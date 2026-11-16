@@ -35,7 +35,12 @@ class Stringifier extends Transform {
     if (this.state.stop === true) {
       return;
     }
-    const err = this.api.__transform(chunk, this.push.bind(this));
+    let err;
+    try {
+      err = this.api.__transform(chunk, this.push.bind(this));
+    } catch (error) {
+      err = error;
+    }
     if (err !== undefined) {
       this.state.stop = true;
     }
