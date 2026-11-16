@@ -75,4 +75,14 @@ describe("Option `raw`", function () {
       },
     );
   });
+
+  it("preserves a multi-character delimiter", function (next) {
+    parse("a|@|b|@|c\n", { raw: true, delimiter: "|@|" }, (err, records) => {
+      if (err) return next(err);
+      const record = records[0] as unknown as { record: string[]; raw: string };
+      record.raw.should.eql("a|@|b|@|c\n");
+      record.record.should.eql(["a", "b", "c"]);
+      next();
+    });
+  });
 });

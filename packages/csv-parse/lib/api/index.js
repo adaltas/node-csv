@@ -407,6 +407,11 @@ const transform = function (original_options = {}) {
               this.info.bytes = this.state.bufBytesStart + pos;
               const errField = this.__onField();
               if (errField !== undefined) return errField;
+              if (raw === true) {
+                for (let i = 1; i < delimiterLength; i++) {
+                  rawBuffer.append(buf[pos + i]);
+                }
+              }
               pos += delimiterLength - 1;
               continue;
             }
