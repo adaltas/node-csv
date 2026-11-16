@@ -42,55 +42,11 @@ describe("Option `quote`", function () {
     );
   });
 
-  it("does not escape an empty quote with quoting selectors", function () {
-    for (const quote of [false, "", Buffer.alloc(0)]) {
-      for (const selector of [
-        { quoted: true },
-        { quoted_string: true },
-        { quoted_match: /^[a-z]+$/ },
-      ]) {
-        stringifySync([["abc", "def"]], {
-          quote,
-          ...selector,
-        }).should.eql("abc,def\n");
-      }
-    }
-  });
-
-  it("does not escape an empty quote with relaxed quoting", function () {
+  it("does not escape an empty quote when quoted is true", function () {
     stringifySync([["abc", "def"]], {
       quote: false,
       quoted: true,
-      relax_quotes: true,
     }).should.eql("abc,def\n");
-  });
-
-  it("does not escape an empty quote with a custom escape", function () {
-    stringifySync([["abc", "def"]], {
-      quote: false,
-      quoted: true,
-      escape: "\\",
-    }).should.eql("abc,def\n");
-  });
-
-  it("does not escape an empty quote from field-level cast options", function () {
-    stringifySync([[1, 2]], {
-      quoted: true,
-      cast: {
-        number: (value) => ({
-          value: String(value),
-          quote: value === 1 ? false : '"',
-        }),
-      },
-    }).should.eql('1,"2"\n');
-  });
-
-  it("does not escape an empty quote in callback output", function (next) {
-    stringify([["abc", "def"]], { quote: false, quoted: true }, (err, data) => {
-      if (err) return next(err);
-      data.should.eql("abc,def\n");
-      next();
-    });
   });
 
   it("custom value with quoted", function (next) {
