@@ -1,8 +1,18 @@
 import "should";
 import dedent from "dedent";
 import { stringify } from "../lib/index.js";
+import { stringify as stringifySync } from "../lib/sync.js";
 
 describe("Option `escape_formulas`", function () {
+  it("escapes formula prefixes with a custom quote", function () {
+    stringifySync([["=1", "b"]], {
+      quote: "'",
+      escape: "'",
+      quoted: true,
+      escape_formulas: true,
+    }).should.eql("'''=1','b'\n");
+  });
+
   it("default to `false`", function (next) {
     const stringifier = stringify([["abc", "def"]], () => {
       stringifier.options.escape_formulas.should.be.false();

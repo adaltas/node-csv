@@ -42,6 +42,13 @@ describe("Option `quote`", function () {
     );
   });
 
+  it("does not escape an empty quote when quoted is true", function () {
+    stringifySync([["abc", "def"]], {
+      quote: false,
+      quoted: true,
+    }).should.eql("abc,def\n");
+  });
+
   it("custom value with quoted", function (next) {
     stringify(
       [
