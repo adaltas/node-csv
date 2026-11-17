@@ -34,4 +34,16 @@ describe("sync", function () {
       stringify([1, { a: "3", b: "4" }]);
     }).should.throw("Invalid Record: expect an array or an object, got 1");
   });
+
+  it("catch null record as first record", function () {
+    (() => {
+      stringify([null]);
+    }).should.throw("Invalid Record: expect an array or an object, got null");
+  });
+
+  it("catch null record after the first record", function () {
+    (() => {
+      stringify([{ a: "1" }, null]);
+    }).should.throw("Invalid Record: expect an array or an object, got null");
+  });
 });
