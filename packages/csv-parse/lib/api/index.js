@@ -600,7 +600,15 @@ const transform = function (original_options = {}) {
               Object.hasOwn(obj, columns[i].name)
             ) {
               if (Array.isArray(obj[columns[i].name])) {
-                obj[columns[i].name] = obj[columns[i].name].concat(record[i]);
+                // Append in place; `concat` copied the array on every
+                // duplicate, making grouping quadratic in the column count.
+                // Array values are flattened to preserve `concat` semantics.
+                const group = obj[columns[i].name];
+                if (Array.isArray(record[i])) {
+                  for (const value of record[i]) group.push(value);
+                } else {
+                  group.push(record[i]);
+                }
               } else {
                 obj[columns[i].name] = [obj[columns[i].name], record[i]];
               }
