@@ -61,4 +61,14 @@ describe("api.callback", function () {
       next();
     });
   });
+
+  it("pass a null record to the callback as an error", function (next) {
+    stringify([{ a: "1" }, null, { a: "2" }], (err, data) => {
+      err.message.should.eql(
+        "Invalid Record: expect an array or an object, got null",
+      );
+      (data === undefined).should.be.true();
+      next();
+    });
+  });
 });

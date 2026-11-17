@@ -41,8 +41,11 @@ const stringifier = function (options, state, info) {
     state: state,
     info: info,
     __transform: function (chunk, push) {
-      // Chunk validation
-      if (!Array.isArray(chunk) && typeof chunk !== "object") {
+      // Chunk validation, `typeof null` is "object"
+      if (
+        chunk === null ||
+        (!Array.isArray(chunk) && typeof chunk !== "object")
+      ) {
         return Error(
           `Invalid Record: expect an array or an object, got ${JSON.stringify(chunk)}`,
         );

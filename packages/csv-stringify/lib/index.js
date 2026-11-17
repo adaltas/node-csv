@@ -101,6 +101,12 @@ const stringify = function () {
   if (data !== undefined) {
     const writer = function () {
       for (const record of data) {
+        if (record === null) {
+          // Streams reserve `null` for the end of input, `write` would throw
+          // ERR_STREAM_NULL_VALUES inside this timer, out of the caller's reach
+          stringifier.destroy(stringifier.api.__transform(record));
+          return;
+        }
         stringifier.write(record);
       }
       stringifier.end();
