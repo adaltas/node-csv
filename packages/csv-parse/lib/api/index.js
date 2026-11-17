@@ -226,11 +226,21 @@ const transform = function (original_options = {}) {
             if (escapeIsQuote) {
               if (this.__isQuote(buf, pos + escape.length)) {
                 this.state.escaping = true;
+                if (raw === true) {
+                  for (let i = 1; i < escape.length; i++) {
+                    rawBuffer.append(buf[pos + i]);
+                  }
+                }
                 pos += escape.length - 1;
                 continue;
               }
             } else {
               this.state.escaping = true;
+              if (raw === true) {
+                for (let i = 1; i < escape.length; i++) {
+                  rawBuffer.append(buf[pos + i]);
+                }
+              }
               pos += escape.length - 1;
               continue;
             }
@@ -261,6 +271,11 @@ const transform = function (original_options = {}) {
                 this.__isEscape(buf, pos, chr) &&
                 this.__isQuote(buf, pos + escape.length)
               ) {
+                if (raw === true) {
+                  for (let i = 1; i < escape.length; i++) {
+                    rawBuffer.append(buf[pos + i]);
+                  }
+                }
                 pos += escape.length - 1;
               } else if (
                 !nextChr ||
@@ -271,6 +286,11 @@ const transform = function (original_options = {}) {
               ) {
                 this.state.quoting = false;
                 this.state.wasQuoting = true;
+                if (raw === true) {
+                  for (let i = 1; i < quote.length; i++) {
+                    rawBuffer.append(buf[pos + i]);
+                  }
+                }
                 pos += quote.length - 1;
                 continue;
               } else if (relax_quotes === false) {
@@ -293,6 +313,11 @@ const transform = function (original_options = {}) {
                 this.state.quoting = false;
                 this.state.wasQuoting = true;
                 this.state.field.prepend(quote);
+                if (raw === true) {
+                  for (let i = 1; i < quote.length; i++) {
+                    rawBuffer.append(buf[pos + i]);
+                  }
+                }
                 pos += quote.length - 1;
               }
             } else {
@@ -324,6 +349,11 @@ const transform = function (original_options = {}) {
                 }
               } else {
                 this.state.quoting = true;
+                if (raw === true) {
+                  for (let i = 1; i < quote.length; i++) {
+                    rawBuffer.append(buf[pos + i]);
+                  }
+                }
                 pos += quote.length - 1;
                 continue;
               }
@@ -375,6 +405,11 @@ const transform = function (original_options = {}) {
                 if (errField !== undefined) return errField;
                 this.info.bytes =
                   this.state.bufBytesStart + pos + recordDelimiterLength;
+                if (raw === true) {
+                  for (let i = 1; i < recordDelimiterLength; i++) {
+                    rawBuffer.append(buf[pos + i]);
+                  }
+                }
                 const errRecord = this.__onRecord(push);
                 if (errRecord !== undefined) return errRecord;
                 if (to !== -1 && this.info.records >= to) {
@@ -407,6 +442,11 @@ const transform = function (original_options = {}) {
               this.info.bytes = this.state.bufBytesStart + pos;
               const errField = this.__onField();
               if (errField !== undefined) return errField;
+              if (raw === true) {
+                for (let i = 1; i < delimiterLength; i++) {
+                  rawBuffer.append(buf[pos + i]);
+                }
+              }
               pos += delimiterLength - 1;
               continue;
             }
