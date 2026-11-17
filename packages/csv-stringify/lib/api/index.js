@@ -264,7 +264,7 @@ const stringifier = function (options, state, info) {
             value = value.replaceAll(escape, () => escape + escape);
           }
           // Escape all quote characters if quoted
-          if (shouldQuote === true && containsQuote === true) {
+          if (shouldQuote === true && quote !== "") {
             value = value.replaceAll(quote, () => escape + quote);
           }
           if (shouldQuote === true) {
