@@ -782,8 +782,20 @@ const transform = function (original_options = {}) {
       }
       return [undefined, field];
     },
+    __isCharBoundary: function (pos) {
+      // UTF-16LE tokens must start on a code unit, including after buffering
+      // an odd number of bytes or discovering the encoding from a BOM.
+      const { encoding } = this.options;
+      return (
+        encoding === "utf8" ||
+        encoding === null ||
+        !/^(?:utf-?16le|ucs-?2)$/i.test(encoding) ||
+        (this.state.bufBytesStart + pos) % 2 === 0
+      );
+    },
     __compareBytes: function (sourceBuf, targetBuf, targetPos, firstByte) {
-      if (sourceBuf[0] !== firstByte) return 0;
+      if (sourceBuf[0] !== firstByte || !this.__isCharBoundary(targetPos))
+        return 0;
       const sourceLength = sourceBuf.length;
       for (let i = 1; i < sourceLength; i++) {
         if (sourceBuf[i] !== targetBuf[targetPos + i]) return 0;
@@ -841,7 +853,7 @@ const transform = function (original_options = {}) {
             return false;
           }
         }
-        return true;
+        return this.__isCharBoundary(pos);
       }
       return false;
     },
@@ -863,7 +875,7 @@ const transform = function (original_options = {}) {
           return false;
         }
       }
-      return true;
+      return this.__isCharBoundary(pos);
     },
     __isRecordDelimiter: function (chr, buf, pos) {
       const { record_delimiter } = this.options;
