@@ -2,6 +2,23 @@ import "should";
 import { generate } from "../lib/index.js";
 
 describe("Option `sleep`", function () {
+  for (const value of [42, "", null, "value"]) {
+    it(`preserves all object records containing ${JSON.stringify(value)}`, async function () {
+      const data = await new Promise((resolve, reject) => {
+        generate(
+          {
+            objectMode: true,
+            length: 5,
+            sleep: 5,
+            columns: [() => value],
+          },
+          (err, data) => (err ? reject(err) : resolve(data)),
+        );
+      });
+      data.should.eql(Array.from({ length: 5 }, () => [value]));
+    });
+  }
+
   it("as integer above 0", function (next) {
     this.timeout(10000);
     generate({ duration: 1000, sleep: 100, objectMode: true }, (err, data) => {
