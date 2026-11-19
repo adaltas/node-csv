@@ -104,6 +104,7 @@ const init_state = function (options) {
       Buffer.from(" ", options.encoding)[0],
       Buffer.from("\t", options.encoding)[0],
     ],
+    wasCr: false,
     wasQuoting: false,
     wasRowDelimiter: false,
     timchars: timchars,

@@ -158,4 +158,21 @@ describe("Option `from_line`", function () {
       },
     );
   });
+
+  it("count a CRLF split across chunks inside a quoted field as one line", function (next) {
+    const records = [];
+    const parser = parse({ from_line: 4 });
+    parser.on("readable", () => {
+      let record;
+      while ((record = parser.read()) !== null) records.push(record);
+    });
+    parser.on("error", next);
+    parser.on("end", () => {
+      records.should.eql([["d", "3"]]);
+      next();
+    });
+    parser.write('"a\r');
+    parser.write('\nb",1\r\nc,2\r\nd,3');
+    parser.end();
+  });
 });

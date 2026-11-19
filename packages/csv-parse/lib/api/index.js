@@ -203,12 +203,14 @@ const transform = function (original_options = {}) {
         if (raw === true) {
           rawBuffer.append(chr);
         }
+        // A LF right after a CR ends the same line, it is not a new one
         if (
-          (chr === cr || chr === nl) &&
+          (chr === cr || (chr === nl && this.state.wasCr === false)) &&
           this.state.wasRowDelimiter === false
         ) {
           this.state.wasRowDelimiter = true;
         }
+        this.state.wasCr = chr === cr;
         // Previous char was a valid escape char
         // treat the current char as a regular char
         if (this.state.escaping === true) {
