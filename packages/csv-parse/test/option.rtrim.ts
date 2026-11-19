@@ -1,9 +1,71 @@
 import "should";
 import dedent from "dedent";
 import { parse } from "../lib/index.js";
+import { parse as parseSync } from "../lib/sync.js";
 import { assert_error } from "./api.assert_error.js";
 
 describe("Option `rtrim`", function () {
+  for (const encoding of ["utf8", "utf16le"] as const) {
+    for (const trimming of [{ rtrim: true }, { trim: true }]) {
+      describe(`${encoding} with ${Object.keys(trimming)[0]}`, function () {
+        const whitespaces = [" ", "\t", "\u00a0", "\u2003", "\u3000"];
+
+        it("trims after quoted fields before delimiters and end of input", function () {
+          for (const whitespace of whitespaces) {
+            const data = Buffer.from(
+              `" a "${whitespace},""${whitespace}|"b"${whitespace},"c"${whitespace}`,
+              encoding,
+            );
+            parseSync(data, {
+              ...trimming,
+              encoding,
+              record_delimiter: "|",
+            }).should.eql([
+              [" a ", ""],
+              ["b", "c"],
+            ]);
+          }
+        });
+
+        it("trims after quoted fields with one-byte stream writes", async function () {
+          for (const whitespace of whitespaces) {
+            const data = Buffer.from(
+              `" a "${whitespace},""${whitespace}|"b"${whitespace},"c"${whitespace}`,
+              encoding,
+            );
+            const records = await new Promise<string[][]>((resolve, reject) => {
+              const parser = parse(
+                { ...trimming, encoding, record_delimiter: "|" },
+                (err, records) => (err ? reject(err) : resolve(records)),
+              );
+              for (const byte of data) {
+                parser.write(Buffer.from([byte]));
+              }
+              parser.end();
+            });
+            records.should.eql([
+              [" a ", ""],
+              ["b", "c"],
+            ]);
+          }
+        });
+
+        it("rejects non-whitespace after trailing whitespace", function () {
+          for (const whitespace of whitespaces) {
+            (() => {
+              parseSync(Buffer.from(`"a"${whitespace}x`, encoding), {
+                ...trimming,
+                encoding,
+              });
+            }).should.throw({
+              code: "CSV_NON_TRIMABLE_CHAR_AFTER_CLOSING_QUOTE",
+            });
+          }
+        });
+      });
+    }
+  }
+
   it("validation", function () {
     parse("", { rtrim: true }, () => {});
     parse("", { rtrim: false }, () => {});

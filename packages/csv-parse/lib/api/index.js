@@ -455,9 +455,7 @@ const transform = function (original_options = {}) {
             ),
           );
         } else {
-          if (lappend === false) {
-            pos += this.__isCharTrimable(buf, pos) - 1;
-          }
+          pos += this.__isCharTrimable(buf, pos) - 1;
           continue;
         }
       }
