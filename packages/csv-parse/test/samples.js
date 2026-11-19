@@ -1,8 +1,9 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-const __dirname = new URL(".", import.meta.url).pathname;
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const dir = path.resolve(__dirname, "../samples");
 const samples = await fs.readdir(dir);
 
