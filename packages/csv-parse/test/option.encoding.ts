@@ -63,6 +63,34 @@ describe("Option `encoding`", function () {
     });
   });
 
+  describe("auto record delimiter", function () {
+    it("utf16le with a quoted record split across writes", function (next) {
+      const input = Buffer.from('"b"\r\n', "utf16le");
+      const parser = parse({ encoding: "utf16le" }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["b"]]);
+        next();
+      });
+      for (let i = 0; i < input.length; i++) {
+        parser.write(input.subarray(i, i + 1));
+      }
+      parser.end();
+    });
+
+    it("utf16le with multiple quoted records split across writes", function (next) {
+      const input = Buffer.from('"b"\r\n"c"\r\n', "utf16le");
+      const parser = parse({ encoding: "utf16le" }, (err, records) => {
+        if (err) return next(err);
+        records.should.eql([["b"], ["c"]]);
+        next();
+      });
+      for (let i = 0; i < input.length; i++) {
+        parser.write(input.subarray(i, i + 1));
+      }
+      parser.end();
+    });
+  });
+
   describe("with BOM", function () {
     it("utf16le auto detected", function (next) {
       const parser = parse(
