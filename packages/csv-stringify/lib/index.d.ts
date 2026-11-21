@@ -29,6 +29,11 @@ export type Input = unknown[];
 export interface ColumnOption {
   key: string | (string | number)[];
   header?: string;
+  /**
+   * Format this column's data values instead of using the type-based cast.
+   * Receives the original value and casting context; does not format headers.
+   */
+  cast?: Cast<unknown>;
 }
 export interface CastingContext {
   readonly column?: number | string;

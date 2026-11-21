@@ -32,6 +32,13 @@ const normalize_columns = function (columns) {
             Error('Invalid column definition: property "key" is required'),
           ];
         }
+        if (column.cast !== undefined && typeof column.cast !== "function") {
+          return [
+            Error(
+              'Invalid column definition: property "cast" must be a function',
+            ),
+          ];
+        }
         if (column.header === undefined) {
           column.header = column.key;
         }
