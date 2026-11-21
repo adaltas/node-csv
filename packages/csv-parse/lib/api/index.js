@@ -289,6 +289,7 @@ const transform = function (original_options = {}) {
                   ),
                 );
                 if (err !== undefined) return err;
+                this.state.quoteHasError = true;
               } else {
                 this.state.quoting = false;
                 this.state.wasQuoting = true;
@@ -327,6 +328,19 @@ const transform = function (original_options = {}) {
                 pos += quote.length - 1;
                 continue;
               }
+            }
+          }
+          if (
+            this.state.quoting === true &&
+            this.state.quoteHasError === true
+          ) {
+            if (record_delimiter.length === 0) {
+              this.__autoDiscoverRecordDelimiter(buf, pos);
+              record_delimiter = this.options.record_delimiter;
+            }
+            if (this.__isRecordDelimiter(chr, buf, pos) !== 0) {
+              this.state.quoting = false;
+              this.state.wasQuoting = false;
             }
           }
           if (this.state.quoting === false) {
@@ -529,10 +543,17 @@ const transform = function (original_options = {}) {
         }
         return this.__firstLineToColumns(record);
       }
-      if (columns === false && this.info.records === 0) {
+      if (
+        columns === false &&
+        this.info.records === 0 &&
+        this.state.recordHasError !== true
+      ) {
         this.state.expectedRecordLength = recordLength;
       }
-      if (recordLength !== this.state.expectedRecordLength) {
+      if (
+        recordLength !== this.state.expectedRecordLength &&
+        this.state.recordHasError !== true
+      ) {
         const err =
           columns === false
             ? new CsvError(
@@ -583,6 +604,7 @@ const transform = function (original_options = {}) {
       if (this.state.recordHasError === true) {
         this.__resetRecord();
         this.state.recordHasError = false;
+        this.state.quoteHasError = false;
         return;
       }
       this.info.records++;

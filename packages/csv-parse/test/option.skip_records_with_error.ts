@@ -214,4 +214,103 @@ describe("Option `skip_records_with_error`", function () {
       });
     });
   });
+
+  describe('resume after "Invalid closing quote"', function () {
+    const run = function (
+      input: string,
+      expected: string[][],
+      next: (err?: Error) => void,
+    ) {
+      const skipped: string[] = [];
+      parse(
+        input,
+        {
+          skip_records_with_error: true,
+          on_skip: (err: CsvError | undefined) => {
+            if (err) skipped.push(err.code);
+          },
+        },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql(expected);
+          skipped.should.eql(["CSV_INVALID_CLOSING_QUOTE"]);
+          next();
+        },
+      );
+    };
+
+    it("keeps the records after the skipped one", function (next) {
+      run(
+        [
+          "id,name,company",
+          "1,Maria,Globex",
+          '2,"Bob" Jr,Initech',
+          '3,Chen,"Umbrella, Ltd"',
+          "4,Olga,Hooli",
+        ].join("\n") + "\n",
+        [
+          ["id", "name", "company"],
+          ["1", "Maria", "Globex"],
+          ["3", "Chen", "Umbrella, Ltd"],
+          ["4", "Olga", "Hooli"],
+        ],
+        next,
+      );
+    });
+
+    it("keeps unquoted records after the skipped one", function (next) {
+      run(
+        ["1,Maria,Globex", '2,"Bob" Jr,Initech', "3,Chen,Umbrella"].join("\n") +
+          "\n",
+        [
+          ["1", "Maria", "Globex"],
+          ["3", "Chen", "Umbrella"],
+        ],
+        next,
+      );
+    });
+
+    it("works with windows line endings", function (next) {
+      run(
+        ["1,Maria,Globex", '2,"Bob" Jr,Initech', "3,Chen,Umbrella"].join(
+          "\r\n",
+        ) + "\r\n",
+        [
+          ["1", "Maria", "Globex"],
+          ["3", "Chen", "Umbrella"],
+        ],
+        next,
+      );
+    });
+
+    it("works when the bad record is the first one", function (next) {
+      run(
+        ['2,"Bob" Jr,Initech', "3,Chen,Umbrella"].join("\n") + "\n",
+        [["3", "Chen", "Umbrella"]],
+        next,
+      );
+    });
+
+    it("keeps quoted fields of records with other errors", function (next) {
+      const skipped: string[] = [];
+      parse(
+        'id,size,note\n1,5" pipe,"first line\n2,fake,record\nlast line"\n3,real,row\n',
+        {
+          skip_records_with_error: true,
+          on_skip: (err: CsvError | undefined) => {
+            if (err) skipped.push(err.code);
+          },
+        },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([
+            ["id", "size", "note"],
+            ["3", "real", "row"],
+          ]);
+          skipped.should.eql(["INVALID_OPENING_QUOTE"]);
+          next();
+        },
+      );
+    });
+  });
 });

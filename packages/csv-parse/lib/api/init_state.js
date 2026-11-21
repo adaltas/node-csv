@@ -90,6 +90,7 @@ const init_state = function (options) {
       ...timchars.map((t) => t.length),
     ),
     previousBuf: undefined,
+    quoteHasError: false,
     quoting: false,
     stop: false,
     rawBuffer: new ResizeableBuffer(100),
