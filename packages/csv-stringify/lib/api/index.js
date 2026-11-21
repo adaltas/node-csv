@@ -313,6 +313,11 @@ const stringifier = function (options, state, info) {
     __cast: function (value, context) {
       const type = typeof value;
       try {
+        const column =
+          this.options.columns && this.options.columns[context.index];
+        if (!context.header && column && column.cast !== undefined) {
+          return [undefined, column.cast(value, context)];
+        }
         if (type === "string") {
           // Fine for 99% of the cases
           return [undefined, this.options.cast.string(value, context)];
