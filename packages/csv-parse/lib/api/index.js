@@ -289,6 +289,7 @@ const transform = function (original_options = {}) {
                   ),
                 );
                 if (err !== undefined) return err;
+                this.state.quoteHasError = true;
               } else {
                 this.state.quoting = false;
                 this.state.wasQuoting = true;
@@ -331,7 +332,7 @@ const transform = function (original_options = {}) {
           }
           if (
             this.state.quoting === true &&
-            this.state.recordHasError === true
+            this.state.quoteHasError === true
           ) {
             if (record_delimiter.length === 0) {
               this.__autoDiscoverRecordDelimiter(buf, pos);
@@ -603,6 +604,7 @@ const transform = function (original_options = {}) {
       if (this.state.recordHasError === true) {
         this.__resetRecord();
         this.state.recordHasError = false;
+        this.state.quoteHasError = false;
         return;
       }
       this.info.records++;

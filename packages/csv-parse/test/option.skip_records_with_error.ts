@@ -290,5 +290,27 @@ describe("Option `skip_records_with_error`", function () {
         next,
       );
     });
+
+    it("keeps quoted fields of records with other errors", function (next) {
+      const skipped: string[] = [];
+      parse(
+        'id,size,note\n1,5" pipe,"first line\n2,fake,record\nlast line"\n3,real,row\n',
+        {
+          skip_records_with_error: true,
+          on_skip: (err: CsvError | undefined) => {
+            if (err) skipped.push(err.code);
+          },
+        },
+        (err, records) => {
+          if (err) return next(err);
+          records.should.eql([
+            ["id", "size", "note"],
+            ["3", "real", "row"],
+          ]);
+          skipped.should.eql(["INVALID_OPENING_QUOTE"]);
+          next();
+        },
+      );
+    });
   });
 });
