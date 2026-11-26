@@ -141,4 +141,26 @@ describe("Option `bom`", function () {
     parser.end();
     parser.options?.columns.should.eql([{ name: "1" }, { name: "2" }]);
   });
+
+  it("renormalize trim characters when bom detection switches encoding", function (next) {
+    parse(
+      Buffer.from("\ufeff a , b ", "utf16le"),
+      { bom: true, trim: true },
+      (err, records) => {
+        records.should.eql([["a", "b"]]);
+        next();
+      },
+    );
+  });
+
+  it("renormalize ltrim characters when bom detection switches encoding", function (next) {
+    parse(
+      Buffer.from("\ufeff a , b ", "utf16le"),
+      { bom: true, ltrim: true },
+      (err, records) => {
+        records.should.eql([["a ", "b "]]);
+        next();
+      },
+    );
+  });
 });

@@ -164,6 +164,20 @@ const transform = function (original_options = {}) {
               for (const key in options) {
                 this.options[key] = options[key];
               }
+              // Refresh the encoding-dependent state initialized with the
+              // original encoding: trim whitespace byte sequences, structural
+              // token lengths and escape/quote comparison all derive from it.
+              const reinitialized = init_state(this.options);
+              for (const key of [
+                "escapeIsQuote",
+                "needMoreDataSize",
+                "recordDelimiterMaxLength",
+                "timcharFirstBytes",
+                "timchars",
+                "trimChars",
+              ]) {
+                this.state[key] = reinitialized[key];
+              }
               // Options will re-evaluate the Buffer with the new encoding
               ({ comment, escape, quote } = this.options);
               break;
