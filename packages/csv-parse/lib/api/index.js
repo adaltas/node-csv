@@ -582,7 +582,6 @@ const transform = function (original_options = {}) {
       }
       if (this.state.recordHasError === true) {
         this.__resetRecord();
-        this.state.recordHasError = false;
         return;
       }
       this.info.records++;
@@ -706,6 +705,7 @@ const transform = function (original_options = {}) {
         this.state.rawBuffer.reset();
       }
       this.state.error = undefined;
+      this.state.recordHasError = false;
       this.state.record = [];
       this.state.record_length = 0;
     },
